@@ -85,6 +85,11 @@
       {{/unless}}
       {{/if}}
 
+      <div class="form-group" title="{{localize "dc20rpg.effect.sheet.nonessentialTitle"}}">
+        <span>{{localize "dc20rpg.effect.sheet.nonessential"}}</span>
+        <input type="checkbox" name="flags.dc20rpg.nonessential" {{ checked data.flags.dc20rpg.nonessential }}/>
+      </div>
+
       <div class="form-group" title="{{localize "dc20rpg.effect.sheet.coreStatusTitle"}}">
         <span>{{localize "dc20rpg.effect.sheet.coreStatus"}}</span>
         <select name="system.statusId" >

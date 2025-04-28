@@ -95,6 +95,15 @@
       <input class="numeric-input" data-path="fields.minimum.value" value="{{fields.minimum.value}}"/>
     </div>
     {{/if}}
+    {{!-- Rest Type --}}
+    {{#ifCond fields.trigger.value '===' "rest"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.restType"}}</span>
+      <select class="selectable" data-path="fields.restType.value">
+        {{selectOptions fields.restType.selectOptions selected=fields.restType.value}}
+      </select>
+    </div>
+    {{/ifCond}}
     {{!-- Damage event type --}}
     {{#ifCond fields.eventType.value '===' "damage"}}
     <div class="row margin-top-5">

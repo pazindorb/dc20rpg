@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.28741dbfb0f76b1f]{Incapacitated}</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>Incapacitated</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion X}</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -114,7 +114,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Sorcerer 1",
+    "featureOrigin": "Sorcerer",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -165,19 +165,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n  \n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.changes[1].value;\n  const newValue = value.replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`);\n  effect.changes[1].value = newValue;\n  effect.update({changes: effect.changes});\n}",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "ZawALHFbKN942cic": {
+        "name": "onItemToggle",
+        "trigger": "onItemToggle",
+        "command": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n  \n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.changes[1].value;\n  const newValue = value.replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`);\n  effect.changes[1].value = newValue;\n  effect.update({changes: effect.changes});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "againstEffect": {
       "id": "",
@@ -255,7 +249,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "sorcerer"
   },
   "effects": [
     {
@@ -336,7 +331,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350033956,
-    "modifiedTime": 1739350033956,
+    "modifiedTime": 1745570064414,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "wtG9TlgFCQDLYsaY",

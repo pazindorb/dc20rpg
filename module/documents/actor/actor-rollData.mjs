@@ -3,6 +3,7 @@ export function prepareRollData(actor, data) {
   _details(data);
   _mods(data, actor);
 	_allSkills(data, actor);
+	_defences(data, actor);
 	return data;
 }
 
@@ -14,7 +15,7 @@ export function prepareRollData(actor, data) {
  */
 export function prepareRollDataForEffectCall(actor, data) {
 	_calculateAttributes(data, actor);
-	_details(data);
+	_calculateDetails(data, actor);
 	return data;
 }
 
@@ -33,11 +34,12 @@ function _calculateAttributes(data, actor) {
 		const level = actor.system.details.level;
 		const limit = 3 + Math.floor(level/5);
 		data.prime = {
-			saveMastery: false,
+			saveMastery: true,
 			current: limit,
 			value: limit,
 			save: limit,
 			check: limit,
+			label: "Prime",
 			bonuses: {
 				check: 0,
 				value: 0,
@@ -47,6 +49,14 @@ function _calculateAttributes(data, actor) {
 	}
 	else {
 		data.prime = foundry.utils.deepClone(attributes[primeAttrKey].current);
+	}
+}
+
+function _calculateDetails(data, actor) {
+	if (data.details.level) {
+		const level = actor.system.details.level || 0
+		data.level = level;
+		data.combatMastery = Math.ceil(level/2);
 	}
 }
 
@@ -94,4 +104,21 @@ function _allSkills(data, actor) {
 		}
 	}
 	data.allSkills = allSkills;
+}
+
+function _defences(data, actor) {
+	const defences = actor.system.defences;
+	data.pd = {
+		armor: defences.precision.bonuses.armor,
+		bonus: defences.precision.bonuses.final,
+		value: defences.precision.value,
+		heavy: defences.precision.heavy,
+		brutal: defences.precision.brutal,
+	}
+	data.ad = {
+		bonus: defences.area.bonuses.final,
+		value: defences.area.value,
+		heavy: defences.area.heavy,
+		brutal: defences.area.brutal,
+	}
 }

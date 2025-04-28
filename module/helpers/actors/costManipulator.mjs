@@ -78,6 +78,24 @@ export function subtractAP(actor, amount) {
   return false;
 }
 
+export function subtractGrit(actor, amount) {
+  if (typeof amount !== 'number') return true;
+  if (canSubtractBasicResource("grit", actor, amount)) {
+    subtractBasicResource("grit", actor, amount);
+    return true;
+  }
+  return false;
+}
+
+export async function spendRpOnHp(actor, amount) {
+  if (canSubtractBasicResource("restPoints", actor, amount)) {
+    await subtractBasicResource("restPoints", actor, amount);
+    await regainBasicResource("health", actor, amount, true);
+    return true;
+  }
+  return false;
+}
+
 export function refreshAllActionPoints(actor) {
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, "ap");
   const max = actor.system.resources.ap.max;
@@ -166,7 +184,7 @@ export async function respectUsageCost(actor, item) {
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
-  basicCosts = _costFromAdvForAp(item, basicCosts);
+  basicCosts = _costFromAdvForApAndGrit(item, basicCosts);
 
   // Held action ignore AP cost as it was subtracted before
   if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
@@ -198,7 +216,7 @@ export function collectExpectedUsageCost(actor, item) {
 
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
-  basicCosts = _costFromAdvForAp(item, basicCosts);
+  basicCosts = _costFromAdvForApAndGrit(item, basicCosts);
 
   // Held action ignore AP cost as it was subtracted before
   if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
@@ -301,7 +319,7 @@ async function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);
-  _subtractQuantity(item, 1);
+  _subtractQuantity(item, 1, true);
 }
 
 async function _subtractActorResources(actor, newResources) {
@@ -360,13 +378,6 @@ export function canSubtractBasicResource(key, actor, cost) {
   const resources = actor.system.resources;
   if (!resources.hasOwnProperty(key)) return true;
   
-  // Incapacitated actor cannot spend AP
-  if (key === "ap" && actor.hasAnyStatus(["surprised", "incapacitated"])) {
-    let errorMessage = `Incapacitated or Surprised - cannot spend Action Points`;
-    ui.notifications.error(errorMessage);
-    return false;
-  }
-
   const current = key === "health" ? resources[key].current : resources[key].value;
   const newAmount = current - cost;
 
@@ -375,23 +386,27 @@ export function canSubtractBasicResource(key, actor, cost) {
     ui.notifications.error(errorMessage);
     return false;
   }
-  // Death's Door limit AP spend to 1 per turn
-  if (key === "ap" && actor.hasAnyStatus(["deathsDoor"])) {
-    const spendLimit = actor.system.death.apSpendLimit;
-    if (newAmount < resources[key].max - spendLimit) {
-      let errorMessage = `You are on the Death's Door - you cannot spend more that ${spendLimit} AP per turn until restored to 1 HP.`;
-      ui.notifications.error(errorMessage);
+
+  // AP Spend Limit 
+  if (key === "ap") {
+    const spendLimit = actor.system.globalModifier.prevent.goUnderAP;
+    if (newAmount < spendLimit) {
+      if (spendLimit >= resources[key].max) ui.notifications.error(`You cannot spend AP`);
+      else ui.notifications.error(`You cannot go under ${spendLimit} AP`);
       return false;
     }
   }
-  
   return true;
 }
 
-function _costFromAdvForAp(actor, basicCosts) {
+function _costFromAdvForApAndGrit(actor, basicCosts) {
   const apCostFromAdv = actor.flags.dc20rpg.rollMenu.apCost;
   if (basicCosts.actionPoint) basicCosts.actionPoint += apCostFromAdv;
   else basicCosts.actionPoint = apCostFromAdv;
+
+  const gritCostFromAdv = actor.flags.dc20rpg.rollMenu.gritCost;
+  if (basicCosts.grit) basicCosts.grit += gritCostFromAdv;
+  else basicCosts.grit = gritCostFromAdv;
   return basicCosts;
 }
 
@@ -479,7 +494,7 @@ function _subtractFromOtherItem(actor, item) {
     const otherItem = actor.items.get(otherItemUsage.itemId);
     otherItemUsage.consumeCharge 
      ? _subtractCharge(otherItem, otherItemUsage.amountConsumed) 
-     : _subtractQuantity(otherItem, otherItemUsage.amountConsumed);
+     : _subtractQuantity(otherItem, otherItemUsage.amountConsumed, false);
   }
 }
 
@@ -547,7 +562,7 @@ function _canSubtractQuantity(item, subtractedAmount) {
   return true;
 }
 
-function _subtractQuantity(item, subtractedAmount) {
+function _subtractQuantity(item, subtractedAmount, markToRemoval) {
   if (item.type !== "consumable") return;
   if (!item.system.consume) return;
 
@@ -556,7 +571,8 @@ function _subtractQuantity(item, subtractedAmount) {
   let newAmount = current - subtractedAmount;
 
   if (newAmount === 0 && deleteOnZero) {
-    item.deleteAfter = true; // Mark item to removal
+    if(markToRemoval) item.deleteAfter = true; // Mark item to removal
+    else item.delete();
   } 
   else {
     item.update({["system.quantity"] : newAmount});

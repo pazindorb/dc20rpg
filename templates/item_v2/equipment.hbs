@@ -32,7 +32,7 @@
   </nav>
 
   <section class="item-sheet-body">
-    <div class="tab description-tab content with-price" data-group="primary" data-tab="description">
+    <div class="tab description-tab content padding-7 with-price" data-group="primary" data-tab="description">
       <div class="description-box">
         {{#if system.statuses.identified}} 
           {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
@@ -51,25 +51,30 @@
       </div>
     </div>
 
-    <div class="tab config-tab content" data-group="primary" data-tab="config">
+    <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.equipment.equipmentType"}}</span>
         <select name="system.equipmentType">
           {{selectOptions @root.config.DROPDOWN_DATA.equipmentTypes selected=system.equipmentType blank=""}}
         </select>
       </div>
+      {{#if system.properties.pdIncrease.active}}
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.equipment.armorBonus"}}</span>
-        <input class="numeric-input" type="text" data-path="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
+        <span>{{localize "dc20rpg.item.sheet.config.pdIncrease"}}</span>
+        <input type="text" name="system.properties.pdIncrease.value" value="{{system.properties.pdIncrease.value}}" data-dtype="Number" placeholder="-">
       </div>
+      {{/if}}
 
+      {{#if system.properties.adIncrease.active}}
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.config.pdr"}}</span>
-        <input type="text" name="system.armorPdr" value="{{system.armorPdr}}" data-dtype="Number" placeholder="-">
+        <span>{{localize "dc20rpg.item.sheet.config.adIncrease"}}</span>
+        <input type="text" name="system.properties.adIncrease.value" value="{{system.properties.adIncrease.value}}" data-dtype="Number" placeholder="-">
       </div>
+      {{/if}}
 
       <div class="sub-header margin-top-10">
         <span>{{localize "dc20rpg.item.sheet.config.itemProperties"}}</span>
+        <span title="{{localize "dc20rpg.dialog.weaponCreator.pointsCost"}}">({{propertyCost}})</span>
       </div>
       {{PARTIAL "Properties"}}
       {{PARTIAL "Basic Config"}}

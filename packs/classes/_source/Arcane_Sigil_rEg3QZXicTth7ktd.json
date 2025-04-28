@@ -25,7 +25,7 @@
     "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -124,7 +124,6 @@
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
-          "macro": "",
           "rollLevelChange": false,
           "rollLevel": {
             "type": "adv",
@@ -135,6 +134,10 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While a creature is within the area of your Arcane Sigil, it has ADV on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</span></p>"
@@ -182,7 +185,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Wizard 1",
+    "featureOrigin": "Wizard",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -228,19 +231,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "eDtAhKiXopnmoie5": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -301,7 +298,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "wizard"
   },
   "effects": [],
   "folder": "Vnj8VsHGDPyOtBbP",
@@ -313,7 +311,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034142,
-    "modifiedTime": 1739350034142,
+    "modifiedTime": 1745412732161,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rEg3QZXicTth7ktd",

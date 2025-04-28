@@ -25,14 +25,20 @@
           <a class="toggle-numeric adv"
             data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
         </div>
-        {{#if itemRoll}}
-        <div class="absolute-button">
-          <a class="ap-for-adv square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
+        <div class="absolute-button-sheet">
+          <a class="ap-for-adv square" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
             <span class="fa-solid fa-dice-d6 dice"></span>
             <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
           </a>
         </div>
-        {{/if}}
+        {{#ifCond type '===' "character"}}{{#ifCond rollDetails.type '===' "save"}}
+        <div class="absolute-button-sheet">
+          <a class="grit-for-adv square" title="{{localize 'dc20rpg.sheet.rollMenu.gritCost'}}">
+            <span class="fa-solid fa-clover fa-lg dice"></span>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.gritCost}}</span></div>
+          </a>
+        </div>
+        {{/ifCond}}{{/ifCond}}
         <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
           <span>Dis: </span>
           <a class="toggle-numeric dis"

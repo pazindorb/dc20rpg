@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
   "system": {
-    "description": "<p>You have ADV on Checks and Saves to avoid or escape being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained}.</strong></p>",
+    "description": "<p>You have ADV on Checks and Saves to avoid or escape being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.TfenWPpkGi8scnt2]{Grappled} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a]{Restrained}.</strong></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "escapeArtist"
+    "itemKey": "escapeArtist",
+    "featureSourceItem": "gnome",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -161,13 +165,13 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.grappled.advantage",
+          "key": "system.statusResistances.grappled.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.statusResistances.restrained.advantage",
+          "key": "system.statusResistances.restrained.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
@@ -200,7 +204,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737752937013,
+        "modifiedTime": 1745440765992,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!HKael5oyo0RTbtzb.HeEWOSiHzmB8zwea"
@@ -219,7 +223,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101005841,
-    "modifiedTime": 1739480947823,
+    "modifiedTime": 1745570065508,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HKael5oyo0RTbtzb",

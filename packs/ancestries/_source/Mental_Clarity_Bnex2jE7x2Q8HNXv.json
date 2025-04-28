@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/runes-carved-stone-yellow.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a5374646c90ea762]{Dazed} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8d78ef1f2667dc23]{Stunned}</strong>.</p>",
+    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2939ce776edfd6fa]{Stunned}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "mentalClarity"
+    "itemKey": "mentalClarity",
+    "featureSourceItem": "gnome",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -161,19 +165,13 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.dazed.advantage",
+          "key": "system.statusResistances.dazed.resistance",
           "mode": 2,
           "value": "1",
           "priority": null
         },
         {
-          "key": "system.statusResistances.stunned.advantage",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.heavilyDazed.advantage",
+          "key": "system.statusResistances.stunned.resistance",
           "mode": 2,
           "value": "1",
           "priority": null
@@ -198,7 +196,8 @@
             "onTimeEnd": ""
           },
           "effectKey": "",
-          "addToChat": false
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -208,7 +207,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1739798674715,
+        "modifiedTime": 1745523218571,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Bnex2jE7x2Q8HNXv.CfrBNQ2z6mUiOnPu"
@@ -227,7 +226,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101005841,
-    "modifiedTime": 1739480947812,
+    "modifiedTime": 1745570065286,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Bnex2jE7x2Q8HNXv",

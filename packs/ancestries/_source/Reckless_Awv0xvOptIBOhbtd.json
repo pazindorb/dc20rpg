@@ -18,7 +18,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -133,7 +133,11 @@
       ]
     },
     "choicePointCost": -1,
-    "itemKey": "reckless"
+    "itemKey": "reckless",
+    "featureSourceItem": "orc",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -152,12 +156,14 @@
       "img": "icons/skills/wounds/injury-pain-impaled-hand-blood.webp",
       "_id": "IKOyoggrD8olW8Fp",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.always",
-          "mode": 2,
+          "key": "system.defences.precision.bonuses.always",
           "value": "-1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -166,15 +172,32 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1720122382694,
+        "modifiedTime": 1744985441189,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Awv0xvOptIBOhbtd.IKOyoggrD8olW8Fp"
@@ -193,7 +216,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1739480947810,
+    "modifiedTime": 1745525618179,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Awv0xvOptIBOhbtd",

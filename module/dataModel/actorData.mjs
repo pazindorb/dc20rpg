@@ -23,8 +23,8 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       skills: new SkillFields("skill"),
       languages: new SkillFields("language"),
       expertise: new f.SchemaField({
-        skills: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        trade: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        automated: new f.ArrayField(new f.StringField(), {required: true}),
+        manual: new f.ArrayField(new f.StringField(), {required: true})
       }),
       help: new f.SchemaField({
         active: new f.ObjectField({required: true}),
@@ -32,6 +32,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       }),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(), 
+      healingReduction: new f.SchemaField({
+        flat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        flatHalf: new f.BooleanField({required: true, initial: false}),
+      }),
       statusResistances: new ConditionsFields(),
       customCondition: new f.StringField({initial: ""}),
       size: new SizeFields(),
@@ -45,15 +49,12 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         gp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         pp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
-      exhaustion: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       movePoints: new f.NumberField({ required: true, nullable: false, integer: false, initial: 0 }),
+      moveCost: new f.NumberField({ required: true, nullable: false, integer: false, initial: 1 }),
       death: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
-        stable: new f.BooleanField({required: true, initial: true}),
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        doomed: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        apSpendLimit: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       }),
       globalFormulaModifiers: new GFModFields(),
       globalModifier: new f.SchemaField({
@@ -65,17 +66,27 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         allow: new f.SchemaField({ 
           overheal: new f.BooleanField({required: true, initial: false}),
         }),
+        prevent: new f.SchemaField({ 
+          goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          hpRegeneration: new f.BooleanField({required: true, initial: false}),
+        }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),
           closeQuarters: new f.BooleanField({required: true, initial: false}),
           longRange: new f.BooleanField({required: true, initial: false}),
           flanking: new f.BooleanField({required: true, initial: false})
-        })
+        }),
+        provide: new f.SchemaField({
+          halfCover: new f.BooleanField({required: true, initial: false}),
+          tqCover: new f.BooleanField({required: true, initial: false}),
+        }),
       }),
       events: new f.ArrayField(new f.StringField(), {required: true}),
       conditionals: new f.ArrayField(new f.ObjectField(), {required: true}),
+      keywords: new f.ObjectField({required: true}),
       rollLevel: new RollLevelFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
+      sustain: new f.ArrayField(new f.ObjectField(), {required: true}),
       journal: new f.StringField({required: true, initial: ""})
     }
   }
@@ -103,14 +114,12 @@ export class DC20CharacterData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
-      attributes: new AttributeFields(-2),
+      attributes: new AttributeFields(-2, true),
       attributePoints: new PointFields(12),
-      savePoints: new PointFields(2),
       resources: new ResourceFields(true),
       skillPoints: new f.SchemaField({
         skill: new PointFields(0, {converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
         trade: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
-        knowledge: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
         language: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
       }),
       known: new f.SchemaField({
@@ -145,8 +154,12 @@ export class DC20CharacterData extends DC20BaseActorData {
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
+        martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: false}),
+        advancementInfo: new f.SchemaField({
+          multiclassTalents: new f.ObjectField({required: true}),
+        })
       }),
       size: new SizeFields(true),
       movement: new MovementFields(false),
@@ -192,7 +205,7 @@ export class DC20NpcData extends DC20BaseActorData {
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         creatureType: new f.StringField({required: false}),
-        category: new f.StringField({required: false}),
+        role: new f.StringField({required: false}),
         aligment: new f.StringField({required: false}),
       }),
       saveDC: new f.SchemaField({
@@ -241,11 +254,12 @@ export class DC20CompanionData extends DC20NpcData {
         speed: new f.BooleanField({required: true, initial: false}),
         skills: new f.BooleanField({required: true, initial: false}),
         defences: new f.SchemaField({
-          mystical: new f.BooleanField({required: true, initial: false}),
-          physical: new f.BooleanField({required: true, initial: false}),
+          area: new f.BooleanField({required: true, initial: false}),
+          precision: new f.BooleanField({required: true, initial: false}),
         }),
         damageReduction: new f.SchemaField({
           pdr: new f.BooleanField({required: true, initial: false}),
+          edr: new f.BooleanField({required: true, initial: false}),
           mdr: new f.BooleanField({required: true, initial: false}),
         }),
         attributes: new f.SchemaField({

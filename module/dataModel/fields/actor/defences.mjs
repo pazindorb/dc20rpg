@@ -14,19 +14,18 @@ export default class DefenceFields extends foundry.data.fields.SchemaField {
     });
 
     fields = {
-      physical: new f.SchemaField({
+      precision: new f.SchemaField({
         ...defence(), 
-        label: new f.StringField({initial: "dc20rpg.defence.physical"}),
+        label: new f.StringField({initial: "dc20rpg.defence.precision"}),
         bonuses: new f.SchemaField({
           noArmor: new f.NumberField(init0),
           noHeavy: new f.NumberField(init0),
           always: new f.NumberField(init0),
-          armor: new f.NumberField(init0),
         })
       }),
-      mystical: new f.SchemaField({
+      area: new f.SchemaField({
         ...defence(), 
-        label: new f.StringField({initial: "dc20rpg.defence.mystical"}),
+        label: new f.StringField({initial: "dc20rpg.defence.area"}),
         bonuses: new f.SchemaField({
           noArmor: new f.NumberField(init0),
           noHeavy: new f.NumberField(init0),

@@ -8,7 +8,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "hit >= 10",
       "bonus": "1",
       "useFor": "system.weaponType=[\"melee\"]",
@@ -18,7 +18,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -133,7 +133,44 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "brutalStrikes"
+    "itemKey": "brutalStrikes",
+    "featureSourceItem": "orc",
+    "requirements": {
+      "level": 0
+    },
+    "conditionals": {
+      "lyOGIQe3cQ4sPDnZ": {
+        "name": "Brutal Strikes",
+        "condition": "hit >= 10",
+        "useFor": "system.weaponType=[\"melee\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [],
   "sort": 100000,
@@ -149,7 +186,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1739480947852,
+    "modifiedTime": 1745525618191,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZUlKz149pH6xmNtv",

@@ -15,7 +15,6 @@ export function makeCalculations(actor) {
 
 		_skillPoints(actor);
 		_attributePoints(actor);
-		_savePoints(actor);
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
 	}
@@ -28,16 +27,17 @@ export function makeCalculations(actor) {
 	_movement(actor);
 	_jump(actor);
 
-	_physicalDefence(actor);
-	_mysticalDefence(actor);
+	_precisionDefence(actor);
+	_areaDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
 	_basicConditionals(actor);
 }
 
 function _skillModifiers(actor) {
-	const exhaustion = actor.system.exhaustion;
+	const exhaustion = actor.exhaustion;
 	const attributes = actor.system.attributes;
+	const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
 
 	// Calculate skills modifiers
 	const overrideMasteryWithOwner = companionShare(actor, "skills");
@@ -46,12 +46,14 @@ function _skillModifiers(actor) {
 			skill.mastery = actor.companionOwner.system.skills[key].mastery;
 		}
 		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
+		if (expertise.has(key)) skill.expertise = true;
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
 			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
+			if (expertise.has(key)) skill.expertise = true;
 		}
 	}
 }
@@ -75,6 +77,10 @@ function _specialRollTypes(actor) {
 	const ath = data.skills.ath;
 	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
 
+	// Initiative Check
+	const CM = actor.system.details.combatMastery;
+	special.initiative = agi.check + CM;
+
 	data.special = special;
 }
 
@@ -88,11 +94,11 @@ function _maxHp(actor) {
 	const details = actor.system.details;
 	const health = actor.system.resources.health;
 	const might = actor.system.attributes.mig.value;
-	const hpFromClass = details.class?.maxHpBonus || 0;
+	const hpFromClass = details.class?.maxHpBonus || 6;
 	
 	if (health.useFlat) return;
 	else {
-		health.max = 6 + details.level + might + hpFromClass + health.bonus;
+		health.max = hpFromClass + might + health.bonus;
 	}
 }
 
@@ -112,8 +118,7 @@ function _maxGrit(actor) {
 }
 
 function _maxRestPoints(actor) {
-	const restPoints = actor.system.resources.restPoints;
-	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
+	actor.system.resources.restPoints.max =  actor.system.resources.health.max;
 }
 
 function _skillPoints(actor) {
@@ -138,19 +143,6 @@ function _attributePoints(actor) {
 							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
-}
-
-function _savePoints(actor) {
-	const savePoints = actor.system.savePoints;
-	if (savePoints.override) savePoints.max = savePoints.overridenMax;
-	savePoints.max += savePoints.extra + savePoints.bonus; // We cannot have more that 4 save points
-	savePoints.max = Math.min(savePoints.max, 4);
-	Object.entries(actor.system.attributes)
-						.filter(([key, atr]) => key !== "prime")
-						.forEach(([key, atr]) => {
-							if (atr.saveMastery) savePoints.spent++
-						});
-	savePoints.left = savePoints.max - savePoints.spent;
 }
 
 function _spellsAndTechniquesKnown(actor) {
@@ -186,23 +178,24 @@ function _collectSpentPoints(actor) {
 	const actorSkills = actor.system.skills;
 	const actorTrades = actor.system.tradeSkills;
 	const actorLanguages = actor.system.languages;
+	const manualExpertise = new Set(actor.system.expertise.manual);
 	const collected = {
 		skill: 0,
 		trade: 0,
-		knowledge: 0,
 		language: 0
 	}
 
-	// We need to collect skills
-	Object.values(actorSkills)
-		.forEach(skill => {
-			if (skill.knowledgeSkill) collected.knowledge += skill.mastery;
-			else collected.skill += skill.mastery;
+	// We need to collect skills and expertise (but only from manual)
+	Object.entries(actorSkills)
+		.forEach(([key, skill]) => {
+			collected.skill += skill.mastery;
+			if (manualExpertise.has(key)) collected.skill++;
 		})
 
-	Object.values(actorTrades)
-		.forEach(trade => {
+	Object.entries(actorTrades)
+		.forEach(([key, trade]) => {
 			collected.trade += trade.mastery;
+			if (manualExpertise.has(key)) collected.trade++;
 		})
 
 	Object.entries(actorLanguages)
@@ -218,6 +211,7 @@ function _currentHp(actor) {
 	}
 	else {
 		const health = actor.system.resources.health;
+		if (health.current > health.max) health.current = health.max;
 		health.value = health.current + health.temp;
 	}
 }
@@ -238,7 +232,7 @@ function _senses(actor) {
 }
 
 function _movement(actor) {
-	const exhaustion = actor.system.exhaustion;
+	const exhaustion = actor.exhaustion;
 	const movements = actor.system.movement;
 
 	const groundSpeed = companionShare(actor, "speed")
@@ -274,21 +268,22 @@ function _jump(actor) {
 	}
 }
 
-function _physicalDefence(actor) {
-	const pd = actor.system.defences.physical;
-	if (companionShare(actor, "defences.physical")) {
-		pd.normal = actor.companionOwner.system.defences.physical.value;
+function _precisionDefence(actor) {
+	const pd = actor.system.defences.precision;
+	if (companionShare(actor, "defences.precision")) {
+		pd.normal = actor.companionOwner.system.defences.precision.value;
 	}
 	else if (pd.formulaKey !== "flat") {
-		const formula = pd.formulaKey === "custom" ? pd.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[pd.formulaKey];
+		const formula = pd.formulaKey === "custom" ? pd.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas[pd.formulaKey];
 		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
 	// Add bonueses to defence deppending on equipped armor
-	const details = actor.system.details;
+	const details = actor.system.details.armor;
 	let bonus = pd.bonuses.always;
 	if (!details.armorEquipped) bonus += pd.bonuses.noArmor;
 	if (!details.heavyEquipped) bonus += pd.bonuses.noHeavy;
+	pd.bonuses.final = bonus;
 	
 	// Calculate Hit Thresholds
 	pd.value = pd.normal + bonus;
@@ -296,56 +291,50 @@ function _physicalDefence(actor) {
 	pd.brutal = pd.value + 10;
 }
 
-function _mysticalDefence(actor) {
-	const md = actor.system.defences.mystical;
-	if (companionShare(actor, "defences.mystical")) {
-		md.normal = actor.companionOwner.system.defences.mystical.value;
+function _areaDefence(actor) {
+	const ad = actor.system.defences.area;
+	if (companionShare(actor, "defences.area")) {
+		ad.normal = actor.companionOwner.system.defences.area.value;
 	}
-	else if (md.formulaKey !== "flat") {
-		const formula = md.formulaKey === "custom" ? md.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[md.formulaKey];
-		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
+	else if (ad.formulaKey !== "flat") {
+		const formula = ad.formulaKey === "custom" ? ad.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas[ad.formulaKey];
+		ad.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
 	// Add bonueses to defence deppending on equipped armor
-	const details = actor.system.details;
-	let bonus = md.bonuses.always;
-	if (!details.armorEquipped) {
-		if (!details.heavyEquipped) bonus += md.bonuses.noHeavy;
-		bonus += md.bonuses.noArmor;
-	}
+	const details = actor.system.details.armor;
+	let bonus = ad.bonuses.always;
+	if (!details.armorEquipped) bonus += ad.bonuses.noArmor;
+	if (!details.heavyEquipped) bonus += ad.bonuses.noHeavy;
+	ad.bonuses.final = bonus;
 	
 	// Calculate Hit Thresholds
-	md.value = md.normal + bonus;
-	md.heavy = md.value + 5;
-	md.brutal = md.value + 10;
+	ad.value = ad.normal + bonus;
+	ad.heavy = ad.value + 5;
+	ad.brutal = ad.value + 10;
 }
 
 function _damageReduction(actor) {
-	const dmgReduction = actor.system.damageReduction;
-	const pdrNumber = companionShare(actor, "damageReduction.pdr")
-											? actor.companionOwner.system.damageReduction.pdr.value
-											: dmgReduction.pdr.number;
-	const mdrNumber = companionShare(actor, "damageReduction.mdr")
-											?	actor.companionOwner.system.damageReduction.mdr.value
-											: dmgReduction.mdr.number;
-	dmgReduction.pdr.value = pdrNumber + dmgReduction.pdr.bonus;
-	dmgReduction.mdr.value = mdrNumber + dmgReduction.mdr.bonus;
+	if (companionShare(actor, "damageReduction.pdr")) actor.system.damageReduction.pdr.active = actor.companionOwner.system.damageReduction.pdr.active;
+	if (companionShare(actor, "damageReduction.mdr")) actor.system.damageReduction.mdr.active = actor.companionOwner.system.damageReduction.mdr.active;
+	if (companionShare(actor, "damageReduction.edr")) actor.system.damageReduction.edr.active = actor.companionOwner.system.damageReduction.edr.active;
 }
 
 function _deathsDoor(actor) {
 	const death = actor.system.death;
 	const currentHp = actor.system.resources.health.current;
 	const prime = actor.system.attributes.prime.value;
+	const combatMastery = actor.system.details.combatMastery;
 
-	const treshold = -prime + death.doomed - death.bonus;
+	const treshold = -prime - combatMastery - death.bonus;
 	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;
 }
 
 function _basicConditionals(actor) {
+	// Impact property
 	actor.system.conditionals.push({
-		hasConditional: true, 
 		condition: `hit >= 5`, 
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
@@ -353,6 +342,7 @@ function _basicConditionals(actor) {
 		linkWithToggle: false,
 		flags: {
 			ignorePdr: false,
+			ignoreEdr: false,
 			ignoreMdr: false,
 			ignoreResistance: {},
 			ignoreImmune: {}
@@ -368,7 +358,36 @@ function _basicConditionals(actor) {
       addMasteryToDC: true,
       respectSizeRules: false,
     },
-	})
+	});
+
+	// Impactful Unarmed Strikes
+	if (actor.system.details.armor.heavyEquipped) {
+		actor.system.conditionals.push({
+			condition: `hit >= 5`, 
+			bonus: '1', 
+			useFor: `system.itemKey=["unarmedStrike"]`, 
+			name: "Impactful Unarmed Strikes",
+			linkWithToggle: false,
+			flags: {
+				ignorePdr: false,
+				ignoreEdr: false,
+				ignoreMdr: false,
+				ignoreResistance: {},
+				ignoreImmune: {}
+			},
+			effect: null,
+			addsNewRollRequest: false,
+			rollRequest: {
+				category: "",
+				saveKey: "",
+				contestedKey: "",
+				dcCalculation: "",
+				dc: 0,
+				addMasteryToDC: true,
+				respectSizeRules: false,
+			},
+		});
+	}
 }
 
 function _weaponStyles(actor) {
@@ -376,8 +395,8 @@ function _weaponStyles(actor) {
 		_conditionBuilder("axe", '["bleeding"]'),
 		_conditionBuilder("bow", '["slowed"]'),
 		_conditionBuilder("fist", '["grappled"]'),
-		_conditionBuilder("hammer", '["dazed", "heavilyDazed", "petrified"]'),
-		_conditionBuilder("pick", '["impaired", "heavilyImpaired"]'),
+		_conditionBuilder("hammer", '["dazed", "petrified"]'),
+		_conditionBuilder("pick", '["impaired"]'),
 		_conditionBuilder("staff", '["hindered"]'),
 		_conditionBuilder("sword", '["exposed"]'),
 	];
@@ -387,7 +406,6 @@ function _weaponStyles(actor) {
 function _conditionBuilder(weaponStyle, conditions) {
 	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
 	return {
-		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
 		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 
@@ -395,6 +413,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		linkWithToggle: false,
 		flags: {
 			ignorePdr: false,
+			ignoreEdr: false,
 			ignoreMdr: false,
 			ignoreResistance: {},
 			ignoreImmune: {}

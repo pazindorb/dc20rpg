@@ -56,6 +56,7 @@ export function getAttackOutcome(target, data) {
   const outcome = {};
   if (data.isCritMiss || data.hit < 0) outcome.miss = true;
   outcome.label = _outcomeLabel(data.hit, data.isCritHit, data.isCritMiss, data.skipFor);
+  outcome.defenceKey = data.defenceKey;
   return outcome;
 }
 
@@ -84,7 +85,8 @@ export function getAttackOutcome(target, data) {
  *    "isCritHit": Boolean,
  *    "isCritMiss": Boolean,
  *    "isDamage": Boolean,
- *    "defenceKey": String(ex. "physical"),
+ *    "isHealing": Boolean,
+ *    "defenceKey": String(ex. "precision"),
  *    "hit": Number,
  *    "rollTotal": Number,
  *    "skipFor": {
@@ -101,7 +103,9 @@ export function calculateForTarget(target, formulaRoll, data) {
     clear: formulaRoll.clear,
     modified: formulaRoll.modified,
   }
-  const dr = target ? target.system.damageReduction : null;
+  // We might change that data so we need to copy it
+  const dr = target ? {...target.system.damageReduction} : null; 
+  const hr = target ? {...target.system.healingReduction} : null;
 
   // 0. For Crit Miss it is always 0
   if (data.isCritMiss) {
@@ -128,26 +132,30 @@ export function calculateForTarget(target, formulaRoll, data) {
   const condFlags = _modificationsFromConditionals(data.conditionals, final, target, data.skipFor?.conditionals);
   
   // 4. Apply only Attack Roll Modifications
-  if (data.isAttack && data.isDamage) final.modified = _applyAttackRollModifications(data.hit, final.modified, dr, condFlags.ignore, data.skipFor);
+  if (data.isAttack && data.isDamage) final.modified = _applyAttackRollModifications(data.hit, final.modified, data.skipFor);
   
   // 5. Apply Crit Success
   const canCrit = data.canCrit && !data.skipFor?.crit
   final.modified = _applyCritSuccess(final.modified, data.isCritHit, canCrit);
 
-  // TODO: Reduce Healing?
+  // 6. Apply Flat Damage/Healing Reduction (X)
+  if (data.isDamage) final.modified = _applyFlatReduction(final.modified, dr.flat, "Damage");
+  if (data.isHealing) final.modified = _applyFlatReduction(final.modified, hr.flat, "Healing");
 
-  // 6. Apply Flat Damage Reduction (X)
-  if (data.isDamage) final.modified = _applyFlatDamageReduction(final.modified, dr.flat);
+  // 7. Apply PDR, EDR and MDR to Resistances
+  if (data.isAttack && data.isDamage) _applyDamageReduction(data.hit, final.modified, dr, condFlags.ignore);
 
-  // 7. Apply Vulnerability, Resistance and other
+  // 8. Apply Vulnerability, Resistance and DR
   if (data.isDamage) final.modified = _applyDamageModifications(final.modified, dr, condFlags.ignore);
   if (data.isDamage) final.clear = _applyDamageModifications(final.clear, dr, condFlags.ignore);
 
-  // 8. Apply Flat Damage Reduction (Half)
-  if (data.isDamage) final.modified = _applyFlatDamageReductionHalf(final.modified, dr.flatHalf);
-  if (data.isDamage) final.clear = _applyFlatDamageReductionHalf(final.clear, dr.flatHalf);
+  // 9. Apply Flat Damage/Healing Reduction (Half)
+  if (data.isDamage) final.modified = _applyFlatReductionHalf(final.modified, dr.flatHalf, "Damage");
+  if (data.isDamage) final.clear = _applyFlatReductionHalf(final.clear, dr.flatHalf, "Damage");
+  if (data.isHealing) final.modified = _applyFlatReductionHalf(final.modified, hr.flatHalf, "Healing");
+  if (data.isHealing) final.clear = _applyFlatReductionHalf(final.clear, hr.flatHalf, "Healing");
 
-  // 9. Prevent negative values
+  // 10. Prevent negative values
   final.modified = _finalAdjustments(final.modified);
   final.clear = _finalAdjustments(final.clear);
 
@@ -229,13 +237,19 @@ function _matchingConditionals(target, data) {
     }
     return target.statuses.some(cond => condsToFind.includes(cond.id));
   };
-  target.hasEffectWithName = (effectName, includeDisabled) => 
+  target.hasEffectWithName = (effectName, includeDisabled, selfOnly) => 
     target.effects.filter(effect => {
+      const applierId = effect.flags.dc20rpg?.applierId;
+      if (selfOnly && applierId && applierId !== data.applierId) return false;
+
       if (includeDisabled) return true;
       else return !effect.disabled;
     }).find(effect => effect.name === effectName) !== undefined;
-  target.hasEffectWithKey = (effectKey, includeDisabled) => 
+  target.hasEffectWithKey = (effectKey, includeDisabled, selfOnly) => 
     target.effects.filter(effect => {
+      const applierId = effect.flags.dc20rpg?.applierId;
+      if (selfOnly && applierId && applierId !== data.applierId) return false;
+
       if (includeDisabled) return true;
       else return !effect.disabled;
     }).find(effect => effect.flags.dc20rpg?.effectKey === effectKey) !== undefined;
@@ -256,6 +270,7 @@ function _modificationsFromConditionals(conditionals, final, target, skipConditi
   const modified = final.modified;
   const ignore = {
     pdr: false,
+    edr: false,
     mdr: false,
     resistance: new Set(),
     immune: new Set()
@@ -275,6 +290,7 @@ function _modificationsFromConditionals(conditionals, final, target, skipConditi
     const flags = con.flags;
     if (flags) {
       if (flags.ignorePdr) ignore.pdr = true;
+      if (flags.ignoreEdr) ignore.edr = true;
       if (flags.ignoreMdr) ignore.mdr = true;
       ignore.resistance = new Set([...ignore.resistance, ...Object.keys(flags.ignoreResistance)]);
       ignore.immune = new Set([...ignore.immune, ...Object.keys(flags.ignoreImmune)]);
@@ -284,18 +300,8 @@ function _modificationsFromConditionals(conditionals, final, target, skipConditi
   return {ignore: ignore};
 }
 
-function _applyAttackRollModifications(hit, dmg, damageReduction, ignore, skipFor) {
+function _applyAttackRollModifications(hit, dmg, skipFor) {
   const extraDmg = Math.max(0, Math.floor(hit/5)); // We don't want to have negative extra damage
-  const dmgType = dmg.type;
-
-  // Apply damage reduction
-  const drKey = ["radiant", "umbral", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
-  const dr = dmgType === "true" ? 0 : damageReduction[drKey].value;
-  if (extraDmg <= 0 && !ignore[drKey] && dr > 0) {
-    dmg.source += " - Damage Reduction";
-    dmg.value -= dr
-    return dmg; 
-  }
 
   // Add dmg from Heavy Hit, Brutal Hit etc.
   if (skipFor?.heavy) return dmg;
@@ -340,27 +346,67 @@ function _applyDamageModifications(dmg, damageReduction, ignore) {
   }
   // Resistance and Vulnerability - cancel each other
   if ((modifications.resistance && !ignoreResitance) && modifications.vulnerability) return dmg;
-  // Resistance
+  // Resistance (reduce minimum 1)
   if (modifications.resistance && !ignoreResitance) {
+    const newValue = Math.ceil(dmg.value/2);
+    if (newValue === dmg.value) dmg.value = dmg.value - 1;
+    else dmg.value = newValue;
     dmg.source += ` - Resistance(Half)`;
-    dmg.value = Math.ceil(dmg.value/2);  
-  }
-  // Vulnerability
+  } 
+  // Vulnerability (adds minimum 1)
   if (modifications.vulnerability) {
+    const newValue = Math.ceil(dmg.value * 2);
+    if (newValue === dmg.value) dmg.value = dmg.value + 1;
+    else dmg.value = newValue;
     dmg.source += ` + Vulnerability(Double)`;
-    dmg.value = dmg.value * 2; 
   }
   return dmg;
 }
-function _applyFlatDamageReduction(toApply, flatValue) {
-  if (flatValue > 0) toApply.source += " - Flat Damage Reduction";
-  if (flatValue < 0) toApply.source += " + Flat Damage";
+function _applyDamageReduction(hit, dmg, damageReduction, ignore) {
+  if (hit >= 5) return; // DR is applied only for normal hits;
+
+  const dmgType = dmg.type;
+  let drKey = "";
+  if (CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes[dmgType]) drKey = "pdr";
+  if (CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes[dmgType]) drKey = "edr";
+  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[dmgType]) drKey = "mdr";
+  if (!drKey) return;
+  if (ignore[drKey]) return;
+  
+  // If dr is active we want to add resistance to specific damage types
+  const activeDr = damageReduction[drKey].active;
+  if (activeDr) {
+    switch (drKey) {
+      case "pdr":
+        damageReduction.damageTypes.bludgeoning.resistance = true;
+        damageReduction.damageTypes.slashing.resistance = true;
+        damageReduction.damageTypes.piercing.resistance = true;
+        break;
+      case "mdr":
+        damageReduction.damageTypes.umbral.resistance = true;
+        damageReduction.damageTypes.radiant.resistance = true;
+        damageReduction.damageTypes.psychic.resistance = true;
+        break;
+      case "edr":
+        damageReduction.damageTypes.sonic.resistance = true;
+        damageReduction.damageTypes.poison.resistance = true;
+        damageReduction.damageTypes.corrosion.resistance = true;
+        damageReduction.damageTypes.lightning.resistance = true;
+        damageReduction.damageTypes.fire.resistance = true;
+        damageReduction.damageTypes.cold.resistance = true;
+        break;
+    }
+  }
+}
+function _applyFlatReduction(toApply, flatValue, label) {
+  if (flatValue > 0) toApply.source += ` - ${label} Reduction(${flatValue})`;
+  if (flatValue < 0) toApply.source += ` + Extra ${label}(${Math.abs(flatValue)})`;
   toApply.value -= flatValue;
   return toApply;
 }
-function _applyFlatDamageReductionHalf(toApply, flatHalf) {
+function _applyFlatReductionHalf(toApply, flatHalf, label) {
   if (flatHalf) {
-    toApply.source += ` - Flat Damage Reduction(Half)`;
+    toApply.source += ` - ${label} Reduction(Half)`;
     toApply.value = Math.ceil(toApply.value/2);  
   }
   return toApply;
@@ -432,6 +478,51 @@ function _outcomeLabel(hit, critHit, critMiss, skipFor) {
 //========================
 //         OTHER         =
 //========================
+export function collectTargetSpecificFormulas(target, data, rolls) {
+  // Clear any target specific rolls if those were added before
+  rolls.dmg = rolls.dmg.filter(roll => !roll.clear.targetSpecific);
+  rolls.heal = rolls.heal.filter(roll => !roll.clear.targetSpecific);
+
+  const mathing = target ? _matchingConditionals(target, data) : [];
+  for (const cond of mathing) {
+    if (cond.addsNewFormula) {
+      const type = cond.formula.type;
+      const value = evaluateDicelessFormula(cond.formula.formula)._total;
+      const source = cond.name;
+      const dontMerge = cond.formula.dontMerge;
+      const overrideDefence = cond.formula.overrideDefence;
+      if (cond.formula.category === "damage") {
+        rolls.dmg.push(_toRoll(value, type, source, dontMerge, overrideDefence))
+      }
+      if (cond.formula.category === "healing") {
+        rolls.heal.push(_toRoll(value, type, source, dontMerge, overrideDefence))
+      }
+    }
+  }
+  return rolls;
+}
+
+function _toRoll(value, type, source, dontMerge, overrideDefence) {
+  return {
+    modified: {
+      _total: value,
+      modifierSources: source,
+      type: type,
+      dontMerge: dontMerge,
+      overrideDefence: overrideDefence,
+      targetSpecific: true,
+    },
+    clear: {
+      _total: value,
+      modifierSources: source,
+      type: type,
+      dontMerge: dontMerge,
+      overrideDefence: overrideDefence,
+      targetSpecific: true,
+    }
+  }
+}
+
 export function collectTargetSpecificEffects(target, data) {
   const mathing = target ? _matchingConditionals(target, data) : [];
   const effects = [];

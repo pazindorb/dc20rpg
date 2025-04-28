@@ -63,7 +63,7 @@ export class SimplePopup extends Dialog {
 
   /** @override */
   close(options) {
-    if (this.promiseResolve) this.promiseResolve(false);
+    if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);
   }
 

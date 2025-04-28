@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You regain <strong>1 SP</strong> when:</p><ul><li>You take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.ff43d6c32f4646e1]{Search Action} </strong>and successfully locate a <strong>Hidden </strong>creature.</li><li><p>You succeed on a <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.34e5b93b0b9c4238]{Knowledge Check}</strong> to recall information about a creature.</p></li><li><p>Once per round, when you Hit the target of your <strong>@UUID[Compendium.dc20rpg.classes.Item.fjVvRvP7aYAuip5F]{Hunter’s Mark}</strong> with a Martial Attack.</p></li><li>The target of your <strong>@UUID[Compendium.dc20rpg.classes.Item.fjVvRvP7aYAuip5F]{Hunter’s Mark} </strong>is reduced to 0 HP or dies.</li></ul>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when:</p><ul><li>When you Hit the target of your Hunter’s Mark with a Martial Attack.</li><li><p>The target of your Hunter’s Mark is reduced to 0 HP or dies.</p></li><li><p>You succeed on a Check to recall information about a creature.</p></li><li>You succeed on a Check to locate an Unseen creature.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -154,7 +154,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Hunter 1",
+    "featureOrigin": "Hunter",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -200,19 +200,13 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "zyVf455HBJntEEyS": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -273,7 +267,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "hunter",
+    "staminaFeature": true
   },
   "effects": [],
   "folder": "Ugg6V0gcjB2tcoLc",
@@ -285,7 +281,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034377,
-    "modifiedTime": 1739350034377,
+    "modifiedTime": 1745423275050,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "dzgOIH8OgQBq5ahb",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/blade-tip-energy-green.webp",
   "system": {
-    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened} </strong>(it cannot hear)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed 2}</strong> (every 1 Space it moves costs an extra 2 Space of movement)</p></li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
+    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73d26b54fce004a0]{Exposed}</strong></p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5fa74b85758bd263]{Deafened}</strong></p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3be8114c415718d2]{Hindered}</strong></p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 2}</strong></p></li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -363,7 +363,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Rogue 1",
+    "featureOrigin": "Rogue",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -419,21 +419,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
-    },
+    "macros": {},
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -492,7 +478,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "rogue"
   },
   "effects": [],
   "folder": "Upw86iWaEkam6Jqg",
@@ -504,7 +491,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035871,
-    "modifiedTime": 1739350035871,
+    "modifiedTime": 1745570063806,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Zf6AeKtw6dSjG1vE",

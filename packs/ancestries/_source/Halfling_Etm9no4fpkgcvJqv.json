@@ -3,7 +3,7 @@
   "type": "ancestry",
   "img": "icons/skills/trades/farming-sickle-harvest-wheat.webp",
   "system": {
-    "description": "<h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.sSpaLlXf4LC1RPJ8]{(0) Beast Whisperer}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.I4VzlH1oP2YtX5Sw]{(1) Deft Footwork}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.yArFvjJmZae5JQFW]{(2) Elusive}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.NthWjsVcyW4txwqE]{(2) Halfling Bravery}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.eWEo8EmfpdOtSbXB]{(1) Halfling Endurance}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.SAnEHnAdY0Ebt8VT]{(-1) Small Sized}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.EUZzOl5EPItJeuv6]{(1) Beast Insight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.oVUAwCeS6FBEabEM]{(1) Burst of Bravery}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.sw6eWXLc1qnUHUvN]{(1) Critter Knowledge}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.9bhHeIbk7FUUzrWw]{(-1) Intelligence Attribute Decrease}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Rsvj1tqi3BEcBuWb]{(-1) Short Legged}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Ao5RqgjqQMfVzthd]{(1) Trade Expertise}</p><p></p>",
+    "description": "<h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.sSpaLlXf4LC1RPJ8]{(0) Beast Whisperer}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.I4VzlH1oP2YtX5Sw]{(1) Deft Footwork}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.yArFvjJmZae5JQFW]{(2) Elusive}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.NthWjsVcyW4txwqE]{(2) Halfling Bravery}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.eWEo8EmfpdOtSbXB]{(1) Halfling Endurance}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.SAnEHnAdY0Ebt8VT]{(-1) Small Sized}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.EUZzOl5EPItJeuv6]{(1) Beast Insight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.oVUAwCeS6FBEabEM]{(1) Burst of Bravery}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.sw6eWXLc1qnUHUvN]{(1) Critter Knowledge}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.9bhHeIbk7FUUzrWw]{(-1) Intelligence Attribute Decrease}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Rsvj1tqi3BEcBuWb]{(-1) Short Legged}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Ao5RqgjqQMfVzthd]{(1) Trade Expertise}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.0PfeRT32IZBIad31]{(-1) Brittle}</p>",
     "movement": {
       "speed": 5
     },
@@ -143,6 +143,17 @@
             "ignoreKnown": false,
             "img": "icons/environment/settlement/farm-silo-windmill.webp",
             "name": "Trade Expertise"
+          },
+          "0PfeRT32IZBIad31": {
+            "uuid": "Compendium.dc20rpg.ancestries.Item.0PfeRT32IZBIad31",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": -1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/commodities/leather/boot-torn-tan.webp",
+            "name": "Brittle"
           }
         },
         "name": "Halfling Traits",
@@ -157,10 +168,10 @@
           0,
           0,
           0,
-          2,
           0,
           0,
-          2,
+          0,
+          0,
           0,
           0,
           0,
@@ -178,9 +189,18 @@
         "repeatable": true,
         "customTitle": "Select Your Ancestery Traits",
         "compendium": "feature",
-        "preFilters": "{\"featureType\": \"ancestry\"}"
+        "preFilters": "{\"featureType\": \"ancestry\"}",
+        "progressPath": false,
+        "addItemsOptions": {
+          "talentFilter": false,
+          "itemType": "feature",
+          "helpText": "Add more Ancestry Traits",
+          "preFilters": "{\"featureType\": \"ancestry\"}",
+          "itemLimit": null
+        }
       }
-    }
+    },
+    "itemKey": "halfling"
   },
   "effects": [],
   "folder": "zQIFXa6dF5N56xXL",
@@ -192,7 +212,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101297454,
-    "modifiedTime": 1738843380183,
+    "modifiedTime": 1745570065426,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Etm9no4fpkgcvJqv",

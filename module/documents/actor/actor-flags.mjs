@@ -3,9 +3,9 @@ export function preInitializeFlags(actor) {
 
 	const flags = {
 		editMode: false,
+		hideNonessentialEffects: false,
 		showInactiveEffects: true,
 		showUnknownSkills: true,
-		showUnknownKnowledgeSkills: true,
 		showUnknownTradeSkills: false,
 		showUnknownLanguages: false,
 		showEmptyReductions: false,
@@ -40,10 +40,10 @@ function _initializeRollMenu(flags) {
 		dis: 0,
 		adv: 0,
 		apCost: 0,
+		gritCost: 0,
 		d8: 0,
 		d6: 0,
 		d4: 0,
-		initative: false
 	}
 }
 

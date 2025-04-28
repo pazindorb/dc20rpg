@@ -1,5 +1,5 @@
 import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
-import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
@@ -7,12 +7,12 @@ import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
-import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
 import { emitSystemEvent } from "../sockets.mjs";
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -47,7 +47,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   }
 
   // 2. Pre Item Roll Events
-  if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck"].includes(details.type)) await runEventsFor("rollCheck", actor);
+  if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(details.type)) await runEventsFor("rollCheck", actor);
   if (["save"].includes(details.type)) await runEventsFor("rollSave", actor);
 
   // 3. Prepare Core Roll Formula
@@ -114,7 +114,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   if (!actor) return;
   const item = actor.items.get(itemId);
   if (!item) return;
-
+  
   const rollMenu = item.flags.dc20rpg.rollMenu;
 
   // 1. Subtract Cost
@@ -127,6 +127,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   
   // 2. Pre Item Roll Events and macros
   await runTemporaryItemMacro(item, "preItemRoll", actor);
+  await _runEnancementsMacro(item, "preItemRoll", actor);
   const actionType = item.system.actionType;
   if (actionType === "attack") await runEventsFor("attack", actor);
   if (actionType === "check") await runEventsFor("rollCheck", actor);
@@ -144,7 +145,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
 
   // 4. Post Item Roll
   await runTemporaryItemMacro(item, "postItemRoll", actor, {rolls: rolls});
-  await _runEnancementsMacro(item, actor, {rolls: rolls})
+  await _runEnancementsMacro(item, "postItemRoll", actor, {rolls: rolls});
 
   // 5. Send chat message
   if (sendToChat && !item.doNotSendToChat) {
@@ -219,7 +220,7 @@ async function _evaluateCheckRoll(actor, item, evalData) {
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   const checkKey = item.checkKey;
   const coreFormula = _prepareCheckFormula(actor, checkKey, evalData, source);
-  const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks);
+  const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
   await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
@@ -360,7 +361,7 @@ function _prepareCoreRoll(coreFormula, rollData, label) {
 function _prepareFormulaRolls(item, actor, evalData) {
   const rollData = evalData.rollData;
   const enhancements = item.allEnhancements;
-  const formulas = collectAllFormulasForAnItem(item, enhancements);
+  const formulas = _collectAllFormulasForAnItem(item, enhancements);
 
   // Check if damage type should be overriden
   let overridenDamage = "";
@@ -392,11 +393,13 @@ function _prepareFormulaRolls(item, actor, evalData) {
         id: key,
         coreFormula: false,
         label: "",
-        category: formula.category
+        category: formula.category,
+        dontMerge: formula.dontMerge,
+        overrideDefence: formula.overrideDefence
       }
       roll.clear.clear = true;
       roll.modified.clear = false;
-      roll.clear.modifierSources = "Base Value";
+      roll.clear.modifierSources = formula.enhName || "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
 
       if (formula.each5) roll.modified.each5Formula = formula.each5Formula;
@@ -434,6 +437,47 @@ function _prepareFormulaRolls(item, actor, evalData) {
   return [];
 }
 
+function _collectAllFormulasForAnItem(item, enhancements) {
+  // Item formulas
+  let formulas = item.system.formulas;
+
+  // If item is a using weapon as part of an attack we collect those formulas
+  const actor = item.actor;
+  const useWeapon = item.system.usesWeapon
+  if (actor && useWeapon?.weaponAttack) {
+    const weaponId = useWeapon.weaponId;
+    const weapon = actor.items.get(weaponId);
+    if (weapon) {
+      const weaponFormulas = weapon.system.formulas;
+      formulas = {...formulas, ...weaponFormulas}
+    }
+  }
+  
+  // Some enhancements can provide additional formula
+  if (!enhancements) enhancements = item.allEnhancements;
+  if (enhancements) {
+    let fromEnhancements = {};
+    enhancements.values().forEach(enh => {
+      for (let i = 0; i < enh.number; i++) {
+        const enhMod = enh.modifications;
+        // Add formula from enhancement;
+        if (enhMod.addsNewFormula) {
+          let key = "";
+          do {
+            key = generateKey();
+          } while (formulas[key]);
+          fromEnhancements[key] = enhMod.formula;
+          fromEnhancements[key].enhName = enh.name;
+        }
+      }
+
+    })
+    formulas = {...formulas, ...fromEnhancements};
+  }
+
+  return formulas;
+}
+
 function _fillCommonRollProperties(roll, commonData) {
   return {
     clear: foundry.utils.mergeObject(roll.clear, commonData),
@@ -444,7 +488,7 @@ function _fillCommonRollProperties(roll, commonData) {
 function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   let rollFormula = formula.formula;
   let failFormula = formula.fail ? formula.failFormula : null;
-  let modifierSources = "Base Value";
+  let modifierSources = formula.enhName || "Base Value";
 
   // Apply active enhancements
   if (enhancements) {
@@ -544,7 +588,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   };
 
   if (actionType === "attack") {
-    messageDetails.targetDefence = item.system.attackFormula.targetDefence;
+    messageDetails.targetDefence = _prepareTargetDefence(item);
     messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
     messageDetails.skipBonusDamage = item.system.attackFormula.skipBonusDamage;
     messageDetails.canCrit = true;
@@ -554,6 +598,16 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     messageDetails.canCrit = item.system.check.canCrit;
   }
   return messageDetails;
+}
+
+function _prepareTargetDefence(item) {
+  let targetDefence = item.system.attackFormula.targetDefence;
+  item.activeEnhancements.values().forEach(enh => {
+    if (enh.modifications.overrideTargetDefence && enh.modifications.targetDefenceType) {
+      targetDefence = enh.modifications.targetDefenceType;
+    }
+  })
+  return targetDefence;
 }
 
 function _prepareAgainstStatuses(item) {
@@ -666,8 +720,8 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
     if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
+  _addSpellToSustain(item, actor);
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
-  _checkConcentration(item, actor);
   resetRollMenu(rollMenu, item);
   resetEnhancements(item, actor, true);
   _toggleItem(item);
@@ -679,12 +733,12 @@ export function resetRollMenu(rollMenu, owner) {
   rollMenu.dis = 0
   rollMenu.adv = 0;
   rollMenu.apCost = 0;
+  rollMenu.gritCost = 0;
   rollMenu.d8 = 0;
   rollMenu.d6 = 0;
   rollMenu.d4 = 0;
   if (rollMenu.free) rollMenu.free = false;
   if (rollMenu.versatile) rollMenu.versatile = false;
-  if (rollMenu.ignoreConcentration) rollMenu.ignoreConcentration = false;
   if (rollMenu.ignoreMCP) rollMenu.ignoreMCP = false;
   if (rollMenu.flanks) rollMenu.flanks = false;
   if (rollMenu.halfCover) rollMenu.halfCover = false;
@@ -707,34 +761,6 @@ export function resetEnhancements(item, actor, itemRollFinished) {
       }
     }
   });
-}
-
-async function _checkConcentration(item, actor) {
-  const isConcentration = item.system.duration?.type === "concentration";
-  const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
-  if (isConcentration && !ignoreConcentration) {
-    let repleaced = "";
-    let title = "Starts Concentrating";
-    if (hasStatusWithId(actor, "deathsDoor")) {
-      sendDescriptionToChat(actor, {
-        rollTitle: "Concentraction Failed",
-        image: actor.img,
-        description: `You cannot concentrate when on Death's Door`,
-      });
-      return;
-    }
-    if (hasStatusWithId(actor, "concentration")) {
-      repleaced = ' [It overrides your current concentration]';
-      title = "Overrides Concentration"
-      await actor.toggleStatusEffect("concentration", {active: false});
-    }
-    sendDescriptionToChat(actor, {
-      rollTitle: title,
-      image: actor.img,
-      description: `Starts concentrating on ${item.name}${repleaced}`,
-    });
-    await actor.toggleStatusEffect("concentration", { active: true, extras: {mergeDescription: ` on ${item.name}`}});
-  }
 }
 
 function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
@@ -819,14 +845,34 @@ function _extractGlobalModStringForType(path, actor) {
   return globalMod;
 }
 
-async function _runEnancementsMacro(item, actor, additionalFields) {
-  const enhancements = item.allEnhancements;
+async function _runEnancementsMacro(item, macroKey, actor, additionalFields) {
+  const enhancements = item.activeEnhancements;
   if (!enhancements) return; 
 
   for (const [enhKey, enh] of enhancements.entries()) {
-    const command = enh.modifications.macro;
-    if (enh.number && command && command !== "") {
+    const macros = enh.modifications.macros;
+    if (!macros) continue;
+
+    const command = macros[macroKey];
+    if (command && command !== "") {
       await runTemporaryMacro(command, item, {item: item, actor: actor, enh: enh, enhKey: enhKey, ...additionalFields})
     }
   }
+}
+
+async function _addSpellToSustain(item, actor) {
+  if (item.system.duration.type !== "sustain") return;
+
+  const activeCombat = game.combats.active;
+  const notInCombat = !(activeCombat && activeCombat.started && actor.inCombat);
+  if (notInCombat) return;
+
+  const currentSustain = actor.system.sustain;
+  currentSustain.push({
+    name: item.name,
+    img: item.img,
+    itemId: item.id,
+    description: item.system.description
+  })
+  await actor.update({[`system.sustain`]: currentSustain});
 }

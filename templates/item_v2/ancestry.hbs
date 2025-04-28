@@ -22,14 +22,18 @@
   </nav>
 
   <section class="item-sheet-body">
-    <div class="tab description-tab content" data-group="primary" data-tab="description">
+    <div class="tab description-tab content padding-7" data-group="primary" data-tab="description">
       <div class="description-box">
         {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
       </div>
     </div>
 
     {{!-- Ancestry Config --}}
-    <div class="tab config-tab content" data-group="primary" data-tab="config">
+    <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
+      <div class="row" title="{{localize "dc20rpg.item.sheet.uniqueItemKeyTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.uniqueItemKey"}}</span>
+        <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
+      </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.ancestry.speed"}}</span>
         <input type="text" name="system.movement.speed" value="{{system.movement.speed}}" data-dtype="Number" placeholder="-">

@@ -1,7 +1,8 @@
-import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
-import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
+import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
@@ -20,13 +21,28 @@ export function getItemFromActorByKey(itemKey, actor) {
 }
 
 export async function createItemOnActor(actor, itemData) {
+  if (!actor.canUserModify(game.user)) {
+    emitEventToGM("addDocument", {
+      docType: "item",
+      docData: itemData, 
+      actorUuid: actor.uuid
+    });
+    return;
+  }
   return await Item.create(itemData, { parent: actor });
 }
 
 export async function deleteItemFromActor(itemId, actor) {
+  if (!actor.canUserModify(game.user)) {
+    emitEventToGM("removeDocument", {
+      docType: "item",
+      docId: itemId, 
+      actorUuid: actor.uuid
+    });
+    return;
+  }
   const item = getItemFromActor(itemId, actor);
-  if (!item) return;
-  await item.delete();
+  if(item) await item.delete();
 }
 
 export function editItemOnActor(itemId, actor) {
@@ -296,12 +312,6 @@ export async function changeLevel(up, itemId, actor) {
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
   let subclass = actor.items.get(actor.system.details.subclass.id);
 
-  // Open Subclass Selection on level 3
-  if (currentLevel + 1 === 3 && !subclass && up === "true") {
-    await game.settings.set("dc20rpg", "suppressAdvancements", true);
-    subclass = await openSubclassSelector(actor, clazz);
-  }
-
   if (up === "true") {
     currentLevel = Math.min(currentLevel + 1, 20);
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
@@ -317,6 +327,8 @@ export async function changeLevel(up, itemId, actor) {
 }
 
 export async function rerunAdvancement(actor, classId) {
+  const confirmed = await getSimplePopup("confirm", {header: "Do you want to repeat the last level up?"});
+  if (!confirmed) return;
   await changeLevel("false", classId, actor);
   await changeLevel("true", classId, actor);
 }

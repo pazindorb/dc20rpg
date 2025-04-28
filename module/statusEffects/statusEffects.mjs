@@ -1,95 +1,87 @@
 export function registerDC20Statues() {
   return [
-    _concentration(),
     _bleeding(),
     _blinded(),
     _burning(),
-
     _charmed(),
-    _dazed(),
-    _heavilyDazed(),
-    _deafened(),
 
+    _dazed(),
+    _deafened(),
+    _disoriented(),
+    _doomed(),
+
+    _exhaustion(),
     _exposed(),
     _frightened(),
     _grappled(),
+
     _hindered(),
-
+    _immobilized(),
     _impaired(),
-    _heavilyImpaired(),
     _incapacitated(),
-    _intimidated(),
 
+    _intimidated(),
     _invisible(),
     _paralyzed(),
     _petrified(),
-    _poisoned(),
 
+    _poisoned(),
     _prone(),
-    _rattled(),
     _restrained(),
     _slowed(),
 
     _stunned(),
     _surprised(), 
     _taunted(),
+    _tethered(),
+
+    _terrified(),
     _unconscious(),
+    _weakened(),
     
-    _bloodied1(),
-    _bloodied2(),
+    _bloodied(),
+    _wellBloodied(),
     _dead(),
     _deathsDoor(),
 
     _partiallyConcealed(),
     _fullyConcealed(),
+    _fullyStunned(),
   ]
 }
 
 //================================
 //             EXTRA             =
 //================================
-function _concentration() {
+function _bloodied() {
   return {
-    id: "concentration",
-    name: "Concentration",
-    label: "Concentration",
-    stackable: false,
-    system: {
-      statusId: "concentration"
-    },
-    statuses: [],
-    img: "systems/dc20rpg/images/statuses/concentration.svg",
-    description: "You are concentrating",
-    changes: []
-  }
-}
-function _bloodied1() {
-  return {
-    id: "bloodied1",
+    id: "bloodied",
     name: "Bloodied",
     label: "Bloodied",
     stackable: false,
     system: {
-      statusId: "bloodied1"
+      statusId: "bloodied",
+      hide: true
     },
     statuses: [],
-    img: "systems/dc20rpg/images/statuses/bloodied1.svg",
-    description: "You have less than 50% max HP.",
+    img: "systems/dc20rpg/images/statuses/bloodied.svg",
+    description: "<p>You have less than 50% max HP.</p>",
     changes: []
   }
 }
-function _bloodied2() {
+function _wellBloodied() {
   return {
-    id: "bloodied2",
+    id: "wellBloodied",
     name: "Well-Bloodied",
     label: "Well-Bloodied",
     stackable: false,
     system: {
-      statusId: "bloodied2"
+      statusId: "wellBloodied",
+      hide: true
     },
     statuses: [],
-    img: "systems/dc20rpg/images/statuses/bloodied2.svg",
-    description: "You have less than 25% max HP.",
+    img: "systems/dc20rpg/images/statuses/wellBloodied.svg",
+    description: "<p>You have less than 25% max HP.</p>",
     changes: []
   }
 }
@@ -100,11 +92,11 @@ function _dead() {
     label: "Dead",
     stackable: false,
     system: {
-      statusId: "dead"
+      statusId: "dead",
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/dead.svg",
-    description: "You are dead.",
+    description: "<p>You are dead.</p>",
     changes: []
   }
 }
@@ -115,36 +107,28 @@ function _deathsDoor() {
     label: "Death's Door",
     stackable: false,
     system: {
-      statusId: "deathsDoor"
+      statusId: "deathsDoor",
+      hide: true
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/deathsDoor.svg",
     description: `
-    <p>You are on the Death's Door, you suffers the following effects:</p>
+    <p>Until you are restored to 1 HP or higher, you suffer the following effects:</p>
     <ul>
-        <li>
-            <p><strong>Action Point Limit:</strong> You can’t spend more than <strong>1 AP</strong> until the end of your next turn, until you’re restored to 1 HP or higher.</p>
-        </li>
-        <li>
-            <p><strong>Concentration:</strong> You can’t Concentrate.</p>
-        </li>
-        <li>
-            <p><strong>Death Save:</strong> At the end of each of your turns, you make a Death Save.</p>
-            <ul>
-                <li>
-                    <p><strong>Failure:</strong> You take 1 True damage.</p>
-                </li>
-                <li>
-                    <p><strong>Critical Failure:</strong> You fall Unconscious until you’re restored to 1 HP or higher.</p>
-                </li>
-                <li>
-                    <p><strong>Critical Success:</strong> You’re restored to 1 HP.</p>
-                </li>
-            </ul>
-        </li>
+        <li><em><strong>Action Point Limit:</strong></em> Your current and maximum <strong>AP</strong> are reduced by 3.</li>
+    </ul>
+    <ul>
+        <li><strong>Death Save: </strong>You must make a <strong>DC 10</strong> Death Save at the start of each of your turns (see <strong>Death</strong> <strong>Saves</strong> for more information).</li>
     </ul>
     `,
-    changes: []
+    changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 3
+      }
+    ]
   }
 }
 function _partiallyConcealed() {
@@ -159,8 +143,7 @@ function _partiallyConcealed() {
     statuses: [],
     img: "systems/dc20rpg/images/statuses/partiallyConcealed.svg",
     description: `
-    <p>A creature is <strong>Partially Concealed</strong> while within an area of thin fog, moderate foliage, or Dim Light. 
-    Creatures have <strong>DisADV</strong> on <strong>Awareness Checks</strong> made to seethings that are Partially Concealed.</p>
+    <p>A creature is Partially Concealed while within an area of thin fog, moderate foliage, or Dim Light. Creatures have DisADV on Awareness Checks made to see things that are Partially Concealed.</p>
     `,
     changes: [
       {
@@ -184,8 +167,7 @@ function _fullyConcealed() {
     statuses: [],
     img: "systems/dc20rpg/images/statuses/fullyConcealed.svg",
     description: `
-    <p>A creature is <strong>Fully Concealed</strong> while in an area that blocks vision entirely, such as Darkness, thick fog, or dense foliage
-    Creatures are considered <strong>Blinded</strong> for thepurposes of seeing things that are Fully Concealed.
+    <p>A creature is Fully Concealed while in an area that blocks vision entirely, such as Darkness, thick fog, or dense foliage. Creatures are considered <strong>Blinded </strong>for the purposes of seeing things that are Fully Concealed.</p>
     `,
     changes: [
       {
@@ -193,15 +175,265 @@ function _fullyConcealed() {
         mode: 2,
         priority: undefined,
         value: '"label": "Fully Concealed", "autoFail": true, "skill": "awa"'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+      }
+    ]
+  }
+}
+function _fullyStunned() {
+  return {
+    id: "fullyStunned",
+    _id: "d02g03day8pp8en6",
+    name: "Fully Stunned",
+    label: "Fully Stunned",
+    stackable: false,
+    statuses: ["incapacitated"],
+    system: {
+      statusId: "fullyStunned",
+      hide: true
+    },
+    img: "systems/dc20rpg/images/statuses/fullyStunned.svg",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're <strong>Incapacitated</strong>.</p>
+        </li>
+        <li>
+            <p><span>Attacks against you have ADV.</span></p>
+        </li>
+        <li>
+            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
+        </li>
+    </ul>
+    `,
+    changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
+        key: "system.movement.ground.bonus",
+        mode: 2,
+        priority: undefined,
+        value: -100
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.rollLevel.onYou.saves.mig",
+        mode: 5,
+        priority: undefined,
+        value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.saves.agi",
+        mode: 5,
+        priority: undefined,
+        value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
       }
     ]
   }
 }
 
-
 //================================
 //           STACKING            =
 //================================
+function _bleeding() {
+  return {
+    id: "bleeding",
+    name: "Bleeding",
+    label: "Bleeding",
+    stackable: true,
+    statuses: [],
+    system: {
+      statusId: "bleeding"
+    },
+    img: "systems/dc20rpg/images/statuses/bleeding.svg",
+    description: `
+    <p>You take <strong>X</strong> True damage at the start of each of your turns.</p>
+    <p><em><strong>Ending Bleeding:</strong></em> All stacks of the Condition end when you're subjected to an effect that restores your HP. Alternatively, a creature can attempt to remove 1 or more stacks of the Condition by taking the Medicine Action.</p>
+    <p></p>
+    <h3>Medicine (Action)</h3>
+    <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a <strong>DC 10</strong> Medicine Check. <strong>Success (each 5):</strong> You end 1 stack of <strong>Bleeding</strong> on the target.</p>
+    `,
+    changes: [
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true"'
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete"'
+      }
+    ]
+  }
+}
+function _burning() {
+  return {
+    id: "burning",
+    name: "Burning",
+    label: "Burning",
+    stackable: true,
+    statuses: [],
+    system: {
+      statusId: "burning"
+    },
+    img: "systems/dc20rpg/images/statuses/burning.svg",
+    description: `
+    <p>You take <strong>X</strong> Fire damage at the start of each of your turns.</p>
+    <p><em><strong>Ending Burning:</strong></em> All stacks of the Condition end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water. Alternatively, a creature within 1 Space can spend <strong>1 AP</strong> to remove 1 stack of the Condition.</p>
+    `,
+    changes: [
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "damage", "label": "Burning", "trigger": "turnStart", "value": 1, "type": "fire"'
+      },
+    ]
+  }
+}
+function _doomed() {
+  return {
+    id: "doomed",
+    name: "Doomed",
+    label: "Doomed",
+    stackable: true,
+    statuses: [],
+    system: {
+      statusId: "doomed"
+    },
+    img: "systems/dc20rpg/images/statuses/doomed.svg",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>Your current and maximum HP is reduced by the value of <strong>X</strong>.</p>
+        </li>
+        <li>
+            <p>When an effect restores your HP, you regain <strong>X</strong> less HP than normal.</p>
+        </li>
+    </ul>
+    `,
+    changes: [
+      {
+        key: "system.resources.health.bonus",
+        mode: 2,
+        priority: undefined,
+        value: -1
+      },
+      {
+        key: "system.healingReduction.flat",
+        mode: 2,
+        priority: undefined,
+        value: 1
+      },
+    ]
+  }
+}
+function _exhaustion() {
+  return {
+    id: "exhaustion",
+    name: "Exhaustion",
+    label: "Exhaustion",
+    stackable: true,
+    statuses: [],
+    system: {
+      statusId: "exhaustion"
+    },
+    img: "systems/dc20rpg/images/statuses/exhaustion.svg",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You gain a penalty equal to <strong>X</strong> on all Checks and Saves you make.</p>
+        </li>
+        <li>
+            <p>Your Speed and Save DC is reduced by <strong>X</strong>.</p>
+        </li>
+    </ul>
+    <p><strong>Death:</strong> You immediately die if you reach 6 stacks of <strong>Exhaustion</strong>.</p>
+    <p id="1cf1b90a-e081-810b-86ea-fe594fcbeafa" class="block-color-blue_background"><strong>Example:</strong> If you have <strong>Exhaustion 3</strong>, then you would have a <strong>-3</strong> penalty on Checks and Saves, your Speed would be reduced by 3 Spaces, and your Save DC would be reduced by 3.</p>
+    `,
+    changes: []
+  }
+}
 function _exposed() {
   return {
     id: "exposed",
@@ -213,7 +445,7 @@ function _exposed() {
       statusId: "exposed"
     },
     img: "systems/dc20rpg/images/statuses/exposed.svg",
-    description: "<b>Attack Checks</b> against you have ADV.",
+    description: "<p>Attacks against you have ADV <strong>X</strong>.</p>",
     changes: [
       {
         key: "system.rollLevel.againstYou.martial.melee",
@@ -253,7 +485,7 @@ function _hindered() {
       statusId: "hindered"
     },
     img: "systems/dc20rpg/images/statuses/hindered.svg",
-    description: "You have DisADV on <b>Attack Checks</b>.",
+    description: "<p>You have DisADV <strong>X</strong> on Attacks.</p>",
     changes: [
       {
         key: "system.rollLevel.onYou.martial.melee",
@@ -305,7 +537,7 @@ function _dazed() {
       statusId: "dazed"
     },
     img: "systems/dc20rpg/images/statuses/dazed.svg",
-    description: "You have DisADV on <b>Mental Checks</b>.",
+    description: "<p>You have DisADV <strong>X</strong> on Mental Checks.</p>",
     changes: [
       {
         key: "system.rollLevel.onYou.checks.int",
@@ -340,60 +572,30 @@ function _dazed() {
     ]
   }
 }
-function _heavilyDazed() {
+function _disoriented() {
   return {
-    id: "heavilyDazed",
-    name: "Heavily Dazed",
-    label: "Heavily Dazed",
+    id: "disoriented",
+    name: "Disoriented",
+    label: "Disoriented",
     stackable: true,
     statuses: [],
     system: {
-      statusId: "heavilyDazed"
+      statusId: "disoriented"
     },
-    img: "systems/dc20rpg/images/statuses/heavilyDazed.svg",
-    description: "You have DisADV on <b>Mental Checks</b> and <b>Mental Saves</b>.",
+    img: "systems/dc20rpg/images/statuses/disoriented.svg",
+    description: "<p>You have DisADV X on <b>Mental Saves</b>.</p>",
     changes: [
-      {
-        key: "system.rollLevel.onYou.checks.int",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.cha",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
-      },
       {
         key: "system.rollLevel.onYou.saves.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
+        value: '"value": 1, "type": "dis", "label": "Disoriented"'
       },
       {
         key: "system.rollLevel.onYou.saves.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.spe",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Dazed"'
+        value: '"value": 1, "type": "dis", "label": "Disoriented"'
       },
     ]
   }
@@ -409,7 +611,7 @@ function _impaired() {
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/impaired.svg",
-    description: "You have DisADV on <b>Physical Checks</b>.",
+    description: "<p>You have DisADV <strong>X</strong> on Physical Checks.</p>",
     changes: [
       {
         key: "system.rollLevel.onYou.checks.mig",
@@ -444,60 +646,30 @@ function _impaired() {
     ]
   }
 }
-function _heavilyImpaired() {
+function _weakened() {
   return {
-    id: "heavilyImpaired",
-    name: "Heavily Impaired",
-    label: "Heavily Impaired",
+    id: "weakened",
+    name: "Weakened",
+    label: "Weakened",
     stackable: true,
     statuses: [],
     system: {
-      statusId: "heavilyImpaired"
+      statusId: "weakened"
     },
-    img: "systems/dc20rpg/images/statuses/heavilyImpaired.svg",
-    description: "You have DisADV on <b>Physical Checks</b> and <b>Physical Saves</b>.",
+    img: "systems/dc20rpg/images/statuses/weakened.svg",
+    description: "<p>You have DisADV <strong>X</strong> on Physical Saves.</p>",
     changes: [
-      {
-        key: "system.rollLevel.onYou.checks.mig",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.agi",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
-      },
       {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
+        value: '"value": 1, "type": "dis", "label": "Weakened"'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.att",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Heavily Impaired"'
+        value: '"value": 1, "type": "dis", "label": "Weakened"'
       },
     ]
   }
@@ -513,8 +685,51 @@ function _slowed() {
       statusId: "slowed"
     },
     img: "systems/dc20rpg/images/statuses/slowed.svg",
-    description: "Every 1 Space you move costs an extra Space of movement.",
-    changes: []
+    description: "<p>Every 1 Space you move costs an extra <strong>X</strong> Spaces of movement.</p>",
+    changes: [
+      {
+        key: "system.moveCost",
+        mode: 2,
+        priority: undefined,
+        value: 1
+      },
+    ]
+  }
+}
+function _stunned() {
+  return {
+    id: "stunned",
+    name: "Stunned",
+    label: "Stunned",
+    stackable: true,
+    statuses: [],
+    system: {
+      statusId: "stunned"
+    },
+    img: "systems/dc20rpg/images/statuses/stunned.svg",
+    description: `
+    <p>Your current and maximum <strong>AP</strong> is reduced by <strong>X</strong>.</p>
+    <p>While you're Stunned 4 or higher, you are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're <strong>Incapacitated</strong>.</p>
+        </li>
+        <li>
+            <p><span>Attacks against you have ADV.</span></p>
+        </li>
+        <li>
+            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
+        </li>
+    </ul>
+    `,
+    changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 2,
+        priority: undefined,
+        value: 1
+      }
+    ]
   }
 }
 
@@ -532,7 +747,17 @@ function _charmed() {
       statusId: "charmed",
     },
     img: "systems/dc20rpg/images/statuses/charmed.svg",
-    description: "Your <b>Charmer</b> has ADV on <b>Charisma Checks</b> made against you. Additionally, you can't target your <b>Charmer</b> with harmful Attacks, abilities, or magic effects.",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>Your Charmer has ADV on Charisma Checks made against you.</p>
+        </li>
+        <li>
+            <p>You can't target your Charmer with harmful Attacks or effects.</p>
+        </li>
+    </ul>
+    `,
     changes: [
       {
         key: "system.rollLevel.againstYou.checks.cha",
@@ -543,47 +768,30 @@ function _charmed() {
     ]
   }
 }
-function _grappled() {
-  const description = `<p>Your Speed is reduced to 0 and you have DisADV on <strong>Agility Saves</strong>.</p>
-    <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Ending a Grapple</span></strong></span></p>
-    <ul>
-        <li>
-            <p><strong>Escape Grapple:</strong> You can spend <strong>1 AP</strong> to attempt to free yourself from a Grapple. Make a <strong>Martial</strong> <strong>Check</strong> contested by the opposing creatures <strong>Athletics</strong> <strong>Check</strong>. <strong>Success:</strong> You end the Grappled Condition on yourself.</p>
-        </li>
-        <li>
-            <p><strong>Incapacitated Grappler:</strong> If the Grappler becomes Incapacitatedd, the Grapple immediately ends.</p>
-        </li>
-        <li>
-            <p><strong>Forced Movement:</strong> If an effect attempts to forcibly move you beyond the Grappler's reach, the Grappler makes the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you. <br><strong>Success:</strong> The targets of the effect aren't moved. <br><strong>Fail:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p>
-        </li>
-        <li>
-            <p><strong>Falling:</strong> If you begin falling while Grappled, and your Grappler isn't falling with you, your Grappler holds you in the air if they can carry your weight.</p>
-        </li>
-    </ul>`;
-
+function _immobilized() {
   return {
-    id: "grappled",
-    name: "Grappled",
-    label: "Grappled",
+    id: "immobilized",
+    name: "Immobilized",
+    label: "Immobilized",
     stackable: false,
     statuses: [],
     system: {
-      statusId: "grappled"
+      statusId: "immobilized",
     },
-    img: "systems/dc20rpg/images/statuses/grappled.svg",
-    description: description,
+    img: "systems/dc20rpg/images/statuses/immobilized.svg",
+    description: "<p>You can't move and you have <strong>DisADV</strong> on Agility Saves.</p>",
     changes: [
-      {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Grappled"'
-      },
       {
         key: "system.movement.ground.bonus",
         mode: 2,
         priority: undefined,
         value: -100
+      },
+      {
+        key: "system.rollLevel.onYou.saves.agi",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Immobilized"'
       },
     ]
   }
@@ -599,7 +807,7 @@ function _intimidated() {
       statusId: "intimidated"
     },
     img: "systems/dc20rpg/images/statuses/intimidated.svg",
-    description: "You have DisADV on all <b>Checks</b> while your source intimidation is within your line of sight.",
+    description: "<p>You have <strong>DisADV</strong> on all Checks made against the source.</p>",
     changes: [
       {
         key: "system.rollLevel.onYou.checks.mig",
@@ -660,83 +868,6 @@ function _intimidated() {
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
-      },
-    ]
-  }
-}
-function _rattled() {
-  return {
-    id: "rattled",
-    _id: "qnftngqxllc3l1ak",
-    name: "Rattled",
-    label: "Rattled",
-    stackable: false,
-    statuses: ["intimidated"],
-    system: {
-      statusId: "rattled"
-    },
-    img: "systems/dc20rpg/images/statuses/rattled.svg",
-    description: "You can't willingly move closer to your source of fear, and you are <b>Intimidated</b> (DisADV on all <b>Checks</b> while it's within your line of sight).",
-    changes: [
-      {
-        key: "system.rollLevel.onYou.checks.mig",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.agi",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.int",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.cha",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.att",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.spe",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
     ]
   }
@@ -748,72 +879,82 @@ function _frightened() {
     name: "Frightened",
     label: "Frightened",
     stackable: false,
-    statuses: ["rattled", "intimidated"],
+    statuses: [],
     system: {
       statusId: "frightened"
     },
     img: "systems/dc20rpg/images/statuses/frightened.svg",
-    description: "You must spend your turns trying to move as far away as you can from the source of the effect as possible. The only <b>Action</b> you can take is the <b>Move Action</b> to try to run away, or the <b>Dodge Action</b> if you are prevented from moving or there's nowhere farther to move. You are also considered <b>Rattled</b> (you cannot move closer to the source) and <b>Intimidated</b> (DisADV on all <b>Checks</b> while it's within your line of sight).",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You can't willingly move closer to the source.</p>
+        </li>
+        <li>
+            <p>You have <strong>DisADV</strong> on all Checks made against the source.</p>
+        </li>
+    </ul>
+    `,
     changes: [
       {
         key: "system.rollLevel.onYou.checks.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.att",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
     ]
   }
@@ -825,19 +966,26 @@ function _restrained() {
     name: "Restrained",
     label: "Restrained",
     stackable: false,
-    statuses: ["hindered", "exposed", "grappled"],
+    statuses: ["immobilized", "grappled"],
     system: {
       statusId: "restrained"
     },
     img: "systems/dc20rpg/images/statuses/restrained.svg",
-    description: "You are <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Grappled</b> (your Speed is reduced to 0 and you have DisADV on <b>Agility Saves</b>).",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're <strong>Immobilized</strong>.</p>
+        </li>
+        <li>
+            <p>Your Attacks have DisADV.</p>
+        </li>
+        <li>
+            <p>Attacks against you have ADV.</p>
+        </li>
+    </ul>
+    `,
     changes: [
-      {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Grappled"'
-      },
       {
         key: "system.movement.ground.bonus",
         mode: 2,
@@ -845,52 +993,58 @@ function _restrained() {
         value: -100
       },
       {
+        key: "system.rollLevel.onYou.saves.agi",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Restrained (Immobilized)"'
+      },
+      {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Restrained (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Restrained (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Restrained (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Restrained (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Restrained (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Restrained (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Restrained (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Restrained (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
     ]
   }
@@ -906,100 +1060,79 @@ function _taunted() {
       statusId: "taunted"
     },
     img: "systems/dc20rpg/images/statuses/taunted.svg",
-    description: "You have DisADV on <b>Attack Checks</b> against creatures other than the one that Taunted you. If a creature is successfully <b>Taunted</b> while already <b>Taunted</b> by another creature, the original Taunt is removed.",
+    description: "<p>You have DisADV on Attacks against targets other than the source.</p>",
     changes: [
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       }
     ]
+  }
+}
+function _tethered() {
+  return {
+    id: "tethered",
+    name: "Tethered",
+    label: "Tethered",
+    stackable: false,
+    statuses: [],
+    system: {
+      statusId: "tethered"
+    },
+    img: "systems/dc20rpg/images/statuses/tethered.svg",
+    description: "<p>You are <strong>Tethered</strong> to a creature or Space. While <strong>Tethered</strong>, you can't move farther than the specified Spaces from the location of your Tether.</p>",
+    changes: []
+  }
+}
+function _terrified() {
+  return {
+    id: "terrified",
+    name: "Terrified",
+    label: "Terrified",
+    stackable: false,
+    statuses: [],
+    system: {
+      statusId: "terrified"
+    },
+    img: "systems/dc20rpg/images/statuses/terrified.svg",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You must spend your turns trying to move as far away as you can from the source as possible.</p>
+        </li>
+        <li>
+            <p>The only Action you can take is the Move Action to try to run away, or the Dodge Action if you are prevented from moving or there's nowhere farther to move.</p>
+        </li>
+    </ul>
+    `,
+    changes: []
   }
 }
 
 //================================
 //         NON-STACKING          =
 //================================
-function _bleeding() {
-  return {
-    id: "bleeding",
-    name: "Bleeding",
-    label: "Bleeding",
-    stackable: false,
-    statuses: [],
-    system: {
-      statusId: "bleeding"
-    },
-    img: "systems/dc20rpg/images/statuses/bleeding.svg",
-    description: `
-    <p>You take 1 True damage at the start of each of your turns.</p>
-    <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Ending Bleeding</span></strong></span></p>
-    <ul>
-        <li>
-            <p><strong>Healed:</strong> You're subjected to an effect that restores your HP.</p>
-        </li>
-        <li>
-            <p><strong>Medicine Action:</strong> A creature can spend <strong>1 AP</strong> to make a <strong>DC 10 Medicine Check</strong> on itself or another creature within 1 Space. <br><strong>Success:</strong> Remove the Bleeding Condition. <br><strong>Success(each 5):</strong> The creature gains +1 Temp HP.</p>
-        </li>
-    </ul>
-    `,
-    changes: [
-      {
-        key: "system.events",
-        mode: 2,
-        priority: undefined,
-        value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true", "continuous": true'
-      },
-      {
-        key: "system.events",
-        mode: 2,
-        priority: undefined,
-        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete"'
-      }
-    ]
-  }
-}
-function _burning() {
-  return {
-    id: "burning",
-    name: "Burning",
-    label: "Burning",
-    stackable: false,
-    statuses: [],
-    system: {
-      statusId: "burning"
-    },
-    img: "systems/dc20rpg/images/statuses/burning.svg",
-    description: "You take <b>1 Fire damage</b> at the start of each of your turns. You or another creature within 1 Space can spend <b>1 AP</b> to put it out.",
-    changes: [
-      {
-        key: "system.events",
-        mode: 2,
-        priority: undefined,
-        value: '"eventType": "damage", "label": "Burning", "trigger": "turnStart", "value": 1, "type": "fire", "continuous": true'
-      },
-    ]
-  }
-}
 function _poisoned() {
   return {
     id: "poisoned",
@@ -1012,13 +1145,26 @@ function _poisoned() {
       statusId: "poisoned"
     },
     img: "systems/dc20rpg/images/statuses/poisoned.svg",
-    description: "You are <b>Impaired</b> (DisADV on <b>Physical Checks</b>) and take <b>1 Poison damage</b> at the start of each of your turns. A creature can spend <b>1 AP</b> to make a <b>Medicine Check</b> (against the DC of the Poison) on itself or another creature within 1 Space. <b>Success:</b> Remove the <b>Poisoned</b> Condition.",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're <strong>Impaired</strong> (DisADV on Physical Checks).</p>
+        </li>
+        <li>
+            <p>You take 1 Poison damage at the start of each of your turns.</p>
+        </li>
+    </ul>
+    <p></p>
+    <h3>Medicine (Action)</h3>
+    <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a Medicine Check against the DC of the Poison. <strong>Success:</strong> You end the Poison on the target.</p>
+    `,
     changes: [
       {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison", "continuous": true'
+        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison"'
       },
       {
         key: "system.rollLevel.onYou.checks.mig",
@@ -1064,7 +1210,17 @@ function _deafened() {
       statusId: "deafened"
     },
     img: "systems/dc20rpg/images/statuses/deafened.svg",
-    description: "You automatically fail <b>Checks</b> that require Hearing, and all creatures are considered <b>Unheard</b> by you. Additionally, you have <b>Resistance to Sonic damage</b>.",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You can't <span>hear </span>(see the <strong>Unheard</strong> section for more information).</p>
+        </li>
+        <li>
+            <p>You have Resistance (Half) to Sonic damage.</p>
+        </li>
+    </ul>
+    `,
     changes: [
       {
         key: "system.damageReduction.damageTypes.sonic.resistance",
@@ -1088,12 +1244,22 @@ function _blinded() {
     name: "Blinded",
     label: "Blinded",
     stackable: false,
-    statuses: ["exposed", "hindered"],
+    statuses: [],
     system: {
       statusId: "blinded"
     },
     img: "systems/dc20rpg/images/statuses/blinded.svg",
-    description: "You automatically fail Checks that require <b>Sight</b> and all other creatures are considered <b>Unseen</b>. You are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV) and <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>). Additionally, while you are not guided by another creature, all terrain is Difficult Terrain to you (moving 1 Space costs 2 Spaces).",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You can't see (see the <strong>Unseen</strong> section for more information).</p>
+        </li>
+        <li>
+            <p>All terrain is considered Difficult Terrain for you unless you're guided by another creature.</p>
+        </li>
+    </ul>
+    `,
     changes: [
       {
         key: "system.rollLevel.onYou.skills",
@@ -1163,55 +1329,55 @@ function _invisible() {
       statusId: "invisible"
     },
     img: "systems/dc20rpg/images/statuses/invisible.svg",
-    description: "You are <b>Unseen</b>, making creatures that can't see you <b>Exposed</b> (your <b>Attack Checks</b> against them have ADV) and <b>Hindered</b> against you (they have DisADV on <b>Attack Checks</b> against you).",
+    description: "<p>Creatures can't see you unless they have the ability to see the Invisible (see the <strong>Unseen</strong> section for more information).</p>",
     changes: [
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
       }
     ]
   }
@@ -1223,60 +1389,129 @@ function _prone() {
     name: "Prone",
     label: "Prone",
     stackable: false,
-    statuses: ["hindered", "slowed"],
+    statuses: [],
     system: {
       statusId: "prone"
     },
     img: "systems/dc20rpg/images/statuses/prone.svg",
-    description: "You are <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>), Ranged Attacks are <b>Hindered</b> against you, and you are <b>Exposed</b> against Melee Attacks (<b>Melee Attack Checks</b> against you have ADV). <b>Crawling:</b> Your only movement option is to Crawl, which counts as <b>Slowed 1</b> (Every 1 Space you move costs an extra 1 Space of movement). <b>Standing Up:</b> You can spend 2 Spaces of movement to stand up, ending the <b>Prone</b> Condition on yourself. Standing up from Prone does possibly trigger <b>Opportunity Attacks</b>.",
+    description: `
+    <p>While <strong>Prone</strong>, you're subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You have DisADV on Attacks, Ranged Attacks have DisADV against you, and Melee Attacks against you have ADV.</p>
+        </li>
+        <li>
+            <p><strong>Crawl Speed:</strong> Until you stand up, your only movement option it to Crawl, which costs an extra 1 Space of movement for every Space moved.</p>
+        </li>
+    </ul>
+    <p><strong>Ending Prone:</strong> You can end being Prone by spending 2 Spaces of movement to stand up.</p>
+    <p><strong><span style="text-decoration: underline;">Prone in the Air</span></strong></p>
+    <p>When you become Prone, you immediately enter an Uncontrolled Fall unless you're supported by a solid surface (see the <strong>Falling</strong> section for more information).</p>
+    `,
     changes: [
+      {
+        key: "system.moveCost",
+        mode: 2,
+        priority: undefined,
+        value: 1
+      },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Prone (Exposed vs Melee)"'
+        value: '"value": 1, "type": "adv", "label": "Melee vs Prone"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered vs Ranged)"'
+        value: '"value": 1, "type": "dis", "label": "Ranged vs Prone"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Prone (Exposed vs Melee)"'
+        value: '"value": 1, "type": "adv", "label": "Melee vs Prone"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered vs Ranged)"'
+        value: '"value": 1, "type": "dis", "label": "Ranged vs Prone"'
+      },
+    ]
+  }
+}
+function _grappled() {
+  return {
+    id: "grappled",
+    _id: "iukn5nVA42hwe85d",
+    name: "Grappled",
+    label: "Grappled",
+    stackable: false,
+    statuses: ["immobilized"],
+    system: {
+      statusId: "grappled"
+    },
+    img: "systems/dc20rpg/images/statuses/grappled.svg",
+    description: `
+    <p>You're <strong>Immobilized</strong>.</p>
+    <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Escape Grapple</span></strong></span></p>
+    <p>You can spend <strong>1 AP</strong> to attempt to free yourself from a <strong>Grapple</strong>. Make a Martial Check contested by the Grappler's Athletics Check. <strong>Success:</strong> The Grapple immediately ends.</p>
+    <p>The Grapple also ends if any of the following occurs:</p>
+    <ul>
+        <li>
+            <p><strong>Incapacitated:</strong> The Grappler becomes <strong>Incapacitated</strong>.</p>
+        </li>
+        <li>
+            <p><strong>Falling:</strong> The Grappler is unable to carry your weight when you begin falling, provided they are not also falling with you.</p>
+        </li>
+        <li>
+            <p><strong>Forced Movement:</strong> An effect forcibly moves you or the Grappler, causing you to move outside Grappler's reach. If the effect requires a Contested Check or Save, the Grappler makes the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you. <strong>Success:</strong> The targets are not moved. <strong>Failure:</strong> The targets are moved.</p>
+        </li>
+    </ul>
+    <p></p>
+    <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Grappled by Multiple Creatures</span></strong></span></p>
+    <p>A creature that is <strong>Grappled</strong> by more than 1 creature only suffers the effects of being <strong>Grappled</strong> once. However, a creature <strong>Grappled</strong> by multiple sources will remain <strong>Grappled</strong> until they are free from being <strong>Grappled</strong> by all sources.</p>
+    <p id="1cf1b90a-e081-81f5-b4d4-ee30bbddab42" class="block-color-blue_background" style="box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 3px 0px; padding: 6px; border: 2px solid rgb(0, 39, 124); background-color: rgb(160, 175, 209); border-radius: 2px; color: black; font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start"><span style="font-family: Signika, sans-serif"><strong style="box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)">Example:</strong> While <strong>Grappled</strong>, a creature is <strong>Immobilized</strong> (DisADV on Agility Saves). A creature doesn't have DisADV 2 on Agility Saves as a result of being <strong>Grappled</strong> by 2 creatures. They only have DisADV on Agility Saves.</span></p>
+    <p><strong>Moving the Target:</strong> If multiple creatures are <strong>Grappling</strong> the same target and one of them tries to move the <strong>Grappled</strong> target, it must make a Contested Athletics Check against all creatures <strong>Grappling</strong> the same target. <strong>Success:</strong> It ends the <strong>Grapple</strong> on the target by all creatures other than itself, allowing it to move the creature as normal.</p>
+    `,
+    changes: [
+      {
+        key: "system.movement.ground.bonus",
+        mode: 2,
+        priority: undefined,
+        value: -100
+      },
+      {
+        key: "system.rollLevel.onYou.saves.agi",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Grappled (Immobilized)"'
       },
     ]
   }
@@ -1292,60 +1527,30 @@ function _incapacitated() {
       statusId: "incapacitated"
     },
     img: "systems/dc20rpg/images/statuses/incapacitated.svg",
-    description: "You can not Speak, Concentrate, or spend Action Points.",
-    changes: []
-  }
-}
-function _stunned() {
-  return {
-    id: "stunned",
-    _id: "d02g03day8pp8en6",
-    name: "Stunned",
-    label: "Stunned",
-    stackable: false,
-    statuses: ["exposed", "incapacitated"],
-    system: {
-      statusId: "stunned"
-    },
-    img: "systems/dc20rpg/images/statuses/stunned.svg",
-    description: "You automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>. You are also <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You can't move, speak.</p>
+        </li>
+        <li>
+            <p>You can't spend Actions Points or use Minor Actions.</p>
+        </li>
+    </ul>
+    `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
+        key: "system.movement.ground.bonus",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: -100
       },
-      {
-        key: "system.rollLevel.againstYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
-      },
-      {
-        key: "system.rollLevel.againstYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
-      },
-      {
-        key: "system.rollLevel.againstYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
-      },
-      {
-        key: "system.rollLevel.onYou.saves.mig",
-        mode: 5,
-        priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
-      },
-      {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 5,
-        priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
-      }
     ]
   }
 }
@@ -1356,48 +1561,100 @@ function _paralyzed() {
     name: "Paralyzed",
     label: "Paralyzed",
     stackable: false,
-    statuses: ["stunned", "incapacitated", "exposed"],
+    statuses: ["incapacitated"],
     system: {
       statusId: "paralyzed"
     },
     img: "systems/dc20rpg/images/statuses/paralyzed.svg",
-    description: "<b>Attacks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned</b (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: `
+    <p>You are subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're <strong>Incapacitated</strong>.</p>
+        </li>
+        <li>
+            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
+        </li>
+        <li>
+            <p>Attacks against you have <strong>ADV</strong>.</p>
+        </li>
+        <li>
+            <p>Attacks made within 1 Space are considered Critical Hits.</p>
+        </li>
+    </ul>
+    `,
     changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
+        key: "system.movement.ground.bonus",
+        mode: 2,
+        priority: undefined,
+        value: -100
+      },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Paralyzed", "autoFail": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Paralyzed", "autoFail": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       }
     ]
   }
@@ -1409,48 +1666,103 @@ function _unconscious() {
     name: "Unconscious",
     label: "Unconscious",
     stackable: false,
-    statuses: ["stunned", "paralyzed", "exposed", "incapacitated"],
+    statuses: ["incapacitated"],
     system: {
       statusId: "unconscious"
     },
     img: "systems/dc20rpg/images/statuses/unconscious.svg",
-    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
+    description: `
+    <p>When you become <strong>Unconscious</strong>, you immediately drop whatever you are holding and fall <strong>Prone</strong>. While <strong>Unconscious</strong>, you're subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're <strong>Incapacitated</strong>.</p>
+        </li>
+        <li>
+            <p>You're not aware of your surroundings.</p>
+        </li>
+        <li>
+            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
+        </li>
+        <li>
+            <p>Attacks against you have ADV.</p>
+        </li>
+        <li>
+            <p>Attacks made within 1 Space are considered Critical Hits.</p>
+        </li>
+    </ul>
+    `,
     changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
+        key: "system.movement.ground.bonus",
+        mode: 2,
+        priority: undefined,
+        value: -100
+      },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       }
     ]
   }
@@ -1462,36 +1774,73 @@ function _petrified() {
     name: "Petrified",
     label: "Petrified",
     stackable: false,
-    statuses: ["paralyzed", "stunned", "exposed", "incapacitated"],
+    statuses: ["incapacitated"],
     system: {
       statusId: "petrified"
     },
     img: "systems/dc20rpg/images/statuses/petrified.svg",
-    description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and have <b>Resistance (Half)</b> to all damage. Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: `
+    <p>You and your mundane belongings are turned into a inanimate substance (often stone). While <strong>Petrified</strong>, you count as both an object and a creature, and you're subjected to the following effects:</p>
+    <ul>
+        <li>
+            <p>You're not aware of your surroundings.</p>
+        </li>
+        <li>
+            <p>You're 10 times heavier than normal.</p>
+        </li>
+        <li>
+            <p>You're <strong>Incapacitated</strong>.</p>
+        </li>
+        <li>
+            <p>You automatically fail Physical Saves.</p>
+        </li>
+        <li>
+            <p>Attacks against you have ADV.</p>
+        </li>
+        <li>
+            <p>You gain Bludgeoning Vulnerability (Double) and Resistance (Half) to all other damage.</p>
+        </li>
+        <li>
+            <p>Curses, Diseases, Poisons, or Conditions afflicting you are suspended (unless it imposed the Petrified Condition), and you're immune to gaining new ones.</p>
+        </li>
+    </ul>
+    `,
     changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
+        key: "system.movement.ground.bonus",
+        mode: 2,
+        priority: undefined,
+        value: -100
+      },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
         key: "system.damageReduction.damageTypes.corrosion.resistance",
@@ -1566,7 +1915,7 @@ function _petrified() {
         value: "true"
       },
       {
-        key: "system.damageReduction.damageTypes.bludgeoning.resistance",
+        key: "system.damageReduction.damageTypes.bludgeoning.vulnerability",
         mode: 5,
         priority: undefined,
         value: "true"
@@ -1575,13 +1924,13 @@ function _petrified() {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Petrified", "autoFail": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Petrified", "autoFail": true'
       }
     ]
   }
@@ -1593,36 +1942,18 @@ function _surprised() {
     name: "Surprised",
     label: "Surprised",
     stackable: false,
-    statuses: ["exposed"],
+    statuses: [],
     system: {
       statusId: "surprised"
     },
     img: "systems/dc20rpg/images/statuses/surprised.svg",
-    description: "You can't spend <b>Action Points</b> and are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV).",
+    description: "<p>Your current and maximum <strong>AP</strong> is reduced by 2.</p>",
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.globalModifier.prevent.goUnderAP",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Surprised (Exposed)"'
-      },
-      {
-        key: "system.rollLevel.againstYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Surprised (Exposed)"'
-      },
-      {
-        key: "system.rollLevel.againstYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Surprised (Exposed)"'
-      },
-      {
-        key: "system.rollLevel.againstYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Surprised (Exposed)"'
+        value: 2
       },
     ]
   }

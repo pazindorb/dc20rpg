@@ -3,8 +3,9 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 /**
  * Changes value of actor's skill skillMastery.
  */
-export async function toggleSkillMastery(skillType, pathToValue, which, actor) {
-	const skillMasteryLimit = getSkillMasteryLimit(actor, skillType);
+export async function toggleSkillMastery(skillType, skillKey, which, actor) {
+	const skillMasteryLimit = getSkillMasteryLimit(actor, skillKey);
+	const pathToValue = `system.${skillType}.${skillKey}.mastery`;
 	const currentValue = getValueFromPath(actor, pathToValue);
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
@@ -28,24 +29,28 @@ export async function toggleLanguageMastery(pathToValue, which, actor) {
   await actor.update({[pathToValue] : newValue});
 }
 
-export function getSkillMasteryLimit(actor, skillType) {
+export function getSkillMasteryLimit(actor, skillKey) {
 	if (actor.type === "character") {
 		const level = actor.system.details.level;
-		const expertiseLevel = Math.min(actor.system.expertise[skillType], 1);
-		const skillMasteryLimit = 1 + Math.floor(level/5) + expertiseLevel; 
-		return Math.min(skillMasteryLimit, 5) // Grandmaster is a limit
+		let skillMasteryLimit = 1 + Math.floor(level/5);
+
+		// Skill Expertise = +1 to the limit
+		const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
+		if (expertise.has(skillKey)) skillMasteryLimit++; 
+
+		return Math.min(skillMasteryLimit, 5) // Grandmaster is a limit for now
 	}
 	return 5; // For non PC is always 5;
 }
 
 function _switchMastery(mastery, goDown, min, max) {
-	if (mastery === max && !goDown) return 0;
-	if (mastery === min && goDown) return max;
+	if (mastery >= max && !goDown) return 0;
+	if (mastery <= min && goDown) return max;
 	if (goDown) return mastery - 1;
 	return mastery + 1;
 }
 
-export function addCustomSkill(actor, knowledge, trade) {
+export function addCustomSkill(actor, trade) {
 	const skillKey = generateKey();
 	const skill = {
 		label: "New Skill",
@@ -53,7 +58,6 @@ export function addCustomSkill(actor, knowledge, trade) {
 		baseAttribute: "int",
 		bonus: 0,
 		mastery: 0,
-		knowledgeSkill: knowledge,
 		custom: true
 	}
 	if (trade) actor.update({[`system.tradeSkills.${skillKey}`] : skill});
@@ -118,6 +122,26 @@ export async function manipulateAttribute(key, actor, subtract) {
 	}
 }
 
+export async function manualSkillExpertiseToggle(skillKey, actor, skillType) {
+	const manual = new Set(actor.system.expertise.manual);
+	const automated = new Set(actor.system.expertise.automated);
+
+	if (manual.has(skillKey)) {
+		const skillLimit = getSkillMasteryLimit(actor, skillKey);
+		const skillValue = actor.system[skillType]?.[skillKey]?.mastery;
+		if (skillLimit === skillValue) await toggleSkillMastery(skillType, skillKey, 3, actor);
+		manual.delete(skillKey);
+		await actor.update({["system.expertise.manual"]: manual})
+	}
+	else if (automated.has(skillKey)) {
+		ui.notifications.warn("You already have expertise in that skill!");
+	}
+	else {
+		manual.add(skillKey);
+		await actor.update({["system.expertise.manual"]: manual})
+	}
+}
+
 //===========================================
 //=				PREPARE CHECKS AND SAVES					=
 //===========================================
@@ -125,7 +149,7 @@ export function prepareCheckDetailsFor(key, against, statuses, rollTitle, custom
 	if (!key) return;
 	const [formula, rollType] = prepareCheckFormulaAndRollType(key); 
 
-	let label = customLabel || getLabelFromKey(key, {...CONFIG.DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20"});
+	let label = customLabel || getLabelFromKey(key, {...CONFIG.DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20", "initiative": "Initiative"});
 	if (against) label += ` vs ${against}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
@@ -188,7 +212,12 @@ export function prepareCheckFormulaAndRollType(key, rollLevel) {
 		case "flat": 
 			break;
 
-		case "mig": case "agi": case "int": case "cha": 
+		case "initiative":
+			formula += ` + @special.initiative`;
+			rollType = "initiative";
+			break;
+
+		case "mig": case "agi": case "int": case "cha": case "prime":
 			formula += ` + @attributes.${key}.check`;
 			rollType = "attributeCheck";
 			break;

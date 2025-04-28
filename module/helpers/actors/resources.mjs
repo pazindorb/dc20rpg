@@ -1,8 +1,5 @@
-import { sendDescriptionToChat, sendHealthChangeMessage } from "../../chat/chat-message.mjs";
-import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { addStatusWithIdToActor, exhaustionToggle, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
+import { sendHealthChangeMessage } from "../../chat/chat-message.mjs";
 import { generateKey } from "../utils.mjs";
-import { rollFromSheet } from "./rollsFromActor.mjs";
 
 //=============================================
 //              CUSTOM RESOURCES              =
@@ -97,82 +94,6 @@ export function createLegenedaryResources(actor) {
 }
 
 //=============================================
-//             HP THRESHOLD CHECK             =
-//=============================================
-export function runHealthThresholdsCheck(oldHp, newHp, maxHp, actor) {
-  const bloodiedThreshold = Math.floor(maxHp/2);
-  const wellBloodiedThreshold = Math.floor(maxHp/4);
-  const deathThreshold = actor.type === "character" ? actor.system.death.treshold : 0;
-  
-  _checkStatus("bloodied1", oldHp, newHp, bloodiedThreshold, actor);
-  _checkStatus("bloodied2", oldHp, newHp, wellBloodiedThreshold, actor);
-  _checkStatus("dead", oldHp, newHp, deathThreshold, actor);
-  _checkDeathsDoor(oldHp, newHp, actor);
-}
-
-function _checkStatus(statusId, oldHp, newHp, treshold, actor) {
-  // Add status
-  if (oldHp > treshold && newHp <= treshold) addStatusWithIdToActor(actor, statusId);
-  // Remove status
-  if (oldHp <= treshold && newHp > treshold) removeStatusWithIdFromActor(actor, statusId);
-}
-
-function _checkDeathsDoor(oldHp, newHp, actor) {
-  if (actor.type !== "character") return {}; // Only PC have death's door
-
-  // Was on Death's Doors and it ended
-  if (oldHp <= 0 && newHp > 0) {
-    actor.update({["system.death"]: {stable: true, active: false}});
-    actor.toggleStatusEffect("deathsDoor", { active: false });
-  }
-
-  // Wasn't on Death's Doors and got there
-  if (oldHp > 0 && newHp <= 0) {
-    exhaustionToggle(actor, true);
-    actor.update({["system.death"]: {stable: false, active: true}});
-    actor.toggleStatusEffect("deathsDoor", { active: true });
-    
-    if (actor.hasAnyStatus(["concentration"])) {
-      sendDescriptionToChat(actor, {
-        rollTitle: "Concentration Lost - Death's Door",
-        image: actor.img,
-        description: "You cannot concentrate when on Death's Door",
-      });
-      actor.toggleStatusEffect("concentration", { active: false });
-    }
-  }
-}
-
-export async function runConcentrationCheck(oldHp, newHp, actor) {
-  if (newHp === undefined) return;
-  const damage = oldHp - newHp;
-  if (damage <= 0) return;
-  
-  if (!hasStatusWithId(actor, "concentration")) return;
-  const dc = Math.max(10, (2*damage));
-  const details = {
-    roll: `d20 + @special.menSave`,
-    label: `Concentration Save vs ${dc}`,
-    rollTitle: "Concentration",
-    type: "save",
-    against: dc,
-    checkKey: "men",
-    concentration: true
-  }
-  let roll;
-  if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
-  else roll = rollFromSheet(actor, details);
-  if (roll && roll._total < dc) {
-    sendDescriptionToChat(actor, {
-      rollTitle: "Concentration Lost",
-      image: actor.img,
-      description: "",
-    });
-    actor.toggleStatusEffect("concentration", { active: false });
-  }
-}
-
-//=============================================
 //              HP MANIPULATION               =
 //=============================================
 /**
@@ -212,6 +133,12 @@ export async function applyDamage(actor, dmg, options={}) {
 export async function applyHealing(actor, heal, options={}) {
   if (!actor) return;
   if (heal.value === 0) return;
+
+  const preventHpRegen = actor.system.globalModifier.prevent.hpRegeneration;
+  if (preventHpRegen) {
+    ui.notifications.error('You cannot regain any HP');
+    return;
+  }
 
   let sources = heal.source;
   const healType = heal.type;

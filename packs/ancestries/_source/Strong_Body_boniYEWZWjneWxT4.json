@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/skills/social/intimidation-impressing.webp",
   "system": {
-    "description": "<p>Once per Combat, when you take damage, you can reduce the damage taken by an amount equal to your <strong>Might </strong>or <strong>Agility </strong>(your choice).</p>",
+    "description": "<p>Once per Combat, when you take damage from an Attack, you can reduce the damage taken by an amount equal to your <strong>Might </strong>or <strong>Agility </strong>(your choice).</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -18,7 +18,7 @@
     "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -133,7 +133,11 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "strongBody"
+    "itemKey": "strongBody",
+    "featureSourceItem": "giantborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -215,7 +219,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1739480947855,
+    "modifiedTime": 1745412760116,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "boniYEWZWjneWxT4",

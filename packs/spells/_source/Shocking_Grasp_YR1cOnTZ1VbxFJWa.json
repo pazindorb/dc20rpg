@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -69,7 +69,8 @@
         "fail": false,
         "failFormula": "",
         "each5": false,
-        "each5Formula": ""
+        "each5Formula": "",
+        "overrideDefence": ""
       }
     },
     "enhancements": {
@@ -164,7 +165,6 @@
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
-          "macro": "",
           "rollLevelChange": true,
           "rollLevel": {
             "type": "adv",
@@ -175,6 +175,10 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You have ADV if they are wearing armor made of metal</span></p>",
@@ -359,7 +363,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739482192638,
+    "modifiedTime": 1745415668843,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "YR1cOnTZ1VbxFJWa",

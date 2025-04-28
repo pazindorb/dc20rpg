@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/skills/trades/construction-mason-stonecutter-sculpture.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed}</strong> or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8d78ef1f2667dc23]{Stunned}</strong>.</p>",
+    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed}</strong> or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2939ce776edfd6fa]{Stunned}.</strong></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -136,7 +136,11 @@
         0
       ]
     },
-    "itemKey": "unstoppable"
+    "itemKey": "unstoppable",
+    "featureSourceItem": "giantborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -160,13 +164,13 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.stunned.advantage",
+          "key": "system.statusResistances.stunned.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.statusResistances.slowed.advantage",
+          "key": "system.statusResistances.slowed.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
@@ -199,7 +203,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737753078707,
+        "modifiedTime": 1745440766079,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!wTmcdlwubGbnO4j6.jj1KvG1BIxh8Ouux"
@@ -218,7 +222,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1739480947886,
+    "modifiedTime": 1745570066249,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "wTmcdlwubGbnO4j6",

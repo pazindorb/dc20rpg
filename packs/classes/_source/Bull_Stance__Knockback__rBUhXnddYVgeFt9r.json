@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
   "system": {
-    "description": "<ul><li><p>You deal <strong>1 Bludgeoning</strong> damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.09f4005ec1111084]{Shove Action}</strong> or <strong>@UUID[Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz]{Knockback Maneuver}</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no <strong>AP</strong> and does not provoke Opportunity Attacks.</p></li></ul>",
+    "description": "<ul><li><p>You deal <strong>1 Bludgeoning</strong> damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.97f79c465003e1ae]{Shove}</strong> or <strong>@UUID[Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz]{Knockback Maneuver}</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no <strong>AP</strong> and does not provoke Opportunity Attacks.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -106,7 +106,8 @@
           "formula": {
             "formula": "1",
             "type": "bludgeoning",
-            "category": "damage"
+            "category": "damage",
+            "overrideDefence": ""
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -186,7 +187,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Monk Stance",
     "usesWeapon": {
       "weaponId": "",
@@ -237,21 +238,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
-    },
+    "macros": {},
     "againstEffect": {
       "id": "",
       "supressFromChatMessage": false,
@@ -355,7 +342,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034210,
-    "modifiedTime": 1739350034210,
+    "modifiedTime": 1745570064289,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rBUhXnddYVgeFt9r",

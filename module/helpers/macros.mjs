@@ -2,6 +2,9 @@ import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
+//===============================
+//=      TEMPORARY MACROS       =
+//===============================
 export function createTemporaryMacro(command, object, flagsToSet={}) {
   const flags = {
     dc20rpg: {
@@ -31,14 +34,18 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
   }
 }
 
-export async function runCustomTriggerMacro(item, actor, additionalFields) {
-  await runTemporaryItemMacro(item, "customTrigger", actor, additionalFields);
-}
-
-export async function runTemporaryItemMacro(item, macroKey, actor, additionalFields) {
-  const command = item.system?.macros?.[macroKey];
-  if (command && actor) {
-    await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
+export async function runTemporaryItemMacro(item, trigger, actor, additionalFields) {
+  if (!actor) return;
+  const macros = item?.system?.macros;
+  if (!macros) return;
+  
+  for (const macro of Object.values(macros)) {
+    if (macro.trigger === trigger && !macro.disabled) {
+      const command = macro.command;
+      if (command) {
+        await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
+      }
+    }
   }
 }
 
@@ -53,6 +60,16 @@ export async function runTemporaryMacro(command, object, additionalFields) {
   await macro.execute(macro);
 }
 
+//=================================
+//=     CUSTOM MACRO TRIGGERS     =
+//=================================
+export function registerItemMacroTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.macroTriggers[trigger] = displayedLabel;
+}
+
+//=============================
+//=       HOTBAR MACROS       =
+//=============================
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
@@ -60,7 +77,7 @@ export async function runTemporaryMacro(command, object, additionalFields) {
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-export async function createItemMacro(data, slot) {
+export async function createItemHotbarDropMacro(data, slot) {
   // First, determine if this is a valid owned item.
   if (data.type !== "Item") return;
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
@@ -70,7 +87,7 @@ export async function createItemMacro(data, slot) {
   const item = await Item.fromDropData(data);
 
   // Create the macro command using the uuid.
-  const command = `game.dc20rpg.rollItemMacro("${item.name}");`;
+  const command = `game.dc20rpg.rollItemWithName("${item.name}");`;
   const matchingMacros = game.macros.filter(m => (m.name === item.name) && (m.command === command));
   let macro = undefined;
   for (const match of matchingMacros) {

@@ -1,0 +1,356 @@
+{
+  "folder": null,
+  "name": "Unarmed Strike",
+  "type": "weapon",
+  "img": "icons/skills/melee/unarmed-punch-fist.webp",
+  "system": {
+    "description": "",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false
+      }
+    },
+    "quantity": 1,
+    "weight": 0,
+    "price": {
+      "value": 0,
+      "currency": "gp"
+    },
+    "rarity": "",
+    "statuses": {
+      "attuned": false,
+      "equipped": false,
+      "identified": true
+    },
+    "properties": {
+      "attunement": {
+        "active": false,
+        "slotCost": 0,
+        "label": "dc20rpg.properties.attunement"
+      },
+      "ammo": {
+        "active": false,
+        "label": "dc20rpg.properties.ammo"
+      },
+      "concealable": {
+        "active": false,
+        "label": "dc20rpg.properties.concealable"
+      },
+      "guard": {
+        "active": false,
+        "label": "dc20rpg.properties.guard"
+      },
+      "heavy": {
+        "active": false,
+        "label": "dc20rpg.properties.heavy"
+      },
+      "impact": {
+        "active": false,
+        "label": "dc20rpg.properties.impact"
+      },
+      "longRanged": {
+        "active": false,
+        "label": "dc20rpg.properties.longRanged"
+      },
+      "multiFaceted": {
+        "active": false,
+        "selected": "first",
+        "labelKey": "hammer",
+        "weaponStyle": {
+          "first": "hammer",
+          "second": "pick"
+        },
+        "damageType": {
+          "first": "bludgeoning",
+          "second": "piercing"
+        },
+        "label": "dc20rpg.properties.multiFaceted"
+      },
+      "reach": {
+        "active": false,
+        "value": 1,
+        "label": "dc20rpg.properties.reach"
+      },
+      "reload": {
+        "active": false,
+        "value": 1,
+        "loaded": true,
+        "label": "dc20rpg.properties.reload"
+      },
+      "silent": {
+        "active": false,
+        "label": "dc20rpg.properties.silent"
+      },
+      "toss": {
+        "active": false,
+        "label": "dc20rpg.properties.toss"
+      },
+      "thrown": {
+        "active": false,
+        "label": "dc20rpg.properties.thrown"
+      },
+      "twoHanded": {
+        "active": false,
+        "label": "dc20rpg.properties.twoHanded"
+      },
+      "unwieldy": {
+        "active": false,
+        "label": "dc20rpg.properties.unwieldy"
+      },
+      "versatile": {
+        "active": false,
+        "label": "dc20rpg.properties.versatile"
+      },
+      "returning": {
+        "active": false,
+        "label": "dc20rpg.properties.returning"
+      },
+      "capture": {
+        "active": false,
+        "label": "dc20rpg.properties.capture"
+      }
+    },
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      }
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 0,
+      "max": 0,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": false
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {
+      "weaponDamage": {
+        "formula": "0",
+        "type": "bludgeoning",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "overrideDefence": ""
+      }
+    },
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "weaponStyle": "",
+    "weaponType": "melee",
+    "itemKey": "unarmedStrike",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": ""
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": "",
+      "mustEquip": true
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "doNotExpire": false
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "conditionals": {},
+    "hasAdvancement": false,
+    "provideMartialExpansion": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "tip": "",
+        "items": {}
+      }
+    },
+    "weaponStyleActive": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1744926824266,
+    "modifiedTime": 1745570849076,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "7wavDCvKyFj2HDV4",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!7wavDCvKyFj2HDV4"
+}

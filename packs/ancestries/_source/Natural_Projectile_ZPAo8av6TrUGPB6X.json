@@ -18,7 +18,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -133,10 +133,26 @@
       ]
     },
     "macros": {
-      "onCreate": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.range.normal\"]: 10});\n}",
-      "preDelete": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.range.normal\"]: null});\n}"
+      "bdnQnUfyUQWnhh9X": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.range.normal\"]: 10});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "UX6vnx0lElhqSCCK": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.range.normal\"]: null});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
-    "itemKey": "naturalProjectile"
+    "itemKey": "naturalProjectile",
+    "featureSourceItem": "beastborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [],
   "flags": {},
@@ -145,9 +161,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720112471487,
-    "modifiedTime": 1738063078392,
+    "modifiedTime": 1745412760113,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZPAo8av6TrUGPB6X",

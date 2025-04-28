@@ -21,7 +21,6 @@ export function prepareCommonData(context) {
 
 export function prepareCharacterData(context) {
   _skills(context);
-  _knowledgeSkills(context);
   _tradeSkills(context);
   _languages(context);
 }
@@ -70,7 +69,8 @@ function _statusResistances(context) {
   for (const [key, status] of Object.entries(statusResistances)) {
     status.notEmpty = false;
     if (status.immunity) status.notEmpty = true;
-    if (status.advantage) status.notEmpty = true;
+    if (status.resistance) status.notEmpty = true;
+    if (status.vulnerability) status.notEmpty = true;
   }
 }
 
@@ -158,18 +158,10 @@ function _allSkills(context) {
 
 function _skills(context) {
   const skills = Object.entries(context.system.skills)
-                  .filter(([key, skill]) => !skill.knowledgeSkill)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
   context.skills = {
     skills: Object.fromEntries(skills)
   }
-}
-
-function _knowledgeSkills(context) {
-  const knowledge = Object.entries(context.system.skills)
-                      .filter(([key, skill]) => skill.knowledgeSkill)
-                      .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
-  context.skills.knowledge = Object.fromEntries(knowledge);
 }
 
 function _tradeSkills(context) {
@@ -185,7 +177,8 @@ function _languages(context) {
 }
 
 function _prepSkillMastery(skill) {
-  const mastery = skill.mastery;
+  let mastery = foundry.utils.deepClone(skill.mastery);
+  
   skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
   skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
   return skill;
@@ -230,14 +223,18 @@ function _prepReductionOneliner(reduction) {
 
 function _prepConditionsOneliners(condition) {
   if (condition.immunity) return `${condition.label} ${game.i18n.localize("dc20rpg.sheet.condImm.immunity")}`;
-  if (condition.advantage > 0) {
-    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.adv");
-    typeLabel = typeLabel.replace("X", Math.abs(condition.advantage));
+  const resistance = condition.resistance || 0;
+  const vulnerability = condition.vulnerability || 0;
+  const finalLevel = resistance - vulnerability;
+
+  if (finalLevel > 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.resistanceX");
+    typeLabel = typeLabel.replace("X", Math.abs(finalLevel));
     return `${condition.label} ${typeLabel}`;
   }
-  if (condition.advantage < 0) {
-    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.disadv");
-    typeLabel = typeLabel.replace("X", Math.abs(condition.advantage));
+  if (finalLevel < 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.vulnerabilityX");
+    typeLabel = typeLabel.replace("X", Math.abs(finalLevel));
     return `${condition.label} ${typeLabel}`;
   }
   return ""

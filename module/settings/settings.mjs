@@ -41,14 +41,15 @@ export function registerGameSettings(settings) {
     default: false
   });
 
-  settings.register("dc20rpg", "defaultInitiativeKey", {
-    name: "Default Initiative Check",
-    scope: "user",
-    hint: "What check should be a default choice when you roll for initative.",
-    config: true,
-    default: "att",
-    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitativeSkills()})
-  });
+  // TODO: No longer required?
+  // settings.register("dc20rpg", "defaultInitiativeKey", {
+  //   name: "Default Initiative Check",
+  //   scope: "user",
+  //   hint: "What check should be a default choice when you roll for initiative.",
+  //   config: true,
+  //   default: "att",
+  //   type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitiativeSkills()})
+  // });
 
   settings.register("dc20rpg", "useMovementPoints", {
     name: "Use Movement Points",
@@ -100,9 +101,9 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "positionCheckNeutral", {
-    name: "Neutral Tokens Position Check",
-    hint: "How neutral disposition tokens should be treated during a position checks (e.g. Flanking).",
+  settings.register("dc20rpg", "neutralDispositionIdentity", {
+    name: "Neutral Tokens Disposition Identity",
+    hint: "How neutral disposition tokens should be treated (e.g. during Flanking check or effect application from Measured Templates).",
     scope: "world",
     config: true,
     default: "separated",
@@ -149,11 +150,20 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "useMaxPrime", {
-    name: "Use Attribute Limit as Prime",
-    hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values of the attributes themselves are.",
+  settings.register("dc20rpg", "mergeDamageTypes", {
+    name: "Merge the same damage type to one Formula",
+    hint: "If selected, damage/healing of the same type will be combined into one formula unless the formula itself states otherwise.",
     scope: "world",
-    config: false,
+    config: true,
+    default: true,
+    type: Boolean
+	});
+
+  settings.register("dc20rpg", "useMaxPrime", {
+    name: "Prime Modifer Equals Attribute Limit",
+    hint: "Variant Rule: If selected Attribute Limit will be used as Prime Modifier value.",
+    scope: "world",
+    config: true,
     default: false,
     type: Boolean
 	});
@@ -198,16 +208,9 @@ export function registerGameSettings(settings) {
     type: SkillConfiguration,
     restricted: true  
   });
-
-  settings.register("dc20rpg", "systemCompendiumOverridenAlready", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: false
-  });
 }
 
-function _getInitativeSkills() {
+function _getInitiativeSkills() {
   const skillStore = game.settings.get("dc20rpg", "skillStore");
   const skills = {}
   for (const [key, skill] of Object.entries(skillStore.skills)) {

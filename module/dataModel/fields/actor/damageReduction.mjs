@@ -16,15 +16,15 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
       flat: new f.NumberField(init0),
       flatHalf: new f.BooleanField({required: true, initial: false}),
       pdr: new f.SchemaField({
-        number: new f.NumberField(init0),
-        value: new f.NumberField(init0),
-        bonus: new f.NumberField(init0),
+        active: new f.BooleanField({required: true, initial: false}),
         label: new f.StringField({initial: "dc20rpg.damageReduction.pdr"}),
       }),
+      edr: new f.SchemaField({
+        active: new f.BooleanField({required: true, initial: false}),
+        label: new f.StringField({initial: "dc20rpg.damageReduction.edr"}),
+      }),
       mdr: new f.SchemaField({
-        number: new f.NumberField(init0),
-        value: new f.NumberField(init0),
-        bonus: new f.NumberField(init0),
+        active: new f.BooleanField({required: true, initial: false}),
         label: new f.StringField({initial: "dc20rpg.damageReduction.mdr"}),
       }),
       damageTypes: new f.SchemaField({

@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/skills/social/trading-injustice-scale-gray.webp",
   "system": {
-    "description": "<p>You also gain the benefits of your <strong>@UUID[Compendium.dc20rpg.ancestries.Item.rdXPePAdQ9UDwjbL]{Giant’s Resolve} </strong>Trait while Well-Bloodied.</p>",
+    "description": "<p>You also gain the benefits of your <strong>@UUID[Compendium.dc20rpg.ancestries.Item.G3wN5UvPErUVc5Nx]{Giant’s Resolve} </strong>Trait while Well-Bloodied.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -139,8 +139,24 @@
     "choicePointCost": 2,
     "itemKey": "giantsFortitude",
     "macros": {
-      "onCreate": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"bloodied2\"});\n}",
-      "preDelete": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"deathsDoor\"});\n}"
+      "GnSCl8X5GvGxWFLv": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"wellBloodied\"});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "K8P9AqG0GQO7YNQJ": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"deathsDoor\"});\n}",
+        "disabled": false,
+        "title": ""
+      }
+    },
+    "featureSourceItem": "giantborn",
+    "requirements": {
+      "level": 0
     }
   },
   "effects": [],
@@ -155,9 +171,9 @@
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.5",
     "createdTime": 1720100552718,
-    "modifiedTime": 1738066961418,
+    "modifiedTime": 1745758719274,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "pysZYBn7bH9LC0fW",

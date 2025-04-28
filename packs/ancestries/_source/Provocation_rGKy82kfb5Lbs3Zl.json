@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/death/projectile-skull-fire-purple.webp",
   "system": {
-    "description": "<p>You have DisADV on Checks and Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted}</strong>.</p>",
+    "description": "<p>You have DisADV on Checks and Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5b8703add31783de]{Taunted}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": -1,
-    "itemKey": "provocation"
+    "itemKey": "provocation",
+    "featureSourceItem": "orc",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -161,8 +165,8 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.taunted.advantage",
-          "value": "-1",
+          "key": "system.statusResistances.taunted.vulnerability",
+          "value": "1",
           "mode": 2,
           "priority": null
         }
@@ -194,7 +198,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737753042573,
+        "modifiedTime": 1745440766075,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!rGKy82kfb5Lbs3Zl.n6CZ0zaplxbRSx03"
@@ -213,7 +217,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1739480947876,
+    "modifiedTime": 1745570066168,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rGKy82kfb5Lbs3Zl",

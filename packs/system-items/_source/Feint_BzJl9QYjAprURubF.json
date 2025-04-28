@@ -8,15 +8,7 @@
     "source": "",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "onItemToggle": ""
-    },
+    "macros": {},
     "isReaction": false,
     "toggle": {
       "toggleable": false,
@@ -27,7 +19,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": false,
       "critThreshold": 20,
@@ -105,7 +97,7 @@
       }
     },
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "name": "Feint",
       "condition": "target.hasEffectWithKey(\"feint\")",
       "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
@@ -169,7 +161,40 @@
         "respectSizeRules": false
       }
     },
-    "itemKey": "feint"
+    "itemKey": "feint",
+    "conditionals": {
+      "2Hq94DL4VDnt2UpM": {
+        "name": "Feint",
+        "condition": "target.hasEffectWithKey(\"feint\")",
+        "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [
     {
@@ -272,7 +297,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1739798455705,
+    "modifiedTime": 1745412762248,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "BzJl9QYjAprURubF",

@@ -1,12 +1,13 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
-import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { collectExpectedUsageCost, subtractAP, subtractGrit } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
+import { advForApChange, advForGritChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
@@ -197,6 +198,10 @@ export class RollPromptDialog extends Dialog {
       await advForApChange(this.menuOwner, ev.which);
       this.render();
     });
+    html.find('.grit-for-adv').mousedown(async ev => {
+      await advForGritChange(this.menuOwner, ev.which);
+      this.render();
+    });
     html.find('.toggle-numeric').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this.menuOwner, 9, 0);
       this.render();
@@ -224,7 +229,7 @@ export class RollPromptDialog extends Dialog {
       this.render();
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
-    html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), false, ev, html), ev => hideTooltip(ev, html));
+    html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), ev, html), ev => hideTooltip(ev, html));
     html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
     html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
     html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
@@ -256,11 +261,11 @@ export class RollPromptDialog extends Dialog {
   async _onRoll(event) {
     if(event) event.preventDefault();
     let roll = null;
+    const rollMenu = this.menuOwner.flags.dc20rpg.rollMenu;
     if (this.itemRoll) {
       roll = await rollFromItem(this.item._id, this.actor);
     }
-
-    else if (subtractAP(this.actor, this.details.apCost)) {
+    else if (subtractAP(this.actor, rollMenu.apCost) && subtractGrit(this.actor, rollMenu.gritCost)) {
       roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);
@@ -299,8 +304,13 @@ export class RollPromptDialog extends Dialog {
       const template = this.measurementTemplates[key];
       if (!template) return;
   
-      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id};
+      const applyEffects = getMesuredTemplateEffects(this.item);
+      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id, applyEffects: applyEffects};
       const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
+
+      // We will skip Target Selector if we are using selector for applying effects
+      if (applyEffects.applyFor === "selector") return;
+
       let tokens = {};
       for (let i = 0; i < measuredTemplates.length; i++) {
         const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
@@ -310,8 +320,8 @@ export class RollPromptDialog extends Dialog {
         }
       }
       
-      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
-      if (Object.keys(tokens).length > 0) {
+      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+      if (tokens.length > 0) {
         const user = game.user;
         if (!user) return;
 
@@ -319,7 +329,7 @@ export class RollPromptDialog extends Dialog {
           target.setTarget(false, { user: user });
         });
 
-        for (const token of Object.values(tokens)) {
+        for (const token of tokens) {
           token.setTarget(true, { user: user, releaseOthers: false });
         }
 

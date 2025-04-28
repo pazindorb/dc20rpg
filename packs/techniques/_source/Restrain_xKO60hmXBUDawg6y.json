@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
   "system": {
-    "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Grapple Maneuver:</span></strong></span></p><p>When you attempt to @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} a creature, you can spend additional <strong>AP</strong> to perform a Grapple Maneuver as part of the Grapple attempt. You must choose to do so before you make the Grapple Check.</p><ul><li><p><strong>Grapple Success:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} </strong>and suffers the damage or effects of your Maneuver.</p></li></ul><p>You can also perform <strong>Grapple</strong> <strong>Maneuvers</strong> on creatures you have <strong>Grappled</strong>. When you perform a Grapple Maneuver against a creature you have Grappled, you make an <strong>Athletics Check</strong> Contested by the target’s <strong>Martial Check</strong>.</p><ul><li><p><strong>Contest Success:</strong> The target suffers the damage or effects of your maneuver.</p></li><li><p><strong>Contest Failure:</strong> The target suffers no additional effects but remains Grappled by you.</p></li></ul>",
+    "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Grapple Maneuver:</span></strong></span></p><p>When you attempt to <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.af2e660940da1ff2]{Grapple}</strong> a creature, you can spend additional <strong>AP</strong> to perform a Grapple Maneuver as part of the Grapple attempt. You must choose to do so before you make the Grapple Check.</p><ul><li><p><strong>Grapple Success:</strong> The target is <strong>Grappled </strong>and suffers the damage or effects of your Maneuver.</p></li></ul><p>You can also perform <strong>Grapple</strong> <strong>Maneuvers</strong> on creatures you have <strong>Grappled</strong>. When you perform a Grapple Maneuver against a creature you have Grappled, you make an <strong>Athletics Check</strong> Contested by the target’s <strong>Martial Check</strong>.</p><ul><li><p><strong>Contest Success:</strong> The target suffers the damage or effects of your maneuver.</p></li><li><p><strong>Contest Failure:</strong> The target suffers no additional effects but remains Grappled by you.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -19,7 +19,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -116,7 +116,6 @@
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
-          "macro": "",
           "rollLevelChange": false,
           "rollLevel": {
             "type": "adv",
@@ -127,9 +126,13 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
           }
         },
-        "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p>",
+        "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p>",
         "hide": false
       }
     },
@@ -221,7 +224,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1739785171213,
+    "modifiedTime": 1745570064901,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "xKO60hmXBUDawg6y",

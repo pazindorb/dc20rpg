@@ -44,7 +44,8 @@ export class TokenEffectsTracker extends Application {
       disabled: disabled,
       tokenId: tokens[0].id,
       actorId: actor.id,
-      heldAction: heldAction
+      heldAction: heldAction,
+      sustain: actor.system.sustain,
     }
   }
 
@@ -149,6 +150,7 @@ export class TokenEffectsTracker extends Application {
     html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId) : ()=>{});
     html.find('.held-action').click(ev => this._onHeldAction(datasetOf(ev).actorId, datasetOf(ev).tokenId));
     html.find('.help-dice').contextmenu(ev => this._onHelpActionRemoval(datasetOf(ev).key , datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.sustain-action').click(ev => this._onDropSustain(datasetOf(ev).index , datasetOf(ev).actorId, datasetOf(ev).tokenId))
   }
 
   _onEditable(effectId, actorId, tokenId) {
@@ -188,6 +190,25 @@ export class TokenEffectsTracker extends Application {
     if (owner) {
       const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
       if (confirmed) clearHelpDice(owner, key);
+    }
+    this.render();
+  }
+
+  async _onDropSustain(index, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
+    if (owner) {
+      index = parseInt(index);
+      const sustain = owner.system.sustain;
+      if (!sustain[index]) return;
+
+      const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Sustain Action?"});
+      if (confirmed) {
+        const sustained = [];
+        for (let i = 0; i < sustain.length; i++) {
+          if (index !== i) sustained.push(sustain[i]); 
+        }
+        await owner.update({[`system.sustain`]: sustained});
+      }
     }
     this.render();
   }

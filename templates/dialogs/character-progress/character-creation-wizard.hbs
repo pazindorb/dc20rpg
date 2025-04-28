@@ -1,0 +1,167 @@
+<form id="character-creation-wizard" class="dialog-v2">
+  {{#if createActorRequestSend}}<div class="create-actor-overlay"><span>{{localize "dc20rpg.dialog.creationWizard.createActorRequestSend"}}</span></div>{{/if}}
+  <header>{{localize "dc20rpg.dialog.acr.title"}}</header>
+
+
+  <div class="wrapper">
+    <div class="left-column">
+      {{PARTIAL "Tooltip"}}
+      <div class="header margin-bottom-5"><span>{{localize "dc20rpg.dialog.acr.name"}}</span></div>
+      <input class="input-text" type="text" value="{{actorData.name}}" data-path="actorData.name"/>
+      <img class="actor-img image-picker margin-top-10" src="{{actorData.img}}" data-path="{{actorData.img}}" title="If you can't open the File Browser window, you may not have the appropriate permissions. Ask your GM to grant it to you."/>
+
+      {{#if actorData.ancestry._id}}
+      <div class="selected-item">
+        <img class="item-img" src="{{actorData.ancestry.img}}"/>
+        <div class="item-name">{{actorData.ancestry.name}}</div>
+      </div>
+      {{/if}}
+
+      {{#if actorData.background._id}}
+      <div class="selected-item">
+        <img class="item-img" src="{{actorData.background.img}}"/>
+        <div class="item-name">{{actorData.background.name}}</div>
+      </div>
+      {{/if}}
+
+      {{#if actorData.class._id}}
+      <div class="selected-item">
+        <img class="item-img" src="{{actorData.class.img}}"/>
+        <div class="item-name">{{actorData.class.name}}</div>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="middle-column" style="grid-column-end: span 2;">
+
+      {{!-- Step 0: Attributes and Saves --}}
+      {{#ifCond currentStep '===' 0}}
+      <div class="header margin-bottom-5"><span>{{localize "dc20rpg.dialog.acr.atr&saves"}}</span></div>
+      {{#if actorData.attrPoints.manual}}
+      <div class="scaling-value-row margin-bottom-5 red-box">
+        <label><b>{{localize "dc20rpg.dialog.acr.pointsLeft"}}</b></label>
+        <div class="progress">
+          <div class="spender-wrapper">
+            <a class="manual-switch" data-path="actorData.attrPoints.manual" title="{{localize "dc20rpg.dialog.acr.usePointBuy"}}"><i class="fa-lg fa-solid fa-money-bill"></i></a>
+          </div>
+        </div>
+      </div>
+      {{else}}
+      <div class="scaling-value-row margin-bottom-5 red-box">
+        <label><b>{{localize "dc20rpg.dialog.acr.pointsLeft"}}</b></label>
+        <div class="progress">
+          <div class="spender-wrapper">
+            <a class="manual-switch" data-path="actorData.attrPoints.manual" title="{{localize "dc20rpg.dialog.acr.provideManually"}}"><i class="fa-lg fa-solid fa-hand"></i></a>
+            <span><b>{{actorData.attrPoints.pointsLeft}}</b></span>
+          </div>
+        </div>
+      </div>
+      {{/if}}
+
+      <div class="attr-wrapper grid grid-4col">
+        {{#each actorData.attributes as |attribute key|}}
+        <div class="attr {{#ifCond attribute.value '===' 3}}maximum{{/ifCond}}" title="{{varLocalize 'dc20rpg.attributes.' key ''}}">
+          <div class="atr-name">
+            <label>{{attribute.label}}</label>
+          </div>
+          <div class="value">
+            <input class="input" type="number" data-path="actorData.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number" {{#unless @root.actorData.attrPoints.manual}}disabled{{/unless}}>
+          </div>
+          <div class="buttons">
+            {{#unless @root.actorData.attrPoints.manual}}<a class="sub-attr" data-key="{{key}}"><i class="fa-solid fa-square-minus"></i></a>{{/unless}}
+            {{#unless @root.actorData.attrPoints.manual}}<a class="add-attr" data-key="{{key}}"><i class="fa-solid fa-square-plus"></i></a>{{/unless}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/ifCond}}
+
+      {{!-- Step 1 -> 3: Ancestry, Background, Class --}}
+      {{#ifCond currentStep '>' 0}}{{#ifCond currentStep '<' 4}}
+      <div class="header margin-bottom-5">
+        <span>{{varLocalize "dc20rpg.dialog.config.select." itemType ""}}</span>
+        {{#ifCond itemType "===" "ancestry"}}
+        <a class="mix-ancestry fa-solid fa-network-wired" title="{{localize 'dc20rpg.sheet.mixAncestery'}}"></a>
+        {{/ifCond}}
+      </div>
+      <div class="sub-header margin-bottom-5">
+        <span>{{localize "dc20rpg.dialog.creationWizard.willSelectTraitsLater"}}</span> 
+      </div>
+      
+      <div class="unique-item-picker-wrapper">
+        <div class="item-selector">
+          {{#each collectedItems as |item index|}}
+          <div class="item-row select-row {{#ifCond @root.selectedItem._id '===' item._id}}selected{{/ifCond}}" data-index="{{index}}", data-type="{{@root.itemType}}">
+            <img class="item-img" src="{{item.img}}"/>
+            <div class="item-name">{{item.name}}</div>
+          </div>
+          {{/each}}
+        </div>
+
+        <div class="item-description">
+          <div class="item-row">
+            <img class="item-img" src="{{selectedItem.img}}"/>
+            <div class="item-name">{{selectedItem.name}}</div>
+          </div>
+          <div class="description">
+            {{{selectedItem.descriptionHTML}}}
+          </div>
+        </div>
+      </div>
+
+      {{/ifCond}}{{/ifCond}}
+
+      {{!-- Step 4: Equipment --}}
+      {{#ifCond currentStep '===' 4}}
+      <div class="header margin-bottom-5">
+        <span>{{localize "dc20rpg.dialog.acr.selectStartingEquipment"}}</span>
+        <a class="open-compendium fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
+      </div>
+      
+      <div class="equipment-wrapper grid grid-3col">
+        {{#each inventory as |pack key|}}
+          <div class="equipment">
+            <div class="table-header">
+              <span>{{varLocalize "dc20rpg.dialog.acr." key ""}}</span>
+              <a class="fa-solid fa-circle-question" title="{{pack.text}}"></a>
+            </div>
+            {{#each pack.items as |item key|}}
+            <div class="item-row">
+              <img class="item-img" src="{{item.img}}"/>
+              <div class="item-name">
+                <div>{{item.name}}</div>
+                <div class="item-controls">
+                  <input class="input-numeric" type="number" value="{{item.system.quantity}}" data-path="actorData.inventory.{{../packName}}.items.{{key}}.system.quantity" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"/>
+                  <a class="remove-item fa-solid fa-trash" title="Remove" data-item-key="{{key}}" data-storage-key="{{../packName}}"></a>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        {{/each}}
+      </div>
+      {{/ifCond}}
+    </div>
+  </div>
+
+  {{!-- Step 0 --}}
+  {{#ifCond currentStep '===' 0}}
+  <div class="footer">
+    <button {{#if disableNext}}disabled{{/if}} class="next button margin-top-10">{{localize "dc20rpg.dialog.config.next"}}</button>
+  </div>
+  {{/ifCond}}
+  {{!-- Step 1 -> 3 --}}
+  {{#ifCond currentStep '>' 0}}{{#ifCond currentStep '<' 4}}
+  <div class="footer half-button">
+    <button class="back button margin-top-10 margin-right-2">{{localize "dc20rpg.dialog.config.back"}}</button>
+    <button {{#if disableNext}}disabled{{/if}} class="next button margin-top-10 margin-left-2">{{localize "dc20rpg.dialog.config.next"}}</button>
+  </div>
+  {{/ifCond}}{{/ifCond}}
+  {{!-- Step 4 --}}
+  {{#ifCond currentStep '===' 4}}
+  <div class="footer half-button">
+    <button class="back button margin-top-10 margin-right-2">{{localize "dc20rpg.dialog.config.back"}}</button>
+    <button class="create-actor button margin-top-10 margin-left-2">{{localize "dc20rpg.dialog.config.finish"}}</button>
+  </div>
+  {{/ifCond}}
+</form>

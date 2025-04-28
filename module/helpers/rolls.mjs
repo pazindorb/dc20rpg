@@ -13,7 +13,7 @@ export async function evaluateFormula(formula, rollData, skipDiceDisplay=false) 
  * Evaluates given roll formula. 
  * If {@param ignoreDices} is set to true, all dice rolls will be 0.
  */
-export function evaluateDicelessFormula(formula, rollData) {
+export function evaluateDicelessFormula(formula, rollData={}) {
   if (formula === "") return 0;
 
   formula = _replaceWithRollDataContent(formula, rollData);

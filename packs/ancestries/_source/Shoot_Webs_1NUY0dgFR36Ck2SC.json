@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/webs/web-spider-casting-caught-purple.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> to make a <strong>Ranged</strong> <strong>Attack</strong> <strong>Check</strong> against a target within 5 Spaces.</p><p>The target makes a <strong>Physical</strong> <strong>Save</strong> contested by your <strong>Attack</strong> <strong>Check</strong>.</p><p><strong>Save Failure:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained}</strong> by webbing and can spend <strong>1 AP</strong> on their turn to attempt to escape (<strong>Martial</strong> <strong>Check</strong> vs your <strong>Save</strong> <strong>DC</strong>).</p><p>The webbing can also be attacked and destroyed (<strong>PD 10</strong>; <strong>2 HP</strong>; <strong>Immunity</strong> to <strong>Bludgeoning</strong>, <strong>Poison</strong>, and <strong>Psychic</strong> damage).</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to shoot web at a target within 5 Spaces.</p><p>Make an <strong>Attack</strong> <strong>Check</strong> contested by the target’s <strong>Physical Save</strong>.</p><p><strong>Success:</strong> The target is Restrained by webbing and can spend <strong>1 AP</strong> on their turn to attempt to escape (Martial Check vs your Save DC).</p><p>The webbing can also be attacked and destroyed (<strong>AD 5, PD 10,</strong> <strong>2 HP</strong>; Immunity to Bludgeoning, Poison, and Psychic damage).</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -163,7 +163,11 @@
         "untilFirstTimeTriggered": false
       }
     },
-    "itemKey": "shootWebs"
+    "itemKey": "shootWebs",
+    "featureSourceItem": "beastborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [],
   "sort": 100000,
@@ -179,7 +183,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1739480947792,
+    "modifiedTime": 1745412760057,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "1NUY0dgFR36Ck2SC",

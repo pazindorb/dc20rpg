@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/control/silhouette-aura-energy.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>and against being forcibly moved.</p>",
+    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5b8703add31783de]{Taunted} </strong>and against being forcibly moved.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "stubborn"
+    "itemKey": "stubborn",
+    "featureSourceItem": "dwarf",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -161,15 +165,15 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.taunted.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.taunted.resistance",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.statusResistances.movement.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.movement.resistance",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -200,7 +204,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737669731825,
+        "modifiedTime": 1745440765961,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!AFsKQxjKUCOK3W9k.nbRIEHQfobtIWaJl"
@@ -219,7 +223,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099511338,
-    "modifiedTime": 1739480947807,
+    "modifiedTime": 1745570065244,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "AFsKQxjKUCOK3W9k",

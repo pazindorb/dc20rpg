@@ -30,6 +30,7 @@ export function overrideScalingValue(item, index, mastery) {
     [`system.talentMasteries`]: talentMasteriesPerLevel
   };
   item.update(updateData);
+  return numberOfTalents;
 }
 
 export async function clearOverridenScalingValue(item, index) {

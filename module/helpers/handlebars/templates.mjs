@@ -19,13 +19,8 @@ function actorPartials() {
   return {
     "Character Skills": "systems/dc20rpg/templates/actor_v2/parts/character/skills.hbs",
     
-    "Base Header": "systems/dc20rpg/templates/actor_v2/parts/shared/header.hbs",
-    "Banner": "systems/dc20rpg/templates/actor_v2/parts/shared/banner.hbs",
-    "Roll Menu": "systems/dc20rpg/templates/actor_v2/parts/shared/roll-menu.hbs",
-    "Check/DC": "systems/dc20rpg/templates/actor_v2/parts/shared/check-dc.hbs",
     "Dmg Reduction": "systems/dc20rpg/templates/actor_v2/parts/shared/dmg-reduction.hbs",
     "Status Resistances": "systems/dc20rpg/templates/actor_v2/parts/shared/condition-immunities.hbs",
-    "Action Table": "systems/dc20rpg/templates/actor_v2/parts/shared/action-table.hbs",
     "Item Table": "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs",
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
     "Traits Table": "systems/dc20rpg/templates/actor_v2/parts/shared/traits-table.hbs",
@@ -42,15 +37,17 @@ function itemPartials() {
     "Roll Details": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/roll-details.hbs",
     "Usage Cost": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/usage-cost.hbs",
     "Target": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/target.hbs",
-    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/enhancements.hbs",
     "Advancements": "systems/dc20rpg/templates/item_v2/parts/shared/advancements.hbs",
     "Basic Config": "systems/dc20rpg/templates/item_v2/parts/shared/basic-config.hbs", 
+    "Advancement Core": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/adv-core.hbs",
+    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/enhancements.hbs",
+    "Conditional": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/conditionals.hbs"
   }
 }
 
 export function sharedPartials() {
   return {
     "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
-    "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs"
+    "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs",
   }
 }

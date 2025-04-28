@@ -1,4 +1,4 @@
-<div class="tab advancements-tab content" data-group="primary" data-tab="advancements">
+<div class="tab advancements-tab content padding-7" data-group="primary" data-tab="advancements">
   <div class="sub-header">
     <span>{{localize "dc20rpg.item.sheet.advancements.title"}}</span>
     {{#unless @root.hasOwner}}
@@ -12,7 +12,7 @@
     {{!-- Header --}}
     <div class="advancement-header">
       <div class="column name margin-left-10  ">{{localize "dc20rpg.item.sheet.advancements.name"}}</div>
-      <div class="column">{{localize "dc20rpg.item.sheet.advancements.talent"}}</div>
+      <div class="column">{{localize "dc20rpg.item.sheet.advancements.path"}}</div>
       <div class="column">{{localize "dc20rpg.item.sheet.advancements.choice"}}</div>
       <div class="column">{{localize "dc20rpg.item.sheet.advancements.level"}} {{number}}</div>
     </div>
@@ -24,7 +24,7 @@
         <span class="margin-left-10">{{advancement.name}}</span>
       </div>
       <div class="column">
-        {{#if advancement.talent}}<i class="fa-lg fa-solid fa-square-check"></i>{{/if}}
+        {{#if advancement.progressPath}}<i class="fa-lg fa-solid fa-square-check"></i>{{/if}}
       </div>
       <div class="column">
         {{#if advancement.mustChoose}}

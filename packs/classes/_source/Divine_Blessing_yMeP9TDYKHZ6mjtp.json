@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -301,7 +301,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Cleric 1",
+    "featureOrigin": "Cleric",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -353,19 +353,41 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Change Divine Damage",
-      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
-      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
-      "preDelete": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "onItemToggle": "",
-      "onRollPrompt": "",
-      "postChatMessageCreated": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "enhancementReset": "if (!itemRollFinished) return;\nitem.update({[\"system.toggle.toggledOn\"]: false});",
-      "preItemCost": ""
+      "YQ9GBiJjO493T7vy": {
+        "name": "Change Divine Damage",
+        "trigger": "onDemand",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
+        "disabled": false,
+        "title": "Change Divine Damage"
+      },
+      "7SZ8z1aAyntvreeG": {
+        "name": "Add To Keyword",
+        "trigger": "onCreate",
+        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
+        "disabled": false,
+        "title": ""
+      },
+      "RlqPqSktzVgZPx7a": {
+        "name": "Reset Divine Blessing Buff",
+        "trigger": "enhancementReset",
+        "command": "if (!itemRollFinished) return;\nitem.update({[\"system.toggle.toggledOn\"]: false});",
+        "disabled": false,
+        "title": ""
+      },
+      "MgXt850jpKWmCMoR": {
+        "command": "if (newValue) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: newValue});\n}",
+        "trigger": "onKeywordUpdate",
+        "disabled": false,
+        "name": "Update Divine Damage",
+        "title": ""
+      },
+      "NZwiq5Cf5ppqdtRx": {
+        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"divineDamage\", item._id)",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove From Keyword",
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": true,
@@ -387,7 +409,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "cleric"
   },
   "effects": [
     {
@@ -473,7 +496,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034319,
-    "modifiedTime": 1739350034319,
+    "modifiedTime": 1745412732171,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "yMeP9TDYKHZ6mjtp",

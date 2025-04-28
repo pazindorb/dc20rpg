@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
   "system": {
-    "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</p></li></ul>",
+    "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.TfenWPpkGi8scnt2]{Grappled}</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the Grappled creature.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -109,7 +109,7 @@
             "max": null
           }
         },
-        "description": "<p>When you are in Mantis Stance and you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple}d}</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple}d} creature.</p>"
+        "description": "<p>If you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.TfenWPpkGi8scnt2]{Grappled}</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the Grappled creature.</p>"
       }
     },
     "copyEnhancements": {
@@ -153,7 +153,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Monk Stance",
     "usesWeapon": {
       "weaponId": "",
@@ -204,21 +204,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
-    },
+    "macros": {},
     "againstEffect": {
       "id": "",
       "supressFromChatMessage": false,
@@ -309,7 +295,7 @@
           "priority": null
         }
       ],
-      "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</p></li></ul>",
+      "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.TfenWPpkGi8scnt2]{Grappled}</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the Grappled creature.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -321,7 +307,15 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -331,8 +325,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1745439534981,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!sE5qC7YlF8rg89Me.X8EX7mSnG98qcI62"
     }
@@ -346,7 +340,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034405,
-    "modifiedTime": 1739350034405,
+    "modifiedTime": 1745570064317,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "sE5qC7YlF8rg89Me",

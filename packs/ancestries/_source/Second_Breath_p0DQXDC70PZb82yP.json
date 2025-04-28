@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/dragon-ice-breath-blue.webp",
   "system": {
-    "description": "<p>You can now use your <strong>Draconic Breath Weapon </strong>twice per Combat.</p><p>Additionally, whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p>",
+    "description": "<p>You can now use your <strong>Draconic Breath Weapon </strong>twice per Combat.</p><p>Additionally, whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -64,7 +64,7 @@
     "formulas": {},
     "enhancements": {
       "SraEQcdPJEctWkzl": {
-        "name": "Second Breath",
+        "name": "Second Breath - Area",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -77,7 +77,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": "1",
+          "additionalFormula": "2",
           "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
@@ -100,10 +100,83 @@
             "max": null
           }
         },
-        "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p>",
+        "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
         "charges": {
           "consume": true
         }
+      },
+      "gkZe8B11zPzNI40B": {
+        "name": "Second Breath - Focused",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": true,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "4",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
+        "hide": false
       }
     },
     "copyEnhancements": {
@@ -132,7 +205,8 @@
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
-        "showAsResource": false
+        "showAsResource": false,
+        "subtract": 1
       },
       "otherItem": {
         "itemId": "",
@@ -180,10 +254,26 @@
       ]
     },
     "macros": {
-      "onCreate": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
-      "preDelete": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '2') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '1',\n      [\"system.costs.charges.current\"]: 1\n    });\n  }\n}"
+      "EZ2S4j5wl1sFVXOs": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "fWyFV4UmrQnO9IYS": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '2') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '1',\n      [\"system.costs.charges.current\"]: 1\n    });\n  }\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
-    "itemKey": "secondBreath"
+    "itemKey": "secondBreath",
+    "featureSourceItem": "dragonborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [],
   "sort": 350000,
@@ -197,9 +287,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1738063957597,
+    "modifiedTime": 1745440766068,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "p0DQXDC70PZb82yP",

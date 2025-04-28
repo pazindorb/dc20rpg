@@ -1,4 +1,4 @@
-import { calculateForTarget, calculateNoTarget, collectTargetSpecificEffects, collectTargetSpecificRollRequests, getAttackOutcome } from "../helpers/targets.mjs";
+import { calculateForTarget, calculateNoTarget, collectTargetSpecificEffects, collectTargetSpecificRollRequests, getAttackOutcome, collectTargetSpecificFormulas } from "../helpers/targets.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 
@@ -14,7 +14,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, checkDetails) {
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, rolls, details) {
+export function enhanceTarget(target, rolls, details, applierId) {
   const actionType = details.actionType;
   const winner = rolls.winningRoll;
   
@@ -26,7 +26,8 @@ export function enhanceTarget(target, rolls, details) {
     rollTotal: winner?._total,
     isCritHit: winner?.crit,
     isCritMiss: winner?.fail,
-    conditionals: details.conditionals
+    conditionals: details.conditionals,
+    applierId: applierId
   }
   // Prepare Attack Data
   if (actionType === "attack") {
@@ -41,11 +42,15 @@ export function enhanceTarget(target, rolls, details) {
     data.againstDC = details.checkDetails?.againstDC;
   }
 
+  // Prepare target specific rolls
+  rolls = collectTargetSpecificFormulas(target, data, rolls);
+  if (game.settings.get("dc20rpg", "mergeDamageTypes")) _mergeFormulasByType(rolls);
+
   // Prepare final damage and healing
   target.dmg = _prepareRolls(rolls.dmg, target, data, true);
   target.heal = _prepareRolls(rolls.heal, target, data, false);
 
-  // Prepare additional target specific effects
+  // Prepare additional target specific fields
   target.effects = collectTargetSpecificEffects(target, data);
   target.rollRequests = collectTargetSpecificRollRequests(target, data);
 }
@@ -55,10 +60,20 @@ function _prepareRolls(rolls, target, data, isDamage) {
   for (const rll of rolls) {
     const showModified = Object.keys(prepared).length === 0; // By default only 1st roll should be modified
     const roll = _formatRoll(rll);
-    const calculateData = {...data, isDamage: isDamage};
+    const calculateData = {...data, isDamage: isDamage, isHealing: !isDamage};
+    
+    let defenceOverriden = false;
+    delete calculateData.hit; // We always want to calculate hit value in the calculateForTarget function
+    if (rll.modified.overrideDefence && rll.modified.overrideDefence !== calculateData.defenceKey) {
+      calculateData.defenceKey = rll.modified.overrideDefence;
+      defenceOverriden = true;
+    }
+
     const finalRoll = target.noTarget ? calculateNoTarget(roll, calculateData) : calculateForTarget(target, roll, calculateData);
     const key = generateKey();
     finalRoll.showModified = showModified;
+    finalRoll.targetSpecific = rll.targetSpecific;
+    if (defenceOverriden) finalRoll.overridenDefence = rll.modified.overrideDefence;
     prepared[key] = finalRoll;
   }
   return prepared;
@@ -112,6 +127,50 @@ function _degreeOfSuccess(checkDC, winningRoll, rolls, otherRoll) {
     if (otherRoll) roll = modified;
     else roll.modified = modified;
   })
+}
+
+function _mergeFormulasByType(rolls) {
+  const dmgByType = new Map();
+  const healByType = new Map();
+
+  // Damage Rolls
+  for (const roll of rolls.dmg) {
+    if (roll.modified.dontMerge) {
+      dmgByType.set(generateKey(), roll);
+      continue;
+    }
+
+    const type = roll.modified.type;
+    if (dmgByType.has(type)) {
+      const rollByType = dmgByType.get(type);
+      rollByType.modified._total += roll.clear._total;  // We want to add roll without modifications
+      rollByType.clear._total += roll.clear._total;     // in both cases (clear and modified)
+      rollByType.modified.modifierSources += ` + ${roll.clear.modifierSources}`;
+      rollByType.clear.modifierSources += ` + ${roll.clear.modifierSources}`;
+    }
+    else dmgByType.set(type, roll);
+  }
+
+  // Healing Rolls
+  for (const roll of rolls.heal) {
+    if (roll.modified.dontMerge) {
+      healByType.set(generateKey(), roll);
+      continue;
+    }
+
+    const type = roll.modified.type;
+    if (healByType.has(type)) {
+      const rollByType = healByType.get(type);
+      rollByType.modified._total += roll.clear._total;  // We want to add roll without modifications
+      rollByType.clear._total += roll.clear._total;     // in both cases (clear and modified)
+      rollByType.modified.modifierSources += ` + ${roll.clear.modifierSources}`;
+      rollByType.clear.modifierSources += ` + ${roll.clear.modifierSources}`;
+    }
+    else healByType.set(type, roll);
+  }
+
+  rolls.dmg = Array.from(dmgByType.values());
+  rolls.heal = Array.from(healByType.values());
 }
 
 //========================================

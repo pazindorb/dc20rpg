@@ -3,7 +3,7 @@
   "type": "ancestry",
   "img": "icons/magic/nature/elemental-plant-humanoid.webp",
   "system": {
-    "description": "<h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.2wpxTa8a3yJU8Tlp]{(2) Agile Explore}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.zlZhe5g5Csot8LZP]{(0) Discerning Sight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.r5G4V1UADD3bNU5H]{(1) Elven Will}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.DSj8eBwoUk2APkI7]{(2) Nimble}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.LeEw4K876RJc8fjY]{(1) Climb Speed}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.7INvxYGdJz27sgwU]{(-1) Frail}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.EAGpi9SQKem9evSM]{(-1) Might Attribute Decrease}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.lq9NooQNI3zd5d8V]{(1) Peerless Sight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.gJiXEcvoQuvqZr7O]{(1) Plant Knowledge}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.SxBGVMXAqamOjF0v]{(2) Speed Increase}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Jdff8hKlvN0puMN6]{(1) Trade Expertise}</p>",
+    "description": "<h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.2wpxTa8a3yJU8Tlp]{(2) Agile Explore}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.zlZhe5g5Csot8LZP]{(0) Discerning Sight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.r5G4V1UADD3bNU5H]{(1) Elven Will}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.DSj8eBwoUk2APkI7]{(2) Nimble}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.LeEw4K876RJc8fjY]{(1) Climb Speed}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.7INvxYGdJz27sgwU]{(-1) Frail}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.EAGpi9SQKem9evSM]{(-1) Might Attribute Decrease}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.lq9NooQNI3zd5d8V]{(1) Peerless Sight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.gJiXEcvoQuvqZr7O]{(1) Plant Knowledge}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.SxBGVMXAqamOjF0v]{(2) Speed Increase}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Jdff8hKlvN0puMN6]{(1) Trade Expertise}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.h5CpiEEBlq3lQpM0]{(1) Quick Reactions}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.QUI2Wg3PWalXyMIU]{(-1) Brittle}</p>",
     "movement": {
       "speed": 5
     },
@@ -132,6 +132,28 @@
             "ignoreKnown": false,
             "img": "icons/skills/movement/feet-winged-boots-glowing-yellow.webp",
             "name": "Speed Increase"
+          },
+          "h5CpiEEBlq3lQpM0": {
+            "uuid": "Compendium.dc20rpg.ancestries.Item.h5CpiEEBlq3lQpM0",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/commodities/materials/hair-tuft-blue.webp",
+            "name": "Quick Reactions"
+          },
+          "QUI2Wg3PWalXyMIU": {
+            "uuid": "Compendium.dc20rpg.ancestries.Item.QUI2Wg3PWalXyMIU",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": -1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/commodities/leather/boot-torn-tan.webp",
+            "name": "Brittle"
           }
         },
         "name": "Elf Traits",
@@ -146,10 +168,10 @@
           0,
           0,
           0,
-          2,
           0,
           0,
-          2,
+          0,
+          0,
           0,
           0,
           0,
@@ -167,9 +189,18 @@
         "repeatable": true,
         "customTitle": "Select Your Ancestery Traits",
         "compendium": "feature",
-        "preFilters": "{\"featureType\": \"ancestry\"}"
+        "preFilters": "{\"featureType\": \"ancestry\"}",
+        "progressPath": false,
+        "addItemsOptions": {
+          "talentFilter": false,
+          "itemType": "feature",
+          "helpText": "Add more Ancestry Traits",
+          "preFilters": "{\"featureType\": \"ancestry\"}",
+          "itemLimit": null
+        }
       }
-    }
+    },
+    "itemKey": "elf"
   },
   "effects": [],
   "folder": "J6tKhviXHasbSk2t",
@@ -181,7 +212,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099746141,
-    "modifiedTime": 1738843409231,
+    "modifiedTime": 1745570065178,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "6ZBtmBMloxjw1jCJ",

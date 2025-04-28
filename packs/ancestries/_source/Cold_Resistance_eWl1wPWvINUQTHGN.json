@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/magical/humanoid-giant-forest-blue.webp",
   "system": {
-    "description": "<p>You have <strong>Cold</strong> <strong>Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong> from cold temperatures.</p>",
+    "description": "<p>You have <strong>Cold</strong> <strong>Resistance</strong> (Half) and Resistance to @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion} from cold temperatures</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "coldResistance"
+    "itemKey": "coldResistance",
+    "featureSourceItem": "beastborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -167,7 +171,7 @@
           "priority": null
         }
       ],
-      "description": "<p>You have <strong>Cold</strong> <strong>Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong> from cold temperatures.</p>",
+      "description": "<p>You have <strong>Cold</strong> <strong>Resistance</strong> (Half) and Resistance to @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion} from cold temperatures</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -179,7 +183,15 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -187,9 +199,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1734343291094,
+        "modifiedTime": 1744970287692,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eWl1wPWvINUQTHGN.nwFxFGpOPNegZmiX"
@@ -208,7 +220,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1739480947862,
+    "modifiedTime": 1745412762418,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eWl1wPWvINUQTHGN",

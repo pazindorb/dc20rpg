@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/movement/trail-streak-zigzag-teal.webp",
   "system": {
-    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Disengage} </strong>Action, you instead gain the benefits of the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Full Disengage} </strong>Action.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Use this item instead of Disengage Action.</em></p>",
+    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.831f03814d71f11e]{Disengage} </strong>Action, you instead gain the benefits of the <strong>Full Disengage </strong>Action.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Use this item instead of Disengage Action.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "elusive"
+    "itemKey": "elusive",
+    "featureSourceItem": "halfling",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -232,7 +236,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101162913,
-    "modifiedTime": 1739480947890,
+    "modifiedTime": 1745570066299,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "yArFvjJmZae5JQFW",

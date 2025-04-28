@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -93,11 +93,11 @@
           "additionalFormula": "",
           "overrideDamageType": false,
           "damageType": "",
-          "addsNewFormula": false,
+          "addsNewFormula": true,
           "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage"
+            "formula": "1",
+            "type": "temporary",
+            "category": "healing"
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -133,7 +133,7 @@
             "max": null
           }
         },
-        "description": "<p>Once per turn when you make a<span style=\"color:rgba(212, 76, 71, 1);fill:rgba(212, 76, 71, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\"> </span><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"2\" class=\"notion-enable-hover\">Check, </span>you can spend <span style=\"font-weight:600\" data-token-index=\"4\" class=\"notion-enable-hover\"><strong>1 HP</strong></span> to gain ADV on the Check.</p>"
+        "description": "<p>Source: Warlock Subcontract</p><p>Once per turn when you make a<span style=\"color:rgba(212, 76, 71, 1);fill:rgba(212, 76, 71, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\"> </span><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"2\" class=\"notion-enable-hover\">Check, </span>you can spend <span style=\"font-weight:600\" data-token-index=\"4\" class=\"notion-enable-hover\"><strong>1 HP</strong></span> to gain ADV on the Check.</p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you do this, the Warlock who signed the contract with you will receive 1 temporary HP.</span></p>"
       }
     },
     "copyEnhancements": {
@@ -177,7 +177,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Warlock Contract",
     "usesWeapon": {
       "weaponId": "",
@@ -223,21 +223,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
-    },
+    "macros": {},
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -309,7 +295,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034477,
-    "modifiedTime": 1739350034477,
+    "modifiedTime": 1745570063550,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "M8IpIOm7Te0527Cr",

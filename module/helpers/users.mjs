@@ -1,17 +1,25 @@
 /**
- * Returns owners of specific Actor - skips GMs
+ * Returns owners of specific Actor
  */
-export function getActiveActorOwners(actor) {
-  const ownersIds = Object.entries(actor.ownership)
-            .filter(([ownerId, ownType]) => ownerId !== game.user.id)
-            .filter(([ownerId, ownType]) => ownerId !== "default")
-            .filter(([ownerId, ownType]) => ownType === 3);
+export function getActiveActorOwners(actor, allowGM) {
+  if (!actor) return [];
+  const ownership = Object.entries(actor.ownership).filter(([userId, value]) => value === 3).map(([userId, value]) => userId);
 
   const owners = [];
-  ownersIds.forEach(ownership => {
-    const ownerId = ownership[0];
-    const owner = game.users.get(ownerId);
-    if (owner && owner.active) owners.push(owner);
-  })
+  for (const ownerId of ownership) {
+    if (ownerId === "default") continue;
+    const user = game.users.get(ownerId);
+    if (user.isGM && !allowGM) continue;
+    if (user.active) owners.push(user);
+  }
   return owners;
+}
+
+export function getActivePlayers(allowGM) {
+  return game.users
+      .filter(user => user.active)
+      .filter(user => {
+        if (user.isGM) return allowGM;
+        else return true;
+      })
 }

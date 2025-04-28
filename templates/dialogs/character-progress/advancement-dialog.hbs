@@ -1,0 +1,334 @@
+<form id="advancement-dialog" class="dialog-v2">
+  {{#if applyingAdvancement}}<div class="applying-advancement-overlay"><span>{{localize "dc20rpg.dialog.advancement.applyingAdvancement"}}</span></div>{{/if}}
+  <header>{{localize "dc20rpg.dialog.advancement.title"}}</header>
+
+  <div class="wrapper">
+    <div class="left-column">
+      {{PARTIAL "Tooltip"}}
+      <img class="actor-img" src="{{actor.img}}"/>
+      <div class="level-change">
+        {{!-- TODO: --}}
+      </div>
+      {{#each scalingValues}}
+      <div class="scaling-value-row">
+        <label>{{label}}</label>
+        <div class="progress">
+          <span>{{previous}}</span>
+          <i class="fa-lg fa-solid fa-circle-right"></i>
+          <span>{{current}}</span>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="middle-column" {{#unless suggestionsOpen}}style="grid-column-end: span 2;"{{/unless}}>
+      {{!-- TIPS --}}
+      <div class="tip-wrapper">
+        {{#each tips}}
+          <img src="{{img}}" class="tip text-tooltip" data-img="{{img}}" data-text="{{tip}}">
+        {{/each}}
+      </div>
+
+      {{!-- ATTRIBUTES AND SKILLS --}}
+      {{#if showFinal}}
+      <div class="points-spender-wrapper">
+        {{!-- Attributes and Saves --}}
+        <div class="header"><span>{{localize "dc20rpg.dialog.advancement.spendPoints"}}</span></div>
+        {{#if points.attributePoints.left}}
+        <div class="scaling-value-row margin-bottom-5 red-box">
+          <label><b>{{localize "dc20rpg.sheet.attributes.pointsLeft"}}</b></label>
+          <div class="progress">
+            <span><b>{{points.attributePoints.left}}</b></span>
+          </div>
+        </div>
+        {{/if}}
+        <div class="spender-box-wrapper grid grid-4col">
+          {{#each attributes as |attribute key|}}{{#ifCond key '!==' "prime"}}
+          <div class="spender {{#ifCond @root.points.attributePoints.left '<=' 0}}maximum{{/ifCond}} {{#if attribute.maxPrime}}maximum{{/if}}">
+            <div class="spender-name">
+              <label>{{attribute.label}}</label>
+            </div>
+            <div class="value">
+              <input disabled class="input" type="number" value="{{attribute.value}}" data-dtype="Number">
+            </div>
+            <div class="buttons">
+              <a class="left-button sub-attr" data-key="{{key}}" title="{{localize "dc20rpg.sheet.attributes.subtractPoint"}}"><i class="fa-solid fa-minus"></i></a>
+              <a class="right-button add-attr" data-key="{{key}}" title="{{localize "dc20rpg.sheet.attributes.addPoint"}}"><i class="fa-solid fa-plus"></i></a>
+            </div>
+          </div>
+          {{/ifCond}}{{/each}}
+        </div>
+
+        {{!-- Skills --}}
+        <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendSkillPoints"}}</span></div>
+        {{#if points.skillPoints.skill.left}}
+        <div class="scaling-value-row margin-bottom-5 red-box">
+          <label><b>{{localize "dc20rpg.dialog.skill.pointsLeft"}}</b></label>
+          <div class="spender-wrapper">
+            <a class="skill-point-converter" data-from="skill" data-to="trade" data-operation="convert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.convertToTrade"}}">T</a>
+            <div class="progress">
+              <span>{{points.skillPoints.skill.left}}</span>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+        <div class="spender-box-wrapper grid grid-4col">
+          {{#each skills as |skill key|}}
+          <div class="spender {{#ifCond masteryLimit '<=' mastery}}maximum{{/ifCond}} {{#ifCond @root.points.skillPoints.skill.left '<=' 0}}maximum{{/ifCond}}">
+            <div class="spender-name">
+              <label>{{skill.label}}</label>
+            </div>
+            <div class="value small-value">
+              <input disabled class="input" type="text" value="{{skill.masteryLabel}}">
+            </div>
+            <div class="buttons">
+              <a class="left-button expertise-toggle {{#if skill.expertise}}expert{{/if}}" data-type="skills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.expertise"}}"><i class="fa-solid fa-up-long"></i></a>
+              <a class="right-button skill-mastery-toggle" data-type="skills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+
+        {{!-- Trade --}}
+        <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendTradePoints"}}</span></div>
+        {{#if points.skillPoints.trade.left}}
+        <div class="scaling-value-row margin-bottom-5 red-box">
+          <label><b>{{localize "dc20rpg.dialog.trade.pointsLeft"}}</b></label>
+          <div class="spender-wrapper">
+            <a class="skill-point-converter" data-from="trade" data-to="language" data-operation="convert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.convertToLanguage"}}">L</a>
+            <a class="skill-point-converter fa-solid fa-left" data-from="trade" data-to="skill" data-operation="revert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.revertToSkill"}}"></a>
+            <div class="progress">
+              <span>{{points.skillPoints.trade.left}}</span>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+        <div class="spender-box-wrapper grid grid-4col">
+          {{#each tradeSkills as |skill key|}}
+          <div class="spender {{#ifCond masteryLimit '<=' mastery}}maximum{{/ifCond}} {{#ifCond @root.points.skillPoints.trade.left '<=' 0}}maximum{{/ifCond}}">
+            <div class="spender-name">
+              <label>{{skill.label}}</label>
+            </div>
+            <div class="value small-value">
+              <input disabled class="input" type="text" value="{{skill.masteryLabel}}">
+            </div>
+            <div class="buttons">
+              <a class="left-button expertise-toggle {{#if skill.expertise}}expert{{/if}}" data-type="tradeSkills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.expertise"}}"><i class="fa-solid fa-up-long"></i></a>
+              <a class="right-button skill-mastery-toggle" data-type="tradeSkills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+
+        {{!-- Languange --}}
+        <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendLanguagePoints"}}</span></div>
+        {{#if points.skillPoints.language.left}}
+        <div class="scaling-value-row margin-bottom-5 red-box">
+          <label><b>{{localize "dc20rpg.dialog.language.pointsLeft"}}</b></label>
+          <div class="spender-wrapper">
+            <a class="skill-point-converter fa-solid fa-left" data-from="language" data-to="trade" data-operation="revert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.revertToTrade"}}"></a>
+            <div class="progress">
+              <span>{{points.skillPoints.language.left}}</span>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+        <div class="spender-box-wrapper grid grid-4col">
+          {{#each languages as |skill key|}}
+          <div class="spender {{#ifCond masteryLimit '<=' mastery}}maximum{{/ifCond}} {{#ifCond @root.points.skillPoints.language.left '<=' 0}}maximum{{/ifCond}}">
+            <div class="spender-name">
+              <label>{{skill.label}}</label>
+            </div>
+            <div class="value small-value">
+              <input disabled class="input" type="text" value="{{skill.masteryLabel}}">
+            </div>
+            <div class="buttons">
+              <a class="full-button language-mastery-toggle" data-path="system.languages.{{key}}.mastery" title="{{localize "dc20rpg.sheet.languages.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{else}}
+
+      {{!-- SUBCLASS SELECTION --}}
+      {{#if selectSubclass}}
+      <div class="advancement-table margin-top-5">
+        <div class="header">{{localize "dc20rpg.dialog.advancement.selectSubclass"}}</div>
+
+        <div class="item-list">
+          <div class="item-header" style="grid-template-columns: 1fr 100px !important;">
+            <div class="column name">
+              <span class="margin-left-10" >{{localize "dc20rpg.dialog.advancement.table.subclassName"}}</span>
+            </div>
+            <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
+          {{#each selectSubclass as |item key|}}
+          <div class="item-row" style="grid-template-columns: 1fr 100px !important;">
+            <div class="column name item-tooltip" data-source="subclass-select" data-item-key="{{item.uuid}}">
+              <i class="item-img"><img src="{{item.img}}"/></i>
+              <div class="item-name">{{name}}</div>
+            </div>
+            <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+              <a class="select-subclass fa-solid fa-lg fa-square-plus" data-uuid="{{item.uuid}}"></a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{else}}
+
+      {{!-- PATH SELECTOR --}}
+      {{#if advancement.progressPath}}
+      <div class="path-selector-wrapper margin-top-5">
+        <div class="header">{{localize "dc20rpg.dialog.advancement.progressPathTitle"}}</div>
+        <div class="picker">
+          <a class="path-selector journal-tooltip" data-type="martial" data-header="{{localize "dc20rpg.dialog.advancement.martial"}}" data-img="icons/svg/combat.svg"> 
+            <img src="systems/dc20rpg/images/dialog/advancement/martial-mastery.jpg" class="martial {{#ifCond advancement.mastery '!==' "martial"}}disabled{{/ifCond}}">
+          </a>
+          <a class="path-selector journal-tooltip" data-type="spellcaster" data-header="{{localize "dc20rpg.dialog.advancement.spellcaster"}}" data-img="icons/svg/frozen.svg"> 
+            <img src="systems/dc20rpg/images/dialog/advancement/spellcaster-mastery.jpg" class="spellcaster {{#ifCond advancement.mastery '!==' "spellcaster"}}disabled{{/ifCond}}">
+          </a>
+        </div>
+      </div>
+      {{/if}}
+
+      {{!-- ITEM TABLE --}}
+      <div class="advancement-table margin-top-5">
+        <div class="header">
+          {{#if advancement.customTitle}}{{advancement.customTitle}}{{else}}{{localize "dc20rpg.dialog.advancement.features"}}{{/if}}
+        </div>
+        {{#if advancement.mustChoose}}
+        <div class="scaling-value-row margin-bottom-5 red-box">
+          <label><b>{{localize "dc20rpg.dialog.advancement.pointsLeft"}}</b></label>
+          <div class="progress">
+            <span><b>{{advancement.pointsLeft}}</b></span>
+          </div>
+        </div>
+        {{/if}}
+        <div class="item-list {{#if advancement.mustChoose}}multiple-choice{{/if}}">
+          <div class="item-header">
+            <div class="column name">
+              <span class="margin-left-10" >{{localize "dc20rpg.dialog.advancement.table.itemName"}}</span>
+            </div>
+            {{#if advancement.mustChoose}}
+            <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.cost"}}">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+            <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            {{/if}}
+          </div>
+          {{#each advancement.items as |item key|}}
+          <div class="item-row">
+            <div class="column name item-tooltip" data-source="advancement" data-item-key="{{key}}">
+              <i class="item-img"><img src="{{item.img}}"/></i>
+              <div class="item-name">{{name}}</div>
+              {{#if item.removable}}
+              <div class="item-delete" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"><i class="fas fa-trash"></i></div>
+              {{/if}}
+            </div>
+            {{#if @root.advancement.mustChoose}}
+              <div class="column quantity" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
+                <input {{#unless item.removable}}disabled{{/unless}} class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
+              </div>
+              <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+                {{#if item.mandatory}}
+                <i class="fa-solid fa-lg fa-check-to-slot"></i>
+                {{else}}
+                <a class="activable fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
+                {{/if}}
+              </div>
+            {{/if}}
+          </div>
+          {{/each}}
+
+          {{#if showItemSuggestions}}
+          <a class="item-row open-item-suggestions" title="{{localize "dc20rpg.dialog.advancement.openItemSuggestions"}}">
+            <img src="icons/svg/chest.svg"/>
+            <span>{{#if advancement.addItemsOptions.helpText}} {{advancement.addItemsOptions.helpText}} {{else}} {{localize "dc20rpg.dialog.advancement.canAddItems"}} {{/if}}</span>
+          </a>
+          {{/if}}
+        </div>
+      </div>
+
+      {{/if}}{{/if}}
+    </div>
+
+    {{#if suggestionsOpen}}
+    <div class="right-column">
+      <div class="header">
+        {{localize "dc20rpg.dialog.advancement.suggestions"}}
+      </div>
+      <div class="button-menu">
+        <a class="activable fa-solid fa-eye {{#if advancement.hideRequirementMissing}}selected{{/if}}" data-path="hideRequirementMissing" title="{{localize "dc20rpg.sheet.hideRequirementMissing"}}"></a>
+        <a class="activable fa-sack-xmark fa-solid {{#if advancement.hideOwned}}selected{{/if}}" data-path="hideOwned" title="{{localize "dc20rpg.dialog.advancement.hideOwned"}}"></a>
+        <a class="open-compendium-browser fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
+        <a class="close-item-suggestions fa-lg fa-solid fa-square-xmark" title="{{localize "dc20rpg.sheet.closeSuggestions"}}"></a>
+      </div>
+
+      
+      <div class="filter-wrapper">
+        {{!-- Name Filter --}}
+        <span class="header">{{localize "dc20rpg.dialog.advancement.itemNameFilter"}}</span>
+        <input class="input" type="text" value="{{advancement.itemNameFilter}}" data-path="itemNameFilter"/>
+
+        {{!-- Talent Filter --}}
+        {{#if advancement.addItemsOptions.talentFilter}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
+          <select class="selectable {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}journal-tooltip{{/unless}}" data-path="talentFilterType"
+            data-type="{{@root.multiclassTooltip.key}}" data-header="{{@root.multiclassTooltip.header}}" data-img="icons/svg/ice-aura.svg">
+            {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}
+          </select>
+
+          {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.classSource"}}</span>
+          <select class="selectable" data-path="featureSourceItem">
+            {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+          </select>
+          {{/unless}}
+        {{/if}}
+
+        {{!-- Ancestry Filter --}}
+        {{#if advancement.ancestryFilter}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.ancestrySource"}}</span>
+          <select class="selectable" data-path="featureSourceItem">
+            {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+          </select>
+        {{/if}}
+      </div>
+
+      <div class="item-list">
+      {{#each suggestions}}
+        <div class="item-row {{#if requirementMissing}}requirement-missing{{else}}add-edit-item{{/if}}" data-uuid="{{uuid}}" 
+              {{#if requirementMissing}}
+              title="{{requirementMissing}}"
+              {{else}}
+              title="{{localize "dc20rpg.dialog.advancement.openOrInfo"}}"
+              {{/if}}
+              >
+          <div class="column name item-tooltip" data-source="suggestion" data-item-key="{{uuid}}">
+            <i class="item-img"><img src="{{img}}"/></i>
+            <div class="item-name">{{name}}</div>
+          </div>
+        </div>
+      {{/each}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="footer">
+    {{#if showFinal}}
+    <button class="close finish button margin-top-5">{{localize "dc20rpg.dialog.advancement.finish"}}</button>
+    {{else}}
+    {{#if selectSubclass}}
+    <button class="close skip button margin-top-5">{{localize "dc20rpg.dialog.advancement.skip"}}</button>
+    {{else}}
+    <button class="close apply button">{{localize "dc20rpg.dialog.advancement.apply"}}</button>
+    {{/if}}{{/if}}
+  </div>
+</form>

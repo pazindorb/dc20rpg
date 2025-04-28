@@ -141,7 +141,7 @@
     }
   
     .item-roll {
-      font-family: $font-foundry;
+      font-family: $font-default;
       display: flex;
       width: 100%;
 
@@ -202,9 +202,12 @@
         background-color: $primary-color;
       }
 
-      .red-box {
-        border: 1px solid black;
+      .green-box {
         background-color: $crit-background;
+      }
+
+      .red-box {
+        background-color: $fail-background;
       }
   
       &.invisible {
@@ -308,8 +311,7 @@
     }
   }
 
-  .content, .roll-tab {
-    padding: 6px;
+  .content {
 
     .sub-header {
       font-size: 16px;
@@ -348,7 +350,7 @@
         border-radius: 0;
         min-height: 29px;
         height: 29px;
-        font-family: $font-foundry;
+        font-family: $font-default;
       }
       
       &.ignore-symetry {
@@ -406,7 +408,7 @@
         text-align: end;
       }
 
-      .macro-edit.empty {
+      a.empty {
         filter: opacity(0.5);
       }
 
@@ -593,54 +595,6 @@
         }
       }
     }
-  }
-
-  .enhancement-tab {
-
-    .enhancement {
-
-      .sub-header {
-        background-color: $secondary-dark;
-      }
-
-      .resources, .charges {
-        padding: 0 7px 10px 7px;
-        border-bottom: 2px solid $primary-dark;
-
-        .resource {
-          display: flex;
-          align-items: center;
-
-          input {
-            font-weight: bold;
-            text-align: end;
-            border-radius: 0;
-            background-color: $secondary-lighter;
-            border: 1px solid black;
-          }
-        }
-      }
-
-      .charges {
-        padding: 0 7px 5px 7px;
-
-        .row:first-child {
-          border-right: 2px solid $primary-color;
-        }
-      }
-
-      .row {
-        padding: 0 7px;
-
-        &:last-child {
-          margin-bottom: 5px;
-        }
-      }
-    }
-  }
-
-  .roll-tab {
-    padding: 0;
 
     .damage-formula {
       color: #790000 !important;
@@ -737,6 +691,56 @@
       color: $health !important;
       .wrapper {
         border-color: $health !important;
+      }
+    }
+
+    .big-table {
+  
+      .sub-header {
+        background-color: $secondary-dark;
+
+        input {
+          padding-top: 3px;
+          padding-bottom: 1px;
+          font-size: 16px;
+          width: 50%;
+          background-color: $secondary-lighter;
+          border: 2px solid $primary-color;
+        }
+      }
+
+      .resources, .enh-resources, .charges {
+        padding: 0 7px 10px 7px;
+        border-bottom: 2px solid $primary-dark;
+
+        .resource {
+          display: flex;
+          align-items: center;
+
+          input {
+            font-weight: bold;
+            text-align: end;
+            border-radius: 0;
+            background-color: $secondary-lighter;
+            border: 1px solid black;
+          }
+        }
+      }
+
+      .charges {
+        padding: 0 7px 5px 7px;
+
+        .row:first-child {
+          border-right: 2px solid $primary-color;
+        }
+      }
+
+      .row {
+        padding: 0 7px;
+
+        &:last-child {
+          margin-bottom: 5px;
+        }
       }
     }
   }

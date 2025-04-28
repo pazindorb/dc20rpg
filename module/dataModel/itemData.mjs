@@ -18,23 +18,13 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       tableName: new f.StringField({required: true, initial: ""}),
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      requirements: new f.SchemaField({
+        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+        items: new f.StringField({required: true, initial: ""}),
+      }),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
       quickRoll: new f.BooleanField({required: true, initial: false}),
-      macros: new f.SchemaField({
-        onDemandMacroTitle: new f.StringField({required: true, initial: "Run On Demand Macro"}),
-        onDemand: new f.StringField({required: true, initial: ""}),
-        onCreate: new f.StringField({required: true, initial: ""}),
-        preDelete: new f.StringField({required: true, initial: ""}),
-        onRollPrompt: new f.StringField({required: true, initial: ""}),
-        preItemCost: new f.StringField({required: true, initial: ""}),
-        preItemRoll: new f.StringField({required: true, initial: ""}),
-        postItemRoll: new f.StringField({required: true, initial: ""}),
-        postChatMessageCreated: new f.StringField({required: true, initial: ""}),
-        onItemToggle: new f.StringField({required: true, initial: ""}),
-        rollLevelCheck: new f.StringField({required: true, initial: ""}),
-        enhancementReset: new f.StringField({required: true, initial: ""}),
-        customTrigger: new f.StringField({required: true, initial: ""})
-      })
+      macros: new f.ObjectField({required: true})
     }
   }
 
@@ -94,8 +84,8 @@ class DC20UsableItemData extends DC20BaseItemData {
       }), // Left for backward compatibility
       againstStatuses: new f.ObjectField({required: true}),
       rollRequests: new f.ObjectField({required: true}),
-      formulas: new f.ObjectField({required: true}), // TODO: Make specific formula config?
-      enhancements: new f.ObjectField({required: true}), // TODO: Make specific enh config?
+      formulas: new f.ObjectField({required: true}),
+      enhancements: new f.ObjectField({required: true}),
       copyEnhancements: new f.SchemaField({
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
@@ -115,7 +105,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       }),
       target: new f.SchemaField({
         count: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
-        invidual: new f.BooleanField({required: true, initial: true}),
         type: new f.StringField({required: true, initial: ""}),
         areas: new f.ObjectField({required: true, initial: {
           default: {
@@ -127,8 +116,10 @@ class DC20UsableItemData extends DC20BaseItemData {
           }
         }})
       }),
-      conditional: new ConditionalFields(),
+      conditional: new ConditionalFields(), // Left for backward compatibility
+      conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: false, initial: false}),
+      provideMartialExpansion: new f.BooleanField({required: false, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {
         default: {
           name: "Item Advancement",
@@ -143,6 +134,7 @@ class DC20UsableItemData extends DC20BaseItemData {
           additionalAdvancement: true,
           compendium: "",
           preFilters: "",
+          tip: "",
           items: {}
         }
       }})
@@ -191,7 +183,7 @@ class DC20UniqueItemData extends DC20BaseItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       scaling: new f.ObjectField({required: true}),
-      advancements: new f.ObjectField({required: true}), // TODO: Make specific advancement config?
+      advancements: new f.ObjectField({required: true}),
     })
   }
 
@@ -226,8 +218,6 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
-      armorBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-      armorPdr: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       equipmentType: new f.StringField({required: true, initial: ""}),
       properties: new PropertyFields("equipment"),
     })
@@ -260,6 +250,9 @@ export class DC20FeatureData extends DC20UsableItemData {
     return this.mergeSchema(super.defineSchema(), {
       featureType: new f.StringField({required: true, initial: ""}),
       featureOrigin: new f.StringField({required: true, initial: ""}),
+      featureSourceItem: new f.StringField({required: true, initial: ""}),
+      staminaFeature: new f.BooleanField({required: true, initial: false}),
+      flavorFeature: new f.BooleanField({required: true, initial: false}),
       isResource: new f.BooleanField({required: true, initial: false}),
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),
@@ -366,12 +359,12 @@ export class DC20ClassData extends DC20UniqueItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
-      classSpecialId: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       combatTraining: new CombatTraining(),
       bannerImg: new f.StringField({required: false, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
+      martialExpansion: new f.BooleanField({required: true, initial: false}),
       talentMasteries: new f.ArrayField(
         new f.StringField({required: true, initial: ""}), {
           required: true,
@@ -424,7 +417,6 @@ export class DC20ClassData extends DC20UniqueItemData {
         armor: new f.StringField({required: true, initial: ""}),
         other: new f.StringField({required: true, initial: ""})
       }),
-      maneuversProvided: new f.BooleanField({required: true, initial: false}),
     })
   }
 }

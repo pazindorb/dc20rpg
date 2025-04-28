@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/fang-tooth-venomous.webp",
   "system": {
-    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>Your Natural Weapon is able to be concealed or retracted and gains the <em><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.cRUMPH5Vkc4eZ26J]{Concealed}</strong></em> Property (gain <strong>ADV</strong> the first <strong>Attack</strong> <strong>Check</strong> you make in Combat).</p>",
+    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>Your Natural Weapon is able to be concealed or retracted and gains the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J]{Concealable} </strong>Property</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,10 +137,26 @@
       ]
     },
     "macros": {
-      "preDelete": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: false});\n}",
-      "onCreate": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: true});\n}"
+      "nW4wQGGYXyT0laDY": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: false});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "YHxb5TtA3kdIjgay": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: true});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
-    "itemKey": "retractableNaturalWeapon"
+    "itemKey": "retractableNaturalWeapon",
+    "featureSourceItem": "beastborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [],
   "flags": {},
@@ -149,9 +165,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720112466901,
-    "modifiedTime": 1738062515029,
+    "modifiedTime": 1745570066061,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "m8VXey0D6qBbe2jj",

@@ -1,0 +1,158 @@
+<div class="tab adv-core-tab padding-7" data-group="advanced" data-tab="adv-core">
+  {{!-- Effects --}}
+  <div class="sub-header margin-bottom-5">
+    <span>{{localize "dc20rpg.item.sheet.effects.title"}}</span>
+    <div>
+      <a class="effect-create margin-right-5" data-type="temporary" title="{{localize 'dc20rpg.item.sheet.effects.temporary'}}"><i class="fa-solid fa-hourglass-half"></i></a>
+      <a class="effect-create margin-right-5" data-type="passive" title="{{localize 'dc20rpg.item.sheet.effects.passive'}}"><i class="fa-solid fa-infinity"></i></a>
+    </div>
+  </div>
+  {{#ifCond system.effectsConfig.mustEquip '!==' undefined}}
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.config.mustEquipTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.config.mustEquip"}}</span>
+    <a class="fa-lg activable {{#if system.effectsConfig.mustEquip}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.mustEquip"></a>
+  </div>
+  {{/ifCond}}
+  {{#if system.toggle.toggleable}}
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.effects.linkWithToggleTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
+    <a class="fa-lg activable {{#if system.effectsConfig.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.linkWithToggle"></a>
+  </div>
+  {{#if system.effectsConfig.linkWithToggle}}
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.effects.toggleItemTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.effects.toggleItem"}}</span>
+    <a class="fa-lg activable {{#if system.effectsConfig.toggleItem}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.toggleItem"></a>
+  </div>
+  {{/if}}
+  {{/if}}
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.config.addToChatTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.config.addToChat"}}</span>
+    <a class="fa-lg activable {{#if system.effectsConfig.addToChat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.addToChat"></a>
+  </div>
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.config.addToTemplatesTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.config.addToTemplates"}}</span>
+    <select class="margin-left-3" name="system.effectsConfig.addToTemplates">
+      {{selectOptions @root.config.DROPDOWN_DATA.templatesActivationEffectTypes selected=system.effectsConfig.addToTemplates blank=""}}
+    </select>
+  </div>
+  {{effects-table true effects.temporary effects.passive true}}
+
+  {{!-- Advancement --}}
+  {{#ifCond item.type '!==' "basicAction"}} {{!-- Quickest way to hide it, item itself has that functionality but we wont use it --}}
+  <div class="sub-header margin-top-10">
+    <span>{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}</span>
+    <div>
+      <a class="activable margin-right-5 fa-lg {{#if system.hasAdvancement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.hasAdvancement" title="{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}"></a>
+      {{#if system.hasAdvancement}}
+      <a class="advancement-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="default" title="{{localize "dc20rpg.item.sheet.advancement.editAdvancement"}}"></a>
+      {{/if}}
+      <a class="activable fa-lg fa-gavel {{#if system.provideMartialExpansion}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.provideMartialExpansion" title="{{localize "dc20rpg.item.sheet.advancement.provideMartialExpansion"}}"></a>
+    </div>
+  </div>
+  {{/ifCond}}
+
+  {{!-- Resource --}}
+  {{#if system.resource}}
+  <div class="sub-header margin-top-10">
+    <span>{{localize "dc20rpg.item.sheet.resource.title"}}</span>
+    <a class="fa-lg activable {{#if system.isResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isResource" title="{{localize "dc20rpg.item.sheet.resource.providesResource"}}"></a>
+  </div>
+  {{#if system.isResource}}
+  <div class="content-wrapper">
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.resourceKey"}}</span>
+      <input type="text" name="system.resource.resourceKey" value="{{system.resource.resourceKey}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.name"}}</span>
+      <input type="text" name="system.resource.name" value="{{system.resource.name}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.reset"}}</span>
+      <select name="system.resource.reset">
+        {{selectOptions @root.config.DROPDOWN_DATA.resetTypes selected=system.resource.reset blank=""}}
+      </select>
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.useStandardTable"}}</span>
+      <a class="fa-lg activable {{#if system.resource.useStandardTable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.resource.useStandardTable"></a>
+    </div>
+    {{#if system.resource.useStandardTable}}
+    <div class="border-box margin-top-5 no-small-boxes">
+      <div class="box-inner">
+        <div class="scaling">
+          <div class="value-container">
+            <div class="grid grid-12col">
+              <div class="scale grid-span-2">
+                <div class="level-span"><span> Level </span></div>
+              </div>
+              {{#each system.resource.values}}
+              {{#ifCond @index '===' 10}}
+              <div class="scale grid-span-2">
+                <div class="level-span"><span> Level </span></div>
+              </div>
+              {{/ifCond}}
+              <div class="scale">
+                <div>
+                  <div class="level">
+                    <span> {{add @index 1}} </span>
+                  </div>
+                  <div class="value">
+                    <input class="update-item-resource" type="text" value="{{this}}" data-index="{{@index}}">
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.customMaxFormula"}}</span>
+      <input type="text" name="system.resource.customMaxFormula" value="{{system.resource.customMaxFormula}}">
+    </div>
+    {{/if}}
+  </div>
+  {{/if}}
+  {{/if}}
+
+  {{!-- Macros --}}
+  <div class="sub-header margin-top-10">
+    <span>{{localize "dc20rpg.item.sheet.macros.title"}}</span>
+    <a class="add-macro fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.macros.addNewMacro"}}"></a>
+  </div>
+  {{#each system.macros as |macro key|}} 
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="left-part-row">
+        <span>{{localize "dc20rpg.item.sheet.macros.name"}}</span>
+        <a class="remove-macro margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.macros.remove"}}" data-key="{{key}}"></a>
+      </div>
+      <input class="input" type="text" data-path="system.macros.{{key}}.name" value="{{macro.name}}">
+    </div>
+    <div class="row margin-top-3">
+      <div class="left-part-row">
+        <span>{{localize "dc20rpg.item.sheet.macros.trigger"}}</span>
+        <div>
+          <a class="activable fa-solid fa-lg fa-power-off margin-right-3 {{#unless macro.disabled}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.disable"}}" data-path="system.macros.{{key}}.disabled"></a>
+          <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg {{#unless macro.command}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="{{key}}"></a>
+        </div>
+      </div>
+      {{#ifCond macro.trigger '===' "onDemand"}}
+      <div class="right-part-row">
+        <input class="input margin-right-5" type="text" data-path="system.macros.{{key}}.title" value="{{macro.title}}" title="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
+        <select class="selectable" data-path="system.macros.{{key}}.trigger">
+          {{selectOptions @root.config.macroTriggers selected=macro.trigger blank=""}}
+        </select>
+      </div>
+      {{else}}
+      <select class="selectable" data-path="system.macros.{{key}}.trigger">
+        {{selectOptions @root.config.macroTriggers selected=macro.trigger blank=""}}
+      </select>
+      {{/ifCond}}
+    </div>
+  </div>
+  {{/each}}
+</div>

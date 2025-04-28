@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/environment/wilderness/altar-hidden.webp",
   "system": {
-    "description": "<ul><li><p>You ignore Difficult Terrain and gain ADV on Saves against being @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d4f7d331064600ea]{Poisoned} and contracting Diseases.</p></li></ul>",
+    "description": "<ul><li><p>You ignore Difficult Terrain and gain Resistance to @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.d91b084c66aa513d]{Poisoned} and ADV on Saves against against being contracting Diseases.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -113,7 +113,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Favored Terrain",
     "usesWeapon": {
       "weaponId": "",
@@ -159,21 +159,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
-    },
+    "macros": {},
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -257,7 +243,7 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.poisoned.advantage",
+          "key": "system.statusResistances.poisoned.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
@@ -269,7 +255,7 @@
           "priority": null
         }
       ],
-      "description": "<ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You ignore Difficult Terrain and gain ADV on Saves against being Poisoned and contracting Diseases.</span></p></li></ul>",
+      "description": "<ul><li><p>You ignore Difficult Terrain and gain Resistance to @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.d91b084c66aa513d]{Poisoned} and ADV on Saves against against being contracting Diseases.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -286,7 +272,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -296,8 +285,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1745440765471,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Tl9R9SJu5gsTYBz5.7GJqcas3X1G46a3a"
     }
@@ -311,7 +300,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035332,
-    "modifiedTime": 1739350035332,
+    "modifiedTime": 1745412688211,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Tl9R9SJu5gsTYBz5",

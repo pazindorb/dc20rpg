@@ -1,8 +1,10 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
+import { emitEventToGM } from "./sockets.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
+  const hideNonessentialEffects = owner.flags.dc20rpg?.hideNonessentialEffects;
   // Prepare all statuses 
   const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 
@@ -34,6 +36,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
+      if (effect.flags.dc20rpg?.nonessential && hideNonessentialEffects) continue;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
       else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -41,15 +44,8 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
     }
   }
 
-  // When both Unconscious and Petrified conditions are active
-  // where we need to remove single stack of exposed condition. 
-  // Right now I have no idea how to deal with that case better. Hardcoded it is then...
-  if (owner.hasStatus("unconscious") && owner.hasStatus("petrified")) {
-    const status = statuses.find(e => e.id === "exposed")
-    status.stack--;
-  }
   context.effects = effects;
-  context.statuses = statuses
+  context.statuses = statuses;
 }
 
 export function prepareActiveEffects(owner, context) {
@@ -111,6 +107,14 @@ export async function createNewEffectOn(type, owner, flags) {
 }
 
 export async function createEffectOn(effectData, owner) {
+  if (!owner.canUserModify(game.user)) {
+    emitEventToGM("addDocument", {
+      docType: "effect",
+      docData: effectData, 
+      actorUuid: owner.uuid
+    });
+    return;
+  }
   if (!effectData.origin) effectData.origin = owner.uuid;
   const created = await owner.createEmbeddedDocuments("ActiveEffect", [effectData]);
   return created[0];
@@ -122,6 +126,14 @@ export function editEffectOn(effectId, owner) {
 }
 
 export async function deleteEffectFrom(effectId, owner) {
+  if (!owner.canUserModify(game.user)) {
+    emitEventToGM("removeDocument", {
+      docType: "effect",
+      docId: effectId, 
+      actorUuid: owner.uuid
+    });
+    return;
+  }
   const effect = getEffectFrom(effectId, owner);
   if (effect) await effect.delete();
 }
@@ -150,6 +162,7 @@ export function getEffectById(effectId, owner) {
 }
 
 export function getEffectByKey(effectKey, owner) {
+  if (!effectKey) return;
   return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectKey);
 }
 
@@ -198,6 +211,17 @@ export function injectFormula(effect, effectOwner) {
   }
 }
 
+export function getMesuredTemplateEffects(item, applicableEffects) {
+  if (!item) return {applyFor: "", effects: []};
+  if (item.effects.size === 0) return {applyFor: "", effects: []};
+  if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
+
+  return {
+    applyFor: item.system.effectsConfig.addToTemplates,
+    effects: applicableEffects || item.effects.toObject()
+  }
+}
+
 //===========================================================
 /**
  * List of default actor keys that are expected to be modified by effects
@@ -205,25 +229,28 @@ export function injectFormula(effect, effectOwner) {
 export function getEffectModifiableKeys() {
   return {
     // Defence bonus
-    "system.defences.physical.bonuses.always": "Physical Defense: Bonus (always)",
-    "system.defences.physical.bonuses.noArmor": "Physical Defense: Bonus (when no armor equipped)",
-    "system.defences.physical.bonuses.noHeavy": "Physical Defense: Bonus (when no heavy armor equipped)",
-    "system.defences.physical.formulaKey": "Physical Defence: Calculation Formula Key",
-    "system.defences.physical.customFormula": "Physical Defence: Custom Calculation Formula",
-    "system.defences.mystical.bonuses.always": "Mystical Defense: Bonus (always)",
-    "system.defences.mystical.bonuses.noArmor": "Mystical Defense: Bonus (when no armor equipped)",
-    "system.defences.mystical.bonuses.noHeavy": "Mystical Defense: Bonus (when no heavy armor equipped)",
-    "system.defences.mystical.formulaKey": "Mystical Defence: Calculation Formula Key",
-    "system.defences.mystical.customFormula": "Mystical Defence: Custom Calculation Formula",
+    "system.defences.precision.bonuses.always": "Precision Defense: Bonus (always)",
+    "system.defences.precision.bonuses.noArmor": "Precision Defense: Bonus (when no armor equipped)",
+    "system.defences.precision.bonuses.noHeavy": "Precision Defense: Bonus (when no heavy armor equipped)",
+    "system.defences.precision.formulaKey": "Precision Defence: Calculation Formula Key",
+    "system.defences.precision.customFormula": "Precision Defence: Custom Calculation Formula",
+    "system.defences.area.bonuses.always": "Area Defense: Bonus (always)",
+    "system.defences.area.bonuses.noArmor": "Area Defense: Bonus (when no armor equipped)",
+    "system.defences.area.bonuses.noHeavy": "Area Defense: Bonus (when no heavy armor equipped)",
+    "system.defences.area.formulaKey": "Area Defence: Calculation Formula Key",
+    "system.defences.area.customFormula": "Area Defence: Custom Calculation Formula",
 
     // Damage reduction
-    "system.damageReduction.pdr.bonus": "Physical Damage Reduction",
-    "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
+    "system.damageReduction.pdr.active": "Physical Damage Reduction",
+    "system.damageReduction.edr.active": "Elemental Damage Reduction",
+    "system.damageReduction.mdr.active": "Mystical Damage Reduction",
     ..._damageReduction(),
 
-    // Flad Damage Modification
+    // Flat Damage/healing Modification
     "system.damageReduction.flat": "Flat Damage Modification On You (Value)",
     "system.damageReduction.flatHalf": "Flat Damage Modification On You (Half)",
+    "system.healingReduction.flat": "Flat Healing Modification On You (Value)",
+    "system.healingReduction.flatHalf": "Flat Healing Modification On You (Half)",
 
     // Status resistances
     ..._statusResistances(),
@@ -238,16 +265,15 @@ export function getEffectModifiableKeys() {
     "system.resources.grit.bonus": "Grit - Max Value Bonus",
     "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
-    "system.resources.restPoints.maxFormula" : "Rest Points - Calculation Formula",
     
     // Help Dice
     "system.help.maxDice": "Help Dice - Max Dice",
 
     // Death
     "system.death.bonus": "Death's Door Threshold Bonus",
-    "system.death.apSpendLimit": "Death's Door - Max AP Spend Limit",
 
     // Movement
+    "system.moveCost": "Cost of moving 1 Space",
     "system.movement.ground.bonus": "Ground Speed Bonus",
     "system.movement.climbing.bonus": "Climbing Speed Bonus",
     "system.movement.climbing.fullSpeed": "Climbing equal Movement",
@@ -301,14 +327,11 @@ export function getEffectModifiableKeys() {
     ..._skillBonuses(),
 
     // Skill expertise
-    "system.expertise.skills": "Expertise - Skills",
-    "system.expertise.trade": "Expertise - Trade Skills",
+    "system.expertise.automated": "Expertise (Skill Mastery Limit Increase)",
 
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
-    "system.savePoints.bonus": "Save Masteries",
     "system.skillPoints.skill.bonus": "Skill Points",
-    "system.skillPoints.knowledge.bonus": "Knowledge Skill Points",
     "system.skillPoints.trade.bonus": "Trade Skill Points",
     "system.skillPoints.language.bonus": "Language Points",
 
@@ -328,8 +351,13 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.ignore.closeQuarters": "Global Modifier: Ignore Close Quarters",
     "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
     "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
+    "system.globalModifier.provide.halfCover": "Global Modifier: Provide Half Cover",
+    "system.globalModifier.provide.tqCover": "Global Modifier: Provide 3/4 Cover",
     "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
-
+    "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
+    "system.globalModifier.prevent.healingReduction": "Global Modifier: Reduce Healing Recieved", 
+    "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 
+    
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
     "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",
@@ -354,7 +382,6 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.int": "Roll Level with Inteligence Checks",
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
-    "system.rollLevel.onYou.concentration": "Roll Level with Concentration Check",
     "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
 
     "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
@@ -408,8 +435,9 @@ function _damageReduction() {
 function _statusResistances() {
   const statusResistances = {};
   Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
-    statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} - Status Immunity`
-    statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} - Roll Level (Adv/Dis)`
+    statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} Immunity`
+    statusResistances[`system.statusResistances.${key}.resistance`] = `${condLabel} Resistance`
+    statusResistances[`system.statusResistances.${key}.vulnerability`] = `${condLabel} Vulnerability`
   });
   return statusResistances;
 }

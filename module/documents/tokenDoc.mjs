@@ -3,6 +3,7 @@ import { getPointsOnLine } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { getStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
+import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -85,6 +86,17 @@ export class DC20RpgTokenDocument extends TokenDocument {
       case "gargantuan":
         this.width = 4;
         this.height = 4;
+        break;
+
+      case "colossal":
+        this.width = 5;
+        this.height = 5;
+        break;
+
+      case "titanic":
+        this.width = 7;
+        this.height = 7;
+        break;
     }
   }
 
@@ -97,6 +109,20 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (userId === game.user.id && this.actor) {
       if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
         runEventsFor("move", this.actor);
+        
+        // Wait for movement to finish before triggering measured template check
+        let counter = 0;  // Max amount of loops
+        const timeoutID = setInterval(() => {
+          if (counter > 100 || (
+                (!changed.hasOwnProperty("x") || this.object.x === changed.x) && 
+                (!changed.hasOwnProperty("y") || this.object.y === changed.y)
+              )) {
+            this.updateLinkedTemplates();
+            checkMeasuredTemplateWithEffects();
+            clearInterval(timeoutID);
+          }
+          else counter++;
+        }, 100);
       }
     }
   }
@@ -113,7 +139,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       const ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.actor.system.globalModifier.ignore.difficultTerrain;
       const occupiedSpaces = this.object.getOccupiedGridSpaces();
       this.movementData = {
-        slowed: getStatusWithId(this.actor, "slowed")?.stack || 0,
+        moveCost: this.actor.system.moveCost,
         ignoreDT: ignoreDT
       };
       const costFunction = canvas.grid.isGridless 
@@ -139,8 +165,8 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   costFunctionGrid(from, to, distance, movementData, occupiedSpaces) {
-    const slowed = movementData.slowed;
-    if (movementData.ignoreDT) return 1 + slowed;
+    const moveCost = movementData.moveCost;
+    if (movementData.ignoreDT) return moveCost;
 
     // In the first iteration we want to prepare absolute spaces occupied by the token
     if (!movementData.absoluteSpaces) {
@@ -158,12 +184,12 @@ export class DC20RpgTokenDocument extends TokenDocument {
     movementData.lastDifficultTerrainSpaces = currentDifficultTerrainSpaces;
 
     // When we are reducing number of difficult terrain spaces in might mean that we are leaving difficult terrain
-    if (currentDifficultTerrainSpaces > 0 && currentDifficultTerrainSpaces >= lastDifficultTerrainSpaces) return 2 + slowed;
-    return 1 + slowed;
+    if (currentDifficultTerrainSpaces > 0 && currentDifficultTerrainSpaces >= lastDifficultTerrainSpaces) return 1 + moveCost;
+    return moveCost;
   }
 
   costFunctionGridless(from, to, distance, movementData, tokenWidth) {
-    const slowed = movementData.slowed;
+    const moveCost = movementData.moveCost;
     let finalCost = 0;
     let traveled = 0;
     const gridSize = canvas.grid.size;
@@ -172,19 +198,18 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const travelPoints = getPointsOnLine(from.j, from.i, to.j, to.i, canvas.grid.size);
     for (let i = 0; i < travelPoints.length-1; i++) {
       if (movementData.ignoreDT) {
-        finalCost += 1 + slowed;
+        finalCost += moveCost;
         traveled +=1;
       }
       else {
         const x = travelPoints[i].x + z/4;
         const y = travelPoints[i].y + z/4;
-        if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y)) finalCost += 2;                   // Top Left
-        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y)) finalCost += 2;        // Top Right
-        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y + z/2)) finalCost += 2;  // Bottom Right
-        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y + z/2)) finalCost += 2;        // Bottom Left
-        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/4, y + z/4)) finalCost += 2;  // Center
-        else finalCost += 1;
-        finalCost += slowed;
+        if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y)) finalCost += 1;                   // Top Left
+        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y)) finalCost += 1;        // Top Right
+        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y + z/2)) finalCost += 1;  // Bottom Right
+        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y + z/2)) finalCost += 1;        // Bottom Left
+        else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/4, y + z/4)) finalCost += 1;  // Center
+        finalCost += moveCost;
         traveled +=1;
       }
     }
@@ -192,7 +217,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const distanceLeft = distance - traveled;
     if (distanceLeft >= 0.1) {
       if (movementData.ignoreDT) {
-        finalCost += distanceLeft * (1 + slowed);
+        finalCost += distanceLeft * moveCost;
       }
       else {
         const x = travelPoints[travelPoints.length-1].x;
@@ -203,9 +228,32 @@ export class DC20RpgTokenDocument extends TokenDocument {
         else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y + z/2)) multiplier = 2;  // Bottom Right
         else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y + z/2)) multiplier = 2;        // Bottom Left
         else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/4, y + z/4)) multiplier = 2;  // Center
-        finalCost += distanceLeft * (multiplier + slowed);
+        finalCost += distanceLeft * (multiplier + moveCost - 1);
       }
     }
     return finalCost;
+  }
+
+  async updateLinkedTemplates() {
+    const linkedTemplates = this.flags.dc20rpg?.linkedTemplates;
+    if (!linkedTemplates) return;
+    
+    const idsToRemove = new Set();
+    for (const templateId of linkedTemplates) {
+      const mt = canvas.templates.placeables.find(template => template.id === templateId);
+      if (!mt) idsToRemove.add(templateId);
+      else {
+        await mt.document.update({
+          skipUpdateCheck: true,
+          x: this.object.center.x,
+          y: this.object.center.y
+        });
+      }
+
+      if (idsToRemove.size > 0) {
+        const templatesLeft = new Set(linkedTemplates).difference(idsToRemove);
+        this.update({["flags.dc20rpg.linkedTemplates"]: Array.from(templatesLeft)});
+      } 
+    }
   }
 }

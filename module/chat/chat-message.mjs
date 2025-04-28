@@ -3,18 +3,19 @@ import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { createEffectOn, injectFormula } from "../helpers/effects.mjs";
+import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
-import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
-import { runEventsFor } from "../helpers/actors/events.mjs";
+import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
+import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -86,7 +87,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, rolls, system);
+      enhanceTarget(target, rolls, system, this.speaker.actor);
       target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
     });
@@ -203,16 +204,6 @@ export class DC20ChatMessage extends ChatMessage {
     const specialStatuses = [];
     againstStatuses.forEach(againstStatus => {
       if (againstStatus.supressFromChatMessage) return;
-      if (againstStatus.id === "exhaustion") specialStatuses.push({
-        id: "exhaustion",
-        img: "icons/svg/unconscious.svg",
-        name: game.i18n.localize("dc20rpg.conditions.exhaustion")
-      });
-      if (againstStatus.id === "doomed") specialStatuses.push({
-        id: "doomed",
-        img: "icons/svg/skull.svg",
-        name: game.i18n.localize("dc20rpg.conditions.doomed")
-      });
     });
     return specialStatuses;
   }
@@ -265,7 +256,6 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index, [datasetOf(ev).target], datasetOf(ev).selectedNow));
     html.find('.apply-effect-target-specific').click(ev => this._onApplyTargetSpecificEffect(datasetOf(ev).index, [datasetOf(ev).target]));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status, [datasetOf(ev).target], datasetOf(ev).selectedNow));
-    html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key, [datasetOf(ev).target], datasetOf(ev).selectedNow));
 
     // GM Menu
     html.find('.add-selected-to-targets').click(() => this._onAddSelectedToTargets());
@@ -320,6 +310,7 @@ export class DC20ChatMessage extends ChatMessage {
     this._replaceWithSpeakerId(effectData);
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
+    effectData.flags.dc20rpg.applierId = this.speaker.actor;
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
@@ -338,11 +329,12 @@ export class DC20ChatMessage extends ChatMessage {
       const actor = this._getActor(target);
       if (!actor) return;
 
-      const effects = index === -1 ? target.effects : target.effects[index]
+      const effects = index === -1 ? target.effects : [target.effects[index]]
       for (const effectData of effects) {
         this._replaceWithSpeakerId(effectData);
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
         injectFormula(effectData, rollingActor);
+        effectData.flags.dc20rpg.applierId = this.speaker.actor;
         createEffectOn(effectData, actor);
       }
     });
@@ -377,19 +369,6 @@ export class DC20ChatMessage extends ChatMessage {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }
-  }
-
-  _onToggle(key, targetIds, selectedNow) {
-    const targets = this._getExpectedTargets(selectedNow);
-    if (Object.keys(targets).length === 0) return;
-    
-    if (targetIds[0] === undefined) targetIds = [];
-    Object.values(targets).forEach(target => {
-      if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
-      const actor = this._getActor(target);
-      if (key === "exhaustion") exhaustionToggle(actor, true);
-      if (key === "doomed") doomedToggle(actor, true);
-    });
   }
 
   _getExpectedTargets(selectedNow) {
@@ -483,8 +462,7 @@ export class DC20ChatMessage extends ChatMessage {
     this._onApplyTargetSpecificEffect(-1, targetIds);
     // Apply Statuses
     for (const status of this.system.againstStatuses) {
-      if (["doomed", "exhaustion"].includes(status.id)) this._onToggle(status.id, targetIds);
-      else this._onApplyStatus(status.id, targetIds);
+      this._onApplyStatus(status.id, targetIds);
     }
   }
 
@@ -521,7 +499,7 @@ export class DC20ChatMessage extends ChatMessage {
     
     Object.values(targets).forEach(target => {
       const token = targetToToken(target);
-      if (token) runEventsFor("targetConfirm", token.actor, {triggerOnlyForId: this.speaker.actor});
+      if (token) runEventsFor("targetConfirm", token.actor, triggerOnlyForIdFilter(this.speaker.actor));
     });
   }
 
@@ -529,8 +507,15 @@ export class DC20ChatMessage extends ChatMessage {
     const template = this.system.measurementTemplates[key];
     if (!template) return;
 
-    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token}
+    const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
+    const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects);
+    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token, applyEffects: applyEffects}
     const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
+    
+    // We will skip Target Selector if we are using selector for applying effects
+    if (applyEffects.applyFor === "selector") return;
+
     let tokens = {};
     for (let i = 0; i < measuredTemplates.length; i++) {
       const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
@@ -540,9 +525,9 @@ export class DC20ChatMessage extends ChatMessage {
       }
     }
     
-    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
-    if (Object.keys(tokens).length > 0) {
-      const newTargets = Object.keys(tokens);
+    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+    if (tokens.length > 0) {
+      const newTargets = tokens.map(token => token.id);
       await this.update({
         ["system.targetedTokens"]: newTargets,
         ["system.applyToTargets"]: true,
@@ -739,7 +724,7 @@ export class DC20ChatMessage extends ChatMessage {
         ui.notifications.error("There needs to be an active GM to proceed with that operation");
         return false;
       }
-      emitSystemEvent("addHelpDiceToRoll", {
+      emitSystemEvent("updateChatMessage", {
         messageId: this.id, 
         gmUserId: activeGM.id, 
         updateData: updateData

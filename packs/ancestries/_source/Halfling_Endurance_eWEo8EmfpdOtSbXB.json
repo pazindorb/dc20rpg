@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/wolf-heads-swirl-purple.webp",
   "system": {
-    "description": "<p>You have ADV on Saves made to resist gaining <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>.</p>",
+    "description": "<p>You have @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion} Resistance.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -136,7 +136,11 @@
         0
       ]
     },
-    "itemKey": "halflingEndurance"
+    "itemKey": "halflingEndurance",
+    "featureSourceItem": "halfling",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -160,13 +164,13 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.exhaustion.advantage",
+          "key": "system.statusResistances.exhaustion.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p>You have ADV on Saves made to resist gaining <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>.</p>",
+      "description": "<p>You have @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion} Resistance.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -183,7 +187,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -191,9 +198,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": 1725214243396,
-        "modifiedTime": 1737753004170,
+        "modifiedTime": 1745440766052,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eWEo8EmfpdOtSbXB.wMBnSFdbcvrnEsvd"
@@ -212,7 +219,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101162913,
-    "modifiedTime": 1739480947861,
+    "modifiedTime": 1745412762418,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eWEo8EmfpdOtSbXB",

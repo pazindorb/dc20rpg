@@ -91,8 +91,8 @@ export class WeaponCreatorDialog extends Dialog {
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
-    html.find(".create-weapon").click(ev => this._onWeaponCreate(ev.preventDefault())); 
-    html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, false, ev, html), ev => hideTooltip(ev, html));
+    html.find(".create-weapon").click(ev => this._onWeaponCreate(ev.preventDefault()));
+    html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
   }
 
   _onValueChange(pathToValue, value) {
@@ -166,7 +166,7 @@ export class WeaponCreatorDialog extends Dialog {
     if (properties.thrown?.active) stats.range = {normal: 10, max: 20};
     if (properties.longRanged?.active) stats.range = {normal: 30, max: 90};
 
-    const propCost = CONFIG.DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost;
+    const propCost = CONFIG.DC20RPG.SYSTEM_CONSTANTS.propertiesCost;
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) stats.pointsCost += propCost[key];
     })

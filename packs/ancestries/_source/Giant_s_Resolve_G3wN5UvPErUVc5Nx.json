@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -158,16 +158,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "const fortitude = game.dc20rpg.tools.getItemFromActorByKey(\"giantsFortitude\", actor);\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"bloodied2\"});\n}",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": ""
+      "QUW52hmPLYJEU4KR": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const fortitude = game.dc20rpg.tools.getItemFromActorByKey(\"giantsFortitude\", actor);\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"bloodied2\"});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "special": {
       "ignoreDR": false,
@@ -223,6 +220,10 @@
         "preFilters": "",
         "items": {}
       }
+    },
+    "featureSourceItem": "giantborn",
+    "requirements": {
+      "level": 0
     }
   },
   "effects": [
@@ -292,9 +293,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1738067028080,
-    "modifiedTime": 1738067247855,
+    "modifiedTime": 1745412760084,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "G3wN5UvPErUVc5Nx",

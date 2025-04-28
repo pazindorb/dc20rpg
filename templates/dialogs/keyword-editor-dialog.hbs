@@ -1,0 +1,43 @@
+<form id="keyword-editor" class="dialog-v2">
+
+  {{!-- Add new keyword --}}
+  <div>
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="row">
+          <span>{{localize 'dc20rpg.dialog.keywordEditor.addKeyword'}}</span>
+          <input class="add-keyword" type="text"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Modify current --}}
+  {{#each keywords as |content keyword|}}
+    <div class="content-wrapper margin-top-10">
+      <div class="header" style="justify-content:space-between;">
+        <label>{{keyword}}</label>
+        <a class="remove-keyword fa-solid fa-square-minus fa-lg" data-keyword="{{keyword}}" title="{{localize 'dc20rpg.dialog.keywordEditor.removeKeyword'}}"></a>
+      </div>
+      <div class="content" data-keyword="{{keyword}}">
+        <div class="row">
+          <span>{{localize 'dc20rpg.dialog.keywordEditor.keywordValue'}}</span>
+          <input class="input" type="text" value="{{content.value}}" data-path="updateData.{{keyword}}.value"/>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize 'dc20rpg.dialog.keywordEditor.addItemId'}}</span>
+          <input class="add-item-id" data-keyword="{{keyword}}" type="text"/>
+        </div>
+        {{#each content.updateItems}}
+        <div class="row margin-top-5 margin-right-10 margin-left-10">
+          <span>{{this}}</span>
+          <a class="remove-item-id fa-solid fa-square-minus fa-lg" data-keyword="{{../keyword}}" data-item-id="{{this}}" title="{{localize 'dc20rpg.dialog.keywordEditor.removeItemId'}}"></a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/each}}
+
+  {{!-- Save Button --}}
+  <button class="margin-top-5 button close save">{{localize "dc20rpg.dialog.config.update"}}</button>
+</form>

@@ -6,7 +6,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: $font-foundry;
+      font-family: $font-default;
       margin: 0 5px;
 
       .change-dc {
@@ -24,6 +24,35 @@
         font-size: 16px;
         text-shadow: -2px 0 $secondary-darker, 0 2px $secondary-darker, 2px 0 $secondary-darker, 0 -2px $secondary-darker;
         font-weight: bold;
+      }
+    }
+
+    .token-initiative {
+      flex: 0 0 65px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .initative-slot {
+        height: 34px;
+        width: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 5px;
+        font-size: 16px;
+        text-shadow: none;
+        border: 2px solid  $secondary-darker;
+        border-radius: 3px;
+        background-color: $secondary-lighter;
+        color: $secondary-darker;
+        font-weight: bold;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow:  0 0 6px 3px $secondary-darker inset;
+        }
       }
     }
 
@@ -93,23 +122,33 @@
     }
   }
 
-  #roll-request-button {
+  #rest-request-button {
     position: absolute;
-    bottom: 20px;
+    bottom: 80px;
     right: 1px;
 
     &:hover {
-      bottom: 10px;
+      bottom: 70px;
     }
   }
 
-  #dmg-calculator {
+  #roll-request-button {
     position: absolute;
     bottom: 50px;
     right: 1px;
 
     &:hover {
       bottom: 40px;
+    }
+  }
+
+  #dmg-calculator {
+    position: absolute;
+    bottom: 20px;
+    right: 1px;
+
+    &:hover {
+      bottom: 10px;
     }
   }
 }
@@ -315,6 +354,26 @@
             display: block;
           }
         }
+      }
+    }
+  }
+
+  .sustain-wrapper {
+    .sustain-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-right: 2px;
+      margin-bottom: 4px;
+      cursor: pointer;
+  
+      img {
+        width: 38px;
+        height: 38px;
+        border-radius: 3px 3px 0 0;
+        border: 2px solid #8db8db;
+        background-color: $secondary-lighter;
       }
     }
   }

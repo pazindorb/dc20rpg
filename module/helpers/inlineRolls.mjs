@@ -17,14 +17,10 @@ export function registerGlobalInlineRollListener() {
 
     ev.preventDefault();
     const data = ev.target.dataset;
-    if (data.rollType === "roll") {
-      _handleRoll(data)
-      return;
-    }
-    
     const tokens = getSelectedTokens();
     if (tokens.length < 1) {
-      ui.notifications.warn("You need to select at least one Token");
+      if (data.rollType === "roll") _handleRoll(data);
+      else ui.notifications.warn("You need to select at least one Token");
       return;
     }
 
@@ -34,6 +30,7 @@ export function registerGlobalInlineRollListener() {
         case "check": _handleCheck(data, token.actor); break;
         case "damage": _handleDamage(data, token); break;
         case "heal": _handleHealing(data, token); break;
+        case "roll":  _handleRoll(data, token); break;
       }
     });
   })
@@ -63,9 +60,10 @@ function _parseInlineRolls(content) {
   return parsedHTML;
 }
 
-async function _handleRoll(data) {
+async function _handleRoll(data, token) {
+  const rollData = token ? token.actor.getRollData() : {};
   const formula = data.value;
-  const roll = new Roll(formula, {});
+  const roll = new Roll(formula, rollData);
   await roll.evaluate()
   roll.toMessage()
 }
@@ -92,10 +90,12 @@ function _handleDamage(data, token) {
 }
 
 function _handleHealing(data, token) {
-  const heal = {
+  let heal = {
     source: "Inline Roll",
     value: parseInt(data.value || 1),
     type: data.subtype
   };
-  applyHealing(token.actor, heal);
+  const target = tokenToTarget(token);
+  heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
+  applyHealing(token.actor, heal.modified);
 }

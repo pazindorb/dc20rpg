@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/leather/scale-chitin-grey.webp",
   "system": {
-    "description": "<p>Your <strong>PD </strong>increases by 1 while you’re not wearing Heavy Armor.</p>",
+    "description": "<p>While you aren't wearing Armor, you gain <strong>+1 AD</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -18,7 +18,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -132,7 +132,11 @@
         0
       ]
     },
-    "itemKey": "thickSkinned"
+    "itemKey": "thickSkinned",
+    "featureSourceItem": "beastborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -156,13 +160,13 @@
       },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.noHeavy",
-          "mode": 2,
+          "key": "system.defences.area.bonuses.noArmor",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">PD </strong>increases by 1 while you’re not wearing Heavy Armor.</span></p>",
+      "description": "<p>While you aren't wearing Armor, you gain <strong>+1 AD</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -179,7 +183,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -187,9 +194,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1737742665855,
+        "modifiedTime": 1745416978532,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Dwu3Mu6UVCyLmULQ.5UWMogxBM5NAdING"
@@ -208,7 +215,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1739480803932,
+    "modifiedTime": 1745416971563,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Dwu3Mu6UVCyLmULQ",

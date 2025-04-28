@@ -24,15 +24,18 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('icon-printer-empty', (current, max, limit, fullClass, emptyClass) => {
+  Handlebars.registerHelper('icon-printer-empty', (current, max, limit, fullClass, emptyClass, recolorValue, color) => {
+    if (!recolorValue) recolorValue = 0;
     const fullPoint = `<i class="${fullClass}"></i>`;
     const emptyPoint = `<i class="${emptyClass}"></i>`;
+    const coloredPoint = `<i class="${fullClass}" style="color:${color}"></i>`;
 
     if (max > limit) return `<b>${current}/${max}</b> ${fullPoint}`;
 
     let icons = "";
     for(let i = 0; i < max; i++) {
-      if (i < current) icons += fullPoint;
+      if (i < recolorValue) icons += coloredPoint;
+      else if (i < current) icons += fullPoint;
       else icons += emptyPoint;
     }
     return icons;
@@ -102,27 +105,6 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('size', (sizeType) => {
-    let short = "";
-    switch (sizeType) {
-      case "tiny": short = "T"; break;
-      case "small": short = "S"; break;
-      case "medium": short = "M"; break;
-      case "mediumLarge": short = "L"; break;
-      case "large": short = "L"; break;
-      case "huge": short = "H"; break;
-      case "gargantuan": short = "G"; break;
-    }
-
-    const tooltip = game.i18n.localize(`dc20rpg.size.${sizeType}`);
-    const component = `
-    <div class="size letter-circle-icon" title="${tooltip}">
-      <span>${short}</span>
-    </div>
-    `
-    return component;
-  });
-
   Handlebars.registerHelper('show-hide-toggle', (flag, path, oneliner) => {
     let icon = flag ? "fa-eye-slash" : "fa-eye";
     if (oneliner === "true") icon = flag ? "fa-table" : "fa-table-list";
@@ -179,7 +161,7 @@ export function registerHandlebarsCreators() {
     const headerOrder = isHeader  ? "35px" : '';
 
     if (navTab === "favorites" || navTab === "main" || navTab === "basic") {
-      const rollMenuPart1 = rollMenuRow ? '' : "50px";
+      const rollMenuPart1 = rollMenuRow ? '' : "60px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       const enhNumber = rollMenuRow ? "35px" : "";
       return `grid-template-columns: ${headerOrder}${enhNumber} 1fr 90px ${rollMenuPart1} 70px ${rollMenuPart2};`;
@@ -189,7 +171,7 @@ export function registerHandlebarsCreators() {
     }
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
     const spellTab = navTab === "spells" ? "120px" : '';
-    return `grid-template-columns: ${headerOrder} 1fr 120px ${spellTab}${inventoryTab} 50px 70px 70px 70px;`;
+    return `grid-template-columns: ${headerOrder} 1fr 120px ${spellTab}${inventoryTab} 60px 70px 70px 70px;`;
   });
 
   Handlebars.registerHelper('item-label', (sheetData) => {
@@ -231,7 +213,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
-    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
 
     switch (actionType) {    
       case "attack": 
@@ -315,8 +297,20 @@ export function registerHandlebarsCreators() {
     }
 
     // On Demand Item Macro
-    if (item.system.macros?.onDemand) {
-      component +=  `<a class="run-on-demand-macro fas fa-code" title="${item.system.macros.onDemandMacroTitle}" data-item-id="${item._id}"></a>`;
+    const macros = item.system.macros;
+    if (macros) {
+      let onDemandTitle = "";
+      let hasOnDemandMacro = false;
+      for (const macro of Object.values(macros)) {
+        if (macro.trigger === "onDemand" && !macro.disabled) {
+          hasOnDemandMacro = true;
+          if (onDemandTitle !== "") onDemandTitle += "\n";
+          onDemandTitle += macro.title;
+        }
+      }
+      if (hasOnDemandMacro) {
+        component +=  `<a class="run-on-demand-macro fas fa-code" title="${onDemandTitle}" data-item-id="${item._id}"></a>`;
+      }
     }
 
     // Activable Effects
@@ -390,9 +384,8 @@ export function registerHandlebarsCreators() {
       }
     });
 
-    // Concentration
-    const concentration = item.system.duration.type === "concentration";
-    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "C");
+    const sustain = item.system.duration.type === "sustain";
+    if (sustain) component += _descriptionIcon(getLabelFromKey("sustain", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "fa-hand-holding-droplet");
     return component;
   });
 
@@ -488,6 +481,10 @@ export function registerHandlebarsCreators() {
       const description = `${mods.coreFormulaModification} ${game.i18n.localize('dc20rpg.sheet.itemTable.coreFormulaModification')}`
       component += _descriptionIcon(description, "fa-dice");
     }
+    if (mods.overrideTargetDefence) {
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.overrideTargetDefence')}<br><b>${getLabelFromKey(mods.targetDefenceType, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}</b>`;
+      component += _descriptionIcon(description, "fa-share");
+    }
     if (mods.overrideDamageType) {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
       component += _descriptionIcon(description, "fa-fire");
@@ -549,7 +546,7 @@ function _save(saves) {
 
 function _check(check) {
   const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks)}</b>`;
+  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
   return _descriptionIcon(description, 'fa-user-check');
 }
 

@@ -1,28 +1,26 @@
 #tooltip-container {
 	position: fixed;
 	min-height: 200px;
-	max-height: 500px;
 	width: min-content;
-	min-width: 300px;
 	z-index: 100;
 
-	border-radius: 5px;
-	border: 3px solid $primary-color;
-	padding: 5px;
+	border-radius: 3px;
+	border: 3px solid $primary-dark;
+	padding: 10px;
 	background-image: url(../images/sheet/parchment.jpg);
-  box-shadow: 0 2px -10px 3px;
+	box-shadow:  0 0 15px $secondary-darker inset;
 
 	transition: opacity 0.5s ease-in-out;
 	opacity: 0;
 	visibility: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 
 	.tooltip-info {
 		font-size: 10px;
 		border-bottom: 2px solid $primary-color;
 		padding-bottom: 5px;
-		font-family: $font-primary;
+		font-family: $font-default;
 	}
 
 	.tooltip-header {
@@ -34,9 +32,8 @@
 		padding-bottom: 15px;
 
 		input {
-			margin-top: 4px;
-			font-family: $dc20-font;
-			font-size: 18px;
+			font-family: $font-header;
+			font-size: 24px;
 			overflow-x: hidden;
 
 			&:disabled {
@@ -60,8 +57,8 @@
 	.tooltip-details {
 		display: flex;
 		flex-wrap: wrap;
-		font-family: $dc20-font;
-		font-size: 11px;
+		font-family: $font-default;
+		font-size: 12px;
 		border-bottom: 2px solid $primary-color;
 		padding-bottom: 5px;
 
@@ -69,7 +66,7 @@
 			width: fit-content;
 			margin-top: 3px;
 			margin-left: 3px;
-			padding: 4px 4px 2px 4px;
+			padding: 3px;
 			border: 1px solid black;
 			border-radius: 5px;
 			display: flex;
@@ -77,7 +74,7 @@
 			background-color: $primary-light;
 
 			color: white;
-			text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+			text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 		}
 
 		.box {
@@ -85,9 +82,12 @@
 			background-color: $primary-color;
 		}
 
-		.red-box {
-			border: 1px solid black;
+		.green-box {
 			background-color: $crit-background;
+		}
+
+		.red-box {
+			background-color: $fail-background;
 		}
 
 		&.invisible {
@@ -97,7 +97,7 @@
 	
 	.tooltip-description {
 		font-size: 14px;
-    font-family: $font-primary;
+    font-family: $font-default;
 
 		&.invisible {
 			display: none;
@@ -142,6 +142,13 @@
 		justify-content: space-between;
 		padding: 4px 6px;
 		font-weight: bold;
+
+		&:hover {
+			background-color: $primary-color;
+			box-shadow: 0 0 10px 5px $primary-darker inset;
+			text-shadow: none;
+			color: $secondary-lighter;
+		}
 	}
 
 	.elem:first-child {

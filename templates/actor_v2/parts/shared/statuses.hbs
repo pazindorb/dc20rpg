@@ -5,6 +5,7 @@
 
   <div class="status-table grid grid-4col">
     {{#each statuses as |status key|}}
+    {{#unless status.system.hide}}
       <a class="status status-toggle journal-tooltip {{#if status.effectId}}editable-effect active{{/if}}" 
         {{#if status.effectId}}data-effect-id="{{status.effectId}}"{{/if}} data-status-id="{{status.id}}" title="{{localize 'dc20rpg.sheet.effects.conditionsTooltip'}} {{status.tooltip}}" 
         data-uuid="{{labelFromKey status.id @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal}}" data-header="{{status.name}}" data-img="{{status.img}}"
@@ -30,6 +31,7 @@
         <div class="status-img"><img src="{{status.img}}"/></div>
         <div class="status-name">{{status.name}}</div>
       </a>
+    {{/unless}}
     {{/each}}
   </div>
 </div>

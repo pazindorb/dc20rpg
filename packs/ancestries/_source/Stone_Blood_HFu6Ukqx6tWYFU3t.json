@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/water/water-drop-swirl-blue.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2f734fbaa3b8881f]{Bleeding}. </p><p>Additionally, you can spend <strong>1 AP</strong> to end a <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2f734fbaa3b8881f]{Bleeding} </strong>Condition on yourself.</p>",
+    "description": "<p>You have ADV on Saves against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p><p>Additionally, you can spend <strong>1 AP</strong> to end a <strong>Bleeding </strong>Condition on yourself.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,9 +137,19 @@
       ]
     },
     "macros": {
-      "preItemRoll": "actor.toggleStatusEffect(\"bleeding\", {active: false})"
+      "jZTKuFkZjggajX9P": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "actor.toggleStatusEffect(\"bleeding\", {active: false})",
+        "disabled": false,
+        "title": ""
+      }
     },
-    "itemKey": "stoneBlood"
+    "itemKey": "stoneBlood",
+    "featureSourceItem": "dwarf",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -163,7 +173,7 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.bleeding.advantage",
+          "key": "system.statusResistances.bleeding.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
@@ -196,7 +206,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737743162810,
+        "modifiedTime": 1745440765990,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!HFu6Ukqx6tWYFU3t.bwfl2SYS85I2S0qO"
@@ -215,7 +225,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099511338,
-    "modifiedTime": 1739480947822,
+    "modifiedTime": 1745570065498,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HFu6Ukqx6tWYFU3t",

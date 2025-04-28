@@ -22,9 +22,9 @@ let preTriggerTurnedOffEvents = [];
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
-export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, specificEvent) {
+export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}, specificEvent) {
   let eventsToRun = specificEvent ? [specificEvent] : actor.activeEvents.filter(event => event.trigger === trigger);
-  eventsToRun = _filterEvents(eventsToRun, filters, actor);
+  eventsToRun = _filterEvents(eventsToRun, filters);
   eventsToRun = _sortByType(eventsToRun);
 
   for (const event of eventsToRun) {
@@ -32,31 +32,32 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, s
     runTrigger = await _runPreTrigger(event, actor);
     if (!runTrigger) continue;
 
+    const target = {
+      system: {
+        damageReduction: actor.system.damageReduction,
+        healingReduction: actor.system.healingReduction
+      }
+    }
     switch(event.eventType) {
       case "damage":
-        // If actor is on deaths door continious damage shouldn't be applied
-        if (event.continuous && actor.system.death.active) return;
-
         // Check if damage should be reduced
         let dmg = {
           value: parseInt(event.value),
           source: event.label,
           type: event.type
         }
-        const target = {
-          system: {damageReduction: actor.system.damageReduction}
-        }
         dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
         await applyDamage(actor, dmg.modified, {fromEvent: true});
         break;
 
       case "healing":
-        const heal = {
+        let heal = {
           source: event.label,
           value: parseInt(event.value),
           type: event.type
         };
-        await applyHealing(actor, heal, {fromEvent: true});
+        heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
+        await applyHealing(actor, heal.modified, {fromEvent: true});
         break;
 
       case "checkRequest":
@@ -80,67 +81,30 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, s
         if (!effect) break;
         const command = effect.flags.dc20rpg?.macro;
         if (!command) break;
-        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: dataToMacro});
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: extraMacroData});
         break;
       
       case "basic":
         break;
 
       default:
-        await _runCustomEventTypes(event);
+        await _runCustomEventTypes(event, actor, effect);
     }
     _runPostTrigger(event, actor);
   }
 }
 
-function _filterEvents(events, filters, actor) {
+function _filterEvents(events, filters) {
   if (!filters) return events;
+  if (filters.length === 0) return events;
 
-  // This one is required so if filters.otherActorId exist we always want to check event.actorId
-  if (filters.otherActorId) {
-    events = events.filter(event => event.actorId === filters.otherActorId);
-  }
-  // We need to check that current round is not the same round the effect was created
-  if (filters.currentRound) {
+  for (const filter of filters) {
     events = events.filter(event => {
-      const effect = getEffectFrom(event.effectId, actor);
-      if (!effect) return true;
-      return effect.duration.startRound < filters.currentRound;
-    });
-  }
-  if (filters.effectName !== undefined) {
-    events = events.filter(event => {
-      if (!event.withEffectName) return true;
-      return event.withEffectName === filters.effectName;
-    });
-  }
-  if (filters.effectKey !== undefined) {
-    events = events.filter(event => {
-      if (!event.withEffectKey) return true;
-      return event.withEffectKey === filters.effectKey;
-    });
-  }
-  if (filters.statuses !== undefined) {
-    events = events.filter(event => {
-      if (!event.withStatus) return true;
-      return filters.statuses?.has(event.withStatus);
-    });
-  }
-  // This one is optional so if filters.triggerOnlyForId exist we only want to check event.triggerOnlyForId if it exist
-  if (filters.triggerOnlyForId) {
-    events = events.filter(event => {
-      if (!event.triggerOnlyForId) return true;
-      return event.triggerOnlyForId === filters.triggerOnlyForId
-    });
-  }
-  if (filters.amount) {
-    events = events.filter(event => {
-      if (event.minimum) {
-        if (filters.amount >= event.minimum) return true;
-        else return false;
+      if (filter.required || event.hasOwnProperty(filter.eventField)) {
+        return filter.filterMethod(event[filter.eventField]);
       }
-      return true;
-    });
+      else return true;
+    })
   }
   return events;
 }
@@ -279,9 +243,9 @@ function _runPostTrigger(event, actor) {
   }
 }
 
-export async function reenableEventsOn(reenable, actor, filters) {
+export async function reenableEventsOn(reenable, actor, filters=[]) {
   let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
-  eventsToReenable = _filterEvents(eventsToReenable, filters, actor);
+  eventsToReenable = _filterEvents(eventsToReenable, filters);
 
   for (const event of eventsToReenable) {
     await _enableEffect(event.effectId, actor);
@@ -354,7 +318,106 @@ export function registerEventReenableTrigger(trigger, displayedLabel) {
   CONFIG.DC20RPG.reenableTriggers[trigger] = displayedLabel;
 }
 
-async function _runCustomEventTypes(event) {
+async function _runCustomEventTypes(event, actor, effect) {
   const method = CONFIG.DC20Events[event.eventType];
-  if (method) await method(event);
+  if (method) await method(event, actor, effect);
+}
+
+//=================================
+//=        FILTER METHODS         =
+//=================================
+export function effectEventsFilters(effectName, statuses, effectKey) {
+  const filters = [];
+  if (effectName !== undefined) {
+    filters.push({
+      required: false,
+      eventField: "withEffectName",
+      filterMethod: (field) => {
+        if (!field) return true;
+        return field === effectName
+      }
+    })
+  }
+  if (effectKey !== undefined) {
+    filters.push({
+      required: false,
+      eventField: "withEffectKey",
+      filterMethod: (field) => {
+        if (!field) return true;
+        return field === effectKey
+      }
+    })
+  }
+  if (statuses !== undefined) {
+    filters.push({
+      required: false,
+      eventField: "withStatus",
+      filterMethod: (field) => {
+        if (!field) return true;
+        return statuses?.has(field);
+      }
+    })
+  }
+  return filters;
+}
+
+export function minimalAmountFilter(amount) {
+  const filter = {
+    required: false,
+    eventField: "minimum",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return amount >= field;
+    }
+  }
+  return [filter];
+}
+
+export function currentRoundFilter(actor, currentRound) {
+  const filter = {
+    required: true,
+    eventField: "effectId",
+    filterMethod: (field) => {
+      const effect = getEffectFrom(field, actor);
+      if (!effect) return true;
+      return effect.duration.startRound < currentRound;
+    }
+  }
+  return [filter];
+}
+
+export function actorIdFilter(actorId) {
+  const filter = {
+    required: true,
+    eventField: "actorId",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return field === actorId
+    }
+  }
+  return [filter];
+}
+
+export function triggerOnlyForIdFilter(expecetdId) {
+  const filter = {
+    required: false,
+    eventField: "triggerOnlyForId",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return field === expecetdId;
+    }
+  }
+  return [filter];
+}
+
+export function restTypeFilter(expectedRests) {
+  const filter = {
+    required: false,
+    eventField: "restType",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return expectedRests.includes(field);
+    }
+  }
+  return [filter];
 }

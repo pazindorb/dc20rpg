@@ -1,18 +1,38 @@
 import { getLabelFromKey } from "../utils.mjs";
 
-export function itemDetailsToHtml(item) {
+export function itemDetailsToHtml(item, includeCosts) {
   if (!item) return "";
   let content = "";
+  if(includeCosts) content += _cost(item);
   content += _range(item);
   content += _target(item);
   content += _duration(item);
-  content += _armorBonus(item);
-  content += _armorPdr(item);
   content += _weaponStyle(item);
   content += _magicSchool(item);
   content += _props(item);
   content += _components(item);
   return content;
+}
+
+function _cost(item) {
+  let content = "";
+  const cost = item.system?.costs?.resources;
+  if (!cost) return "";
+  
+  if (cost.actionPoint > 0)   content += `<div class='detail red-box'>${cost.actionPoint} AP</div>`;
+  if (cost.stamina > 0)       content += `<div class='detail red-box'>${cost.stamina} SP</div>`;
+  if (cost.mana > 0)          content += `<div class='detail red-box'>${cost.mana} MP</div>`;
+  if (cost.health > 0)        content += `<div class='detail red-box'>${cost.health} HP</div>`;
+  if (cost.grit > 0)          content += `<div class='detail red-box'>${cost.grit} GP</div>`;
+  if (cost.restPoints > 0)    content += `<div class='detail red-box'>${cost.restPoints} RP</div>`;
+
+  // Prepare Custom resource cost
+  if (cost.custom) {
+    for (const custom of Object.values(cost.custom)) {
+      if (custom.value > 0)   content += `<div class='detail red-box'>${custom.value} ${custom.name}</div>`
+    }
+  }
+  return content;  
 }
 
 function _range(item) {
@@ -43,8 +63,8 @@ function _target(item) {
   let content = "";
 
   if (target) {
-    if (target.invidual) content += _invidual(target);
-    else content += _area(target);
+    content += _invidual(target);
+    content += _area(target);
   }
   return content;
 }
@@ -110,38 +130,11 @@ function _duration(item) {
   return content;
 }
 
-function _armorBonus(item) {
-  const armorBonus = item.system?.armorBonus;
-  const properties = item.system.properties;
-  let content = "";
-  if (armorBonus) {
-    let propBonus = properties.reinforced.active ? 1 : 0;
-    propBonus += properties.dense.active ? 1 : 0;
-    content += "<div class='detail'>";
-    content += `+ ${armorBonus + propBonus} PD`;
-    content += "</div>";
-  }
-  return content;
-}
-
-function _armorPdr(item) {
-  const armorPdr = item.system?.armorPdr;
-  const properties = item.system.properties;
-  let content = "";
-  if (armorPdr) {
-    const propBonus = properties.sturdy.active ? 1 : 0;
-    content += "<div class='detail'>";
-    content += `+ ${armorPdr + propBonus} PDR`;
-    content += "</div>";
-  }
-  return content;
-}
-
 function _weaponStyle(item) {
   const weaponStyle = item.system?.weaponStyle;
   if (!weaponStyle) return "";
 
-  return `<div class='detail red-box journal-tooltip box-style'
+  return `<div class='detail green-box box journal-tooltip box-style'
   data-uuid="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}"
   data-header="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}"> 
   ${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}
@@ -151,7 +144,7 @@ function _weaponStyle(item) {
 function _magicSchool(item) {
   const magicSchool = item.system?.magicSchool;
   if (!magicSchool) return "";
-  return `<div class='detail red-box'> 
+  return `<div class='detail green-box box'> 
     ${getLabelFromKey(magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools)}
   </div>`;
 }
@@ -194,4 +187,41 @@ function _components(item) {
     });
   }
   return content;
+}
+
+export function getFormulaHtmlForCategory(category, item) {
+  const types = { ...CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes }
+  let formulas = item.system.formulas;
+  let formulaString = "";
+
+  let filteredFormulas = Object.values(formulas)
+    .filter(formula => formula.category === category);
+
+  for (let i = 0; i < filteredFormulas.length; i++) {
+    let formula = filteredFormulas[i];
+    if (formula.formula === "") continue;
+    formulaString += formula.formula;
+    formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
+    formulaString += " + ";
+  }
+
+  if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
+  return formulaString;
+}
+
+export function getRollRequestHtmlForCategory(category, item) {
+  const rollRequests = item.system.rollRequests;
+  if (!rollRequests) return "";
+
+  const filtered = Object.values(rollRequests).filter(request => request.category === category);
+
+  let rollRequestString = "";
+  for (let i = 0; i < filtered.length; i++) {
+    if (category === "save") rollRequestString += " <em>" + getLabelFromKey(filtered[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes) + "</em>";
+    if (category === "contest") rollRequestString += " <em> " + getLabelFromKey(filtered[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests) + "</em>";
+    rollRequestString += " or ";
+  }
+
+  if (rollRequestString !== "") rollRequestString = rollRequestString.substring(0, rollRequestString.length - 4);
+  return rollRequestString;
 }

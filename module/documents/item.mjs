@@ -2,7 +2,7 @@ import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFro
 import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
 import { toggleCheck } from "../helpers/items/itemConfig.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { translateLabels } from "../helpers/utils.mjs";
+import { generateKey, translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -160,16 +160,6 @@ export class DC20RpgItem extends Item {
     return this.effects.getName(effectName);
   }
 
-  editItemMacro(key) {
-    const command = this.system.macros[key];
-    const macro = createTemporaryMacro(command, this, {item: this, key: key});
-    macro.canUserExecute = (user) => {
-      ui.notifications.warn("This is an Item Macro and it cannot be executed here.");
-      return false;
-    };
-    macro.sheet.render(true);
-  }
-
   async _onCreate(data, options, userId) {
     const onCreateReturn = super._onCreate(data, options, userId);
     if (userId === game.user.id && this.actor) {
@@ -192,5 +182,314 @@ export class DC20RpgItem extends Item {
       removeItemFromActorInterceptor(this, this.actor);
     }
     return await super._preDelete(options, user);
+  }
+
+  //=========================
+  //        FORMULAS        =
+  //=========================
+  /**
+   * Creates new non-core Formula object on this item.
+   * Both formula and formulaKey parameters are optional and if not provided will be generated automatically.
+   */
+  createFormula(formula={}, formulaKey) {
+    const newFormula = foundry.utils.mergeObject(this.getFormulaObjectExample(), formula);
+    const key = formulaKey ? formulaKey : generateKey();
+    this.update({[`system.formulas.${key}`]: newFormula});
+  }
+
+  removeFormula(key) {
+    this.update({ [`system.formulas.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example Formula object that can be modified and used for creating new macros.
+   */
+  getFormulaObjectExample() {
+    return {
+      formula: "",
+      type: "",
+      category: "damage",
+      fail: false,
+      failFormula: "",
+      each5: false,
+      each5Formula: "",
+      dontMerge: false,
+      overrideDefence: "",
+    }
+  }
+
+  //==========================
+  //       ROLL REQUEST      =
+  //==========================
+  /**
+   * Creates new Roll Request object on this item.
+   * Both rollRequest and rollRequestKey parameters are optional and if not provided will be generated automatically.
+   */
+  createRollRequest(rollRequest={}, rollRequestKey) {
+    const request = foundry.utils.mergeObject(this.getRollRequestObjectExample(), rollRequest);
+    const key = rollRequestKey ? rollRequestKey : generateKey();
+    this.update({[`system.rollRequests.${key}`]: request});
+  }
+
+  removeRollRequest(key) {
+    this.update({ [`system.rollRequests.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example Roll Request object that can be modified and used for creating new macros.
+   */
+  getRollRequestObjectExample() {
+    return {
+      category: "save",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "spell",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
+    }
+  }
+
+  //============================
+  //       AGAINST STATUS      =
+  //============================
+  /**
+   * Creates new Against Status object on this item.
+   * Both againstStatus and againstStatusKey parameters are optional and if not provided will be generated automatically.
+   */
+  createAgainstStatus(againstStatus={}, againstStatusKey) {
+    const against = foundry.utils.mergeObject(this.getAgainstStatusObjectExample(), againstStatus);
+    const key = againstStatusKey ? againstStatusKey : generateKey();
+    this.update({[`system.againstStatuses.${key}`]: against});
+  }
+
+  removeAgainstStatus(key) {
+    this.update({ [`system.againstStatuses.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example Against Status object that can be modified and used for creating new macros.
+   */
+  getAgainstStatusObjectExample() {
+    return {
+      id: "",
+      supressFromChatMessage: false,
+      untilYourNextTurnStart: false,
+      untilYourNextTurnEnd: false,
+      untilTargetNextTurnStart: false,
+      untilTargetNextTurnEnd: false,
+      untilFirstTimeTriggered: false,
+      forOneMinute: false,
+      repeatedSave: false,
+      repeatedSaveKey: "phy"
+    };
+  }
+
+  //==========================
+  //       ENHANCEMENTS      =
+  //==========================
+  /**
+   * Creates new Enhancement object on this item.
+   * Both enhancement and enhancementKey parameters are optional and if not provided will be generated automatically.
+   */
+  createNewEnhancement(enhancement={}, enhancementKey) {
+    const enh = foundry.utils.mergeObject(this.getEnhancementObjectExample(), enhancement);
+    const key = enhancementKey ? enhancementKey : generateKey();
+    this.update({[`system.enhancements.${key}`]: enh});
+  }
+
+  removeEnhancement(key) {
+    this.update({[`system.enhancements.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example enhancement object that can be modified and used for creating new enhancements.
+   */
+  getEnhancementObjectExample() {
+    const customCosts = Object.fromEntries(
+      Object.entries(this.system.costs.resources.custom)
+        .map(([key, custom]) => { 
+          custom.value = null; 
+          return [key, custom];
+        })
+      );
+
+    const resources = {
+      actionPoint: null,
+      health: null,
+      mana: null,
+      stamina: null, 
+      grit: null,
+      custom: customCosts
+    };
+    const charges = {
+      consume: false,
+      fromOriginal: false
+    };
+    const modifications = {
+      modifiesCoreFormula: false,
+      coreFormulaModification: "",
+      overrideTargetDefence: false,
+      targetDefenceType: "area",
+      hasAdditionalFormula: false,
+      additionalFormula: "",
+      overrideDamageType: false,
+      damageType: "",
+      addsNewFormula: false,
+      formula: {
+        formula: "",
+        type: "",
+        category: "damage",
+        dontMerge: false,
+        overrideDefence: ""
+      },
+      addsNewRollRequest: false,
+      rollRequest: {
+        category: "",
+        saveKey: "",
+        contestedKey: "",
+        dcCalculation: "",
+        dc: 0,
+        addMasteryToDC: true,
+        respectSizeRules: false,
+      },
+      addsAgainstStatus: false,
+      againstStatus: {
+        id: "",
+        supressFromChatMessage: false,
+        untilYourNextTurnStart: false,
+        untilYourNextTurnEnd: false,
+        untilTargetNextTurnStart: false,
+        untilTargetNextTurnEnd: false,
+        untilFirstTimeTriggered: false,
+        forOneMinute: false,
+        repeatedSave: false,
+        repeatedSaveKey: "phy"
+      },
+      addsEffect: null,
+      macro: "",
+      macros: {
+        preItemRoll: "",
+        postItemRoll: ""
+      },
+      rollLevelChange: false,
+      rollLevel: {
+        type: "adv",
+        value: 1
+      },
+      addsRange: false,
+      bonusRange: {
+        melee: null,
+        normal: null,
+        max: null
+      }
+    }
+
+    return {
+      name: "New Enhancement",
+      number: 0,
+      resources: resources,
+      charges: charges,
+      modifications: modifications,
+      description: "",
+      hide: false,
+    }
+  }
+
+  //============================
+  //        CONDITIONALS       =
+  //============================
+  /**
+   * Creates new conditional object on this item.
+   * Both conditional and conditionalKey parameters are optional and if not provided will be generated automatically.
+   */
+  createNewConditional(conditional={}, conditionalKey) {
+    const cond = foundry.utils.mergeObject(this.getConditionalObjectExample(), conditional);
+    const key = conditionalKey ? conditionalKey : generateKey();
+    this.update({[`system.conditionals.${key}`]: cond});
+  }
+
+  removeConditional(key) {
+    this.update({[`system.conditionals.-=${key}`]: null});
+  }
+
+  /**
+   * Returns example conditional object that can be modified and used for creating new conditionals.
+   */
+  getConditionalObjectExample() {
+    return {
+      name: "New Conditional",
+      condition: "", 
+      useFor: "",
+      linkWithToggle: false,
+      bonus: "",
+      flags: {
+        ignorePdr: false,
+        ignoreEdr: false,
+        ignoreMdr: false,
+        ignoreResistance: {},
+        ignoreImmune: {}
+      },
+      effect: null,
+      addsNewRollRequest: false,
+      rollRequest: {
+        category: "",
+        saveKey: "phy",
+        contestedKey: "",
+        dcCalculation: "",
+        dc: 0,
+        addMasteryToDC: true,
+        respectSizeRules: false,
+      },
+      addsNewFormula: false,
+      formula: {
+        formula: "",
+        type: "",
+        category: "damage",
+        dontMerge: false,
+        overrideDefence: "",
+      },
+    };
+  }
+
+  //==========================
+  //        ITEM MACRO       =
+  //==========================
+  /**
+   * Creates new Item Macro object on this item.
+   * Both macroObject and macroKey parameters are optional and if not provided will be generated automatically.
+   */
+  createNewItemMacro(macroObject={}, macroKey) {
+    const macro = foundry.utils.mergeObject(this.getMacroObjectExample(), macroObject);
+    const key = macroKey ? macroKey : generateKey();
+    this.update({[`system.macros.${key}`]: macro});
+  }
+
+  editItemMacro(key) {
+    const command = this.system.macros[key]?.command;
+    if (!command === undefined) return;
+    const macro = createTemporaryMacro(command, this, {item: this, key: key});
+    macro.canUserExecute = (user) => {
+      ui.notifications.warn("This is an Item Macro and it cannot be executed here.");
+      return false;
+    };
+    macro.sheet.render(true);
+  }
+
+  removeItemMacro(key) {
+    this.update({[`system.macros.-=${key}`]: null});
+  }
+
+  /**
+   * Returns example macro object that can be modified and used for creating new macros.
+   */
+  getMacroObjectExample() {
+    return {
+      command: "",
+      trigger: "",
+      disabled: false,
+      name: "New Macro",
+      title: "",
+    };
   }
 }

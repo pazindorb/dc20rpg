@@ -38,7 +38,6 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
         restPoints: new f.SchemaField({
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.restPoints"}), 
-          maxFormula: new f.StringField({ required: true, initial: "max(@mig, 0) + @level + @resources.restPoints.bonus"}),
         }),
         health: new f.SchemaField({
           ...resource(),

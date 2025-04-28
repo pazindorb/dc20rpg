@@ -1,7 +1,7 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
-import { createRestDialog } from "../../dialogs/rest.mjs";
+import { createRestDialog, rechargeItem } from "../../dialogs/rest.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
-import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
+import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, spendRpOnHp, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -13,11 +13,12 @@ import { advForApChange  } from "../../helpers/rollLevel.mjs";
 import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
-import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
-import { doomedToggle, exhaustionToggle, toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
+import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
+import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -33,7 +34,8 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.initative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
+  html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
+  html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
@@ -54,7 +56,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.select-other-check').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-check').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
-  html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
+  html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
   
   // Resources
@@ -71,6 +73,7 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 3) subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
     if (ev.which === 1) regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
   });
+  html.find(".rest-point-to-hp").click(async ev => {datasetOf(ev); await spendRpOnHp(actor, 1)});
 
   // Custom Resources
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
@@ -90,19 +93,14 @@ export function activateCommonLinsters(html, actor) {
   html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
   
-  // Exhaustion
-  html.find(".exhaustion-toggle").mousedown(ev => exhaustionToggle(actor, ev.which === 1));
-  html.find(".doomed-toggle").mousedown(ev => doomedToggle(actor, ev.which === 1));
-  
   // Skills
-  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, actor));
+  html.find(".expertise-toggle").click(ev => skills.manualSkillExpertiseToggle(datasetOf(ev).key, actor, datasetOf(ev).type));
+  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, actor));
   html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
-  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false, false));
+  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false));
   html.find('.remove-skill').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
-  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor, true, false));
-  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
-  html.find('.add-trade').click(() => skills.addCustomSkill(actor, false, true));
+  html.find('.add-trade').click(() => skills.addCustomSkill(actor, true));
   html.find('.remove-trade').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, true));
   html.find('.add-language').click(() => skills.addCustomLanguage(actor));
   html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
@@ -116,19 +114,26 @@ export function activateCommonLinsters(html, actor) {
   });
 
   // Tooltips
-  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
   html.find('.enh-tooltip').hover(ev => enhTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, actor), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
-  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
 }
 
 export function activateCharacterLinsters(html, actor) {
   // Header - Top Buttons
   html.find(".rest").click(() => createRestDialog(actor));
-  html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor));
+  html.find(".level").click(async ev => {
+    if (datasetOf(ev).up !== "true") {
+      const confirmed = await getSimplePopup("confirm", {header: "Do you want to level down?"});
+      if (!confirmed) return;
+    }
+    changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor)
+  });
   html.find(".rerun-advancement").click(ev => rerunAdvancement(actor, datasetOf(ev).classId));
   html.find(".configuration").click(() => characterConfigDialog(actor));
+  html.find(".keyword-editor").click(() => keywordEditor(actor));
 
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
@@ -143,7 +148,7 @@ export function activateNpcLinsters(html, actor) {
 export function activateCompanionListeners(html, actor) {
   const getTrait = (actor, traitKey) => actor.system?.traits[traitKey];
 
-  html.find(".trait-tooltip").hover(ev => traitTooltip(getTrait(actor, datasetOf(ev).traitKey), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find(".trait-tooltip").hover(ev => traitTooltip(getTrait(actor, datasetOf(ev).traitKey), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
   html.find(".activable-trait").mousedown(ev => {
     if (ev.which === 1) activateTrait(datasetOf(ev).traitKey, actor);
     if (ev.which === 3) deactivateTrait(datasetOf(ev).traitKey, actor);

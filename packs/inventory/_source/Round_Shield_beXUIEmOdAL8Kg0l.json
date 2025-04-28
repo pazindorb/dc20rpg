@@ -1,0 +1,311 @@
+{
+  "name": "Round Shield",
+  "type": "equipment",
+  "img": "icons/equipment/shield/round-wooden-boss-steel-yellow-blue.webp",
+  "system": {
+    "itemKey": "",
+    "description": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": ""
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "quantity": 1,
+    "weight": 0,
+    "price": {
+      "value": 0,
+      "currency": "gp"
+    },
+    "rarity": "",
+    "statuses": {
+      "attuned": false,
+      "equipped": false,
+      "identified": true
+    },
+    "properties": {
+      "attunement": {
+        "active": false,
+        "slotCost": 0,
+        "label": "dc20rpg.properties.attunement"
+      },
+      "adIncrease": {
+        "active": true,
+        "value": 1,
+        "label": "dc20rpg.properties.adIncrease"
+      },
+      "pdIncrease": {
+        "active": false,
+        "value": 1,
+        "label": "dc20rpg.properties.pdIncrease"
+      },
+      "edr": {
+        "active": false,
+        "label": "dc20rpg.properties.edr"
+      },
+      "pdr": {
+        "active": false,
+        "label": "dc20rpg.properties.pdr"
+      },
+      "bulky": {
+        "active": false,
+        "label": "dc20rpg.properties.bulky"
+      },
+      "rigid": {
+        "active": false,
+        "label": "dc20rpg.properties.rigid"
+      },
+      "grasp": {
+        "active": false,
+        "label": "dc20rpg.properties.grasp"
+      },
+      "toss": {
+        "active": true,
+        "label": "dc20rpg.properties.toss"
+      },
+      "mounted": {
+        "active": false,
+        "label": "dc20rpg.properties.mounted"
+      }
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": "",
+      "mustEquip": true
+    },
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "doNotExpire": false
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "attack",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {
+      "83vgJTTzFMMP7Mnf": {
+        "formula": "1",
+        "type": "bludgeoning",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false
+      }
+    },
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": 5,
+      "max": 10,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": false
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "provideMartialExpansion": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "tip": "",
+        "items": {}
+      }
+    },
+    "equipmentType": "lshield"
+  },
+  "effects": [],
+  "folder": "Hq3Lomj82fS00ldp",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1744926217322,
+    "modifiedTime": 1744926441344,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "beXUIEmOdAL8Kg0l",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!beXUIEmOdAL8Kg0l"
+}

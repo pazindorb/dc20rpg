@@ -129,34 +129,43 @@ function _weaponProps() {
 function _equipmentProps() {
   const f = foundry.data.fields;
   return {
-    reinforced: new f.SchemaField({
+    adIncrease: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
-      label: new f.StringField({initial: "dc20rpg.properties.reinforced"})
+      value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      label: new f.StringField({initial: "dc20rpg.properties.adIncrease"})
     }),
-    sturdy: new f.SchemaField({
+    pdIncrease: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
-      label: new f.StringField({initial: "dc20rpg.properties.sturdy"})
+      value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      label: new f.StringField({initial: "dc20rpg.properties.pdIncrease"})
     }),
-    dense: new f.SchemaField({
+    edr: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
-      label: new f.StringField({initial: "dc20rpg.properties.dense"})
+      label: new f.StringField({initial: "dc20rpg.properties.edr"})
     }),
-    requirement: new f.SchemaField({
+    pdr: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
-      value: new f.StringField({required: true, initial: ""}),
-      label: new f.StringField({initial: "dc20rpg.properties.requirement"})
+      label: new f.StringField({initial: "dc20rpg.properties.pdr"})
     }),
-    agiDis: new f.SchemaField({
+    bulky: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
-      label: new f.StringField({initial: "dc20rpg.properties.agiDis"})
+      label: new f.StringField({initial: "dc20rpg.properties.bulky"})
     }),
-    mounted: new f.SchemaField({
+    rigid: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
-      label: new f.StringField({initial: "dc20rpg.properties.mounted"})
+      label: new f.StringField({initial: "dc20rpg.properties.rigid"})
+    }),
+    grasp: new f.SchemaField({
+      active: new f.BooleanField({required: true, initial: false}),
+      label: new f.StringField({initial: "dc20rpg.properties.grasp"})
     }),
     toss: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
       label: new f.StringField({initial: "dc20rpg.properties.toss"})
+    }),
+    mounted: new f.SchemaField({
+      active: new f.BooleanField({required: true, initial: false}),
+      label: new f.StringField({initial: "dc20rpg.properties.mounted"})
     }),
   }
 }

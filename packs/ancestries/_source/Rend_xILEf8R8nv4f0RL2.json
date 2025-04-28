@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/skills/wounds/injury-triple-slash-bleed.webp",
   "system": {
-    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>You can spend <strong>1 AP</strong> when making an <strong>Attack</strong> <strong>Check</strong> with your <strong>Natural</strong> <strong>Weapon</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong>.</p><p><strong>Failure:</strong> The target begins <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2f734fbaa3b8881f]{Bleeding}</strong>.</p>",
+    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>You can spend <strong>1 AP</strong> when making an <strong>Attack</strong> <strong>Check</strong> with your <strong>Natural</strong> <strong>Weapon</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong>.</p><p><strong>Failure:</strong> The target begins <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -110,7 +110,7 @@
             "max": null
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> when making an <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Attack</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> with your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Natural</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Weapon</strong> to force the target to make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Physical</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The target begins <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2f734fbaa3b8881f]{Bleeding}</strong>.</span></p>"
+        "description": "<p>You can spend <strong>1 AP</strong> when making an <strong>Attack</strong> <strong>Check</strong> with your <strong>Natural</strong> <strong>Weapon</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong>.</p><p><strong>Failure:</strong> The target begins <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>"
       }
     },
     "copyEnhancements": {
@@ -211,7 +211,11 @@
         "untilFirstTimeTriggered": false
       }
     },
-    "itemKey": "rend"
+    "itemKey": "rend",
+    "featureSourceItem": "beastborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [],
   "flags": {},
@@ -222,7 +226,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720112468543,
-    "modifiedTime": 1739480947888,
+    "modifiedTime": 1745570066272,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "xILEf8R8nv4f0RL2",

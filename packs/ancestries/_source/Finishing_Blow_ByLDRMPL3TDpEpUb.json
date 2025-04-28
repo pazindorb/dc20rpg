@@ -8,7 +8,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.hasAnyCondition([\"bloodied2\"])",
       "bonus": "1",
       "useFor": "true",
@@ -18,7 +18,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -132,7 +132,44 @@
         0
       ]
     },
-    "itemKey": "finishingBlow"
+    "itemKey": "finishingBlow",
+    "featureSourceItem": "orc",
+    "requirements": {
+      "level": 0
+    },
+    "conditionals": {
+      "a8vHbwxyxMdtXdYy": {
+        "name": "Finishing Blow",
+        "condition": "target.hasAnyCondition([\"wellBloodied\"])",
+        "useFor": "true",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [],
   "sort": 100000,
@@ -146,9 +183,9 @@
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.5",
     "createdTime": 1720103134607,
-    "modifiedTime": 1739480947813,
+    "modifiedTime": 1745758657672,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ByLDRMPL3TDpEpUb",

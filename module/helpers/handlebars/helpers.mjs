@@ -142,7 +142,7 @@ export function registerHandlebarsHelpers() {
     return diceTotal;
   });
 
-  Handlebars.registerHelper('PARTIAL', function(partialName, b) {
+  Handlebars.registerHelper('PARTIAL', function(partialName) {
     const partialPath = allPartials()[partialName];
 
     if (!partialPath) {
@@ -151,7 +151,10 @@ export function registerHandlebarsHelpers() {
 
     const template = Handlebars.partials[partialPath];
     if (template) {
-      return new Handlebars.SafeString(template(this));
+      return new Handlebars.SafeString(template(this, {
+        allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true
+      }));
     }
     return '';
   });

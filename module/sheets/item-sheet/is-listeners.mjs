@@ -1,23 +1,21 @@
-import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
-import { deleteAdvancement } from "../../helpers/advancements.mjs";
-import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
-import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
-import { changeActivableProperty, changeNumericValue, getLabelFromKey } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
-import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
+import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
-import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
-import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
+import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
+import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
   html.find('.numeric-input').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, item));
+  html.find('.input').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, item));
+  html.find(".selectable").change(ev => changeValue(valueOf(ev), datasetOf(ev).path, item));
 
   // Weapon Creator
   html.find('.weapon-creator').click(() => createWeaponCreator(item));
@@ -27,19 +25,20 @@ export function activateCommonLinsters(html, item) {
   html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
 
   // Tooltip
-  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
+  html.find('.content-link').hover(async ev => _onHover(ev, html), ev => hideTooltip(ev, html));
 
   // Formulas
-  html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));
-  html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, item));
+  html.find('.add-formula').click(ev => item.createFormula({category: datasetOf(ev).category}));
+  html.find('.remove-formula').click(ev => item.removeFormula(datasetOf(ev).key));
 
   // Roll Requests
-  html.find('.add-roll-request').click(() => addRollRequest(item));
-  html.find('.remove-roll-request').click(ev => removeRollRequest(item, datasetOf(ev).key));
+  html.find('.add-roll-request').click(() => item.createRollRequest());
+  html.find('.remove-roll-request').click(ev => item.removeRollRequest(datasetOf(ev).key));
 
   // Against Status
-  html.find('.add-against-status').click(() => addAgainstStatus(item));
-  html.find('.remove-against-status').click(ev => removeAgainstStatus(item, datasetOf(ev).key));
+  html.find('.add-against-status').click(() => item.createAgainstStatus());
+  html.find('.remove-against-status').click(ev => item.removeAgainstStatus(datasetOf(ev).key));
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
@@ -48,21 +47,27 @@ export function activateCommonLinsters(html, item) {
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
 
   // Item Macros
+  html.find('.add-macro').click(() => item.createNewItemMacro());
+  html.find('.remove-macro').click(ev => item.removeItemMacro(datasetOf(ev).key));
   html.find('.macro-edit').click(ev => item.editItemMacro(datasetOf(ev).key));
+
+  // Conditional
+  html.find('.add-conditional').click(() => item.createNewConditional());
+  html.find('.remove-conditional').click(ev => item.removeConditional(datasetOf(ev).key));
 
   // Resources Managment
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
   html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item, html));
-  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.checks)));
+  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.allChecks)));
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
-  html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')?.val()));
+  html.find('.add-enhancement').click(() => item.createNewEnhancement({name: html.find('.new-enhancement-name')?.val()}));
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
-  html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key));
-  html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, item));
+  html.find('.remove-enhancement').click(ev => item.removeEnhancement(datasetOf(ev).key));
+  html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, datasetOf(ev).macroKey, item));
 
   // Macros and effects
   html.find('.add-effect-to').click(ev => _onCreateEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
@@ -165,7 +170,7 @@ function _removeResourceFromItem(item, key) {
 async function _onClassIdSelection(event, item) {
   event.preventDefault();
   const classSpecialId = valueOf(event);
-  const className = CONFIG.DC20RPG.DROPDOWN_DATA.baseClassSpecialIds[classSpecialId];
+  const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[classSpecialId];
 
   item.update({
     ["system.forClass"]: {
@@ -213,25 +218,29 @@ function _onRollTemplateSelect(selected, item) {
   item.update({system: system});
 }
 
-async function _onCreateEffectOn(type, item, enhKey) {
+async function _onCreateEffectOn(type, item, key) {
   if (type === "enhancement") {
     const enhancements = item.system.enhancements;
-    const enh = enhancements[enhKey]
+    const enh = enhancements[key]
     if (!enh) return;
 
-    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: enhKey});
+    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: key});
     created.sheet.render(true);
   }
   if (type === "conditional") {
-    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, conditional: true});
+    const conditionals = item.system.conditionals;
+    const cond = conditionals[key]
+    if (!cond) return;
+
+    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, condKey: key});
     created.sheet.render(true);
   }
 }
 
-async function _onEditEffectOn(type, item, enhKey) {
+async function _onEditEffectOn(type, item, key) {
   if (type === "enhancement") {
     const enhancements = item.system.enhancements;
-    const enh = enhancements[enhKey]
+    const enh = enhancements[key]
     if (!enh) return;
 
     const effectData = enh.modifications.addsEffect;
@@ -240,28 +249,44 @@ async function _onEditEffectOn(type, item, enhKey) {
     created.sheet.render(true);
   }
   if (type === "conditional") {
-    const effectData = item.system.conditional.effect;
+    const conditionals = item.system.conditionals;
+    const cond = conditionals[key]
+    if (!cond) return;
+
+    const effectData = cond.effect;
     if (!effectData) return;
     const created = await createEffectOn(effectData, item);
     created.sheet.render(true);
   }
 }
 
-function _onDeleteEffectOn(type, item, enhKey) {
-  if (type === "enhancement") item.update({[`system.enhancements.${enhKey}.modifications.addsEffect`]: null});
-  if (type === "conditional") item.update({["system.conditional.effect"]: null});
+function _onDeleteEffectOn(type, item, key) {
+  if (type === "enhancement") item.update({[`system.enhancements.${key}.modifications.addsEffect`]: null});
+  if (type === "conditional") item.update({[`system.conditionals.${key}.effect`]: null});
 }
 
-async function _onEnhancementMacroEdit(enhKey, item) {
+async function _onEnhancementMacroEdit(enhKey, macroKey, item) {
   const enhancements = item.system.enhancements;
   const enh = enhancements[enhKey]
   if (!enh) return;
 
-  const command = enh.modifications.macro || "";
-  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey});
+  const macros = enh.modifications.macros;
+  if (!macros) return;
+
+  const command = macros[macroKey] || "";
+  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey, macroKey: macroKey});
   macro.canUserExecute = (user) => {
     ui.notifications.warn("This is an Enhancement Macro and it cannot be executed here.");
     return false;
   };
   macro.sheet.render(true);
+}
+
+async function _onHover(ev, html) {
+  const document = await fromUuid(datasetOf(ev).uuid);
+  const type = datasetOf(ev).type;
+  if (document) {
+    if (type === "Item") itemTooltip(document, ev, html);
+    if (type === "JournalEntryPage") journalTooltip(datasetOf(ev).uuid, document.name, "icons/svg/item-bag.svg", ev, html);
+  }
 }

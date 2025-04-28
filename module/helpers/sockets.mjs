@@ -1,6 +1,8 @@
+import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { effectsToRemovePerActor } from "./effects.mjs";
+import { createItemOnActor, deleteItemFromActor } from "./actors/itemsOnActor.mjs";
+import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
@@ -26,6 +28,18 @@ export function registerSystemSockets() {
     }
   });
 
+  // Open Rest Dialog
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "startRest") {
+      const {actorId, preselected} = data.payload;
+      let actor = game.actors.get(actorId);
+
+      if (actor && actor.ownership[game.user.id] === 3) {
+        createRestDialog(actor, preselected);
+      }
+    }
+  });
+
   // Create actor for a player
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "createActor") {
@@ -40,13 +54,39 @@ export function registerSystemSockets() {
     }
   });
 
-  // Add Help Dice
+  // Update Chat Message
   game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "addHelpDiceToRoll") {
+    if (data.type === "updateChatMessage") {
       const m = data.payload;
       if (game.user.id === m.gmUserId) {
         const message = game.messages.get(m.messageId);
         if (message) message.update(m.updateData);
+      }
+    }
+  });
+
+  // Add Document to Actor 
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "addDocument") {
+      const { docType, docData, actorUuid, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const actor = await fromUuid(actorUuid);
+        if (!actor) return;
+        if (docType === "item") await createItemOnActor(actor, docData);
+        if (docType === "effect") await createEffectOn(docData, actor);
+      }
+    }
+  });
+
+  // Remove Document from Actor
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "removeDocument") {
+      const { docType, docId, actorUuid, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const actor = await fromUuid(actorUuid);
+        if (!actor) return;
+        if (docType === "item") await deleteItemFromActor(docId, actor);
+        if (docType === "effect") await deleteEffectFrom(docId, actor);
       }
     }
   });
@@ -149,4 +189,16 @@ export function emitSystemEvent(type, payload) {
     type: type,
     payload: payload
   });
+}
+
+export function emitEventToGM(type, payload) {
+  const activeGM = game.users.activeGM;
+  if (!activeGM) {
+    ui.notifications.error("There needs to be an active GM to proceed with that operation");
+    return false;
+  }
+  emitSystemEvent(type, {
+    gmUserId: activeGM.id,
+    ...payload,
+  })
 }

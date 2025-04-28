@@ -25,7 +25,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -113,7 +113,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Pact Boon",
     "usesWeapon": {
       "weaponId": "",
@@ -332,19 +332,27 @@
       }
     },
     "macros": {
-      "onDemandMacroTitle": "Change Your Pact Weapon",
-      "onDemand": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // Remove combat training from old Pact Weapon\n  const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) oldWeapon.update({[\"system.weaponStyleActive\"]: false});\n\n  // Add combat training to new Pact Weapon\n  weapon.update({[\"system.weaponStyleActive\"]: true});\n  item.update({[\"flags.dc20rpg.pactWeaponId\"]: weaponId});\n}",
-      "onCreate": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // Remove combat training from old Pact Weapon\n  const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) oldWeapon.update({[\"system.weaponStyleActive\"]: false});\n\n  // Add combat training to new Pact Weapon\n  weapon.update({[\"system.weaponStyleActive\"]: true});\n  item.update({[\"flags.dc20rpg.pactWeaponId\"]: weaponId});\n}",
-      "preDelete": "const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) oldWeapon.update({[\"system.weaponStyleActive\"]: false});",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "uOYP4gvcJpumln1h": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // Remove combat training from old Pact Weapon\n  const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) oldWeapon.update({[\"system.weaponStyleActive\"]: false});\n\n  // Add combat training to new Pact Weapon\n  weapon.update({[\"system.weaponStyleActive\"]: true});\n  item.update({[\"flags.dc20rpg.pactWeaponId\"]: weaponId});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "xacpGh6lKjwkDuhl": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // Remove combat training from old Pact Weapon\n  const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) oldWeapon.update({[\"system.weaponStyleActive\"]: false});\n\n  // Add combat training to new Pact Weapon\n  weapon.update({[\"system.weaponStyleActive\"]: true});\n  item.update({[\"flags.dc20rpg.pactWeaponId\"]: weaponId});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "tTqHv7alZgJ1NLkV": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) oldWeapon.update({[\"system.weaponStyleActive\"]: false});",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -381,7 +389,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035666,
-    "modifiedTime": 1739350035666,
+    "modifiedTime": 1745412706871,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "aZePJQnpb5VeqZGo",

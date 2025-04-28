@@ -22,22 +22,22 @@
   </nav>
 
   <section class="item-sheet-body">
-    <div class="tab description-tab content" data-group="primary" data-tab="description">
+    <div class="tab description-tab content padding-7" data-group="primary" data-tab="description">
       <div class="description-box">
         {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
       </div>
     </div>
 
     {{!-- Subclass Config --}}
-    <div class="tab config-tab content" data-group="primary" data-tab="config">
-      <div class="row" title="{{localize "dc20rpg.item.sheet.subclass.forClassTitle"}}">
-        <span>{{localize "dc20rpg.item.sheet.subclass.forClass"}}</span>
-        <input class="input-class-id" type="text" data-path="system.forClass.classSpecialId" value="{{system.forClass.classSpecialId}}" placeholder="{{localize "dc20rpg.item.sheet.subclass.classSpecialId"}}">
+    <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
+      <div class="row" title="{{localize "dc20rpg.item.sheet.uniqueItemKeyTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.uniqueItemKey"}}</span>
+        <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
       </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.subclass.systemClasses"}}</span>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.subclass.forClassTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.subclass.forClass"}}</span>
         <select class="select-class-id" data-path="system.forClass.classSpecialId">
-          {{selectOptions @root.config.DROPDOWN_DATA.baseClassSpecialIds selected=system.forClass.classSpecialId blank=""}}
+          {{selectOptions @root.config.UNIQUE_ITEM_IDS.class selected=system.forClass.classSpecialId blank=""}}
         </select>
       </div>
     </div>

@@ -4,7 +4,7 @@
   "type": "technique",
   "img": "icons/magic/control/debuff-energy-hold-levitate-yellow.webp",
   "system": {
-    "description": "<p>Using a Melee Weapon or Unarmed Strike, you can spend <strong>1 AP</strong> and <strong>1 SP</strong> to perform an exceptional leap and assault a creature.</p><p>You gain up to your <strong>Speed </strong>in Spaces and increase your <strong>Jump Distance </strong>by 1 on the next Long or Vertical Jump you make.</p><p>You leap into the air and make an <strong>Attack Check </strong>against a target in range, and the target makes a <strong>Physical Save</strong>.</p><p><strong>Attack Hit: </strong>It takes your Weapons damage.</p><p><strong>Save Failure: </strong>The target falls <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}</strong>.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Brutal Leap:</strong> <strong>(1 SP)</strong> Transfer all of the Falling damage you would usually take into the target instead (see @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.9494c7fd48450bf0]{Falling Attacks} and @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.e526478756286bf0]{Collision} for more information).  </li><li><strong>Heroic Slam:</strong> <strong>(1 SP, 1 AP)</strong> Compare your <strong>Attack Check </strong>against the <strong>PD</strong> of all creatures within 1 Space of you (instead of a single target).</li><li><strong>Far Leap: (1 SP)</strong> Increase your damage by 1 and your Jump Distance by 2.</li></ul>",
+    "description": "<p>Using a Melee Weapon or Unarmed Strike, you can spend <strong>1 AP</strong> and <strong>1 SP</strong> to perform an exceptional leap and assault a creature.</p><p>You gain up to your <strong>Speed </strong>in Spaces and increase your <strong>Jump Distance </strong>by 1 on the next Long or Vertical Jump you make.</p><p>You leap into the air and make an <strong>Attack Check </strong>against a target' PD in range, and the target makes a <strong>Physical Save</strong>.</p><p><strong>Attack Hit: </strong>It takes your Weapons damage.</p><p><strong>Save Failure: </strong>The target falls <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.0wgHQIXjhxgu9i0s]{Prone}</strong>.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Brutal Leap:</strong> <strong>(1 SP)</strong> Transfer all of the Falling damage you would usually take into the target instead (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.e1d8d4662bfbfa73]{Falling Attacks} and @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.74f000d80f0673c9]{Collision} for more information).  </li><li><strong>Heroic Slam:</strong> <strong>(1 SP, 1 AP)</strong> Compare your <strong>Attack Check </strong>against the <strong>AD</strong> of all creatures within 1 Space of you (instead of a single target).</li><li><strong>Far Leap: (1 SP)</strong> Increase your damage by 1 and your Jump Distance by 2.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -98,9 +98,11 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
-        "description": "<p>Transfer all of the Falling damage you would usually take into the target instead (see @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.9494c7fd48450bf0]{Falling Attacks} and @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.e526478756286bf0]{Collision} for more information).</p>"
+        "description": "<p>Transfer all of the Falling damage you would usually take into the target instead (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.e1d8d4662bfbfa73]{Falling Attacks} and @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.74f000d80f0673c9]{Collision} for more information).</p>"
       },
       "HKyDvQFGWFpIqrqU": {
         "name": "Heroic Slam",
@@ -137,9 +139,11 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "overrideTargetDefence": true,
+          "targetDefenceType": "area"
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Compare your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack Check </strong>against the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">PD</strong> of all creatures within 1 Space of you (instead of a single target).</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Compare your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack Check </strong>against the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">AD</strong> of all creatures within 1 Space of you (instead of a single target).</span></p>"
       },
       "OfzxwEHGAmRDhAat": {
         "name": "Far Leap",
@@ -231,7 +235,13 @@
       "id": "prone"
     },
     "macros": {
-      "preItemRoll": "game.dc20rpg.tools.makeMoveAction(actor);"
+      "tkpERx9i69rY0jJO": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "game.dc20rpg.tools.makeMoveAction(actor);",
+        "disabled": false,
+        "title": ""
+      }
     },
     "rollRequests": {
       "rollRequestFromTemplate": {
@@ -271,7 +281,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849211604,
-    "modifiedTime": 1739480667629,
+    "modifiedTime": 1745570064840,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "K2vsxWlXqxhPpmq6",

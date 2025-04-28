@@ -1,12 +1,11 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
-import { parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
-import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/actors/resources.mjs";
+import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import { enhanceStatusEffectWithExtras, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
-import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
+import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
@@ -16,6 +15,10 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  * @extends {Actor}
  */
 export class DC20RpgActor extends Actor {
+
+  get exhaustion() {
+    return getStatusWithId(this, "exhaustion")?.stack || 0
+  }
 
   get allEffects() {
     const effects = [];
@@ -133,11 +136,17 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    prepareDataFromItems(this);
+    fullyStunnedCheck(this);
+    exhaustionCheck(this);
+    dazedCheck(this);
+    
+    prepareUniqueItemData(this);
+    prepareEquippedItemsFlags(this);
     enhanceEffects(this);
     this.prepareActiveEffectsDocuments();
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
+    prepareDataFromItems(this);
   }
 
   /**
@@ -402,7 +411,7 @@ export class DC20RpgActor extends Actor {
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
-      this.reset()
+      this.reset();
       return false;
     }
     
@@ -422,7 +431,13 @@ export class DC20RpgActor extends Actor {
     const effectData = {...effect};
     effectData._id = effect._id;
     const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
-    this.reset()
+
+    // Unconscious also causes prone
+    if (created.statuses.has("unconscious")) await this.toggleStatusEffect("prone", {active: true});
+    // Deaths Doors also adds one exhaustion stack
+    if (created.statuses.has("deathsDoor")) await this.toggleStatusEffect("exhaustion", {active: true});
+    
+    this.reset();
     return created;
   }
 
@@ -448,7 +463,7 @@ export class DC20RpgActor extends Actor {
       let tokens = this.getActiveTokens();
 
       //====== INJECTED ====== 
-      // If tokens are linked we want to roll initative only for one token
+      // If tokens are linked we want to roll initiative only for one token
       if (tokens[0] && tokens[0].document.actorLink === true) {
         let tokenFound = tokens[0];
 
@@ -513,23 +528,23 @@ export class DC20RpgActor extends Actor {
       if (changed.system?.resources?.health) {
         const newHP = changed.system.resources.health;
         const previousHP = this.hpBeforeUpdate;
-
-        const maxHp = previousHP.max;
+        const tempHpChange = newHP.temp > 0 && !newHP.current;
+        
         const newValue = newHP.value;
         const oldValue = previousHP.value;
-        runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
-        runConcentrationCheck(oldValue, newValue, this);
+        healthThresholdsCheck(newHP.current, this);
+        
         const hpDif = oldValue - newValue;
         const tokens = getAllTokensForActor(this);
         if (hpDif < 0) {
           const text = `+${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.fromEvent && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
         }
         else if (hpDif > 0) {
           const text = `-${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.fromEvent) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId});
         }
       }
     }

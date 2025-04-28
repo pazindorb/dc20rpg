@@ -11,6 +11,7 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
       bonus: new f.StringField({ required: true, initial: "0" }),
       flags: new f.SchemaField({
         ignorePdr: new f.BooleanField({required: true, initial: false}),
+        ignoreEdr: new f.BooleanField({required: true, initial: false}),
         ignoreMdr: new f.BooleanField({required: true, initial: false}),
         ignoreResistance: new f.ObjectField({required: true}),
         ignoreImmune: new f.ObjectField({required: true}),
@@ -25,6 +26,14 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
         dc: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         addMasteryToDC: new f.BooleanField({required: true, initial: true}),
         respectSizeRules: new f.BooleanField({required: true, initial: false}),
+      }),
+      addsNewFormula: new f.BooleanField({required: true, initial: false}),
+      formula: new f.SchemaField({
+        formula: new f.StringField({required: true, initial: ""}),
+        type: new f.StringField({required: true, initial: ""}),
+        category: new f.StringField({required: true, initial: "damage"}),
+        dontMerge: new f.BooleanField({required: true, initial: false}),
+        overrideDefence: new f.StringField({required: true, initial: ""}),
       }),
     }
     super(fields, options);

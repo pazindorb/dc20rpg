@@ -16,7 +16,8 @@ export class DC20RpgItemSheet extends ItemSheet {
       height: 520,
       tabs: [
         { navSelector: ".sheet-tabs", contentSelector: ".item-sheet-body", initial: "description" }, 
-        { navSelector: ".roll-tabs", contentSelector: ".roll-content", initial: "details" } 
+        { navSelector: ".roll-tabs", contentSelector: ".roll-content", initial: "details" },
+        { navSelector: ".advanced-tabs", contentSelector: ".advanced-content", initial: "adv-core"}
       ],
       dragDrop: [
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},

@@ -1,4 +1,4 @@
-<div class="tab details-tab content" data-group="roll" data-tab="details">
+<div class="tab details-tab content padding-7" data-group="roll" data-tab="details">
 
   {{!-- Use Roll Template --}}
   <div class="row margin-top-5">
@@ -80,24 +80,24 @@
         <span>{{localize "dc20rpg.item.sheet.check.checkKey"}}</span>
         {{/if}}
         <select name="system.check.checkKey">
-          {{selectOptions @root.config.ROLL_KEYS.checks selected=system.check.checkKey blank=""}}
+          {{selectOptions @root.config.ROLL_KEYS.allChecks selected=system.check.checkKey blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.check.multiCheck"}}</span>
         {{#if system.check.multiCheck.active}}
         <select class="multi-select" data-path="system.check.multiCheck.options">
-          {{selectOptions @root.config.ROLL_KEYS.checks blank=""}}
+          {{selectOptions @root.config.ROLL_KEYS.allChecks blank=""}}
         </select>
         {{/if}}
         <a class="margin-left-3 activable fa-lg {{#if system.check.multiCheck.active}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.multiCheck.active"></a>
       </div>
       {{#if system.check.multiCheck.active}}
       <div class="selected-options margin-top-2">
-        {{#each system.check.multiCheck.options}}
+        {{#each system.check.multiCheck.options as |option key|}}
           <div class="option">
-            <span>{{labelFromKey this @root.config.ROLL_KEYS.checks}}</span>
-            <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+            <span>{{labelFromKey option @root.config.ROLL_KEYS.allChecks}}</span>
+            <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
           </div>
         {{/each}}
       </div>
@@ -143,7 +143,7 @@
   </div>
   {{#each system.rollRequests as |request key|}}
   <div class="content-wrapper">
-    <div class="row margin-top-3">
+    <div class="row">
       <div class="left-part-row">
         <span>{{localize "dc20rpg.item.sheet.rollRequests.category"}}</span>
         <a class="remove-roll-request margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.rollRequests.remove"}}" data-key="{{key}}"></a>
@@ -198,9 +198,9 @@
     <span>{{localize "dc20rpg.item.sheet.againstStatus.title"}}</span>
     <a class="add-against-status fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.add"}}"></a>
   </div>
+  {{#each system.againstStatuses as |status key|}}
   <div class="content-wrapper">
-    {{#each system.againstStatuses as |status key|}}
-    <div class="row margin-top-5">
+    <div class="row">
       <div class="left-part-row">
         <select name="system.againstStatuses.{{key}}.id">
           {{selectOptions @root.config.DROPDOWN_DATA.statusResistances selected=status.id blank=""}}
@@ -231,8 +231,9 @@
         {{/if}}
       </div>
     </div>
-    {{/each}}
   </div>
+  {{/each}}
+
   
   {{!-- Damage/Heal Formulas --}}
   <div class="sub-header margin-top-5">
@@ -246,16 +247,18 @@
   {{#each formulas}}
     {{#each this as |formula key|}}
     <div class="content-wrapper">
-      <div class="row margin-top-5">
+      <div class="row">
         <div class="left-part-row">
           <span class="{{formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." formula.category ""}}</span>
           <div class="buttons">
-            {{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
+            <a class="activable margin-right-3 fa-solid fa-solid {{#if formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="system.formulas.{{key}}.dontMerge" 
+                {{#if formula.dontMerge}}title="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}title="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
+            {{#ifCond @root.system.actionType "===" "check"}}{{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
             <a class="activable each5-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
-            {{/unless}}{{/if}}
-            {{#if @root.system.check.againstDC}}{{#unless formula.fail}} 
+            {{/unless}}{{/if}}{{/ifCond}}
+            {{#ifCond @root.system.actionType "===" "check"}}{{#if @root.system.check.againstDC}}{{#unless formula.fail}} 
             <a class="activable fail-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}" data-path="system.formulas.{{key}}.fail"></a>
-            {{/unless}}{{/if}}
+            {{/unless}}{{/if}}{{/ifCond}}
             <a class="remove-formula damage-formula margin-right-3 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-key={{key}}></a>
           </div>
         </div>
@@ -266,11 +269,16 @@
             {{selectOptions formula.types selected=formula.type blank=""}}
           </select>
           {{/if}}
+          {{#ifCond @root.system.actionType "===" "attack"}}{{#ifCond formula.category "===" "damage"}}
+          <select class="margin-left-3" name="system.formulas.{{key}}.overrideDefence" title="{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}">
+            {{selectOptions @root.config.DROPDOWN_DATA.defences selected=formula.overrideDefence blank=""}}
+          </select>
+          {{/ifCond}}{{/ifCond}}
         </div>
       </div>
 
       {{!-- Check only --}}
-      {{#if @root.system.check.againstDC}}
+      {{#ifCond @root.system.actionType "===" "check"}}{{#if @root.system.check.againstDC}}
         {{!-- Each 5 --}}
         {{#if formula.each5}} 
         <div class="row margin-top-3">
@@ -306,7 +314,7 @@
           </div>
         </div>
         {{/if}}
-      {{/if}}
+      {{/if}}{{/ifCond}}
 
       {{!-- Other Formula Label --}}
       {{#ifCond category '===' "other"}}

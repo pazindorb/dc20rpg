@@ -27,7 +27,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -125,7 +125,6 @@
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
-          "macro": "",
           "rollLevelChange": false,
           "rollLevel": {
             "type": "adv",
@@ -136,6 +135,10 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Add an additional +2 Fire damage to your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Attack Check </strong>(must be done before the Attack is made).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Miss:</strong> Deal 1 Fire damage to the target.</span></p>",
@@ -193,7 +196,6 @@
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
-          "macro": "",
           "rollLevelChange": false,
           "rollLevel": {
             "type": "adv",
@@ -204,6 +206,10 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Add +1 Fire damage to the target and secondary target.</span></p>"
@@ -310,19 +316,13 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  const flameStrike = item.system.enhancements.ICaMwfDrWmiVl2ss.number > 0;\n  const flameBound = item.system.enhancements.yoyL77349nwfkg9y.number > 0;\n\n  let formula = flameStrike ? 3 : 1;\n  if (flameBound) formula += 1;\n  const formulas = weapon.system.formulas;\n  formulas[\"minorFlameBlade\"] = {\n    formula: `${formula}`,\n    type: \"fire\",\n    category: \"damage\",\n  };\n  if (flameBound) {\n    formulas[\"flameBound\"] = {\n      formula: \"1\",\n      type: \"fire\",\n      category: \"damage\",\n    };\n  }\n  const oldMacro = weapon.system.macros.postChatMessageCreated;\n  weapon.update({\n    [\"flags.dc20rpg.oldMacro\"]: oldMacro,\n    [\"system.formulas\"]: formulas,\n    [\"system.macros.postChatMessageCreated\"]: postChatMessageCreated(oldMacro)\n  });\n  item.update({[\"flags.dc20rpg.weaponId\"]: weaponId});\n  const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", item);\n  if (effect) effect.enable();\n}\n\nfunction postChatMessageCreated(currentValue) {\n  const newValue = currentValue + ` ; \n  const confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Did the attack hit? If so, should the 'Minor Flame Blade' be removed from this weapon?\"});\n  if (confirmed) {\n    item.update({\n      [\"system.formulas.-=minorFlameBlade\"]: null,\n      [\"system.formulas.-=flameBound\"]: null,\n      [\"system.macros.postChatMessageCreated\"]: item.flags.dc20rpg.oldMacro\n    })\n    const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", actor);\n    if (effect) effect.disable();\n  }\n  `\n  return  newValue;\n}",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "xmTvP6lnYpXmUu2g": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  const flameStrike = item.system.enhancements.ICaMwfDrWmiVl2ss.number > 0;\n  const flameBound = item.system.enhancements.yoyL77349nwfkg9y.number > 0;\n\n  let formula = flameStrike ? 3 : 1;\n  if (flameBound) formula += 1;\n  const formulas = weapon.system.formulas;\n  formulas[\"minorFlameBlade\"] = {\n    formula: `${formula}`,\n    type: \"fire\",\n    category: \"damage\",\n  };\n  if (flameBound) {\n    formulas[\"flameBound\"] = {\n      formula: \"1\",\n      type: \"fire\",\n      category: \"damage\",\n    };\n  }\n  const oldMacro = weapon.system.macros.postChatMessageCreated;\n  weapon.update({\n    [\"flags.dc20rpg.oldMacro\"]: oldMacro,\n    [\"system.formulas\"]: formulas,\n    [\"system.macros.postChatMessageCreated\"]: postChatMessageCreated(oldMacro)\n  });\n  item.update({[\"flags.dc20rpg.weaponId\"]: weaponId});\n  const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", item);\n  if (effect) effect.enable();\n}\n\nfunction postChatMessageCreated(currentValue) {\n  const newValue = currentValue + ` ; \n  const confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Did the attack hit? If so, should the 'Minor Flame Blade' be removed from this weapon?\"});\n  if (confirmed) {\n    item.update({\n      [\"system.formulas.-=minorFlameBlade\"]: null,\n      [\"system.formulas.-=flameBound\"]: null,\n      [\"system.macros.postChatMessageCreated\"]: item.flags.dc20rpg.oldMacro\n    })\n    const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", actor);\n    if (effect) effect.disable();\n  }\n  `\n  return  newValue;\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "help": {
       "ignoreMHP": false,
@@ -479,7 +479,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739403766421,
-    "modifiedTime": 1739608628322,
+    "modifiedTime": 1745412758219,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "gZWoBwcqaoSHkuHD",

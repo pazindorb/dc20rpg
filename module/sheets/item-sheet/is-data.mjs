@@ -1,7 +1,6 @@
 import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
-import { getFormulaHtmlForCategory } from "../../helpers/items/itemRollFormulas.mjs";
+import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../../helpers/items/itemDetails.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
-import { getRollRequestHtmlForCategory } from "../../helpers/items/rollRequest.mjs";
 
 export function duplicateItemData(context, item) {
   context.userIsGM = game.user.isGM;
@@ -38,12 +37,25 @@ export function preprareSheetData(context, item) {
     _prepareFormulas(context, item);
   }
   if (item.type === "weapon") {
-    const propCosts = CONFIG.DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost;
+    const propCosts = CONFIG.DC20RPG.SYSTEM_CONSTANTS.propertiesCost;
     let propertyCost = item.system.weaponType === "ranged" ? 2 : 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
       if (prop.active) propertyCost += propCosts[key];
     })
     context.propertyCost = propertyCost;
+  }
+  if (item.type === "equipment") {
+    const propCosts = CONFIG.DC20RPG.SYSTEM_CONSTANTS.propertiesCost;
+    let propertyCost = 0;
+    Object.entries(item.system.properties).forEach(([key, prop]) => {
+      const propValue = prop.value || 1;
+      if (prop.active) propertyCost += (propCosts[key] * propValue);
+    })
+    context.propertyCost = propertyCost;
+  }
+  if (item.type === "feature") {
+    const options = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[item.system.featureType];
+    context.featureSourceItems = options || null;
   }
 }
 
@@ -87,18 +99,15 @@ function _prepareRollDetailsBoxes(context) {
   // Target
   const target = context.system.target;
   if (target) {
-    if (target.invidual) {
-      if (target.type) {
-        const targetType = getLabelFromKey(target.type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
-        rollDetails.target = `${target.count} ${targetType}`;
-      }
-    } else {
-      if (target.area) {
-        const distance = target.area === "line" ? `${target.distance}/${target.width}` : target.distance;
-        const arenaType = getLabelFromKey(target.area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes);
-        const unit = range.unit ? range.unit : "Spaces";
-        rollDetails.target = `${distance} ${unit} ${arenaType}`;
-      }
+    if (target.type) {
+      const targetType = getLabelFromKey(target.type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
+      rollDetails.target = `${target.count} ${targetType}`;
+    }
+    if (target.area) {
+      const distance = target.area === "line" ? `${target.distance}/${target.width}` : target.distance;
+      const arenaType = getLabelFromKey(target.area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes);
+      const unit = range.unit ? range.unit : "Spaces";
+      rollDetails.area = `${distance} ${unit} ${arenaType}`;
     }
   }
 
@@ -233,6 +242,11 @@ function _prepareTypesAndSubtypes(context, item) {
     case "basicAction": {
       context.sheetData.type = game.i18n.localize("dc20rpg.item.sheet.header.action");
       context.sheetData.subtype = getLabelFromKey(item.system.category, CONFIG.DC20RPG.DROPDOWN_DATA.basicActionsCategories);
+      break;
+    }
+    case "subclass": {
+      context.sheetData.type = game.i18n.localize("TYPES.Item.subclass");
+      context.sheetData.subtype = item.system.forClass.name;
       break;
     }
     case "class": {

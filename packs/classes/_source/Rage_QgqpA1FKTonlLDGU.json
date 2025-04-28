@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/mouth-teeth-human.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Checks and Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8e821a260a6219f1]{Unconscious}, die, or you choose to end it for free on your turn.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Martial Attacks.</p></li><li><p>You have ADV on Might Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall Unconscious, die, or you choose to end it for free on your turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -114,7 +114,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Barbarian 1",
+    "featureOrigin": "Barbarian",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -164,21 +164,7 @@
     "itemKey": "rage",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "preItemCost": "",
-      "enhancementReset": ""
-    },
+    "macros": {},
     "againstEffect": {
       "id": "",
       "supressFromChatMessage": false,
@@ -233,7 +219,12 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "requirements": {
+      "level": 1,
+      "items": ""
+    },
+    "featureSourceItem": "barbarian"
   },
   "effects": [
     {
@@ -257,7 +248,7 @@
       },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.always",
+          "key": "system.defences.precision.bonuses.always",
           "mode": 2,
           "value": "-5",
           "priority": null
@@ -317,19 +308,13 @@
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.mig",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
-          "priority": null
-        },
-        {
           "key": "system.rollLevel.onYou.saves.mig",
           "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
           "priority": null
         }
       ],
-      "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Checks and Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul>",
+      "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -346,7 +331,10 @@
             "useCounter": true,
             "resetWhenEnabled": true,
             "onTimeEnd": "disable"
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -356,8 +344,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1745433791178,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!QgqpA1FKTonlLDGU.5U3if2bPcsRsZpD0"
     }
@@ -371,7 +359,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034081,
-    "modifiedTime": 1739350034081,
+    "modifiedTime": 1745433818575,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "QgqpA1FKTonlLDGU",

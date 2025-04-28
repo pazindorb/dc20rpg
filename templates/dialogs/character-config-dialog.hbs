@@ -4,45 +4,45 @@
   <div class="defences grid">
     <div class="content-wrapper phisical">
       <div class="header"> 
-        <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
+        <label>{{localize "dc20rpg.dialog.config.defence.precision.title"}}</label>
       </div>
       <div class="content">
         <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
           <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
-          <select class="selectable" data-path="defences.physical.formulaKey">
-            {{selectOptions config.DROPDOWN_DATA.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
+          <select class="selectable" data-path="defences.precision.formulaKey">
+            {{selectOptions config.DROPDOWN_DATA.precisionDefenceFormulasLabels selected=defences.precision.formulaKey}}
           </select>
         </div>
-        {{#ifCond defences.physical.formulaKey '===' "flat"}}
-        <input class="numeric-input labelless-row margin-top-5" type="number" value="{{defences.physical.normal}}" data-path="defences.physical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+        {{#ifCond defences.precision.formulaKey '===' "flat"}}
+        <input class="numeric-input labelless-row margin-top-5" type="number" value="{{defences.precision.normal}}" data-path="defences.precision.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
         {{else}}
-          {{#ifCond defences.physical.formulaKey '===' "custom"}}
-          <input class="input labelless-row margin-top-5" type="text" value="{{defences.physical.customFormula}}" data-path="defences.physical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+          {{#ifCond defences.precision.formulaKey '===' "custom"}}
+          <input class="input labelless-row margin-top-5" type="text" value="{{defences.precision.customFormula}}" data-path="defences.precision.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
           {{else}}
-          <input disabled class="input labelless-row margin-top-5" type="text" value="{{selectedPhysicalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+          <input disabled class="input labelless-row margin-top-5" type="text" value="{{selectedPrecisionFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
           {{/ifCond}}
         {{/ifCond}}
       </div>
     </div>
 
-    <div class="content-wrapper mystical">
+    <div class="content-wrapper area">
       <div class="header"> 
-        <label>{{localize "dc20rpg.dialog.config.defence.mystical.title"}}</label>
+        <label>{{localize "dc20rpg.dialog.config.defence.area.title"}}</label>
       </div>
       <div class="content">
         <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
           <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
-          <select class="selectable" data-path="defences.mystical.formulaKey">
-            {{selectOptions config.DROPDOWN_DATA.mysticalDefenceFormulasLabels selected=defences.mystical.formulaKey}}
+          <select class="selectable" data-path="defences.area.formulaKey">
+            {{selectOptions config.DROPDOWN_DATA.areaDefenceFormulasLabels selected=defences.area.formulaKey}}
           </select>
         </div>
-        {{#ifCond defences.mystical.formulaKey '===' "flat"}}
-        <input class="numeric-input labelless-row margin-top-5" type="number" value="{{defences.mystical.normal}}" data-path="defences.mystical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+        {{#ifCond defences.area.formulaKey '===' "flat"}}
+        <input class="numeric-input labelless-row margin-top-5" type="number" value="{{defences.area.normal}}" data-path="defences.area.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
         {{else}}
-          {{#ifCond defences.mystical.formulaKey '===' "custom"}}
-          <input class="input labelless-row margin-top-5" type="text" value="{{defences.mystical.customFormula}}" data-path="defences.mystical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+          {{#ifCond defences.area.formulaKey '===' "custom"}}
+          <input class="input labelless-row margin-top-5" type="text" value="{{defences.area.customFormula}}" data-path="defences.area.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
           {{else}}
-          <input disabled class="input labelless-row margin-top-5" type="text" value="{{selectedMysticalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+          <input disabled class="input labelless-row margin-top-5" type="text" value="{{selectedAreaFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
           {{/ifCond}}
         {{/ifCond}}
       </div>
@@ -58,7 +58,6 @@
       <input class="input labelless-row" type="text" value="{{resources.stamina.maxFormula}}" data-path="resources.stamina.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.stamina"}}"/>
       <input class="input labelless-row margin-top-3" type="text" value="{{resources.mana.maxFormula}}" data-path="resources.mana.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.mana"}}"/>
       <input class="input labelless-row margin-top-3" type="text" value="{{resources.grit.maxFormula}}" data-path="resources.grit.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.grit"}}"/>
-      <input class="input labelless-row margin-top-3" type="text" value="{{resources.restPoints.maxFormula}}" data-path="resources.restPoints.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.restPoints"}}"/>
     </div>
   </div>
 
@@ -163,19 +162,6 @@
           {{/if}}
           <a class="activable" data-path="attributePoints.override">
             <i class="fa-2x {{#if attributePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-          </a>
-        </div>
-      </div>
-
-      {{!-- Save --}}
-      <div class="row ignore-symetry margin-bottom-3">
-        <span>{{localize 'dc20rpg.dialog.config.maxPoints.save.override'}}</span>
-        <div class="input-select">
-          {{#if savePoints.override}}
-          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{savePoints.overridenMax}}" data-path="savePoints.overridenMax" title="{{localize 'dc20rpg.dialog.config.maxPoints.save.value'}}"/>
-          {{/if}}
-          <a class="activable" data-path="savePoints.override">
-            <i class="fa-2x {{#if savePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
           </a>
         </div>
       </div>

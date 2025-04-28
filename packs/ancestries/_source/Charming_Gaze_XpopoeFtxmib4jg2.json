@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/unholy/demon-female-succubus-orange.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> to gaze upon a creature you can see within 10 Spaces that can also see you</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Repeated Charisma Save</strong>.</p><p><strong>Success:</strong> The creature becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.259439ab9009626a]{Charmed} </strong>by you for 1 minute.</p><p></p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to gaze upon a creature you can see within 10 Spaces that can also see you</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Repeated Charisma Save</strong>.</p><p><strong>Success:</strong> The creature becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0f27a9c67ee55f2c]{Charmed}</strong> by you for 1 minute.</p><p></p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -163,7 +163,11 @@
         "untilFirstTimeTriggered": false
       }
     },
-    "itemKey": "charmingGaze"
+    "itemKey": "charmingGaze",
+    "featureSourceItem": "fiendborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -242,7 +246,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1739480947849,
+    "modifiedTime": 1745570065848,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XpopoeFtxmib4jg2",

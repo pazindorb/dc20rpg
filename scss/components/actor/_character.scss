@@ -33,7 +33,7 @@
   box-shadow: 0 2px 10px 3px;
   position: absolute;
   top: 0px;
-  height: 260px;
+  height: 250px;
   z-index: 1;
   width: 100%;
   display: flex;
@@ -43,7 +43,7 @@
     width: 100%;
 
     .resource {
-      height: 70px;
+      height: 90px;
       display: flex;
       flex-direction: column;
 
@@ -53,10 +53,6 @@
         border: 1px solid;
         border-radius: 4px;
         background-color: $secondary-lighter;
-
-        .button-wrapper {
-          
-        }
 
         .regain-resource, .spend-resource, .spend-regain-resource{
           background-color: transparent;
@@ -85,6 +81,42 @@
 
         .rest {
           color: #00887d;
+        }
+      }
+
+      .death-threshold {
+        font-family: $font-default;
+        background-color: $secondary-lighter;
+        border: 1px solid black;
+        border-top: 0;
+        border-radius: 0 0 4px 4px;
+        padding: 2px 8px;
+        margin: 0 26px;
+
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        text-align: center;
+
+        input {
+          font-weight: bold;
+          font-size: 16px;
+          height: 16px;
+          
+          &:disabled {
+            color: black;
+          }
+        }
+
+        &.active {
+          background-color: $dark-red;
+          border-width: 2px;
+          border-color: $secondary-lighter;
+          color: $secondary-lighter;
+
+          input:disabled {
+            color: $secondary-lighter;
+          }
         }
       }
 
@@ -142,6 +174,7 @@
         border: 2px solid $secondary-dark;
         border-bottom: 0;
         border-radius: 15px 15px 0 0;
+        background-color: #d3d3d379;
 
         .regain-resource, .spend-resource, .spend-regain-resource {
           padding-top: 2px;
@@ -266,6 +299,56 @@
           color: $primary-color;
           text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
         }
+      }
+    }
+
+    .rest-points {
+      margin-top: 8px;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      height: 25px;
+      width: fit-content;
+      
+      background-color: $secondary-lighter;
+      border: 1px solid $primary-color;
+      border-radius: 5px;
+
+      .rest-point-values {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid $primary-color;
+        border-right: 1px solid $primary-color;
+        
+        input {
+          border: 0;
+          height: 25px;
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+
+      button, i {
+        color: #00887d;
+        border: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 23px;
+        margin-top: 0px;
+      }
+
+      .rest-point-to-hp {
+        border-right: 1px solid $primary-color;
+        border-radius: 0;
+      }
+
+      i {
+        padding: 0 4px;
       }
     }
   }
@@ -469,50 +552,6 @@
         }
       }
     }
-
-    
-    .rest-points {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      height: 20px;
-      width: fit-content;
-      
-      background-color: $secondary-lighter;
-      border: 1px solid $primary-color;
-      border-radius: 5px;
-
-      .rest-point-values {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-left: 1px solid $primary-color;
-        border-right: 1px solid $primary-color;
-        
-        input {
-          border: 0;
-          height: 20px;
-          font-weight: bold;
-          text-align: center;
-        }
-      }
-
-      button, i {
-        color: #00887d;
-        border: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 20px;
-        height: 18px;
-      }
-
-      i {
-        padding: 0 4px;
-      }
-    }
   }
 
   .combat-info-column {
@@ -584,7 +623,7 @@
       .defence-icons {
         position: relative;
         left: 81%;
-        top: -86px;
+        top: -58px;
         height: 0;
         display: flex;
         flex-direction: column;
@@ -593,7 +632,7 @@
           color: $primary-color;
           border: 2px solid $primary-color;
           background-color: $secondary-lighter;
-          border-radius: 15px;
+          border-radius: 6px;
           min-height: 27px;
           width: 30px;
           padding: 1px;
@@ -627,7 +666,7 @@
         }
       }
 
-      .value-physical, .value-mystical {
+      .value-precision, .value-area {
 
         input {
           position: relative;
@@ -645,21 +684,55 @@
         }
       }
 
-      .value-physical::before {
+      .value-precision::before {
         mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
         mask-position: 4px -1px;
       }
   
-      .value-mystical::before {
+      .value-area::before {
         mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
         mask-position: 4px 0px;
+      }
+    }
+
+    .drs {
+      border: 2px solid $primary-color;
+      border-radius: 6px;
+      background-color: $secondary-light-alpha;
+      font-family: $dc20-font;
+      padding: 3px;
+      margin: 0; 
+      gap: 0;
+      height: 28px;
+      margin-bottom: 3px;
+
+      i {
+        color: $secondary-dark;
+        border-left: 1px solid $primary-color;
+        border-right: 1px solid $primary-color;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.active {
+          color: $primary-color;
+        }
+      }
+
+      .pdr {
+        border-left: 0;
+      }
+
+      .mdr {
+        border-right: 0;
       }
     }
 
     .movements {
       transition: all 0.5s ease-in-out;
       border: 2px solid $primary-color;
-      border-radius: 10px;
+      border-radius: 6px;
       background-color: $secondary-light-alpha;
       font-family: $dc20-font;
 
@@ -1081,6 +1154,7 @@
           color: white;
           background-color: $primary-light;
           border-color: white;
+          cursor: pointer;
   
           .original {
             display: none;
@@ -1127,100 +1201,6 @@
       &.activable:hover {
         box-shadow: 0 0 3px 2px #fd0000bd inset;
       }
-    }
-  }
-
-  .image-addon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
-
-    .exhaustion-toggle, .deaths-door {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      color: $primary-color;;
-      border-radius: 10px;
-      background-color: $secondary-lighter;
-      border: 2px solid $primary-color;
-      width: 100%;
-    }
-
-    .deaths-door {
-      padding: 3px 1px;
-    }
-
-    .exhaustion-toggle {
-      padding: 8px 10px 6px 10px;
-    }
-
-    .treshold {
-      display: flex;
-      color: $primary-color;
-
-      .skull-wrapper {
-        margin-top: 1px;
-        display: flex;
-        min-width: 40px;
-
-        .doomed {
-          margin-top: 1px;
-        }
-
-        .doomed-value {
-          display: flex;
-          align-items: center;
-          margin-left: 4px;
-          margin-top: 2px;
-          font-weight: bold;
-          font-size: 16px;
-          font-family: $dc20-font;
-        }
-      }
-
-      .stable-wrapper {
-        padding-top: 3px;
-        margin-right: 3px;
-        margin-left: 1px;
-      }
-
-      .treshold-value {
-        padding-top: 2px;
-        border-right: 2px solid $primary-color;
-        border-left: 2px solid $primary-color;
-        height: 20px;
-        margin-left: 3px;
-        margin-right: 3px;
-
-        input {
-          background-color: transparent;
-          color: $primary-color;
-          height: 20px;
-          font-size: 16px;
-          font-weight: bolder;
-          text-align: center;
-          font-family: $dc20-font;
-        }
-      }
-    }
-
-    .active {
-      border: 2px solid red;
-      background-color: lightcoral;
-
-      .treshold .treshold-value {
-        border-right: 2px solid red;
-        border-left: 2px solid red;
-      }
-    }
-    
-    .fa-lg {
-      margin: 0 2px; 
-    }
-
-    .big-skull {
-      font-size: 1.5em;
     }
   }
 
@@ -1430,101 +1410,6 @@
         height: 220px;
         width: 200px;
         border: 0;
-      }
-  
-      .image-addon {
-        position: relative;
-        height: 0;
-  
-        display: flex;
-        justify-content: center;
-        align-items: center;
-  
-        .exhaustion-toggle, .deaths-door {
-          display: flex;
-          align-items: center;
-          color: $primary-color;
-          border-radius: 10px;
-          background-color: $secondary-lighter;
-          border: 2px solid $primary-color;
-        }
-
-        .exhaustion-toggle {
-          position: fixed;
-          padding: 6px 4px;
-        }
-  
-        .deaths-door {
-          padding: 3px 1px;
-        }
-  
-        .treshold {
-          display: flex;
-  
-          .skull-wrapper {
-            margin-top: 1px;
-            display: flex;
-            width: 37px;
-  
-            .doomed {
-              margin-top: 1px;
-            }
-  
-            .doomed-value {
-              display: flex;
-              align-items: center;
-              margin-left: 4px;
-              margin-top: 2px;
-              font-weight: bold;
-              font-size: 16px;
-              font-family: $dc20-font;
-            }
-          }
-  
-          .stable-wrapper {
-            padding-top: 3px;
-            margin-right: 3px;
-            margin-left: 1px;
-          }
-  
-          .treshold-value {
-            padding-top: 2px;
-            border-right: 2px solid $primary-color;
-            border-left: 2px solid $primary-color;
-            height: 20px;
-            margin-left: 3px;
-            margin-right: 3px;
-  
-            input {
-              width: 52px;
-              background-color: transparent;
-              color: $primary-color;
-              height: 20px;
-              font-size: 16px;
-              font-weight: bolder;
-              text-align: center;
-              font-family: $dc20-font;
-            }
-          }
-        }
-  
-        .active {
-          border: 2px solid red;
-          background-color: lightcoral;
-    
-          .treshold .treshold-value {
-            border-right: 2px solid red;
-            border-left: 2px solid red;
-          }
-        }
-        
-        .fa-lg {
-          margin: 0 2px; 
-        }
-  
-        .big-skull {
-          font-size: 1.5em;
-        }
       }
     }
   }
@@ -1923,7 +1808,7 @@
 
       .filter {
         width: 200px;
-        font-family: $font-foundry;
+        font-family: $font-default;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -2160,7 +2045,7 @@
   }
 
   .journal-tab .description-box {
-    font-family: $font-foundry;
+    font-family: $font-default;
     font-size: 14px;
 
     .editor {

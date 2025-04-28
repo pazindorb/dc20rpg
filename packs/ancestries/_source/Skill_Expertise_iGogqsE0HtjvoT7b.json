@@ -1,5 +1,5 @@
 {
-  "folder": "GOM5FKjlu70jdAq6",
+  "folder": "L6GQfNBXaxfPtRlp",
   "name": "Skill Expertise",
   "type": "feature",
   "img": "icons/commodities/tech/blueprint.webp",
@@ -19,7 +19,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -134,7 +134,20 @@
       ]
     },
     "choicePointCost": 2,
-    "itemKey": "skillExpertise"
+    "itemKey": "skillExpertise",
+    "featureSourceItem": "human",
+    "requirements": {
+      "level": 0
+    },
+    "macros": {
+      "XsKmrWzsNrZZkMGP": {
+        "command": "  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Skill Expertise\", selectOptions: {...CONFIG.DC20RPG.skills, ...CONFIG.DC20RPG.tradeSkills}})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"skillExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Choose Skill Expertise",
+        "title": ""
+      }
+    }
   },
   "effects": [
     {
@@ -153,12 +166,14 @@
       "img": "icons/commodities/tech/blueprint.webp",
       "_id": "Xj8LB26TzzRyA0Hp",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.expertise.skills",
+          "key": "system.expertise.automated",
           "mode": 2,
-          "value": "1",
+          "value": "awa",
           "priority": null
         },
         {
@@ -173,15 +188,32 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "skillExpertise",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1720507988732,
+        "modifiedTime": 1745416653595,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!iGogqsE0HtjvoT7b.Xj8LB26TzzRyA0Hp"
@@ -200,7 +232,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101168854,
-    "modifiedTime": 1739480947865,
+    "modifiedTime": 1745416876555,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "iGogqsE0HtjvoT7b",

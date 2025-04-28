@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You can regain <strong>1 SP</strong> when you hit a target with a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>. You don’t regain <strong>SP</strong> in this way if you spend <strong>SP</strong> on the <strong>Attack</strong>.</p>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when you succeed on an Attack Check, Athletics Check, or Acrobatics Check.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -25,7 +25,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -154,7 +154,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Monk 1",
+    "featureOrigin": "Monk",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -200,19 +200,13 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "cWR226C40AjciDs8": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -273,7 +267,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "monk",
+    "staminaFeature": true
   },
   "effects": [],
   "folder": "d4AOelDqRwA6yPLJ",
@@ -285,7 +281,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034126,
-    "modifiedTime": 1739350034126,
+    "modifiedTime": 1745423292886,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rk5Szd5fEjYxSu9j",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You regain <strong>1 SP</strong> each time you grant a creature a @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Die}.</p>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when you grant a creature a Help Die.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -154,7 +154,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Commander 1",
+    "featureOrigin": "Commander",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -200,19 +200,13 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "NHgHTEr905yechN4": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -273,7 +267,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "commander",
+    "staminaFeature": true
   },
   "effects": [],
   "folder": "n4y6lVx1uVoY6hqD",
@@ -285,7 +281,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350036021,
-    "modifiedTime": 1739350036021,
+    "modifiedTime": 1745412688210,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "S40h02S2iFGqWL8q",

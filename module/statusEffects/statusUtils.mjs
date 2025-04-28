@@ -1,3 +1,5 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+
 export function isStackable(statusId) {
   const status = CONFIG.statusEffects.find(e => e.id === statusId);
   if (status) return status.stackable;
@@ -124,34 +126,61 @@ function _enhnanceRollLevel(change) {
   }
 }
 
-export function doomedToggle(actor, goUp) {
-  if (_isImmune(actor, "doomed") && goUp) {
-    ui.notifications.warn(`${actor.name} is immune to 'doomed'.`);
-    return;
-  }
-  let doomed = actor.system.death.doomed;
-  if (goUp) doomed = Math.min(++doomed, 9);
-  else doomed = Math.max(--doomed, 0);
-  actor.update({["system.death.doomed"] : doomed});
-}
+export function fullyStunnedCheck(actor) {
+  if (!actor.hasStatus("stunned")) return;
+  const stunned = actor.statuses.find(status => status.id === "stunned");
+  if (!stunned) return;
 
-export function exhaustionToggle(actor, goUp) {
-  if (_isImmune(actor, "exhaustion") && goUp) {
-    ui.notifications.warn(`${actor.name} is immune to 'exhaustion'.`);
-    return;
+  // Add Fully Stunned condition
+  if (stunned.stack >= 4) {
+    if (actor.hasStatus("fullyStunned")) return;
+    actor.toggleStatusEffect("fullyStunned", { active: true });
   } 
-  let exhaustion = actor.system.exhaustion;
-  if (goUp) exhaustion = Math.min(++exhaustion, 6);
-  else exhaustion = Math.max(--exhaustion, 0);
-  _checkStatus(exhaustion, actor);
-  actor.update({["system.exhaustion"] : exhaustion});
+  
+  // Remove Fully Stunned condition
+  if (stunned.stack < 4) {
+    if (!actor.hasStatus("fullyStunned")) return;
+    actor.toggleStatusEffect("fullyStunned", { active: false });
+  }
 }
 
-function _isImmune(actor, key) {
-  return actor.system.statusResistances[key].immunity;
+export function exhaustionCheck(actor) {
+  // Add Dead condition
+  if (actor.exhaustion >= 6) {
+    if (actor.hasStatus("dead")) return;
+    actor.toggleStatusEffect("dead", { active: true });
+  }
 }
 
-function _checkStatus(exhaustion, actor) {
-  if (exhaustion === 6) addStatusWithIdToActor(actor, "dead");
-  if (exhaustion < 6) removeStatusWithIdFromActor(actor, "dead");
+export function dazedCheck(actor) {
+  if (actor.hasStatus("dazed")) {
+    const sustained = actor.system.sustain;
+    for (const sustain of sustained) {
+      sendDescriptionToChat(actor, {
+        rollTitle: `${sustain.name} - Sustain dropped [Dazed]`,
+        image: sustain.img,
+        description: `You are no longer sustaining '${sustain.name}' - You can't Sustain an effect while Dazed`,
+      });
+    }
+    actor.update({["system.sustain"]: []});
+  }
+}
+
+export function healthThresholdsCheck(currentHP, actor) {
+  const maxHP = actor.system.resources.health.max;
+  const deathThreshold = actor.type === "character" ? actor.system.death.treshold : 0;
+
+  _checkStatus("bloodied", currentHP, Math.floor(maxHP/2), actor);
+  _checkStatus("wellBloodied", currentHP, Math.floor(maxHP/4), actor);
+  if (actor.type === "character") _checkStatus("deathsDoor", currentHP, 0, actor);
+  _checkStatus("dead", currentHP, deathThreshold, actor);
+}
+
+function _checkStatus(statusId, currentHP, treshold, actor) {
+  if (actor.hasStatus(statusId)) {
+    if (currentHP > treshold) removeStatusWithIdFromActor(actor, statusId); 
+  }
+  else {
+    if (currentHP <= treshold) addStatusWithIdToActor(actor, statusId);
+  }
 }

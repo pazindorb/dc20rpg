@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/biological/organ-heart-red.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.640ee4ad46ee9326]{Doomed} Condition.</p>",
+    "description": "<p>You have ADV on Saves against the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.89c5df57ec2d8d0e]{Doomed}</strong> Condition.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,7 +137,11 @@
       ]
     },
     "choicePointCost": 0,
-    "itemKey": "undying"
+    "itemKey": "undying",
+    "featureSourceItem": "human",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -161,7 +165,7 @@
       },
       "changes": [
         {
-          "key": "system.statusResistances.doomed.advantage",
+          "key": "system.statusResistances.doomed.resistance",
           "value": "1",
           "mode": 2,
           "priority": null
@@ -194,7 +198,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737752958049,
+        "modifiedTime": 1745440766021,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!OhEP1gPrurbL2qdr.sIqdPdHpSbiycjtO"
@@ -213,7 +217,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720101168854,
-    "modifiedTime": 1739480947835,
+    "modifiedTime": 1745570065676,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "OhEP1gPrurbL2qdr",

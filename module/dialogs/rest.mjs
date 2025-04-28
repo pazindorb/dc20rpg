@@ -1,7 +1,8 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
+import { refreshAllActionPoints, regainBasicResource, spendRpOnHp } from "../helpers/actors/costManipulator.mjs";
+import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
+import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
 
 /**
@@ -9,11 +10,11 @@ import { promptRoll } from "./roll-prompt.mjs";
  */
 export class RestDialog extends Dialog {
 
-  constructor(actor, dialogData = {}, options = {}) {
+  constructor(actor, preselected, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
     this.data = {
-      selectedRestType: "long",
+      selectedRestType: preselected || "long",
       noActivity: true
     }
   }
@@ -52,53 +53,31 @@ export class RestDialog extends Dialog {
   async _onSelection(event) {
     event.preventDefault();
     this.data.selectedRestType = event.currentTarget.value;
-    this.render(true);
+    this.render();
   }
 
   async _onSwitch(event) {
     const activity = datasetOf(event).activity === "true";
     this.data.noActivity = !activity;
-    this.render(true);
+    this.render();
   }
 
   async _onRpSpend(event) {
     event.preventDefault();
-    const rpCurrent = this.actor.system.resources.restPoints.value;
-    const newRpAmount = rpCurrent - 1;
-  
-    if (newRpAmount < 0) {
-      let errorMessage = `No more Rest Points to spend.`;
-      ui.notifications.error(errorMessage);
-      return;
-    }
-  
-    const health = this.actor.system.resources.health;
-    const hpCurrent = health.current;
-    const hpMax = health.max;
-  
-    let newHP = hpCurrent + 2;
-    newHP = newHP > hpMax ? hpMax : newHP;
-  
-    const updateData = {
-      ["system.resources.restPoints.value"]: newRpAmount,
-      ["system.resources.health.current"]: newHP
-    };
-    await this.actor.update(updateData);
-    this.render(true);
+    await spendRpOnHp(this.actor, 1);
+    this.render();
   }
 
   async _onRpRegained(event) {
     event.preventDefault();
-    const restPoints = this.actor.system.resources.restPoints;
-    const newRP = Math.min(restPoints.max, restPoints.value + 1);
-    await this.actor.update({["system.resources.restPoints.value"]: newRP});
-    this.render(true);
+    await regainBasicResource("restPoints", this.actor, 1, true);
+    this.render();
   }
 
   async _onResetRest(event) {
     event.preventDefault();
     await this._resetLongRest();
-    this.render(true);
+    this.render();
   }
 
   //==================================//
@@ -132,12 +111,14 @@ export class RestDialog extends Dialog {
   async _finishQuickRest(actor) {
     await _refreshItemsOn(actor, ["round", "quick"]);
     await _refreshCustomResourcesOn(actor, ["round", "quick"]);
+    await runEventsFor("rest", actor, restTypeFilter(["quick"]));
     return true;
   }
   
   async _finishShortRest(actor) {
     await _refreshItemsOn(actor, ["round", "quick", "short"]);
     await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
+    await runEventsFor("rest", actor, restTypeFilter(["quick", "short"]));
     return true;
   }
   
@@ -150,8 +131,9 @@ export class RestDialog extends Dialog {
       await _refreshGrit(actor);
       await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long"]);
       await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
-      await _checkIfNoActivityPeriodAppeared(actor);
+      await _checkForExhaustionSave(actor);
       await _clearDoomed(actor);
+      await runEventsFor("rest", actor, restTypeFilter(["long"]));
       await this._resetLongRest();
       return true;
     } 
@@ -159,6 +141,7 @@ export class RestDialog extends Dialog {
       await _refreshRestPoints(actor);
       await _refreshItemsOn(actor, ["round", "quick", "short"]);
       await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
+      await runEventsFor("rest", actor, restTypeFilter(["quick", "short"]));
       await actor.update({["system.rest.longRest.half"]: true});
       return false;
     }
@@ -172,7 +155,8 @@ export class RestDialog extends Dialog {
     await _clearExhaustion(actor);
     await _clearDoomed(actor);
     await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long", "full", "day"]);
-    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"])
+    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"]);
+    await runEventsFor("rest", actor, restTypeFilter(["quick", "short", "long", "full"]));
     return true;
   }
 
@@ -189,8 +173,15 @@ export class RestDialog extends Dialog {
 /**
  * Opens Rest Dialog popup for given actor.
  */
-export function createRestDialog(actor) {
-  new RestDialog(actor, {title: "Begin Your Rest"}).render(true);
+export function createRestDialog(actor, preselected) {
+  new RestDialog(actor, preselected, {title: `Begin Your Rest ${actor.name}`}).render(true);
+}
+
+export function openRestDialogForOtherPlayers(actor, preselected) {
+  emitSystemEvent("startRest", {
+    actorId: actor.id,
+    preselected: preselected
+  });
 }
 
 export async function refreshOnRoundEnd(actor) {
@@ -206,6 +197,32 @@ export async function refreshOnCombatStart(actor) {
   await _refreshCustomResourcesOn(actor, ["round", "combat"]);
 }
 
+export async function rechargeItem(item, half) {
+  if (!item.system.costs) return;
+  const charges = item.system.costs.charges;
+  if (charges.max === charges.current) return;
+
+  const rollData = await item.getRollData();
+  let newCharges = charges.max;
+
+  if (charges.rechargeDice) {
+    const roll = await evaluateFormula(charges.rechargeDice, rollData);
+    const result = roll.total;
+    const rechargeOutput = result >= charges.requiredTotalMinimum 
+                                ? game.i18n.localize("dc20rpg.rest.rechargedDescription") 
+                                : game.i18n.localize("dc20rpg.rest.notrechargedDescription")
+    ui.notifications.notify(`${item.actor.name} ${rechargeOutput} ${item.name}`);
+    if (result < charges.requiredTotalMinimum) return;
+  }
+  if (charges.overriden) {
+    const roll = await evaluateFormula(charges.rechargeFormula, rollData);
+    newCharges = roll.total;
+  }
+
+  if (half) newCharges = Math.ceil(newCharges/2);
+  item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
+}
+
 async function _refreshItemsOn(actor, resetTypes) {
   const items = actor.items;
 
@@ -216,30 +233,7 @@ async function _refreshItemsOn(actor, resetTypes) {
     if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) return;
 
     const half = charges.reset === "halfOnShort" && resetTypes.includes("short") && !resetTypes.includes("long");
-    const rollData = await item.getRollData();
-    let newCharges = charges.max;
-
-    if (charges.rechargeDice) {
-      const roll = await evaluateFormula(charges.rechargeDice, rollData);
-      const result = roll.total;
-      if (result >= charges.requiredTotalMinimum) {
-        const label = `${actor.name} ${game.i18n.localize("dc20rpg.rest.recharged")} ${item.name}`;
-        const description = `${actor.name} ${game.i18n.localize("dc20rpg.rest.rechargedDescription")} ${item.name}`;
-        sendDescriptionToChat(actor, {
-          rollTitle: label,
-          image: actor.img,
-          description: description
-        })
-      }
-      else return;
-    }
-    if (charges.overriden) {
-      const roll = await evaluateFormula(charges.rechargeFormula, rollData);
-      newCharges = roll.total;
-    }
-
-    if (half) newCharges = Math.ceil(newCharges/2);
-    item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
+    rechargeItem(item, half);
   })
 }
 
@@ -267,34 +261,26 @@ async function _refreshCustomResourcesOn(actor, resetTypes) {
 }
 
 async function _clearExhaustion(actor) {
-  const updateData = {
-    ["system.exhaustion"]: 0,
-    ["system.rest.longRest.exhSaveDC"]: 10
-  };
-  await actor.update(updateData);
+  actor.effects.forEach(effect => {
+    if (effect.system?.statusId === "exhaustion") effect.delete();
+  })
+  await actor.update({["system.rest.longRest.exhSaveDC"]: 10});
 }
 
 async function _clearDoomed(actor) {
-  const updateData = {
-    ["system.death.doomed"]: 0
-  };
-  await actor.update(updateData);
+  actor.effects.forEach(effect => {
+    if (effect.system?.statusId === "doomed") effect.delete();
+  })
 }
 
 async function _respectActivity(actor, noActivity) {
   if (noActivity) {
-    const currentExhaustion = actor.system.exhaustion;
-    let newExhaustion = currentExhaustion - 1;
-    newExhaustion = newExhaustion >= 0 ? newExhaustion : 0;
-    const updateData = {
-      ["system.exhaustion"]: newExhaustion,
-      ["system.rest.longRest.noActivity"]: true
-    };
-    await actor.update(updateData);
+    await actor.toggleStatusEffect("exhaustion", { active: false });
+    await actor.update({["system.rest.longRest.noActivity"]: true});
   }
 }
 
-async function _checkIfNoActivityPeriodAppeared(actor) {
+async function _checkForExhaustionSave(actor) {
   const noActivity = actor.system.rest.longRest.noActivity;
   if (!noActivity) {
     const rollDC = actor.system.rest.longRest.exhSaveDC;
@@ -307,15 +293,8 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
     }
     const roll = await promptRoll(actor, details);
     if (roll.total < rollDC) {
-      const currentExhaustion = actor.system.exhaustion;
-      let newExhaustion = currentExhaustion + 1;
-      newExhaustion = newExhaustion <= 6 ? newExhaustion : 6;
-
-      const updateData = {
-        ["system.exhaustion"]: newExhaustion,
-        ["system.rest.longRest.exhSaveDC"]: rollDC + 5
-      };
-      await actor.update(updateData);
+      await actor.toggleStatusEffect("exhaustion", { active: true });
+      await actor.update({["system.rest.longRest.exhSaveDC"]: rollDC + 5});
     }
   }
 }

@@ -5,8 +5,8 @@ export class DC20RpgCombatant extends Combatant {
   constructor(data, combat) {
     super(data, combat);
     const isCharacterType = this.actor.type === "character";
-    const companionDoesNotShareInitative = this.actor.type === "companion" && !companionShare(this.actor, "initiative");
-    this.canRollInitiative = isCharacterType || companionDoesNotShareInitative;
+    const companionDoesNotShareInitiative = this.actor.type === "companion" && !companionShare(this.actor, "initiative");
+    this.canRollInitiative = isCharacterType || companionDoesNotShareInitiative;
   }
 
   get isDefeated() {

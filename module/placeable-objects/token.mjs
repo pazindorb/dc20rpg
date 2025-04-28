@@ -6,15 +6,15 @@ export class DC20RpgToken extends Token {
   get isFlanked() {
     if (this.actor.system.globalModifier.ignore.flanking) return;
     if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
-    const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
+    const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
     const coreDisposition = [this.document.disposition];
-    if (positionCheckNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (positionCheckNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
 
     const neighbours = this.neighbours;
     for (let [key, token] of neighbours) {
       // Prone/Incapacitated tokens cannot flank
-      if (token.actor.hasAnyStatus(["incapacitated", "prone"])) neighbours.delete(key);
+      if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) neighbours.delete(key);
       if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
     }
     if (neighbours.size <= 1) return false;
@@ -28,7 +28,7 @@ export class DC20RpgToken extends Token {
       const tokenNeighbours = neighbour.neighbours;
       let mathingNeighbours = 0;
       for (let [key, token] of tokenNeighbours) {
-        if (token.actor.hasAnyStatus(["incapacitated", "prone"])) continue; // Prone/Incapacitated tokens cannot help with flanking
+        if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) continue; // Prone/Incapacitated tokens cannot help with flanking
         if (key === this.id) continue; // We want to skip core token
         if (coreDisposition.includes(token.document.disposition)) continue; // Tokens of the same disposition shouldn't flank themself - most likely allies
         if (coreNeighbours.has(key)) mathingNeighbours++;
@@ -41,10 +41,10 @@ export class DC20RpgToken extends Token {
   }
 
   get enemyNeighbours() {
-    const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
+    const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
     const coreDisposition = [this.document.disposition];
-    if (positionCheckNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (positionCheckNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
 
     const neighbours = this.neighbours;
     for (let [key, token] of neighbours) {
@@ -79,6 +79,32 @@ export class DC20RpgToken extends Token {
       }
     }
     return neighbours;
+  }
+
+  get adjustedHitArea() {
+    const hitArea = this.hitArea;
+    let points = [];
+    // Hex grid
+    if (hitArea.type === 0) points = hitArea.points;
+    // Square grid
+    if (hitArea.type === 1) {
+      points = [
+        0, 0,
+        hitArea.width, 0,
+        0, hitArea.height,
+        hitArea.width, hitArea.height
+      ]
+    }
+
+    const area = [];
+    for(let i = 0; i < points.length; i += 2) {
+      const p = {
+        x: this.x + points[i],
+        y: this.y + points[i+1]
+      }
+      area.push(p)
+    }
+    return area;
   }
 
   /** @override */
@@ -368,5 +394,33 @@ export class DC20RpgToken extends Token {
       layout.push({[mainCord]: last, [otherCord]: otherPoint});
     })
     return layout;
+  }
+
+  isTokenInRange(tokenToCheck, range) {
+    if (canvas.grid.isGridless) return this._isTokenInRangeGridless(tokenToCheck, range);
+    return this._isTokenInRangeGrid(tokenToCheck, range);
+  }
+
+  _isTokenInRangeGridless(tokenToCheck, range) {
+    const rangeArea = getRangeAreaAroundGridlessToken(this, range);
+    const pointsToContain = getGridlessTokenPoints(tokenToCheck);
+    for (const point of pointsToContain) {
+      if (isPointInSquare(point.x, point.y, rangeArea)) return true;
+    }
+    return false;
+  }
+
+  _isTokenInRangeGrid(tokenToCheck, range) {
+    const fromArea = this.adjustedHitArea;
+    const toArea = tokenToCheck.adjustedHitArea;
+
+    let shortestDistance = 999;
+    for (let from of fromArea) {
+      for (let to of toArea) {
+        const distance = Math.round(canvas.grid.measurePath([from, to]).distance); 
+        if (shortestDistance > distance) shortestDistance = distance;
+      }
+    }
+    return shortestDistance < range;
   }
 }

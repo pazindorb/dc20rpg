@@ -1,25 +1,11 @@
-<div class="tab target-tab content" data-group="roll" data-tab="target">
+<div class="tab target-tab content padding-7" data-group="roll" data-tab="target">
 
-  {{!-- Header Target --}}
-  {{#if system.target.invidual}}
   <div class="sub-header">
-    <span>{{localize "dc20rpg.item.sheet.target.target"}}</span>
-    <a class="margin-right-5 activable fa-solid fa-globe fa-lg" data-path="system.target.invidual"></a>
+    <span>{{localize "dc20rpg.item.sheet.target.targetAndArea"}}</span>
+    <a class="margin-right-3 create-new-area fa-solid fa-square-plus fa-lg"></a>
   </div>
-  {{else}}
-  {{!-- Header Area --}}
-  <div class="sub-header">
-    <span>{{localize "dc20rpg.item.sheet.target.area"}}</span>
-    <div>
-      <a class="margin-right-3 create-new-area fa-solid fa-square-plus fa-lg"></a>
-      <a class="margin-right-5 activable fa-solid fa-circle-user fa-lg" data-path="system.target.invidual"></a>
-    </div>
-  </div>
-  {{/if}}
-  
   <div class="content-wrapper">
     {{!-- Target Content --}}
-    {{#if system.target.invidual}}
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.target.target"}}</span>
       <div class="right-part-row">
@@ -30,7 +16,6 @@
       </div>
     </div>
     {{!-- Area Content --}}
-    {{else}}
     {{#each system.target.areas as |area key|}}
     <div class="row margin-top-3">
       <div class="left-part-row">
@@ -46,11 +31,11 @@
         <input class="small-input margin-right-3" type="text" name="system.target.areas.{{key}}.width" value="{{area.width}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.width"}}"> 
         {{/ifCond}}
         <input type="text" name="system.target.areas.{{key}}.unit" value="{{area.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" title="{{localize "dc20rpg.item.sheet.target.unit"}}">
-        <a class="margin-left-3 activable fa-lg {{#if area.difficult}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.difficult" title="{{localize "dc20rpg.item.sheet.target.difficult"}}"></a>
+        <a class="margin-left-3 margin-top-1 activable fa-lg {{#if area.difficult}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.difficult" title="{{localize "dc20rpg.item.sheet.target.difficult"}}"></a>
+        <a class="margin-left-3 margin-top-1 activable fa-lg {{#if area.hideHighlight}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.hideHighlight" title="{{localize "dc20rpg.item.sheet.target.hideHighlight"}}"></a>
       </div>
     </div>
     {{/each}}
-    {{/if}}
 
     {{!-- Range --}}
     <div class="row margin-top-10">

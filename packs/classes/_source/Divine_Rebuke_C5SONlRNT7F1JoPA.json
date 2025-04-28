@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/magical/construct-golem-stone-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>MD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes Divine Damage equal to your Prime Modifier.</p><p><strong>Save Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong> of you for 1 minute or until it takes damage.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>MD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes Divine Damage equal to your Prime Modifier.</p><p><strong>Save Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f]{Intimidated}</strong> of you for 1 minute or until it takes damage.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "ranged",
       "checkType": "spell",
-      "targetDefence": "mystical",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -72,13 +72,14 @@
     },
     "formulas": {
       "fjpnGFPNqXkpjkTA": {
-        "formula": "3",
+        "formula": "@prime",
         "type": "radiant",
         "category": "damage",
         "fail": false,
         "failFormula": "",
         "each5": false,
-        "each5Formula": ""
+        "each5Formula": "",
+        "overrideDefence": ""
       }
     },
     "enhancements": {},
@@ -123,7 +124,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Channel Divinity",
     "usesWeapon": {
       "weaponId": "",
@@ -175,19 +176,41 @@
       "untilFirstTimeTriggered": false
     },
     "macros": {
-      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}\n\nconst channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
-      "onDemandMacroTitle": "Change Divine Damage",
-      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "preItemCost": "",
-      "enhancementReset": ""
+      "RR9R8L78HIHLko4F": {
+        "name": "Add Channel Divinity",
+        "trigger": "onCreate",
+        "command": "const channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "jNAVNszB7BcLpLrO": {
+        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Add To Keyword",
+        "title": ""
+      },
+      "p0gNXdHl2bjVBb0P": {
+        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"divineDamage\", item._id)",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove From Keyword",
+        "title": ""
+      },
+      "BXIP1axD8MJwfRj8": {
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Change Divine Damage",
+        "title": "Change Divine Damage"
+      },
+      "AjVzgNF2HhdaoOAv": {
+        "command": "if (newValue) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: newValue});\n}",
+        "trigger": "onKeywordUpdate",
+        "disabled": false,
+        "name": "Update Divine Damage",
+        "title": ""
+      }
     },
     "rollRequests": {
       "rollRequestFromTemplate": {
@@ -407,7 +430,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034037,
-    "modifiedTime": 1739350034037,
+    "modifiedTime": 1745570063424,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "C5SONlRNT7F1JoPA",

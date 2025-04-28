@@ -1,0 +1,40 @@
+<form id="initiative-slot-selector" class="dialog-v2">
+  <div class="header">
+    <span>{{header}}</span>
+  </div>
+
+  {{#if enemySelection}}
+  <div class="sub-header margin-top-5">
+    <span>{{localize "dc20rpg.dialog.initative.enemySelection"}}</span>
+  </div>
+
+  <div class="box-content">
+    <div class="actor">  
+      <select class="selectable long-select select-enemy">
+        {{selectOptions enemySelection selected=enemySelected blank=""}}
+      </select>
+    </div>
+  </div>
+
+  {{/if}}
+
+  <div class="sub-header margin-top-5">
+    <span>{{localize "dc20rpg.dialog.initative.selectSlots"}}</span>
+  </div>
+
+  <div class="box-content">
+    {{#each combatants}}
+    <div class="actor">  
+      <div class="wrapper">
+        <img src="{{img}}"/>
+        <input disabled value="{{name}}"/>
+      </div>
+      <select class="selectable select-slot" data-combatant-id="{{_id}}">
+        {{selectOptions @root.slots selected=slot blank=""}}
+      </select>
+    </div>
+    {{/each}}
+  </div>
+
+  <button class="button confirm-selection margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
+</form>

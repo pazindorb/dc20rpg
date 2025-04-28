@@ -1,3 +1,6 @@
+import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
+import { getActorFromIds, getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { isPointInPolygon } from "../helpers/utils.mjs";
 
 export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
@@ -90,7 +93,8 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
           label: _createLabelForTemplate(type, distance),
           numberOfFields: distance,
-          difficult: area.difficult
+          difficult: area.difficult,
+          hideHighlight: area.hideHighlight,
         }
       }
       else {
@@ -101,7 +105,8 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           width: width,
           systemType: toSystemTemplate(type),
           label: _createLabelForTemplate(type, distance, width),
-          difficult: area.difficult
+          difficult: area.difficult,
+          hideHighlight: area.hideHighlight,
         }
       }
     }
@@ -112,6 +117,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     if (!template) return [];
 
     const measuredTemplates = [];
+    // Custom Area
     if (template.type === "area") {
       const label = template.label;
       let left = template.numberOfFields;
@@ -130,6 +136,24 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
   
       template.selected = false; 
       await refreshMethod();
+    }
+    // Aura type
+    else if (template.type === "aura") {
+      let item = null;
+      const actor = getActorFromIds(itemData.actorId, itemData.tokenId);
+      if (actor) item = actor.items.get(itemData.itemId);
+      if (item.system?.target?.type === "self") {
+        const token = getTokenForActor(actor);
+        if (token) {
+          await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
+        }
+      }
+      else {
+        const selected = await getTokenSelector(canvas.tokens.placeables, "Apply Aura to Tokens");
+        for (const token of selected) {
+          await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
+        }
+      }
     }
     // Predefined type
     else {
@@ -182,8 +206,12 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
       direction: 0,
       fillColor: game.user.color,
       flags: {
-        ["dc20rpg.difficult"]: config.difficult,
-        ["dc20rpg.itemData"]: itemData
+        dc20rpg: {
+          difficult: config.difficult,
+          itemData: itemData,
+          effectAppliedTokens: [],
+          hideHighlight: config.hideHighlight
+        },
       }
     }
 
@@ -246,9 +274,10 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           const shape = preview.shape;
           preview.destroy();
 
-          const templateDocument = await MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
+          const templateDocument = await DC20MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
           const template = templateDocument.object;
           template.shape = shape;
+          templateDocument.applyEffectsToTokensInTemplate();
 
           initialLayer.activate();
           resolve(template);
@@ -262,6 +291,41 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
         }
       });
     });
+  }
+
+  static async addAuraToToken(type, token, config={}, itemData) {
+    const tokenWidth = token.document.width;
+    const tokenSizeMod = tokenWidth > 1 ? tokenWidth/2 : 0;
+
+    const templateData = {
+      t: type,
+      user: game.user.id,
+      x: token.center.x,
+      y: token.center.y,
+      distance: config.distance + tokenSizeMod,
+      direction: 0,
+      fillColor: game.user.color,
+      flags: {
+        dc20rpg: {
+          difficult: config.difficult,
+          itemData: itemData,
+          effectAppliedTokens: [],
+          hideHighlight: config.hideHighlight
+        },
+      }
+    }
+
+    const templateDocument = await DC20MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
+    await templateDocument.update({["flags.dc20rpg.linkedToken"]: token.id});
+    const template = templateDocument.object;
+
+    // Link Template with token
+    const linkedTemplates = token.document.flags.dc20rpg?.linkedTemplates || [];
+    linkedTemplates.push(templateDocument.id);
+    await token.document.update({["flags.dc20rpg.linkedTemplates"]: linkedTemplates});
+
+    templateDocument.applyEffectsToTokensInTemplate();
+    return template;
   }
 
   get highlightedSpaces() {

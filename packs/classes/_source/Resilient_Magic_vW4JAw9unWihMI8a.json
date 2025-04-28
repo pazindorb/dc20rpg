@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/orb-droplet-pink.webp",
   "system": {
-    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You have ADV on Concentration Checks.</span></p>",
+    "description": "<p>You gain Dazed Resistance.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -25,7 +25,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -113,7 +113,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Sorcerous Origin",
     "usesWeapon": {
       "weaponId": "",
@@ -159,21 +159,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
-    "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
-    },
+    "macros": {},
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -257,13 +243,13 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.concentration",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Resilient Magic\"",
+          "key": "system.statusResistances.dazed.resistance",
+          "value": "1",
           "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You have ADV on Concentration Checks.</span></p>",
+      "description": "<p>You gain Dazed Resistance.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -275,7 +261,15 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -285,8 +279,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1745440765714,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!vW4JAw9unWihMI8a.PB9WGbuAo4avAaNV"
     }
@@ -300,7 +294,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034695,
-    "modifiedTime": 1739350034695,
+    "modifiedTime": 1745412732166,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "vW4JAw9unWihMI8a",

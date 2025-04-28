@@ -25,7 +25,7 @@
     "actionType": "check",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -123,7 +123,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Channel Divinity",
     "usesWeapon": {
       "weaponId": "",
@@ -170,19 +170,20 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "const channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "",
-      "postItemRoll": "if (rolls.core._total >= 15) {\n  game.dc20rpg.resources.regainBasicResource(\"mana\", actor, 1, true)\n}",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "preItemCost": "",
-      "enhancementReset": ""
+      "zX4rQi30LolmtO7h": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "mujaZ6RJ8WalUTD8": {
+        "name": "postItemRoll",
+        "trigger": "postItemRoll",
+        "command": "if (rolls.core._total >= 15) {\n  game.dc20rpg.resources.regainBasicResource(\"mana\", actor, 1, true)\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -255,7 +256,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034442,
-    "modifiedTime": 1739350034442,
+    "modifiedTime": 1745412688186,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HGNeJAMvFHuhR6OG",

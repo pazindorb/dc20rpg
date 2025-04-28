@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>When you score a Heavy or Critical Hit against a creature (or one is scored against you), you regain <strong>1 SP</strong>, provided you don’t spend SP as part of that action.</p>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when:</p><ul><li><p>You score a Heavy or Critical Hit against a creature.</p></li><li><p>A Heavy or Critical Hit is scored against you.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -25,7 +25,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -154,7 +154,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Barbarian 1",
+    "featureOrigin": "Barbarian",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -200,19 +200,13 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "preItemCost": "",
-      "enhancementReset": ""
+      "PZTV3jOzFzP5A7K8": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -273,7 +267,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "barbarian",
+    "staminaFeature": true
   },
   "effects": [],
   "folder": "spj6Afz2JRgvM0Bk",
@@ -285,7 +281,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035008,
-    "modifiedTime": 1739350035008,
+    "modifiedTime": 1745412706875,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "e7VA6DXPeviUhWGt",

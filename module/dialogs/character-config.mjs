@@ -23,14 +23,14 @@ class CharacterConfigDialog extends Dialog {
   }
 
   getData() {
-    const selectedPhysicalFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[this.updateData.defences.physical.formulaKey];
-    const selectedMysticalFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[this.updateData.defences.mystical.formulaKey];
+    const selectedPrecisionFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas[this.updateData.defences.precision.formulaKey];
+    const selectedAreaFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas[this.updateData.defences.area.formulaKey];
 
     return {
       ...this.updateData,
       config:  CONFIG.DC20RPG,
-      selectedPhysicalFormula: selectedPhysicalFormula,
-      selectedMysticalFormula: selectedMysticalFormula
+      selectedPrecisionFormula: selectedPrecisionFormula,
+      selectedAreaFormula: selectedAreaFormula
     }
   }
 
@@ -48,15 +48,15 @@ class CharacterConfigDialog extends Dialog {
 
     // Defences
     const defences = {
-      mystical: {
-        formulaKey: system.defences.mystical.formulaKey,
-        normal: system.defences.mystical.normal,
-        customFormula: system.defences.mystical.customFormula
+      area: {
+        formulaKey: system.defences.area.formulaKey,
+        normal: system.defences.area.normal,
+        customFormula: system.defences.area.customFormula
       },
-      physical: {
-        formulaKey: system.defences.physical.formulaKey,
-        normal: system.defences.physical.normal,
-        customFormula: system.defences.physical.customFormula
+      precision: {
+        formulaKey: system.defences.precision.formulaKey,
+        normal: system.defences.precision.normal,
+        customFormula: system.defences.precision.customFormula
       }
     }
 
@@ -71,9 +71,6 @@ class CharacterConfigDialog extends Dialog {
       grit: {
         maxFormula: system.resources.grit.maxFormula
       },
-      restPoints: {
-        maxFormula: system.resources.restPoints.maxFormula
-      }
     }
 
     // Movements
@@ -140,11 +137,6 @@ class CharacterConfigDialog extends Dialog {
       override: system.attributePoints.override
     }
 
-    const savePoints = {
-      overridenMax: system.savePoints.overridenMax,
-      override: system.savePoints.override
-    }
-
     const skillPoints = {
       skill: {
         overridenMax: system.skillPoints.skill.overridenMax,
@@ -158,10 +150,6 @@ class CharacterConfigDialog extends Dialog {
         overridenMax: system.skillPoints.language.overridenMax,
         override: system.skillPoints.language.override
       },
-      knowledge: {
-        overridenMax: system.skillPoints.knowledge.overridenMax,
-        override: system.skillPoints.knowledge.override
-      }
     }
 
     return {
@@ -171,7 +159,6 @@ class CharacterConfigDialog extends Dialog {
       size: size,
       senses: senses,
       attributePoints: attributePoints,
-      savePoints: savePoints,
       skillPoints: skillPoints,
       resources: resources,
     }

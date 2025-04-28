@@ -7,6 +7,7 @@ export default class EffectsConfigFields extends foundry.data.fields.SchemaField
       toggleItem: new f.BooleanField({required: true, initial: true}),
       active: new f.BooleanField({required: true, initial: false}),
       addToChat: new f.BooleanField({required: true, initial: false}),
+      addToTemplates: new f.StringField({required: true, initial: ""}),
       ...fields
     }
     super(fields, options);
