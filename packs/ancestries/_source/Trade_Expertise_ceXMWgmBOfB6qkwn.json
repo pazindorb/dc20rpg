@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/environment/settlement/farm-silo-windmill.webp",
   "system": {
-    "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Skill both increase by 1.</p>",
+    "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Trade both increase by 1.</p><p>You can only benefit from 1 Feature that increases your Trade Mastery Limit at a time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -137,6 +137,15 @@
     "featureSourceItem": "human",
     "requirements": {
       "level": 0
+    },
+    "macros": {
+      "Pc74KogyR9dBhYrt": {
+        "command": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Trade Skill Expertise\", selectOptions: CONFIG.DC20RPG.tradeSkills})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"tradeExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.changes[2].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Choose Trade Skill Expertise",
+        "title": ""
+      }
     }
   },
   "effects": [
@@ -156,12 +165,14 @@
       "img": "icons/environment/settlement/farm-silo-windmill.webp",
       "_id": "Xj8LB26TzzRyA0Hp",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.expertise.trade",
+          "key": "system.expertise.automated",
           "mode": 2,
-          "value": "1",
+          "value": "alc",
           "priority": null
         },
         {
@@ -169,22 +180,45 @@
           "mode": 2,
           "value": "1",
           "priority": null
+        },
+        {
+          "key": "system.expertise.levelIncrease",
+          "mode": 2,
+          "value": "alc",
+          "priority": null
         }
       ],
-      "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Skill both increase by 1.</p>",
+      "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Trade both increase by 1. </p><p>You can only benefit from 1 Feature that increases your Trade Mastery Limit at a time.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "tradeExpertise",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.5",
         "createdTime": null,
-        "modifiedTime": 1720508120822,
+        "modifiedTime": 1746520486896,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!ceXMWgmBOfB6qkwn.Xj8LB26TzzRyA0Hp"
@@ -201,9 +235,9 @@
     "duplicateSource": "Item.Ao5RqgjqQMfVzthd",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.5",
     "createdTime": 1720101168854,
-    "modifiedTime": 1745412760119,
+    "modifiedTime": 1746520582422,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ceXMWgmBOfB6qkwn",

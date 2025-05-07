@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/environment/settlement/farm-silo-windmill.webp",
   "system": {
-    "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Skill both increase by 1.</p>",
+    "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Trade both increase by 1.</p><p>You can only benefit from 1 Feature that increases your Trade Mastery Limit at a time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -137,6 +137,15 @@
     "featureSourceItem": "elf",
     "requirements": {
       "level": 0
+    },
+    "macros": {
+      "v2AMn15vHRaSMaJW": {
+        "command": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Trade Skill Expertise\", selectOptions: CONFIG.DC20RPG.tradeSkills})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"tradeExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.changes[2].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Choose Trade Skill Expertise",
+        "title": ""
+      }
     }
   },
   "effects": [
@@ -156,12 +165,14 @@
       "img": "icons/environment/settlement/farm-silo-windmill.webp",
       "_id": "Xj8LB26TzzRyA0Hp",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.expertise.trade",
+          "key": "system.expertise.automated",
           "mode": 2,
-          "value": "1",
+          "value": "alc",
           "priority": null
         },
         {
@@ -169,22 +180,45 @@
           "mode": 2,
           "value": "1",
           "priority": null
+        },
+        {
+          "key": "system.expertise.levelIncrease",
+          "mode": 2,
+          "value": "alc",
+          "priority": null
         }
       ],
-      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Choose a Artistry or Crafting Trade. </span></p><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Mastery Cap and Mastery Level in the chosen Trade both increase by 1.</span></p>",
+      "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Trade both increase by 1.</p><p>You can only benefit from 1 Feature that increases your Trade Mastery Limit at a time.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "tradeExpertise",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.5",
         "createdTime": null,
-        "modifiedTime": 1720508137126,
+        "modifiedTime": 1746520636244,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Jdff8hKlvN0puMN6.Xj8LB26TzzRyA0Hp"
@@ -201,9 +235,9 @@
     "duplicateSource": "Item.Om0fXcMSPzHVr1Yr",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.5",
     "createdTime": 1720099590760,
-    "modifiedTime": 1745570065562,
+    "modifiedTime": 1746520678128,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Jdff8hKlvN0puMN6",

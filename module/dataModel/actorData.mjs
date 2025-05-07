@@ -24,7 +24,8 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       languages: new SkillFields("language"),
       expertise: new f.SchemaField({
         automated: new f.ArrayField(new f.StringField(), {required: true}),
-        manual: new f.ArrayField(new f.StringField(), {required: true})
+        manual: new f.ArrayField(new f.StringField(), {required: true}),
+        levelIncrease: new f.ArrayField(new f.StringField(), {required: true}),
       }),
       help: new f.SchemaField({
         active: new f.ObjectField({required: true}),

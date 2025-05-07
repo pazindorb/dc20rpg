@@ -2,6 +2,13 @@ import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { collectExpectedUsageCost } from "./costManipulator.mjs";
 import { getItemFromActor } from "./itemsOnActor.mjs";
 
+let font = null;
+async function loadFont(pdfDoc) {
+  pdfDoc.registerFontkit(fontkit);
+  const ptsansFontBytes = await fetch('systems/dc20rpg/pdf/PTSans-Regular.ttf').then(res => res.arrayBuffer());
+  font = await pdfDoc.embedFont(ptsansFontBytes);
+}
+
 export async function fillPdfFrom(actor) {
   if (!actor) return;
 
@@ -11,7 +18,9 @@ export async function fillPdfFrom(actor) {
 
   // Load the PDF document
   const pdfDoc = await pdf.load(sheetPdfBytes);
+  await loadFont(pdfDoc);
   const form = pdfDoc.getForm();
+  // form.acroForm.dict.set(PDFLib.PDFName.of('NeedAppearances'), PDFLib.PDFBool.True);
   const itemCards = [];
   _setValues(form, actor, itemCards);
 
@@ -56,7 +65,7 @@ export async function fillPdfFrom(actor) {
   link.click();
 }
 
-function _addNewPage(pdfDoc, textFieldName) {
+async function _addNewPage(pdfDoc, textFieldName) {
   const width = 595;  // A4 width
   const height = 842; // A4 height
 
@@ -129,8 +138,8 @@ function _setValues(form, actor, itemCards) {
   // ================== COLUMN 2 ==================
   _text(form.getTextField("Hit Points Current"), actor.system.resources.health.max);
   _text(form.getTextField("Hit Points Max"), actor.system.resources.health.max);
-  _text(form.getTextField("Physical Defense"), actor.system.defences.precision.normal); // TODO FIX
-  _text(form.getTextField("Mental Defense"), actor.system.defences.area.normal);
+  _text(form.getTextField("Physical Defense"), actor.system.defences.precision.value);
+  _text(form.getTextField("Mental Defense"), actor.system.defences.area.value);
   _text(form.getTextField("PD Heavy Threshold"), actor.system.defences.precision.heavy);
   _text(form.getTextField("PD Brutal Threshold"), actor.system.defences.precision.brutal);
   _text(form.getTextField("MD Heavy Threshold"), actor.system.defences.area.heavy);
@@ -221,6 +230,7 @@ function _checkbox(field, checked, type) {
 
 function _text(field, value) {
   field.setText(value.toString());
+  field.updateAppearances(font);
 }
 
 function _drawCircle(on) {

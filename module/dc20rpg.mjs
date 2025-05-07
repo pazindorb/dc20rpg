@@ -114,7 +114,7 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  await runMigrationCheck();
+  // await runMigrationCheck();
   // await testMigration("0.9.0", "0.9.5", new Set(["dc20-core-rulebook"]));
   // await testMigration("0.9.0", "0.9.5");
 

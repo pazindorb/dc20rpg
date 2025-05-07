@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/tech/blueprint.webp",
   "system": {
-    "description": "<p>Choose a Skill. Your Mastery Cap and Mastery Level in the chosen Skill both increase by 1. You can only benefit from 1 Feature that increases your Skill Mastery Limit at a time</p>",
+    "description": "<p>Choose a Skill. Your Mastery Cap and Mastery Level in the chosen Skill both increase by 1. </p><p>You can only benefit from 1 Feature that increases your Skill Mastery Limit at a time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -141,7 +141,7 @@
     },
     "macros": {
       "XsKmrWzsNrZZkMGP": {
-        "command": "  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Skill Expertise\", selectOptions: {...CONFIG.DC20RPG.skills, ...CONFIG.DC20RPG.tradeSkills}})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"skillExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
+        "command": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Skill Expertise\", selectOptions: {...CONFIG.DC20RPG.skills, ...CONFIG.DC20RPG.tradeSkills}})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"skillExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.changes[2].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Choose Skill Expertise",
@@ -181,6 +181,12 @@
           "mode": 2,
           "value": "1",
           "priority": null
+        },
+        {
+          "key": "system.expertise.levelIncrease",
+          "mode": 2,
+          "value": "awa",
+          "priority": null
         }
       ],
       "description": "<p>Choose a Skill. Your Mastery Cap and Mastery Level in the chosen Skill both increase by 1. You can only benefit from 1 Feature that increases your Skill Mastery Limit at a time</p>",
@@ -213,7 +219,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1745416653595,
+        "modifiedTime": 1746519847448,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!iGogqsE0HtjvoT7b.Xj8LB26TzzRyA0Hp"
@@ -230,9 +236,9 @@
     "duplicateSource": "Item.ceXMWgmBOfB6qkwn",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.5",
     "createdTime": 1720101168854,
-    "modifiedTime": 1745416876555,
+    "modifiedTime": 1746520374807,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "iGogqsE0HtjvoT7b",

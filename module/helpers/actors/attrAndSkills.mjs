@@ -4,9 +4,17 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
  * Changes value of actor's skill skillMastery.
  */
 export async function toggleSkillMastery(skillType, skillKey, which, actor) {
-	const skillMasteryLimit = getSkillMasteryLimit(actor, skillKey);
 	const pathToValue = `system.${skillType}.${skillKey}.mastery`;
-	const currentValue = getValueFromPath(actor, pathToValue);
+	let skillMasteryLimit = getSkillMasteryLimit(actor, skillKey);
+	let currentValue = getValueFromPath(actor, pathToValue);
+
+	const levelIncrease = new Set(actor.system.expertise.levelIncrease);
+	if (levelIncrease.has(skillKey)) {
+		// Real current value and mastery limit is 1 less because we increase that value with expertise during calculation process
+		currentValue -= 1;
+		skillMasteryLimit -= 1;
+	}
+
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
     ? _switchMastery(currentValue, true, 0, skillMasteryLimit)
