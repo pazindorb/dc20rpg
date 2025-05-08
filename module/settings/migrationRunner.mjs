@@ -2,7 +2,7 @@ import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 const versions = [
                   "0.8.1-hf2", "0.8.2", "0.8.2-hf1", "0.8.3", "0.8.4", "0.8.4-hf1", "0.8.5", 
-                  "0.9.0", "0.9.5"
+                  "0.9.0", "0.9.5", "0.9.5#1"
                 ];
 
 export async function runMigrationCheck() {
