@@ -3,7 +3,7 @@ import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs"
 import { getActorFromIds, getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { isPointInPolygon } from "../helpers/utils.mjs";
 
-export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
+export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.MeasuredTemplate {
 
   static isDifficultTerrain(x, y) {
     const matches = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(x, y);

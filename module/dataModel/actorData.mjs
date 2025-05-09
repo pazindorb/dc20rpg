@@ -143,21 +143,21 @@ export class DC20CharacterData extends DC20BaseActorData {
       }),
       tradeSkills: new SkillFields("trade"),
       details: new f.SchemaField({
-        ancestry: new f.SchemaField({id: new f.StringField({required: true})}, {required: false}),
-        background: new f.SchemaField({id: new f.StringField({required: true})}, {required: false}),
+        ancestry: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
+        background: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
         class: new f.SchemaField({
           id: new f.StringField({required: true}),
-          maxHpBonus: new f.NumberField({ required: false, integer: true, initial: 0, nullable: false }),
-          bonusStamina: new f.NumberField({ required: false, integer: true, initial: 0, nullable: false }),
-          bonusMana: new f.NumberField({ required: false, integer: true, initial: 0, nullable: false }),
-        }, {required: false}),
-        subclass: new f.SchemaField({id: new f.StringField({required: false})}, {required: false}),
+          maxHpBonus: new f.NumberField({ required: true, integer: true, initial: 0, nullable: false }),
+          bonusStamina: new f.NumberField({ required: true, integer: true, initial: 0, nullable: false }),
+          bonusMana: new f.NumberField({ required: true, integer: true, initial: 0, nullable: false }),
+        }, {required: true}),
+        subclass: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
-        primeAttrKey: new f.StringField({required: false}),
+        primeAttrKey: new f.StringField({required: true}),
         advancementInfo: new f.SchemaField({
           multiclassTalents: new f.ObjectField({required: true}),
         })
@@ -205,9 +205,9 @@ export class DC20NpcData extends DC20BaseActorData {
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        creatureType: new f.StringField({required: false}),
-        role: new f.StringField({required: false}),
-        aligment: new f.StringField({required: false}),
+        creatureType: new f.StringField({required: true}),
+        role: new f.StringField({required: true}),
+        aligment: new f.StringField({required: true}),
       }),
       saveDC: new f.SchemaField({
         flat: new f.BooleanField({required: true, initial: false}),

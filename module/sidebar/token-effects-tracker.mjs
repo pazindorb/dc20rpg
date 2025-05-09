@@ -14,6 +14,7 @@ export function createTokenEffectsTracker() {
   });
 }
 
+// We might drop it completly and use token Hud instead
 export class TokenEffectsTracker extends Application {
 
   constructor(data = {}, options = {}) {
@@ -82,6 +83,7 @@ export class TokenEffectsTracker extends Application {
 
     for(const effect of actor.allEffects) {
       if (effect.isTemporary) {
+        const TextEditor = foundry.applications.ux.TextEditor.implementation;
         effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
         effect.timeLeft = effect.roundsLeft;
         effect.allStatauses = await this._statusObjects(effect.statuses, effect.name);

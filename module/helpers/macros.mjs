@@ -52,12 +52,13 @@ export async function runTemporaryItemMacro(item, trigger, actor, additionalFiel
 export async function runTemporaryMacro(command, object, additionalFields) {
   if (!command) return;
   const macro = createTemporaryMacro(command, object);
+  const scope = {}
   if (additionalFields) {
     for (const [key, field] of Object.entries(additionalFields)) {
-      macro[key] = field;
+      scope[key] = field;
     }
   }
-  await macro.execute(macro);
+  await macro.execute(scope);
 }
 
 //=================================

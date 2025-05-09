@@ -118,8 +118,8 @@ class DC20UsableItemData extends DC20BaseItemData {
       }),
       conditional: new ConditionalFields(), // Left for backward compatibility
       conditionals: new f.ObjectField({required: true}),
-      hasAdvancement: new f.BooleanField({required: false, initial: false}),
-      provideMartialExpansion: new f.BooleanField({required: false, initial: false}),
+      hasAdvancement: new f.BooleanField({required: true, initial: false}),
+      provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {
         default: {
           name: "Item Advancement",
@@ -361,7 +361,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     return this.mergeSchema(super.defineSchema(), {
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       combatTraining: new CombatTraining(),
-      bannerImg: new f.StringField({required: false, initial: ""}),
+      bannerImg: new f.StringField({required: true, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
       martialExpansion: new f.BooleanField({required: true, initial: false}),

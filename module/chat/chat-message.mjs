@@ -150,7 +150,7 @@ export class DC20ChatMessage extends ChatMessage {
       userIsGM: game.user.isGM
     };
     const templateSource = "systems/dc20rpg/templates/chat/event-revert-message.hbs";
-    return await renderTemplate(templateSource, contentData);
+    return await foundry.applications.handlebars.renderTemplate(templateSource, contentData);
   }
 
   async _rollAndDescription() {
@@ -177,7 +177,7 @@ export class DC20ChatMessage extends ChatMessage {
       showEffectApplier: showEffectApplier
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
-    return await renderTemplate(templateSource, contentData);
+    return await foundry.applications.handlebars.renderTemplate(templateSource, contentData);
   }
 
   _prepareApplicableStatuses() {

@@ -4,7 +4,7 @@ import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulat
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { toggleStatusOn } from "../statusEffects/statusUtils.mjs";
 
-export class DC20RpgTokenHUD extends TokenHUD {
+export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
 
   get template() {
     return `systems/dc20rpg/templates/hud/token-hud.hbs`;

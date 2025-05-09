@@ -1,7 +1,7 @@
 import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 
-export class DC20RpgToken extends Token {
+export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
   get isFlanked() {
     if (this.actor.system.globalModifier.ignore.flanking) return;
@@ -166,7 +166,7 @@ export class DC20RpgToken extends Token {
     // Add apDisplay bellow bars
     const bars = this.bars;
     bars.apDisplay = bars.addChild(new PIXI.Container());
-    bars.apDisplay.width = this.getSize().width;
+    bars.apDisplay.width = this.document.getSize().width;
   }
 
   /** @override */
@@ -182,10 +182,10 @@ export class DC20RpgToken extends Token {
 
     const max = actionPoints.max;
     const current = actionPoints.value;
-    const full = await loadTexture('systems/dc20rpg/images/sheet/header/ap-full.svg');
-    const empty = await loadTexture('systems/dc20rpg/images/sheet/header/ap-empty.svg');
+    const full = await foundry.canvas.loadTexture('systems/dc20rpg/images/sheet/header/ap-full.svg');
+    const empty = await foundry.canvas.loadTexture('systems/dc20rpg/images/sheet/header/ap-empty.svg');
 
-    const {width, height} = this.getSize();
+    const {width, height} = this.document.getSize();
     const step = width / max;
     const shift = step/2;
 

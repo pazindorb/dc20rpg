@@ -97,6 +97,7 @@ export async function createNewEffectOn(type, owner, flags) {
   const inactive = type === "inactive";
   const created = await owner.createEmbeddedDocuments("ActiveEffect", [{
     label: "New Effect",
+    name: "New Effect",
     img: "icons/svg/aura.svg",
     origin: owner.uuid,
     "duration.rounds": duration,
@@ -107,7 +108,7 @@ export async function createNewEffectOn(type, owner, flags) {
 }
 
 export async function createEffectOn(effectData, owner) {
-  if (!owner.canUserModify(game.user)) {
+  if (!owner.canUserModify(game.user, "create")) {
     emitEventToGM("addDocument", {
       docType: "effect",
       docData: effectData, 
@@ -126,7 +127,7 @@ export function editEffectOn(effectId, owner) {
 }
 
 export async function deleteEffectFrom(effectId, owner) {
-  if (!owner.canUserModify(game.user)) {
+  if (!owner.canUserModify(game.user, "delete")) {
     emitEventToGM("removeDocument", {
       docType: "effect",
       docId: effectId, 

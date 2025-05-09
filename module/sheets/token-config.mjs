@@ -1,4 +1,4 @@
-export class DC20RpgTokenConfig extends TokenConfig {
+export class DC20RpgTokenConfig extends foundry.applications.sheets.TokenConfig {
 
   activateListeners(html) {
     super.activateListeners(html);

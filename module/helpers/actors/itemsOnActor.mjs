@@ -21,7 +21,7 @@ export function getItemFromActorByKey(itemKey, actor) {
 }
 
 export async function createItemOnActor(actor, itemData) {
-  if (!actor.canUserModify(game.user)) {
+  if (!actor.canUserModify(game.user, "create")) {
     emitEventToGM("addDocument", {
       docType: "item",
       docData: itemData, 
@@ -33,7 +33,7 @@ export async function createItemOnActor(actor, itemData) {
 }
 
 export async function deleteItemFromActor(itemId, actor) {
-  if (!actor.canUserModify(game.user)) {
+  if (!actor.canUserModify(game.user, "delete")) {
     emitEventToGM("removeDocument", {
       docType: "item",
       docId: itemId, 

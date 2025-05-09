@@ -1,7 +1,7 @@
 /**
  * Returns owners of specific Actor
  */
-export function getActiveActorOwners(actor, allowGM) {
+export function getActiveActorOwners(actor, allowGM=false) {
   if (!actor) return [];
   const ownership = Object.entries(actor.ownership).filter(([userId, value]) => value === 3).map(([userId, value]) => userId);
 

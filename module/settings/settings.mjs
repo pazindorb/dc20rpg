@@ -79,7 +79,7 @@ export function registerGameSettings(settings) {
     hint: "If selected, Not enough Move Points will cause a popup to appear asking to spend more AP for the movement.",
     scope: "world",
     config: true,
-    default: false,
+    default: true,
     type: Boolean
   });
 

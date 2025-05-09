@@ -4,7 +4,7 @@ import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { getValueFromPath, parseFromString, setValueForPath } from "../helpers/utils.mjs";
 
-export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
+export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
 
   constructor(dialogData = {}, options = {}) {
     super(dialogData, options);
@@ -48,7 +48,7 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   }
 
   _getItemEnhacements() {
-    const item = this.object.parent;
+    const item = this.document.parent;
     if (item.documentName !== "Item") return {};
     else {
       const dropdownData = {};
@@ -76,20 +76,20 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   }
 
   _onActivable(pathToValue) {
-    const value = getValueFromPath(this.object, pathToValue);
-    setValueForPath(this.object, pathToValue, !value);
+    const value = getValueFromPath(this.document, pathToValue);
+    setValueForPath(this.document, pathToValue, !value);
     this.render(true);
   }
 
   async _onUpdateKey(key, index) {
     index = parseFromString(index);
-    const changes = this.object.changes; 
+    const changes = this.document.changes; 
     changes[index].key = key;
-    await this.object.update({changes: changes});
+    await this.document.update({changes: changes});
   }
 
   async _onSystemsBuilder(type, changeIndex, isSkill) {
-    const changes = this.object.changes;
+    const changes = this.document.changes;
     if (!changes) return;
     const change = changes[changeIndex];
     if (change === undefined) return;
@@ -97,13 +97,13 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     const result = await createSystemsBuilder(type, change.value, isSkill);
     if (result) {
       changes[changeIndex].value = result;
-      this.object.update({changes: changes});
+      this.document.update({changes: changes});
     }
   }
 
   async _onEffectMacro() {
-    const command = this.object.flags.dc20rpg?.macro || "";
-    const macro = await createTemporaryMacro(command, this.object, {effect: this.object});
+    const command = this.document.flags.dc20rpg?.macro || "";
+    const macro = await createTemporaryMacro(command, this.document, {effect: this.document});
     macro.canUserExecute = (user) => {
       ui.notifications.warn("This is an Effect Macro and it cannot be executed here.");
       return false;
@@ -113,16 +113,16 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
 
   async close(options) {
     await super.close(options);
-    const flags = this.object.flags.dc20rpg;
+    const flags = this.document.flags.dc20rpg;
     if (flags?.enhKey || flags?.condKey) {
-      const item = this.object.parent;
+      const item = this.document.parent;
       if (item.documentName !== "Item") return;
 
-      const effectData = this.object.toObject();
+      const effectData = this.document.toObject();
       effectData.origin = null;
       if (flags.condKey) item.update({[`system.conditionals.${flags.condKey}.effect`]: effectData});
       if (flags.enhKey) item.update({[`system.enhancements.${flags.enhKey}.modifications.addsEffect`]: effectData});
-      await this.object.delete();
+      await this.document.delete();
     }
   }
 }

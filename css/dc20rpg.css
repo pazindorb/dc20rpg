@@ -45,6 +45,9 @@
   min-width: 790px;
   min-height: 345px;
 }
+.dc20rpg.sheet.actor button {
+  min-height: 0;
+}
 
 .dc20rpg.sheet.actor.npc {
   min-width: 672px;
@@ -6841,6 +6844,7 @@
   filter: opacity(0.7);
   -webkit-appearance: none;
   -moz-appearance: none;
+  line-height: normal;
   height: 22px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .base-attribute.pointer {
@@ -7209,9 +7213,17 @@
   font-size: 12px;
   font-family: "Signika", sans-serif;
 }
+.dc20rpg .actor_v2 .npc-sidetab .sidetab-content .oneliner .oneliner-content .oneliner-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
 .dc20rpg .actor_v2 .npc-sidetab .sidetab-content .oneliner .oneliner-content img {
-  margin-bottom: -3px;
   border-radius: 3px;
+  margin-right: 3px;
   background-color: white;
   height: 15px;
   width: 15px;
@@ -7876,9 +7888,17 @@
   font-size: 12px;
   font-family: "Signika", sans-serif;
 }
+.dc20rpg .actor_v2 .npc-body .core-tab .oneliner .oneliner-content .oneliner-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
 .dc20rpg .actor_v2 .npc-body .core-tab .oneliner .oneliner-content img {
-  margin-bottom: -3px;
   border-radius: 3px;
+  margin-right: 3px;
   background-color: white;
   height: 15px;
   width: 15px;
@@ -8164,6 +8184,7 @@
   filter: opacity(0.7);
   -webkit-appearance: none;
   -moz-appearance: none;
+  line-height: normal;
   height: 22px;
 }
 .dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .base-attribute.pointer {
@@ -9056,9 +9077,17 @@
   font-size: 12px;
   font-family: "Signika", sans-serif;
 }
+.dc20rpg .actor_v2 .pc-body .core-tab .first-row .oneliner .oneliner-content .oneliner-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row .oneliner .oneliner-content img {
-  margin-bottom: -3px;
   border-radius: 3px;
+  margin-right: 3px;
   background-color: white;
   height: 15px;
   width: 15px;
@@ -9169,9 +9198,17 @@
   font-size: 12px;
   font-family: "Signika", sans-serif;
 }
+.dc20rpg .actor_v2 .pc-body .core-tab .oneliner .oneliner-content .oneliner-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
 .dc20rpg .actor_v2 .pc-body .core-tab .oneliner .oneliner-content img {
-  margin-bottom: -3px;
   border-radius: 3px;
+  margin-right: 3px;
   background-color: white;
   height: 15px;
   width: 15px;
@@ -10937,21 +10974,21 @@
   -ms-flex-align: center;
   align-items: center;
   font-family: "Signika", sans-serif;
-  margin: 0 5px;
+  margin: 0 10px;
 }
 #sidebar .combat-sidebar .encounter-dc .change-dc, #combat-popout .combat-sidebar .encounter-dc .change-dc {
-  width: 50%;
+  width: 30%;
   color: #ffffff;
   border-radius: 2px;
   border: 1px solid var(--secondary-lighter);
   background-color: var(--secondary-dark);
-  padding: 15px;
+  padding: 3px 8px;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 16px;
+  text-align: right;
 }
 #sidebar .combat-sidebar .encounter-dc span, #combat-popout .combat-sidebar .encounter-dc span {
-  font-size: 16px;
-  text-shadow: -2px 0 var(--secondary-darker), 0 2px var(--secondary-darker), 2px 0 var(--secondary-darker), 0 -2px var(--secondary-darker);
+  font-size: 14px;
   font-weight: bold;
 }
 #sidebar .combat-sidebar .token-initiative, #combat-popout .combat-sidebar .token-initiative {
@@ -10994,30 +11031,28 @@
   -webkit-box-shadow: 0 0 6px 3px var(--secondary-darker) inset;
   box-shadow: 0 0 6px 3px var(--secondary-darker) inset;
 }
+#sidebar .combat-sidebar .token-initiative .initative-slot.disabled:hover, #combat-popout .combat-sidebar .token-initiative .initative-slot.disabled:hover {
+  cursor: auto;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#sidebar .combat-sidebar .token-initiative .button-wrapper, #combat-popout .combat-sidebar .token-initiative .button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
 #sidebar .combat-sidebar .companion-combatant, #combat-popout .combat-sidebar .companion-combatant {
-  height: 40px;
-  margin-left: 10px;
+  margin-left: 20px;
   padding-right: 4px;
 }
 #sidebar .combat-sidebar .companion-combatant.active, #combat-popout .combat-sidebar .companion-combatant.active {
   border-top: 0;
-}
-#sidebar .combat-sidebar .companion-combatant .token-image, #combat-popout .combat-sidebar .companion-combatant .token-image {
-  height: 40px;
-  max-width: 40px;
-}
-#sidebar .combat-sidebar .companion-combatant .token-initiative, #combat-popout .combat-sidebar .companion-combatant .token-initiative {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 40px;
-  flex: 0 0 40px;
-  height: 40px;
-  width: 40px;
-}
-#sidebar .combat-sidebar .companion-combatant .token-name h4, #combat-popout .combat-sidebar .companion-combatant .token-name h4 {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 17px;
-  flex: 0 0 17px;
-  line-height: 17px;
 }
 
 #ui-right #gm-tools {
@@ -11086,7 +11121,7 @@
 #token-effects-tracker {
   position: absolute;
   top: 10px;
-  right: 315px;
+  right: 355px;
   width: 40px;
   z-index: 31;
 }
@@ -11234,7 +11269,7 @@
   display: -ms-flexbox;
   display: flex;
   position: fixed;
-  right: 355px;
+  right: 395px;
   margin-top: -40px;
   z-index: 200;
 }

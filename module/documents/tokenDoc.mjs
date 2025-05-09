@@ -1,7 +1,6 @@
 import { snapTokenToTheClosetPosition, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { getPointsOnLine } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
-import { getStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 
@@ -10,10 +9,8 @@ export class DC20RpgTokenDocument extends TokenDocument {
   /**@override*/
   prepareData() {
     this._prepareSystemSpecificVisionModes();
-    this._setTokenSize();
     super.prepareData();
-    // Refresh existing token if exist
-    if (this.object) this.object.refresh();
+    this._setTokenSize();
   }
 
   _prepareSystemSpecificVisionModes() {
@@ -59,44 +56,47 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   _setTokenSize() {
-    const size = this.actor.system.size;
+    const size = this.actor?.system?.size;
+    if (!size) return;
     if (this.flags?.dc20rpg?.notOverrideSize) return;
 
     switch(size.size) {
       case "tiny":
-        this.width = 0.5;
-        this.height = 0.5;
+        this._updateSize(0.5);
         break;
 
       case "small": case "medium": case "mediumLarge":
-        this.width = 1;
-        this.height = 1;
+        this._updateSize(1);
         break;
 
       case "large":
-        this.width = 2;
-        this.height = 2;
+        this._updateSize(2);
         break;
 
       case "huge":
-        this.width = 3;
-        this.height = 3;
+        this._updateSize(3);
         break;
 
       case "gargantuan":
-        this.width = 4;
-        this.height = 4;
+        this._updateSize(4);
         break;
 
       case "colossal":
-        this.width = 5;
-        this.height = 5;
+        this._updateSize(5);
         break;
 
       case "titanic":
-        this.width = 7;
-        this.height = 7;
+        this._updateSize(7);
         break;
+    }
+  }
+
+  async _updateSize(size) {
+    if (this.width !== size && this.height !== size) {
+      await this.update({
+        width: size,
+        height: size
+      })
     }
   }
 
@@ -127,8 +127,16 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
   }
 
+  // TODO: Foundry v13 - use _preUpdateMovement instead (take a look at that) 
+  // Check movement cost and print make similar behaviour like in our _customMovementChecks
   movementData = {};
   async _preUpdate(changed, options, user) {
+    await super._preUpdate(changed, options, user);
+    const hadError = await this._customMovementChecks(changed, options);
+    if (hadError) return false;
+  }
+
+  async _customMovementChecks(changed, options) {
     const freeMove = game.keyboard.downKeys.has("KeyF");
     const teleport = options.teleport;
     if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove && !teleport) {
@@ -153,15 +161,17 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
       // Snap to closest available position
       if (subtracted !== true && game.settings.get("dc20rpg","snapMovement")) {
-        [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed, this.costFunctionGridless, this.costFunctionGrid);
+        // TODO: FIX THIS
+        ui.notifications.warn("SNAP MOVEMENT DOES NOT WORK.");
+        return true;
+        // [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed, this.costFunctionGridless, this.costFunctionGrid);
       }
       // Do not move the actor
       if (subtracted !== true) {
         ui.notifications.warn("Not enough movement! If you want to make a free move hold 'F' key.");
-        return false;
+        return true;
       }
     }
-    super._preUpdate(changed, options, user);
   }
 
   costFunctionGrid(from, to, distance, movementData, occupiedSpaces) {

@@ -4,7 +4,7 @@
  * @return {Promise}
  */
 export async function preloadHandlebarsTemplates() {
-  return loadTemplates(Object.values(allPartials()));
+  return foundry.applications.handlebars.loadTemplates(Object.values(allPartials()));
 };
 
 export function allPartials() {
