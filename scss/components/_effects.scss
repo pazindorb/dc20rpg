@@ -1,242 +1,51 @@
-.effects-table {
-  margin-bottom: 0;
+.changes {
 
-  .effects-header {
-    padding: 5px 3px 5px 10px;
-    height: 25px;
-    display: grid;
-    grid-template-columns: 1fr 35px;
-    border-radius: 5px 5px 0 0;
-    background: linear-gradient(to right, $table-1, $table-2);
-    color: $secondary-lighter;
-    margin-top: 5px;
-
-    .column {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .name {
-      overflow: hidden;
-      justify-content: start;
-    }
+  ol {
+    grid-template-columns: 24px 6fr 2fr 7fr 1fr 1fr;
   }
 
-  .effects-row {
-    height: 30px;
-    display: grid;
-    grid-template-columns: 1fr 35px;
-    background-color: $secondary-color;
-    border: 2px solid $secondary-dark;
-    border-top: 0;
+  header {
+    grid-template-columns: 24px 6fr 2fr 7fr 1fr 1fr;
+  }
+  
+  textarea {
+    min-height: 32px;
+    margin-top: 4px;
+    height: 32px;
+    width: 100%;
+  }
 
-
-    .column {
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .name {
-      overflow: hidden;
-      justify-content: start;
-
-      .effect-img {
-
-        img {
-          height: 28px;
-          width: 28px;
-          border: 0;
-          margin-top: 1px;
-          border-radius: 0;
-        }
-      }
-
-      .effect-name {
-        margin-left: 3px;
-
-      }
-    } 
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 }
 
-.effect-config {
-  .header {
-    padding: 6px;
-    display: flex;
+prose-mirror {
+  min-height: 250px;
+}
 
-    .effect-img {
-      min-width: 80px;
-      margin-right: 7px;
-  
-      img {
-        height: 80px;
-        width: 80px;
-        border-radius: 10px;
-        border: 3px solid $primary-color;
-      }
-    }
-  
-    .header-content {
-      width: 100%;
-  
-      .effect-name {
-        font-family: $dc20-font;
-        flex-grow: 1;
-        padding: 14px 6px 12px 6px;
-        border: 2px solid $primary-color;
-        background: $secondary-color;
-        color: white;
-        font-weight: bold;
-        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-        font-size: 22px;
-        height: 40px;
-        border-radius: 10px 0 10px 0;
-        text-indent: 5px;
-      }
-    }
-  }
+.scrollable {
+  padding: 5px;
 
-  .effect-macro {
-    display: flex;
-    justify-content: end;
+  fieldset {
 
-    &.empty {
-      filter: opacity(0.5);
-    }
-  }
+    .form-group {
 
-  .form-group {
-    min-height: 27px;
-  }
-
-  .editor {
-    min-height: 240px;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 27px;
-    font-size: 14px;
-
-    input, select, span {
-      width: 50%;
-    }
-    
-    &.ignore-symetry {
-      input, select, span {
-        width: auto;
-      }
-    }
-
-    a {
-      color: black;
-      margin-right: 2px;
-    }
-
-    multi-select {
-      width: 50%; 
-
-      select {
-        width: 100%;
+      .effect-macro {
+        display: flex;
+        justify-content: end;
       }
 
-      .tags {
-        
-        .tag {
-          background-color: $secondary-lighter;
-          border: 1px solid $secondary-dark;
-          color: $secondary-dark;
-          display: flex;
-          justify-content: space-between;
-          padding: 3px;
-
-          span {
-            width: auto;
-          }
-        }
-      }
-    }
-    
-    input {
-      text-align: end;
-    }
-  }
-
-  .tab {
-    min-height: 240px;
-
-    .disable-when {
-      display: grid;
-      grid-template-columns: 1fr 50px 110px;
-      gap: 2px
-    }
-  }
-
-  .effects-tab {
-    
-    .change-header {
-      grid-template-columns: 1fr 100px 1fr 30px;
-      display: grid;
-      font-weight: bold;
-      border: 1px solid $secondary-dark;
-      border-radius: 5px;
-      background-color: $primary-light;    
-
-      .column {
-        padding: 5px;
-        text-align: center;
-        border-left: 1px solid $secondary-dark;
+      .effect-macro.empty {
+        filter: opacity(0.5);  
       }
 
-      .column.key {
-        padding-left: 10px;
-        text-align: start;
-        border-left: 0;
-      }
-    }
+      .disable-when {
 
-    .change-body {
-
-      .effect-change {
-        grid-template-columns: 1fr 100px 1fr 30px;
-        display: grid;
-        font-weight: bold;
-        border: 1px solid $secondary-dark;
-        border-radius: 1px;
-        background-color: $secondary-color;
-        padding: 2px 1px;
-        margin-top: 2px;
-
-        .column {
-          border-left: 1px solid $secondary-dark;
-
-          input, select {
-            border: 0;
-            border-radius: 0;
-          }
-
-          textarea {
-            min-height: 30px;
-            height: 30px;
-            border-radius: 1px;
-            background-color: $secondary-color;
-            border: 1px solid $secondary-dark;
-          }
-        }
-  
-        .column.key {
-          border-left: 0;
-          display: flex;
-          align-items: center;
-
-          select {
-            width: 100%;
-          }
+        select {
+          max-width: 75px;
         }
       }
     }

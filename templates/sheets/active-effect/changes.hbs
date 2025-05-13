@@ -1,0 +1,54 @@
+<section class="tab changes{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  <header>
+    <div class="useCustom"></div>
+    <div class="key">{{localize "EFFECT.ChangeKey"}}</div>
+    <div class="mode">{{localize "EFFECT.ChangeMode"}}</div>
+    <div class="value">{{localize "EFFECT.ChangeValue"}}</div>
+    <div class="priority">{{localize "EFFECT.ChangePriority"}}</div>
+    <div class="controls"><a data-action="addChange"><i class="fa-regular fa-square-plus"></i></a></div>
+  </header>
+  <ol class="scrollable" data-changes>
+    {{#each source.changes as |change i|}}
+    {{#with ../fields.changes.element.fields as |changeFields|}}
+    <li data-index="{{i}}">
+      <div class="useCustom">
+        {{formGroup changeFields.useCustom name=(concat "changes." i ".useCustom") value=change.useCustom rootId=rootId}} 
+      </div>
+      <div class="key">
+        {{#if change.useCustom}}
+        {{formInput changeFields.key name=(concat "changes." i ".key") value=change.key}}
+        {{else}}
+        {{formInput changeFields.key name=(concat "changes." i ".key") value=change.key choices=@root.effectKeys}}
+        {{/if}}
+      </div>
+      <div class="mode">
+        {{formInput changeFields.mode name=(concat "changes." i ".mode") value=change.mode choices=@root.modes}}
+      </div>
+      <div class="value">
+        {{formInput changeFields.value name=(concat "changes." i ".value") value=change.value elementType="textarea"}}
+      </div>
+      <div class="priority">
+        {{formInput changeFields.priority name=(concat "changes." i ".priority") value=change.priority placeholder=(lookup ../../priorities change.mode)}}
+      </div>
+      <div class="controls">
+        {{!-- Global Formula Modifier --}}
+        {{#if (includes change.key "system.globalFormulaModifiers")}}
+        <a data-action="systemBuilder" data-index="{{i}}" data-type="globalFormulaModifiers" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"><i class="fa-solid fa-gear"></i></a>
+        {{/if}}
+        {{!-- Roll Level --}}
+        {{#if (includes change.key "system.rollLevel")}}
+        <a data-action="systemBuilder" data-index="{{i}}" data-type="rollLevel" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"
+          {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}} {{#if (includes change.key ".tradeSkills")}} data-is-skill="true" {{/if}}
+        ><i class="fa-solid fa-gear"></i></a>
+        {{/if}}
+        {{!-- Events --}}
+        {{#if (includes change.key "system.events")}}
+        <a data-action="systemBuilder" data-index="{{i}}" data-type="events" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"><i class="fa-solid fa-gear"></i></a>
+        {{/if}}
+        <a data-action="deleteChange"><i class="fa-solid fa-trash"></i></a>
+      </div>
+    </li>
+    {{/with}}
+    {{/each}}
+  </ol>
+</section>

@@ -1,50 +1,14 @@
 import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
-import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
-import { getValueFromPath, parseFromString, setValueForPath } from "../helpers/utils.mjs";
+import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
 
   constructor(dialogData = {}, options = {}) {
     super(dialogData, options);
-    this.keys = getEffectModifiableKeys();
-  }
-
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dc20rpg", "sheet", "active-effect-sheet"], //css classes
-      width: 680,
-      height: 460,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }],
-    });
-  }
-
-  /** @override */
-  get template() {
-    return `systems/dc20rpg/templates/shared/active-effect-config.hbs`;
-  }
-
-  /** @override */
-  async getData(options={}) {
-    const data = await super.getData(options);
-    data.keys = this.keys;
-    this._customKeyCheck(data.data.changes, data.keys);
-
-    const statusIds = {};
-    CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
-    return {
-      ...data,
-      logicalExpressions: CONFIG.DC20RPG.DROPDOWN_DATA.logicalExpressions,
-      statusIds: statusIds,
-      itemEnhancements: this._getItemEnhacements(),
-      onTimeEndOptions: {
-        "": "",
-        "disable": "Disable Effect",
-        "delete": "Delete Effect"
-      }
-    }
+    this.effectKeys = getEffectModifiableKeys();
+    this.itemEnhancements = this._getItemEnhacements();
   }
 
   _getItemEnhacements() {
@@ -57,38 +21,74 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     }
   }
 
+    /** @override */
+  static PARTS = {
+    header: {template: "templates/sheets/active-effect/header.hbs"},
+    tabs: {template: "templates/generic/tab-navigation.hbs"},
+    details: {template: "systems/dc20rpg/templates/sheets/active-effect/details.hbs", scrollable: [""]},
+    config: {template: "systems/dc20rpg/templates/sheets/active-effect/config.hbs", scrollable: [""]},
+    duration: {template: "systems/dc20rpg/templates/sheets/active-effect/duration.hbs"},
+    changes: {template: "systems/dc20rpg/templates/sheets/active-effect/changes.hbs", scrollable: ["ol[data-changes]"]},
+    footer: {template: "templates/generic/form-footer.hbs"}
+  };
+
+  /** @override */
+  static TABS = {
+    sheet: {
+      tabs: [
+        {id: "details", icon: "fa-solid fa-book"},
+        {id: "config", icon: "fa-solid fa-gears"},
+        {id: "duration", icon: "fa-solid fa-clock"},
+        {id: "changes", icon: "fa-solid fa-feather"}
+      ],
+      initial: "details",
+      labelPrefix: "EFFECT.TABS"
+    }
+  };
+
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.position.width = 740;
+    initialized.classes.push("dc20rpg");
+    initialized.actions.systemBuilder = this._onSystemsBuilder;
+    initialized.actions.editMacro = this._onEffectMacro;
+    return initialized;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.logicalExpressions = CONFIG.DC20RPG.DROPDOWN_DATA.logicalExpressions;
+    context.effectKeys = this.effectKeys;
+    context.itemEnhancements = this.itemEnhancements;
+    context.onTimeEndOptions = {
+      "": "",
+      disable: "Disable Effect",
+      delete: "Delete Effect"
+    };
+    const statusIds = {};
+    CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
+    context.statusIds = statusIds;
+
+    if (options.isFirstRender) {
+      this._customKeyCheck(context.source.changes, context.effectKeys);
+    }
+    return context;
+  }
+
   _customKeyCheck(changes, keys) {
     for (let i = 0; i < changes.length; i++) {
-      if (changes[i].useCustom !== undefined) continue;
       if (!changes[i].key) changes[i].useCustom = false;
       else if (keys[changes[i].key]) changes[i].useCustom = false;
       else changes[i].useCustom = true;
     }
   }
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index, datasetOf(ev).isSkill));
-    html.find('.update-key').change(ev => this._onUpdateKey(valueOf(ev), datasetOf(ev).index));
-    html.find('.effect-macro').click(() => this._onEffectMacro());
-  }
+  async _onSystemsBuilder(event, target) {
+    const dataset = target.dataset;
+    const type = dataset.type;
+    const changeIndex = dataset.index; 
+    const isSkill = dataset.isSkill;
 
-  _onActivable(pathToValue) {
-    const value = getValueFromPath(this.document, pathToValue);
-    setValueForPath(this.document, pathToValue, !value);
-    this.render(true);
-  }
-
-  async _onUpdateKey(key, index) {
-    index = parseFromString(index);
-    const changes = this.document.changes; 
-    changes[index].key = key;
-    await this.document.update({changes: changes});
-  }
-
-  async _onSystemsBuilder(type, changeIndex, isSkill) {
     const changes = this.document.changes;
     if (!changes) return;
     const change = changes[changeIndex];
@@ -101,14 +101,37 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     }
   }
 
-  async _onEffectMacro() {
-    const command = this.document.flags.dc20rpg?.macro || "";
+  async _onEffectMacro(event, target) {
+    const command = this.document.system?.macro || "";
     const macro = await createTemporaryMacro(command, this.document, {effect: this.document});
-    macro.canUserExecute = (user) => {
-      ui.notifications.warn("This is an Effect Macro and it cannot be executed here.");
-      return false;
-    };
+    macro.canUserExecute = (user) => false;;
     macro.sheet.render(true);
+  }
+
+  _onChangeForm(formConfig, event) {
+    super._onChangeForm(formConfig, event);
+    if (event.target.name && event.target.name.startsWith("changes.")) {
+      this._updateChanges(event);
+      this.render();
+    }
+  }
+
+  _updateChanges(event) {
+    const path = event.target.name;
+    const doc = this.document;
+
+    switch (event.target.type) {
+      case "checkbox":
+        const boolValue = getValueFromPath(doc, path);
+        setValueForPath(doc, path, !boolValue);
+        break;
+
+      case "text": case "select-one":
+        const textValue = event.target.value;
+        setValueForPath(doc, path, textValue);
+        break;
+    }
+    this.document.updateSource({changes: doc.changes});
   }
 
   async close(options) {

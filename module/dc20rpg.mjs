@@ -113,7 +113,7 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
   // await testMigration("0.9.0", "0.9.5", new Set(["dc20-core-rulebook"]));
-  // await testMigration("0.9.0", "0.9.5");
+  // await testMigration("0.9.5-hf1", "0.9.6");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -140,7 +140,7 @@ Hooks.once("ready", async function() {
   // Override error notification to ignore "Item does not exist" error.
   ui.notifications.error = (message, options) => {
     if (message.includes("does not exist!")) return;
-    return ui.notifications.notify(message, "error", options);
+    return ui.notifications.info(message, "error", options);
   }
 
   // Hide tooltip when releasing button

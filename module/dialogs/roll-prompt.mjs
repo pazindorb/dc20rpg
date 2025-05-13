@@ -78,7 +78,7 @@ export class RollPromptDialog extends Dialog {
   _onAskForHelp() {
     const gm = game.users.activeGM;
     if (!gm) {
-      ui.notifications.notify("No GM currently active");
+      ui.notifications.info("No GM currently active");
       return;
     }
 

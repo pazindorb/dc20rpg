@@ -3,15 +3,9 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 export class DC20RpgCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
   /** @override */
   static PARTS = {
-    header: {
-      template: "systems/dc20rpg/templates/sidebar/combat-tracker/header.hbs"
-    },
-    tracker: {
-      template: "systems/dc20rpg/templates/sidebar/combat-tracker/tracker.hbs"
-    },
-    footer: {
-      template: "templates/sidebar/tabs/combat/footer.hbs"
-    }
+    header: {template: "systems/dc20rpg/templates/sidebar/combat-tracker/header.hbs"},
+    tracker: {template: "systems/dc20rpg/templates/sidebar/combat-tracker/tracker.hbs"},
+    footer: {template: "templates/sidebar/tabs/combat/footer.hbs"}
   };
 
   _initializeApplicationOptions(options) {

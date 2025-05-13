@@ -43,7 +43,7 @@ async function _runMigration(lastMigration, currentVersion, skipLastMigrationVal
 
   for (let i = after + 1; i <= until; i++) {
     const migratingTo = versions[i];
-    ui.notifications.notify(`Running system migration for version: ${migratingTo}`, {permanent: true});
+    ui.notifications.info(`Running system migration for version: ${migratingTo}`, {permanent: true});
     const dialog =  new SimplePopup("non-closable", {header: "Running Migration", message: `Running system migration for version: ${migratingTo}... Please wait it might take a while. This window will be closed once the migration is complete. Grab a coffee or something :D`}, {title: "Popup"});
     await dialog._render(true);
     try {
@@ -51,7 +51,7 @@ async function _runMigration(lastMigration, currentVersion, skipLastMigrationVal
       const migrationModule = await import(migrationPath);
       await migrationModule.runMigration(migrateModules);
       if (!skipLastMigrationValueUpdate) await game.settings.set("dc20rpg", "lastMigration", migratingTo);
-      ui.notifications.notify(`Finished system migration for version: ${migratingTo}`, {permanent: true});
+      ui.notifications.info(`Finished system migration for version: ${migratingTo}`, {permanent: true});
       dialog.close();
     }
     catch (e) {
