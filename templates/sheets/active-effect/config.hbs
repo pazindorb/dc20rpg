@@ -2,7 +2,7 @@
 
   <fieldset>
     {{!-- Enhancement effect are always added to chat --}}
-    {{#unless flags.dc20rpg.enhKey}}
+    {{#unless source.flags.dc20rpg.enhKey}}
       {{formGroup fields.system.fields.addToChat value=source.system.addToChat rootId=rootId label=(localize "dc20rpg.effect.sheet.addToChat") hint=(localize "dc20rpg.effect.sheet.addToChatTitle")}}
     {{/unless}}      
 

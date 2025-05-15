@@ -79,7 +79,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
       case "macro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.flags.dc20rpg?.macro;
+        const command = effect.system.macro;
         if (!command) break;
         await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: extraMacroData});
         break;
@@ -153,7 +153,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
       case "runMacro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.flags.dc20rpg?.macro;
+        const command = effect.system.macro;
         if (!command) break;
         await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: true}});
         break;
@@ -175,7 +175,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
       case "runMacro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.flags.dc20rpg?.macro;
+        const command = effect.system.macro;
         if (!command) break;
         await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: false}});
         break;

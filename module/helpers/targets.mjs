@@ -57,6 +57,7 @@ export function getAttackOutcome(target, data) {
   if (data.isCritMiss || data.hit < 0) outcome.miss = true;
   outcome.label = _outcomeLabel(data.hit, data.isCritHit, data.isCritMiss, data.skipFor);
   outcome.defenceKey = data.defenceKey;
+  outcome.hit = data.hit;
   return outcome;
 }
 

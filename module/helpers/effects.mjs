@@ -36,7 +36,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
-      if (effect.flags.dc20rpg?.nonessential && hideNonessentialEffects) continue;
+      if (effect.system.nonessential && hideNonessentialEffects) continue;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
       else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -164,7 +164,7 @@ export function getEffectById(effectId, owner) {
 
 export function getEffectByKey(effectKey, owner) {
   if (!effectKey) return;
-  return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectKey);
+  return owner.allEffects.find(effect => effect.system.effectKey === effectKey);
 }
 
 export async function createOrDeleteEffect(effectData, owner) {

@@ -189,7 +189,7 @@
         </div>
         
         <div class="resource-bar-wrapper">
-          <button class="health spend-resource fas fa-solid fa-minus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"></button>
+          <button class="health spend-resource" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"><i class="fas fa-solid fa-minus"></i></button>
           <div class="resource-bar">
             <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
             <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
@@ -201,7 +201,7 @@
               </div>
             </div>
           </div>
-          <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"></button>
+          <button class="health regain-resource" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"><i class="fas fa-solid fa-plus"></i></button>
         </div>
 
         {{!-- Death Threshold --}}
@@ -219,8 +219,8 @@
           <span class="separator"> / </span>
           <input disabled type="text" data-path="system.resources.restPoints.max" value="{{system.resources.restPoints.max}}" data-dtype="Number">
         </div>
-        <button class="rest-points rest-point-to-hp fas fa-solid fa-heart-circle-plus" title="Spend Rest Point to Regain HP"></button>
-        <button class="rest-points spend-regain-resource fas fa-sm fa-solid fa-plus-minus" data-key="restPoints" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainRest'}}RMB: {{localize 'dc20rpg.sheet.resource.spendRest'}}"></button>
+        <button class="rest-points rest-point-to-hp" title="Spend Rest Point to Regain HP"><i class="fas fa-solid fa-heart-circle-plus"></i></button>
+        <button class="rest-points spend-regain-resource" data-key="restPoints" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainRest'}}RMB: {{localize 'dc20rpg.sheet.resource.spendRest'}}"><i class="fas fa-sm fa-solid fa-plus-minus"></i></button>
       </div>
     </div>
 
@@ -239,7 +239,7 @@
               </div>
             </div>
           </div>
-          <button class="stamina spend-regain-resource fas fa-sm fa-solid fa-plus-minus" data-key="stamina" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainStamina'}}RMB: {{localize 'dc20rpg.sheet.resource.spendStamina'}}"></button>
+          <button class="stamina spend-regain-resource" data-key="stamina" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainStamina'}}RMB: {{localize 'dc20rpg.sheet.resource.spendStamina'}}"><i class="fas fa-sm fa-solid fa-plus-minus"></i></button>
         </div>
       </div>
 
@@ -257,7 +257,7 @@
               </div>
             </div>
           </div>
-          <button class="mana spend-regain-resource fas fa-solid fa-plus-minus" data-key="mana" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainMana'}}RMB: {{localize 'dc20rpg.sheet.resource.spendMana'}}"></button>
+          <button class="mana spend-regain-resource fas" data-key="mana" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainMana'}}RMB: {{localize 'dc20rpg.sheet.resource.spendMana'}}"><i class="fas fa-sm fa-solid fa-plus-minus"></i></button>
         </div>
       </div>
 
@@ -275,7 +275,7 @@
               </div>
             </div>
           </div>
-          <button class="grit spend-regain-resource fas fa-solid fa-plus-minus" data-key="grit" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainGrit'}}RMB: {{localize 'dc20rpg.sheet.resource.spendGrit'}}"></button>
+          <button class="grit spend-regain-resource" data-key="grit" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainGrit'}}RMB: {{localize 'dc20rpg.sheet.resource.spendGrit'}}"><i class="fas fa-sm fa-solid fa-plus-minus"></i></button>
         </div>
       </div>
 

@@ -69,18 +69,8 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   }
   if (extras.forOneMinute) {
     effect.duration.rounds = 5;
-    if (!effect.flags.dc20rpg) {
-      effect.flags.dc20rpg = {
-        duration: {
-          useCounter: true,
-          onTimeEnd: "delete"
-        }
-      }
-    }
-    else {
-      effect.flags.dc20rpg.duration.useCounter = true;
-      effect.flags.dc20rpg.duration.onTimeEnd = "delete";
-    }
+    effect.system.duration.useCounter = true;
+    effect.system.duration.onTimeEnd = "delete";
   }
   effect.changes = changes;
   return effect;

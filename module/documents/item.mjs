@@ -469,10 +469,7 @@ export class DC20RpgItem extends Item {
     const command = this.system.macros[key]?.command;
     if (!command === undefined) return;
     const macro = createTemporaryMacro(command, this, {item: this, key: key});
-    // macro.canUserExecute = (user) => {
-    //   ui.notifications.warn("This is an Item Macro and it cannot be executed here.");
-    //   return false;
-    // };
+    macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }
 

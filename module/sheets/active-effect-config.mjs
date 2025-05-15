@@ -104,7 +104,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
   async _onEffectMacro(event, target) {
     const command = this.document.system?.macro || "";
     const macro = await createTemporaryMacro(command, this.document, {effect: this.document});
-    macro.canUserExecute = (user) => false;;
+    macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }
 
@@ -126,7 +126,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
         setValueForPath(doc, path, !boolValue);
         break;
 
-      case "text": case "select-one":
+      case "text": case "select-one": case "textarea":
         const textValue = event.target.value;
         setValueForPath(doc, path, textValue);
         break;

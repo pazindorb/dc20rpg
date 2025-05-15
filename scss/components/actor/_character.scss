@@ -38,6 +38,16 @@
   width: 100%;
   display: flex;
 
+  input {
+    background-color: transparent;
+  }
+
+  button {
+    i {
+      margin-right: 0 !important;
+    }
+  }
+
   .resource-column {
     min-width: 145px;
     width: 100%;
@@ -54,7 +64,7 @@
         border-radius: 4px;
         background-color: $secondary-lighter;
 
-        .regain-resource, .spend-resource, .spend-regain-resource{
+        .regain-resource, .spend-resource, .spend-regain-resource {
           background-color: transparent;
           width: 18px;
           height: 20px;

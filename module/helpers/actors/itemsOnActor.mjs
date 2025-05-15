@@ -352,7 +352,7 @@ export async function createScrollFromSpell(spell) {
 //======================================
 //             Item Tables             =
 //======================================
-export function reorderTableHeaders(tab, current, swapped, actor) {
+export function reorderTableHeaders(tab, current, swapped, actor) { // TODO - MOVE TO ACTOR SYSTEM INSTEAD?
   const headersOrdering = actor.flags.dc20rpg.headersOrdering;
 
   const currentOrder = headersOrdering[tab][current].order;

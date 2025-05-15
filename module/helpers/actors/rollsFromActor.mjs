@@ -31,7 +31,7 @@ export async function rollFromSheet(actor, details) {
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-async function _rollFromFormula(formula, details, actor, sendToChat) {
+async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO SHOULD WE MOVE ROLL MENU TO SYSTEM? I THINK WE SHOULD
   const rollMenu = actor.flags.dc20rpg.rollMenu;
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();

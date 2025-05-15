@@ -270,15 +270,10 @@ async function _onEnhancementMacroEdit(enhKey, macroKey, item) {
   const enh = enhancements[enhKey]
   if (!enh) return;
 
-  const macros = enh.modifications.macros;
-  if (!macros) return;
-
+  const macros = enh.modifications.macros || {};
   const command = macros[macroKey] || "";
   const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey, macroKey: macroKey});
-  macro.canUserExecute = (user) => {
-    ui.notifications.warn("This is an Enhancement Macro and it cannot be executed here.");
-    return false;
-  };
+  macro.canUserExecute = (user) => false;
   macro.sheet.render(true);
 }
 

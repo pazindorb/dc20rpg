@@ -65,7 +65,7 @@ export class DC20RpgCombatTracker extends foundry.applications.sidebar.tabs.Comb
   _changeinitiativeDC(value) {
     const dc = parseInt(value);
     const combat = this.viewed;
-    combat.update({['flags.dc20rpg.initiativeDC']: dc});
+    combat.update({['flags.dc20rpg.initiativeDC']: dc}); // TODO: MOVE TO COMBAT SYSTEM
   }
 
   /** @override */
