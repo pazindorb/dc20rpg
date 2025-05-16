@@ -1,9 +1,9 @@
 <div class="chat_v2">
   <div class="info-section">
-    <div class="header {{#if source}}expand-row{{/if}} {{messageType}}">
+    <div class="header {{#if source}}desc-expand-row{{/if}} {{messageType}}">
       <div class="name-wrapper">
         <img src="{{image}}"/>
-        <div class="name">  
+        <div class="name revert-name">  
           {{#ifCond messageType "===" 'damage'}}
           {{repleaceLocalize "dc20rpg.chat.damage" amount}}
           {{/ifCond}}
@@ -26,7 +26,7 @@
     </div>
     {{#if source}}
     <div class="expandable-row">
-      <div class="description {{#if effectImg}}with-image{{/if}}">
+      <div class="description {{#if effectImg}}with-image{{/if}}" style="margin-top:5px;">
         {{#if effectImg}}
         <img src="{{effectImg}}"/>
         {{/if}}
@@ -38,3 +38,4 @@
     {{/if}}
   </div>
 </div>
+<div class="fotter" style="margin-bottom:10px;"></div>

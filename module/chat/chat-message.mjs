@@ -122,10 +122,11 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   /** @overriden */
-  async getHTML() {
+  async renderHTML(options) {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
 
+    let defaultMessage = false;
     const system = this.system;
     // Prepare content depending on messageType
     switch(system.messageType) {
@@ -136,11 +137,20 @@ export class DC20ChatMessage extends ChatMessage {
       case "roll": case "description": 
         this.content = await this._rollAndDescription();
         break;
+
+      default:
+        defaultMessage = true;
     }
 
-    const html = await super.getHTML();
-    this._activateListeners(html);        // Activete listeners on rendered template
-    return html;
+    const colorTheme = game.settings.get("core", "uiConfig").colorScheme.interface;
+    const element = await super.renderHTML(options);
+    element.classList.add("themed");
+    element.classList.add(`theme-${colorTheme}`);
+    if (defaultMessage && this.rolls.length > 0) {
+      element.querySelector(".dice-roll").classList.add("default-roll-message");
+    }
+    this._activateListeners($(element));        // Activete listeners on rendered template
+    return element;
   }
 
   async _eventRevert() {
@@ -213,7 +223,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
 
     // Show/Hide description
-    html.find('.expand-row').click(ev => {
+    html.find('.desc-expand-row').click(ev => {
       ev.preventDefault();
       const description = ev.target.closest(".chat_v2").querySelector(".expandable-row");
       if(description) description.classList.toggle('expand');
