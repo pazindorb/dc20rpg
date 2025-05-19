@@ -65,6 +65,9 @@ Hooks.once('init', async function() {
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
+  CONFIG.Token.movement.actions = DC20RpgToken.movementActions();
+  CONFIG.Token.movement.defaultAction = "ground";
+  CONFIG.Token.movement.defaultSpeed = 5;
   CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
   CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
   CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;

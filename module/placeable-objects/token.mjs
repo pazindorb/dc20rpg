@@ -3,6 +3,84 @@ import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
+  static movementActions() {
+    return {
+      ground: {
+        label: "TOKEN.MOVEMENT.ACTIONS.walk.label",
+        icon: "fa-solid fa-person-walking",
+        order: 0,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null
+      },
+      glide: {
+        label: "TOKEN.MOVEMENT.ACTIONS.glid.label",
+        icon: "fa-solid fa-angel",
+        order: 1,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null
+      },
+      flying: {
+        label: "TOKEN.MOVEMENT.ACTIONS.fly.label",
+        icon: "fa-solid fa-person-fairy",
+        order: 1,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null
+      },
+      swimming: {
+        label: "TOKEN.MOVEMENT.ACTIONS.swim.label",
+        icon: "fa-solid fa-person-swimming",
+        order: 2,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null
+      },
+      burrow: {
+        label: "TOKEN.MOVEMENT.ACTIONS.burrow.label",
+        icon: "fa-solid fa-person-digging",
+        order: 3,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null
+      },
+      climbing: {
+        label: "TOKEN.MOVEMENT.ACTIONS.climb.label",
+        icon: "fa-solid fa-person-through-window",
+        order: 4,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null
+      },
+      displace: {
+        label: "TOKEN.MOVEMENT.ACTIONS.displace.label",
+        icon: "fa-solid fa-transporter-1",
+        order: 8,
+        teleport: true,
+        measure: false,
+        walls: null,
+        visualize: false,
+        getAnimationOptions: () => ({duration: 0}),
+        canSelect: () => false,
+        deriveTerrainDifficulty: () => 1,
+        getCostFunction: () => () => 0
+      }
+    }
+  }
+
   get isFlanked() {
     if (this.actor.system.globalModifier.ignore.flanking) return;
     if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
