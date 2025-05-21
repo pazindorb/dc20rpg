@@ -18,6 +18,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     initialized.actions.ap = this._onApAction;
     initialized.actions.move = this._onMoveAction;
     initialized.actions.effect = {handler: this._onEffect, buttons: [0, 2]};
+    initialized.actions.aura = this._onAuraAction;
     return initialized;
   }
 
@@ -27,6 +28,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     this.oldDisplay = this.document.displayBars;
     this.document.displayBars = 40;
     context.statusEffects = this._prepareStatusEffects(context.statusEffects);
+    context.linkedTemplates = this._prepareLinkedTemplates();
     context.movePoints = this.actor.system.movePoints;
     return context;
   }
@@ -65,6 +67,17 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
 
     const statusId = target.dataset.statusId;
     await toggleStatusOn(statusId, actor, event.which);
+  }
+
+  async _onAuraAction(event, target) {
+    const auraId = target.dataset.auraId;
+    const template = canvas.templates.documentCollection.get(auraId);
+    if (template) {
+      const linkedIds = this.document.flags.dc20rpg?.linkedTemplates || [];
+      const updatedLinkedIds = linkedIds.filter(linkedId => linkedId !== auraId);
+      await template.delete();
+      await this.document.update({["flags.dc20rpg.linkedTemplates"]: updatedLinkedIds});
+    }
   }
 
   async _onSubmit(event, form, formData) {
@@ -182,5 +195,24 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
       ].filterJoin(" ");
     }
     return choices;
+  }
+
+  _prepareLinkedTemplates() {
+    const linkedIds = this.document.flags.dc20rpg?.linkedTemplates;
+    if (!linkedIds) return [];
+
+    const linkedTemplates = [];
+    for (const templateId of linkedIds) {
+      const template = canvas.templates.documentCollection.get(templateId);
+      if (!template) continue;
+
+      const itemData = template.flags?.dc20rpg?.itemData || {};
+      linkedTemplates.push({
+        id: templateId,
+        img: itemData.itemImg || "icons/svg/explosion.svg",
+        name: itemData.itemName || "Unknown Source",
+      })
+    }
+    return linkedTemplates;
   }
 }

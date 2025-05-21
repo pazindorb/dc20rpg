@@ -160,7 +160,7 @@ export function calculateForTarget(target, formulaRoll, data) {
   final.modified = _finalAdjustments(final.modified);
   final.clear = _finalAdjustments(final.clear);
 
-  // 9. Determine what should happened on Attack Miss 
+  // 11. Determine what should happened on Attack Miss 
   if (data.isAttack && data.isDamage && data.hit < 0) {
     if (data.halfDmgOnMiss) {
       final.modified = _applyHalfDamageOnMiss(final.modified);

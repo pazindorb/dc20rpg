@@ -1,7 +1,15 @@
 import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
+
+  static tokenCostFunction(document, options) {
+    return (cost) => {
+      const slowed = document.actor?.slowed || 0;
+      return cost + slowed;
+    }
+  }
 
   static movementActions() {
     return {
@@ -13,7 +21,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
       },
       glide: {
         label: "TOKEN.MOVEMENT.ACTIONS.glid.label",
@@ -23,7 +32,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
       },
       flying: {
         label: "TOKEN.MOVEMENT.ACTIONS.fly.label",
@@ -33,7 +43,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
       },
       swimming: {
         label: "TOKEN.MOVEMENT.ACTIONS.swim.label",
@@ -43,7 +54,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
       },
       burrow: {
         label: "TOKEN.MOVEMENT.ACTIONS.burrow.label",
@@ -53,7 +65,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
       },
       climbing: {
         label: "TOKEN.MOVEMENT.ACTIONS.climb.label",
@@ -63,7 +76,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
       },
       displace: {
         label: "TOKEN.MOVEMENT.ACTIONS.displace.label",
@@ -500,5 +514,23 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
       }
     }
     return shortestDistance < range;
+  }
+
+  /** @override */
+  _getMovementCostFunction(options={}) {
+    options.ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.document.actor.system.globalModifier.ignore.difficultTerrain;
+    const calculateTerrainCost = CONFIG.Token.movement.TerrainData.getMovementCostFunction(this.document, options);
+    const calculateTemplateCost = DC20RpgMeasuredTemplate.getMovementCostFunction(this.document, options);
+
+    const actionCostFunctions = {};
+    return (from, to, distance, segment) => {
+      const terrainCost = calculateTerrainCost(from, to, distance, segment);
+      const templateCost = calculateTemplateCost(from, to, distance, segment);
+      const finalCost = terrainCost + templateCost;
+
+      const calculateActionCost = actionCostFunctions[segment.action]
+        ??= segment.actionConfig.getCostFunction(this.document, options);
+      return calculateActionCost(finalCost, from, to, distance, segment);
+    };
   }
 }

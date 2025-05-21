@@ -12,6 +12,10 @@
 		<img src="{{icons.down}}">
 	</button>
 
+	<button type="button" class="control-icon {{targetClass}}" data-action="target" data-tooltip="HUD.ToggleTargetState">
+		<i class="fa-solid fa-bullseye" inert></i>
+	</button>
+
 	{{#if canConfigure}}
 	<button type="button" class="control-icon" data-action="config" data-tooltip="HUD.OpenConfig">
 		<i class="fa-solid fa-gear" inert></i>
@@ -56,6 +60,16 @@
 	</button>
 	{{/if}}
 
+	<button type="button" class="control-icon" data-action="togglePalette" data-palette="auras"
+		data-tooltip="HUD.ActiveAuras">
+		<img src="{{icons.template}}">
+	</button>
+	<div class="palette active-auras grid" data-palette="auras">
+		{{#each linkedTemplates as |template|}}
+		<img class="aura-control" data-action="aura" data-aura-id="{{template.id}}" data-tooltip="{{template.name}} - Remove" src="{{template.img}}"/>
+		{{/each}}
+	</div>
+
 	<button type="button" class="control-icon" data-action="togglePalette" data-palette="effects"
 		data-tooltip="HUD.AssignStatusEffects">
 		<img src="{{icons.effects}}">
@@ -92,16 +106,11 @@
 	</button>
 	<div class="palette movement-actions" data-palette="movementActions">
 		{{#each movementActions as |action|}}
-		<a class="movement-action-control {{action.cssClass}}" data-action="movementAction"
-			data-movement-action="{{action.id}}">
+		<a class="movement-action-control {{action.cssClass}}" data-action="movementAction" data-movement-action="{{action.id}}">
 			<span>{{#if action.icon}}<i class="{{action.icon}} fa-fw" inert></i>{{/if}} {{action.label}}</span>
 		</a>
 		{{/each}}
 	</div>
-
-	<button type="button" class="control-icon {{targetClass}}" data-action="target" data-tooltip="HUD.ToggleTargetState">
-		<i class="fa-solid fa-bullseye" inert></i>
-	</button>
 
 	{{#if canToggleCombat}}
 	<button type="button" class="control-icon {{combatClass}}" data-action="combat" data-tooltip="HUD.ToggleCombatState">

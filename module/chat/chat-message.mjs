@@ -520,7 +520,14 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
     const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
     const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects);
-    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token, applyEffects: applyEffects}
+    const itemData = {
+      itemId: this.flags.dc20rpg.itemId, 
+      actorId: this.speaker.actor, 
+      tokenId: this.speaker.token, 
+      applyEffects: applyEffects, 
+      itemImg: item.img,
+      itemName: item.name
+    }
     const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
     
     // We will skip Target Selector if we are using selector for applying effects

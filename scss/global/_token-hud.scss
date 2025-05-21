@@ -123,4 +123,23 @@
       }
     }
   }
+
+  .active-auras {
+    min-height: 54px;
+    min-width: 100px;
+    gap: 5px;
+    margin: 0;
+    padding: 5px;
+
+    .aura-control {
+      width: auto;
+      border-radius: 3px;
+      border: 2px solid $primary-dark;
+
+      &:hover {
+        box-shadow: 0 0 5px 1px $secondary-lighter;
+        cursor: pointer;
+      }
+    }
+  }
 }

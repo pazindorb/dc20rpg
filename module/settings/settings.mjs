@@ -65,14 +65,15 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  settings.register("dc20rpg", "snapMovement", {
-    name: "Snap Movement",
-    hint: "If selected, Token will move to the closest space when there is not enough Move Points to its final destination.",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-  });
+  // Removed with changes related to v13. Do we want to bring it back one day?
+  // settings.register("dc20rpg", "snapMovement", {
+  //   name: "Snap Movement",
+  //   hint: "If selected, Token will move to the closest space when there is not enough Move Points to its final destination.",
+  //   scope: "world",
+  //   config: true,
+  //   default: false,
+  //   type: Boolean
+  // });
 
   settings.register("dc20rpg", "askToSpendMoreAP", {
     name: "Allow for Move Action popup",

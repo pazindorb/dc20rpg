@@ -805,6 +805,23 @@
 #token-hud .status-stack .letter-circle-icon span {
   font-weight: 100;
 }
+#token-hud .active-auras {
+  min-height: 54px;
+  min-width: 100px;
+  gap: 5px;
+  margin: 0;
+  padding: 5px;
+}
+#token-hud .active-auras .aura-control {
+  width: auto;
+  border-radius: 3px;
+  border: 2px solid var(--primary-dark);
+}
+#token-hud .active-auras .aura-control:hover {
+  -webkit-box-shadow: 0 0 5px 1px var(--secondary-lighter);
+  box-shadow: 0 0 5px 1px var(--secondary-lighter);
+  cursor: pointer;
+}
 
 /* Styles limited to dc20rpg sheets */
 .dc20rpg .bold {
