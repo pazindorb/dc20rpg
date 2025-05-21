@@ -30,20 +30,14 @@
 		{{/if}}
 	</div>
 
-	{{!-- Movement Left --}}
-	<div class="movement-wrapper">
-		<input class="move-points" name="movePoints" type="text" value="{{movePoints}}" title="{{localize "HUD.FreeMove"}}">
-		<a class="move-icon fa-solid fa-shoe-prints" data-action="move" title="{{localize "HUD.MoveAction"}}"></a>
-	</div>
-
 	{{!-- Action Points --}}
 	<div class="ap-wrapper">
-		<a class="spend-ap" data-action="ap" data-type="spend" data-tooltip="{{localize "HUD.SubAp"}}">
+		<button type="button" class="spend-ap control-icon" data-action="ap" data-type="spend" data-tooltip="{{localize "HUD.SubAp"}}">
 			<i class="fas fa-square-minus"></i>
-		</a>
-		<a class="regain-ap" data-action="ap" data-type="regain" data-tooltip="{{localize "HUD.AddAp"}}">
+		</button>
+		<button type="button" class="regain-ap control-icon" data-action="ap" data-type="regain" data-tooltip="{{localize "HUD.AddAp"}}">
 			<i class="fas fa-square-plus"></i>
-		</a>
+		</button>
 	</div>
 
 	<div class="attribute bar1">
@@ -100,10 +94,18 @@
 		{{/each}}
 	</div>
 
-	<button type="button" class="control-icon" data-action="togglePalette" data-palette="movementActions"
-		data-tooltip="HUD.SelectMovementAction">
-		<i class="{{movementActionsIcon}}" inert></i>
-	</button>
+	<div class="movement-wrapper">
+		<button type="button" class="control-icon" data-action="togglePalette" data-palette="movementActions"
+			data-tooltip="HUD.SelectMovementAction">
+			<i class="{{movementActionsIcon}}" inert></i>
+		</button>
+		<div class="move-points-wrapper hidden">
+			<input class="move-points" name="movePoints" type="text" value="{{movePoints}}" data-tooltip="{{localize "HUD.FreeMove"}}">
+			<button type="button" class="move-icon control-icon" data-action="move" data-tooltip="{{localize "HUD.MoveAction"}}">
+				<i class="fa-solid fa-shoe-prints" inert></i>
+			</button>
+		</div>
+	</div>
 	<div class="palette movement-actions" data-palette="movementActions">
 		{{#each movementActions as |action|}}
 		<a class="movement-action-control {{action.cssClass}}" data-action="movementAction" data-movement-action="{{action.id}}">

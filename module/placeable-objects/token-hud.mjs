@@ -215,4 +215,22 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     }
     return linkedTemplates;
   }
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
+    if (!movePointsWrapper) return;
+    // We want to show move points wrapper at the start
+    movePointsWrapper.classList.remove("hidden");
+  }
+
+  togglePalette(palette, active) {
+    super.togglePalette(palette, active);
+    // We want to show or hide move points wrapper
+    const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
+    if (!movePointsWrapper) return;
+    if (this.activePalette) movePointsWrapper.classList.add("hidden");
+    else movePointsWrapper.classList.remove("hidden");
+  }
 }
