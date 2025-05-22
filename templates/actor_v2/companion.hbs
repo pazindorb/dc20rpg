@@ -699,7 +699,7 @@
               <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
               <div class="input-select">
                 {{#if speed.useCustom}}
-                <input class="flat-value short margin-right-3" type="number" value="{{speed.value}}" name="system.movement.{{key}}.value" title="{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}"/>
+                <input class="flat-value short margin-right-3 change-actor-numeric-value" type="number" value="{{speed.value}}" data-path="system.movement.{{key}}.value" title="{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}"/>
                 {{/if}}
                 <a class="activable" data-path="system.movement.{{key}}.useCustom">
                   <i class="fa-2x {{#if speed.useCustom}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>

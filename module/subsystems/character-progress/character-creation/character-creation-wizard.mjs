@@ -333,11 +333,11 @@ export class CharacterCreationWizard extends Dialog {
 
   async _createActor() {
     const actorData = this._prepareActorData();
-    if (game.user.isGM) return await Actor.create(actorData);
+    if (Actor.canUserCreate(game.user)) return await Actor.create(actorData);
 
     const activeGM = game.users.activeGM;
     if (!activeGM) {
-      ui.notifications.error("There is no active GM. Actor cannot be created.");
+      ui.notifications.error("You have no permissions to create a new Actor and there is no active GM. Actor cannot be created.");
       return;
     }
 

@@ -104,8 +104,8 @@ export function calculateForTarget(target, formulaRoll, data) {
     modified: formulaRoll.modified,
   }
   // We might change that data so we need to copy it
-  const dr = target ? {...target.system.damageReduction} : null; 
-  const hr = target ? {...target.system.healingReduction} : null;
+    const dr = target ? foundry.utils.deepClone(target.system.damageReduction) : null; 
+    const hr = target ? foundry.utils.deepClone(target.system.healingReduction) : null;
 
   // 0. For Crit Miss it is always 0
   if (data.isCritMiss) {

@@ -2,7 +2,7 @@ import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from 
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { getSimplePopup, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -10,6 +10,7 @@ import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
+import { getActiveActorOwners, getActiveActorOwnersIds } from "../helpers/users.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -527,7 +528,16 @@ export class DC20RpgCombat extends Combat {
     const currentSustain = actor.system.sustain;
     let sustained = [];
     for (const sustain of currentSustain) {
-      const confirmed = await getSimplePopup("confirm", {header: `Do you want to spend 1 AP to sustain '${sustain.name}'?`});
+      const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
+      let confirmed = false; 
+      const actorOwners = getActiveActorOwnersIds(actor, false);
+      if (actorOwners.length > 0) {
+        confirmed = await sendSimplePopupToUsers(actorOwners, "confirm", {header: message});
+      }
+      else {
+        confirmed = await getSimplePopup("confirm", {header: message});
+      }
+
       if (confirmed) {
         const subtracted = await subtractAP(actor, 1);
         if (subtracted) sustained.push(sustain);

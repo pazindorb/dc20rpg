@@ -18,7 +18,7 @@ import { getSelectedTokens } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName, runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
-import { getActiveActorOwners } from "./users.mjs";
+import { getActiveActorOwners, getActiveActorOwnersIds } from "./users.mjs";
 
 export function prepareDC20tools() {
   game.dc20rpg = {
@@ -63,6 +63,7 @@ export function prepareDC20tools() {
       getSimplePopup,
       sendSimplePopupToUsers,
       getActiveActorOwners,
+      getActiveActorOwnersIds,
       tokenToTarget,
       calculateForTarget,
       applyDamage,

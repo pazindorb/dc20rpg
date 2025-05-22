@@ -297,7 +297,7 @@ export async function runInstantEvents(effect, actor) {
     if (change.key === "system.events" && change.value.includes('"instant"')) {
       const event = await parseEvent(change.value);
       event.effectId = effect.id;
-      await runEventsFor("instantTrigger", actor, {}, {}, event);
+      await runEventsFor("instantTrigger", actor, [], {}, event);
     }
   }
 }
