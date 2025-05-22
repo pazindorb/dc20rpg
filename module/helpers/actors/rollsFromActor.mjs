@@ -775,7 +775,6 @@ function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
 
 function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
   if (coreRoll.fail && actor.inCombat) {
-    // Only attack and not forced nat 1 should expose the attacker
     if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType) && !rollMenu.autoFail) {
       sendDescriptionToChat(actor, {
         rollTitle: "Critical Fail - exposed",
@@ -784,9 +783,12 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
       });
       actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true, untilTargetNextTurnStart: true} });
     }
+  }
 
-    if (["spellCheck", "spe"].includes(rollType)) {
-      if (item && !item.flags.dc20rpg.rollMenu.free) revertUsageCostSubtraction(actor, item);
+  if (coreRoll.fail && ["spellCheck", "spe"].includes(rollType)) {
+    if (item && !item.flags.dc20rpg.rollMenu.free) {
+      delete actor.subtractOperation.resources?.before?.ap;
+      revertUsageCostSubtraction(actor);
     }
   }
 }

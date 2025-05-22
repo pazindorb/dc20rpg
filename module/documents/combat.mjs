@@ -78,7 +78,7 @@ export class DC20RpgCombat extends Combat {
       if (combatant.actor.type === "character") initiative = await this._initiativeRollForPC(combatant);
       if (combatant.actor.type === "companion") initiative = await this._initiativeForCompanion(combatant);
       if (initiative === null) return;
-      updates.push({_id: id, initiative: initiative, system: combatant.system});
+      updates.push({_id: id, initiative: initiative, flags: {["dc20rpg.initativeOutcome"]: combatant.initativeOutcome}});
     }
     if ( !updates.length ) return this;
 
@@ -301,7 +301,7 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
 
     // Crit Success
-    if (combatant.system.crit) {
+    if (combatant.flags.dc20rpg?.initativeOutcome?.crit) {
       sendDescriptionToChat(actor, {
         rollTitle: "Initiative Critical Success",
         image: actor.img,
@@ -310,7 +310,7 @@ export class DC20RpgCombat extends Combat {
       createEffectOn(this._getInitiativeCritEffectData(actor), actor);
     }
     // Crit Fail
-    if (combatant.system.fail) {
+    if (combatant.flags.dc20rpg?.initativeOutcome?.fail) {
       sendDescriptionToChat(actor, {
         rollTitle: "Initiative Critical Fail",
         image: actor.img,
@@ -346,8 +346,7 @@ export class DC20RpgCombat extends Combat {
     const roll = await promptRoll(actor, details);
     if (!roll) return null;
 
-    combatant.system.crit = roll.crit;
-    combatant.system.fail = roll.fail;
+    combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};
     return roll.total;
   }
 

@@ -202,6 +202,7 @@ export async function respectUsageCost(actor, item) {
         && _canSubtractFromOtherItem(actor, item)
         && _canSubtractFromEnhLinkedItems(actor, item)
   ) {
+    actor.subtractOperation = {charges: [], quantity: [], resources: {}};
     await _subtractAllResources(actor, item, costs.basicCosts, costs.charges);
     _subtractFromOtherItem(actor, item);
     _subtractFromEnhLinkedItems(actor, item);
@@ -228,19 +229,18 @@ export function collectExpectedUsageCost(actor, item) {
   return [basicCosts, charges, chargesFromOtherItems];
 }
 
-export async function revertUsageCostSubtraction(actor, item) {
-  if (!item.system.costs) return;
-  let basicCosts = item.system.costs.resources;
-  basicCosts = _costsAndEnhancements(actor, item);
+export async function revertUsageCostSubtraction(actor) {
+  if (!actor.subtractOperation) return;
 
-  basicCosts.actionPoint = 0;
-  basicCosts.stamina = 0;
-  basicCosts.mana = 0;
-  basicCosts.health = 0;
-  for (let [key, custom] of Object.entries(basicCosts.custom)) {
-    if (custom) basicCosts.custom[key].value = -custom.value;
-  }
-  await _subtractAllResources(actor, item, basicCosts, 0);
+  await _updateActorResources(actor, actor.subtractOperation.resources?.before);
+  actor.subtractOperation.charges.forEach(change => {
+    change.item.update({["system.costs.charges.current"]: change.before});
+  })
+  actor.subtractOperation.quantity.forEach(change => {
+    change.item.update({["system.quantity"]: change.before});
+  })
+
+  delete actor.subtractOperation;
 }
 
 function _costsAndEnhancements(actor, item) {
@@ -307,7 +307,7 @@ function _canSubtractAllResources(actor, item, costs, charges) {
 }
 
 async function _subtractAllResources(actor, item, costs, charges) {
-  const oldResources = actor.system.resources
+  const oldResources = actor.system.resources;
 
   let [newResources, resourceMax] = _copyResources(oldResources);
   newResources = _prepareBasicResourceModification("ap", costs.actionPoint, newResources, resourceMax, actor);
@@ -317,12 +317,13 @@ async function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareBasicResourceModification("grit", costs.grit, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("restPoints", costs.restPoints, newResources, resourceMax, actor);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
-  await _subtractActorResources(actor, newResources);
-  _subtractCharge(item, charges);
-  _subtractQuantity(item, 1, true);
+  await _updateActorResources(actor, newResources);
+  actor.subtractOperation.resources = {before: _copyResources(oldResources)[0], after: newResources};
+  _subtractCharge(item, charges, actor.subtractOperation);
+  _subtractQuantity(item, 1, true, actor.subtractOperation);
 }
 
-async function _subtractActorResources(actor, newResources) {
+async function _updateActorResources(actor, newResources) {
   await actor.update({['system.resources'] : newResources});
 }
 
@@ -493,8 +494,8 @@ function _subtractFromOtherItem(actor, item) {
   if (otherItemUsage.itemId) {
     const otherItem = actor.items.get(otherItemUsage.itemId);
     otherItemUsage.consumeCharge 
-     ? _subtractCharge(otherItem, otherItemUsage.amountConsumed) 
-     : _subtractQuantity(otherItem, otherItemUsage.amountConsumed, false);
+     ? _subtractCharge(otherItem, otherItemUsage.amountConsumed, actor.subtractOperation) 
+     : _subtractQuantity(otherItem, otherItemUsage.amountConsumed, false, actor.subtractOperation);
   }
 }
 
@@ -508,10 +509,10 @@ function _canSubtractFromEnhLinkedItems(actor, item) {
 }
 
 function _subtractFromEnhLinkedItems(actor, item) {
-  const chargesPerItem = _collectEnhLinkedItemsWithCharges(item, actor)
+  const chargesPerItem = _collectEnhLinkedItemsWithCharges(item, actor);
 
   for (let original of Object.values(chargesPerItem)) {
-    _subtractCharge(original.item, original.amount);
+    _subtractCharge(original.item, original.amount, actor.subtractOperation);
   }
 }
 
@@ -530,7 +531,7 @@ function _canSubtractCharge(item, subtractedAmount) {
   return true;
 }
 
-function _subtractCharge(item, subtractedAmount) {
+function _subtractCharge(item, subtractedAmount, subtractOperation) {
   let max = item.system.costs.charges.max;
   if (!max) return;
 
@@ -538,6 +539,11 @@ function _subtractCharge(item, subtractedAmount) {
   let newAmount = current - subtractedAmount;
 
   item.update({["system.costs.charges.current"] : newAmount});
+  subtractOperation.charges.push({
+    item: item,
+    before: current,
+    after: newAmount
+  })
 }
 
 function _canSubtractQuantity(item, subtractedAmount) {
@@ -562,7 +568,7 @@ function _canSubtractQuantity(item, subtractedAmount) {
   return true;
 }
 
-function _subtractQuantity(item, subtractedAmount, markToRemoval) {
+function _subtractQuantity(item, subtractedAmount, markToRemoval, subtractOperation) {
   if (item.type !== "consumable") return;
   if (!item.system.consume) return;
 
@@ -576,6 +582,11 @@ function _subtractQuantity(item, subtractedAmount, markToRemoval) {
   } 
   else {
     item.update({["system.quantity"] : newAmount});
+    subtractOperation.quantity.push({
+      item: item,
+      before: current,
+      after: newAmount
+    });
   }
 }
 
