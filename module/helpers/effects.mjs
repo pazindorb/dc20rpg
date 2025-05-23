@@ -36,7 +36,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
-      if (effect.flags.dc20rpg?.nonessential && hideNonessentialEffects) continue;
+      if (effect.system.nonessential && hideNonessentialEffects) continue;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
       else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -97,6 +97,7 @@ export async function createNewEffectOn(type, owner, flags) {
   const inactive = type === "inactive";
   const created = await owner.createEmbeddedDocuments("ActiveEffect", [{
     label: "New Effect",
+    name: "New Effect",
     img: "icons/svg/aura.svg",
     origin: owner.uuid,
     "duration.rounds": duration,
@@ -107,7 +108,7 @@ export async function createNewEffectOn(type, owner, flags) {
 }
 
 export async function createEffectOn(effectData, owner) {
-  if (!owner.canUserModify(game.user)) {
+  if (!owner.canUserModify(game.user, "create")) {
     emitEventToGM("addDocument", {
       docType: "effect",
       docData: effectData, 
@@ -126,7 +127,7 @@ export function editEffectOn(effectId, owner) {
 }
 
 export async function deleteEffectFrom(effectId, owner) {
-  if (!owner.canUserModify(game.user)) {
+  if (!owner.canUserModify(game.user, "delete")) {
     emitEventToGM("removeDocument", {
       docType: "effect",
       docId: effectId, 
@@ -163,7 +164,7 @@ export function getEffectById(effectId, owner) {
 
 export function getEffectByKey(effectKey, owner) {
   if (!effectKey) return;
-  return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectKey);
+  return owner.allEffects.find(effect => effect.system.effectKey === effectKey);
 }
 
 export async function createOrDeleteEffect(effectData, owner) {

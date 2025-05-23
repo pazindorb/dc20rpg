@@ -211,7 +211,7 @@ export async function rechargeItem(item, half) {
     const rechargeOutput = result >= charges.requiredTotalMinimum 
                                 ? game.i18n.localize("dc20rpg.rest.rechargedDescription") 
                                 : game.i18n.localize("dc20rpg.rest.notrechargedDescription")
-    ui.notifications.notify(`${item.actor.name} ${rechargeOutput} ${item.name}`);
+    ui.notifications.info(`${item.actor.name} ${rechargeOutput} ${item.name}`);
     if (result < charges.requiredTotalMinimum) return;
   }
   if (charges.overriden) {

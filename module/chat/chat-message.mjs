@@ -122,10 +122,11 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   /** @overriden */
-  async getHTML() {
+  async renderHTML(options) {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
 
+    let defaultMessage = false;
     const system = this.system;
     // Prepare content depending on messageType
     switch(system.messageType) {
@@ -136,11 +137,20 @@ export class DC20ChatMessage extends ChatMessage {
       case "roll": case "description": 
         this.content = await this._rollAndDescription();
         break;
+
+      default:
+        defaultMessage = true;
     }
 
-    const html = await super.getHTML();
-    this._activateListeners(html);        // Activete listeners on rendered template
-    return html;
+    const colorTheme = game.settings.get("core", "uiConfig").colorScheme.interface;
+    const element = await super.renderHTML(options);
+    element.classList.add("themed");
+    element.classList.add(`theme-${colorTheme}`);
+    if (defaultMessage && this.rolls.length > 0) {
+      element.querySelector(".dice-roll").classList.add("default-roll-message");
+    }
+    this._activateListeners($(element));        // Activete listeners on rendered template
+    return element;
   }
 
   async _eventRevert() {
@@ -150,7 +160,7 @@ export class DC20ChatMessage extends ChatMessage {
       userIsGM: game.user.isGM
     };
     const templateSource = "systems/dc20rpg/templates/chat/event-revert-message.hbs";
-    return await renderTemplate(templateSource, contentData);
+    return await foundry.applications.handlebars.renderTemplate(templateSource, contentData);
   }
 
   async _rollAndDescription() {
@@ -177,7 +187,7 @@ export class DC20ChatMessage extends ChatMessage {
       showEffectApplier: showEffectApplier
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
-    return await renderTemplate(templateSource, contentData);
+    return await foundry.applications.handlebars.renderTemplate(templateSource, contentData);
   }
 
   _prepareApplicableStatuses() {
@@ -213,7 +223,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
 
     // Show/Hide description
-    html.find('.expand-row').click(ev => {
+    html.find('.desc-expand-row').click(ev => {
       ev.preventDefault();
       const description = ev.target.closest(".chat_v2").querySelector(".expandable-row");
       if(description) description.classList.toggle('expand');
@@ -510,7 +520,14 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
     const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
     const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects);
-    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token, applyEffects: applyEffects}
+    const itemData = {
+      itemId: this.flags.dc20rpg.itemId, 
+      actorId: this.speaker.actor, 
+      tokenId: this.speaker.token, 
+      applyEffects: applyEffects, 
+      itemImg: item.img,
+      itemName: item.name
+    }
     const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
     
     // We will skip Target Selector if we are using selector for applying effects

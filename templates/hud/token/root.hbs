@@ -1,0 +1,122 @@
+<div class="col left">
+	<div class="attribute elevation" data-tooltip="HUD.Elevation">
+		<i class="fas fa-angle-up"></i>
+		<input type="text" name="elevation" value="{{elevation}}" {{disabled (or locked (and isGamePaused (not isGM)))}}>
+	</div>
+
+	<button type="button" class="control-icon" data-action="sort" data-direction="up" data-tooltip="HUD.ToFront">
+		<img src="{{icons.up}}">
+	</button>
+
+	<button type="button" class="control-icon" data-action="sort" data-direction="down" data-tooltip="HUD.ToBack">
+		<img src="{{icons.down}}">
+	</button>
+
+	<button type="button" class="control-icon {{targetClass}}" data-action="target" data-tooltip="HUD.ToggleTargetState">
+		<i class="fa-solid fa-bullseye" inert></i>
+	</button>
+
+	{{#if canConfigure}}
+	<button type="button" class="control-icon" data-action="config" data-tooltip="HUD.OpenConfig">
+		<i class="fa-solid fa-gear" inert></i>
+	</button>
+	{{/if}}
+</div>
+
+<div class="col middle">
+	<div class="attribute bar2">
+		{{#if displayBar2}}
+		<input type="text" name="bar2" value="{{bar2Data.value}}" {{#unless bar2Data.editable}}disabled{{/unless}}>
+		{{/if}}
+	</div>
+
+	{{!-- Action Points --}}
+	<div class="ap-wrapper">
+		<button type="button" class="spend-ap control-icon" data-action="ap" data-type="spend" data-tooltip="{{localize "HUD.SubAp"}}">
+			<i class="fas fa-square-minus"></i>
+		</button>
+		<button type="button" class="regain-ap control-icon" data-action="ap" data-type="regain" data-tooltip="{{localize "HUD.AddAp"}}">
+			<i class="fas fa-square-plus"></i>
+		</button>
+	</div>
+
+	<div class="attribute bar1">
+		{{#if displayBar1}}
+		<input type="text" name="bar1" value="{{bar1Data.value}}" {{#unless bar1Data.editable}}disabled{{/unless}}>
+		{{/if}}
+	</div>
+</div>
+
+<div class="col right">
+	{{#if isGM}}
+	<button type="button" class="control-icon {{visibilityClass}}" data-action="visibility" data-tooltip="HUD.ToggleVis">
+		<img src="{{icons.visibility}}">
+	</button>
+	{{/if}}
+
+	<button type="button" class="control-icon" data-action="togglePalette" data-palette="auras"
+		data-tooltip="HUD.ActiveAuras">
+		<img src="{{icons.template}}">
+	</button>
+	<div class="palette active-auras grid" data-palette="auras">
+		{{#each linkedTemplates as |template|}}
+		<img class="aura-control" data-action="aura" data-aura-id="{{template.id}}" data-tooltip="{{template.name}} - Remove" src="{{template.img}}"/>
+		{{/each}}
+	</div>
+
+	<button type="button" class="control-icon" data-action="togglePalette" data-palette="effects"
+		data-tooltip="HUD.AssignStatusEffects">
+		<img src="{{icons.effects}}">
+	</button>
+	<div class="palette status-effects" data-palette="effects">
+		{{#each statusEffects as |status|}}
+			<div class="status-wrapper" data-title="{{status.tooltip}}">
+        {{!-- Stackable conditions --}}
+        {{#if status.stackable}}{{#ifCond status.stack '>' 0}}
+        <div class="status-stack">
+          <div class="letter-circle-icon">
+            <span>{{status.stack}}</span>
+          </div>
+        </div>
+        {{/ifCond}}{{/if}}
+
+        {{!-- Non-stackable conditions --}}
+        {{#unless status.stackable}}{{#if status.fromOther}}
+        <div class="status-stack">
+          <div class="letter-circle-icon">
+            <i class="fa-sm fa-solid fa-lock"></i>
+          </div>
+        </div>
+        {{/if}}{{/unless}}
+				<img class="effect-control {{status.cssClass}}" data-action="effect" src="{{status.src}}" {{#if
+					status.title}}data-tooltip="{{status.title}}" {{/if}} data-status-id="{{status.id}}" />
+			</div>
+		{{/each}}
+	</div>
+
+	<div class="movement-wrapper">
+		<button type="button" class="control-icon" data-action="togglePalette" data-palette="movementActions"
+			data-tooltip="HUD.SelectMovementAction">
+			<i class="{{movementActionsIcon}}" inert></i>
+		</button>
+		<div class="move-points-wrapper hidden">
+			<input class="move-points" name="movePoints" type="text" value="{{movePoints}}" data-tooltip="{{localize "HUD.FreeMove"}}">
+			<button type="button" class="move-icon control-icon" data-action="move" data-tooltip="{{localize "HUD.MoveAction"}}">
+				<i class="fa-solid fa-shoe-prints" inert></i>
+			</button>
+		</div>
+	</div>
+	<div class="palette movement-actions" data-palette="movementActions">
+		{{#each movementActions as |action|}}
+		<a class="movement-action-control {{action.cssClass}}" data-action="movementAction" data-movement-action="{{action.id}}">
+			<span>{{#if action.icon}}<i class="{{action.icon}} fa-fw" inert></i>{{/if}} {{action.label}}</span>
+		</a>
+		{{/each}}
+	</div>
+
+	{{#if canToggleCombat}}
+	<button type="button" class="control-icon {{combatClass}}" data-action="combat" data-tooltip="HUD.ToggleCombatState">
+		<img src="{{icons.combat}}">
+	</button>
+	{{/if}}
+</div>

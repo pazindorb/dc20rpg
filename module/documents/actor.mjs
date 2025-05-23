@@ -20,6 +20,10 @@ export class DC20RpgActor extends Actor {
     return getStatusWithId(this, "exhaustion")?.stack || 0
   }
 
+  get slowed() {
+    return getStatusWithId(this, "slowed")?.stack || 0
+  }
+
   get allEffects() {
     const effects = [];
     for ( const effect of this.allApplicableEffects()) {

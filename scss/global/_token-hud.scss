@@ -4,78 +4,57 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: calc(100% + 30px);
-    margin-top: calc(100% - 33px);
-    margin-bottom: 3px;
+    width: calc(100% + 10px);
+    margin-top: calc(100% - 13px);
+    position: relative;
+    height: 0;
 
     .spend-ap, .regain-ap {
       margin: 0;
-      font-size: 18px;
-      height: 25px;
+      font-size: 16px;
       width: 25px;
-      flex: 0 0 25px;
-      line-height: normal;
+      height: 25px;
+      min-height: 25px;
+      flex: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-
-      box-sizing: content-box;
-      text-align: center;
-      color: $secondary-lighter;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 6px var(--color-shadow-dark);
-      border: 1px solid $secondary-lighter;
-      border-radius: 8px;
-      pointer-events: all;
+      border-radius: 4px;
     }
   }
 
   .movement-wrapper {
     display: flex;
     align-items: center;
-    justify-content: end;
-    width: calc(100% + 20px);
-    margin-top: 3px;
+
+    .move-points-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      left: 6px;
+      top: -21px;
+      width: 40px;
+      height: 0;
+      z-index: -1;
+
+      &.hidden {
+        display: none;
+      }
+    }
 
     .move-icon {
-      margin: 0;
-      font-size: 12px;
-      height: 25px;
-      width: 20px;
-      line-height: normal;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      box-sizing: content-box;
-      text-align: center;
-      color: $secondary-lighter;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 6px var(--color-shadow-dark);
-      border: 1px solid $secondary-lighter;
-      border-radius: 0 8px 8px 0;
-      pointer-events: all;
+      font-size: 14px;
+      min-height: 20px !important;
+      flex: 0;
+      width: auto;
+      border-radius: 0 0 4px 4px;
     }
 
     .move-points {
-      margin: 0;
       font-size: 16px;
-      height: 23px;
-      width: 25px;
-      line-height: normal;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      box-sizing: content-box;
-      text-align: center;
-      color: $secondary-lighter;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 6px var(--color-shadow-dark);
-      border: 1px solid $secondary-lighter;
-      border-right: 0;
-      border-radius: 8px 0 0 8px;
-      pointer-events: all;
+      height: 20px;
+      width: auto;
+      border-radius: 4px 4px 0 0;
     }
   }
 
@@ -120,6 +99,25 @@
 
       span {
         font-weight: 100;
+      }
+    }
+  }
+
+  .active-auras {
+    min-height: 54px;
+    min-width: 100px;
+    gap: 5px;
+    margin: 0;
+    padding: 5px;
+
+    .aura-control {
+      width: auto;
+      border-radius: 3px;
+      border: 2px solid $primary-dark;
+
+      &:hover {
+        box-shadow: 0 0 5px 1px $secondary-lighter;
+        cursor: pointer;
       }
     }
   }

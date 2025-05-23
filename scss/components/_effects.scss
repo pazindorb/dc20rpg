@@ -1,3 +1,57 @@
+.changes {
+
+  ol {
+    grid-template-columns: 24px 6fr 2fr 7fr 1fr 1fr;
+  }
+
+  header {
+    grid-template-columns: 24px 6fr 2fr 7fr 1fr 1fr;
+  }
+  
+  textarea {
+    min-height: 32px;
+    margin-top: 4px;
+    height: 32px;
+    width: 100%;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+}
+
+prose-mirror {
+  min-height: 250px;
+}
+
+.scrollable {
+  padding: 5px;
+
+  fieldset {
+
+    .form-group {
+
+      .effect-macro {
+        display: flex;
+        justify-content: end;
+      }
+
+      .effect-macro.empty {
+        filter: opacity(0.5);  
+      }
+
+      .disable-when {
+
+        select {
+          max-width: 75px;
+        }
+      }
+    }
+  }
+}
+
 .effects-table {
   margin-bottom: 0;
 
@@ -50,14 +104,13 @@
           width: 28px;
           min-width: 28px;
           border: 0;
-          margin-top: 1px;
+          margin-top: -2px;
           border-radius: 0;
         }
       }
 
       .effect-name {
         margin-left: 3px;
-
       }
     } 
   }

@@ -1,7 +1,99 @@
 import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
 
-export class DC20RpgToken extends Token {
+export class DC20RpgToken extends foundry.canvas.placeables.Token {
+
+  static tokenCostFunction(document, options) {
+    return (cost) => {
+      const slowed = document.actor?.slowed || 0;
+      return cost + slowed;
+    }
+  }
+
+  static movementActions() {
+    return {
+      ground: {
+        label: "TOKEN.MOVEMENT.ACTIONS.walk.label",
+        icon: "fa-solid fa-person-walking",
+        order: 0,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
+      },
+      glide: {
+        label: "TOKEN.MOVEMENT.ACTIONS.glid.label",
+        icon: "fa-solid fa-angel",
+        order: 1,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
+      },
+      flying: {
+        label: "TOKEN.MOVEMENT.ACTIONS.fly.label",
+        icon: "fa-solid fa-person-fairy",
+        order: 1,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
+      },
+      swimming: {
+        label: "TOKEN.MOVEMENT.ACTIONS.swim.label",
+        icon: "fa-solid fa-person-swimming",
+        order: 2,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
+      },
+      burrow: {
+        label: "TOKEN.MOVEMENT.ACTIONS.burrow.label",
+        icon: "fa-solid fa-person-digging",
+        order: 3,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
+      },
+      climbing: {
+        label: "TOKEN.MOVEMENT.ACTIONS.climb.label",
+        icon: "fa-solid fa-person-through-window",
+        order: 4,
+        teleport: false,
+        measure: true,
+        walls: "move",
+        visualize: true,
+        deriveTerrainDifficulty: null,
+        getCostFunction: DC20RpgToken.tokenCostFunction
+      },
+      displace: {
+        label: "TOKEN.MOVEMENT.ACTIONS.displace.label",
+        icon: "fa-solid fa-transporter-1",
+        order: 8,
+        teleport: true,
+        measure: false,
+        walls: null,
+        visualize: false,
+        getAnimationOptions: () => ({duration: 0}),
+        canSelect: () => false,
+        deriveTerrainDifficulty: () => 1,
+        getCostFunction: () => () => 0
+      }
+    }
+  }
 
   get isFlanked() {
     if (this.actor.system.globalModifier.ignore.flanking) return;
@@ -166,7 +258,7 @@ export class DC20RpgToken extends Token {
     // Add apDisplay bellow bars
     const bars = this.bars;
     bars.apDisplay = bars.addChild(new PIXI.Container());
-    bars.apDisplay.width = this.getSize().width;
+    bars.apDisplay.width = this.document.getSize().width;
   }
 
   /** @override */
@@ -182,10 +274,10 @@ export class DC20RpgToken extends Token {
 
     const max = actionPoints.max;
     const current = actionPoints.value;
-    const full = await loadTexture('systems/dc20rpg/images/sheet/header/ap-full.svg');
-    const empty = await loadTexture('systems/dc20rpg/images/sheet/header/ap-empty.svg');
+    const full = await foundry.canvas.loadTexture('systems/dc20rpg/images/sheet/header/ap-full.svg');
+    const empty = await foundry.canvas.loadTexture('systems/dc20rpg/images/sheet/header/ap-empty.svg');
 
-    const {width, height} = this.getSize();
+    const {width, height} = this.document.getSize();
     const step = width / max;
     const shift = step/2;
 
@@ -422,5 +514,23 @@ export class DC20RpgToken extends Token {
       }
     }
     return shortestDistance < range;
+  }
+
+  /** @override */
+  _getMovementCostFunction(options={}) {
+    options.ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.document.actor.system.globalModifier.ignore.difficultTerrain;
+    const calculateTerrainCost = CONFIG.Token.movement.TerrainData.getMovementCostFunction(this.document, options);
+    const calculateTemplateCost = DC20RpgMeasuredTemplate.getMovementCostFunction(this.document, options);
+
+    const actionCostFunctions = {};
+    return (from, to, distance, segment) => {
+      const terrainCost = calculateTerrainCost(from, to, distance, segment);
+      const templateCost = calculateTemplateCost(from, to, distance, segment);
+      const finalCost = terrainCost + templateCost;
+
+      const calculateActionCost = actionCostFunctions[segment.action]
+        ??= segment.actionConfig.getCostFunction(this.document, options);
+      return calculateActionCost(finalCost, from, to, distance, segment);
+    };
   }
 }

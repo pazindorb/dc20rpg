@@ -4,10 +4,60 @@ import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents }
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
  */
-export default class DC20RpgActiveEffect extends ActiveEffect {
+export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect {
+
+  /** @override */
+  static defineSchema() {
+    const fields = foundry.data.fields;
+    
+    return this.mergeSchema(super.defineSchema(), {
+      changes: new fields.ArrayField(new fields.SchemaField({
+        key: new fields.StringField({required: true}),
+        value: new fields.StringField({required: true}),
+        mode: new fields.NumberField({required: true, nullable: false, integer: true, initial: CONST.ACTIVE_EFFECT_MODES.ADD}),
+        priority: new fields.NumberField(),
+        useCustom: new fields.BooleanField({required: true, initial: false})
+      })),
+      system: new fields.SchemaField({
+        statusId: new fields.StringField({required: true}),
+        duration: new fields.SchemaField({
+          useCounter: new fields.BooleanField({required: true, initial: false}),
+          resetWhenEnabled: new fields.BooleanField({required: true, initial: false}),
+          onTimeEnd: new fields.StringField({required: true})
+        }),
+        effectKey: new fields.StringField({required: true}),
+        macro: new fields.StringField({required: true}),
+        addToChat: new fields.BooleanField({required: true, initial: false}),
+        nonessential: new fields.BooleanField({required: true, initial: false}),
+        disableWhen: new fields.SchemaField({
+          path: new fields.StringField({required: true}),
+          mode: new fields.StringField({required: true}),
+          value: new fields.StringField({required: true})
+        }),
+        requireEnhancement: new fields.StringField({required: true}),
+      })
+    })
+  }
+
+  static mergeSchema(a, b) {
+    Object.assign(a, b);
+    return a;
+  }
+
+  // We want to modify schema with our fields so we cannot use base document here
+  /** @override */
+  static get schema() {
+    if ( this._schema ) return this._schema;
+    const fields = foundry.data.fields;
+    if ( !this.hasOwnProperty("_schema") ) {
+      const schema = new fields.SchemaField(Object.freeze(this.defineSchema()));
+      Object.defineProperty(this, "_schema", {value: schema, writable: false});
+    }
+    return this._schema;
+  }
 
   get roundsLeft() {
-    const useCounter = this.flags.dc20rpg?.duration?.useCounter;
+    const useCounter = this.system.duration?.useCounter;
     const activeCombat = game.combats.active;
     if (useCounter && activeCombat) {
       const duration = this.duration;
@@ -59,8 +109,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     await this.update({disabled: true});
     const actor = this.getOwningActor();
     if (actor) {
-      await runEventsFor("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectDisabled: this});
-      await reenableEventsOn("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectDisabled: this});
+      await runEventsFor("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectDisabled: this});
+      await reenableEventsOn("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectDisabled: this});
     }
   }
 
@@ -79,7 +129,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
     const updateData = {disabled: false};
     // Check If we should use round counter
-    const duration = this.flags.dc20rpg?.duration;
+    const duration = this.system.duration;
     if (duration?.useCounter && duration?.resetWhenEnabled && !dontUpdateTimer) {
       const initial =  this.constructor.getInitialDuration();
       updateData.duration = initial.duration;
@@ -87,8 +137,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     await this.update(updateData);
     const actor = this.getOwningActor();
     if (actor) {
-      await runEventsFor("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectEnabled: this});
-      await reenableEventsOn("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectEnabled: this});
+      await runEventsFor("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectEnabled: this}); 
+      await reenableEventsOn("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectEnabled: this}); 
     }
   }
 
@@ -142,8 +192,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {createdEffect: this});
-      await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {createdEffect: this});
+      await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
+      await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       if (this.preventCreation) return false;
     }
     this._runStatusChangeCheck(data);
@@ -152,8 +202,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preDelete(options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {removedEffect: this});
-      await reenableEventsOn("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {removedEffect: this});
+      await runEventsFor("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {removedEffect: this}); 
+      await reenableEventsOn("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {removedEffect: this}); 
       if (this.preventRemoval) return false;
     }
     return await super._preDelete(options, user);
@@ -212,7 +262,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   }
 
   async respectRoundCounter() {
-    const durationFlag = this.flags.dc20rpg?.duration;
+    const durationFlag = this.system.duration; 
     if (!durationFlag) return;
     if (!durationFlag.useCounter) return;
     if (this.roundsLeft === null) return;

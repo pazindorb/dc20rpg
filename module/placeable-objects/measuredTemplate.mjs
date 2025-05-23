@@ -1,16 +1,60 @@
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
 import { getActorFromIds, getTokenForActor } from "../helpers/actors/tokens.mjs";
-import { isPointInPolygon } from "../helpers/utils.mjs";
+import { getPointsOnLine, isPointInPolygon } from "../helpers/utils.mjs";
 
-export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
+export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.MeasuredTemplate {
 
-  static isDifficultTerrain(x, y) {
-    const matches = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(x, y);
-    for (const match of matches) {
-      if (match.document.flags?.dc20rpg?.difficult) return true;
+  static getMovementCostFunction(token, options) {
+    if (canvas.grid.isGridless) {
+      return (from, to, distance, segment) => {
+        if (options.ignoreDT) return 0;
+
+        let finalCost = 0;
+        const travelPoints = getPointsOnLine(from.j, from.i, to.j, to.i, canvas.grid.size);
+        for (const point of travelPoints) {
+          const templates = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(point.x, point.y);
+          for (const template of templates) {
+            if (template.document.flags?.dc20rpg?.difficult) {
+              finalCost += 1;
+              break;
+            }
+          }
+        }
+
+        const distnaceLeft = distance - finalCost;
+        if (distnaceLeft > 0.1) {
+          const templates = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(to.j, to.i);
+          for (const template of templates) {
+            if (template.document.flags?.dc20rpg?.difficult) {
+              finalCost += distnaceLeft;
+              break;
+            }
+          }
+        }
+        return finalCost;
+      }
     }
-    return false;
+    else {
+      return (from, to, distance, segment) => {
+        if (options.ignoreDT) return 0;
+        const templates = DC20RpgMeasuredTemplate.getAllTemplatesOnCord(to.i, to.j);
+        for (const template of templates) {
+          if (template.document.flags?.dc20rpg?.difficult) return 1;
+        }
+        return 0;
+      };
+    }
+  }
+
+  static getAllTemplatesOnCord(i, j) {
+    const templates = new Set();
+    canvas.templates.documentCollection.forEach(templateDoc => {
+      const template = templateDoc.object;
+      const cords = template._getGridHighlightCords();
+      if (cords.find(cord => cord[0] === i && cord[1] === j)) templates.add(template);
+    });
+    return templates;
   }
 
   static getAllTemplatesOnPosition(x, y) {
@@ -328,11 +372,19 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     return template;
   }
 
+  // TODO: Remove and replace with _getGridHighlightCords()
   get highlightedSpaces() {
     return this._getGridHighlightPositions().map(position => {
       const range = canvas.grid.getOffsetRange(position);
       // All those positions are 1x1 so startX === endX, we dont need both;
       return [range[1], range[0]];
+    });
+  }
+
+  _getGridHighlightCords() {
+    return this._getGridHighlightPositions().map(position => {
+      const range = canvas.grid.getOffsetRange({x: position.x + (canvas.grid.sizeX/2), y: position.y + (canvas.grid.sizeY/2)}); 
+      return [range[0], range[1]];
     });
   }
 }

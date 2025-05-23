@@ -7,22 +7,22 @@
       justify-content: space-between;
       align-items: center;
       font-family: $font-default;
-      margin: 0 5px;
+      margin: 0 10px;
 
       .change-dc {
-        width: 50%;
+        width: 30%;
         color: #ffffff;
         border-radius: 2px;
         border: 1px solid $secondary-lighter;
         background-color: $secondary-dark;
-        padding: 15px;
+        padding: 3px 8px;
         font-weight: bold;
-        font-size: 22px;
+        font-size: 16px;
+        text-align: right;
       }
 
       span {
-        font-size: 16px;
-        text-shadow: -2px 0 $secondary-darker, 0 2px $secondary-darker, 2px 0 $secondary-darker, 0 -2px $secondary-darker;
+        font-size: 14px;
         font-weight: bold;
       }
     }
@@ -53,34 +53,26 @@
           cursor: pointer;
           box-shadow:  0 0 6px 3px $secondary-darker inset;
         }
+
+        &.disabled:hover {
+          cursor: auto;
+          box-shadow: none;
+        }
+      }
+
+      .button-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
 
     .companion-combatant {
-      height: 40px;
-      margin-left: 10px;
+      margin-left: 20px;
       padding-right: 4px;
 
       &.active {
         border-top: 0;
-      }
-
-      .token-image {
-        height: 40px;
-        max-width: 40px;
-      }
-
-      .token-initiative {
-        flex: 0 0 40px;
-        height: 40px;
-        width: 40px;
-      }
-
-      .token-name {
-        h4 {
-          flex: 0 0 17px;
-          line-height: 17px;
-        }
       }
     }
   }
@@ -155,10 +147,19 @@
 
 #token-effects-tracker {
   position: absolute;
-  top: 10px;
-  right: 315px;
+  top: 20px;
+  right: 355px;
   width: 40px;
   z-index: 31;
+  transition: all 0.15s linear;
+
+  &.collapsed {
+    right: 55px;
+
+    .description-wrapper {
+      right: 95px !important;
+    }
+  }
 
   .held-action {
     display: flex;
@@ -278,7 +279,7 @@
       margin-bottom: 4px;
       margin-top:-4px;
 
-      &.disabled {
+      &.disable {
         filter: opacity(0.6);
       }
 
@@ -290,7 +291,7 @@
     .description-wrapper {
       display: flex;
       position: fixed;
-      right: 355px;
+      right: 395px;
       margin-top: -40px;
       z-index: 200;
 

@@ -1,0 +1,53 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+
+  <fieldset>
+    {{!-- Enhancement effect are always added to chat --}}
+    {{#unless source.flags.dc20rpg.enhKey}}
+      {{formGroup fields.system.fields.addToChat value=source.system.addToChat rootId=rootId label=(localize "dc20rpg.effect.sheet.addToChat") hint=(localize "dc20rpg.effect.sheet.addToChatTitle")}}
+    {{/unless}}      
+
+    {{#if isActorEffect}}
+    {{formGroup fields.origin value=source.origin rootId=rootId disabled=true}}
+    {{/if}}
+    {{#if isItemEffect}}
+    {{formGroup fields.transfer value=source.transfer rootId=rootId label=legacyTransfer.label hint=legacyTransfer.hint}}
+    {{/if}}
+    {{formGroup fields.system.fields.nonessential value=source.system.nonessential rootId=rootId label=(localize "dc20rpg.effect.sheet.nonessential") hint=(localize "dc20rpg.effect.sheet.nonessentialTitle")}}
+    <div class="form-group">
+      <label for="{{rootId}}-system.disableWhen">{{localize "dc20rpg.effect.sheet.disableWhen"}}</label>
+      <div class="form-fields disable-when">
+        {{formInput fields.system.fields.disableWhen.fields.path value=source.system.disableWhen.path name="system.disableWhen.path"}}
+        {{formInput fields.system.fields.disableWhen.fields.mode value=source.system.disableWhen.mode name="system.disableWhen.mode" choices=logicalExpressions}}
+        {{formInput fields.system.fields.disableWhen.fields.value value=source.system.disableWhen.value name="system.disableWhen.value"}}
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <div class="form-group">
+      <label for="{{rootId}}-system.effectKey">{{localize "dc20rpg.effect.sheet.effectKey"}}</label>
+      {{formInput fields.system.fields.effectKey value=source.system.effectKey name="system.effectKey"}}
+    </div>
+    <div class="form-group">
+      <label for="{{rootId}}-system.macro">{{localize "dc20rpg.effect.sheet.effectMacro"}}</label>
+      <a class="effect-macro {{#unless source.system.macro}}empty{{/unless}}" data-action="editMacro"><i class="fa-pen-to-square fa-solid fa-lg"></i></a>
+    </div>
+    {{#if isItemEffect}}
+    <div class="form-group">
+      <label for="{{rootId}}-system.requireEnhancement">{{localize "dc20rpg.effect.sheet.requireEnhancement"}}</label>
+      {{formInput fields.system.fields.requireEnhancement value=source.system.requireEnhancement name="system.requireEnhancement" choices=itemEnhancements}}
+      <p class="hint">{{localize "dc20rpg.effect.sheet.requireEnhancementTitle"}}</p>
+    </div>
+    {{/if}}
+  </fieldset>
+
+  <fieldset>
+    <div class="form-group">
+      <label for="{{rootId}}-system.statusId">{{localize "dc20rpg.effect.sheet.coreStatus"}}</label>
+      {{formInput fields.system.fields.statusId value=source.system.statusId name="system.statusId" choices=statusIds}}
+      <p class="hint">{{localize "dc20rpg.effect.sheet.coreStatusTitle"}}</p>
+    </div>
+     {{formGroup fields.statuses value=source.statuses options=statuses rootId=rootId classes="statuses" hint=(localize "dc20rpg.effect.sheet.statusConditionsTitle")}}
+  </fieldset>
+ 
+</section>

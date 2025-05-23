@@ -2,56 +2,70 @@ import { createActorRequestDialog, restRequest, rollRequest } from "./actor-requ
 import { createDmgCalculatorDialog } from "./dmg-calculator.mjs";
 
 export async function createGmToolsMenu() {
-  const gmToolsMenu = document.createElement('div');
-  gmToolsMenu.id = "gm-tools";
+  const gmToolsWrapper = document.createElement('aside');
+  gmToolsWrapper.id = "gm-tools";
+  gmToolsWrapper.classList.add("faded-ui");
+  
+  const gmToolsMenu = document.createElement('menu');
+  gmToolsMenu.classList.add("flexcol");
+  gmToolsMenu.setAttribute('data-tooltip-direction', 'RIGHT');
+  gmToolsMenu.setAttribute('data-application-part', 'layers');
+  gmToolsMenu.style.gap= "8px";
+
   gmToolsMenu.appendChild(_restDialog());
   gmToolsMenu.appendChild(_rollReaquestButton());
-  gmToolsMenu.appendChild(_dmgCalculator());
+  // gmToolsMenu.appendChild(_dmgCalculator()); TODO: Improve calculator
 
-  const uiRightSidebar = document.querySelector('#ui-right').querySelector('#sidebar');
-  if (uiRightSidebar) {
-    uiRightSidebar.appendChild(gmToolsMenu);
+  const ulLeftColumn = document.querySelector('#ui-left').querySelector('#ui-left-column-1');
+  const players = ulLeftColumn.querySelector("#players");
+  if (ulLeftColumn && players) {
+    gmToolsWrapper.appendChild(gmToolsMenu);
+    ulLeftColumn.insertBefore(gmToolsWrapper, players);
   }
 }
 
 function _restDialog() {
-  const restDialog = document.createElement('a');
-  restDialog.innerHTML = '<i class="fa-solid fa-bed"></i>';
-  restDialog.id = 'rest-request-button';
-  restDialog.classList.add("gm-tool");
-  restDialog.title = game.i18n.localize("dc20rpg.ui.sidebar.restRequest");
-
+  const restDialog = _getButton("rest-request-button", "fa-bed", game.i18n.localize("dc20rpg.ui.sidebar.restRequest"));
   restDialog.addEventListener('click', ev => {
     ev.preventDefault();
     createActorRequestDialog("Start Resting for", CONFIG.DC20RPG.DROPDOWN_DATA.restTypes, restRequest, true);
   });
-  return restDialog;
+  
+  const wrapper = document.createElement('li');
+  wrapper.appendChild(restDialog);
+  return wrapper;
 }
 
 function _rollReaquestButton() {
-  const rollRequestButton = document.createElement('a');
-  rollRequestButton.innerHTML = '<i class="fa-solid fa-dice"></i>';
-  rollRequestButton.id = 'roll-request-button';
-  rollRequestButton.classList.add("gm-tool");
-  rollRequestButton.title = game.i18n.localize("dc20rpg.ui.sidebar.rollRequest");
-
+  const rollRequestButton = _getButton("roll-request-button", "fa-dice", game.i18n.localize("dc20rpg.ui.sidebar.rollRequest"));
   rollRequestButton.addEventListener('click', ev => {
     ev.preventDefault();
     createActorRequestDialog("Roll Request", CONFIG.DC20RPG.ROLL_KEYS.contests, rollRequest, false);
   });
-  return rollRequestButton;
+
+  const wrapper = document.createElement('li');
+  wrapper.appendChild(rollRequestButton);
+  return wrapper;
 }
 
+// TODO: Improve before you move it back
 function _dmgCalculator() {
-  const dmgCalculator = document.createElement('a');
-  dmgCalculator.innerHTML = '<i class="fa-solid fa-calculator"></i>';
-  dmgCalculator.id = 'dmg-calculator';
-  dmgCalculator.classList.add("gm-tool");
-  dmgCalculator.title = game.i18n.localize("dc20rpg.ui.sidebar.dmgCalculator");
-
+  const dmgCalculator = _getButton("dmg-calculator", "fa-calculator", game.i18n.localize("dc20rpg.ui.sidebar.dmgCalculator"));
   dmgCalculator.addEventListener('click', ev => {
     ev.preventDefault();
     createDmgCalculatorDialog();
   });
-  return dmgCalculator;
+
+  const wrapper = document.createElement('li');
+  wrapper.appendChild(dmgCalculator);
+  return wrapper;
+}
+
+function _getButton(id, icon, title) {
+  const button = document.createElement('button');
+  button.id = id;
+  button.classList.add(icon, "fa-solid", "gm-tool", "ui-control", "layer", "icon");
+  button.setAttribute('aria-label', title);
+  button.setAttribute('data-tooltip', '');
+  return button;
 }

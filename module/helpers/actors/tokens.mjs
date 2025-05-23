@@ -123,8 +123,8 @@ export function getGridlessTokenPoints(token) {
 }
 
 export function getGridlessTokenCorners(token) {
-  const height = token.getSize().height;
-  const width = token.getSize().width;
+  const height = token.document.getSize().height;
+  const width = token.document.getSize().width;
 
   return {
     x1y1: {x: token.x, y: token.y},

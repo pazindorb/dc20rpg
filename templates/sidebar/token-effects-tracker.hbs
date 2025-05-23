@@ -1,4 +1,4 @@
-<div id="token-effects-tracker">
+<div id="token-effects-tracker" class="{{#if collapsed}}collapsed{{/if}}">
   {{!-- Held Action --}}
   {{#if heldAction}}
   <div class="held-action" data-actor-id="{{actorId}}" data-token-id="{{tokenId}}" title="{{localize "dc20rpg.sheet.heldAction.roll"}}">
@@ -107,7 +107,7 @@
       {{/each}}
     </div>
     {{/ifCond}}
-    <div class="menu disabled">
+    <div class="menu disable">
       {{#if equippable}}
         <i class="toggle-effect fas fa-xs fa-toggle-off" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>
       {{else}}

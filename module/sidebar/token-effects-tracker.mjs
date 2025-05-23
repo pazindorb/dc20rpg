@@ -7,13 +7,22 @@ import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { changeActivableProperty } from "../helpers/utils.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
 
+let tokenEffectsTracker = null;
+let sidetabCollapsed = true;
 export function createTokenEffectsTracker() {
-  const tokenEffectsTracker = new TokenEffectsTracker();
+  tokenEffectsTracker = new TokenEffectsTracker();
   Hooks.on('controlToken', (token, controlled) => {
     if (controlled) tokenEffectsTracker.render(true);
   });
 }
 
+export function collapseTokenEffectsTracker(collapsed) {
+  if (collapsed) tokenEffectsTracker.element.addClass("collapsed");
+  else tokenEffectsTracker.element.removeClass("collapsed");
+  sidetabCollapsed = collapsed;
+}
+
+// We might drop it completly and use token Hud instead
 export class TokenEffectsTracker extends Application {
 
   constructor(data = {}, options = {}) {
@@ -46,6 +55,7 @@ export class TokenEffectsTracker extends Application {
       actorId: actor.id,
       heldAction: heldAction,
       sustain: actor.system.sustain,
+      collapsed: sidetabCollapsed
     }
   }
 
@@ -82,6 +92,7 @@ export class TokenEffectsTracker extends Application {
 
     for(const effect of actor.allEffects) {
       if (effect.isTemporary) {
+        const TextEditor = foundry.applications.ux.TextEditor.implementation;
         effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
         effect.timeLeft = effect.roundsLeft;
         effect.allStatauses = await this._statusObjects(effect.statuses, effect.name);

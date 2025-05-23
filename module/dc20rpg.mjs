@@ -19,10 +19,9 @@ import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
-import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
+import { collapseTokenEffectsTracker, createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
-import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
@@ -34,6 +33,7 @@ import { registerUniqueSystemItems } from "./subsystems/character-progress/advan
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
+import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -65,6 +65,9 @@ Hooks.once('init', async function() {
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
+  CONFIG.Token.movement.actions = DC20RpgToken.movementActions();
+  CONFIG.Token.movement.defaultAction = "ground";
+  CONFIG.Token.movement.defaultSpeed = 5;
   CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
   CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
   CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;
@@ -87,15 +90,11 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.background = itemDM.DC20BackgroundData;
 
   // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
-  Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
-  DocumentSheetConfig.unregisterSheet(ActiveEffect, "dc20rpg", ActiveEffectConfig);
+  foundry.documents.collections.Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
+  foundry.documents.collections.Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
+  const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
-  DocumentSheetConfig.unregisterSheet(Macro, "dc20rpg", MacroConfig);
   DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
-  DocumentSheetConfig.unregisterSheet(TokenDocument, "dc20rpg", TokenConfig);
   DocumentSheetConfig.registerSheet(TokenDocument, "dc20rpg", DC20RpgTokenConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
@@ -103,6 +102,7 @@ Hooks.once('init', async function() {
   registerHandlebarsCreators();
 
   // Register extended enrichHTML method
+  const TextEditor = foundry.applications.ux.TextEditor.implementation;
   TextEditor.enrichHTML = expandEnrichHTML(TextEditor.enrichHTML);
   registerGlobalInlineRollListener();
 
@@ -116,7 +116,7 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
   // await testMigration("0.9.0", "0.9.5", new Set(["dc20-core-rulebook"]));
-  // await testMigration("0.9.0", "0.9.5");
+  // await testMigration("0.9.5-hf1", "0.9.6.0");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -143,7 +143,7 @@ Hooks.once("ready", async function() {
   // Override error notification to ignore "Item does not exist" error.
   ui.notifications.error = (message, options) => {
     if (message.includes("does not exist!")) return;
-    return ui.notifications.notify(message, "error", options);
+    return ui.notifications.info(message, "error", options);
   }
 
   // Hide tooltip when releasing button
@@ -157,9 +157,9 @@ Hooks.once("ready", async function() {
     }
   });
 });
-
-Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html));
-Hooks.on("renderCompendiumDirectory", (app, html, data) => compendiumBrowserButton(html));
+Hooks.on("collapseSidebar", (sidebar, collapsed) => collapseTokenEffectsTracker(collapsed));
+Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
+Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));
 Hooks.on("renderDialog", (app, html, data) => {
   // We want to remove "basicAction" from "Create Item Dialog"
   if (html.find('[name="type"]').length > 0) {

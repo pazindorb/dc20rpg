@@ -1,24 +1,36 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction } from "../helpers/actors/actions.mjs";
 import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulator.mjs";
-import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { toggleStatusOn } from "../statusEffects/statusUtils.mjs";
 
-export class DC20RpgTokenHUD extends TokenHUD {
+export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
 
-  get template() {
-    return `systems/dc20rpg/templates/hud/token-hud.hbs`;
-  }
+  /** @override */
+  static PARTS = {
+    hud: {
+      root: true,
+      template: "systems/dc20rpg/templates/hud/token/root.hbs"
+    }
+  };
 
   /** @overload */
-  getData(options={}) {
-    let data = super.getData(options);
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.actions.ap = this._onApAction;
+    initialized.actions.move = this._onMoveAction;
+    initialized.actions.effect = {handler: this._onEffect, buttons: [0, 2]};
+    initialized.actions.aura = this._onAuraAction;
+    return initialized;
+  }
+
+  /** @override */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
     this.oldDisplay = this.document.displayBars;
     this.document.displayBars = 40;
-    data.actionPoints = this._prepareActionPoints();
-    data.statusEffects = this._prepareStatusEffects(data.statusEffects);
-    data.movePoints = this.actor.system.movePoints;
-    return data;
+    context.statusEffects = this._prepareStatusEffects(context.statusEffects);
+    context.linkedTemplates = this._prepareLinkedTemplates();
+    context.movePoints = this.actor.system.movePoints;
+    return context;
   }
 
   clear() {
@@ -29,40 +41,58 @@ export class DC20RpgTokenHUD extends TokenHUD {
     super.clear();
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onApAction(event, target) {
     const actor = this.actor;
     if (!actor) return;
 
-    html.find(".effect-control").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
-    html.find(".effect-control").click(ev => {ev.preventDefault(); ev.stopPropagation()})         // remove default behaviour
-    html.find(".effect-control").contextmenu(ev => {ev.preventDefault(); ev.stopPropagation()})   // remove default behaviour
-
-    // Ap Spend/Regain
-    html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, true));
-    html.find(".spend-ap").click(() => subtractAP(actor, 1));
-
-    // Move Points
-    html.find(".move-points").change(ev => this._onMovePointsChange(valueOf(ev), actor));
-    html.find(".move-icon").mousedown(ev => this._onMoveAction(actor, ev.which === 1))
+    const type = target.dataset.type;
+    if (type === "spend") subtractAP(actor, 1);
+    if (type === "regain") regainBasicResource("ap", actor, 1, true);
   }
 
-  async _onMoveAction(actor, simple) {
+  async _onMoveAction() {
+    const actor = this.actor;
+    if (!actor) return;
+
     const subtracted = await subtractAP(actor, 1);
     if (!subtracted) return;
 
-    if (simple) makeMoveAction(actor);
-    else {
-      const key = await getSimplePopup("select", {
-          selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, 
-          header: game.i18n.localize("dc20rpg.dialog.movementType.title"), 
-          preselect: "ground"
-        });
-      if (key) makeMoveAction(actor, {moveType: key});
+    const selectedMovement = this.document.movementAction;
+    makeMoveAction(actor, {moveType: selectedMovement});
+  }
+
+  async _onEffect(event, target) {
+    const actor = this.actor;
+    if (!actor) return;
+
+    const statusId = target.dataset.statusId;
+    await toggleStatusOn(statusId, actor, event.which);
+  }
+
+  async _onAuraAction(event, target) {
+    const auraId = target.dataset.auraId;
+    const template = canvas.templates.documentCollection.get(auraId);
+    if (template) {
+      const linkedIds = this.document.flags.dc20rpg?.linkedTemplates || [];
+      const updatedLinkedIds = linkedIds.filter(linkedId => linkedId !== auraId);
+      await template.delete();
+      await this.document.update({["flags.dc20rpg.linkedTemplates"]: updatedLinkedIds});
     }
   }
 
-  _onMovePointsChange(newValue, actor) {
+  async _onSubmit(event, form, formData) {
+    if ((event.type === "change") && event.target.name === "movePoints") {
+      return this._onMovePointsSubmit(event);
+    }
+
+    return super._onSubmit(event, form, formData);
+  }
+
+  _onMovePointsSubmit(event) {
+    const newValue = event.target.value;
+    const actor = this.actor;
+    if (!actor) return;
+
     let isDelta = false;
     let add = false;
     if (newValue.startsWith("+")) {
@@ -85,16 +115,6 @@ export class DC20RpgTokenHUD extends TokenHUD {
     }
     else {
       actor.update({["system.movePoints"]: movePoints});
-    }
-  }
-
-  _prepareActionPoints() {
-    const actionPoints = this.actor.system.resources.ap;
-    if (!actionPoints) return;
-
-    return {
-      value: actionPoints.value, 
-      max: actionPoints.max
     }
   }
 
@@ -175,5 +195,42 @@ export class DC20RpgTokenHUD extends TokenHUD {
       ].filterJoin(" ");
     }
     return choices;
+  }
+
+  _prepareLinkedTemplates() {
+    const linkedIds = this.document.flags.dc20rpg?.linkedTemplates;
+    if (!linkedIds) return [];
+
+    const linkedTemplates = [];
+    for (const templateId of linkedIds) {
+      const template = canvas.templates.documentCollection.get(templateId);
+      if (!template) continue;
+
+      const itemData = template.flags?.dc20rpg?.itemData || {};
+      linkedTemplates.push({
+        id: templateId,
+        img: itemData.itemImg || "icons/svg/explosion.svg",
+        name: itemData.itemName || "Unknown Source",
+      })
+    }
+    return linkedTemplates;
+  }
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
+    if (!movePointsWrapper) return;
+    // We want to show move points wrapper at the start
+    movePointsWrapper.classList.remove("hidden");
+  }
+
+  togglePalette(palette, active) {
+    super.togglePalette(palette, active);
+    // We want to show or hide move points wrapper
+    const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
+    if (!movePointsWrapper) return;
+    if (this.activePalette) movePointsWrapper.classList.add("hidden");
+    else movePointsWrapper.classList.remove("hidden");
   }
 }

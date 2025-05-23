@@ -21,6 +21,18 @@ export function registerSystemSockets() {
     }
   });
 
+  // Initative Roll
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "initative") {
+      const {actorId} = data.payload;
+      const actor = game.actors.get(actorId);
+
+      if (actor && actor.ownership[game.user.id] === 3) {
+        actor.rollInitiative({rerollInitiative: true});
+      }
+    }
+  });
+
   // Roll Prompt
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "rollPrompt") {
@@ -32,7 +44,7 @@ export function registerSystemSockets() {
   game.socket.on('system.dc20rpg', async (data) => {
     if (data.type === "startRest") {
       const {actorId, preselected} = data.payload;
-      let actor = game.actors.get(actorId);
+      const actor = game.actors.get(actorId);
 
       if (actor && actor.ownership[game.user.id] === 3) {
         createRestDialog(actor, preselected);

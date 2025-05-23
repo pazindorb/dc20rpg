@@ -5,7 +5,7 @@ export default class DefenceFields extends foundry.data.fields.SchemaField {
     const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const defence = () => ({
-      formulaKey: new f.StringField({required: false, initial: formulaKey}),
+      formulaKey: new f.StringField({required: true, initial: formulaKey}),
       customFormula: new f.StringField({required: true, initial: ""}),
       value: new f.NumberField(init8),
       normal: new f.NumberField(init8),

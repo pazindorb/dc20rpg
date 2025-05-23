@@ -57,7 +57,7 @@ function _checkEquippedAndAttunedEffects(effect, item) {
 
 function _checkEffectCondition(effect, actor) {
   if (effect.disabled === true) return; // If effect is already turned off manually we can skip it
-  const disableWhen = effect.flags.dc20rpg?.disableWhen;
+  const disableWhen = effect.system?.disableWhen;
   if (disableWhen) {
     const value = getValueFromPath(actor, disableWhen.path);
     const expectedValue = parseFromString(disableWhen.value);

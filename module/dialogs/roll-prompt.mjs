@@ -78,7 +78,7 @@ export class RollPromptDialog extends Dialog {
   _onAskForHelp() {
     const gm = game.users.activeGM;
     if (!gm) {
-      ui.notifications.notify("No GM currently active");
+      ui.notifications.info("No GM currently active");
       return;
     }
 
@@ -305,7 +305,14 @@ export class RollPromptDialog extends Dialog {
       if (!template) return;
   
       const applyEffects = getMesuredTemplateEffects(this.item);
-      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id, applyEffects: applyEffects};
+      const itemData = {
+        itemId: this.item.id, 
+        actorId: this.actor.id, 
+        tokenId: this.actor.token?.id, 
+        applyEffects: applyEffects, 
+        itemImg: this.item.img, 
+        itemName: this.item.name
+      };
       const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
 
       // We will skip Target Selector if we are using selector for applying effects

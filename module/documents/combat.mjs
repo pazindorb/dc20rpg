@@ -11,6 +11,7 @@ import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } fro
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { getActiveActorOwners, getActiveActorOwnersIds } from "../helpers/users.mjs";
+import { emitSystemEvent } from "../helpers/sockets.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -52,6 +53,24 @@ export class DC20RpgCombat extends Combat {
       else {
         combatant.skip = false;
       }
+    });
+  }
+
+  async rollPlayers(options) {
+    const rollableCharacters = this.combatants.filter(combatant => {
+      if (combatant.actor.type === "character") return true;
+      if (combatant.actor.type === "companion") {
+        if (companionShare(combatant.actor, "initiative")) return false;
+        else return true;
+      }
+      return false;
+    });
+
+    rollableCharacters.forEach(combatant => {
+      const actor = combatant.actor;
+      const activeOwners = getActiveActorOwners(actor, false);
+      if (activeOwners.length === 0) actor.rollInitiative({rerollInitiative: true});
+      else emitSystemEvent("initative", {actorId: actor.id});
     });
   }
 
@@ -284,18 +303,6 @@ export class DC20RpgCombat extends Combat {
     });
   }
 
-  async _initiativeForCompanion(combatant) {
-    if (companionShare(combatant.actor, "initiative")) {
-      const companionOwnerId = combatant.actor.companionOwner.id;
-      const owner = this.combatants.find(combatant => combatant.actorId === companionOwnerId);
-      if (!owner) ui.notifications.warn("This companion shares initiative with its owner. You need to roll for Initiative for the owner!");
-      return null;
-    }
-    else {
-      return this._initiativeRollForPC(combatant);
-    }
-  }
-
   _checkInvidualOutcomes(combatant) {
     const initiativeDC = this.flags.dc20rpg.initiativeDC;
     const actor = combatant.actor;
@@ -348,6 +355,18 @@ export class DC20RpgCombat extends Combat {
 
     combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};
     return roll.total;
+  }
+
+    async _initiativeForCompanion(combatant) {
+    if (companionShare(combatant.actor, "initiative")) {
+      const companionOwnerId = combatant.actor.companionOwner.id;
+      const owner = this.combatants.find(combatant => combatant.actorId === companionOwnerId);
+      if (!owner) ui.notifications.warn("This companion shares initiative with its owner. You need to roll for Initiative for the owner!");
+      return null;
+    }
+    else {
+      return this._initiativeRollForPC(combatant);
+    }
   }
 
   _getInitiativeCritEffectData(actor) {
@@ -417,64 +436,6 @@ export class DC20RpgCombat extends Combat {
       description: "The first Attack made against you during the first Round of Combat has ADV.",
       disabled: false,
       changes: changes
-    }
-  }
-
-  _initiativeForNPC() {
-    const pcTurns = [];
-    const npcTurns = [];
-    this.turns.forEach((turn) => {
-      if (turn.initiative != null) {
-        if (turn.actor.type === "character") pcTurns.push(turn);
-        if ((turn.actor.type === "npc")) npcTurns.push(turn);
-      }
-    });
-    
-    if (pcTurns.length === 0) {
-      ui.notifications.error("At least one PC should be in initiative order at this point!"); 
-      return;
-    }
-
-    // For nat 1 we want player to always start last.We give them initiative equal to 0 so 0.5 is a minimum value that enemy can get
-    const checkOutcome = this._checkWhoGoesFirst();
-    // Special case when 2 PC start in initiative order
-    if (checkOutcome === "2PC") {
-      // Only one PC
-      if (pcTurns.length === 1 && !npcTurns[0]) return Math.max(pcTurns[0].initiative - 0.5, 0.5);
-      // More than one PC
-      for (let i = 1; i < pcTurns.length; i ++) {
-        if (!npcTurns[i-1]) return Math.max(pcTurns[i].initiative - 0.5, 0.5);
-      }
-      // More NPCs than PCs - add those at the end
-      if (npcTurns.length >= pcTurns.length - 1) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, 0.5);
-    }
-    else {
-      for (let i = 0; i < pcTurns.length; i ++) {
-        if (!npcTurns[i]) {
-          // Depending on outcome of encounter check we want enemy to be before or after pcs
-          const changeValue = checkOutcome === "PC" ? - 0.5 : 0.5; 
-          return Math.max(pcTurns[i].initiative + changeValue, 0.5);
-        }
-      }
-      // More NPCs than PCs - add those at the end
-      if (npcTurns.length >= pcTurns.length) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, 0.5); 
-    }
-  }
-
-  _checkWhoGoesFirst() {
-    // Determine who goes first. Players or NPCs
-    const turns = this.turns;
-    if (turns) {
-      let highestPCInitiative;
-      for (let i = 0; i < turns.length; i++) {
-        if (turns[i].actor.type === "character") {
-          highestPCInitiative = turns[i].initiative;
-          break;
-        }
-      }
-      if (highestPCInitiative >= this.flags.dc20rpg.initiativeDC + 5) return "2PC";
-      else if (highestPCInitiative >= this.flags.dc20rpg.initiativeDC) return "PC";
-      else return "ENEMY";
     }
   }
 

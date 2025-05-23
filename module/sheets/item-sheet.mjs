@@ -6,7 +6,7 @@ import { duplicateItemData, prepareItemData, preprareSheetData } from "./item-sh
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class DC20RpgItemSheet extends ItemSheet {
+export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -41,6 +41,7 @@ export class DC20RpgItemSheet extends ItemSheet {
     prepareActiveEffects(this.item, context);
 
     // Enrich text editors
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
     context.enriched.description = await TextEditor.enrichHTML(context.system.description, {secrets:true});
 

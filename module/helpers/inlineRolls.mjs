@@ -7,6 +7,7 @@ import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
     content = _parseInlineRolls(content);
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
     return oldFunction.call(TextEditor, content, options);
   }
 }

@@ -8,9 +8,8 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
  */
-export class DC20RpgActorSheet extends ActorSheet {
+export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -79,6 +78,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     prepareActiveEffectsAndStatuses(this.actor, context);
 
     // Enrich text editors
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
     context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {secrets:true});
     return context;
