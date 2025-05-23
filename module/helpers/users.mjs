@@ -1,5 +1,5 @@
 /**
- * Returns owners of specific Actor
+ * Returns array of owners of specific Actor
  */
 export function getActiveActorOwners(actor, allowGM=false) {
   if (!actor) return [];
@@ -13,6 +13,14 @@ export function getActiveActorOwners(actor, allowGM=false) {
     if (user.active) owners.push(user);
   }
   return owners;
+}
+
+/**
+ * Returns array of user its of owners of specific Actor
+ */
+export function getActiveActorOwnersIds(actor, allowGM) {
+  const owners = getActiveActorOwners(actor, allowGM);
+  return owners.map(owner => owner._id);
 }
 
 export function getActivePlayers(allowGM) {

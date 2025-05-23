@@ -88,8 +88,8 @@ export class SimplePopup extends Dialog {
  * - "input" - data = {header: String} - caller can provide text that will be returned by dialog
  * - "confirm" - data = {header: String} - caller can confirm or deny, result will be returned by dialog
  */
-export async function getSimplePopup(popupType, data={}) {
-  return await SimplePopup.create(popupType, data, {title: "Popup"});
+export async function getSimplePopup(popupType, popupData={}) {
+  return await SimplePopup.create(popupType, popupData, {title: "Popup"});
 }
 
 /**

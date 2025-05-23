@@ -2,7 +2,7 @@ import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from 
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { getSimplePopup, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -10,8 +10,8 @@ import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
+import { getActiveActorOwners, getActiveActorOwnersIds } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
-import { getActiveActorOwners } from "../helpers/users.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -97,7 +97,7 @@ export class DC20RpgCombat extends Combat {
       if (combatant.actor.type === "character") initiative = await this._initiativeRollForPC(combatant);
       if (combatant.actor.type === "companion") initiative = await this._initiativeForCompanion(combatant);
       if (initiative === null) return;
-      updates.push({_id: id, initiative: initiative, system: combatant.system});
+      updates.push({_id: id, initiative: initiative, flags: {["dc20rpg.initativeOutcome"]: combatant.initativeOutcome}});
     }
     if ( !updates.length ) return this;
 
@@ -308,7 +308,7 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
 
     // Crit Success
-    if (combatant.system.crit) {
+    if (combatant.flags.dc20rpg?.initativeOutcome?.crit) {
       sendDescriptionToChat(actor, {
         rollTitle: "Initiative Critical Success",
         image: actor.img,
@@ -317,7 +317,7 @@ export class DC20RpgCombat extends Combat {
       createEffectOn(this._getInitiativeCritEffectData(actor), actor);
     }
     // Crit Fail
-    if (combatant.system.fail) {
+    if (combatant.flags.dc20rpg?.initativeOutcome?.fail) {
       sendDescriptionToChat(actor, {
         rollTitle: "Initiative Critical Fail",
         image: actor.img,
@@ -353,8 +353,7 @@ export class DC20RpgCombat extends Combat {
     const roll = await promptRoll(actor, details);
     if (!roll) return null;
 
-    combatant.system.crit = roll.crit;
-    combatant.system.fail = roll.fail;
+    combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};
     return roll.total;
   }
 
@@ -489,7 +488,16 @@ export class DC20RpgCombat extends Combat {
     const currentSustain = actor.system.sustain;
     let sustained = [];
     for (const sustain of currentSustain) {
-      const confirmed = await getSimplePopup("confirm", {header: `Do you want to spend 1 AP to sustain '${sustain.name}'?`});
+      const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
+      let confirmed = false; 
+      const actorOwners = getActiveActorOwnersIds(actor, false);
+      if (actorOwners.length > 0) {
+        confirmed = await sendSimplePopupToUsers(actorOwners, "confirm", {header: message});
+      }
+      else {
+        confirmed = await getSimplePopup("confirm", {header: message});
+      }
+
       if (confirmed) {
         const subtracted = await subtractAP(actor, 1);
         if (subtracted) sustained.push(sustain);
