@@ -11281,10 +11281,18 @@
 
 #token-effects-tracker {
   position: absolute;
-  top: 10px;
+  top: 20px;
   right: 355px;
   width: 40px;
   z-index: 31;
+  -webkit-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+#token-effects-tracker.collapsed {
+  right: 55px;
+}
+#token-effects-tracker.collapsed .description-wrapper {
+  right: 95px !important;
 }
 #token-effects-tracker .held-action {
   display: -webkit-box;

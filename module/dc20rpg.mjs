@@ -19,7 +19,7 @@ import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
-import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
+import { collapseTokenEffectsTracker, createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
@@ -157,6 +157,7 @@ Hooks.once("ready", async function() {
     }
   });
 });
+Hooks.on("collapseSidebar", (sidebar, collapsed) => collapseTokenEffectsTracker(collapsed));
 Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
 Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));
 Hooks.on("renderDialog", (app, html, data) => {
