@@ -148,6 +148,7 @@ class DC20ItemItemData extends DC20BaseItemData {
 
     return this.mergeSchema(super.defineSchema(), {
       quantity: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      stackable: new f.BooleanField({required: true, initial: false}),
       weight: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       price: new f.SchemaField({
         value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -229,6 +230,7 @@ export class DC20ConsumableData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      stackable: new f.BooleanField({required: true, initial: true}),
       consumableType: new f.StringField({required: true, initial: ""}),
       consume: new f.BooleanField({required: true, initial: true}),
       deleteOnZero: new f.BooleanField({required: true, initial: true}),
@@ -239,7 +241,11 @@ export class DC20ConsumableData extends DC20ItemUsableMergeData {
 
 export class DC20LootData extends DC20ItemItemData {
   static defineSchema() {
-    return super.defineSchema();
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      stackable: new f.BooleanField({required: true, initial: true}),
+    });
   }
 }
 

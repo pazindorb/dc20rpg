@@ -2,7 +2,7 @@ import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog, rechargeItem } from "../../dialogs/rest.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, spendRpOnHp, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
-import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
+import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement, splitItem } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
@@ -44,7 +44,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.item-copy').click(ev => duplicateItem(datasetOf(ev).itemId, actor));
   html.find('.editable').mousedown(ev => {
     if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
-    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
+    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html, actor.type);
   });
   html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
@@ -159,6 +159,10 @@ export function activateCompanionListeners(html, actor) {
     actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
   });
   html.find(".remove-companion-owner").click(() => actor.update({["system.companionOwnerId"]: ""}));
+}
+
+export function activateStorageListeners(html, actor) {
+  html.find(".transfer-currency").click(() => _onTransferCurrency());
 }
 
 function _onSidetab(ev) {

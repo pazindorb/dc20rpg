@@ -67,6 +67,10 @@
         <a class="fa-lg activable {{#if system.deleteOnZero}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.deleteOnZero"></a>
       </div>
       <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.stackable"}}</span>
+        <a class="fa-lg activable {{#if system.stackable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.stackable"></a>
+      </div>
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.consumable.showAsResource"}}</span>
         <a class="fa-lg activable {{#if system.showAsResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.showAsResource"></a>
       </div>

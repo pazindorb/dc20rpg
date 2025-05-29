@@ -17,14 +17,10 @@ export function onSortItem(event, itemData, actor) {
 
   let dropTarget = event.target.closest("[data-item-id]");
 
-  // We dont want to change tableName if item is sorted on Attacks table
-  const itemRow = event.target.closest("[data-item-attack]");
-  const isAttack = itemRow ? true : false;
-
   // if itemId not found we want to check if user doesn't dropped item on table header
   if (!dropTarget) {
     dropTarget = event.target.closest("[data-table-name]"); 
-    if (!dropTarget || isAttack) return;
+    if (!dropTarget) return;
     source.update({["flags.dc20rpg.tableName"]: dropTarget.dataset.tableName});
     return;
   }
@@ -50,12 +46,8 @@ export function onSortItem(event, itemData, actor) {
     update._id = u.target._id;
     return update;
   });
-
-  // Change items tableName to targets one, skip this if item was sorted on attack row
-  if (!isAttack) {
-    source.update({["flags.dc20rpg.tableName"]: target.flags.dc20rpg.tableName});
-  }
-
+  source.update({["flags.dc20rpg.tableName"]: target.flags.dc20rpg.tableName});
+  
   // Perform the update
   return actor.updateEmbeddedDocuments("Item", updateData);
 }
@@ -155,6 +147,29 @@ export function prepareItemsForNpc(context, actor) {
   context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
+}
+
+export function prepareItemsForStorage(context, actor) {
+  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  if (!headersOrdering) return;
+
+  const inventory = _sortAndPrepareTables(headersOrdering.inventory);
+
+   for (const item of context.items) {
+    _prepareItemUsageCosts(item, actor);
+    prepareItemFormulas(item, actor);
+    _checkIfItemIsIdentified(item);
+    item.img = item.img || DEFAULT_TOKEN;
+
+    switch (item.type) {
+      
+      case 'weapon': case 'equipment': case 'consumable': case 'loot':
+        _addItemToTable(item, inventory); 
+        break;
+    }
+
+    context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
+   }
 }
 
 export function prepareCompanionTraits(context, actor) {

@@ -28,6 +28,7 @@ export function preInitializeFlags(actor) {
 
 	_initializeRollMenu(flags);
 	if (actor.type === 'character') _initializeFlagsForCharacter(flags);
+	else if (actor.type === 'storage') _initializeFlagsForStorage(flags)
 	else _initializeFlagsForNpc(flags);
 
 	actor.update({[`flags.dc20rpg`]: flags});
@@ -183,6 +184,36 @@ function _initializeFlagsForCharacter(flags) {
 					order: 4,
 					custom: false
 				},
+			}
+		}
+}
+
+function _initializeFlagsForStorage(flags) {
+		flags.headerFilters = {
+			inventory: "",
+		}
+		flags.headersOrdering = {
+			inventory: {
+				weapon: {
+					name: "Weapons",
+					order: 0,
+					custom: false
+				},
+				equipment: {
+					name: "Equipments",
+					order: 1,
+					custom: false
+				},
+				consumable: {
+					name: "Consumables",
+					order: 2,
+					custom: false
+				},
+				loot: {
+					name: "Loot",
+					order: 3,
+					custom: false
+				}
 			}
 		}
 }

@@ -42,7 +42,7 @@ export async function deleteItemFromActor(itemId, actor) {
     return;
   }
   const item = getItemFromActor(itemId, actor);
-  if(item) await item.delete();
+  if (item) await item.delete();
 }
 
 export function editItemOnActor(itemId, actor) {
@@ -53,6 +53,26 @@ export function editItemOnActor(itemId, actor) {
 export async function duplicateItem(itemId, actor) {
   const item = getItemFromActor(itemId, actor);
   return await createItemOnActor(actor, item);
+}
+
+export async function splitItem(item) {
+  const actor = item.actor;
+  if (!actor) return;
+  if (!item) return;
+  if (!item.system.stackable) return;
+
+  const currentQuantity = item.system.quantity;
+  const stackSize = await getSimplePopup("input", {header: `Provide New Stack Size`, information: [`Current Quantity: ${currentQuantity}`]});
+  if (stackSize) {
+    const newStack = parseInt(stackSize);
+    const oldStack = currentQuantity - newStack;
+    if (oldStack <= 0) return;
+
+    const itemData = item.toObject();
+    itemData.system.quantity = newStack;
+    await createItemOnActor(actor, itemData);
+    await item.update({["system.quantity"]: oldStack});
+  }
 }
 
 //======================================

@@ -51,6 +51,11 @@
   min-height: $char-sheet-min-height;
 }
 
+.dc20rpg.sheet.actor.storage {
+  min-width: 500px;
+  min-height: $char-sheet-min-height;
+}
+
 .dc20rpg.sheet.actor.companion {
   min-width: 672px;
   min-height: $char-sheet-min-height;
@@ -71,6 +76,7 @@
     margin-top: 200px;
     background-blend-mode: color-burn;
   }
+
   .window-header {
     z-index: 2;
     border-bottom: 1px solid $secondary-lighter;
@@ -78,6 +84,19 @@
     .header-button {
       z-index: 3;
     }
+  }
+}
+
+.dc20rpg.sheet.actor.storage {
+  &:not(.minimized) {
+
+    .window-header .window-title {
+      margin-left: 0px;
+    }
+  }
+
+  .window-content {
+    margin-top: 150px;
   }
 }
 

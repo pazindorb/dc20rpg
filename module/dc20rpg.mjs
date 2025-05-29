@@ -20,7 +20,7 @@ import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { collapseTokenEffectsTracker, createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
-import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
+import { DC20CharacterData, DC20CompanionData, DC20NpcData, DC20StorageData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
@@ -76,6 +76,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.dataModels.character = DC20CharacterData;
   CONFIG.Actor.dataModels.npc = DC20NpcData;
   CONFIG.Actor.dataModels.companion = DC20CompanionData;
+  CONFIG.Actor.dataModels.storage = DC20StorageData;
   CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
@@ -160,15 +161,12 @@ Hooks.once("ready", async function() {
 Hooks.on("collapseSidebar", (sidebar, collapsed) => collapseTokenEffectsTracker(collapsed));
 Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
 Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));
-Hooks.on("renderDialog", (app, html, data) => {
+Hooks.on("renderDialogV2", (app, element, context, option) => {
   // We want to remove "basicAction" from "Create Item Dialog"
-  if (html.find('[name="type"]').length > 0) {
-    const typeSelect = html.find('[name="type"]');
-    const typesToRemove = ["basicAction"];
-
-    typesToRemove.forEach(type => {
-      typeSelect.find(`option[value="${type}"]`).remove();
-    });
+  const selector = element.querySelector('[name="type"]');
+  if (selector) {
+    const basicActionOption = selector.querySelector('[value="basicAction"]');
+    if (basicActionOption) selector.removeChild(basicActionOption);
   }
 });
 Hooks.on("createScene", async (scene, options, userId) => {

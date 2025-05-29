@@ -1,0 +1,146 @@
+.storage-header {
+  height: 200px;
+  background-position-y: -85px;
+  background-color: $storage-header-image-color;
+  overflow-x: hidden;
+
+  .row {
+    margin-left: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: $font-header;
+    font-size: 16px;
+
+    .left-part-row {
+      align-items: center;
+      display: flex;
+    }
+
+    i, a {
+      color: $storage-secondary-light;
+      margin-right: 5px;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    }
+
+    a:hover {
+      text-shadow: 0 0 8px var(--color-shadow-primary);
+    }
+
+    select, input {
+      border: 2px solid $storage-secondary-darker;
+      color: $storage-main-dark;
+      background-color: $storage-secondary-light;
+    }
+
+    span {
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      color: $storage-secondary-light;
+    }
+  }
+
+  .storage-img {
+    min-width: 150px;
+    min-height: 150px;
+    width: 150px;
+    height: 150px;
+    margin-right: 5px;
+    background-color: $storage-main-dark;
+
+    img {
+      height: 132px;
+      width: 132px;
+      border: 0;
+    }
+  }
+
+  .storage-info-wrapper {
+    width: 100%;
+    
+    .char-name {
+      font-family: $font-header;
+      font-size: 20px;
+
+      background-color: $storage-secondary-light;
+      border-radius: 2px;
+      border: 2px solid $storage-secondary-darker;
+
+      input {
+        color: $storage-main-dark;
+        border: 0;
+        text-indent: 8px;
+      }
+    }
+
+    .currencies {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px;
+
+      .currency {
+        margin-left: 3px;
+        border: 1px solid black;
+        border-radius: 3px;
+        font-family: $font-default;
+
+        input {
+          font-size: 12px;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+          height: 16px;
+          width: 45px;
+          padding: 4px 3px 1px 3px;
+          background-color: transparent;
+          border-radius: 5px;
+          border: 0;
+          color: white;
+          text-align: center;
+        }
+
+        &.cp {
+          background-color: #be7a14da;
+        }
+
+        &.sp {
+          background-color: #797979da;
+        }
+
+        &.gp {
+          background-color: #bdac11da;
+        }
+
+        &.pp {
+          background-color: #5e9287da;
+        }
+      }
+    }
+  }
+}
+
+.storage-body {
+  .item-header {
+    background: linear-gradient(to right, $storage-table-1, $storage-table-2) !important;
+  }
+
+  .item-row {
+    .column {
+      border-right: 1px solid $secondary-dark;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:last-child {
+        border-right: 0;
+      }
+
+      select, input {
+        background-color: transparent;
+        border: 0;
+        text-align: center;
+        font-family: $font-default;
+        box-shadow: none;
+      }
+    }
+  }
+}

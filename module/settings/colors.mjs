@@ -94,6 +94,24 @@ function _defaultColors() {
     ['--pc-header-image-color']: "#44116ba3",
     ['--pc-sidetab-image-color']: "#431169a3",
     ['--pc-unique-item-color']: "#ac45d5a6",
+
+    // Storage Sheet
+    ['--storage-main']: "#1f268d",
+    ['--storage-main-light']: "#534d69",
+    ['--storage-main-lighter']: "#6876a7",
+    ['--storage-main-dark']: "#0e1250",
+    ['--storage-secondary']: "#c0c0c0",
+    ['--storage-secondary-light']: "#dfdfdf",
+    ['--storage-secondary-light-alpha']: "#dfdfdfcc",
+    ['--storage-secondary-dark']: "#646464",
+    ['--storage-secondary-darker']: "#262626",
+    ['--storage-text-color-1']: "#ffffff",
+    ['--storage-text-color-2']: "#000000",
+    ['--storage-background']: "transparent",
+    ['--storage-table-1']: "#262a69",
+    ['--storage-table-2']: "#050947",
+    ['--storage-header-image-color']: "#3c8316a3",
+    ['--storage-sidetab-image-color']: "#3c8316a3",
   }
 }
 
@@ -177,6 +195,24 @@ function _darkColors() {
     ['--pc-header-image-color']: "#371452a3",
     ['--pc-sidetab-image-color']: "#371452a3",
     ['--pc-unique-item-color']: "#ac45d5a6",
+
+    // Storage Sheet
+    ['--storage-main']: "#1f268d",
+    ['--storage-main-light']: "#534d69",
+    ['--storage-main-lighter']: "#6876a7",
+    ['--storage-main-dark']: "#0e1250",
+    ['--storage-secondary']: "#c0c0c0",
+    ['--storage-secondary-light']: "#dfdfdf",
+    ['--storage-secondary-light-alpha']: "#dfdfdfcc",
+    ['--storage-secondary-dark']: "#646464",
+    ['--storage-secondary-darker']: "#262626",
+    ['--storage-text-color-1']: "#ffffff",
+    ['--storage-text-color-2']: "#000000",
+    ['--storage-background']: "#303030",
+    ['--storage-table-1']: "#262a69",
+    ['--storage-table-2']: "#050947",
+    ['--storage-header-image-color']: "#2442c9a3",
+    ['--storage-sidetab-image-color']: "#2442c9a3",
   }
 }
 
@@ -216,11 +252,13 @@ export class ColorSetting extends FormApplication {
     const core = {};
     const pc = {};
     const npc = {};
+    const storage = {};
     const other = {};
 
     Object.entries(selected).forEach(([key, color]) => {
       if (key.startsWith("--pc")) pc[key] = color;
       else if (key.startsWith("--npc")) npc[key] = color;
+      else if (key.startsWith("--storage")) storage[key] = color;
       else if (key.startsWith("--primary") || key.startsWith("--secondary")) core[key] = color;
       else other[key] = color;
     })
@@ -228,6 +266,7 @@ export class ColorSetting extends FormApplication {
       core: core,
       pc: pc,
       npc: npc,
+      storage: storage,
       other: other
     }
   }

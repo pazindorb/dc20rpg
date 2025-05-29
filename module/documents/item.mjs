@@ -184,6 +184,14 @@ export class DC20RpgItem extends Item {
     return await super._preDelete(options, user);
   }
 
+  toDragData() {
+    const dragData = super.toDragData();
+    if (this.actor) {
+      dragData.actorType = this.actor.type;
+    }
+    return dragData;
+  }
+
   //=========================
   //        FORMULAS        =
   //=========================

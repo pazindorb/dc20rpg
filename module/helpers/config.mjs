@@ -347,6 +347,12 @@ DC20RPG.DROPDOWN_DATA.sizes = {
   titanic: "Titanic",
 }
 
+DC20RPG.DROPDOWN_DATA.storageTypes = {
+  partyInventory: "Party Inventory",
+  randomLootTable: "Random Loot Table",
+  vendor: "Vendor"
+}
+
 DC20RPG.DROPDOWN_DATA.attributesWithPrime = {
   prime: "Prime",
   ...DC20RPG.TRANSLATION_LABELS.attributes

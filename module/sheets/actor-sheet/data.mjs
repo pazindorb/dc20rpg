@@ -30,6 +30,11 @@ export function prepareNpcData(context) {
   _languages(context);
 }
 
+export function prepareStorageData(context) {
+  context.isGM = game.user.isGM;
+  context.gridTemplate = _getGridTemplate(context.system.storageType);
+}
+
 export function prepareCompanionData(context) {
   context.shareWithCompanionOwner = _shareOptionsSimplyfied(context.system.shareWithCompanionOwner, "");
 }
@@ -50,6 +55,17 @@ function _shareOptionsSimplyfied(options, prefix) {
     }
   })
   return simplified;
+}
+
+function _getGridTemplate(type) {
+  const isGM = game.user.isGM;
+  if (type === "vendor" && isGM) return "1fr 100px 50px 50px";
+  if (type === "vendor" && !isGM) return "1fr 100px 50px";
+  if (type === "partyInventory" && !isGM) return "1fr 50px";
+  if (type === "partyInventory" && isGM) return "1fr 50px 50px";
+  if (type === "randomLootTable" && isGM) return "1fr 50px 50px 50px";
+  if (type === "randomLootTable" && !isGM) return "1fr 50px";
+  return "1fr 50px";
 }
 
 function _damageReduction(context) {

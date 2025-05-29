@@ -1,8 +1,8 @@
 import { getEffectFrom, prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
-import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData } from "./actor-sheet/data.mjs";
-import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
-import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
+import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
+import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { createTrait, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 
@@ -73,6 +73,13 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
           prepareCompanionTraits(context, this.actor);
           context.companionOwner = this.actor.companionOwner;
         }
+        break;
+      case "storage": 
+        this.options.classes.push(actorType);
+        this.position.width = 500;
+        this.position.height = 600;
+        prepareStorageData(context);
+        prepareItemsForStorage(context, this.actor);
         break;
     } 
     prepareActiveEffectsAndStatuses(this.actor, context);
@@ -149,16 +156,50 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
 
   /** @override */
   async _onDropItem(event, data) {
+    const item = await Item.implementation.fromDropData(data);
+
+    // Create companion trait instead of an item
     if (this.actor.type === "companion") {
       const selected = await getSimplePopup("confirm", {header: "Add as Companion Trait?", information: ["Do you want to add this item as Companion Trait?", "Yes: Add as Companion Trait", "No: Add as Standard Item"]});
       if (selected) {
-        const item = await Item.implementation.fromDropData(data);
         const itemData = item.toObject();
         createTrait(itemData, this.actor);
+        return;
       }
-      else return await super._onDropItem(event, data);
     }
-    else return await super._onDropItem(event, data);
+
+    // Storage only accepts inventory items
+    if (this.actor.type === "storage") {
+      if (!["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
+        ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables' and 'loot'");
+        return;
+      }
+    }
+
+    // Create item or add new stack to the existing one
+    const itemExist = this.actor.items.getName(item.name);
+    if (item.system.stackable && itemExist) {
+      const dropTarget = event.target.closest("[data-item-id]");
+      if (this.actor.uuid === item.parent?.uuid) {
+        if (dropTarget?.dataset?.itemId !== itemExist.id) return this._onSortItem(event, item);
+      }
+      const currentQuantity = itemExist.system.quantity;
+      const additionalQuantity = item.system.quantity;
+      itemExist.update({["system.quantity"]: currentQuantity + additionalQuantity});
+      if (dropTarget?.dataset?.itemId === itemExist.id) item.delete();
+    }
+    else {
+      await super._onDropItem(event, data);
+    }
+
+    // We want to remove the item from original owner in two cases: 
+    // - If it was moved to storage
+    // - If it was removed from storage
+    if (data.actorType === "storage" || (this.actor.type === "storage" && data.actorType !== undefined)) {
+      const item = await fromUuid(data.uuid);
+      const actor = item.actor;
+      deleteItemFromActor(item.id, actor);
+    }
   }
 
   /** @override */
