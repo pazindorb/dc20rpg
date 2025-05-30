@@ -148,6 +148,7 @@ class DC20ItemItemData extends DC20BaseItemData {
 
     return this.mergeSchema(super.defineSchema(), {
       quantity: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      lootRoll: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       stackable: new f.BooleanField({required: true, initial: false}),
       weight: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       price: new f.SchemaField({

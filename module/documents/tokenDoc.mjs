@@ -4,6 +4,7 @@ import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -229,6 +230,15 @@ export class DC20RpgTokenDocument extends TokenDocument {
         }
       }
     }
+  }
+
+  async _onCreate(data, options, userId) {
+    if (userId === game.user.id && this.actor) {
+      if (this.actor?.type === "storage" && this.actor.system.storageType === "randomLootTable") {
+        generateRandomLootTable(this.actor);
+      }
+    }
+    super._onCreate(data, options, userId);
   }
 
   //=====================================

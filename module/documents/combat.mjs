@@ -10,7 +10,7 @@ import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
-import { getActiveActorOwners, getActiveActorOwnersIds } from "../helpers/users.mjs";
+import { getActiveActorOwners, getIdsOfActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 
 export class DC20RpgCombat extends Combat {
@@ -490,7 +490,7 @@ export class DC20RpgCombat extends Combat {
     for (const sustain of currentSustain) {
       const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
       let confirmed = false; 
-      const actorOwners = getActiveActorOwnersIds(actor, false);
+      const actorOwners = getIdsOfActiveActorOwners(actor, false);
       if (actorOwners.length > 0) {
         confirmed = await sendSimplePopupToUsers(actorOwners, "confirm", {header: message});
       }

@@ -1,5 +1,5 @@
 import { getEffectFrom, prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
-import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
+import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters, activateStorageListeners } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
 import { createTrait, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
@@ -106,6 +106,9 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
         activateNpcLinsters(html, this.actor);
         activateCompanionListeners(html, this.actor);
         break;
+      case "storage": 
+        activateStorageListeners(html, this.actor);
+        break;
     }
   }
 
@@ -180,13 +183,15 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
     const itemExist = this.actor.items.getName(item.name);
     if (item.system.stackable && itemExist) {
       const dropTarget = event.target.closest("[data-item-id]");
+      const itemId = dropTarget?.dataset?.itemId;
       if (this.actor.uuid === item.parent?.uuid) {
-        if (dropTarget?.dataset?.itemId !== itemExist.id) return this._onSortItem(event, item);
+        if (itemId === item.id) return this._onSortItem(event, item);
+        if (itemId !== itemExist.id) return this._onSortItem(event, item);
       }
       const currentQuantity = itemExist.system.quantity;
       const additionalQuantity = item.system.quantity;
       itemExist.update({["system.quantity"]: currentQuantity + additionalQuantity});
-      if (dropTarget?.dataset?.itemId === itemExist.id) item.delete();
+      if (this.actor.uuid === item.parent?.uuid) item.delete();
     }
     else {
       await super._onDropItem(event, data);
@@ -196,7 +201,7 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
     // - If it was moved to storage
     // - If it was removed from storage
     if (data.actorType === "storage" || (this.actor.type === "storage" && data.actorType !== undefined)) {
-      const item = await fromUuid(data.uuid);
+      if (this.actor.uuid === item.parent?.uuid) return; // It was only sorted
       const actor = item.actor;
       deleteItemFromActor(item.id, actor);
     }

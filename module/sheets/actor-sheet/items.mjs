@@ -167,9 +167,8 @@ export function prepareItemsForStorage(context, actor) {
         _addItemToTable(item, inventory); 
         break;
     }
-
-    context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
    }
+   context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
 }
 
 export function prepareCompanionTraits(context, actor) {

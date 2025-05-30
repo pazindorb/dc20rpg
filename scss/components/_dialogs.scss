@@ -2333,3 +2333,123 @@
     width: 100%;
   }
 }
+
+
+.dialog-v13 {
+
+  .form-group {
+
+    &.symetry {
+      label {
+        flex: 2;
+      }
+    }
+
+    &.vertical {
+      label {
+        display: flex;
+        justify-content: center;
+        flex: auto;
+      }
+
+      .form-fields {
+        flex: auto;
+      }
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+  }
+}
+
+#transfer {
+
+  .transfer-wrapper {
+    display: flex;
+    align-items: center;
+    min-height: 200px;
+
+    .separator {
+      margin: 0 6px;
+    }
+
+    .trader {
+      min-height: 200px;
+      border-radius: 3px;
+      // background: var(--input-background-color);
+      // border: 1px solid var(--input-border-color);
+      border: 1px solid;
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+
+      .char-info {
+        height: 35px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid;
+        
+        img {
+          border-radius: 3px 0 0 0;
+          border: 0;
+          border-right: 1px solid;
+          margin-right: 6px;
+          height: 34px;
+          width: 34px;
+        }
+      }
+
+      .items {
+        flex: 1;
+      }
+
+      .currencies {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 5px;
+        height: 20px;
+
+        .currency {
+          margin-left: 3px;
+          border: 1px solid black;
+          border-radius: 3px;
+          font-family: $font-default;
+
+          input {
+            font-size: 12px;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            height: 16px;
+            width: 45px;
+            padding: 4px 3px 1px 3px;
+            background-color: transparent;
+            border-radius: 5px;
+            border: 0;
+            color: white;
+            text-align: center;
+          }
+
+          &.cp {
+            background-color: #be7a14a9;
+          }
+
+          &.sp {
+            background-color: #797979a9;
+          }
+
+          &.gp {
+            background-color: #bdac11a9;
+          }
+
+          &.pp {
+            background-color: #5e9287a9;
+          }
+        }
+      } 
+    }
+  }
+}

@@ -288,6 +288,11 @@ export class DC20StorageData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      randomLoot: new f.SchemaField({
+        numberOfItems: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        rollDice: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),
+      }),
+
       storageType: new f.StringField({required: true, initial: ""}),
     });
   }

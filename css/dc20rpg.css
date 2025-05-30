@@ -3762,6 +3762,131 @@
 .dc20rpg #initiative-slot-selector .long-select {
   width: 100%;
 }
+.dc20rpg .dialog-v13 .form-group.symetry label {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+.dc20rpg .dialog-v13 .form-group.vertical label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-flex: 1;
+  -ms-flex: auto;
+  flex: auto;
+}
+.dc20rpg .dialog-v13 .form-group.vertical .form-fields {
+  -webkit-box-flex: 1;
+  -ms-flex: auto;
+  flex: auto;
+}
+.dc20rpg .dialog-v13 button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #transfer .transfer-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 200px;
+}
+.dc20rpg #transfer .transfer-wrapper .separator {
+  margin: 0 6px;
+}
+.dc20rpg #transfer .transfer-wrapper .trader {
+  min-height: 200px;
+  border-radius: 3px;
+  border: 1px solid;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .char-info {
+  height: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .char-info img {
+  border-radius: 3px 0 0 0;
+  border: 0;
+  border-right: 1px solid;
+  margin-right: 6px;
+  height: 34px;
+  width: 34px;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .items {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 5px;
+  height: 20px;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies .currency {
+  margin-left: 3px;
+  border: 1px solid black;
+  border-radius: 3px;
+  font-family: "Signika", sans-serif;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies .currency input {
+  font-size: 12px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  height: 16px;
+  width: 45px;
+  padding: 4px 3px 1px 3px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 0;
+  color: white;
+  text-align: center;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies .currency.cp {
+  background-color: rgba(190, 122, 20, 0.662745098);
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies .currency.sp {
+  background-color: rgba(121, 121, 121, 0.662745098);
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies .currency.gp {
+  background-color: rgba(189, 172, 17, 0.662745098);
+}
+.dc20rpg #transfer .transfer-wrapper .trader .currencies .currency.pp {
+  background-color: rgba(94, 146, 135, 0.662745098);
+}
 .dc20rpg .item-list {
   margin-bottom: 10px;
 }
@@ -9314,6 +9439,7 @@
   border: 2px solid var(--storage-secondary-darker);
   color: var(--storage-main-dark);
   background-color: var(--storage-secondary-light);
+  text-align: end;
 }
 .dc20rpg .actor_v2 .storage-header .row span {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -9334,6 +9460,8 @@
 }
 .dc20rpg .actor_v2 .storage-header .storage-info-wrapper {
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .dc20rpg .actor_v2 .storage-header .storage-info-wrapper .char-name {
   font-family: "Humaroid";
@@ -9391,6 +9519,18 @@
 }
 .dc20rpg .actor_v2 .storage-header .storage-info-wrapper .currencies .currency.pp {
   background-color: rgba(94, 146, 135, 0.8549019608);
+}
+.dc20rpg .actor_v2 .storage-body .top-menu {
+  border: 2px solid var(--storage-main-dark) !important;
+}
+.dc20rpg .actor_v2 .storage-body .top-menu .base-action-switch {
+  border-left: 2px solid var(--storage-main-dark) !important;
+}
+.dc20rpg .actor_v2 .storage-body .top-menu .filter {
+  border-color: var(--storage-main-dark) !important;
+}
+.dc20rpg .actor_v2 .storage-body .top-menu .filter i {
+  color: var(--storage-main-dark) !important;
 }
 .dc20rpg .actor_v2 .storage-body .item-header {
   background: -webkit-gradient(linear, left top, right top, from(var(--storage-table-1)), to(var(--storage-table-2))) !important;

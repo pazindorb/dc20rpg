@@ -243,12 +243,15 @@ export function displayScrollingTextOnToken(token, text, color) {
  * Called when new actor is being created, makes simple pre-configuration on actor's prototype token depending on its type.
  */
 export function preConfigurePrototype(actor) {
-  const prototypeToken = actor.prototypeToken;
-  prototypeToken.displayBars = 20;
-  prototypeToken.displayName = 20;
+  const updateData = {prototypeToken: {}}
+  updateData.prototypeToken.displayBars = 20;
+  updateData.prototypeToken.displayName = 20;
   if (actor.type === "character" || actor.type === "companion") {
-    prototypeToken.actorLink = true;
-    prototypeToken.disposition = 1;
+    updateData.prototypeToken.actorLink = true;
+    updateData.prototypeToken.disposition = 1;
   }
-  actor.update({['prototypeToken'] : prototypeToken});
+  if (actor.type === "storage") {
+    updateData.prototypeToken.disposition = 1;
+  }
+  actor.update(updateData);
 }

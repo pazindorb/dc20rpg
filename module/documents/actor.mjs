@@ -552,6 +552,24 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+
+    // Update Storage token
+    if (this.type === "storage") {
+      const storageType = changed?.system?.storageType;
+      if (storageType) {
+        switch(storageType) {
+          case "partyInventory": 
+            this.update({['prototypeToken.actorLink'] : true});
+            break;
+          case "randomLootTable": 
+            this.update({['prototypeToken.actorLink'] : false});
+            break;
+          case "vendor": 
+            this.update({['prototypeToken.actorLink'] : true});
+            break;
+        }
+      }
+    }
   }
 
   /** @inheritDoc */
@@ -566,6 +584,7 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareBasicActions() {
+    if (this.type === "storage") return;
     if (!this.flags.basicActionsAdded) {
       addBasicActions(this);
     }

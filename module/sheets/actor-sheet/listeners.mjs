@@ -19,6 +19,7 @@ import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
+import { createTransferDialog } from "../../dialogs/transfer.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -162,7 +163,7 @@ export function activateCompanionListeners(html, actor) {
 }
 
 export function activateStorageListeners(html, actor) {
-  html.find(".transfer-currency").click(() => _onTransferCurrency());
+  html.find(".transfer").click(() => createTransferDialog(actor));
 }
 
 function _onSidetab(ev) {

@@ -17,7 +17,7 @@
       </div>
 
       {{#if isGM}}
-      <div class="row margin-top-10" title="{{localize 'dc20rpg.sheet.storageType'}}">
+      <div class="row margin-top-10">
         <div class="left-part-row">
           <i class="fa-solid fa-box-open"></i>
           <span>{{localize 'dc20rpg.sheet.storageType'}}</span>
@@ -26,9 +26,31 @@
           {{selectOptions @root.config.DROPDOWN_DATA.storageTypes selected=system.storageType blank=""}}
         </select>
       </div>
+
+      {{#ifCond system.storageType '===' "randomLootTable"}}
+      <div class="row margin-top-10">
+        <div class="left-part-row">
+          <i class="fa-solid fa-dice-d20"></i>
+          <span>{{localize 'dc20rpg.sheet.storage.rollDice'}}</span>
+        </div>
+        <input type="number" name="system.randomLoot.rollDice" value="{{system.randomLoot.rollDice}}" data-dtype="Number" style="width: 30%;"/>
+      </div>
+      <div class="row margin-top-5">
+        <div class="left-part-row">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>{{localize 'dc20rpg.sheet.storage.numberOfItems'}}</span>
+        </div>
+        <input type="number" name="system.randomLoot.numberOfItems" value="{{system.randomLoot.numberOfItems}}" data-dtype="Number" style="width: 30%;"/>
+      </div>
+      {{/ifCond}}
+
+      {{#ifCond system.storageType '===' "vendor"}}
+      {{!-- VENDOR CONFIG --}}
+      {{/ifCond}}
+      
       {{/if}}
 
-      <div class="row margin-top-10" title="{{localize "dc20rpg.sheet.currency.title"}}">
+      <div class="row margin-top-10">
         <div class="left-part-row">
           <i class="fa-solid fa-coins"></i>
           <span>{{localize "dc20rpg.sheet.currency.title"}}</span>
@@ -36,10 +58,12 @@
         <div class="currencies">
           {{#each system.currency as |value key|}}
           <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
-            <input type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
+            <input {{#unless @root.isGM}}disabled{{/unless}} type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
           </div>
           {{/each}}
-          <a class="fa-solid fa-sack-dollar transfer-currency margin-left-5" title="{{localize "dc20rpg.sheet.transferCurrency"}}"></a>
+          {{#ifCond system.storageType '!==' "vendor"}}
+          <a class="fa-solid fa-money-bill-transfer transfer margin-left-5" title="{{localize "dc20rpg.sheet.transferCurrency"}}"></a>
+          {{/ifCond}}
         </div>
       </div>
     </div>
@@ -52,6 +76,17 @@
     {{/ifCond}}
 
     {{#if system.storageType}}
+    <div class="tab">
+      <div class="top-menu">
+        <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
+        </div>
+        <div class="top-menu-buttons">
+          <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+        </div>
+      </div>
+    </div>
     <div class="item-storage">
       {{#each inventory as |table key|}}
       <div class="item-list table-name">
@@ -75,17 +110,19 @@
           {{/ifCond}}
           {{!-- Loot Weight --}}
           {{#ifCond @root.system.storageType '===' "randomLootTable"}} {{#if @root.isGM}}
-          <div class="column"><i class="fa-solid fa-weight-hanging" title="{{localize 'dc20rpg.sheet.itemTable.lootWeight'}}"></i></div>
+          <div class="column"><i class="fa-solid fa-dice-d20" title="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}"></i></div>
           {{/if}}{{/ifCond}}
           {{!-- Quantity --}}
           <div class="column"><i class="fa-solid fa-boxes-stacked" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"></i></div>
           {{!-- Config --}}
+          {{#if @root.isGM}}
           <div class="column">
             <i class="fa-solid fa-gear"></i>
-            {{#if @root.isGM}}{{#if table.custom}}
+            {{#if table.custom}}
               <a class="table-remove fa-lg fa-solid fa-xmark margin-left-3" title="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}" data-tab="inventory" data-table="{{key}}"></a>
-            {{/if}}{{/if}}
+            {{/if}}
           </div>
+          {{/if}}
         </div>
         
         {{!-- Row --}}
@@ -109,10 +146,10 @@
           </div>
           {{/ifCond}}
 
-          {{!-- Loot Weight --}}
+          {{!-- Loot Roll --}}
           {{#ifCond @root.system.storageType '===' "randomLootTable"}} {{#if @root.isGM}}
-          <div class="column" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}">
-            <input class="change-item-numeric-value" type="text" value="{{system.quantity}}" data-item-id="{{_id}}" data-path="system.quantity">
+          <div class="column" title="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}">
+            <input class="change-item-numeric-value" type="text" value="{{system.lootRoll}}" data-item-id="{{_id}}" data-path="system.lootRoll">
           </div>
           {{/if}}{{/ifCond}}
 

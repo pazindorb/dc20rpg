@@ -1,0 +1,59 @@
+<form id="transfer" class="dialog-v13 dialog-content standard-form">
+  <h4 class="divider">{{localize "dc20rpg.dialog.transfer.title"}}</h4>
+
+  <div class="form-group vertical">
+    <label>{{localize 'dc20rpg.dialog.transfer.selectActor'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="selectedActor">
+        {{selectOptions actors selected=selectedActor blank=""}}
+      </select>
+    </div>
+  </div>
+
+  <div class="transfer-wrapper">
+    {{!-- Fixed Trader --}}
+    <div class="trader">
+      <div class="char-info">
+        <img src="{{fixedTrader.img}}"/>
+        <label>{{fixedTrader.name}}</label>
+      </div>
+      <div class="items">
+        
+      </div>
+      <div class="currencies">
+        <i class="fa-solid fa-coins"></i>
+        {{#each fixedTrader.currency as |value key|}}
+        <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
+          <input {{#if @root.lockFixedTrader}}disabled{{/if}} type="number" data-path="fixedTrader.currency.{{key}}.value" value="{{value.value}}" data-limit="{{value.max}}" data-cType="numeric"/>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="separator"><i class="fa-solid fa-money-bill-transfer fa-lg"></i></div>
+
+    {{!-- Flexible Trader --}}
+    <div class="trader">
+    {{#if flexibleTrader}}
+      <div class="char-info">
+        <img src="{{flexibleTrader.img}}"/>
+        <label>{{flexibleTrader.name}}</label>
+      </div>
+      <div class="items">
+        
+      </div>
+      <div class="currencies">
+        <i class="fa-solid fa-coins"></i>
+        {{#each flexibleTrader.currency as |value key|}}
+        <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
+          <input type="number" data-path="flexibleTrader.currency.{{key}}.value" value="{{value.value}}" data-limit="{{value.max}}" data-cType="numeric"/>
+        </div>
+        {{/each}}
+      </div>
+    {{/if}}
+    </div>
+  </div>
+
+  <footer class="form-footer">
+    <button {{#unless flexibleTrader}}disabled{{/unless}} data-action="transfer"><i class="fa-solid fa-money-bill-transfer fa-lg"></i>{{localize "dc20rpg.dialog.transfer.title"}}</button>
+  </footer>
+</form>

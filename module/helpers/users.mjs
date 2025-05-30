@@ -18,7 +18,7 @@ export function getActiveActorOwners(actor, allowGM=false) {
 /**
  * Returns array of user its of owners of specific Actor
  */
-export function getActiveActorOwnersIds(actor, allowGM) {
+export function getIdsOfActiveActorOwners(actor, allowGM) {
   const owners = getActiveActorOwners(actor, allowGM);
   return owners.map(owner => owner._id);
 }
@@ -30,4 +30,10 @@ export function getActivePlayers(allowGM) {
         if (user.isGM) return allowGM;
         else return true;
       })
+}
+
+export function getActorsForUser(onlyPC=false) {
+  return game.actors
+              .filter(actor => actor.isOwner)
+              .filter(actor => !onlyPC || actor.type === "character");
 }
