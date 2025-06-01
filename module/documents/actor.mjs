@@ -565,7 +565,7 @@ export class DC20RpgActor extends Actor {
             this.update({['prototypeToken.actorLink'] : false});
             break;
           case "vendor": 
-            this.update({['prototypeToken.actorLink'] : true});
+            this.update({['prototypeToken.actorLink'] : false});
             break;
         }
       }

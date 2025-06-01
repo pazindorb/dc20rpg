@@ -163,7 +163,7 @@ export function activateCompanionListeners(html, actor) {
 }
 
 export function activateStorageListeners(html, actor) {
-  html.find(".transfer").click(() => createTransferDialog(actor));
+  html.find(".transfer").click(() => createTransferDialog(actor, {currencyOnly: true}));
 }
 
 function _onSidetab(ev) {

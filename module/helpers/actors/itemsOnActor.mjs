@@ -32,6 +32,20 @@ export async function createItemOnActor(actor, itemData) {
   return await Item.create(itemData, { parent: actor });
 }
 
+export async function updateItemOnActor(itemId, actor, updateData) {
+  if (!actor.canUserModify(game.user, "update")) {
+    emitEventToGM("updateDocument", {
+      docType: "item",
+      docId: itemId, 
+      actorUuid: actor.uuid,
+      updateData: updateData
+    });
+    return;
+  }
+  const item = getItemFromActor(itemId, actor);
+  return await item.update(updateData);
+}
+
 export async function deleteItemFromActor(itemId, actor) {
   if (!actor.canUserModify(game.user, "delete")) {
     emitEventToGM("removeDocument", {
@@ -459,5 +473,53 @@ async function _handleItemsFromTraits(trait, actor) {
   if (trait.active < trait.itemIds.length) {
     const itemId = trait.itemIds.pop();
     await deleteItemFromActor(itemId, actor);
+  }
+}
+
+//======================================
+//          Stackable Items            =
+//======================================
+export async function handleStackableItem(createdItem, actor, event, transfer, stacks) {
+  const stackable = createdItem.system.stackable;
+  if (!stackable) return;
+
+  const quantity = createdItem.system.quantity;
+  if (quantity < 0) {
+    ui.notifications.error("You cannot transfer item with less then 1 quantity");
+    return;
+  }
+
+  if (!stacks) {
+    stacks = 1;
+    if (quantity > 1) {
+      const provided = await getSimplePopup("input", {header: "How many stack you want to transfer?"});
+      stacks = parseInt(provided) > quantity ? quantity : parseInt(provided);
+    }
+  }
+
+  const itemExist = actor.items.getName(createdItem.name);
+  if (itemExist) {
+    const dropTarget = event.target.closest("[data-item-id]");
+    const itemId = dropTarget?.dataset?.itemId;
+    if (actor.uuid === createdItem.parent?.uuid) {
+      if (itemId === createdItem.id) return actor.sheet._onSortItem(event, createdItem);
+      if (itemId !== itemExist.id) return actor.sheet._onSortItem(event, createdItem);
+    }
+
+    const newQuantity = itemExist.system.quantity + stacks;
+    await updateItemOnActor(itemExist.id, itemExist.actor, {["system.quantity"]: newQuantity});
+    transfer = true; // If this update is being made in the same actor we always want to use transfer options
+  }
+  else {
+    const itemData = createdItem.toObject();
+    itemData.system.quantity = stacks;
+    await createItemOnActor(actor, itemData);  
+  }
+
+  // If transfer, remove original item or subtract charges
+  const infiniteStock = createdItem.actor.system?.vendor?.infiniteStock;
+  if (transfer && !infiniteStock) {
+    if (stacks === quantity) await deleteItemFromActor(createdItem.id, createdItem.actor);
+    else await updateItemOnActor(createdItem.id, createdItem.actor, {["system.quantity"]: quantity - stacks});
   }
 }

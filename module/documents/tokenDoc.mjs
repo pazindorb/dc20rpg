@@ -234,8 +234,9 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   async _onCreate(data, options, userId) {
     if (userId === game.user.id && this.actor) {
-      if (this.actor?.type === "storage" && this.actor.system.storageType === "randomLootTable") {
-        generateRandomLootTable(this.actor);
+      if (this.actor?.type === "storage") {
+        if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
+        if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
       }
     }
     super._onCreate(data, options, userId);

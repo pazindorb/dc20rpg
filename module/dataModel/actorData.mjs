@@ -292,7 +292,11 @@ export class DC20StorageData extends DC20BaseActorData {
         numberOfItems: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         rollDice: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),
       }),
-
+      vendor: new f.SchemaField({
+        allowSelling: new f.BooleanField({required: true, initial: false}),
+        sellCostPercent: new f.NumberField({ required: true, nullable: false, integer: true, initial: 30 }),
+        infiniteStock: new f.BooleanField({required: true, initial: false}),
+      }),
       storageType: new f.StringField({required: true, initial: ""}),
     });
   }

@@ -18,6 +18,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
 
     this.window.content.addEventListener("change", this._onChange.bind(this));
     this.window.content.addEventListener("click", this._onClick.bind(this));
+    this.window.content.addEventListener("drop", this._onDrop.bind(this));
   }
 
   _onChange(event) {
@@ -61,6 +62,15 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     if (nullable && isNaN(numericValue)) numericValue = null;
     setValueForPath(this, path, numericValue);
     this.render();
+  }
+
+  async _onDrop(event) {
+    event.preventDefault();
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+
+    const droppedObject = JSON.parse(droppedData);
+    return droppedObject;
   }
 
   // TODO: Move Simple Popup here?

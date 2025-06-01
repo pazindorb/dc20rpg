@@ -2,9 +2,10 @@ import { getEffectFrom, prepareActiveEffectsAndStatuses } from "../helpers/effec
 import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters, activateStorageListeners } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
-import { createTrait, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { createTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { itemTransfer } from "../helpers/actors/storage.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -159,7 +160,20 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
 
   /** @override */
   async _onDropItem(event, data) {
+    if ((this.actor.type === "storage" && data.actorType !== undefined) || data.actorType === "storage") {
+      await itemTransfer(event, data, this.actor);
+      return;
+    }
+
+    const onSelf = data.uuid.includes(this.actor.uuid);
     const item = await Item.implementation.fromDropData(data);
+    if (data.actorType !== undefined && CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type] && !onSelf) {
+      const selected = await getSimplePopup("confirm", {header: "Transfer or Duplicate Item?", information: ["Do you want to transfer or duplicate this item?", "Yes: Transfer", "No: Duplicate"]});
+      if (selected) {
+        await itemTransfer(event, data, this.actor);
+        return;
+      }
+    }
 
     // Create companion trait instead of an item
     if (this.actor.type === "companion") {
@@ -171,40 +185,9 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       }
     }
 
-    // Storage only accepts inventory items
-    if (this.actor.type === "storage") {
-      if (!["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
-        ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables' and 'loot'");
-        return;
-      }
-    }
-
-    // Create item or add new stack to the existing one
-    const itemExist = this.actor.items.getName(item.name);
-    if (item.system.stackable && itemExist) {
-      const dropTarget = event.target.closest("[data-item-id]");
-      const itemId = dropTarget?.dataset?.itemId;
-      if (this.actor.uuid === item.parent?.uuid) {
-        if (itemId === item.id) return this._onSortItem(event, item);
-        if (itemId !== itemExist.id) return this._onSortItem(event, item);
-      }
-      const currentQuantity = itemExist.system.quantity;
-      const additionalQuantity = item.system.quantity;
-      itemExist.update({["system.quantity"]: currentQuantity + additionalQuantity});
-      if (this.actor.uuid === item.parent?.uuid) item.delete();
-    }
-    else {
-      await super._onDropItem(event, data);
-    }
-
-    // We want to remove the item from original owner in two cases: 
-    // - If it was moved to storage
-    // - If it was removed from storage
-    if (data.actorType === "storage" || (this.actor.type === "storage" && data.actorType !== undefined)) {
-      if (this.actor.uuid === item.parent?.uuid) return; // It was only sorted
-      const actor = item.actor;
-      deleteItemFromActor(item.id, actor);
-    }
+    const stackable = item.system.stackable;
+    if (stackable && onSelf) await handleStackableItem(item, this.actor, event, false);
+    else await super._onDropItem(event, data);
   }
 
   /** @override */
@@ -230,5 +213,15 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       }
       this.actor.update({["system.companionOwnerId"]: companionOwner.id});
     }
+  }
+
+  _canDragDrop(selector) {
+    if (this.actor.type === "storage") return true;
+    else return super._canDragDrop(selector);
+  }
+
+  _canDragStart(selector) {
+    if (this.actor.type === "storage") return true;
+    else return super._canDragStart(selector);
   }
 }

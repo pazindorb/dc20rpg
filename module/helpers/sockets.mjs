@@ -1,7 +1,8 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { createItemOnActor, deleteItemFromActor } from "./actors/itemsOnActor.mjs";
+import { updateActor } from "./actors/actorOperations.mjs";
+import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor } from "./effects.mjs";
 
 export function registerSystemSockets() {
@@ -86,6 +87,20 @@ export function registerSystemSockets() {
         if (!actor) return;
         if (docType === "item") await createItemOnActor(actor, docData);
         if (docType === "effect") await createEffectOn(docData, actor);
+      }
+    }
+  });
+
+  // Update Document on Actor
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "updateDocument") {
+      const { docType, docId, actorUuid, updateData, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const actor = await fromUuid(actorUuid);
+        if (!actor) return;
+        if (docType === "item") await updateItemOnActor(docId, actor, updateData);
+        if (docType === "effect") return; // todo
+        if (docType === "actor") await updateActor(actor, updateData);
       }
     }
   });

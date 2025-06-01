@@ -45,9 +45,28 @@
       {{/ifCond}}
 
       {{#ifCond system.storageType '===' "vendor"}}
-      {{!-- VENDOR CONFIG --}}
+      <div class="row margin-top-10">
+        <div class="left-part-row">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>{{localize 'dc20rpg.sheet.storage.allowSelling'}}</span>
+        </div>
+        <a class="activable {{#if system.vendor.allowSelling}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.vendor.allowSelling"></a>
+      </div>
+      <div class="row margin-top-5">
+        <div class="left-part-row">
+          <i class="fa-solid fa-gavel"></i>
+          <span>{{localize 'dc20rpg.sheet.storage.sellCostPercent'}}</span>
+        </div>
+        <input type="number" name="system.vendor.sellCostPercent" value="{{system.vendor.sellCostPercent}}" data-dtype="Number" style="width: 30%;"/>
+      </div>
+      <div class="row margin-top-5">
+        <div class="left-part-row">
+          <i class="fa-solid fa-infinity"></i>
+          <span>{{localize 'dc20rpg.sheet.storage.infiniteStock'}}</span>
+        </div>
+        <a class="activable {{#if system.vendor.infiniteStock}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.vendor.infiniteStock"></a>
+      </div>
       {{/ifCond}}
-      
       {{/if}}
 
       <div class="row margin-top-10">
@@ -61,9 +80,6 @@
             <input {{#unless @root.isGM}}disabled{{/unless}} type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
           </div>
           {{/each}}
-          {{#ifCond system.storageType '!==' "vendor"}}
-          <a class="fa-solid fa-money-bill-transfer transfer margin-left-5" title="{{localize "dc20rpg.sheet.transferCurrency"}}"></a>
-          {{/ifCond}}
         </div>
       </div>
     </div>
@@ -83,7 +99,10 @@
           <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
         </div>
         <div class="top-menu-buttons">
-          <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          {{#ifCond system.storageType "!==" 'vendor'}}
+          <a class="fa-lg fa-solid fa-money-bill-transfer transfer margin-left-5" title="{{localize "dc20rpg.sheet.transfer"}}"></a>
+          {{/ifCond}}
+          <a class="margin-left-5 table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         </div>
       </div>
     </div>
