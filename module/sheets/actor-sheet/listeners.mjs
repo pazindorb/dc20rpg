@@ -20,6 +20,7 @@ import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
+import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -32,6 +33,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
   html.find('.ap-for-adv').mousedown(ev => advForApChange(actor, ev.which));
   html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
+  html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
@@ -59,7 +61,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
-  
+
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));
   html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
@@ -135,6 +137,7 @@ export function activateCharacterLinsters(html, actor) {
   html.find(".rerun-advancement").click(ev => rerunAdvancement(actor, datasetOf(ev).classId));
   html.find(".configuration").click(() => characterConfigDialog(actor));
   html.find(".keyword-editor").click(() => keywordEditor(actor));
+  html.find('.transfer').click(() => _onTransfer(actor));
 
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
@@ -163,7 +166,7 @@ export function activateCompanionListeners(html, actor) {
 }
 
 export function activateStorageListeners(html, actor) {
-  html.find(".transfer").click(() => createTransferDialog(actor, {currencyOnly: true}));
+  html.find(".transfer").click(() => createTransferDialog(actor, getActorsForUser(true), {currencyOnly: true}));
 }
 
 function _onSidetab(ev) {
@@ -193,4 +196,10 @@ async function _onItemCreate(tab, actor) {
     name: `New ${getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes)}`
   }
   createItemOnActor(actor, itemData);
+}
+
+async function _onTransfer(actor) {
+  const user = await userSelector(true);
+  const traders = getActorsForUser(true, user);
+  createTransferDialog(actor, traders, {lockFlexibleTrader: true});
 }

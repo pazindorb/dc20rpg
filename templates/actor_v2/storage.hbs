@@ -159,7 +159,7 @@
           {{#ifCond @root.system.storageType '===' "vendor"}}
           <div class="column" title="{{localize 'dc20rpg.sheet.itemTable.cost'}}">
             <input {{#unless @root.isGM}}disabled{{/unless}} class="change-item-numeric-value" type="text" value="{{system.price.value}}" data-item-id="{{_id}}" data-path="system.price.value">
-            <select {{#unless @root.isGM}}disabled{{/unless}} class="change-item-value" data-path="system.price.currency">
+            <select {{#unless @root.isGM}}disabled{{/unless}} class="change-item-value" data-path="system.price.currency" data-item-id="{{_id}}">
               {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=system.price.currency}}
             </select>
           </div>

@@ -1,11 +1,11 @@
-<form id="transfer" class="dialog-v13 dialog-content standard-form">
+<form id="transfer" class="dialog-v13 dialog-content standard-form {{cssClass}}">
   <h4 class="divider">{{localize "dc20rpg.dialog.transfer.titleTransfer"}}</h4>
 
   <div class="form-group vertical">
     <label>{{localize 'dc20rpg.dialog.transfer.selectActor'}}</label>
     <div class="form-fields">
       <select data-cType="string" data-path="selectedActor">
-        {{selectOptions actors selected=selectedActor blank=""}}
+        {{selectOptions flexibleTraders selected=selectedActor blank=""}}
       </select>
     </div>
   </div>
@@ -19,14 +19,20 @@
       </div>
       {{#unless currencyOnly}}
       <div class="items">
-        
+        {{#each fixedTrader.transfer.items as |item key|}}
+        <div class="item">
+          <img src="{{item.img}}">
+          <input disabled value="{{item.name}}"/>
+          <a class="fa-solid fa-trash" data-item-id="{{key}}" data-trader="fixed" data-action="removeItem"></a>
+        </div>
+        {{/each}}
       </div>
       {{/unless}}
       <div class="currencies">
         <i class="fa-solid fa-coins"></i>
-        {{#each fixedTrader.currency as |value key|}}
+        {{#each fixedTrader.transfer.currency as |value key|}}
         <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
-          <input {{#if @root.lockFixedTrader}}disabled{{/if}} type="number" data-path="fixedTrader.currency.{{key}}.value" value="{{value.value}}" data-limit="{{value.max}}" data-cType="numeric"/>
+          <input {{#if @root.lockFixedTrader}}disabled{{/if}} type="number" data-path="fixedTrader.transfer.currency.{{key}}.value" value="{{value.value}}" data-limit="{{value.max}}" data-cType="numeric"/>
         </div>
         {{/each}}
       </div>
@@ -42,14 +48,20 @@
       </div>
       {{#unless currencyOnly}}
       <div class="items">
-        
+        {{#each flexibleTrader.transfer.items as |item key|}}
+        <div class="item">
+          <img src="{{item.img}}">
+          <input disabled value="{{item.name}}"/>
+          <a class="fa-solid fa-trash" data-item-id="{{key}}" data-trader="flexible"></a>
+        </div>
+        {{/each}}
       </div>
       {{/unless}}
       <div class="currencies">
         <i class="fa-solid fa-coins"></i>
-        {{#each flexibleTrader.currency as |value key|}}
+        {{#each flexibleTrader.transfer.currency as |value key|}}
         <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
-          <input {{#if @root.tradeMode}}disabled{{/if}} type="number" data-path="flexibleTrader.currency.{{key}}.value" value="{{value.value}}" data-limit="{{value.max}}" data-cType="numeric"/>
+          <input {{#if @root.lockFlexibleTrader}}disabled{{/if}} type="number" data-path="flexibleTrader.transfer.currency.{{key}}.value" value="{{value.value}}" data-limit="{{value.max}}" data-cType="numeric"/>
         </div>
         {{/each}}
       </div>

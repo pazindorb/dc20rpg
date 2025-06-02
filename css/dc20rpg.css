@@ -3791,6 +3791,18 @@
   -ms-flex-align: center;
   align-items: center;
 }
+.dc20rpg #transfer.theme-dark {
+  --border-color: var(--color-light-4);
+  --text-color: var(--color-light-3);
+  --backround-color: var(--color-cool-4);
+  --header-color: var(--color-warm-1);
+}
+.dc20rpg #transfer.theme-light {
+  --border-color: var(--color-dark-1);
+  --text-color: var(--color-dark-1);
+  --backround-color: rgba(0, 0, 0, 0.1);
+  --header-color: var(--color-warm-2);
+}
 .dc20rpg #transfer .transfer-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3799,16 +3811,18 @@
   -ms-flex-align: center;
   align-items: center;
   min-height: 66px;
+  color: var(--text-color);
 }
 .dc20rpg #transfer .transfer-wrapper .separator {
   margin: 0 6px;
 }
 .dc20rpg #transfer .transfer-wrapper .trader {
   border-radius: 3px;
-  border: 1px solid;
+  border: 1px solid var(--border-color);
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
+  background-color: var(--backround-color);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3825,12 +3839,14 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--header-color);
+  font-size: 18px;
 }
 .dc20rpg #transfer .transfer-wrapper .trader .char-info img {
   border-radius: 3px 0 0 0;
   border: 0;
-  border-right: 1px solid;
+  border-right: 1px solid var(--border-color);
   margin-right: 6px;
   height: 34px;
   width: 34px;
@@ -3840,6 +3856,36 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .items .item {
+  border-bottom: 1px solid var(--border-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .items .item img {
+  width: 29px;
+  height: 29px;
+  border: 0;
+  border-right: 1px solid var(--border-color);
+  margin-right: 6px;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .items .item input {
+  background-color: transparent;
+  border: 0;
+  border-right: 1px solid var(--border-color);
+  width: 100%;
+  height: 29px;
+}
+.dc20rpg #transfer .transfer-wrapper .trader .items .item input:disabled {
+  color: var(--text-color);
+}
+.dc20rpg #transfer .transfer-wrapper .trader .items .item a {
+  padding-left: 6px;
+  padding-right: 6px;
 }
 .dc20rpg #transfer .transfer-wrapper .trader .currencies {
   width: -webkit-fit-content;

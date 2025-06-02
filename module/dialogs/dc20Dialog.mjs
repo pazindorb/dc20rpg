@@ -5,7 +5,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
   /** @override */
   static DEFAULT_OPTIONS = {
     id: "dialog-{id}",
-    classes: ["dc20rpg"],
+    classes: ["dc20rpg themed"],
     position: {width: 350},
     window: {
       title: "Dialog",
@@ -13,9 +13,22 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     },
   }
 
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
+    initialized.classes.push(`theme-${colorTheme}`);
+    return initialized;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
+    context.cssClass = `theme-${colorTheme}`;
+    return context;
+  }
+
   _attachFrameListeners() {
     super._attachFrameListeners();
-
     this.window.content.addEventListener("change", this._onChange.bind(this));
     this.window.content.addEventListener("click", this._onClick.bind(this));
     this.window.content.addEventListener("drop", this._onDrop.bind(this));

@@ -2366,10 +2366,25 @@
 
 #transfer {
 
+  &.theme-dark {
+    --border-color: var(--color-light-4);
+    --text-color: var(--color-light-3);
+    --backround-color: var(--color-cool-4);
+    --header-color: var(--color-warm-1);
+  }
+
+  &.theme-light {
+    --border-color: var(--color-dark-1);
+    --text-color: var(--color-dark-1);
+    --backround-color: rgba(0, 0, 0, 0.1);
+    --header-color: var(--color-warm-2);
+  }
+
   .transfer-wrapper {
     display: flex;
     align-items: center;
     min-height: 66px;
+    color: var(--text-color);
 
     .separator {
       margin: 0 6px;
@@ -2377,10 +2392,9 @@
 
     .trader {
       border-radius: 3px;
-      // background: var(--input-background-color);
-      // border: 1px solid var(--input-border-color);
-      border: 1px solid;
+      border: 1px solid var(--border-color);
       flex: 1;
+      background-color: var(--backround-color);
 
       display: flex;
       flex-direction: column;
@@ -2389,12 +2403,14 @@
         height: 35px;
         display: flex;
         align-items: center;
-        border-bottom: 1px solid;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--header-color);
+        font-size: 18px;
         
         img {
           border-radius: 3px 0 0 0;
           border: 0;
-          border-right: 1px solid;
+          border-right: 1px solid var(--border-color);
           margin-right: 6px;
           height: 34px;
           width: 34px;
@@ -2404,6 +2420,37 @@
       .items {
         min-height: 150px;
         flex: 1;
+
+        .item {
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 29px;
+            height: 29px;
+            border: 0;
+            border-right: 1px solid var(--border-color);
+            margin-right: 6px;
+          }
+
+          input {
+            background-color: transparent;
+            border: 0;
+            border-right: 1px solid var(--border-color);
+            width: 100%;
+            height: 29px;
+
+            &:disabled {
+              color: var(--text-color);
+            }
+          }
+
+          a {
+            padding-left: 6px;
+            padding-right: 6px;
+          }
+        }
       }
 
       .currencies {

@@ -1,3 +1,5 @@
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+
 /**
  * Returns array of owners of specific Actor
  */
@@ -32,8 +34,18 @@ export function getActivePlayers(allowGM) {
       })
 }
 
-export function getActorsForUser(onlyPC=false) {
+export async function userSelector(skipGM) {
+  const users = {};
+  game.users
+          .filter(user => !skipGM || !user.isGM)
+          .filter(user => game.userId !== user.id)
+          .forEach(user => users[user.id] = user.name);
+  const userId = await getSimplePopup("select", {header: "Select User", selectOptions: users});
+  return game.users.get(userId);
+}
+
+export function getActorsForUser(onlyPC=false, user=game.user) {
   return game.actors
-              .filter(actor => actor.isOwner)
+              .filter(actor =>  actor.testUserPermission(user, "OWNER"))
               .filter(actor => !onlyPC || actor.type === "character");
 }

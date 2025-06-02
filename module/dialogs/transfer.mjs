@@ -1,14 +1,16 @@
 import { updateActor } from "../helpers/actors/actorOperations.mjs";
-import { getActorsForUser } from "../helpers/users.mjs";
+import { createItemOnActor, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 export class TransferDialog extends DC20Dialog {
 
-  constructor(fixedTrader, options = {}) {
+  constructor(fixedTrader, flexibleTraders, options = {}) {
     super(options);
     this.fixedTrader = fixedTrader;
+    this.flexibleTraders = Object.fromEntries(flexibleTraders.map(actor => [actor.id, actor.name]));
     this._prepareTrader(this.fixedTrader);
     this.lockFixedTrader = options.lockFixedTrader;
+    this.lockFlexibleTrader = options.lockFlexibleTrader;
     this.currencyOnly = options.currencyOnly;
   }
 
@@ -31,41 +33,28 @@ export class TransferDialog extends DC20Dialog {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
-    context.actors = this._collectMyActors();
+    context.flexibleTraders = this.flexibleTraders;
     context.selectedActor = this.selectedActor;
     context.fixedTrader = this.fixedTrader;
     context.flexibleTrader = this.flexibleTrader;
     context.currencyOnly = this.currencyOnly;
     context.lockFixedTrader = this.lockFixedTrader;
+    context.lockFlexibleTrader = this.lockFlexibleTrader;
     return context;
-  }
-
-  _collectMyActors() {
-    const actors = getActorsForUser(true);
-    return Object.fromEntries(actors.map(actor => [actor.id, actor.name]));
   }
 
   _prepareTrader(trader) {
     if (!trader) return;
-    trader.currency = {
-      cp: {
-        value: 0,
-        max: trader.system.currency.cp
+
+    trader.transfer = {
+      currency: {
+        cp: { value: 0, max: trader.system.currency.cp },
+        sp: { value: 0, max: trader.system.currency.sp },
+        gp: { value: 0, max: trader.system.currency.gp },
+        pp: { value: 0, max: trader.system.currency.pp },
       },
-      sp: {
-        value: 0,
-        max: trader.system.currency.sp
-      },
-      gp: {
-        value: 0,
-        max: trader.system.currency.gp
-      },
-      pp: {
-        value: 0,
-        max: trader.system.currency.pp
-      },
+      items: {}
     }
-    trader.itemTransfer = {};
   }
 
   _onClickAction(event, target) {
@@ -77,12 +66,15 @@ export class TransferDialog extends DC20Dialog {
       case "transfer": 
         this._onTransferAction();
         break;
+      case "removeItem":
+        this._onRemoveItem(target.dataset);
     }
   }
 
   async _onTransferAction() {
-    const fixed = this.fixedTrader.currency;
-    const flexible = this.flexibleTrader.currency;
+    // Transfer Currency
+    const fixed = this.fixedTrader.transfer.currency;
+    const flexible = this.flexibleTrader.transfer.currency;
     const currencyToTransfer = {
       cp: fixed.cp.value - flexible.cp.value,
       sp: fixed.sp.value - flexible.sp.value,
@@ -90,12 +82,32 @@ export class TransferDialog extends DC20Dialog {
       pp: fixed.pp.value - flexible.pp.value,
     }
     await currencyTransfer(this.fixedTrader, this.flexibleTrader, currencyToTransfer, false);
+
+    // Transfer Items
+    await this._transferItems(this.fixedTrader, this.flexibleTrader);
+    await this._transferItems(this.flexibleTrader, this.fixedTrader);
     this.close();
+  }
+
+  async _transferItems(from, to) {
+    const items = from.transfer.items;
+    for (const item of Object.values(items)) {
+      await deleteItemFromActor(item.id, from);
+      await createItemOnActor(to, item.toObject());
+    }
+  }
+
+  async _onRemoveItem(dataset) {
+    const itemId = dataset.itemId;
+    const trader = dataset.trader === "flexible" ? this.flexibleTrader : this.fixedTrader;
+    delete trader.transfer.items[itemId];
+    this.render();
   }
 
   /** @override */
   _onChangeString(path, value, dataset) {
     if (path === "selectedActor") {
+      delete this.flexibleTrader?.transfer; // Clear current transfer data
       this.flexibleTrader = game.actors.get(value);
       this._prepareTrader(this.flexibleTrader);
       this._prepareTrader(this.fixedTrader);
@@ -120,19 +132,27 @@ export class TransferDialog extends DC20Dialog {
     if (!item) return;
 
     if (item.uuid.includes(this.fixedTrader.uuid)) {
-      this.fixedTrader.itemTransfer[item.id] = item;
+      this.fixedTrader.transfer.items[item.id] = item;
     }
     else if (item.uuid.includes(this.flexibleTrader.uuid)) {
-      this.flexibleTrader.itemTransfer[item.id] = item;
+      this.flexibleTrader.transfer.items[item.id] = item;
     }
+    this.render();
+  }
+
+  close() {
+    // Clear transfer data
+    delete this.fixedTrader?.transfer;
+    delete this.flexibleTrader?.transfer;
+    super.close();
   }
 }
 
 /**
  * Opens Transfer Dialog popup.
  */
-export function createTransferDialog(fixedTrader, options={}) {
-  new TransferDialog(fixedTrader, options).render(true);
+export function createTransferDialog(fixedTrader, flexibleTraders, options={}) {
+  new TransferDialog(fixedTrader, flexibleTraders, options).render(true);
 }
 
 export function calculateItemsCost(items, priceMultiplier=1) {
@@ -141,7 +161,17 @@ export function calculateItemsCost(items, priceMultiplier=1) {
     const price = item.system.price;
     const quantity = item.system.quantity;
     const finalCost = quantity * price.value * priceMultiplier;
-    cost[price.currency] += Math.round(finalCost);
+
+    if (Number.isInteger(finalCost)) cost[price.currency] += finalCost;
+    else {
+      let currency = {cp: 0, sp: 0, gp: 0, pp: 0};
+      currency[price.currency] = finalCost;
+      const costInGold = _exchangeToGold(_exchangeToCopper(currency));
+      cost.cp = costInGold.cp;
+      cost.sp = costInGold.sp;
+      cost.gp = costInGold.gp;
+      cost.pp = costInGold.pp;
+    }
   }
   return cost;
 }
@@ -179,7 +209,7 @@ function _exchangeToCopper(currency) {
   newCopper += currency.gp * 100;
   newCopper += currency.pp * 1000;
   return {
-    cp: newCopper,
+    cp: Math.round(newCopper), // Get rid of money bellow 1 copper
     sp: 0,
     gp: 0,
     pp: 0
