@@ -294,3 +294,25 @@ function _prepareFormulas(context) {
   })
   context.formulas = [damage, healing, other];
 }
+
+export function prepareContainer(item, context) {
+  const tables = {
+    weapon: {label: "Weapons", items: {}},
+    equipment: {label: "Equipment", items: {}},
+    consumable: {label: "Consumables", items: {}},
+    container: {label: "Containers", items: {}},
+    loot: {label: "Loot", items: {}},
+    feature: {label: "Features", items: {}},
+    technique: {label: "Techniques", items: {}},
+    spell: {label: "Spells", items: {}},
+    other: {label: "Others", items: {}},
+  };
+
+  Object.entries(item.system.contents).forEach(([key, item]) => {
+    let tableKey = item.type;
+    if (!tables[tableKey]) tableKey = "other"
+    tables[tableKey].items[key] = item;
+    tables[tableKey].notEmpty = true;
+  });
+  context.tables = tables;
+}

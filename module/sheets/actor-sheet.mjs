@@ -143,7 +143,7 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
     const dataset = event.currentTarget.dataset;
     if (dataset.type === "resource") {
       const resource = this.actor.system.resources.custom[dataset.key];
-      resource.type = "resource";
+      resource.type = "Resource";
       resource.key = dataset.key;
       if (!resource) return;
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
@@ -156,6 +156,19 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       return;
     }
     super._onDragStart(event);
+  }
+
+  async _onDrop(event) {
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    const droppedObject = JSON.parse(droppedData);
+
+    if (droppedObject?.fromContainer) {
+      const container = await fromUuid(droppedObject.containerUuid);
+      await Item.create(droppedObject, {parent: this.actor});
+      if (container) await container.update({[`system.contents.-=${droppedObject.itemKey}`]: null});
+    }
+    else await super._onDrop(event, data);
   }
 
   /** @override */

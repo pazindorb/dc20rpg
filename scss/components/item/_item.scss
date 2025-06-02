@@ -284,7 +284,7 @@
   height: calc(100% - 168px);
   border: 2px solid $primary-color;
   border-top: 0;
-  margin-bottom: 5px;
+  border-bottom: 0;
 
   hr {
     border-top: 1px solid $primary-dark;
@@ -781,14 +781,15 @@
     }
   }
 
-  .description-tab {
+  .description-tab, .contents-tab {
     height: 100%;
+    padding: 7px;
 
     &.with-price {
       height: calc(100% - 40px);
     }
 
-    .description {
+    .description, .contents-box {
       height: 100%;
     }
 

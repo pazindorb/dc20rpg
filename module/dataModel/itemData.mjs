@@ -250,6 +250,17 @@ export class DC20LootData extends DC20ItemItemData {
   }
 }
 
+export class DC20ContainerData extends DC20ItemItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      contents: new f.ObjectField({required: true}),
+      inventoryOnly: new f.BooleanField({required: true, initial: true}),
+    });
+  }
+}
+
 export class DC20FeatureData extends DC20UsableItemData {
   static defineSchema() {
     const f = foundry.data.fields;

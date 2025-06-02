@@ -4143,6 +4143,11 @@
   background-color: 0;
   border: 0px;
 }
+.dc20rpg .item-list .item-row .column select, .dc20rpg .item-list .item-row .column input, .dc20rpg .item-list .enh-row .column select, .dc20rpg .item-list .enh-row .column input {
+  background-color: transparent;
+  border: 0;
+  text-align: center;
+}
 .dc20rpg .item-list .item-row .pointer, .dc20rpg .item-list .enh-row .pointer {
   cursor: pointer;
 }
@@ -10018,7 +10023,7 @@
   height: calc(100% - 168px);
   border: 2px solid var(--primary-color);
   border-top: 0;
-  margin-bottom: 5px;
+  border-bottom: 0;
 }
 .dc20rpg .item_v2 .item-sheet-body hr {
   border-top: 1px solid var(--primary-dark);
@@ -10517,16 +10522,17 @@
   box-shadow: none;
   text-shadow: none;
 }
-.dc20rpg .item_v2 .item-sheet-body .description-tab {
+.dc20rpg .item_v2 .item-sheet-body .description-tab, .dc20rpg .item_v2 .item-sheet-body .contents-tab {
   height: 100%;
+  padding: 7px;
 }
-.dc20rpg .item_v2 .item-sheet-body .description-tab.with-price {
+.dc20rpg .item_v2 .item-sheet-body .description-tab.with-price, .dc20rpg .item_v2 .item-sheet-body .contents-tab.with-price {
   height: calc(100% - 40px);
 }
-.dc20rpg .item_v2 .item-sheet-body .description-tab .description {
+.dc20rpg .item_v2 .item-sheet-body .description-tab .description, .dc20rpg .item_v2 .item-sheet-body .description-tab .contents-box, .dc20rpg .item_v2 .item-sheet-body .contents-tab .description, .dc20rpg .item_v2 .item-sheet-body .contents-tab .contents-box {
   height: 100%;
 }
-.dc20rpg .item_v2 .item-sheet-body .description-tab .item-cost {
+.dc20rpg .item_v2 .item-sheet-body .description-tab .item-cost, .dc20rpg .item_v2 .item-sheet-body .contents-tab .item-cost {
   height: 40px;
   display: -webkit-box;
   display: -ms-flexbox;

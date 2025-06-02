@@ -536,6 +536,7 @@ DC20RPG.DROPDOWN_DATA.inventoryTypes = {
   weapon: "Weapon",
   equipment: "Equipment",
   consumable: "Consumable",
+  container: "Container",
   loot: "Loot"
 }
 

@@ -82,6 +82,7 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
+  CONFIG.Item.dataModels.container = itemDM.DC20ContainerData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;

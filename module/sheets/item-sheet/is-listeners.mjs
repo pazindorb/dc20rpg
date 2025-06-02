@@ -1,12 +1,12 @@
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
-import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, changeValue, generateKey, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
-import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
+import { createScrollFromSpell, deleteItemFromActor } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
 import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
@@ -25,6 +25,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
 
   // Tooltip
+  html.find('.item-tooltip').hover(ev => itemTooltip(item.system.contents[datasetOf(ev).itemKey], ev, html, {inside: false}),  ev => hideTooltip(ev, html));
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
   html.find('.content-link').hover(async ev => _onHover(ev, html), ev => hideTooltip(ev, html));
 
@@ -92,7 +93,8 @@ export function activateCommonLinsters(html, item) {
   // Drag and drop events
   html[0].addEventListener('dragover', ev => ev.preventDefault());
   html[0].addEventListener('drop', async ev => await _onDrop(ev, item));
-  html.find('.remove-resource').click(ev => _removeResourceFromItem(item, datasetOf(ev).key))
+  html.find('.remove-resource').click(ev => _removeResourceFromItem(item, datasetOf(ev).key));
+  html.find('.remove-item').click(ev => item.update({[`system.contents.-=${datasetOf(ev).itemKey}`]: null}));
 }
 
 async function _onDrop(event, parentItem) {
@@ -101,29 +103,56 @@ async function _onDrop(event, parentItem) {
   if (!droppedData) return;
   const droppedObject = JSON.parse(droppedData);
 
-  if (droppedObject.type === "Item") {
-    const item = await Item.fromDropData(droppedObject);
+  switch (droppedObject.type) {
+    case "Item":
+      await _onDropItem(droppedObject, parentItem);
+      break;
 
-    // Core Usage
-    const itemResource = item.system.resource;
-    if (!itemResource) return;
-    
-    const key = itemResource.resourceKey;
+    case "ActiveEffect": 
+      await _onDropEffect(droppedObject, parentItem);
+      break;
+
+    case "Resource": 
+      await _onDropResource(droppedObject, parentItem);
+      break;
+  }
+}
+
+async function _onDropItem(droppedObject, parentItem) {
+  const item = await Item.fromDropData(droppedObject);
+
+  // Handle container
+  if (parentItem.type === "container") {
+    const originalItem = await fromUuid(droppedObject.uuid);
+    let canAddToContainer = true
+    const inventoryOnly = parentItem.system.inventoryOnly;
+    const isFromInventory = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type];
+    if (inventoryOnly && !isFromInventory) canAddToContainer = false;
+    if (canAddToContainer) {
+      await parentItem.update({[`system.contents.${generateKey()}`]: item.toObject()});
+      if (originalItem.actor) await deleteItemFromActor(originalItem.id, originalItem.actor);
+    }
+  }
+
+  // Handle custom resource
+  const itemResource = item.system.resource;
+  if (itemResource) {
     const customResource = {
       name: itemResource.name,
       img: item.img,
+      key: itemResource.resourceKey
     };
-    if (item.system.isResource) _addCustomResource(customResource, key, parentItem);
+    if (item.system.isResource) _onDropResource(customResource, parentItem);
   }
+}
 
-  if (droppedObject.type === "resource") {
-    _addCustomResource(droppedObject, droppedObject.key, parentItem);
-  }
+async function _onDropResource(droppedObject, parentItem) {
+  _addCustomResource(droppedObject, droppedObject.key, parentItem);
+}
 
-  if (droppedObject.type === "ActiveEffect") {
-    const effect = await ActiveEffect.fromDropData(droppedObject);
-    createEffectOn(effect, parentItem);
-  }
+async function _onDropEffect(droppedObject, parentItem) {
+  const effect = await ActiveEffect.fromDropData(droppedObject);
+  createEffectOn(effect, parentItem);
 }
 
 function _onSelection(path, selector, item, html) {
@@ -138,8 +167,7 @@ function _addCustomResource(customResource, key, item) {
   // Enhancements 
   const enhancements = item.system.enhancements;
   if (enhancements) {
-    Object.keys(enhancements)
-            .forEach(enhKey=> enhancements[enhKey].resources.custom[key] = customResource); 
+    Object.keys(enhancements).forEach(enhKey=> enhancements[enhKey].resources.custom[key] = customResource); 
   }
 
   const updateData = {
