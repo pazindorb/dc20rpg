@@ -168,7 +168,7 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       await Item.create(droppedObject, {parent: this.actor});
       if (container) await container.update({[`system.contents.-=${droppedObject.itemKey}`]: null});
     }
-    else await super._onDrop(event, data);
+    else await super._onDrop(event);
   }
 
   /** @override */
