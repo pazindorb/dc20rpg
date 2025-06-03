@@ -21,7 +21,7 @@ export function getItemFromActorByKey(itemKey, actor) {
 }
 
 export async function createItemOnActor(actor, itemData) {
-  if (!actor.canUserModify(game.user, "create")) {
+  if (!actor.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("addDocument", {
       docType: "item",
       docData: itemData, 
@@ -33,7 +33,7 @@ export async function createItemOnActor(actor, itemData) {
 }
 
 export async function updateItemOnActor(itemId, actor, updateData) {
-  if (!actor.canUserModify(game.user, "update")) {
+  if (!actor.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("updateDocument", {
       docType: "item",
       docId: itemId, 
@@ -43,11 +43,11 @@ export async function updateItemOnActor(itemId, actor, updateData) {
     return;
   }
   const item = getItemFromActor(itemId, actor);
-  return await item.update(updateData);
+  if (item) return await item.update(updateData);
 }
 
 export async function deleteItemFromActor(itemId, actor) {
-  if (!actor.canUserModify(game.user, "delete")) {
+  if (!actor.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("removeDocument", {
       docType: "item",
       docId: itemId, 

@@ -72,6 +72,14 @@ export class TransferDialog extends DC20Dialog {
   }
 
   async _onTransferAction() {
+    const canFixed = this.fixedTrader.testUserPermission(game.user, "OWNER");
+    const canFlexible = this.flexibleTrader.testUserPermission(game.user, "OWNER");
+    const activeGM = game.users.activeGM;
+    if (!activeGM || !(canFixed && canFlexible)) {
+      ui.notifications.error("There is no active GM and you lack permission to perform this operation alone.");
+      return;
+    }
+
     // Transfer Currency
     const fixed = this.fixedTrader.transfer.currency;
     const flexible = this.flexibleTrader.transfer.currency;

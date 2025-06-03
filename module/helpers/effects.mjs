@@ -108,7 +108,7 @@ export async function createNewEffectOn(type, owner, flags) {
 }
 
 export async function createEffectOn(effectData, owner) {
-  if (!owner.canUserModify(game.user, "create")) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("addDocument", {
       docType: "effect",
       docData: effectData, 
@@ -126,8 +126,22 @@ export function editEffectOn(effectId, owner) {
   if (effect) effect.sheet.render(true);
 }
 
+export async function updateEffectOn(effectId, owner, updateData) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
+    emitEventToGM("updateDocument", {
+      docType: "effect",
+      docId: effectId, 
+      actorUuid: owner.uuid,
+      updateData: updateData
+    });
+    return;
+  }
+  const item = getItemFromActor(itemId, actor);
+  return await item.update(updateData);
+}
+
 export async function deleteEffectFrom(effectId, owner) {
-  if (!owner.canUserModify(game.user, "delete")) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("removeDocument", {
       docType: "effect",
       docId: effectId, 

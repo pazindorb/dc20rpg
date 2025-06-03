@@ -45,6 +45,15 @@ function _prepareItems(items, maxValue) {
 
 export async function itemTransfer(event, data, actor) {
     const originalItem = await fromUuid(data.uuid);
+    const actorFrom = originalItem.actor;
+
+    const canOrginal = actorFrom.testUserPermission(game.user, "OWNER");
+    const canDropTarget = actor.testUserPermission(game.user, "OWNER");
+    const activeGM = game.users.activeGM;
+    if (!activeGM || !(canOrginal && canDropTarget)) {
+      ui.notifications.error("There is no active GM and you lack permission to perform this operation alone.");
+      return;
+    }
 
     // Storage accepts only inventory items
     if (!CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[originalItem.type]) {
@@ -63,7 +72,6 @@ export async function itemTransfer(event, data, actor) {
       stacks = parseInt(provided) > quantity ? quantity : parseInt(provided);
     }
 
-    const actorFrom = originalItem.actor;
     if (actorFrom.system.storageType === "vendor" || actor.system.storageType === "vendor") {
       const itemData = originalItem.toObject();
       itemData.system.quantity = stacks;
@@ -79,6 +87,9 @@ export async function itemTransfer(event, data, actor) {
 
     const infiniteStock = originalItem.actor.system?.vendor?.infiniteStock;
     const itemData = originalItem.toObject();
+    // TODO: Check if user has permisions to do that 
+    // or if there is active GM that will do it for him
+    // Improve permision checks in create items, actors and other shit
     await createItemOnActor(actor, itemData);
     if (!infiniteStock) await deleteItemFromActor(originalItem.id, originalItem.actor);
 }

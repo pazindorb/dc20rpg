@@ -11,11 +11,11 @@ import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusW
 import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./actors/costManipulator.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
-import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey } from "./actors/itemsOnActor.mjs";
+import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
-import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./effects.mjs";
+import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName, runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
@@ -30,6 +30,7 @@ export function prepareDC20tools() {
     forceRunMigration,
     effects: {
       createEffectOn,
+      updateEffectOn,
       deleteEffectFrom,
       getEffectByName,
       getEffectById,
@@ -55,6 +56,7 @@ export function prepareDC20tools() {
     tools: {
       getSelectedTokens,
       createItemOnActor,
+      updateItemOnActor,
       deleteItemFromActor,
       getItemFromActorByKey,
       promptRoll,
