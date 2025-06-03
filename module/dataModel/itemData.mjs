@@ -236,6 +236,7 @@ export class DC20ConsumableData extends DC20ItemUsableMergeData {
       consume: new f.BooleanField({required: true, initial: true}),
       deleteOnZero: new f.BooleanField({required: true, initial: true}),
       showAsResource: new f.BooleanField({required: true, initial: false}),
+      overridenDamageType: new f.StringField({required: true, initial: ""})
     })
   }
 }

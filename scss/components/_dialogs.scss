@@ -1213,6 +1213,41 @@
     }
   }
 
+  .ammo-use {
+    font-family: $font-header;
+    font-size: 16px;
+    padding: 7px;
+    border: 2px solid $primary-darker;
+    background-color: $secondary-color;
+    border-radius: 3px;
+
+    .ammo {
+      border: 2px solid $secondary-darker;
+      background-color: $secondary-lighter;
+      display: flex;
+      align-items: center;
+      height: 35px;
+
+      img {
+        margin-right: 5px;
+        width: 31px;
+        height: 31px;
+        border: 0;
+        border-right: 2px solid $secondary-darker;
+      }
+      
+      &:hover {
+        box-shadow:  0 0 10px $primary-light inset;
+        cursor: pointer;
+      }
+
+      &.active {
+        color: $secondary-lighter;
+        background-color: $primary-dark;
+      }
+    }
+  }
+
   .measurement-templates {
     font-family: $font-default;
     display: flex;

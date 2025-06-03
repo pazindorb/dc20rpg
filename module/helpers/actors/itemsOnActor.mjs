@@ -383,6 +383,17 @@ export async function createScrollFromSpell(spell) {
   spell.sheet.close();
 }
 
+export function collectAmmoForWeapon(item, actor) {
+  if (!actor) return {};
+  const useAmmo = item.system?.properties?.ammo?.active;
+  if (!useAmmo) return {};
+
+  const ammo = {};
+  actor.items.filter(item => item.system.consumableType === "ammunition")
+            .forEach(item => ammo[item.id] = item);
+  return ammo;
+}
+
 //======================================
 //             Item Tables             =
 //======================================

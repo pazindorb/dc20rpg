@@ -13,6 +13,18 @@
     </div>
   </div>
 
+  {{!-- Ammo use --}}
+  {{#if hasAmmo}}
+  <div class="ammo-use grid grid-3col" title="{{localize 'dc20rpg.sheet.rollMenu.selectAmmo'}}">
+    {{#each ammoSelection as |ammo itemId|}}
+    <div class="ammo item-tooltip {{#ifCond @root.item.ammoId '===' itemId}}active{{/ifCond}}" data-item-id="{{itemId}}">
+      <img class="ammo-img" src="{{ammo.img}}"/>
+      <span class="ammo-name margin-left-5">{{ammo.name}}</span>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
   {{!-- Enhancements --}}
   <div class="enhancements">
     {{#unless item.system.copyEnhancements.hideFromRollMenu}}

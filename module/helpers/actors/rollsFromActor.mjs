@@ -2,7 +2,6 @@ import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction,
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
@@ -12,7 +11,6 @@ import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
 import { emitSystemEvent } from "../sockets.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -117,12 +115,24 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   
   const rollMenu = item.flags.dc20rpg.rollMenu;
 
-  // 1. Subtract Cost
+  // 0. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) {
     resetEnhancements(item, actor);
     resetRollMenu(rollMenu, item);
     return;
+  }
+
+  // 1. Add changes related to ammo
+  if (item.ammoId) {
+    const ammo = actor.items.get(item.ammoId);
+    if (ammo) {
+      item.system.rollRequests = foundry.utils.mergeObject(item.system.rollRequests, ammo.system.rollRequests);
+      item.system.againstStatuses = foundry.utils.mergeObject(item.system.againstStatuses, ammo.system.againstStatuses);
+      item.system.formulas = foundry.utils.mergeObject(item.system.formulas, ammo.system.formulas);
+      item.system.macros = foundry.utils.mergeObject(item.system.macros, ammo.system.macros);
+      item.overridenDamage = ammo.system.overridenDamageType;
+    }
   }
   
   // 2. Pre Item Roll Events and macros
@@ -364,7 +374,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
   const formulas = _collectAllFormulasForAnItem(item, enhancements);
 
   // Check if damage type should be overriden
-  let overridenDamage = "";
+  let overridenDamage = item.overridenDamage || "";
   if (enhancements) {
     enhancements.values().forEach(enh => {
       if (enh.number > 0) {
@@ -727,6 +737,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
+  delete item.overridenDamage;
 }
 
 export function resetRollMenu(rollMenu, owner) {

@@ -1,6 +1,6 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP, subtractGrit } from "../helpers/actors/costManipulator.mjs";
-import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { collectAmmoForWeapon, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
@@ -156,6 +156,8 @@ export class RollPromptDialog extends Dialog {
     const [expectedCosts, expectedCharges, chargesFromOtherItems] = collectExpectedUsageCost(this.actor, this.item);
     if (expectedCosts.actionPoint === 0) expectedCosts.actionPoint = undefined;
     const rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
+    const ammoSelection = collectAmmoForWeapon(this.item, this.actor);
+    const hasAmmo = Object.keys(ammoSelection).length > 0;
     return {
       rollDetails: itemRollDetails,
       item: this.item,
@@ -164,6 +166,8 @@ export class RollPromptDialog extends Dialog {
       expectedCharges: expectedCharges,
       chargesFromOtherItems: chargesFromOtherItems,
       otherItemUse: this._prepareOtherItemUse(),
+      ammoSelection: ammoSelection,
+      hasAmmo: hasAmmo,
       enhancements: mapToObject(this.item.allEnhancements),
       rollsHeldAction: rollsHeldAction,
       rollLevelChecked: this.rollLevelChecked,
@@ -228,6 +232,12 @@ export class RollPromptDialog extends Dialog {
       if (autoRollLevelCheck && datasetOf(ev).runCheck === "true") this._rollRollLevelCheck(false);
       this.render();
     });
+    html.find('.ammo').click(ev => {
+      const selected = datasetOf(ev).itemId;
+      if (selected === this.item.ammoId) this.item.ammoId = "";
+      else this.item.ammoId = selected;
+      this.render();
+    })
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
     html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), ev, html), ev => hideTooltip(ev, html));
     html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));

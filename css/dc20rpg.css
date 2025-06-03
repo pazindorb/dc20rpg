@@ -2593,6 +2593,41 @@
 .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description-wrapper span {
   font-size: 11px;
 }
+.dc20rpg #roll-prompt .ammo-use {
+  font-family: "Humaroid";
+  font-size: 16px;
+  padding: 7px;
+  border: 2px solid var(--primary-darker);
+  background-color: var(--secondary-color);
+  border-radius: 3px;
+}
+.dc20rpg #roll-prompt .ammo-use .ammo {
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 35px;
+}
+.dc20rpg #roll-prompt .ammo-use .ammo img {
+  margin-right: 5px;
+  width: 31px;
+  height: 31px;
+  border: 0;
+  border-right: 2px solid var(--secondary-darker);
+}
+.dc20rpg #roll-prompt .ammo-use .ammo:hover {
+  -webkit-box-shadow: 0 0 10px var(--primary-light) inset;
+  box-shadow: 0 0 10px var(--primary-light) inset;
+  cursor: pointer;
+}
+.dc20rpg #roll-prompt .ammo-use .ammo.active {
+  color: var(--secondary-lighter);
+  background-color: var(--primary-dark);
+}
 .dc20rpg #roll-prompt .measurement-templates {
   font-family: "Signika", sans-serif;
   display: -webkit-box;
