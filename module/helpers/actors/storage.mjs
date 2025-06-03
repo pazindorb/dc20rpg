@@ -50,7 +50,7 @@ export async function itemTransfer(event, data, actor) {
     const canOrginal = actorFrom.testUserPermission(game.user, "OWNER");
     const canDropTarget = actor.testUserPermission(game.user, "OWNER");
     const activeGM = game.users.activeGM;
-    if (!activeGM || !(canOrginal && canDropTarget)) {
+    if (!activeGM && !(canOrginal && canDropTarget)) {
       ui.notifications.error("There is no active GM and you lack permission to perform this operation alone.");
       return;
     }
