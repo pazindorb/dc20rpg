@@ -156,10 +156,10 @@ function _props(item) {
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) {
         content += `<div class='detail box journal-tooltip box-style'
-        data-uuid="${getLabelFromKey(key, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal)}"
-        data-header="${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties)}"
+        data-uuid="${prop.journalUuid}"
+        data-header="${prop.label}"
         > 
-        ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties)}`;
+        ${prop.label}`;
         if (prop.value) content += ` (${prop.value})`;
         content += "</div>";
       }

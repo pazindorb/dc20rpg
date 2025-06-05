@@ -37,19 +37,17 @@ export function preprareSheetData(context, item) {
     _prepareFormulas(context, item);
   }
   if (item.type === "weapon") {
-    const propCosts = CONFIG.DC20RPG.SYSTEM_CONSTANTS.propertiesCost;
     let propertyCost = item.system.weaponType === "ranged" ? 2 : 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
-      if (prop.active) propertyCost += propCosts[key];
+      if (prop.active) propertyCost += prop.cost;
     })
     context.propertyCost = propertyCost;
   }
   if (item.type === "equipment") {
-    const propCosts = CONFIG.DC20RPG.SYSTEM_CONSTANTS.propertiesCost;
     let propertyCost = 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
       const propValue = prop.value || 1;
-      if (prop.active) propertyCost += (propCosts[key] * propValue);
+      if (prop.active) propertyCost += (prop.cost * propValue);
     })
     context.propertyCost = propertyCost;
   }
@@ -122,7 +120,7 @@ function _preparePropertiesBoxes(context) {
 
   for (const [key, prop] of Object.entries(systemProperties)) {
     if (prop.active) {
-      let label = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties);
+      let label = prop.label;
 
       if (prop.value) {
         const value = prop.value !== null ? ` (${prop.value})` : "";

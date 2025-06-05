@@ -194,3 +194,8 @@ export function getPointsOnLine(x1, y1, x2, y2, interval) {
 export function roundFloat(float) {
   return Math.round(float * 10)/10;
 }
+
+export function arraysHaveCommonString(arr1, arr2) {
+  const set1 = new Set(arr1);
+  return arr2.some(item => set1.has(item));
+}
