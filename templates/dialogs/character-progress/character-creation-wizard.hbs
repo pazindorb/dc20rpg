@@ -80,9 +80,6 @@
       {{#ifCond currentStep '>' 0}}{{#ifCond currentStep '<' 4}}
       <div class="header margin-bottom-5">
         <span>{{varLocalize "dc20rpg.dialog.config.select." itemType ""}}</span>
-        {{#ifCond itemType "===" "ancestry"}}
-        <a class="mix-ancestry fa-solid fa-network-wired" title="{{localize 'dc20rpg.sheet.mixAncestery'}}"></a>
-        {{/ifCond}}
       </div>
       <div class="sub-header margin-bottom-5">
         <span>{{localize "dc20rpg.dialog.creationWizard.willSelectTraitsLater"}}</span> 
@@ -90,6 +87,12 @@
       
       <div class="unique-item-picker-wrapper">
         <div class="item-selector">
+          {{#ifCond itemType "===" "ancestry"}}
+          <div class="item-row ancestry-mix margin-bottom-10" title="{{localize 'dc20rpg.sheet.mixAncestery'}}">
+            <img class="item-img" src="icons/magic/time/arrows-circling-pink.webp"/>
+            <div class="item-name">{{localize 'dc20rpg.sheet.mixAncestery'}}</div>
+          </div>
+          {{/ifCond}}
           {{#each collectedItems as |item index|}}
           <div class="item-row select-row {{#ifCond @root.selectedItem._id '===' item._id}}selected{{/ifCond}}" data-index="{{index}}", data-type="{{@root.itemType}}">
             <img class="item-img" src="{{item.img}}"/>
@@ -115,29 +118,48 @@
       {{#ifCond currentStep '===' 4}}
       <div class="header margin-bottom-5">
         <span>{{localize "dc20rpg.dialog.acr.selectStartingEquipment"}}</span>
-        <a class="open-compendium fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
+        <a class="open-compendium fa-solid fa-book-atlas" title="{{localize "dc20rpg.dialog.creationWizard.addMoreItems"}}"></a>
       </div>
       
-      <div class="equipment-wrapper grid grid-3col">
-        {{#each inventory as |pack key|}}
-          <div class="equipment">
-            <div class="table-header">
-              <span>{{varLocalize "dc20rpg.dialog.acr." key ""}}</span>
-              <a class="fa-solid fa-circle-question" title="{{pack.text}}"></a>
-            </div>
-            {{#each pack.items as |item key|}}
-            <div class="item-row">
-              <img class="item-img" src="{{item.img}}"/>
-              <div class="item-name">
-                <div>{{item.name}}</div>
-                <div class="item-controls">
-                  <input class="input-numeric" type="number" value="{{item.system.quantity}}" data-path="actorData.inventory.{{../packName}}.items.{{key}}.system.quantity" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"/>
-                  <a class="remove-item fa-solid fa-trash" title="Remove" data-item-key="{{key}}" data-storage-key="{{../packName}}"></a>
-                </div>
+      <div class="equipment-wrapper">
+        {{#each startingEquipment as |equipment key|}}
+          {{#if equipment.itemData.name}}
+          <div class="item-row" title="{{equipment.label}}">
+            <img class="item-img" src="{{itemData.img}}"/>
+            <div class="item-name">
+              <div>{{itemData.name}}</div>
+              <div class="item-controls">
+                <input class="input-numeric" type="number" value="{{itemData.system.quantity}}" data-path="actorData.startingEquipment.{{key}}.itemData.system.quantity" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"/>
+                <a class="remove-item fa-solid fa-trash" title="Remove" data-storage-key="{{key}}"></a>
               </div>
             </div>
-            {{/each}}
           </div>
+          {{else}}
+          <div class="item-row">
+            <img class="item-img" src="icons/svg/combat.svg"/>
+            <div class="item-name">
+              <div>{{equipment.label}}</div>
+              <div class="item-controls">
+                {{#if equipment.weapon}}
+                  <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="weapon" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.weapon"}}"><i class="fa-solid fa-sword"></i><i class="fa-solid fa-plus"></i></a>
+                  <a class="margin-left-5 open-item-creator" data-slot="weapon" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.weapon"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-sword"></i></i></a>
+                {{/if}}
+                {{#if equipment.ranged}}
+                  <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="ranged" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.ranged"}}"><i class="fa-solid fa-bow-arrow"></i><i class="fa-solid fa-plus"></i></a>
+                  <a class="margin-left-5 open-item-creator" data-slot="ranged" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.ranged"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-bow-arrow"></i></i></a>
+                {{/if}}
+                {{#if equipment.shield}}
+                  <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="shield" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.shield"}}"><i class="fa-solid fa-shield"></i><i class="fa-solid fa-plus"></i></a>
+                  <a class="margin-left-5 open-item-creator" data-slot="shield" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.shield"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-shield"></i></i></a>
+                {{/if}}
+                {{#if equipment.armor}}
+                  <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="armor" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.armor"}}"><i class="fa-solid fa-helmet-battle"></i><i class="fa-solid fa-plus"></i></a>
+                  <a class="margin-left-5 open-item-creator" data-slot="armor" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.armor"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-helmet-battle"></i></i></a>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          {{/if}}  
         {{/each}}
       </div>
       {{/ifCond}}

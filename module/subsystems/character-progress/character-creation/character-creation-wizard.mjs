@@ -54,23 +54,7 @@ export class CharacterCreationWizard extends Dialog {
         name: "Background",
         img: "icons/svg/village.svg"
       },
-      inventory: {
-        weapons: {
-          text: "",
-          items: {},
-          packName: "weapons"
-        },
-        armor: {
-          text: "",
-          items: {},
-          packName: "armor"
-        },
-        other: {
-          text: "",
-          items: {},
-          packName: "other"
-        }
-      },
+      startingEquipment: {}
     };
     this.step = 0;
     this.fromCompendium = {};
@@ -108,15 +92,8 @@ export class CharacterCreationWizard extends Dialog {
   }
 
   _equipment() {
-    const startingEquipment = this.actorData["class"]?.system?.startingEquipment;
-    if (startingEquipment) {
-      this.actorData.inventory.weapons.text = startingEquipment.weapons;
-      this.actorData.inventory.armor.text = startingEquipment.armor;
-      this.actorData.inventory.other.text = startingEquipment.other;
-    }
-
     return {
-      inventory: this.actorData.inventory,
+      startingEquipment: this.actorData.startingEquipment,
       actorData: this.actorData,
       currentStep: this.step,
       createActorRequestSend: this.createActorRequestSend
@@ -213,13 +190,13 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
-    html.find('.open-compendium').click(ev => createItemBrowser("inventory", false, this));
-    html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).itemKey, datasetOf(ev).storageKey));
+    html.find('.open-compendium').click(ev => this._onOpenCompendium(ev));
+    html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).storageKey));
 
     html.find(".next").click(ev => this._onNext(ev));
     html.find(".back").click(ev => this._onBack(ev));
     html.find(".create-actor").click(ev => this._onActorCreate(ev));
-    html.find('.mix-ancestry').click(async () => {
+    html.find('.ancestry-mix').click(async () => {
       const ancestryData = await createMixAncestryDialog();
       if (!ancestryData) return;
       ancestryData._id = generateKey();
@@ -276,6 +253,10 @@ export class CharacterCreationWizard extends Dialog {
   _onSelectRow(index, itemType) {
     const items = this.fromCompendium[itemType];
     this.actorData[itemType] = items[index];
+
+    if (itemType === "class") {
+      this.actorData.startingEquipment = foundry.utils.deepClone(this.actorData["class"].system.startingEquipment);
+    }
     this.render();
   }
 
@@ -318,10 +299,9 @@ export class CharacterCreationWizard extends Dialog {
     await createItemOnActor(actor, this.actorData.background);
     await createItemOnActor(actor, this.actorData.class);
 
-    for (const pack of Object.values(this.actorData.inventory)) {
-      for (const item of Object.values(pack.items)) {
-        await createItemOnActor(actor, item);
-      }
+    for (const equipment of Object.values(this.actorData.startingEquipment)) {
+      const itemData = equipment.itemData;
+      if (itemData.name) await createItemOnActor(actor, itemData);
     }
 
     this.close();
@@ -397,16 +377,45 @@ export class CharacterCreationWizard extends Dialog {
     if (droppedObject.type !== "Item") return;
 
     const item = await Item.fromDropData(droppedObject);
-    const itemKey = generateKey();
-    if (item.type === "weapon") this.actorData.inventory.weapons.items[itemKey] = item.toObject();
-    else if (item.type === "equipment") this.actorData.inventory.armor.items[itemKey] = item.toObject();
-    else if (["consumable", "loot"].includes(item.type)) this.actorData.inventory.other.items[itemKey] = item.toObject();
+    const itemKey = droppedObject.itemKey;
+
+    if (itemKey) {
+      this.actorData.startingEquipment[itemKey].itemData = item.toObject();
+    }
+    else {
+      this.actorData.startingEquipment[generateKey()] = {
+        label: "Extra Item",
+        extraItem: true,
+        itemData: item.toObject()
+      }
+    }
+    
     this.render();
   }
 
-  _onItemRemoval(itemKey, storagekey) {
-    delete this.actorData.inventory[storagekey].items[itemKey];
+  _onItemRemoval(storagekey) {
+    const storage = this.actorData.startingEquipment[storagekey];
+    if (storage.extraItem) delete this.actorData.startingEquipment[storagekey];
+    else delete this.actorData.startingEquipment[storagekey].itemData;
     this.render();
+  }
+
+  _onOpenCompendium(event) {
+    const key = datasetOf(event).key;
+    const slot = datasetOf(event).slot;
+    let itemType = "inventory";
+    let filters = "";
+    let lockItemType = false;
+
+    if (slot === "armor" || slot === "shield") {
+      itemType = "equipment";
+      lockItemType = true;
+    }
+    if (slot === "weapon" || slot === "ranged") {
+      itemType === "weapon"
+      lockItemType = true;
+    }
+    createItemBrowser(itemType, lockItemType, this, filters, {itemKey: key});
   }
 
   async _itemFromUuid(uuid) {

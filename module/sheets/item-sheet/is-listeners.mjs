@@ -86,9 +86,20 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-area').click(ev => removeAreaFromItem(item, datasetOf(ev).key));
   html.find('.create-new-area').click(() => addNewAreaToItem(item));
 
-  // Special Class Id selection
+  // Class Configs
   html.find('.select-class-id').change(ev => _onClassIdSelection(ev, item));
   html.find('.input-class-id').change(ev => _onClassIdSelection(ev, item));
+  html.find('.add-starting-equipment').click(() => {
+    item.update({[`system.startingEquipment.${generateKey()}`]: {
+      label: "Starting Equipment",
+      weapon: false,
+      ranged: false,
+      armor: false,
+      shield: false,
+      itemData: {},
+    }})
+  })
+  html.find('.remove-starting-equipment').click(ev => item.update({[`system.startingEquipment.-=${datasetOf(ev).key}`]: null}));
 
   // Drag and drop events
   html[0].addEventListener('dragover', ev => ev.preventDefault());

@@ -431,11 +431,7 @@ export class DC20ClassData extends DC20UniqueItemData {
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         }
       }}),
-      startingEquipment: new f.SchemaField({
-        weapons: new f.StringField({required: true, initial: ""}),
-        armor: new f.StringField({required: true, initial: ""}),
-        other: new f.StringField({required: true, initial: ""})
-      }),
+      startingEquipment: new f.ObjectField({required: true, initial: {}})
     })
   }
 }

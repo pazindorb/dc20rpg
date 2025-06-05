@@ -83,20 +83,31 @@
       </div> --}}
 
       <div class="sub-header margin-top-10">
-        <span>{{localize "dc20rpg.item.sheet.startingEquipment"}}</span>
+        <span>{{localize "dc20rpg.item.sheet.startingEquipment.title"}}</span>
+        <a class="add-starting-equipment fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.startingEquipment.add"}}"></a>
       </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.startingWeapon"}}</span>
-        <textarea type="text" name="system.startingEquipment.weapons">{{system.startingEquipment.weapons}}</textarea>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.startingArmor"}}</span>
-        <textarea type="text" name="system.startingEquipment.armor">{{system.startingEquipment.armor}}</textarea>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.startingOther"}}</span>
-        <textarea type="text" name="system.startingEquipment.other">{{system.startingEquipment.other}}</textarea>
-      </div>
+      {{#each system.startingEquipment as |equipment key|}}
+        <div class="row margin-top-5 stargin-equipment">
+          <input type="text" name="system.startingEquipment.{{key}}.label" value="{{equipment.label}}"/>
+          <div class="right-part-row">
+            <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.weapon"}}">
+              <a class="activable fa-lg fa-sword fa-solid {{#if equipment.weapon}}active{{/if}}" data-path="system.startingEquipment.{{key}}.weapon" ></a>
+            </div>
+            <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.ranged"}}">
+              <a class="activable fa-lg fa-bow-arrow fa-solid {{#if equipment.ranged}}active{{/if}}" data-path="system.startingEquipment.{{key}}.ranged" ></a>
+            </div>
+            <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.shield"}}">
+              <a class="activable fa-lg fa-shield fa-solid {{#if equipment.shield}}active{{/if}}" data-path="system.startingEquipment.{{key}}.shield" ></a>
+            </div>
+            <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.armor"}}">
+              <a class="activable fa-lg fa-helmet-battle fa-solid {{#if equipment.armor}}active{{/if}}" data-path="system.startingEquipment.{{key}}.armor" ></a>
+            </div>
+            
+            <a class="margin-left-20 remove-starting-equipment fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.startingEquipment.remove"}}" data-key="{{key}}"></a>
+
+          </div>
+        </div>
+      {{/each}}
     </div>
 
     {{!-- Class Table --}}
