@@ -903,25 +903,6 @@
   }
 }
 
-#weapon-creator {
-  width: 530px;
-
-  .stats {
-    font-family: $font-default;
-    font-size: 16px;
-    border: 2px solid $secondary-dark;
-    padding: 5px 15px;
-    box-shadow:  0 0 7px $primary-darker inset;
-    background-color: $secondary-color;
-
-    .range {
-      text-align: end;
-      color: $primary-darker;
-      text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
-    }
-  }
-}
-
 #editor-dialog {
   font-family: $font-default;
   font-size: 14px;
@@ -2374,6 +2355,27 @@
 
 .dialog-v13 {
 
+  &.theme-dark {
+    --border-color: var(--color-light-4);
+    --text-color: var(--color-light-3);
+    --text-color-2: var(--color-light-6);
+    --backround-color: var(--color-cool-4);
+    --header-color: var(--color-warm-1);
+
+    --activable-off: var(--color-light-2);
+    --activable-on: var(--color-light-5);
+  }
+
+  &.theme-light {
+    --border-color: var(--color-dark-1);
+    --text-color: var(--color-dark-1);
+    --backround-color: rgba(0, 0, 0, 0.1);
+    --header-color: var(--color-warm-2);
+
+    --activable-off: var(--secondary-lighter);
+    --activable-on: var(--primary-dark);
+  }
+
   .form-group {
 
     &.symetry {
@@ -2393,6 +2395,50 @@
         flex: auto;
       }
     }
+
+    span {
+      justify-content: end;
+      display: flex;
+    }
+  }
+
+  .activable-box {
+    font-family: $font-header;
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+
+    border: 2px solid var(--activable-on);
+    background-color: var(--activable-off);
+    color: var(--activable-on);
+
+    &:hover {
+      box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
+      text-shadow: none;
+    }
+
+    &.active {
+      background-color: var(--activable-on);
+      border-color: var(--activable-off);
+      color: var(--activable-off);
+
+      &:hover {
+        box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
+      }
+    }
+
+    &.disable {
+      filter: brightness(0.7);
+
+      &:hover {
+        box-shadow: none;
+        cursor: default;
+      }
+    }
   }
 
   button {
@@ -2406,6 +2452,7 @@
   &.theme-dark {
     --border-color: var(--color-light-4);
     --text-color: var(--color-light-3);
+    --text-color-2: var(--color-light-2);
     --backround-color: var(--color-cool-4);
     --header-color: var(--color-warm-1);
   }
@@ -2535,5 +2582,36 @@
         }
       } 
     }
+  }
+}
+
+#item-creator {
+
+  .item-display {
+    display: flex;
+    align-items: center;
+
+    img {
+      border: 1px solid var(--border-color);
+      margin-right: 8px;
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .property-points {
+    font-family: $font-header;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: var(--activable-on);
+    color: var(--activable-off);
+    border: 2px solid var(--activable-off);
+
+    box-shadow: 0 0 6px 2px var(--color-off) inset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

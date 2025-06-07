@@ -11,7 +11,7 @@ function _preparePropertiesFor(itemType, fields) {
   const f = foundry.data.fields;
   let acceptedTypes = ["other"];
   if (itemType === "weapon") acceptedTypes = ["melee", "ranged"];
-  if (itemType === "equipment") acceptedTypes = ["lightShield", "heavyShield", "lightArmor", "heavyArmor"];
+  if (itemType === "equipment") acceptedTypes = ["lshield", "hshield", "light", "heavy"];
 
   const entries = Object.entries(CONFIG.DC20RPG.PROPERTIES)
   entries.forEach(([key, prop]) => {

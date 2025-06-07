@@ -572,9 +572,11 @@
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="inventory" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="inventory" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="open-item-creator" data-item-type="weapon" title="{{localize 'dc20rpg.sheet.items.createWeapon'}}"><i class="fa-lg fa-solid fa-sword"></i></a>
+          <a class="open-item-creator" data-item-type="equipment" title="{{localize 'dc20rpg.sheet.items.createEquipment'}}"><i class="fa-lg fa-solid fa-helmet-battle"></i></a>
         </div>
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -599,9 +601,9 @@
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="feature"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="feature"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -617,9 +619,9 @@
       <div class="top-menu">
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="technique"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="technique"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -640,9 +642,9 @@
       <div class="top-menu">
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="spell"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="spell"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">

@@ -1,3 +1,4 @@
+import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2) {
@@ -32,6 +33,14 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     this.window.content.addEventListener("change", this._onChange.bind(this));
     this.window.content.addEventListener("click", this._onClick.bind(this));
     this.window.content.addEventListener("drop", this._onDrop.bind(this));
+    this.window.content.addEventListener("mouseover", this._onHover.bind(this));
+    this.window.content.addEventListener("mouseout", this._onHover.bind(this));
+  }
+
+  async _renderFrame(options) {
+    const frame = await  super._renderFrame(options);
+    frame.appendChild(tooltipElement())
+    return frame;
   }
 
   _onChange(event) {
@@ -56,6 +65,17 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
 
     switch (cType) {
       case "activable": this._onActivable(path, dataset); break;
+    }
+  }
+
+  _onHover(event) {
+    const target = event.target;
+    const dataset = target.dataset;
+    const hover = dataset.hover;
+    const isEntering = event.type === "mouseover";
+
+    switch (hover) {
+      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, dataset, $(this.element)); break;
     }
   }
 

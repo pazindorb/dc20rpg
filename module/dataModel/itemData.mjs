@@ -210,7 +210,21 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
       weaponStyleActive: new f.BooleanField({required: true, initial: false}),
+      actionType: new f.StringField({required: true, initial: "attack"}),
       properties: new PropertyFields("weapon"),
+      formulas: new f.ObjectField({required: true, initial: {
+        weaponDamage: {
+          formula: "1",
+          type: "slashing",
+          category: "damage",
+          fail: false,
+          failFormula: "",
+          each5: false,
+          each5Formula: "",
+          dontMerge: false,
+          overrideDefence: "",
+        }
+      }}),
     })
   }
 }

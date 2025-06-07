@@ -21,6 +21,7 @@ import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
 import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
+import { openItemCreator } from "../../dialogs/item-creator.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -138,6 +139,10 @@ export function activateCharacterLinsters(html, actor) {
   html.find(".configuration").click(() => characterConfigDialog(actor));
   html.find(".keyword-editor").click(() => keywordEditor(actor));
   html.find('.transfer').click(() => _onTransfer(actor));
+  html.find('.open-item-creator').click(async ev => {
+    const itemData = await openItemCreator(datasetOf(ev).itemType);
+    await createItemOnActor(actor, itemData);
+  });
 
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));

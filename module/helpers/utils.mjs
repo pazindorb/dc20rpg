@@ -8,6 +8,15 @@ export function removeWhitespaces(str) {
 }
 
 /**
+ * Remove all styles (style="XYZ") from text 
+ */
+export function clearStyles(text) {
+  const regex = /style="[^"]*"/g;
+  const clean = text.replace(regex, '');
+  return clean;
+}
+
+/**
  * Checks if all elements in array are true;
  */
 export function arrayOfTruth(array) {

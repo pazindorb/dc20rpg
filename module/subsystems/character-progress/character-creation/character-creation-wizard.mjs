@@ -5,6 +5,7 @@ import { generateKey, setValueForPath } from "../../../helpers/utils.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { createMixAncestryDialog } from "../../../dialogs/mix-ancestry.mjs";
 import { hideTooltip, itemTooltip } from "../../../helpers/tooltip.mjs";
+import { openItemCreator } from "../../../dialogs/item-creator.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -191,6 +192,7 @@ export class CharacterCreationWizard extends Dialog {
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
     html.find('.open-compendium').click(ev => this._onOpenCompendium(ev));
+    html.find('.open-item-creator').click(ev => this._onItemCreator(ev));
     html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).storageKey));
 
     html.find(".next").click(ev => this._onNext(ev));
@@ -416,6 +418,22 @@ export class CharacterCreationWizard extends Dialog {
       lockItemType = true;
     }
     createItemBrowser(itemType, lockItemType, this, filters, {itemKey: key});
+  }
+
+  async _onItemCreator(event) {
+    const key = datasetOf(event).key;
+    const slot = datasetOf(event).slot;
+
+    let itemData = null;
+    if (slot === "armor") 
+      itemData = await openItemCreator("equipment", {subTypes: CONFIG.DC20RPG.DROPDOWN_DATA.armorTypes});
+    if (slot === "shield") 
+      itemData = await openItemCreator("equipment", {subTypes: CONFIG.DC20RPG.DROPDOWN_DATA.shieldTypes});
+    if (slot === "weapon" || slot === "ranged") 
+      itemData = await openItemCreator("weapon", {subTypes: CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes});
+
+    if (itemData) this.actorData.startingEquipment[key].itemData = itemData;
+    this.render();
   }
 
   async _itemFromUuid(uuid) {

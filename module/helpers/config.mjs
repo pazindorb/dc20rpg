@@ -388,11 +388,19 @@ DC20RPG.DROPDOWN_DATA.weaponTypes = {
   ranged: "Ranged"
 }
 
-DC20RPG.DROPDOWN_DATA.equipmentTypes = {
+DC20RPG.DROPDOWN_DATA.armorTypes = {
   light: "Light Armor",
   heavy: "Heavy Armor",
+}
+
+DC20RPG.DROPDOWN_DATA.shieldTypes = {
   lshield: "Light Shield",
   hshield: "Heavy Shield",
+}
+
+DC20RPG.DROPDOWN_DATA.equipmentTypes = {
+  ...DC20RPG.DROPDOWN_DATA.armorTypes,
+  ...DC20RPG.DROPDOWN_DATA.shieldTypes,
   clothing: "Clothing",
   trinket: "Trinket",
   other: "Other"
@@ -782,7 +790,7 @@ DC20RPG.DROPDOWN_DATA.templatesActivationEffectTypes = {
 DC20RPG.PROPERTIES = {
   attunement: {
     label: "dc20rpg.properties.attunement",
-    for: ["melee", "ranged", "lightShield", "heavyShield", "lightArmor", "heavyArmor", "other"],
+    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other"],
     cost: 0,
     journalUuid: ""
   },
@@ -861,7 +869,7 @@ DC20RPG.PROPERTIES = {
   },
   toss: {
     label: "dc20rpg.properties.toss",
-    for: ["melee", "lightShield"],
+    for: ["melee", "lshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6"
   },
@@ -891,64 +899,66 @@ DC20RPG.PROPERTIES = {
   },
   returning: {
     label: "dc20rpg.properties.returning",
-    for: ["melee", "ranged"],
+    for: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog"
   },
   capture: {
     label: "dc20rpg.properties.capture",
-    for: ["melee", "ranged"],
+    for: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV"
   },
 
   adIncrease: {
     label: "dc20rpg.properties.adIncrease",
-    for: ["lightShield", "heavyShield", "lightArmor", "heavyArmor"],
+    for: ["lshield", "hshield", "light", "heavy"],
     cost: 1,
     value: 1,
+    valueCostMultiplier: true,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp"
   },
   pdIncrease: {
     label: "dc20rpg.properties.pdIncrease",
-    for: ["lightShield", "heavyShield", "lightArmor", "heavyArmor"],
+    for: ["lshield", "hshield", "light", "heavy"],
     cost: 1,
     value: 1,
+    valueCostMultiplier: true,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf"
   },
   edr: {
     label: "dc20rpg.properties.edr",
-    for: ["heavyShield", "lightArmor", "heavyArmor"],
+    for: ["hshield", "light", "heavy"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk"
   },
   pdr: {
     label: "dc20rpg.properties.pdr",
-    for: ["heavyShield", "heavyArmor"],
+    for: ["hshield", "heavy"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB"
   },
   bulky: {
     label: "dc20rpg.properties.bulky",
-    for: ["heavyShield", "heavyArmor"],
+    for: ["hshield", "heavy"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR"
   },
   rigid: {
     label: "dc20rpg.properties.rigid",
-    for: ["heavyShield", "heavyArmor"],
+    for: ["hshield", "heavy"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo"
   },
   grasp: {
     label: "dc20rpg.properties.grasp",
-    for: ["lightShield"],
+    for: ["lshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE"
   },
   mounted: {
     label: "dc20rpg.properties.mounted",
-    for: ["heavyShield"],
+    for: ["hshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
   },

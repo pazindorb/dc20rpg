@@ -2,7 +2,6 @@ import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getE
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey, getLabelFromKey } from "../../helpers/utils.mjs";
-import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
@@ -10,6 +9,7 @@ import { createScrollFromSpell, deleteItemFromActor } from "../../helpers/actors
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
 import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
+import { openItemCreator } from "../../dialogs/item-creator.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -18,7 +18,10 @@ export function activateCommonLinsters(html, item) {
   html.find(".selectable").change(ev => changeValue(valueOf(ev), datasetOf(ev).path, item));
 
   // Weapon Creator
-  html.find('.weapon-creator').click(() => createWeaponCreator(item));
+  html.find('.open-item-creator').click(async () => {
+    const itemData = await openItemCreator(item.type, {blueprint: item.toObject()});
+    await item.update(itemData);
+  });
   html.find('.scroll-creator').click(() => createScrollFromSpell(item));
 
   // Roll Templates
