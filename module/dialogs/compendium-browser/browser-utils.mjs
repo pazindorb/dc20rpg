@@ -76,7 +76,7 @@ export function filterDocuments(collectedDocuments, filters) {
         // Check for nested filters first
         for (const key of filter.nestedFilters) {
           const nested = filter[key];
-          if (nested && !nested.check(document, nested.value)) filtersFailed = true;
+          if (nested && nested.check && !nested.check(document, nested.value)) filtersFailed = true;
         }
       }
       else if (!filter.check || !filter.check(document, filter.value)) filtersFailed = true;

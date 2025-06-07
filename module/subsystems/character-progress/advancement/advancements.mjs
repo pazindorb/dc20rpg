@@ -32,33 +32,40 @@ export function deleteAdvancement(item, key) {
 }
 
 export function applyAdvancements(actor, level, clazz, subclass, ancestry, background, oldSystem) {
-	let advForItems = {};
+	const advancements = [];
 
 	if (ancestry) {
-		const advancements = collectAdvancementsFromItem(level, ancestry);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, ancestry);
+		advancements.push(...fromItem);
 	}
 	if (background) {
-		const advancements = collectAdvancementsFromItem(level, background);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, background);
+		advancements.push(...fromItem);
 	}
 	if (subclass) {
-		const advancements = collectAdvancementsFromItem(level, subclass);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, subclass);
+		advancements.push(...fromItem);
 	}
 	if (clazz) {
-		const advancements = collectAdvancementsFromItem(level, clazz);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, clazz);
+		advancements.push(...fromItem);
 	}
 
-	actorAdvancementDialog(actor, advForItems, oldSystem, level === 3);
+	const subclassId = actor.system.details.subclass.id;
+	actorAdvancementDialog(actor, advancements, oldSystem, (level === 3 && !subclassId));
 }
 
 export function collectAdvancementsFromItem(level, item) {
 	const advancements = item.system.advancements;
-	return Object.fromEntries(Object.entries(advancements)
-		.filter(([key, advancement]) => advancement.level <= level)
-		.filter(([key, advancement]) => !advancement.applied));
+
+	return Object.entries(advancements)
+							.filter(([key, advancement]) => advancement.level <= level)
+							.filter(([key, advancement]) => !advancement.applied)
+							.map(([key, advancement]) => {
+								advancement.key = key;
+								advancement.parentItem = item;
+								return advancement;
+							});
 }
 
 export async function removeAdvancements(actor, level, clazz, subclass, ancestry, background, itemDeleted) {
@@ -108,7 +115,10 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 
 		// If advancement does not come from base item we want to remove it instad of marking it as not applied
 		if (advancement.additionalAdvancement) {
-			if (key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: false});
+			if (key === "martialExpansion") {
+				await actor.update({["system.details.martialExpansionProvided"]: false});
+				item.martialExpansionProvided = false;
+			}
 			await item.update({[`system.advancements.-=${key}`]: null});
 		}
 		else {

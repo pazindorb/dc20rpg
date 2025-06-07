@@ -118,6 +118,11 @@ function _initializeFlagsForCharacter(flags) {
 					order: 1,
 					custom: false
 				},
+				martialExpansion: {
+					name: "Martial Expansion",
+					order: 2,
+					custom: false
+				},
 			},
 			spells: {
 				cantrip: {

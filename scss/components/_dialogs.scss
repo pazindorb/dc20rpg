@@ -587,13 +587,16 @@
 
             .expertise-toggle, .skill-mastery-toggle {
               font-family: $dc20-font;
-              // text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 
               &.expert {
                 background-color: $primary-dark !important;
                 color: $secondary-lighter !important;
                 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
               }
+            }
+
+            .expertise-toggle {
+              width: 30% !important;
             }
     
             .buttons {
@@ -610,13 +613,14 @@
                 border-radius: 3px 3px 0 0;
                 padding: 3px;
                 width: 100%;
+                text-shadow: none;
 
                 justify-content: center;
                 align-items: center;
                 display: flex;
 
                 &:hover {
-                  box-shadow: 0 0 8px 6px $secondary-dark inset;
+                  box-shadow: 0 0 8px 3px $secondary-dark inset;
                 }
               }
               

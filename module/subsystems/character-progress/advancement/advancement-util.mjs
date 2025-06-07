@@ -17,31 +17,36 @@ export function canApplyAdvancement(advancement) {
   return true;
 }
 
-export async function applyAdvancement(advancement, actor, owningItem) {
+export async function applyAdvancement(advancement, actor) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
-  const extraAdvancements = await _addItemsToActor(selectedItems, actor, advancement, owningItem);
+  const extraAdvancements = await _addItemsToActor(selectedItems, actor, advancement);
   
   // Check for Martial Expansion that comes from the class, Martial Path or some other items
-  let martialExpansion = _checkMartialExpansion(owningItem, advancement, actor);
+  const martialExpansion = _checkMartialExpansion(advancement, actor);
   if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
   
-  if (advancement.repeatable) await _addRepeatableAdvancement(advancement, owningItem);
-  if (advancement.progressPath) await _applyPathProgression(advancement, owningItem, extraAdvancements);
+  if (advancement.repeatable) await _addRepeatableAdvancement(advancement);
+  if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements);
 
-  await _markAdvancementAsApplied(advancement, owningItem, actor);
+  await _markAdvancementAsApplied(advancement, actor);
   if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor);
   return extraAdvancements.values();
 }
 
-export async function addAdditionalAdvancement(advancement, item, advancementCollection) {
+export async function addAdditionalAdvancement(advancement, item, collection, index) {
   advancement.additionalAdvancement = true;
-  advancementCollection.push([advancement.key, advancement]);
+
+  // Add to advancements
+  if (index !== undefined) collection.splice(index, 0, advancement);
+  else collection.push(advancement);
+
+  // Update the item itself
   await item.update({[`system.advancements.${advancement.key}`]: advancement});
 }
 
-export async function addNewSpellTechniqueAdvancements(actor, item, advancementCollection, level) {
+export async function addNewSpellTechniqueAdvancements(actor, item, collection, level) {
   const addedAdvancements = [];
   for (const [key, known] of Object.entries(actor.system.known)) {
     const newKnownAmount = known.max - known.current;
@@ -55,8 +60,10 @@ export async function addNewSpellTechniqueAdvancements(actor, item, advancementC
         helpText: `Add ${advancement.name}`,
         itemLimit: newKnownAmount
       };
+      advancement.parentItem = item;
+      advancement.key = generateKey();
       _prepareCompendiumFilters(advancement, key);
-      await addAdditionalAdvancement(advancement, item, advancementCollection);
+      await addAdditionalAdvancement(advancement, item, collection);
       addedAdvancements.push(advancement);
     }
   }
@@ -71,27 +78,31 @@ export async function shouldLearnAnyNewSpellsOrTechniques(actor) {
   return false;
 }
 
-async function _applyPathProgression(advancement, item, extraAdvancements) {
+async function _applyPathProgression(advancement, extraAdvancements) {
+  const parentItem = advancement.parentItem;
   const index = advancement.level -1;
   switch(advancement.mastery) {
     case "martial":
-      const numberOfMartialPaths = overrideScalingValue(item, index, "martial"); 
-      if (numberOfMartialPaths === 2 && !item.system.martial) {
+      const numberOfMartialPaths = overrideScalingValue(parentItem, index, "martial"); 
+      if (numberOfMartialPaths === 2 && !parentItem.system.martial) {
         const expansion = _getSpellcasterStaminaAdvancement();
         expansion.level = advancement.level;
         expansion.key = "spellcasterStamina";
+        expansion.parentItem = advancement.parentItem;
         extraAdvancements.set(expansion.key, expansion);
       }
       break;
 
     case "spellcaster":
-      overrideScalingValue(item, index, "spellcaster"); 
+      overrideScalingValue(parentItem, index, "spellcaster"); 
       break;
   }
 }
 
-async function _addItemsToActor(items, actor, advancement, owningItem) {
-  let extraAdvancements = new Map();
+async function _addItemsToActor(items, actor, advancement) {
+  const extraAdvancements = new Map();
+  const parentItem = advancement.parentItem;
+
   for (const [key, record] of Object.entries(items)) {
     const item = await fromUuid(record.uuid);
     const created = await createItemOnActor(actor, item);
@@ -100,12 +111,14 @@ async function _addItemsToActor(items, actor, advancement, owningItem) {
     const extraAdvancement = _extraAdvancement(created);
     if (extraAdvancement) {
       extraAdvancement.level = advancement.level;
+      extraAdvancement.parentItem = parentItem;
       extraAdvancements.set(extraAdvancement.key, extraAdvancement);
     }
 
-    const martialExpansion = _martialExpansion(created, actor, owningItem);
+    const martialExpansion = _martialExpansion(created, actor, parentItem);
     if (martialExpansion) {
       martialExpansion.level = advancement.level;
+      martialExpansion.parentItem = parentItem;
       extraAdvancements.set(martialExpansion.key, martialExpansion);
     }
 
@@ -117,13 +130,19 @@ async function _addItemsToActor(items, actor, advancement, owningItem) {
   return extraAdvancements;
 }
 
-async function _markAdvancementAsApplied(advancement, owningItem, actor) {
+async function _markAdvancementAsApplied(advancement, actor) {
   advancement.applied = true;
   advancement.featureSourceItem = ""; // clear filter
   advancement.hideRequirementMissing = false; // clear filter
   advancement.hideOwned = true; // clear filter
   advancement.itemNameFilter = "" // clear filter
-  await owningItem.update({[`system.advancements.${advancement.key}`]: advancement})
+
+  // We dont want to persist parent item within the advancement
+  const parentItem = advancement.parentItem;
+  delete advancement.parentItem; 
+  await parentItem.update({[`system.advancements.${advancement.key}`]: advancement})
+  advancement.parentItem = parentItem;
+
   if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
 
@@ -137,33 +156,36 @@ function _extraAdvancement(item) {
   return null;
 }
 
-function _martialExpansion(item, actor, owningItem) {
+function _martialExpansion(item, actor, parentItem) {
   // Martial Expansion
-  if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !owningItem.martialExpansionProvided) {
+  if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !parentItem.martialExpansionProvided) {
     const expansion = _getMartialExpansionAdvancement();
     expansion.key = "martialExpansion";
-    owningItem.martialExpansionProvided = true;
+    expansion.parentItem = parentItem;
+    parentItem.martialExpansionProvided = true;
     return expansion;
   }
   return null;
 }
 
-function _checkMartialExpansion(item, advancement, actor) {
-  if (actor.system.details.martialExpansionProvided || item.martialExpansionProvided) return null;
+function _checkMartialExpansion(advancement, actor) {
+  const parentItem = advancement.parentItem;
+  if (actor.system.details.martialExpansionProvided || parentItem.martialExpansionProvided) return null;
 
-  const fromItem = item.system.martialExpansion;
+  const fromItem = parentItem.system.martialExpansion;
   const fromMartialPath = advancement.progressPath && advancement.mastery === "martial";
   if (fromItem || fromMartialPath) {
     const expansion = _getMartialExpansionAdvancement();
     expansion.level = advancement.level;
     expansion.key = "martialExpansion";
-    item.martialExpansionProvided = true;
+    expansion.parentItem = parentItem;
+    parentItem.martialExpansionProvided = true;
     return expansion;
   }
   return null;
 }
 
-async function _addRepeatableAdvancement(oldAdv, owningItem) {
+async function _addRepeatableAdvancement(oldAdv) {
   let nextLevel = null;
   // Collect next level where advancement should appear
   for (let i = oldAdv.level + 1; i <= 20; i++) {
@@ -194,9 +216,10 @@ async function _addRepeatableAdvancement(oldAdv, owningItem) {
   oldAdv.cloneKey = advKey;
   newAdv.items = filteredItems;
 
+  const parentItem = oldAdv.parentItem;
   // We want to clear item list before we add new ones
-  if(oldAdv.cloneKey) await owningItem.update({[`system.advancements.${advKey}.-=items`]: null});
-  await owningItem.update({
+  if(oldAdv.cloneKey) await parentItem.update({[`system.advancements.${advKey}.-=items`]: null});
+  await parentItem.update({
     [`system.advancements.${advKey}`]: newAdv,
     [`system.advancements.${oldAdv.key}`]: oldAdv,
   });

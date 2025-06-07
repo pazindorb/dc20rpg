@@ -1,7 +1,7 @@
 
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
-import { changeActivableProperty, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
+import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, manualSkillExpertiseToggle, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
@@ -17,7 +17,7 @@ import { collectAdvancementsFromItem } from "./advancements.mjs";
  */
 export class ActorAdvancement extends Dialog {
 
-  constructor(actor, advForItems, oldSystemData, openSubclassSelector, dialogData = {}, options = {}) {
+  constructor(actor, advancements, oldSystemData, openSubclassSelector, dialogData = {}, options = {}) {
     super(dialogData, options);
 
     this.knownApplied = false;
@@ -25,7 +25,7 @@ export class ActorAdvancement extends Dialog {
     this.spendPoints = false;
     
     this.actor = actor;
-    this.advForItems = advForItems;
+    this.advancements = advancements;
     this.oldSystemData = oldSystemData;
     this.tips = [];
     
@@ -33,6 +33,10 @@ export class ActorAdvancement extends Dialog {
     this.itemSuggestions = [];
     if (openSubclassSelector) this._selectSubclass();
     else this._prepareData();
+  }
+
+  get currentItem() {
+    return this.currentAdvancement?.parentItem;
   }
 
   static get defaultOptions() {
@@ -47,7 +51,6 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _selectSubclass() {
-    if (this.advForItems.subclass) return this._prepareData();
     const subclasses = await collectSubclassesForClass(this.actor.system.details.class.classKey);
     if (subclasses.length === 0) return this._prepareData();
     this.selectSubclass = subclasses;
@@ -56,80 +59,42 @@ export class ActorAdvancement extends Dialog {
 
   _prepareData() {
     if (this.selectSubclass) return;
-    const current = Object.values(this.advForItems)[0];
-    if (!current) {this.showFinal = true; return;}
-    
-    const currentItem = current.item;
-    if (!currentItem) {this.close(); return;}
+    const currentAdvancement = this.advancements[0];
+    if (!currentAdvancement) {this.showFinal = true; return;}
 
-    const advancementsForCurrentItem =  Object.entries(current.advancements);
-    const currentAdvancement = advancementsForCurrentItem[0];
-    if (!currentAdvancement) {this.close(); return;}
-
-    // Set first item
-    this.currentItem = currentItem;
-    this.itemIndex = 0;
-    
-    // Set first advancement
-    this.advancementsForCurrentItem = advancementsForCurrentItem;
-    this.currentAdvancement = currentAdvancement[1];
-    this.currentAdvancementKey = currentAdvancement[0];
+    this.currentAdvancement = currentAdvancement;
+    this.index = 0;
     this._prepareItemSuggestions();
-    this.advIndex = 0;
   }
 
   hasNext() {
-    const nextAdvancement = this.advancementsForCurrentItem[this.advIndex + 1];
+    const nextAdvancement = this.advancements[this.index + 1];
     if (nextAdvancement) return true;
-    
-    const nextItem =  Object.values(this.advForItems)[this.itemIndex + 1];
-    if (nextItem) return true;
+    else return false;
+  }
+
+  hasPrevious() {
+    const previousAdvancement = this.advancements[this.index - 1];
+    if (previousAdvancement) return true;
     else return false;
   }
 
   next() {
-    const nextAdvancement = this.advancementsForCurrentItem[this.advIndex + 1];
+    const nextAdvancement = this.advancements[this.index + 1];
     if (nextAdvancement) {
-      this.currentAdvancement = nextAdvancement[1];
-      this.currentAdvancementKey = nextAdvancement[0];
+      this.index++;
+      this.currentAdvancement = nextAdvancement;
       this._prepareItemSuggestions();
-      this.advIndex++;
-      return;
     }
-    
-    const next = Object.values(this.advForItems)[this.itemIndex + 1];
-    if (!next) {
-      ui.notifications.error("Advancement cannot be progressed any further");
-      this.close();
-      return;
+  }
+
+  previous() {
+    const previousAdvancement = this.advancements[this.index - 1];
+    if (previousAdvancement) {
+      this.index--;
+      this.currentAdvancement = previousAdvancement;
+      this._prepareItemSuggestions();
     }
-
-    const nextItem = next.item;
-    if (!nextItem) {
-      ui.notifications.error("Advancement cannot be progressed any further");
-      this.close();
-      return;
-    }
-
-    const advancementsForItem = Object.entries(next.advancements);
-    const currentAdvancement = advancementsForItem[0];
-
-    if (!currentAdvancement) {
-      ui.notifications.error("Advancement cannot be progressed any further");
-      this.close();
-      return;
-    }
-
-    // Go to next item  
-    this.currentItem = nextItem;
-    this.itemIndex++;
-
-    // Reset advancements
-    this.advancementsForCurrentItem = advancementsForItem;
-    this.currentAdvancement = currentAdvancement[1];
-    this.currentAdvancementKey = currentAdvancement[0];
-    this._prepareItemSuggestions();
-    this.advIndex = 0;
   }
 
   //=====================================
@@ -221,7 +186,8 @@ export class ActorAdvancement extends Dialog {
 
     let removableItemsAdded = 0;
     // Collect items that are part of advancement
-    for(const record of Object.values(advancement.items)) {
+    const records = Object.values(advancement.items) || [];
+    for(const record of records) {
       const item = await fromUuid(record.uuid);
       if (!item) {
         ui.notifications.error(`Advancement corrupted, cannot find saved items.`);
@@ -275,6 +241,9 @@ export class ActorAdvancement extends Dialog {
     }
   }
 
+  //===========================================
+  //             Item Suggestions             =  
+  //===========================================
   async _prepareItemSuggestions() {
     const advancement = this.currentAdvancement;
     if (!advancement.allowToAddItems) return;
@@ -292,16 +261,20 @@ export class ActorAdvancement extends Dialog {
   _filterSuggestedItems() {
     const advancement = this.currentAdvancement;
     if (!advancement) return [];
+
+    const currentItem = this.currentItem;
+    if (!currentItem) return [];
+
     const talentFilter = advancement.addItemsOptions?.talentFilter;
     const hideOwned = advancement.hideOwned;
 
     const filters = this._prepareItemSuggestionsFilters();
-    if (this.currentItem.type === "class" && talentFilter && advancement.talentFilterType) {
+    if (currentItem.type === "class" && talentFilter && advancement.talentFilterType) {
       filters.push({
         check: (item) => this._talentFilterMethod(item)
       })
     }
-    if (this.currentItem.type === "ancestry") {
+    if (currentItem.type === "ancestry") {
       filters.push({
         check: (item) => this._featureSource(item, advancement.featureSourceItem)
       })
@@ -407,6 +380,7 @@ export class ActorAdvancement extends Dialog {
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
 
     html.find(".apply").click(ev => this._onApply(ev));
+    html.find(".revert").click(ev => this._onRevert(ev));
     html.find('.finish').click(ev => this._onFinish(ev));
     html.find(".skip").click(ev => this._onSkip(ev))
     html.find(".select-subclass").click(ev => this._onSelectSubclass(datasetOf(ev).uuid))
@@ -420,7 +394,6 @@ export class ActorAdvancement extends Dialog {
     // Spend Points
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
-    html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
     html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
     html.find(".skill-mastery-toggle").mousedown(async ev => {await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor); this.render();});
     html.find(".expertise-toggle").click(async ev => {await manualSkillExpertiseToggle(datasetOf(ev).key, this.actor, datasetOf(ev).type); this.render();});
@@ -486,11 +459,6 @@ export class ActorAdvancement extends Dialog {
     this.render();
   }
 
-  async _onSaveMastery(key) {
-    await changeActivableProperty(`system.attributes.${key}.saveMastery`, this.actor);
-    this.render();
-  }
-
   async _onFinish(event) {
     event.preventDefault();
     // Add new resource values
@@ -523,10 +491,8 @@ export class ActorAdvancement extends Dialog {
     
     const subclass = await fromUuid(subclassUuid);
     const createdSubclass = await createItemOnActor(this.actor, subclass.toObject());
-    this.advForItems.subclass = {
-      item: createdSubclass,
-      advancements: collectAdvancementsFromItem(3, createdSubclass)
-    }
+    const fromItem = collectAdvancementsFromItem(3, createdSubclass);
+    this.advancements.push(...fromItem);
 
     this.applyingAdvancement = false;
     this.selectSubclass = null;
@@ -563,16 +529,17 @@ export class ActorAdvancement extends Dialog {
 
     if (!canApplyAdvancement(this.currentAdvancement)) {
       this.applyingAdvancement = false;
-      this.render();
       return;
     }
+    await this.render();
 
-    this.currentAdvancement.key = this.currentAdvancementKey;
     const extraAdvancements = await applyAdvancement(this.currentAdvancement, this.actor, this.currentItem);
     if (this.currentAdvancement.tip) this.tips.push({img: this.currentItem.img, tip: this.currentAdvancement.tip});
     
     // Add Extra advancements
-    for (const extra of extraAdvancements) await addAdditionalAdvancement(extra, this.currentItem, this.advancementsForCurrentItem);
+    for (const extra of extraAdvancements) {
+      await addAdditionalAdvancement(extra, this.currentItem, this.advancements, this.index + 1);
+    }
 
     // Go to next advancement
     if (this.hasNext()) {
@@ -581,7 +548,7 @@ export class ActorAdvancement extends Dialog {
     else {
       if (!await shouldLearnAnyNewSpellsOrTechniques(this.actor) || this.knownApplied) this.showFinal = true;
       else {
-        const addedAdvancements = await addNewSpellTechniqueAdvancements(this.actor, this.currentItem, this.advancementsForCurrentItem, this.currentAdvancement.level);
+        const addedAdvancements = await addNewSpellTechniqueAdvancements(this.actor, this.currentItem, this.advancements, this.currentAdvancement.level);
         this.knownApplied = true;
         if (addedAdvancements.length > 0) this.next();
       }
@@ -591,6 +558,16 @@ export class ActorAdvancement extends Dialog {
     this.applyingAdvancement = false;
     this.suggestionsOpen = false;
     this.render();
+  }
+
+  async _onRevert(event) {
+    event.preventDefault();
+    if (this.revertEnhancement) return; 
+    this.revertEnhancement = true;
+
+    if (this.hasPrevious()) {
+
+    }
   }
 
   async _onDrop(event) {
@@ -605,9 +582,8 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _onItemAdd(itemUuid) {
-    if (!this.advancementsForCurrentItem) return;
-    const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
-    if (!currentAdvancement.allowToAddItems) return;
+    const advancement = this.currentAdvancement;
+    if (!advancement.allowToAddItems) return;
 
     const item = await fromUuid(itemUuid);
     if (!["feature", "technique", "spell", "weapon", "equipment", "consumable"].includes(item.type)) return;
@@ -616,7 +592,7 @@ export class ActorAdvancement extends Dialog {
     const canBeCounted = ["technique", "spell"].includes(item.type);
 
     // Get item
-    currentAdvancement.items[item.id] = {
+    advancement.items[item.id] = {
       uuid: itemUuid,
       createdItemId: "",
       selected: true,
@@ -630,16 +606,15 @@ export class ActorAdvancement extends Dialog {
   }
 
   _onItemDelete(itemKey) {
-    const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
-    const currentAdvKey = this.advancementsForCurrentItem[this.advIndex][0];
-    delete currentAdvancement.items[itemKey];
-    this.currentItem.update({[`system.advancements.${currentAdvKey}.items.-=${itemKey}`] : null});
+    const advancement = this.currentAdvancement;
+    delete advancement.items[itemKey];
+    this.currentItem.update({[`system.advancements.${advancement.key}.items.-=${itemKey}`] : null});
     this.render();
   }
 
   _itemFromAdvancement(itemKey) {
-    const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
-    const uuid = currentAdvancement.items[itemKey].uuid;
+    const advancement = this.currentAdvancement;
+    const uuid = advancement.items[itemKey].uuid;
     const item = fromUuidSync(uuid);
     return item;
   }
@@ -694,12 +669,20 @@ export class ActorAdvancement extends Dialog {
     super.close(options);
     game.settings.set("dc20rpg", "suppressAdvancements", false);
   }
+
+  async render(options) {
+    const t0 = performance.now();
+    const rendered = await super.render(options);
+    const t1 = performance.now();
+    console.log(`render took ${(t1 - t0).toFixed(2)} ms`);
+    return rendered;
+  }
 }
 
 /**
  * Creates and returns ActorAdvancement dialog. 
  */
-export function actorAdvancementDialog(actor, advForItems, oldSystemData, openSubclassSelector) {
-  const dialog = new ActorAdvancement(actor, advForItems, oldSystemData, openSubclassSelector, {title: `You Become Stronger`});
+export function actorAdvancementDialog(actor, advancements, oldSystemData, openSubclassSelector) {
+  const dialog = new ActorAdvancement(actor, advancements, oldSystemData, openSubclassSelector, {title: `You Become Stronger`});
   dialog.render(true);
 }

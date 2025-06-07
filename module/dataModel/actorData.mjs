@@ -115,18 +115,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
     }
   }
 
-  static migrateData(source) {
-    if (source.vision) {
-      source.senses = source.vision;
-      delete source.vision;
-    }
-    if (source.conditions) {
-      source.statusResistances = source.conditions
-      delete source.conditions;
-    }
-    return super.migrateData(source);
-  }
-
   static mergeSchema(a, b) {
     Object.assign(a, b);
     return a;
@@ -190,10 +178,6 @@ export class DC20CharacterData extends DC20BaseActorData {
       rest: new RestFields()
     });
   } 
-
-  static migrateData(source) {
-    return super.migrateData(source);
-  }
 }
 
 export class DC20NpcData extends DC20BaseActorData {

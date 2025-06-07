@@ -32,24 +32,6 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
     Object.assign(a, b);
     return a;
   }
-
-  static migrateData(source) {
-    if (source.effectsConfig?.toggleable) {
-      const effectConfig = source.effectsConfig;
-      source.toggle = {
-        toggleable: true,
-        toggledOn: false,
-        toggleOnRoll: false
-      }
-      source.effectsConfig.linkWithToggle = effectConfig.toggleable;
-      delete source.effectsConfig.toggleable
-      if (source.conditional?.connectedToEffects) {
-        source.conditional.linkWithToggle = source.conditional.connectedToEffects;
-        delete source.conditional.connectedToEffects;
-      }
-    }
-    super.migrateData(source);
-  }
 }
 
 class DC20UsableItemData extends DC20BaseItemData {
@@ -187,18 +169,6 @@ class DC20UniqueItemData extends DC20BaseItemData {
       scaling: new f.ObjectField({required: true}),
       advancements: new f.ObjectField({required: true}),
     })
-  }
-
-  static migrateData(source) {
-    if (source.advancements) {
-      const entries = Object.entries(source.advancements);
-      for (const [key, advancement] of entries) {
-        if (advancement.repeatAt === undefined) {
-          source.advancements[key].repeatAt = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        }
-      }
-    }
-    return super.migrateData(source);
   }
 }
 
@@ -472,13 +442,6 @@ export class DC20AncestryData extends DC20UniqueItemData {
         speed: new f.NumberField({ required: true, nullable: false, integer: true, initial: 5 })
       })
     })
-  }
-
-  static migrateData(source) {
-    if (source.size) {
-      delete source.size;
-    }
-    return super.migrateData(source);
   }
 }
 
