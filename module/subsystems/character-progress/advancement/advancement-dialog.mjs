@@ -5,7 +5,7 @@ import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, manualSkillExpertiseToggle, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
-import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
+import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { regainBasicResource, regainCustomResource } from "../../../helpers/actors/costManipulator.mjs";
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
@@ -88,15 +88,6 @@ export class ActorAdvancement extends Dialog {
     }
   }
 
-  previous() {
-    const previousAdvancement = this.advancements[this.index - 1];
-    if (previousAdvancement) {
-      this.index--;
-      this.currentAdvancement = previousAdvancement;
-      this._prepareItemSuggestions();
-    }
-  }
-
   //=====================================
   //              Get Data              =  
   //=====================================
@@ -128,9 +119,12 @@ export class ActorAdvancement extends Dialog {
       featureSourceItems: this._prepareFeatureSourceItems(multiclass),
       multiclassTooltip: multiclassTooltip,
       applyingAdvancement: this.applyingAdvancement,
+      revertingEnhancement: this.revertingEnhancement,
       tips: this.tips,
       actor: this.actor,
       showFinal: this.showFinal,
+      advancementSelection: !this.showFinal && !this.selectSubclass,
+      canRevert: this.hasPrevious(),
       scalingValues: scalingValues,
       points: skillPoints,
       selectSubclass: this.selectSubclass,
@@ -562,12 +556,29 @@ export class ActorAdvancement extends Dialog {
 
   async _onRevert(event) {
     event.preventDefault();
-    if (this.revertEnhancement) return; 
-    this.revertEnhancement = true;
+    if (this.revertingEnhancement) return; 
+    if (!this.hasPrevious()) return;
 
-    if (this.hasPrevious()) {
+    this.revertingEnhancement = true;
+    await this.render();
 
+    const previousAdvancement = this.advancements[this.index - 1];
+    await revertAdvancement(this.actor, previousAdvancement, this.advancements);
+ 
+    // Remove All "Known" advancements but only if previous is not one of them
+    if (this.knownApplied && this.currentAdvancement.known && !previousAdvancement.known) {
+      const knownAdvancements = this.advancements.filter(adv => adv.known);
+      for (const adv of knownAdvancements) {
+        await removeAdvancement(this.actor, adv, this.advancements);
+      }
+      this.knownApplied = false;
     }
+
+    this.index--;
+    this.currentAdvancement = previousAdvancement;
+    this._prepareItemSuggestions();
+    this.revertingEnhancement = false;
+    this.render();
   }
 
   async _onDrop(event) {
@@ -668,14 +679,6 @@ export class ActorAdvancement extends Dialog {
   close(options) {
     super.close(options);
     game.settings.set("dc20rpg", "suppressAdvancements", false);
-  }
-
-  async render(options) {
-    const t0 = performance.now();
-    const rendered = await super.render(options);
-    const t1 = performance.now();
-    console.log(`render took ${(t1 - t0).toFixed(2)} ms`);
-    return rendered;
   }
 }
 

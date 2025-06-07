@@ -2155,6 +2155,17 @@
 .dc20rpg #advancement-dialog .footer button {
   background-color: var(--secondary-lighter);
 }
+.dc20rpg #advancement-dialog .footer.half-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.dc20rpg #advancement-dialog .footer.half-button .button {
+  width: calc(50% - 2px);
+}
 .dc20rpg #advancement-config .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;

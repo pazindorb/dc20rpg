@@ -88,8 +88,8 @@ async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 		});
 
 	for (const [key, advancement] of entries) {
-		await _removeItemsFromActor(actor, advancement.items);
-		await _removeMulticlassInfoFromActor(actor, key);
+		await removeItemsFromActor(actor, advancement.items);
+		await removeMulticlassInfoFromActor(actor, key);
 		if (!itemDeleted) {
 			// We dont need to mark advancement if parent was removed.
 			await _markAdvancementAsNotApplied(advancement, key, actor, item._id);
@@ -97,7 +97,7 @@ async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 	}
 }
 
-async function _removeItemsFromActor(actor, items) {
+export async function removeItemsFromActor(actor, items) {
 	for (const [key, record] of Object.entries(items)) {
 		const itemExist = await actor.items.has(record.createdItemId);
 		if (itemExist) {
@@ -128,7 +128,7 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 	}
 }
 
-async function _removeMulticlassInfoFromActor(actor, key) {
+export async function removeMulticlassInfoFromActor(actor, key) {
 	const multiclassTalents = actor.system.details.advancementInfo?.multiclassTalents;
 	if (multiclassTalents[key]) await actor.update({[`system.details.advancementInfo.multiclassTalents.-=${key}`]: null})
 }

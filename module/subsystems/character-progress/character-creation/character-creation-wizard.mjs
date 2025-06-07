@@ -303,7 +303,7 @@ export class CharacterCreationWizard extends Dialog {
 
     for (const equipment of Object.values(this.actorData.startingEquipment)) {
       const itemData = equipment.itemData;
-      if (itemData.name) await createItemOnActor(actor, itemData);
+      if (itemData?.name) await createItemOnActor(actor, itemData);
     }
 
     this.close();

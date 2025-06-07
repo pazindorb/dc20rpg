@@ -1,6 +1,6 @@
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
-import { createNewAdvancement } from "./advancements.mjs";
-import { overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
+import { createNewAdvancement, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
+import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { generateKey } from "../../../helpers/utils.mjs";
 import { getSimplePopup, SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
@@ -61,6 +61,7 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
         itemLimit: newKnownAmount
       };
       advancement.parentItem = item;
+      advancement.known = true;
       advancement.key = generateKey();
       _prepareCompendiumFilters(advancement, key);
       await addAdditionalAdvancement(advancement, item, collection);
@@ -112,6 +113,7 @@ async function _addItemsToActor(items, actor, advancement) {
     if (extraAdvancement) {
       extraAdvancement.level = advancement.level;
       extraAdvancement.parentItem = parentItem;
+      extraAdvancement.createdBy = advancement.key;
       extraAdvancements.set(extraAdvancement.key, extraAdvancement);
     }
 
@@ -119,6 +121,7 @@ async function _addItemsToActor(items, actor, advancement) {
     if (martialExpansion) {
       martialExpansion.level = advancement.level;
       martialExpansion.parentItem = parentItem;
+      martialExpansion.createdBy = advancement.key;
       extraAdvancements.set(martialExpansion.key, martialExpansion);
     }
 
@@ -179,6 +182,7 @@ function _checkMartialExpansion(advancement, actor) {
     expansion.level = advancement.level;
     expansion.key = "martialExpansion";
     expansion.parentItem = parentItem;
+    expansion.createdBy = advancement.key;
     parentItem.martialExpansionProvided = true;
     return expansion;
   }
@@ -408,4 +412,33 @@ export async function collectSubclassesForClass(classKey) {
   
   dialog.close();
   return matching;
+}
+
+export async function revertAdvancement(actor, advancement, collection) {
+  if (advancement.progressPath) clearOverridenScalingValue(advancement.parentItem, advancement.level - 1);
+  await removeItemsFromActor(actor, advancement.items);
+  await removeMulticlassInfoFromActor(actor, advancement.key);
+
+  // Mark Advancement as not applied
+  advancement.applied = false;
+  await advancement.parentItem.update({[`system.advancements.${advancement.key}.applied`]: false});
+
+  const advancementsToDelete = collection.filter(adv => adv.createdBy === advancement.key);
+  for (const adv of advancementsToDelete) {
+    await removeAdvancement(actor, adv, collection);
+  }
+}
+
+export async function removeAdvancement(actor, advancement, collection) {
+  // Remove from Array
+  const index = collection.findIndex(adv => adv.key === advancement.key);
+  if (index === -1) return;
+  collection.splice(index, 1);
+
+  // Remove from DB
+  if (advancement.key === "martialExpansion") {
+    await actor.update({["system.details.martialExpansionProvided"]: false});
+    advancement.parentItem.martialExpansionProvided = false;
+  }
+  await advancement.parentItem.update({[`system.advancements.-=${advancement.key}`]: null});
 }
