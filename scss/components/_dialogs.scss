@@ -330,8 +330,14 @@
     grid-template-columns: 5fr 9fr 4fr;
     gap: 10px;
     margin-top: 0;
+    padding-top: 3px;
+    
+    &.has-tips {
+      grid-template-columns: 5fr 50px 9fr 4fr;
+    }
 
     .left-column {
+      margin-top: 55px;
       overflow-y: hidden;
 
       .actor-img {
@@ -344,13 +350,103 @@
       }
     }
 
+    .tip-wrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      width: 50px;
+      margin-top: 90px;
+
+      .tip {
+        margin-top: 10px;
+        border-radius: 3px;
+        border: 2px solid $primary-darker;
+        height: 45px;
+        width: 45px;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0 0 8px 5px $secondary-lighter;
+        }
+      }
+    }
+
     .header {
       color: $secondary-lighter;
       text-shadow: -1px 0 $secondary-darker, 0 1px $secondary-darker, 1px 0 $secondary-darker, 0 -1px $secondary-darker;
     }
 
+    .absolute-wrapper {
+      position: absolute;
+      width: calc(100% - 20px);
+
+      .advancement-progress {
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+
+        .progress {
+          font-family: $font-header;
+          font-size: 18px;
+
+          height: 50px;
+          width: 100%;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid $secondary-darker;
+          background-color: $secondary-lighter;
+          border-right: 0;
+
+          img {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            border: 2px solid $secondary-darker;
+            border-radius: 5px;
+            margin-right: 6px;
+          }
+        }
+
+        .progress:last-child {
+          border-right: 2px solid $secondary-darker;
+        }
+
+        .progress.foldProgress {
+
+          &:not(.active) {
+            width: 50px;
+            flex: none;
+
+            label {
+              visibility: hidden;
+              width: 0;
+            }
+
+            img {
+              margin-right: 0;
+            }
+          }
+        }
+
+        .progress.active {
+          background-color: $primary-dark;
+          color: $secondary-lighter;
+
+          img {
+            border-color: $secondary-lighter;
+          }
+        }
+      }
+    }
+
     .middle-column {
       overflow-y: auto;
+      overflow-x: hidden;
+      margin-top: 55px;
 
       .path-selector-wrapper {
     
@@ -452,26 +548,6 @@
         &.multiple-choice {
           .item-header, .item-row {
             grid-template-columns: 1fr 50px 50px !important;
-          }
-        }
-      }
-
-      .tip-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
-
-        .tip {
-          border-radius: 3px;
-          border: 2px solid $primary-darker;
-          margin: 0 10px; 
-          height: 40px;
-          width: 40px;
-
-          &:hover {
-            cursor: pointer;
-            box-shadow: 0 0 8px 5px $secondary-lighter;
           }
         }
       }
@@ -642,6 +718,7 @@
     }
 
     .right-column {
+      margin-top: 55px;
       padding: 5px; 
       border: 2px solid $secondary-darker;
       box-shadow: 0 0 40px 15px $secondary-lighter inset;

@@ -60,6 +60,7 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
         helpText: `Add ${advancement.name}`,
         itemLimit: newKnownAmount
       };
+      advancement.img = CONFIG.DC20RPG.ICONS[key];
       advancement.parentItem = item;
       advancement.known = true;
       advancement.key = generateKey();
@@ -71,12 +72,13 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
   return addedAdvancements;
 }
 
-export async function shouldLearnAnyNewSpellsOrTechniques(actor) {
+export async function shouldLearnNewSpellsOrTechniques(actor) {
+  const shouldLearn = [];
   actor = await refreshActor(actor);
   for (const [key, known] of Object.entries(actor.system.known)) {
-    if (known.max - known.current > 0) return true;
+    if (known.max - known.current > 0) shouldLearn.push(key);
   }
-  return false;
+  return shouldLearn;
 }
 
 async function _applyPathProgression(advancement, extraAdvancements) {
@@ -154,6 +156,7 @@ function _extraAdvancement(item) {
   if (item.system.hasAdvancement) {
     const additional = item.system.advancements.default;
     additional.key = generateKey();
+    additional.img = item.img;
     return additional;
   }
   return null;
@@ -237,6 +240,7 @@ function _getMartialExpansionAdvancement() {
   }
   const advancement = Object.values(martialExpansion.system.advancements)[0];
   advancement.customTitle = advancement.name;
+  advancement.img = CONFIG.DC20RPG.ICONS["martialExpansion"];
   return advancement;
 }
 
@@ -248,6 +252,7 @@ function _getSpellcasterStaminaAdvancement() {
   }
   const advancement = Object.values(spellcasterStamina.system.advancements)[0];
   advancement.customTitle = advancement.name;
+  advancement.img = spellcasterStamina.img;
   return advancement;
 }
 

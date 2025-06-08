@@ -3,7 +3,7 @@
   {{#if revertingEnhancement}}<div class="applying-advancement-overlay"><span>{{localize "dc20rpg.dialog.advancement.revertingAdvancement"}}</span></div>{{/if}}
   <header>{{localize "dc20rpg.dialog.advancement.title"}}</header>
 
-  <div class="wrapper">
+  <div class="wrapper {{#if hasTips}}has-tips{{/if}}">
     <div class="left-column">
       {{PARTIAL "Tooltip"}}
       <img class="actor-img" src="{{actor.img}}"/>
@@ -22,13 +22,28 @@
       {{/each}}
     </div>
 
-    <div class="middle-column" {{#unless suggestionsOpen}}style="grid-column-end: span 2;"{{/unless}}>
-      {{!-- TIPS --}}
-      <div class="tip-wrapper">
-        {{#each tips}}
-          <img src="{{img}}" class="tip text-tooltip" data-img="{{img}}" data-text="{{tip}}">
+    {{!-- TIPS --}}
+    {{#if hasTips}}
+    <div class="tip-wrapper">
+      {{#each tips}}
+        <img src="{{img}}" class="tip text-tooltip" data-img="{{img}}" data-text="{{tip}}">
+      {{/each}}
+    </div>
+    {{/if}}
+
+    <div class="absolute-wrapper"> 
+      {{!-- Advancement Progress --}}
+      <div class="advancement-progress">
+        {{#each advancementProgress}}
+        <div class="progress {{#if active}}active{{/if}} {{#if @root.foldProgress}}foldProgress{{/if}}" data-tooltip="{{label}}">
+          <img src="{{img}}">
+          <label>{{label}}</label>
+        </div>
         {{/each}}
       </div>
+    </div>
+
+    <div class="middle-column" {{#unless suggestionsOpen}}style="grid-column-end: span 2;"{{/unless}}>
 
       {{!-- ATTRIBUTES AND SKILLS --}}
       {{#if showFinal}}

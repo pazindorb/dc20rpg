@@ -964,6 +964,15 @@ DC20RPG.PROPERTIES = {
   },
 }
 
+DC20RPG.ICONS = {
+  martialExpansion: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
+  cantrips: "icons/sundries/scrolls/scroll-bound-blue-white.webp",
+  spells: "icons/skills/trades/academics-book-study-runes.webp",
+  maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
+  techniques: "icons/skills/melee/spear-tips-quintuple-orange.webp",
+  attributes: "icons/skills/trades/academics-investigation-puzzles.webp"
+}
+
 DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
   adv: "Advantage", 
   dis: "Disadvantage"

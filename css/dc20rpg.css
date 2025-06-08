@@ -1651,8 +1651,13 @@
   grid-template-columns: 5fr 9fr 4fr;
   gap: 10px;
   margin-top: 0;
+  padding-top: 3px;
+}
+.dc20rpg #advancement-dialog .wrapper.has-tips {
+  grid-template-columns: 5fr 50px 9fr 4fr;
 }
 .dc20rpg #advancement-dialog .wrapper .left-column {
+  margin-top: 55px;
   overflow-y: hidden;
 }
 .dc20rpg #advancement-dialog .wrapper .left-column .actor-img {
@@ -1665,12 +1670,104 @@
   border: 2px solid var(--primary-dark);
   border-radius: 3px;
 }
+.dc20rpg #advancement-dialog .wrapper .tip-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 50px;
+  margin-top: 90px;
+}
+.dc20rpg #advancement-dialog .wrapper .tip-wrapper .tip {
+  margin-top: 10px;
+  border-radius: 3px;
+  border: 2px solid var(--primary-darker);
+  height: 45px;
+  width: 45px;
+}
+.dc20rpg #advancement-dialog .wrapper .tip-wrapper .tip:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 8px 5px var(--secondary-lighter);
+  box-shadow: 0 0 8px 5px var(--secondary-lighter);
+}
 .dc20rpg #advancement-dialog .wrapper .header {
   color: var(--secondary-lighter);
   text-shadow: -1px 0 var(--secondary-darker), 0 1px var(--secondary-darker), 1px 0 var(--secondary-darker), 0 -1px var(--secondary-darker);
 }
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper {
+  position: absolute;
+  width: calc(100% - 20px);
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress {
+  width: 100%;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress {
+  font-family: "Humaroid";
+  font-size: 18px;
+  height: 50px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+  border-right: 0;
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress img {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border: 2px solid var(--secondary-darker);
+  border-radius: 5px;
+  margin-right: 6px;
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress:last-child {
+  border-right: 2px solid var(--secondary-darker);
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress.foldProgress:not(.active) {
+  width: 50px;
+  -webkit-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress.foldProgress:not(.active) label {
+  visibility: hidden;
+  width: 0;
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress.foldProgress:not(.active) img {
+  margin-right: 0;
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress.active {
+  background-color: var(--primary-dark);
+  color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .wrapper .absolute-wrapper .advancement-progress .progress.active img {
+  border-color: var(--secondary-lighter);
+}
 .dc20rpg #advancement-dialog .wrapper .middle-column {
   overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 55px;
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker {
   display: -webkit-box;
@@ -1773,30 +1870,6 @@
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-row {
   grid-template-columns: 1fr 50px 50px !important;
-}
-.dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  padding: 10px;
-}
-.dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper .tip {
-  border-radius: 3px;
-  border: 2px solid var(--primary-darker);
-  margin: 0 10px;
-  height: 40px;
-  width: 40px;
-}
-.dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper .tip:hover {
-  cursor: pointer;
-  -webkit-box-shadow: 0 0 8px 5px var(--secondary-lighter);
-  box-shadow: 0 0 8px 5px var(--secondary-lighter);
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-wrapper {
   display: -webkit-box;
@@ -1975,6 +2048,7 @@
   filter: contrast(0.6);
 }
 .dc20rpg #advancement-dialog .wrapper .right-column {
+  margin-top: 55px;
   padding: 5px;
   border: 2px solid var(--secondary-darker);
   -webkit-box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;

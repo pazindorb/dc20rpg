@@ -5,7 +5,7 @@ import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, manualSkillExpertiseToggle, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
-import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
+import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { regainBasicResource, regainCustomResource } from "../../../helpers/actors/costManipulator.mjs";
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
@@ -111,6 +111,7 @@ export class ActorAdvancement extends Dialog {
     const showItemSuggestions = this._shouldShowItemSuggestions(advancementData);
     if (!showItemSuggestions) this.suggestionsOpen = false;
 
+    const advancementProgress = await this._getAdvancementProgress()
     return {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
@@ -121,6 +122,7 @@ export class ActorAdvancement extends Dialog {
       applyingAdvancement: this.applyingAdvancement,
       revertingEnhancement: this.revertingEnhancement,
       tips: this.tips,
+      hasTips: this.tips.length > 0,
       actor: this.actor,
       showFinal: this.showFinal,
       advancementSelection: !this.showFinal && !this.selectSubclass,
@@ -129,6 +131,8 @@ export class ActorAdvancement extends Dialog {
       points: skillPoints,
       selectSubclass: this.selectSubclass,
       advancement: advancementData,
+      advancementProgress: advancementProgress,
+      foldProgress: advancementProgress.length > 7,
       ...this._prepareSkills()
     }
   }
@@ -233,6 +237,42 @@ export class ActorAdvancement extends Dialog {
       languages: languages,
       attributes: attributes,
     }
+  }
+
+  async _getAdvancementProgress() {
+    const progress = [];
+
+    // Add advancements to progress
+    const advancements = this.advancements;
+    for (let i = 0; i < advancements.length; i++) {
+      const advancement = advancements[i];
+      progress.push({
+        img: advancement.img || advancement.parentItem.img,
+        label: advancement.name,
+        active: !this.showFinal && i === this.index
+      });
+    }
+
+    // Add spell/techniques selector (before those were added already)
+    if (!this.knownApplied) {
+      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor);
+      for (const known of shouldLearn) {
+        progress.push({
+          img: CONFIG.DC20RPG.ICONS[known],
+          label: game.i18n.localize(`dc20rpg.known.${known}`),
+          active: false
+        });
+      }
+    }
+
+    // Add Attribute + Skills
+    progress.push({
+      img: CONFIG.DC20RPG.ICONS.attributes,
+      label: "Attributes & Skills",
+      active: this.showFinal
+    });
+
+    return progress;
   }
 
   //===========================================
@@ -528,7 +568,10 @@ export class ActorAdvancement extends Dialog {
     await this.render();
 
     const extraAdvancements = await applyAdvancement(this.currentAdvancement, this.actor, this.currentItem);
-    if (this.currentAdvancement.tip) this.tips.push({img: this.currentItem.img, tip: this.currentAdvancement.tip});
+    if (this.currentAdvancement.tip) this.tips.push({
+      img: this.currentAdvancement.img || this.currentItem.img, 
+      tip: this.currentAdvancement.tip
+    });
     
     // Add Extra advancements
     for (const extra of extraAdvancements) {
@@ -540,7 +583,8 @@ export class ActorAdvancement extends Dialog {
       this.next();
     }
     else {
-      if (!await shouldLearnAnyNewSpellsOrTechniques(this.actor) || this.knownApplied) this.showFinal = true;
+      const toLearn = await shouldLearnNewSpellsOrTechniques(this.actor);
+      if (toLearn.length === 0 || this.knownApplied) this.showFinal = true;
       else {
         const addedAdvancements = await addNewSpellTechniqueAdvancements(this.actor, this.currentItem, this.advancements, this.currentAdvancement.level);
         this.knownApplied = true;
