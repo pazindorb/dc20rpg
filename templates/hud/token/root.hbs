@@ -1,4 +1,4 @@
-<div class="col left">
+<div class="col left" {{#if nonActor}}style="visibility: hidden"{{/if}}>
 	<div class="attribute elevation" data-tooltip="HUD.Elevation">
 		<i class="fas fa-angle-up"></i>
 		<input type="text" name="elevation" value="{{elevation}}" {{disabled (or locked (and isGamePaused (not isGM)))}}>
@@ -23,7 +23,7 @@
 	{{/if}}
 </div>
 
-<div class="col middle">
+<div class="col middle" {{#if nonActor}}style="visibility: hidden"{{/if}}>
 	<div class="attribute bar2">
 		{{#if displayBar2}}
 		<input type="text" name="bar2" value="{{bar2Data.value}}" {{#unless bar2Data.editable}}disabled{{/unless}}>
@@ -47,7 +47,7 @@
 	</div>
 </div>
 
-<div class="col right">
+<div class="col right" {{#if nonActor}}style="visibility: hidden"{{/if}}>
 	{{#if isGM}}
 	<button type="button" class="control-icon {{visibilityClass}}" data-action="visibility" data-tooltip="HUD.ToggleVis">
 		<img src="{{icons.visibility}}">

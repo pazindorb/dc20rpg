@@ -10,6 +10,10 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   movementCostHistory = [];
 
+  get itemToken() {
+    return this.flags?.dc20rpg?.itemData !== undefined;
+  }
+
   get activeCombatant() {
     const activeCombat = game.combats.active;
     if (!activeCombat?.started) return false;

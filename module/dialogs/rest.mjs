@@ -184,6 +184,31 @@ export function openRestDialogForOtherPlayers(actor, preselected) {
   });
 }
 
+export async function refreshAllResources(actor) {
+  const updateData = {};
+  if (actor.system.resources.mana) {
+    const mana = actor.system.resources.mana.max;
+    updateData["system.resources.mana.value"] = mana;
+  }
+  if (actor.system.resources.stamina) {
+    const stamina = actor.system.resources.stamina.max;
+    updateData["system.resources.stamina.value"] = stamina;
+  }
+  if (actor.system.resources.health) {
+    const health = actor.system.resources.health.max;
+    updateData["system.resources.health.current"] = health;
+  }
+  if (actor.system.resources.grit) {
+    const grit = actor.system.resources.grit.max;
+    updateData["system.resources.grit.value"] = grit;
+  }
+  if (actor.system.resources.restPoints) {
+    const restPoints = actor.system.resources.restPoints.max;
+    updateData["system.resources.restPoints.value"] = restPoints;
+  }
+  await actor.update(updateData);
+}
+
 export async function refreshOnRoundEnd(actor) {
   refreshAllActionPoints(actor);
   await _refreshItemsOn(actor, ["round"]);

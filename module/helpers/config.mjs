@@ -5,6 +5,7 @@ import { getSimplePopup, sendSimplePopupToUsers } from "../dialogs/simple-popup.
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
+import { DC20RpgTokenDocument } from "../documents/tokenDoc.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
@@ -14,7 +15,7 @@ import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, r
 import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
-import { getSelectedTokens } from "./actors/tokens.mjs";
+import { createToken, deleteToken, getSelectedTokens } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName, runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
@@ -26,6 +27,7 @@ export function prepareDC20tools() {
     DC20RpgItem,
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
+    DC20RpgTokenDocument,
     rollItemWithName,
     forceRunMigration,
     effects: {
@@ -55,6 +57,8 @@ export function prepareDC20tools() {
     },
     tools: {
       getSelectedTokens,
+      createToken,
+      deleteToken,
       createItemOnActor,
       updateItemOnActor,
       deleteItemFromActor,

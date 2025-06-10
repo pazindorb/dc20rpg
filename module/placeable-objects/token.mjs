@@ -1,5 +1,8 @@
-import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
-import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
+import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
+import { getActorsForUser } from "../helpers/users.mjs";
+import { isPointInPolygon, isPointInSquare, toSelectOptions } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
@@ -198,6 +201,33 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     }
     return area;
   }
+
+  async _onClickLeft2(event) {
+    if (this.document.itemToken) {
+      const actors = getActorsForUser(false);
+      const selectOptions = toSelectOptions(actors, "id", "name");
+      const actorId = await getSimplePopup("select", {selectOptions: selectOptions, header: "Select Actor to pick up"});
+      const actor = game.actors.get(actorId);
+
+      await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+      await deleteToken(this.id);
+    }
+    else await super._onClickLeft2(event);
+  }
+
+  /** @override */
+  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
+  _canView(user, event) {
+    if ( this.layer._draggedToken ) return false;
+    if ( !this.layer.active || this.isPreview ) return false;
+    if ( canvas.controls.ruler.active || (CONFIG.Canvas.rulerClass.canMeasure && (event?.type === "pointerdown")) ) return false;
+    if ( !this.actor ) {
+      if (this.document.itemToken) return true;
+      else ui.notifications.warn("TOKEN.WarningNoActor", {localize: true});
+    }
+    return this.actor?.testUserPermission(user, "LIMITED");
+  }
+
 
   /** @override */
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
@@ -518,6 +548,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
   /** @override */
   _getMovementCostFunction(options={}) {
+    if (!this.document.actor) return 1;
     options.ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.document.actor.system.globalModifier.ignore.difficultTerrain;
     const calculateTerrainCost = CONFIG.Token.movement.TerrainData.getMovementCostFunction(this.document, options);
     const calculateTemplateCost = DC20RpgMeasuredTemplate.getMovementCostFunction(this.document, options);

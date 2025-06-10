@@ -42,21 +42,22 @@ export class TokenEffectsTracker extends Application {
 
   async getData() {
     const tokens = getSelectedTokens();
-    if (tokens.length !== 1) return {active: [], disabled: []} 
-    const actor = tokens[0].actor;
-    const [active, disabled] = await this._prepareTemporaryEffects(actor);
-    const help = this._prepareHelpDice(actor);
-    const heldAction = this._prepareHeldAction(actor);
-    return {
-      help: help,
-      active: active,
-      disabled: disabled,
-      tokenId: tokens[0].id,
-      actorId: actor.id,
-      heldAction: heldAction,
-      sustain: actor.system.sustain,
-      collapsed: sidetabCollapsed
+    if (tokens.length !== 1) return {active: [], disabled: [], collapsed: sidetabCollapsed} 
+    
+    const context = {collapsed: sidetabCollapsed};
+    const token = tokens[0];
+    const actor = token.actor;
+    if (actor) {
+      const [active, disabled] = await this._prepareTemporaryEffects(actor);
+      context.active = active;
+      context.disabled = disabled;
+      context.help = this._prepareHelpDice(actor);
+      context.heldAction = this._prepareHeldAction(actor);
+      context.tokenId = token.id;
+      context.actorId = actor.id;
+      context.sustain = actor.system.sustain;
     }
+    return context;
   }
 
   _prepareHelpDice(actor) {

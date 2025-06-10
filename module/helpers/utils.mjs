@@ -208,3 +208,9 @@ export function arraysHaveCommonString(arr1, arr2) {
   const set1 = new Set(arr1);
   return arr2.some(item => set1.has(item));
 }
+
+export function toSelectOptions(objectArray, key, label) {
+  const options = {};
+  objectArray.forEach(obj => options[obj[key]] = obj[label]);
+  return options;
+}

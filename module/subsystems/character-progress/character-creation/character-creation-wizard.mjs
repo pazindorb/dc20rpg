@@ -6,6 +6,7 @@ import { createItemBrowser } from "../../../dialogs/compendium-browser/item-brow
 import { createMixAncestryDialog } from "../../../dialogs/mix-ancestry.mjs";
 import { hideTooltip, itemTooltip } from "../../../helpers/tooltip.mjs";
 import { openItemCreator } from "../../../dialogs/item-creator.mjs";
+import { refreshAllResources } from "../../../dialogs/rest.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -292,10 +293,6 @@ export class CharacterCreationWizard extends Dialog {
       return;
     }
 
-    // Update actor current HP
-    const maxHP = actor.system.resources.health.max;
-    await actor.update({["system.resources.health.current"]: maxHP});
-
     // Add items to actor
     await createItemOnActor(actor, this.actorData.ancestry);
     await createItemOnActor(actor, this.actorData.background);
@@ -305,6 +302,9 @@ export class CharacterCreationWizard extends Dialog {
       const itemData = equipment.itemData;
       if (itemData?.name) await createItemOnActor(actor, itemData);
     }
+
+    // Refresh actor resources
+    refreshAllResources(actor);
 
     this.close();
     await game.settings.set("dc20rpg", "suppressAdvancements", false);

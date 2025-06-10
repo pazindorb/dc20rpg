@@ -3,6 +3,7 @@ import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-pr
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { updateActor } from "./actors/actorOperations.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
+import { createToken, deleteToken } from "./actors/tokens.mjs";
 import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor, updateEffectOn } from "./effects.mjs";
 
 export function registerSystemSockets() {
@@ -84,9 +85,10 @@ export function registerSystemSockets() {
       const { docType, docData, actorUuid, gmUserId } = data.payload;
       if (game.user.id === gmUserId) {
         const actor = await fromUuid(actorUuid);
-        if (!actor) return;
+        if (actorUuid && !actor) return;
         if (docType === "item") await createItemOnActor(actor, docData);
         if (docType === "effect") await createEffectOn(docData, actor);
+        if (docType === "token") await createToken(docData);
       }
     }
   });
@@ -111,9 +113,10 @@ export function registerSystemSockets() {
       const { docType, docId, actorUuid, gmUserId } = data.payload;
       if (game.user.id === gmUserId) {
         const actor = await fromUuid(actorUuid);
-        if (!actor) return;
+        if (actorUuid && !actor) return;
         if (docType === "item") await deleteItemFromActor(docId, actor);
         if (docType === "effect") await deleteEffectFrom(docId, actor);
+        if (docType === "token") await deleteToken(docId);
       }
     }
   });
