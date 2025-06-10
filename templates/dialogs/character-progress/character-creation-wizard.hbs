@@ -32,6 +32,33 @@
       {{/if}}
     </div>
 
+    <div class="absolute-wrapper"> 
+      {{!-- Creation Progress --}}
+      <div class="creation-progress">
+        <div class="progress {{#ifCond currentStep '===' 0}}active{{/ifCond}}" data-tooltip="{{localize "dc20rpg.dialog.acr.atr&saves"}}">
+          <img src="icons/svg/eye.svg">
+          <label>{{localize "dc20rpg.dialog.acr.atr&saves"}}</label>
+        </div>
+        <div class="progress {{#ifCond currentStep '===' 1}}active{{/ifCond}}" data-tooltip="{{localize "dc20rpg.dialog.config.select.ancestry"}}">
+          <img src="icons/svg/angel.svg">
+          <label>{{localize "dc20rpg.dialog.config.select.ancestry"}}</label>
+        </div>
+        <div class="progress {{#ifCond currentStep '===' 2}}active{{/ifCond}}" data-tooltip="{{localize "dc20rpg.dialog.config.select.background"}}">
+          <img src="icons/svg/village.svg">
+          <label>{{localize "dc20rpg.dialog.config.select.background"}}</label>
+        </div>
+        <div class="progress {{#ifCond currentStep '===' 3}}active{{/ifCond}}" data-tooltip="{{localize "dc20rpg.dialog.config.select.class"}}">
+          <img src="icons/svg/cowled.svg">
+          <label>{{localize "dc20rpg.dialog.config.select.class"}}</label>
+        </div>
+        <div class="progress {{#ifCond currentStep '===' 4}}active{{/ifCond}}" data-tooltip="{{localize "dc20rpg.dialog.acr.selectStartingEquipment"}}">
+          <img src="icons/svg/combat.svg">
+          <label>{{localize "dc20rpg.dialog.config.select.class"}}</label>
+        </div>
+      </div>
+
+    </div>
+
     <div class="middle-column" style="grid-column-end: span 2;">
 
       {{!-- Step 0: Attributes and Saves --}}

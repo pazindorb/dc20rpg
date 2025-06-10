@@ -1828,6 +1828,7 @@
 
     .left-column {
       overflow-y: hidden;
+      margin-top: 55px;
 
       .input-text {
         height: auto;
@@ -1840,7 +1841,7 @@
       .actor-img {
         object-position: 50% 0;
         object-fit: cover;
-        height: 60%;
+        height: 55%;
         width: 100%;
         border: 2px solid $primary-dark;
         border-radius: 3px;
@@ -1852,6 +1853,57 @@
       font-size: 24px;
       color: $secondary-lighter;
       text-shadow: -1px 0 $secondary-darker, 0 1px $secondary-darker, 1px 0 $secondary-darker, 0 -1px $secondary-darker;
+    }
+
+    .absolute-wrapper {
+      position: absolute;
+      width: calc(100% - 20px);
+
+      .creation-progress {
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+
+        .progress {
+          font-family: $font-header;
+          font-size: 18px;
+
+          height: 50px;
+          width: 100%;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid $secondary-darker;
+          background-color: $secondary-lighter;
+          border-right: 0;
+
+          img {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            border: 2px solid $secondary-darker;
+            border-radius: 5px;
+            margin-right: 6px;
+            background-color: $secondary-dark;
+          }
+        }
+
+        .progress:last-child {
+          border-right: 2px solid $secondary-darker;
+        }
+
+        .progress.active {
+          background-color: $primary-dark;
+          color: $secondary-lighter;
+
+          img {
+            border-color: $secondary-lighter;
+          }
+        }
+      }
     }
 
     .sub-header {
@@ -1866,7 +1918,8 @@
 
     .middle-column {
       overflow-y: auto;
-
+      overflow-x: hidden;
+      margin-top: 55px;
 
       .unique-item-picker-wrapper {
         display: flex;

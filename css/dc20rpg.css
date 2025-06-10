@@ -3211,6 +3211,7 @@
 }
 .dc20rpg #character-creation-wizard .wrapper .left-column {
   overflow-y: hidden;
+  margin-top: 55px;
 }
 .dc20rpg #character-creation-wizard .wrapper .left-column .input-text {
   height: auto;
@@ -3224,7 +3225,7 @@
   object-position: 50% 0;
   -o-object-fit: cover;
   object-fit: cover;
-  height: 60%;
+  height: 55%;
   width: 100%;
   border: 2px solid var(--primary-dark);
   border-radius: 3px;
@@ -3234,6 +3235,58 @@
   font-size: 24px;
   color: var(--secondary-lighter);
   text-shadow: -1px 0 var(--secondary-darker), 0 1px var(--secondary-darker), 1px 0 var(--secondary-darker), 0 -1px var(--secondary-darker);
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper {
+  position: absolute;
+  width: calc(100% - 20px);
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper .creation-progress {
+  width: 100%;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper .creation-progress .progress {
+  font-family: "Humaroid";
+  font-size: 18px;
+  height: 50px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+  border-right: 0;
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper .creation-progress .progress img {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border: 2px solid var(--secondary-darker);
+  border-radius: 5px;
+  margin-right: 6px;
+  background-color: var(--secondary-dark);
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper .creation-progress .progress:last-child {
+  border-right: 2px solid var(--secondary-darker);
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper .creation-progress .progress.active {
+  background-color: var(--primary-dark);
+  color: var(--secondary-lighter);
+}
+.dc20rpg #character-creation-wizard .wrapper .absolute-wrapper .creation-progress .progress.active img {
+  border-color: var(--secondary-lighter);
 }
 .dc20rpg #character-creation-wizard .wrapper .sub-header {
   font-size: 16px;
@@ -3247,6 +3300,8 @@
 }
 .dc20rpg #character-creation-wizard .wrapper .middle-column {
   overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 55px;
 }
 .dc20rpg #character-creation-wizard .wrapper .middle-column .unique-item-picker-wrapper {
   display: -webkit-box;
