@@ -169,8 +169,8 @@ export class DC20CharacterData extends DC20BaseActorData {
         martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: true}),
-        advancementInfo: new f.SchemaField({
-          multiclassTalents: new f.ObjectField({required: true}),
+        advancementInfo: new f.SchemaField({ // BACKWARD COMPATIBILITY: This info was moved to class item - remove after 0.9.7.0
+          multiclassTalents: new f.ObjectField({required: true}), 
         })
       }),
       size: new SizeFields(true),

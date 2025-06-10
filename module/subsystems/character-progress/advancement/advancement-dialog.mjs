@@ -520,7 +520,6 @@ export class ActorAdvancement extends Dialog {
   async _onSelectSubclass(subclassUuid) {
     if (this.applyingAdvancement) return; // When there was a lag user could apply advancement multiple times
     this.applyingAdvancement = true;
-    this.render();
     await game.settings.set("dc20rpg", "suppressAdvancements", true);
     
     const subclass = await fromUuid(subclassUuid);

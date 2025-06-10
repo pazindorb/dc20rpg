@@ -31,7 +31,7 @@ export async function applyAdvancement(advancement, actor) {
   if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements);
 
   await _markAdvancementAsApplied(advancement, actor);
-  if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor);
+  if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor, extraAdvancements);
   return extraAdvancements.values();
 }
 
@@ -277,13 +277,105 @@ function _prepareCompendiumFilters(advancement, key) {
   }
 }
 
-async function _fillMulticlassInfo(advancement, actor) {
+async function _fillMulticlassInfo(advancement, actor, extraAdvancements) {
   if (advancement.talentFilterType === "general" || advancement.talentFilterType === "class") return;
-  const options = {...CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class, ...CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass};
-  const classTalent = await getSimplePopup("select", {header: "What Class/Subclass is that Multiclass Talent from?", selectOptions: options});
-  if (classTalent) {
-    await actor.update({[`system.details.advancementInfo.multiclassTalents.${advancement.key}`]: classTalent});
+
+  const multiclass = await _findSelectedMulticlassOption(advancement, actor);
+  const clazz = actor.class;
+  if (multiclass && clazz) {
+    if (_shouldAddFlavorFeature(multiclass, clazz.system.multiclass)) {
+      await _addFlavorFeatureAdvancement(multiclass, extraAdvancements, advancement);
+    }
+    await clazz.update({[`system.multiclass.${advancement.key}`]: multiclass.source});
   }
+}
+
+async function _findSelectedMulticlassOption(advancement, actor) {
+  const multiclassOptions = [];
+  Object.values(advancement.items).forEach(itm => {
+    if (itm.removable) { // Possible multiclass candidate
+      const item = actor.items.get(itm.createdItemId);
+      const source = item.system.featureSourceItem;
+      const type = item.system.featureType;
+      const name = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[type][source];
+      multiclassOptions.push({
+        source: source,
+        type: type,
+        name: name
+      })
+    }
+  })
+
+  if (multiclassOptions.length === 0) {
+    ui.notifications.error("Cannot recognize Multiclass Talent source - skipped");
+    return null;
+  }
+  if (multiclassOptions.length > 1) {
+    const options = {};
+    multiclassOptions.forEach(multiclass => options[multiclass.source] = multiclass.name);
+    const selected = await getSimplePopup("select", {header: "What Class/Subclass is that Multiclass Talent from?", selectOptions: options});
+    return multiclassOptions.find(multiclass => multiclass.source === selected);
+  }
+  return multiclassOptions[0];
+}
+
+function _shouldAddFlavorFeature(multiclass, multiclassTalents) {
+  const talents = Object.values(multiclassTalents);
+  const sameMulticlass = talents.filter(talent => talent === multiclass.source);
+
+  if (multiclass.type === "subclass") return sameMulticlass.length === 0; 
+  if (multiclass.type === "class") return sameMulticlass.length === 1; 
+  return false;
+}
+
+async function _addFlavorFeatureAdvancement(multiclass, extraAdvancements, advancement) {
+  let img = "icons/magic/defensive/shield-barrier-blades-teal.webp";
+  const flavorFeatures = {};
+  for (const pack of game.packs) {
+    if (pack.documentName === "Item") {
+      const items = await pack.getDocuments();
+      items.filter(item => item.type === "feature")
+            .filter(item => item.system.flavorFeature)
+            .filter(item => item.system.featureSourceItem === multiclass.source)
+            .forEach(item => {
+              img = item.img;
+              flavorFeatures[item.id] = {
+                createdItemId: "",
+                description: item.system.description,
+                img: item.img,
+                mandatory: false,
+                name: item.name,
+                pointValue: 1,
+                selected: Object.values(flavorFeatures).length === 0,
+                uuid: item.uuid,
+              }
+            });
+    }
+  }
+  if (Object.values(flavorFeatures).length === 0) return;
+
+  const label = `${multiclass.name} - Flavor Feature`;
+  const key = generateKey();
+  extraAdvancements.set(key, {
+    img: img,
+    name: label,
+    customTitle: label,
+    mustChoose: true,
+    pointAmount: 1,
+    level: advancement.level,
+    parentItem: advancement.parentItem,
+    createdBy: advancement.key,
+    applied: false,
+    talent: false,
+    repeatable: false,
+    repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    allowToAddItems: false,
+    additionalAdvancement: true,
+    compendium: "",
+    preFilters: "",
+    tip: "",
+    items: flavorFeatures
+  });
 }
 
 export function markItemRequirements(items, talentFilterType, actor) {
@@ -309,7 +401,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
     }
 
     const baseClassKey = actor.system.details.class.classKey;
-    const multiclass = Object.values(actor.system.details.advancementInfo.multiclassTalents);
+    const multiclass = actor.class !== undefined ? Object.values(actor.class.system.multiclass) : [];
     // Subclass 3rd level feature requires at least one feature from Class or needs to be from your class
     if (["expert", "master", "grandmaster", "legendary"].includes(talentFilterType)) {
       if (item.system.featureType === "subclass" && requirements.level === 3) {

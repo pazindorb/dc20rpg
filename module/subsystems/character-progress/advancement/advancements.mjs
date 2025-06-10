@@ -129,8 +129,11 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 }
 
 export async function removeMulticlassInfoFromActor(actor, key) {
-	const multiclassTalents = actor.system.details.advancementInfo?.multiclassTalents;
-	if (multiclassTalents[key]) await actor.update({[`system.details.advancementInfo.multiclassTalents.-=${key}`]: null})
+	const clazz = actor.class;
+	if (!clazz) return;
+
+	const multiclassTalents = clazz.system.multiclass;
+	if (multiclassTalents[key]) await clazz.update({[`system.multiclass.-=${key}`]: null})
 }
 
 

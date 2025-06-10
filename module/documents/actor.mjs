@@ -16,6 +16,10 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  */
 export class DC20RpgActor extends Actor {
 
+  get class() {
+    return this.items.get(this.system.details.class.id);
+  }
+
   get exhaustion() {
     return getStatusWithId(this, "exhaustion")?.stack || 0
   }
