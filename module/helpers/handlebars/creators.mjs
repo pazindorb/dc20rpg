@@ -352,6 +352,12 @@ export function registerHandlebarsCreators() {
                 : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
     component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
 
+    // Short Info 
+    const shortInfo = item.system.shortInfo;
+    if (shortInfo) {
+      component +=  `<a class="short-info fas fa-square-info" data-tooltip="${shortInfo}"></a>`;
+    }
+
     // Known Toggle
     if (tab === "techniques" || tab === "spells") {
       const knownLimit = item.system.knownLimit;

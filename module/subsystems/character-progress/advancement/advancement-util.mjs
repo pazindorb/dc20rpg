@@ -22,7 +22,7 @@ export async function applyAdvancement(advancement, actor) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
-  const extraAdvancements = await _addItemsToActor(selectedItems, actor, advancement);
+  const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
   
   // Check for Martial Expansion that comes from the class, Martial Path or some other items
   const martialExpansion = _checkMartialExpansion(advancement, actor);
@@ -33,7 +33,7 @@ export async function applyAdvancement(advancement, actor) {
 
   await _markAdvancementAsApplied(advancement, actor);
   if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor, extraAdvancements);
-  return extraAdvancements.values();
+  return [extraAdvancements.values(), tips];
 }
 
 export async function addAdditionalAdvancement(advancement, item, collection, index) {
@@ -105,11 +105,20 @@ async function _applyPathProgression(advancement, extraAdvancements) {
 
 async function _addItemsToActor(items, actor, advancement) {
   const extraAdvancements = new Map();
+  const tips = [];
   const parentItem = advancement.parentItem;
 
   for (const [key, record] of Object.entries(items)) {
     const item = await fromUuid(record.uuid);
     const created = await createItemOnActor(actor, item);
+
+    if (created.system.tip) {
+      tips.push({
+        name: created.name,
+        img: created.img,
+        tip: created.system.tip
+      })
+    }
 
     // Check if has extra advancements
     const extraAdvancement = _extraAdvancement(created);
@@ -133,7 +142,7 @@ async function _addItemsToActor(items, actor, advancement) {
     record.createdItemId = created._id;
     advancement.items[key] = record;
   }
-  return extraAdvancements;
+  return [extraAdvancements, tips];
 }
 
 async function _markAdvancementAsApplied(advancement, actor) {

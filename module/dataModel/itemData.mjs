@@ -16,6 +16,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
     return {
       itemKey: new f.StringField({required: true, initial: ""}),
       description: new f.StringField({required: true, initial: ""}),
+      shortInfo: new f.StringField({required: true, initial: ""}),
       tableName: new f.StringField({required: true, initial: ""}),
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
@@ -103,7 +104,8 @@ class DC20UsableItemData extends DC20BaseItemData {
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
-      advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}})
+      advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
+      tip: new f.StringField({required: true, initial: ""}),
     })
   }
 }

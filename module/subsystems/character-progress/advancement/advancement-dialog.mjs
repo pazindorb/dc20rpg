@@ -445,7 +445,7 @@ export class ActorAdvancement extends Dialog {
       journalTooltip(tooltipList[type], datasetOf(ev).header, datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)})
     },
     ev => hideTooltip(ev, html));
-    html.find('.text-tooltip').hover(ev => textTooltip(`<p>${datasetOf(ev).text}</p>`, "Tip", datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
+    html.find('.text-tooltip').hover(ev => textTooltip(`<p>${datasetOf(ev).text}</p>`, `[Tip] ${datasetOf(ev).header}`, datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
 
     html.find('.open-compendium-browser').click(() => {
       const itemType = this.currentAdvancement.addItemsOptions.itemType;
@@ -566,11 +566,15 @@ export class ActorAdvancement extends Dialog {
     }
     await this.render();
 
-    const extraAdvancements = await applyAdvancement(this.currentAdvancement, this.actor, this.currentItem);
+    const [extraAdvancements, itemTips] = await applyAdvancement(this.currentAdvancement, this.actor, this.currentItem);
     if (this.currentAdvancement.tip) this.tips.push({
+      name: this.currentAdvancement.name || this.currentItem.name,
       img: this.currentAdvancement.img || this.currentItem.img, 
       tip: this.currentAdvancement.tip
     });
+    if (itemTips.length > 0) {
+      this.tips.push(...itemTips);
+    }
     
     // Add Extra advancements
     for (const extra of extraAdvancements) {
