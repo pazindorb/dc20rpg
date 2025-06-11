@@ -594,6 +594,14 @@
         </div>
         {{/if}}
       </div>
+      <div class="containers item-list">
+        {{#each containers}}
+        <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
+          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
+          <img src="{{img}}"/>
+        </div>
+        {{/each}}
+      </div>
       {{item-table @root.editMode inventory "inventory" @root.weaponsOnActor}}
     </div>
         

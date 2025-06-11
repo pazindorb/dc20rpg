@@ -398,23 +398,21 @@ export class DC20ChatMessage extends ChatMessage {
     Object.values(targets).forEach(target => this._onSaveRoll(target, key, dc))
   }
 
-  _onApplyAll() {
+  async _onApplyAll() {
     const targets = this.system.targets;
     if (!targets) return;
 
-    Object.entries(targets).forEach(([targetKey, target]) => {
+    for (const [targetKey, target] of Object.entries(targets)) {
       const targetDmg = target.dmg;
       const targetHeal = target.heal;
 
-      // Apply Damage
-      Object.entries(targetDmg).forEach(([dmgKey, dmg]) => {
-        this._onApplyDamage(targetKey, dmgKey, dmg.showModified);
-      });
-      // Apply Healing
-      Object.entries(targetHeal).forEach(([healKey, heal]) => {
-        this._onApplyHealing(targetKey, healKey, heal.showModified);
-      });
-    })
+      for (const [dmgKey, dmg] of Object.entries(targetDmg)) {
+        await this._onApplyDamage(targetKey, dmgKey, dmg.showModified);
+      }
+      for (const [healKey, heal] of Object.entries(targetHeal)) {
+        await this._onApplyHealing(targetKey, healKey, heal.showModified);
+      }
+    }
   }
 
   _onSendRollAll() {

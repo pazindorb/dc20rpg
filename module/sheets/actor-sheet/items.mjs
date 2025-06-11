@@ -65,6 +65,7 @@ export function prepareItemsForCharacter(context, actor) {
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
+  const containers = [];
 
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
@@ -75,6 +76,9 @@ export function prepareItemsForCharacter(context, actor) {
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
+      case 'container':
+        containers.push(item);
+        break;
       case 'weapon': case 'equipment': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
@@ -103,6 +107,7 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
+  context.containers = containers;
   context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
   context.features = _filterItems(actor.flags.dc20rpg.headerFilters?.features, features);
   context.techniques = _filterItems(actor.flags.dc20rpg.headerFilters?.techniques, techniques);
@@ -121,6 +126,7 @@ export function prepareItemsForNpc(context, actor) {
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
+  const containers = [];
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
@@ -133,6 +139,9 @@ export function prepareItemsForNpc(context, actor) {
       if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
     }
+    else if (item.type === "container") {
+      containers.push(item);
+    }
     else if (item.type === "basicAction") {
       _addItemToTable(item, basic, item.system.category)
       if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
@@ -143,6 +152,7 @@ export function prepareItemsForNpc(context, actor) {
     }
   }
  
+  context.containers = containers;
   context.main = _filterItems(actor.flags.dc20rpg.headerFilters?.main, main);
   context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
   context.itemChargesAsResources = itemChargesAsResources;
@@ -154,6 +164,7 @@ export function prepareItemsForStorage(context, actor) {
   if (!headersOrdering) return;
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
+  const containers = [];
 
    for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
@@ -166,8 +177,12 @@ export function prepareItemsForStorage(context, actor) {
       case 'weapon': case 'equipment': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         break;
+      case 'container':
+        containers.push(item);
+        break;
     }
    }
+   context.containers = containers;
    context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
 }
 

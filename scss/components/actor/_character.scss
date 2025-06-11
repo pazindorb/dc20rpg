@@ -1855,6 +1855,42 @@
       }
     }
 
+    .containers {
+      padding: 0px 5px;
+      display: flex;
+      align-items: center;
+
+      .container {
+        margin-bottom: 5px;
+        margin-right: 5px;
+
+        img {
+          background-color: $secondary-dark;
+          border: 2px solid $primary-color;
+          border-radius: 3px;
+
+          min-height: 50px;
+          min-width: 50px;
+          height: 50px;
+          width: 50px;
+
+          &:hover {
+            box-shadow: 0 0 5px 1px $primary-darker;
+            cursor: pointer;
+          }
+        }
+
+        a {
+          position: absolute;
+          margin-top: 5px;
+          margin-left: -3px;
+          color: $dark-red;
+          text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+        }
+ 
+      }
+    }
+
     .skills-box {
       height: fit-content;
       border-radius: 3px;

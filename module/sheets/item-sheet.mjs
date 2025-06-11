@@ -21,7 +21,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
       ],
       dragDrop: [
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
-        {dragSelector: ".item-list .item", dropSelector: null}
+        {dragSelector: ".item-list .item", dropSelector: null},
       ]
     });
   }

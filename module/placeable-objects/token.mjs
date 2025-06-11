@@ -208,6 +208,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
       const selectOptions = toSelectOptions(actors, "id", "name");
       const actorId = await getSimplePopup("select", {selectOptions: selectOptions, header: "Select Actor to pick up"});
       const actor = game.actors.get(actorId);
+      if (!actor) return;
 
       await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
       await deleteToken(this.id);

@@ -19,7 +19,6 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     initialized.actions.move = this._onMoveAction;
     initialized.actions.effect = {handler: this._onEffect, buttons: [0, 2]};
     initialized.actions.aura = this._onAuraAction;
-    initialized.actions.pickUp = this._onPickUpAction;
     return initialized;
   }
 

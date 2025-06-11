@@ -6,6 +6,7 @@ import { getValueFromPath, setValueForPath } from "./utils.mjs";
  */
 export function datasetOf(event) {
   event.preventDefault();
+  event.stopPropagation();
   return event.currentTarget.dataset;
 }
 

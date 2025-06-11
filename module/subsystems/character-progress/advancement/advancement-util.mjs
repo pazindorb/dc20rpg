@@ -234,7 +234,7 @@ async function _addRepeatableAdvancement(oldAdv) {
 
 function _getMartialExpansionAdvancement() {
   const martialExpansion = fromUuidSync(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
-  if (!martialExpansion) {
+  if (!martialExpansion || !martialExpansion?.system) {
     ui.notifications.warn("Martial Expansion Item cannot be found")
     return;
   }
@@ -246,7 +246,7 @@ function _getMartialExpansionAdvancement() {
 
 function _getSpellcasterStaminaAdvancement() {
   const spellcasterStamina = fromUuidSync(CONFIG.DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina);
-  if (!spellcasterStamina) {
+  if (!spellcasterStamina || !spellcasterStamina?.system) {
     ui.notifications.warn("Spellcaster Stamina Expansion Item cannot be found")
     return;
   }

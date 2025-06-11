@@ -464,6 +464,14 @@
               <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
             </a>
           </div>
+          <div class="containers item-list">
+            {{#each containers}}
+            <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
+              {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
+              <img src="{{img}}"/>
+            </div>
+            {{/each}}
+          </div>
 
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
