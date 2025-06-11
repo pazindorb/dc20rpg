@@ -884,12 +884,12 @@
     &.half-button {
       display: flex;
       justify-content: space-between;
+      padding: 10px;
 
       .button {
         width: calc(50% - 2px);
       }
     }
-    padding: 10px;
   }
 }
 
@@ -1558,6 +1558,8 @@
       }
 
       .name {
+        display: flex;
+        align-items: center;
 
         img {
           border-radius: 0;
@@ -1566,9 +1568,6 @@
           border: 0;
           border-right: 1px solid $secondary-darker;
         }
-
-        display: flex;
-        align-items: center;
       }
   
       .usage {

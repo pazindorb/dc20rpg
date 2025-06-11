@@ -5,6 +5,21 @@
 	background-image: url(../images/sheet/parchment.jpg);
 	box-shadow: 0 0 15px $secondary-darker inset;
 
+	position: fixed;
+	min-height: 200px;
+	width: min-content;
+	z-index: 100;
+
+	border-radius: 3px;
+	border: 3px solid var(--border-color);
+	padding: 12px;
+
+	transition: opacity 0.5s ease-in-out;
+	opacity: 0;
+	visibility: hidden;
+	overflow-y: auto;
+	overflow-x: hidden;
+	
   &.theme-dark {
     --border-color: var(--color-light-5);
     --text-color: var(--color-light-2);
@@ -20,21 +35,6 @@
 		background-image: url(../images/sheet/parchment.jpg);
 		box-shadow: 0 0 15px $secondary-darker inset;
   }
-
-	position: fixed;
-	min-height: 200px;
-	width: min-content;
-	z-index: 100;
-
-	border-radius: 3px;
-	border: 3px solid var(--border-color);
-	padding: 12px;
-
-	transition: opacity 0.5s ease-in-out;
-	opacity: 0;
-	visibility: hidden;
-	overflow-y: auto;
-	overflow-x: hidden;
 
 	.tooltip-info {
 		font-size: 10px;
