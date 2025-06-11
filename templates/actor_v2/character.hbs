@@ -264,7 +264,7 @@
       {{!-- Grit Points --}}
       <div class="resource grit-background margin-top-3" title="{{localize 'dc20rpg.resource.grit'}}">
         <img src="systems/dc20rpg/images/sheet/header/grit.svg" class="resource-icon grit">
-        <div class="resource-bar-wrapper">
+        <div class="resource-bar-wrapper" style="grid-template-columns: 1fr 20px 20px;">
           <div class="resource-bar">
             <div class="grit-bar" style="width: {{system.resources.grit.percent}}%"></div>
             <div class="resource-content">
@@ -275,6 +275,7 @@
               </div>
             </div>
           </div>
+          <button class="grit grit-to-damage-reduction" title="{{localize 'dc20rpg.sheet.resource.gritToDamageReduction'}}"><i class="fas fa-sm fa-solid fa-shield"></i></button>
           <button class="grit spend-regain-resource" data-key="grit" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainGrit'}}RMB: {{localize 'dc20rpg.sheet.resource.spendGrit'}}"><i class="fas fa-sm fa-solid fa-plus-minus"></i></button>
         </div>
       </div>

@@ -64,7 +64,7 @@
         border-radius: 4px;
         background-color: $secondary-lighter;
 
-        .regain-resource, .spend-resource, .spend-regain-resource {
+        .regain-resource, .spend-resource, .spend-regain-resource, .grit-to-damage-reduction {
           background-color: transparent;
           width: 18px;
           height: 20px;
@@ -480,13 +480,18 @@
         width: 100%;
         height: 28px;
 
-        .regain-resource, .spend-resource, .spend-regain-resource {
+        .regain-resource, .spend-resource, .spend-regain-resource, .grit-to-damage-reduction {
           background-color: transparent;
           width: 20px;
           height: 20px;
           border: 0;
           line-height: 0;
           padding: 0;
+        }
+
+        .grit-to-damage-reduction {
+          border-right: 1px solid $primary-color;
+          border-radius: 0;
         }
 
         .stamina {

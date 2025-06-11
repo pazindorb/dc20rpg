@@ -201,7 +201,33 @@ export async function effectsToRemovePerActor(toRemove) {
     }
   }
 }
-   
+
+export async function addFlatDamageReductionEffect(actor) {
+  const damageReduction = {
+    name: "Grit - Damage Reduction",
+    img: "icons/svg/mage-shield.svg",
+    description: "You can spend Grit to reduce incoming damage",
+    duration: {rounds: 1},
+    changes: [
+      {
+        key: "system.damageReduction.flat",
+        mode: 2,
+        value:"1"
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+      }
+    ]
+  }
+  await createEffectOn(damageReduction, actor);
+}
 
 //===========================================================
 export function injectFormula(effect, effectOwner) {

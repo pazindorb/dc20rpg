@@ -5050,7 +5050,7 @@
   border-radius: 4px;
   background-color: var(--secondary-lighter);
 }
-.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .regain-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .spend-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .spend-regain-resource {
+.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .regain-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .spend-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .spend-regain-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .grit-to-damage-reduction {
   background-color: transparent;
   width: 18px;
   height: 20px;
@@ -5491,13 +5491,17 @@
   width: 100%;
   height: 28px;
 }
-.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .regain-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .spend-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .spend-regain-resource {
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .regain-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .spend-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .spend-regain-resource, .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .grit-to-damage-reduction {
   background-color: transparent;
   width: 20px;
   height: 20px;
   border: 0;
   line-height: 0;
   padding: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .grit-to-damage-reduction {
+  border-right: 1px solid var(--primary-color);
+  border-radius: 0;
 }
 .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar-wrapper .stamina {
   color: var(--stamina);
