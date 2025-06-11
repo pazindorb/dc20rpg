@@ -56,6 +56,10 @@
       </div>
       {{/if}}
 
+      <div class="row margin-top-5" style="height: 26px">
+        <span>{{localize "dc20rpg.dialog.advancement.macroEdit"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg {{#unless macro}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.edit"}}"></a>
+      </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.dialog.advancement.multiple"}}</span>
         <a class="activable" data-path="mustChoose"><i class="fa-2x {{#if mustChoose}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>

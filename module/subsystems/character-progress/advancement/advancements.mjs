@@ -23,6 +23,7 @@ export function createNewAdvancement() {
 			helpText: "",
 			itemLimit: null,
  		},
+		macro: "",
 		items: {}
 	};
 }

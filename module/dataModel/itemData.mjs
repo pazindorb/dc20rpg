@@ -7,6 +7,7 @@ import SaveFields from "./fields/item/save.mjs";
 import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
 import CombatTraining from "./fields/combatTraining.mjs";
+import { createNewAdvancement } from "../subsystems/character-progress/advancement/advancements.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -102,24 +103,7 @@ class DC20UsableItemData extends DC20BaseItemData {
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
-      advancements: new f.ObjectField({required: true, initial: {
-        default: {
-          name: "Item Advancement",
-          mustChoose: false,
-          pointAmount: 1,
-          level: 0,
-          applied: false,
-          talent: false,
-          repeatable: false,
-          repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          allowToAddItems: false,
-          additionalAdvancement: true,
-          compendium: "",
-          preFilters: "",
-          tip: "",
-          items: {}
-        }
-      }})
+      advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}})
     })
   }
 }

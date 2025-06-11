@@ -4,6 +4,7 @@ import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpe
 import { generateKey } from "../../../helpers/utils.mjs";
 import { getSimplePopup, SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
+import { runTemporaryMacro } from "../../../helpers/macros.mjs";
 
 export function canApplyAdvancement(advancement) {
   if (advancement.mustChoose && advancement.pointsLeft !== 0) {
@@ -143,11 +144,11 @@ async function _markAdvancementAsApplied(advancement, actor) {
   advancement.itemNameFilter = "" // clear filter
 
   // We dont want to persist parent item within the advancement
-  const parentItem = advancement.parentItem;
-  delete advancement.parentItem; 
-  await parentItem.update({[`system.advancements.${advancement.key}`]: advancement})
-  advancement.parentItem = parentItem;
-
+  const copy = {...advancement};
+  delete copy.parentItem; 
+  await advancement.parentItem.update({[`system.advancements.${advancement.key}`]: copy});
+  
+  if (advancement.macro) runTemporaryMacro(advancement.macro, advancement, {actor: actor, advancement: advancement});
   if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
 

@@ -1,4 +1,5 @@
-import { activateDefaultListeners, datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
+import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
+import { createTemporaryMacro } from "../../../helpers/macros.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { createNewAdvancement } from "./advancements.mjs";
 
@@ -56,6 +57,7 @@ export class AdvancementConfiguration extends Dialog {
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input-nullable").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev), true));
     html.find(".repeat-at").change(ev => this._onRepeatedAt(datasetOf(ev).index, valueOf(ev)));
+    html.find('.macro-edit').click(ev => this._onEditMacro());
 
     // Item manipulation
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
@@ -67,30 +69,42 @@ export class AdvancementConfiguration extends Dialog {
 
   _onSave(event) {
     event.preventDefault();
+    // We are not updating the copy so we want to grab macro from original advancement
+    const originalMacro = this.item.system.advancements[this.key].macro; 
+    this.advancement.macro = originalMacro;
     this.item.update({[`system.advancements.${this.key}`] : this.advancement});
     this.close();
   }
   _onActivable(pathToValue) {
     let value = getValueFromPath(this.advancement, pathToValue);
     setValueForPath(this.advancement, pathToValue, !value);
-    this.render(true);
+    this.render();
   }
   _onValueChange(path, value) {
     setValueForPath(this.advancement, path, value);
-    this.render(true);
+    this.render();
   }
   _onNumericValueChange(path, value, nullable) {
     let numericValue = parseInt(value);
     if (nullable && isNaN(numericValue)) numericValue = null;
     setValueForPath(this.advancement, path, numericValue);
-    this.render(true);
+    this.render();
   }
 
   _onRepeatedAt(index, value) {
     if (value === "") value = 0;
     const numericValue = parseInt(value);
     this.advancement.repeatAt[index] = numericValue;
-    this.render(true);
+    this.render();
+  }
+
+  async _onEditMacro() {
+    // We are not updating the copy so we want to grab macro from original advancement
+    const originalMacro = this.item.system.advancements[this.key].macro; 
+    const advancement = this.advancement;
+    const macro = await createTemporaryMacro(originalMacro, this.item, {item: this.item, advKey: this.key, advancement: advancement});
+    macro.canUserExecute = (user) => false;
+    macro.sheet.render(true);
   }
 
   async _onDrop(event) {
@@ -117,13 +131,13 @@ export class AdvancementConfiguration extends Dialog {
       canBeCounted: canBeCounted,
       ignoreKnown: false,
     };
-    this.render(true);
+    this.render();
   }
 
   _onItemDelete(itemKey) {
     delete this.advancement.items[itemKey];
     this.item.update({[`system.advancements.${this.key}.items.-=${itemKey}`] : null});
-    this.render(true);
+    this.render();
   }
 
   setPosition(position) {
