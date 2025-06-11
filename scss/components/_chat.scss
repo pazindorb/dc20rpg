@@ -315,7 +315,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
 
         .dice-roll:hover {
 
-          .add-roll, .remove-roll, .not-supported {
+          .add-roll, .remove-roll, .not-supported, .modify-core-roll {
             display: flex;
           }
         }
@@ -338,7 +338,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           opacity: 1;
           height: auto;
 
-          .add-roll, .remove-roll, .not-supported {
+          .add-roll, .remove-roll, .not-supported, .modify-core-roll {
             z-index: 5;
             display: none;
             position: relative;
@@ -357,6 +357,10 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           .justify-end, .not-supported {
             left: -7px;
             justify-content: end;
+          }
+
+          .modify-core-roll {
+            left: 30px;
           }
 
           .not-supported {

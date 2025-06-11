@@ -11238,7 +11238,7 @@
 .chat-message .message-content .chat_v2 .roll-box.first-roll {
   border-top: 1px solid var(--main-color);
 }
-.chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .not-supported {
+.chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .not-supported, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .modify-core-roll {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11267,7 +11267,7 @@
   opacity: 1;
   height: auto;
 }
-.chat-message .message-content .chat_v2 .roll-box .dice-roll .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll .not-supported {
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll .not-supported, .chat-message .message-content .chat_v2 .roll-box .dice-roll .modify-core-roll {
   z-index: 5;
   display: none;
   position: relative;
@@ -11290,6 +11290,9 @@
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: end;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .modify-core-roll {
+  left: 30px;
 }
 .chat-message .message-content .chat_v2 .roll-box .dice-roll .not-supported {
   color: var(--secondary-dark);

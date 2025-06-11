@@ -16,6 +16,7 @@ import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -286,6 +287,7 @@ export class DC20ChatMessage extends ChatMessage {
     // Modify rolls
     html.find('.add-roll').click(async ev => {ev.stopPropagation(); await this._addRoll(datasetOf(ev).type)});
     html.find('.remove-roll').click(ev => {ev.stopPropagation(); this._removeRoll(datasetOf(ev).type)});
+    html.find('.modify-core-roll').click(ev => {ev.stopPropagation(); this._onModifyCoreRoll()});
 
     // Drag and drop
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -758,6 +760,11 @@ export class DC20ChatMessage extends ChatMessage {
     }
     return true;
   } 
+
+  async _onModifyCoreRoll() {
+    const formula = await getSimplePopup("input", {header: "Enter formula modification"});
+    if (formula) await this.modifyCoreRoll(formula);
+  }
 
   async _addHelpDiceToRoll(helpDice) {
     const actorId = helpDice.actorId;

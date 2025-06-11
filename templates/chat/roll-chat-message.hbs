@@ -39,16 +39,19 @@
       {{#if @root.canUserModify}}
         {{#ifCond @root.rollLevel '===' 0}}
           <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
+          <div class="modify-core-roll" title='{{localize "dc20rpg.chat.modifyCoreRoll"}}'><a class="fa-solid fa-square-pen fa-lg"></a></div>
           <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
         {{/ifCond}}
 
         {{#ifCond @root.rollLevel '>' 0}}
           <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
+          <div class="modify-core-roll" title='{{localize "dc20rpg.chat.modifyCoreRoll"}}'><a class="fa-solid fa-square-pen fa-lg"></a></div>
           <div class="remove-roll justify-end" data-type="adv" title='{{localize "dc20rpg.chat.removeAdv"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
         {{/ifCond}}
 
         {{#ifCond @root.rollLevel '<' 0}}
           <div class="remove-roll" data-type="dis" title='{{localize "dc20rpg.chat.removeDis"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
+          <div class="modify-core-roll" title='{{localize "dc20rpg.chat.modifyCoreRoll"}}'><a class="fa-solid fa-square-pen fa-lg"></a></div>
           <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
         {{/ifCond}}
       {{/if}}
