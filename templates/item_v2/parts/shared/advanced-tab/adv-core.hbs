@@ -137,6 +137,7 @@
       <div class="left-part-row">
         <span>{{localize "dc20rpg.item.sheet.macros.trigger"}}</span>
         <div>
+          <a class="activable fa-solid fa-lg fa-globe margin-right-3 {{#unless macro.global}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.global"}}" data-path="system.macros.{{key}}.global"></a>
           <a class="activable fa-solid fa-lg fa-power-off margin-right-3 {{#unless macro.disabled}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.disable"}}" data-path="system.macros.{{key}}.disabled"></a>
           <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg {{#unless macro.command}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="{{key}}"></a>
         </div>

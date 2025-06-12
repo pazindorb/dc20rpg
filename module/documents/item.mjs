@@ -495,6 +495,7 @@ export class DC20RpgItem extends Item {
       disabled: false,
       name: "New Macro",
       title: "",
+      global: false,
     };
   }
 }

@@ -34,13 +34,23 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
   }
 }
 
-export async function runTemporaryItemMacro(item, trigger, actor, additionalFields) {
+export async function runTemporaryItemMacro(item, trigger, actor, additionalFields, preventGlobalCall=false) {
   if (!actor) return;
+  await _runTemporaryItemMacro(item, trigger, actor, additionalFields, false);
+
+  // Global Macro
+  if (preventGlobalCall) return;
+  for (const sourceItem of actor.items) {
+    await _runTemporaryItemMacro(sourceItem, trigger, actor, {...additionalFields, triggeringItem: item}, true);
+  }
+}
+
+async function _runTemporaryItemMacro(item, trigger, actor, additionalFields, global) {
   const macros = item?.system?.macros;
   if (!macros) return;
   
   for (const macro of Object.values(macros)) {
-    if (macro.trigger === trigger && !macro.disabled) {
+    if (macro.trigger === trigger && !macro.disabled && macro.global === global) {
       const command = macro.command;
       if (command) {
         await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
@@ -58,6 +68,7 @@ export async function runTemporaryMacro(command, object, additionalFields) {
       scope[key] = field;
     }
   }
+  macro.params = scope;
   await macro.execute(scope);
 }
 
