@@ -1,3 +1,4 @@
+import { recognizeAndAddLinks } from "./inlineRolls.mjs";
 import { itemDetailsToHtml } from "./items/itemDetails.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles } from "./utils.mjs";
@@ -235,6 +236,8 @@ function _itemDescription(item) {
 }
 
 function _enhanceDescription(description) {
+  description = recognizeAndAddLinks(description);
+
   const uuidRegex = /@UUID\[[^\]]*]\{[^}]*}/g;
   const itemLinks = [...description.matchAll(uuidRegex)];
   itemLinks.forEach(link => {
