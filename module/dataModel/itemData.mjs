@@ -96,7 +96,7 @@ class DC20UsableItemData extends DC20BaseItemData {
             distance: null,
             width: null,
             unit: "",
-            difficult: false,
+            difficult: "",
           }
         }})
       }),
