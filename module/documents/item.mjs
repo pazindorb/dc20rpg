@@ -223,6 +223,7 @@ export class DC20RpgItem extends Item {
       each5Formula: "",
       dontMerge: false,
       overrideDefence: "",
+      perTarget: false,
     }
   }
 
@@ -344,13 +345,7 @@ export class DC20RpgItem extends Item {
       overrideDamageType: false,
       damageType: "",
       addsNewFormula: false,
-      formula: {
-        formula: "",
-        type: "",
-        category: "damage",
-        dontMerge: false,
-        overrideDefence: ""
-      },
+      formula: this.getFormulaObjectExample(),
       addsNewRollRequest: false,
       rollRequest: {
         category: "",
@@ -450,13 +445,7 @@ export class DC20RpgItem extends Item {
         respectSizeRules: false,
       },
       addsNewFormula: false,
-      formula: {
-        formula: "",
-        type: "",
-        category: "damage",
-        dontMerge: false,
-        overrideDefence: "",
-      },
+      formula: this.getFormulaObjectExample(),
     };
   }
 

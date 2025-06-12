@@ -506,6 +506,11 @@ DC20RPG.DROPDOWN_DATA.formulaCategories = {
   healing: "Healing Formula"
 }
 
+DC20RPG.DROPDOWN_DATA.allFormulaCategories = {
+  ...DC20RPG.DROPDOWN_DATA.formulaCategories,
+  other: "Other Formula"
+}
+
 DC20RPG.DROPDOWN_DATA.physicalDamageTypes = {
   bludgeoning: "Bludgeoning",
   slashing: "Slashing",

@@ -6,7 +6,7 @@ import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
-    content = recognizeAndAddLinks(content);
+    if (options.autoLink) content = recognizeAndAddLinks(content);
     content = _parseInlineRolls(content);
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     return oldFunction.call(TextEditor, content, options);
@@ -109,6 +109,8 @@ export function recognizeAndAddLinks(text) {
   }
   delete jounralLinks.attack;
   delete jounralLinks.object;
+  delete jounralLinks.spell;
+  delete jounralLinks.move;
 
   Object.entries(jounralLinks).forEach(([key, link]) => {
     const regex = new RegExp(`(?<!@UUID\\[.*?)\\b\\w*${escapeRegex(key)}\\w*\\b`, "gi");

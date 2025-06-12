@@ -183,11 +183,32 @@
       </div>
       {{#if enhancement.modifications.addsNewFormula}}
       <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}</span>
+        <div class="left-part-row">
+          <span>{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}</span>
+          <div>
+            <a class="activable margin-right-3 fa-square-5 fa-lg {{#if enhancement.modifications.formula.each5}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.formula.each5" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}"></a>
+            <a class="activable margin-right-3 fa-square-f fa-lg {{#if enhancement.modifications.formula.fail}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.formula.fail" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}"></a>
+          </div>
+        </div>
         <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.formula.category" title="{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}">
-          {{selectOptions @root.config.DROPDOWN_DATA.formulaCategories selected=enhancement.modifications.formula.category}}
+          {{selectOptions @root.config.DROPDOWN_DATA.allFormulaCategories selected=enhancement.modifications.formula.category}}
         </select>
       </div>
+
+      {{!-- Core Formula --}}
+      {{#ifCond enhancement.modifications.formula.category "===" "other"}}
+      <div class="row margin-top-3">
+        <div class="left-part-row">
+          <span class="{{enhancement.modifications.formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category ""}}</span>
+          <a class="activable margin-right-3 fa-solid {{#if enhancement.modifications.formula.perTarget}}fa-user{{else}}fa-user-slash{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.formula.perTarget" 
+              title="{{#if enhancement.modifications.formula.perTarget}}[Enabled]{{else}}[Disabled]{{/if}} {{localize "dc20rpg.item.sheet.formulas.perTarget"}}"></a>
+        </div>
+        <div class="right-part-row">
+          <input class="margin-right-3" type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.formula" value="{{enhancement.modifications.formula.formula}}" title="{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category ""}}">
+          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.label" value="{{enhancement.modifications.formula.label}}" title="{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}">
+        </div>
+      </div>
+      {{else}}
       <div class="row margin-top-3">
         <div class="left-part-row">
           <span class="{{enhancement.modifications.formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category ""}}</span>
@@ -208,6 +229,20 @@
             {{selectOptions @root.config.DROPDOWN_DATA.defences selected=enhancement.modifications.formula.overrideDefence blank=""}}
           </select>
           {{/ifCond}}
+        </div>
+      </div>
+      {{/ifCond}}
+
+      {{!-- Each 5 and Fail Formula--}}
+      <div class="row margin-top-3">
+        <span class="each5-formula">{{localize "dc20rpg.item.sheet.formulas.extraFormulas"}}</span>
+        <div class="right-part-row">
+          {{#if enhancement.modifications.formula.each5}}
+          <input class="margin-right-3" type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.each5Formula" value="{{enhancement.modifications.formula.each5Formula}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}" title="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
+          {{/if}}
+          {{#if enhancement.modifications.formula.fail}}
+          <input type="text" type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.failFormula" value="{{enhancement.modifications.formula.failFormula}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.fail"}}" title="{{localize "dc20rpg.item.sheet.formulas.fail"}}">
+          {{/if}}
         </div>
       </div>
       {{/if}}

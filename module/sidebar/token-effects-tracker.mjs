@@ -94,7 +94,7 @@ export class TokenEffectsTracker extends Application {
     for(const effect of actor.allEffects) {
       if (effect.isTemporary) {
         const TextEditor = foundry.applications.ux.TextEditor.implementation;
-        effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
+        effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true, autoLink:true});
         effect.timeLeft = effect.roundsLeft;
         effect.allStatauses = await this._statusObjects(effect.statuses, effect.name);
 

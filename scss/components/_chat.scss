@@ -657,7 +657,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                 display: flex;
                 align-items: center;
       
-                .damage, .healing {
+                .damage, .healing, .other {
                   display: flex;
                   align-items: center;
                   flex: 1;
@@ -725,6 +725,12 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
 
                   .modify-roll {
                     background-color: $crit-background !important;
+                  }
+                }
+
+                .other {
+                  .value {
+                    box-shadow:  0 0 10px #1c75a9 inset;
                   }
                 }
               }

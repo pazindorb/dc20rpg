@@ -122,8 +122,14 @@ export function calculateForTarget(target, formulaRoll, data) {
   }
 
   // 1.B. If Check Calculate degree of success
-  if (data.isCheck && data.againstDC && data.checkDC) {
-    _degreeOfSuccess(data.rollTotal, data.isCritMiss, data.checkDC, final);
+  if (data.isCheck) {
+    if (data.againstDC && data.checkDC) {
+      _degreeOfSuccess(data.rollTotal, data.isCritMiss, data.checkDC, final);
+    }
+    else if (target?.rollOutcome) {
+      const rollOutcome = target.rollOutcome;
+      _degreeOfSuccess(data.rollTotal, data.isCritMiss, rollOutcome.total, final, true);
+    }
   }
   
   // 2.Collect conditionals with matching condition
@@ -203,14 +209,16 @@ export function calculateNoTarget(formulaRoll, data) {
   return final;
 }
 
-function _degreeOfSuccess(checkValue, natOne, checkDC, final) {
+function _degreeOfSuccess(checkValue, natOne, checkDC, final, contest) {
   const modified = final.modified;
 
   // Check Failed
   if (natOne || (checkValue < checkDC)) {
     const failValue = modified.failValue;
-    if (failValue) {
-      modified.source = modified.source.replace("Base Value", "Check Failed");
+    if (failValue !== undefined) {
+      modified.source = modified.source.replace("Base Value", "");
+      if (contest) modified.source = "[Contest Lost] " + modified.source;
+      else modified.source += "[Check Failed] " + modified.source;
       modified.value = failValue;
     }
   }
@@ -219,7 +227,9 @@ function _degreeOfSuccess(checkValue, natOne, checkDC, final) {
     const each5Value = modified.each5Value;
     if (each5Value) {
       const degree = Math.floor((checkValue - checkDC) / 5);
-      modified.source = modified.source.replace("Base Value", `Check Succeeded over ${(degree * 5)}`);
+      modified.source = modified.source.replace("Base Value", "");
+      if (contest) modified.source += `[Contest Won over ${(degree * 5)}] ${modified.source}`;
+      else modified.source += `[Check Succeeded over ${(degree * 5)}] ${modified.source}`;
       modified.value += (degree * each5Value);
     }
   }

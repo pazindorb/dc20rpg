@@ -499,6 +499,7 @@ export function registerHandlebarsCreators() {
       switch(mods.formula.category) {
         case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
         case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
+        case "other": component += _formulas([mods.formula], "fa-gear", {}); break;
       }
     }
     return component;

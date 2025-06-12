@@ -22,6 +22,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   /** @overriden */
   prepareDerivedData() {
+    if (!this.rollOutcomeStore) this.rollOutcomeStore = new Map();
     super.prepareDerivedData();
     if (this.system.chatFormattedRolls?.core) this._prepareRolls();
     const system = this.system;
@@ -61,7 +62,13 @@ export class DC20ChatMessage extends ChatMessage {
     this.system.coreRollTotal = winner._total;
 
     // If there were any "other" rolls we need to enhance those
-    if (chatRolls?.other) enhanceOtherRolls(winner, chatRolls.other, this.system.checkDetails);
+    if (chatRolls?.other) {
+      const data = {
+        ...this.system.checkDetails,
+        isCritMiss: winner?.fail
+      }
+      enhanceOtherRolls(winner, chatRolls.other, data);
+    }
   }
 
   _prepareMeasurementTemplates() {
@@ -88,6 +95,9 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
+      if (this.rollOutcomeStore.has(target.id)) {
+        target.rollOutcome = this.rollOutcomeStore.get(target.id);
+      }
       enhanceTarget(target, rolls, system, this.speaker.actor);
       target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
@@ -649,18 +659,22 @@ export class DC20ChatMessage extends ChatMessage {
     if (roll.crit) {
       rollOutcome.success = true;
       rollOutcome.label = "Critical Success";
+      rollOutcome.total = roll._total;
     }
     else if (roll.fail) {
       rollOutcome.success = false;
       rollOutcome.label = "Critical Fail";
+      rollOutcome.total = roll._total;
     }
     else {
       const rollTotal = roll._total;
       const rollSuccess = roll._total >= details.against;
       rollOutcome.success = rollSuccess;
       rollOutcome.label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
+      rollOutcome.total = rollTotal;
     }
-    target.rollOutcome = rollOutcome;
+    this.rollOutcomeStore.set(target.id, rollOutcome);
+    this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
   }
 

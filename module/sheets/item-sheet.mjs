@@ -45,7 +45,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
     // Enrich text editors
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
-    context.enriched.description = await TextEditor.enrichHTML(context.system.description, {secrets:true});
+    context.enriched.description = await TextEditor.enrichHTML(context.system.description, {secrets:true, autoLink:true});
 
     return context;
   }

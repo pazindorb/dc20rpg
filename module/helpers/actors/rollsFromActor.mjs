@@ -438,6 +438,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
           _fillCommonRollProperties(roll, commonData);
           // We want only modified rolls
           roll.clear = new Roll("0", rollData);
+          roll.modified.perTarget = formula.perTarget;
           otherRolls.push(roll);
           break;
       }

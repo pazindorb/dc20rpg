@@ -11631,7 +11631,7 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11642,7 +11642,7 @@
   -ms-flex: 1;
   flex: 1;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .value, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .value {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .value, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .value, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .value {
   color: var(--main-light);
   font-size: 14px;
   font-family: "Signika", sans-serif;
@@ -11659,7 +11659,7 @@
   text-align: center;
   border-radius: 3px;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .button-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11667,11 +11667,11 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container a:hover, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container a:hover {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container a:hover, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container a:hover, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .button-container a:hover {
   -webkit-box-shadow: 0 0 7px var(--secondary-color) inset;
   box-shadow: 0 0 7px var(--secondary-color) inset;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .small-button-wrapper, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .small-button-wrapper {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .small-button-wrapper, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .small-button-wrapper, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .button-container .small-button-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11681,7 +11681,7 @@
   flex-direction: column;
   margin-right: 3px;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .small-button-wrapper .modify-roll, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .small-button-wrapper .modify-roll {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .small-button-wrapper .modify-roll, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .small-button-wrapper .modify-roll, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .button-container .small-button-wrapper .modify-roll {
   text-align: center;
   font-family: "Signika", sans-serif;
   font-size: 14px;
@@ -11700,7 +11700,7 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .apply-healing, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .apply-healing {
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .apply-healing, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .apply-healing, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .button-container .apply-healing {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11720,6 +11720,10 @@
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .modify-roll {
   background-color: var(--crit-background) !important;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .other .value {
+  -webkit-box-shadow: 0 0 10px #1c75a9 inset;
+  box-shadow: 0 0 10px #1c75a9 inset;
 }
 .chat-message .message-content .chat_v2 .applier .button-section {
   margin-top: 5px;

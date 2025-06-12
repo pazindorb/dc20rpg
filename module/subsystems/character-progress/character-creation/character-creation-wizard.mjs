@@ -121,7 +121,7 @@ export class CharacterCreationWizard extends Dialog {
     }
     else {
       const TextEditor = foundry.applications.ux.TextEditor.implementation;
-      selectedItem.descriptionHTML = await TextEditor.enrichHTML(selectedItem.system.description, {secrets:true});
+      selectedItem.descriptionHTML = await TextEditor.enrichHTML(selectedItem.system.description, {secrets:true, autoLink:true});
     }
 
     return {

@@ -133,6 +133,7 @@
 
   {{!-- Other Rolls --}}
   {{#each chatFormattedRolls.other}}
+  {{#unless perTarget}}
   <div class="roll-box first-roll">
     <span class="title">{{label}}</span>
       <div class="dice-roll">
@@ -159,7 +160,7 @@
           {{/ifCond}}
         {{/if}}
 
-        <div class="dice-result" title="{{modifierSources}}">
+        <div class="dice-result" title="{{source}}">
           <h4 class="dice-total
               {{#if @root.against}}{{#ifCond @root.against '>' @root.chatFormattedRolls.winningRoll._total}}fail{{else}}success{{/ifCond}}{{/if}}
               {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
@@ -192,6 +193,7 @@
         </div>
     </div>
   </div>
+  {{/unless}}
   {{/each}}
 
   {{!-- Create Measurement Template --}}
@@ -311,7 +313,17 @@
             {{/withConditional}}
           </div>
         {{/each}}
-        
+
+        {{!-- Other --}}
+        {{#each target.other as |roll rollKey|}}
+          <div class="row">
+            <div class="other">
+              <div class="value" title="{{source}}">
+                <span>{{_total}} {{label}}</span>
+              </div>
+            </div>
+          </div>
+        {{/each}}
         </div>
         {{/if}}
 
@@ -405,7 +417,7 @@
           {{!-- Contest Rolls --}}
           {{#ifCond @root.coreRollTotal '!==' undefined}}
           {{#each @root.rollRequests.contests}}
-          <a class="roll-button roll-check-selected" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
+          <a class="roll-button roll-check-selected chat-button" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
             {{label}} vs {{@root.coreRollTotal}}
           </a>
           {{/each}}
