@@ -1,0 +1,60 @@
+<form id="condition-manager" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.conditionManager.title"}}</h4>
+
+  {{!-- Configuration --}}
+  <fieldset>
+    <legend>{{localize "dc20rpg.dialog.conditionManager.configure"}}</legend>
+
+    {{!-- Remove Conditions --}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.conditionManager.trigger'}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="extras.untilFirstTimeTriggered" {{checked extras.untilFirstTimeTriggered}} data-tooltip="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"/>
+        <input type="checkbox" data-cType="boolean" data-path="extras.untilTargetNextTurnStart" {{checked extras.untilTargetNextTurnStart}} data-tooltip="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"/>
+        <input type="checkbox" data-cType="boolean" data-path="extras.untilTargetNextTurnEnd" {{checked extras.untilTargetNextTurnEnd}} data-tooltip="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"/>
+      </div>
+    </div>
+
+    {{!-- Duration --}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.conditionManager.duration'}}</label>
+      <div class="form-fields">
+        <input type="number" data-path="extras.forXRounds" value="{{extras.forXRounds}}" data-cType="numeric"/>
+      </div>
+    </div>
+
+    {{!-- Repeated Save --}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.conditionManager.repeatedSave'}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="extras.repeatedSave" {{checked extras.repeatedSave}}/>
+      </div>
+    </div>
+    {{#if extras.repeatedSave}} 
+    <div class="form-group">
+      <div class="form-fields">
+        <label>{{localize 'dc20rpg.dialog.conditionManager.repeatedSaveKey'}}</label>
+        <select data-cType="string" data-path="extras.repeatedSaveKey">
+          {{selectOptions saveKeys selected=extras.repeatedSaveKey blank=""}}
+        </select>
+        <label>{{localize 'dc20rpg.dialog.conditionManager.against'}}</label>
+        <input type="number" data-path="extras.against" value="{{extras.against}}" data-cType="numeric"/>
+      </div>
+    </div>
+    {{/if}}
+  </fieldset>
+
+  {{!-- Conditions --}}
+  <fieldset class="condition-fieldset">
+    <legend>{{localize "dc20rpg.dialog.conditionManager.conditions"}}</legend>
+    <div class="conditions-wrapper grid grid-5col">
+      {{#each conditions}}
+        <div class="condition" data-action="apply" data-status-id="{{id}}">
+          <img src="{{img}}" data-hover="tooltip" data-tooltip-type="journal" data-header="{{label}}" data-uuid="{{journalUuid}}" data-img="{{img}}"/>
+          <label>{{label}}</label>
+        </div>
+      {{/each}}
+    </div>
+  </fieldset>
+
+</form>

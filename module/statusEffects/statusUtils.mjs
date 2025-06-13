@@ -72,6 +72,11 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     effect.system.duration.useCounter = true;
     effect.system.duration.onTimeEnd = "delete";
   }
+  if (extras.forXRounds) {
+    effect.duration.rounds = extras.forXRounds;
+    effect.system.duration.useCounter = true;
+    effect.system.duration.onTimeEnd = "delete";
+  }
   effect.changes = changes;
   return effect;
 }

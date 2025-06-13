@@ -3936,6 +3936,7 @@
 .dc20rpg .dialog-v13.theme-light {
   --border-color: var(--color-dark-1);
   --text-color: var(--color-dark-1);
+  --text-color-2: var(--color-dark-4);
   --backround-color: rgba(0, 0, 0, 0.1);
   --header-color: var(--color-warm-2);
   --activable-off: var(--secondary-lighter);
@@ -4196,6 +4197,47 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+}
+.dc20rpg #condition-manager .condition-fieldset {
+  max-height: 320px;
+  overflow-y: auto;
+}
+.dc20rpg #condition-manager .conditions-wrapper .condition {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  background-color: var(--backround-color);
+}
+.dc20rpg #condition-manager .conditions-wrapper .condition label {
+  padding: 5px 0;
+  font-size: 12px;
+}
+.dc20rpg #condition-manager .conditions-wrapper .condition img {
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: var(--activable-on);
+  border-radius: 5px;
+  margin-top: 5px;
+}
+.dc20rpg #condition-manager .conditions-wrapper .condition:hover {
+  -webkit-box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+  box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+  cursor: pointer;
 }
 .dc20rpg .item-list {
   margin-bottom: 10px;

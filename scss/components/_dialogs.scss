@@ -2515,6 +2515,7 @@
   &.theme-light {
     --border-color: var(--color-dark-1);
     --text-color: var(--color-dark-1);
+    --text-color-2: var(--color-dark-4);
     --backround-color: rgba(0, 0, 0, 0.1);
     --header-color: var(--color-warm-2);
 
@@ -2759,5 +2760,49 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+#condition-manager {
+
+  .condition-fieldset {
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  .conditions-wrapper {
+
+    .condition {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      border-radius: 3px;
+      border: 1px solid var(--border-color);
+      background-color: var(--backround-color);
+
+      label {
+        padding: 5px 0;
+        font-size: 12px;
+      }
+
+      img {
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+
+        background-color: var(--activable-on);
+        border-radius: 5px;
+        margin-top: 5px;
+      }
+
+      &:hover {
+        box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+        cursor: pointer;
+      }
+    }
   }
 }

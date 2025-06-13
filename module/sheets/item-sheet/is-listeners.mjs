@@ -20,7 +20,7 @@ export function activateCommonLinsters(html, item) {
   // Weapon Creator
   html.find('.open-item-creator').click(async () => {
     const itemData = await openItemCreator(item.type, {blueprint: item.toObject()});
-    await item.update(itemData);
+    if (itemData) await item.update(itemData);
   });
   html.find('.scroll-creator').click(() => createScrollFromSpell(item));
 

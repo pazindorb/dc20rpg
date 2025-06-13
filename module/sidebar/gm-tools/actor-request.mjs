@@ -19,7 +19,7 @@ export class ActorRequestDialog extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/actor-request-dialog.hbs",
+      template: "systems/dc20rpg/templates/dialogs/gm-tools/actor-request-dialog.hbs",
       classes: ["dc20rpg", "dialog"],
       width: 400
     });

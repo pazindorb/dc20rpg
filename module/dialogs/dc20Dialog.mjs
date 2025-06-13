@@ -54,6 +54,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
       case "string": this._onChangeString(path, value, dataset); break;
       case "numeric": this._onChangeNumeric(path, value, false, dataset); break;
       case "numeric-nullable": this._onChangeNumeric(path, value, true, dataset); break;
+      case "boolean" : this._onChangeBoolean(path, dataset); break;
     }
   }
 
@@ -94,6 +95,12 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     let numericValue = parseInt(value);
     if (nullable && isNaN(numericValue)) numericValue = null;
     setValueForPath(this, path, numericValue);
+    this.render();
+  }
+
+  _onChangeBoolean(path, dataset) {
+    const value = getValueFromPath(this, path);
+    setValueForPath(this, path, !value);
     this.render();
   }
 
