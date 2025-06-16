@@ -273,13 +273,11 @@ async function _refreshCustomResourcesOn(actor, resetTypes) {
   const updateData = {}
   Object.entries(customResources).forEach(([key, resource]) => {
     if (resetTypes.includes(resource.reset) || (resource.reset === "halfOnShort" && resetTypes.includes("long"))) {
-      resource.value = resource.max;
-      updateData[`system.resources.custom.${key}`] = resource;
+      updateData[`system.resources.custom.${key}.value`] = resource.max;
     }
     else if (resource.reset === "halfOnShort" && resetTypes.includes("short")) {
-      const newValue = resource.value + Math.ceil(resource.max/2)
-      resource.value = Math.min(newValue, resource.max);
-      updateData[`system.resources.custom.${key}`] = resource;
+      const newValue = resource.value + Math.ceil(resource.max/2);
+      updateData[`system.resources.custom.${key}.value`] = Math.min(newValue, resource.max);
     }
   });
   actor.update(updateData);

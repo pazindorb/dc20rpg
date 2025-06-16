@@ -25,6 +25,12 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const context = await super._prepareContext(options);
     const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
     context.cssClass = `theme-${colorTheme}`;
+    
+    // Get active tab
+    if (context.tabs) {
+      const active = Object.values(context.tabs).find(tab => tab.active);
+      if (active) context.activeTab = active.id;
+    }
     return context;
   }
 

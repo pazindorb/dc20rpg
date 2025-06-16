@@ -1,6 +1,7 @@
 import { createActorRequestDialog, restRequest, rollRequest } from "./actor-request.mjs";
 import { createConditionManager } from "./condition-manager.mjs";
 import { createDmgCalculatorDialog } from "./dmg-calculator.mjs";
+import { openAdventurersRegister } from "./adventurers-register.mjs";
 
 export async function createGmToolsMenu() {
   const gmToolsWrapper = document.createElement('aside');
@@ -15,7 +16,8 @@ export async function createGmToolsMenu() {
 
   gmToolsMenu.appendChild(_conditionManager());
   gmToolsMenu.appendChild(_restDialog());
-  gmToolsMenu.appendChild(_rollReaquestButton());
+  gmToolsMenu.appendChild(_rollRequest());
+  gmToolsMenu.appendChild(_adventurersRegister());
   // gmToolsMenu.appendChild(_dmgCalculator()); TODO: Improve calculator
 
   const ulLeftColumn = document.querySelector('#ui-left').querySelector('#ui-left-column-1');
@@ -38,7 +40,7 @@ function _restDialog() {
   return wrapper;
 }
 
-function _rollReaquestButton() {
+function _rollRequest() {
   const rollRequestButton = _getButton("roll-request-button", "fa-dice", game.i18n.localize("dc20rpg.ui.sidebar.rollRequest"));
   rollRequestButton.addEventListener('click', ev => {
     ev.preventDefault();
@@ -59,6 +61,18 @@ function _conditionManager() {
   
   const wrapper = document.createElement('li');
   wrapper.appendChild(conditionManagerButton);
+  return wrapper;
+}
+
+function _adventurersRegister() {
+  const adventurersRegisterButton = _getButton("condition-manager-button", "fa-book-open-cover", game.i18n.localize("dc20rpg.ui.sidebar.adventurersRegister"));
+  adventurersRegisterButton.addEventListener('click', ev => {
+    ev.preventDefault();
+    openAdventurersRegister();
+  });
+
+  const wrapper = document.createElement('li');
+  wrapper.appendChild(adventurersRegisterButton);
   return wrapper;
 }
 

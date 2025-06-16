@@ -209,6 +209,20 @@ export function registerGameSettings(settings) {
     type: SkillConfiguration,
     restricted: true  
   });
+
+  settings.register("dc20rpg", "adventurersGroups", {
+    scope: "user",
+    config: false,
+    default: [],
+    type: Array
+  });
+
+  settings.register("dc20rpg", "mainAdventurersGroup", {
+    scope: "user",
+    config: false,
+    default: "",
+    type: String
+  });
 }
 
 function _getInitiativeSkills() {

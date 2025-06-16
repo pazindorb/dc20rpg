@@ -4239,6 +4239,15 @@
   box-shadow: 0 0 8px 3px var(--text-color-2) inset;
   cursor: pointer;
 }
+.dc20rpg #adventurers-register .item-list {
+  color: var(--secondary-darker);
+}
+.dc20rpg #adventurers-register .item-list .column {
+  font-weight: bold;
+}
+.dc20rpg #adventurers-register .item-list .name:hover {
+  cursor: pointer;
+}
 .dc20rpg .item-list {
   margin-bottom: 10px;
 }
@@ -4373,14 +4382,25 @@
   -ms-flex-align: center;
   align-items: center;
   border-right: 1px solid var(--secondary-dark);
+  width: 100%;
+  height: 100%;
 }
 .dc20rpg .item-list .item-row .column:last-child, .dc20rpg .item-list .enh-row .column:last-child {
   border-right: 0;
+}
+.dc20rpg .item-list .item-row .column.centered, .dc20rpg .item-list .enh-row .column.centered {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 .dc20rpg .item-list .item-row .column .item-img, .dc20rpg .item-list .enh-row .column .item-img {
   height: 36px;
   min-width: 36px;
   width: 36px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 .dc20rpg .item-list .item-row .column .item-img img, .dc20rpg .item-list .enh-row .column .item-img img {
   height: 36px;

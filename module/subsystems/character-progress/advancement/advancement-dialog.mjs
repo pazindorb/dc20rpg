@@ -219,12 +219,15 @@ export class ActorAdvancement extends Dialog {
 
     for (const [key, skill] of Object.entries(skills)) {
       skill.masteryLimit = getSkillMasteryLimit(this.actor, key);
+      skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
     }
     for (const [key, trade] of Object.entries(trades)) {
       trade.masteryLimit = getSkillMasteryLimit(this.actor, key);
+      trade.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[trade.mastery];
     }
     for (const [key, lang] of Object.entries(languages)) {
       lang.masteryLimit = 2;
+      lang.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[lang.mastery];
     }
     const maxPrime = 3 + Math.floor(this.actor.system.details.level/5);
     for (const [key, attr] of Object.entries(attributes)) {
