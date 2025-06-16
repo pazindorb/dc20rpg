@@ -171,3 +171,18 @@ export function registerHandlebarsHelpers() {
     return localized;
   })
 }
+
+Handlebars.registerHelper('checkbox', (path, value, options) => {
+  const hash = options.hash;
+  const classes = value ? hash.checked : hash.unchecked;
+  const finalPath = variableInjector(path, hash); 
+  return `<input id="${finalPath}-checkbox" type="checkbox" data-cType="boolean" data-path="${finalPath}" style="display:none;"/> 
+          <label for="${finalPath}-checkbox"><a class="${classes}"></a></label>
+          `
+});
+
+function variableInjector(string, hash) {
+  return string.replace(/\$\{([^}]+)\}/g, (_, key) => {
+    return key in hash ? hash[key] : '';
+  });
+}

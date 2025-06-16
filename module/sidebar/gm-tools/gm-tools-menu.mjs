@@ -32,7 +32,7 @@ function _restDialog() {
   const restDialogButton = _getButton("rest-request-button", "fa-bed", game.i18n.localize("dc20rpg.ui.sidebar.restRequest"));
   restDialogButton.addEventListener('click', ev => {
     ev.preventDefault();
-    createActorRequestDialog("Start Resting for", CONFIG.DC20RPG.DROPDOWN_DATA.restTypes, restRequest, true);
+    createActorRequestDialog("rest", CONFIG.DC20RPG.DROPDOWN_DATA.restTypes, restRequest, true);
   });
   
   const wrapper = document.createElement('li');
@@ -44,7 +44,7 @@ function _rollRequest() {
   const rollRequestButton = _getButton("roll-request-button", "fa-dice", game.i18n.localize("dc20rpg.ui.sidebar.rollRequest"));
   rollRequestButton.addEventListener('click', ev => {
     ev.preventDefault();
-    createActorRequestDialog("Roll Request", CONFIG.DC20RPG.ROLL_KEYS.contests, rollRequest, false);
+    createActorRequestDialog("roll", CONFIG.DC20RPG.ROLL_KEYS.contests, rollRequest, false);
   });
 
   const wrapper = document.createElement('li');
@@ -53,7 +53,7 @@ function _rollRequest() {
 }
 
 function _conditionManager() {
-  const conditionManagerButton = _getButton("condition-manager-button", "fa-bolt", game.i18n.localize("dc20rpg.ui.sidebar.rollRequest"));
+  const conditionManagerButton = _getButton("condition-manager-button", "fa-bolt", game.i18n.localize("dc20rpg.ui.sidebar.conditionManager"));
   conditionManagerButton.addEventListener('click', ev => {
     ev.preventDefault();
     createConditionManager();

@@ -1,28 +1,38 @@
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../../helpers/actors/attrAndSkills.mjs";
-import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
-import { getValueFromPath, setValueForPath } from "../../helpers/utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getActivePlayers } from "../../helpers/users.mjs";
-import { createRestDialog, openRestDialogForOtherPlayers } from "../../dialogs/rest.mjs";
+import { openRestDialogForOtherPlayers } from "../../dialogs/rest.mjs";
+import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 
-export class ActorRequestDialog extends Dialog {
+export class ActorRequestDialog extends DC20Dialog {
 
-  constructor(title, selectOptions, request, onlyPC, dialogData = {}, options = {}) {
+  constructor(requestType, selectOptions, request, onlyPC, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.selected = "";
     this._collectActors(onlyPC);
-
-    this.header = title;
     this.selectOptions = selectOptions;
     this.request = request;
+
+    this.header = game.i18n.localize(`dc20rpg.dialog.actorRequest.${requestType}.title`);
+    if (requestType === "rest") this.icon = "fa-solid fa-bed";
+    if (requestType === "roll") this.icon = "fa-solid fa-dice-d20";
   }
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
+  /** @override */
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
       template: "systems/dc20rpg/templates/dialogs/gm-tools/actor-request-dialog.hbs",
-      classes: ["dc20rpg", "dialog"],
-      width: 400
-    });
+    }
+  };
+
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Actor Request";
+    initialized.window.icon = "fa-solid fa-users-viewfinder";
+    initialized.position.width = 450;
+    initialized.actions.confirm = this._onConfirmRequest;
+    return initialized;
   }
 
   _collectActors(onlyPC) {
@@ -42,45 +52,28 @@ export class ActorRequestDialog extends Dialog {
     this.selectedActors = selectedActors;
   }
 
-  getData() {
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
     const hasActors = Object.keys(this.selectedActors).length > 0;
-    return {
-      selectedActors: this.selectedActors,
-      hasActors: hasActors,
-      rollOptions: this.selectOptions,
-      selected: this.selected,
-      title: this.header
-    };
+
+    context.selectedActors = this.selectedActors;
+    context.hasActors = hasActors,
+    context.rollOptions = this.selectOptions,
+    context.selected = this.selected,
+    context.header = this.header;
+    context.icon = this.icon;
+    return context;
   }
 
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find(".selectable").change(ev => this._onSelection(valueOf(ev)));
-    html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.confirm-request').click(ev => this._onConfirmRequest(ev));
-  }
-
-  _onSelection(value) {
-    this.selected = value;
-    this.render();
-  }
-
-  _onActivable(path) {
-    let value = getValueFromPath(this, path);
-    setValueForPath(this, path, !value);
-    this.render();
- }
-
- _onConfirmRequest(event) {
+  _onConfirmRequest(event, target) {
     event.preventDefault();
     if (this.selected) this.request(this.selected, this.selectedActors);
     this.close();
   }
 }
 
-export function createActorRequestDialog(title, selectOptions, request, onlyPC) {
-  const dialog = new ActorRequestDialog(title, selectOptions, request, onlyPC, {title: "Actor Request"});
+export function createActorRequestDialog(requestType, selectOptions, request, onlyPC) {
+  const dialog = new ActorRequestDialog(requestType, selectOptions, request, onlyPC);
   dialog.render(true);
 }
 

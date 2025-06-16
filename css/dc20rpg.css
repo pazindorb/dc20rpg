@@ -2999,12 +2999,12 @@
   margin-top: 2px;
   margin-left: 2px;
 }
-.dc20rpg #actor-request .selectable, .dc20rpg #token-selector .selectable, .dc20rpg #dmg-calculator .selectable, .dc20rpg #initiative-slot-selector .selectable {
+.dc20rpg #token-selector .selectable, .dc20rpg #dmg-calculator .selectable, .dc20rpg #initiative-slot-selector .selectable {
   width: auto;
   font-weight: 100;
   font-size: 14px;
 }
-.dc20rpg #actor-request .long-select, .dc20rpg #token-selector .long-select, .dc20rpg #dmg-calculator .long-select, .dc20rpg #initiative-slot-selector .long-select {
+.dc20rpg #token-selector .long-select, .dc20rpg #dmg-calculator .long-select, .dc20rpg #initiative-slot-selector .long-select {
   color: var(--input-text-color);
   border: 2px solid var(--primary-darker);
   background-color: var(--secondary-lighter);
@@ -3016,13 +3016,13 @@
   margin: 5px 0;
   height: auto;
 }
-.dc20rpg #actor-request .box-content, .dc20rpg #token-selector .box-content, .dc20rpg #dmg-calculator .box-content, .dc20rpg #initiative-slot-selector .box-content {
+.dc20rpg #token-selector .box-content, .dc20rpg #dmg-calculator .box-content, .dc20rpg #initiative-slot-selector .box-content {
   margin: 5px 0;
   background-color: var(--secondary-color);
   border: 2px solid var(--primary-darker);
   border-radius: 2px;
 }
-.dc20rpg #actor-request .box-content .actor, .dc20rpg #token-selector .box-content .actor, .dc20rpg #dmg-calculator .box-content .actor, .dc20rpg #initiative-slot-selector .box-content .actor {
+.dc20rpg #token-selector .box-content .actor, .dc20rpg #dmg-calculator .box-content .actor, .dc20rpg #initiative-slot-selector .box-content .actor {
   padding: 5px 8px;
   font-family: "Signika", sans-serif;
   font-size: 14px;
@@ -3038,7 +3038,7 @@
   align-items: center;
   border-top: 2px solid var(--primary-darker);
 }
-.dc20rpg #actor-request .box-content .actor .wrapper, .dc20rpg #token-selector .box-content .actor .wrapper, .dc20rpg #dmg-calculator .box-content .actor .wrapper, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper {
+.dc20rpg #token-selector .box-content .actor .wrapper, .dc20rpg #dmg-calculator .box-content .actor .wrapper, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3049,7 +3049,7 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.dc20rpg #actor-request .box-content .actor .wrapper img, .dc20rpg #token-selector .box-content .actor .wrapper img, .dc20rpg #dmg-calculator .box-content .actor .wrapper img, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper img {
+.dc20rpg #token-selector .box-content .actor .wrapper img, .dc20rpg #dmg-calculator .box-content .actor .wrapper img, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper img {
   height: 30px;
   width: 30px;
   -o-object-position: 50% 0;
@@ -3058,7 +3058,7 @@
   object-fit: cover;
   border: 2px solid var(--primary-darker);
 }
-.dc20rpg #actor-request .box-content .actor .wrapper input, .dc20rpg #token-selector .box-content .actor .wrapper input, .dc20rpg #dmg-calculator .box-content .actor .wrapper input, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper input {
+.dc20rpg #token-selector .box-content .actor .wrapper input, .dc20rpg #dmg-calculator .box-content .actor .wrapper input, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper input {
   background-color: transparent;
   font-family: "Humaroid";
   font-size: 20px;
@@ -3067,7 +3067,7 @@
   margin: 0 5px 0 5px;
   text-indent: 5px;
 }
-.dc20rpg #actor-request .box-content .actor:first-child, .dc20rpg #token-selector .box-content .actor:first-child, .dc20rpg #dmg-calculator .box-content .actor:first-child, .dc20rpg #initiative-slot-selector .box-content .actor:first-child {
+.dc20rpg #token-selector .box-content .actor:first-child, .dc20rpg #dmg-calculator .box-content .actor:first-child, .dc20rpg #initiative-slot-selector .box-content .actor:first-child {
   border-top: 0;
 }
 .dc20rpg #color-settings {
@@ -4012,6 +4012,62 @@
   -webkit-box-shadow: none;
   box-shadow: none;
   cursor: default;
+}
+.dc20rpg .dialog-v13 .box-content {
+  margin: 5px 0;
+  background-color: var(--backround-color);
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--text-color);
+}
+.dc20rpg .dialog-v13 .box-content .actor {
+  padding: 5px 8px;
+  font-family: "Signika", sans-serif;
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-top: 2px solid var(--border-color);
+}
+.dc20rpg .dialog-v13 .box-content .actor .wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .dialog-v13 .box-content .actor .wrapper img {
+  height: 30px;
+  width: 30px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+.dc20rpg .dialog-v13 .box-content .actor .wrapper input {
+  color: var(--text-color);
+  border: 0;
+  background-color: transparent;
+  font-family: "Humaroid";
+  font-size: 20px;
+  margin: 0 5px 0 5px;
+  text-indent: 5px;
+}
+.dc20rpg .dialog-v13 .box-content .actor:first-child {
+  border-top: 0;
 }
 .dc20rpg .dialog-v13 button {
   display: -webkit-box;

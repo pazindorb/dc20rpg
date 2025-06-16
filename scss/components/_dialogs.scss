@@ -1614,7 +1614,7 @@
   }
 }
 
-#actor-request, #token-selector, #dmg-calculator, #initiative-slot-selector {
+#token-selector, #dmg-calculator, #initiative-slot-selector {
 
   .selectable {
     width: auto;
@@ -2584,6 +2584,57 @@
       &:hover {
         box-shadow: none;
         cursor: default;
+      }
+    }
+  }
+
+  .box-content {
+    margin: 5px 0;
+    background-color: var(--backround-color);
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--text-color);
+
+    .actor {
+      padding: 5px 8px;
+
+      font-family: $font-default;
+      font-size: 14px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      border-top: 2px solid var(--border-color);
+
+      .wrapper {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        img {
+          height: 30px;
+          width: 30px;
+          object-position: 50% 0;
+          object-fit: cover;
+          border: 1px solid var(--border-color);
+          border-radius: 5px;
+        }
+
+        input {
+          color: var(--text-color);
+          border: 0;
+          background-color: transparent;
+          font-family: $font-header;
+          font-size: 20px;
+          margin: 0 5px 0 5px;
+          text-indent: 5px;
+        }
+      }
+
+      &:first-child {
+        border-top: 0;
       }
     }
   }

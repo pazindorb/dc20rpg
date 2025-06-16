@@ -1,35 +1,39 @@
-<form id="actor-request" class="dialog-v2">
-  <div class="header">
-    <span>{{title}}</span>
-  </div>
+<form id="actor-request" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{header}}</h4>
   
   {{!-- Select Roll --}}
-  <select class="long-select selectable">
-    {{selectOptions rollOptions selected=selected blank=""}}
-  </select>
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.actorRequest.selected'}}</label>    
+    <div class="form-fields">
+      <select data-cType="string" data-path="selected">
+        {{selectOptions rollOptions selected=selected blank=""}}
+      </select>
+    </div>
+  </div>
 
   {{!-- Actor Select --}}
+  {{#if hasActors}}
   <div class="box-content">
-    {{#if hasActors}}
     {{#each selectedActors as |actor actorId|}}
       <div class="actor">
         <div class="wrapper">
           <img src="{{actor.actor.img}}"/>
           <input disabled value="{{actor.actor.name}}"/>
         </div>
-        <a class="activable" data-path="selectedActors.{{actorId}}.selected">
-          <i class="fa-2x {{#if actor.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-        </a>
+        {{{checkbox "selectedActors.${actorId}.selected" actor.selected checked="fa-2x fa-solid fa-square-check" unchecked="fa-2x fa-regular fa-square" actorId=actorId}}}
       </div>
     {{/each}}
-    {{else}}
-      <div class="actor">
-        <div class="wrapper">
-          <span>{{localize "dc20rpg.dialog.actorRequest.noPlayer"}}</span>
-        </div>
+  </div>
+  {{else}}
+  <div class="box-content">
+    <div class="actor">
+      <div class="wrapper">
+        <span>{{localize "dc20rpg.dialog.actorRequest.noPlayer"}}</span>
       </div>
-    {{/if}}
+    </div>
+  </div>
+  {{/if}}
   </div>
 
-  <button class="close confirm-request button margin-top-5">{{localize "dc20rpg.dialog.actorRequest.title"}}</button>
+  <button {{#unless hasActors}}disabled{{/unless}} class="button margin-top-5" data-action="confirm"><i class="fa-solid {{icon}}"></i>{{localize "dc20rpg.dialog.actorRequest.send"}} {{header}}</button>
 </form>
