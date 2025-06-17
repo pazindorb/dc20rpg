@@ -1,10 +1,8 @@
-import { roundFloat } from "../helpers/utils.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
+import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -171,11 +169,11 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
 
     const movementCost = movement.passed.cost;
-    let subtracted = await this.subtractMovePoints(movementCost);
+    let subtracted = await subtractMovePoints(this.actor, movementCost);
 
     // Spend extra AP to move
     if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
-      subtracted = await this.spendMoreApOnMovement(subtracted);
+      subtracted = await spendMoreApOnMovement(this.actor, subtracted, this.movementAction);
     }
 
     // Do not move the actor
@@ -200,36 +198,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
       if (onTurn && !this.activeCombatant) return false;
     }
     return true;
-  }
-
-  async subtractMovePoints(cost) {    
-    const movePoints = this.actor.system.movePoints;
-    const newMovePoints = movePoints - cost;
-    if (newMovePoints < -0.1) return Math.abs(newMovePoints);
-
-    await this.actor.update({["system.movePoints"]: roundFloat(newMovePoints)});
-    return true;
-  }
-
-  async spendMoreApOnMovement(missingMovePoints) {
-    const selectedMovement = this.movementAction;
-    const actor = this.actor;
-    const movePoints = actor.system.movement[selectedMovement].current;
-    if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
-
-    let apSpend = 0;
-    let movePointsGained = 0;
-    while ((missingMovePoints - movePointsGained) > 0) {
-      apSpend++;
-      movePointsGained += movePoints;
-    }
-    const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-    const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
-    if (proceed && subtractAP(actor, apSpend)) {
-      await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
-      return true;
-    }
-    return missingMovePoints;
   }
 
   _onUpdateMovement(movement, operation, user) {

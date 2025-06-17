@@ -553,7 +553,7 @@ function _save(saves) {
 
 function _check(check) {
   const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
+  const description = `${checkDC} <b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
   return _descriptionIcon(description, 'fa-user-check');
 }
 
@@ -582,13 +582,8 @@ function _formulas(formulas, icon, types) {
 function _descriptionIcon(description, icon) {
   return `
   <div class="description-icon" title="">
-    <div class="letter-circle-icon">
+    <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <i class="fa-solid ${icon}"></i>
-    </div>
-    <div class="description">
-      <div class="description-wrapper"> 
-        <span>${description}</span>
-      </div>
     </div>
   </div>
   `
@@ -597,13 +592,8 @@ function _descriptionIcon(description, icon) {
 function _descriptionChar(description, char) {
   return `
   <div class="description-icon" title="">
-    <div class="letter-circle-icon">
+    <div class="letter-circle-icon" data-tooltip="="<span style='display:flex; text-align: center;'>${description}</span>">
       <span class="char">${char}</span>
-    </div>
-    <div class="description">
-      <div class="description-wrapper"> 
-        <span>${description}</span>
-      </div>
     </div>
   </div>
   `

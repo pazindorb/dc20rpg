@@ -632,32 +632,6 @@
   -webkit-box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
   box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
 }
-.description-icon:hover .description {
-  display: block;
-}
-.description-icon .description {
-  display: none;
-  height: 0;
-  width: 0;
-}
-.description-icon .description-wrapper {
-  font-size: 12px;
-  padding: 5px;
-  color: black;
-  background-color: var(--secondary-lighter);
-  border: 2px solid var(--primary-color);
-  border-radius: 0 5px 5px 5px;
-  text-align: center;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  position: absolute;
-  margin-top: -6px;
-}
-.description-icon .description-wrapper span {
-  font-family: "Signika", sans-serif;
-  line-height: 15px;
-}
 
 #token-hud .ap-wrapper {
   display: -webkit-box;
@@ -2651,21 +2625,10 @@
   justify-content: end;
   margin-right: 5px;
 }
-.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description {
-  position: fixed;
-}
 .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon span {
   font-size: 16px;
   height: 30px;
   width: 30px;
-}
-.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description-wrapper {
-  margin-left: 2px;
-  margin-top: 22px;
-  font-family: "Signika", sans-serif;
-}
-.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description-wrapper span {
-  font-size: 11px;
 }
 .dc20rpg #roll-prompt .ammo-use {
   font-family: "Humaroid";
@@ -2771,14 +2734,6 @@
 }
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
-}
-.dc20rpg #roll-prompt .description-icon .description-wrapper {
-  margin-left: 2px;
-  font-family: "Signika", sans-serif;
-  position: relative;
-}
-.dc20rpg #roll-prompt .description-icon .description-wrapper span {
-  font-size: 11px;
 }
 .dc20rpg #roll-prompt .costs {
   display: -webkit-box;
@@ -4566,9 +4521,6 @@
   height: 27px;
   width: 27px;
   border: 2px solid white;
-}
-.dc20rpg .item-list .item-row .action .description-icon .description, .dc20rpg .item-list .item-row .components .description-icon .description, .dc20rpg .item-list .enh-row .action .description-icon .description, .dc20rpg .item-list .enh-row .components .description-icon .description {
-  position: relative;
 }
 .dc20rpg .item-list .item-row .action .description-icon .fa-droplet, .dc20rpg .item-list .item-row .components .description-icon .fa-droplet, .dc20rpg .item-list .enh-row .action .description-icon .fa-droplet, .dc20rpg .item-list .enh-row .components .description-icon .fa-droplet {
   background-color: var(--health-point);

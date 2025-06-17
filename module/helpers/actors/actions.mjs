@@ -1,8 +1,7 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey, getPointsOnLine, roundFloat } from "../utils.mjs";
-import { companionShare } from "./companion.mjs";
+import { generateKey, roundFloat } from "../utils.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
@@ -93,6 +92,34 @@ export async function makeMoveAction(actor, options={}) {
 
 export async function clearMovePoints(actor) {
   await actor.update({["system.movePoints"]: 0});
+}
+
+export async function subtractMovePoints(actor, cost) {    
+  const movePoints = actor.system.movePoints;
+  const newMovePoints = movePoints - cost;
+  if (newMovePoints < -0.1) return Math.abs(newMovePoints);
+
+  await actor.update({["system.movePoints"]: roundFloat(newMovePoints)});
+  return true;
+}
+
+export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMovement="ground") {
+  const movePoints = actor.system.movement[selectedMovement].current;
+  if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
+
+  let apSpend = 0;
+  let movePointsGained = 0;
+  while ((missingMovePoints - movePointsGained) > 0) {
+    apSpend++;
+    movePointsGained += movePoints;
+  }
+  const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
+  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
+  if (proceed && subtractAP(actor, apSpend)) {
+    await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
+    return true;
+  }
+  return missingMovePoints;
 }
 
 //===================================

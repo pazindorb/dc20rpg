@@ -1,4 +1,5 @@
-import { addBasicActions } from "../helpers/actors/actions.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { addBasicActions, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
@@ -25,7 +26,7 @@ export class DC20RpgActor extends Actor {
   }
 
   get slowed() {
-    return getStatusWithId(this, "slowed")?.stack || 0
+    return this.system.moveCost - 1 || 0;
   }
 
   get allEffects() {
@@ -418,6 +419,23 @@ export class DC20RpgActor extends Actor {
 
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
+      if (statusId === "prone") {
+        const confirmed = await getSimplePopup("confirm", {header: "Should spend 2 Move Points to stand up from Prone?"});
+        if (confirmed) {
+          let subtracted = await subtractMovePoints(this, 2);
+
+          // Spend extra AP
+          if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
+            subtracted = await spendMoreApOnMovement(this, subtracted);
+          }
+
+          if (subtracted !== true) {
+            ui.notifications.warn("Not enough move points to stand up from Prone!");
+            return false;
+          }
+        }
+      }
+
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
       this.reset();
       return false;

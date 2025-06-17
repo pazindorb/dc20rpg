@@ -17,7 +17,8 @@
     </div>
     {{!-- Area Content --}}
     {{#each system.target.areas as |area key|}}
-    <div class="row margin-top-3">
+    <hr class="margin-top-5" />
+    <div class="row margin-top-5">
       <div class="left-part-row">
         <span>{{localize "dc20rpg.item.sheet.target.area"}}</span>
         {{#ifCond key '!==' "default"}}<a class="margin-right-5 remove-area fa-solid fa-square-minus fa-lg" data-key="{{key}}"></a>{{/ifCond}}
@@ -43,6 +44,7 @@
     {{/each}}
 
     {{!-- Range --}}
+    <hr class="margin-top-10" />
     <div class="row margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.target.range"}}</span>
       <div class="right-part-row">
@@ -58,6 +60,7 @@
     </div>
 
     {{!-- Duration --}}
+    <hr class="margin-top-10" />
     <div class="row margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.target.duration"}}</span>
       <select name="system.duration.type">
