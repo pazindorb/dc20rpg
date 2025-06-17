@@ -348,7 +348,9 @@ function _basicConditionals(actor) {
 			ignoreEdr: false,
 			ignoreMdr: false,
 			ignoreResistance: {},
-			ignoreImmune: {}
+			ignoreImmune: {},
+			reduceAd: "",
+			reducePd: ""
 		},
 		effect: null,
 		addsNewRollRequest: false,
@@ -376,7 +378,9 @@ function _basicConditionals(actor) {
 				ignoreEdr: false,
 				ignoreMdr: false,
 				ignoreResistance: {},
-				ignoreImmune: {}
+				ignoreImmune: {},
+				reduceAd: "",
+				reducePd: ""
 			},
 			effect: null,
 			addsNewRollRequest: false,
@@ -395,21 +399,25 @@ function _basicConditionals(actor) {
 
 function _weaponStyles(actor) {
 	const conditionals = [
-		_conditionBuilder("axe", '["bleeding"]'),
-		_conditionBuilder("bow", '["slowed"]'),
-		_conditionBuilder("fist", '["grappled"]'),
-		_conditionBuilder("hammer", '["dazed", "petrified"]'),
-		_conditionBuilder("pick", '["impaired"]'),
-		_conditionBuilder("staff", '["hindered"]'),
-		_conditionBuilder("sword", '["exposed"]'),
+		_conditionBuilder("axe", `target.hasAnyCondition(["bleeding"])`),
+		_conditionBuilder("bow", `target.hasAnyCondition(["slowed"])`),
+		_conditionBuilder("fist", `target.hasAnyCondition(["grappled"])`),
+		_conditionBuilder("hammer", `target.hasAnyCondition(["dazed", "petrified"])`),
+		_conditionBuilder("pick", `target.hasAnyCondition(["impaired"])`),
+		_conditionBuilder("staff", `target.hasAnyCondition(["hindered"])`),
+		_conditionBuilder("sword", `target.hasAnyCondition(["exposed"])`),
+		_conditionBuilder("chained", `target.system.details.armor.shieldEquipped`, "@target.system.details.armor.shieldBonus.ad", "@target.system.details.armor.shieldBonus.pd"),
+		_conditionBuilder("whip", `helpers.whipHelper("${actor.id}", target)`),
+		_conditionBuilder("crossbow", `helpers.crossbowHelper("${actor.id}", target)`),
+		_conditionBuilder("spear", `helpers.spearHelper(target)`),
 	];
 	conditionals.forEach(conditional => actor.system.conditionals.push(conditional));
 }
 
-function _conditionBuilder(weaponStyle, conditions) {
+function _conditionBuilder(weaponStyle, condition, reduceAd, reducePd) {
 	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
 	return {
-		condition: `target.hasAnyCondition(${conditions})`, 
+		condition: condition, 
 		bonus: '1', 
 		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 
 		name: `${weaponStyleLabel} Passive`,
@@ -419,7 +427,9 @@ function _conditionBuilder(weaponStyle, conditions) {
 			ignoreEdr: false,
 			ignoreMdr: false,
 			ignoreResistance: {},
-			ignoreImmune: {}
+			ignoreImmune: {},
+			reduceAd: reduceAd,
+			reducePd: reducePd
 		},
 		effect: null,
 		addsNewRollRequest: false,

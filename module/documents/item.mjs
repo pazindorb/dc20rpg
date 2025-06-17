@@ -431,7 +431,9 @@ export class DC20RpgItem extends Item {
         ignoreEdr: false,
         ignoreMdr: false,
         ignoreResistance: {},
-        ignoreImmune: {}
+        ignoreImmune: {},
+        reduceAd: "",
+        reducePd: ""
       },
       effect: null,
       addsNewRollRequest: false,

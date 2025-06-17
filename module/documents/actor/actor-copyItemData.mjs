@@ -50,6 +50,11 @@ export function prepareEquippedItemsFlags(actor) {
 	const equippedFlags = {
 		armorEquipped: false,
 		heavyEquipped: false,
+		shieldEquipped: false,
+		shieldBonus: {
+			ad: 0,
+			pd: 0
+		},
 	}
 
 	actor.items.forEach(item => {
@@ -60,11 +65,25 @@ export function prepareEquippedItemsFlags(actor) {
 			if (["heavy"].includes(item.system.equipmentType)) {
 				equippedFlags.heavyEquipped = true;
 			}
+			if (["lshield", "hshield"].includes(item.system.equipmentType)) {
+				equippedFlags.shieldEquipped = true;
+				const properties = item.system.properties;
+				
+				if (properties.adIncrease.active) {
+					equippedFlags.shieldBonus.ad = properties.adIncrease.value;
+				}
+				if (properties.pdIncrease.active) {
+					equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
+				}
+				
+			}
 		}
 	});
 	actor.system.details.armor = {
 		armorEquipped: equippedFlags.armorEquipped,
-		heavyEquipped: equippedFlags.heavyEquipped
+		heavyEquipped: equippedFlags.heavyEquipped,
+		shieldEquipped: equippedFlags.shieldEquipped,
+		shieldBonus: equippedFlags.shieldBonus
 	}
 }
 

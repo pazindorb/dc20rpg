@@ -110,6 +110,17 @@
       {{/each}}
     </div>
 
+    {{!-- Reduce AD --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.reduceAd"}}</span>
+      <input type="text" name="system.conditionals.{{key}}.flags.reduceAd" value="{{conditional.flags.reduceAd}}">
+    </div>
+    {{!-- Reduce PD --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.reducePd"}}</span>
+      <input type="text" name="system.conditionals.{{key}}.flags.reducePd" value="{{conditional.flags.reducePd}}">
+    </div>
+
     {{!-- Adds Roll Request --}}
     <hr class="margin-top-5" />
     <div class="row margin-top-5">

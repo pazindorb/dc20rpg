@@ -184,8 +184,14 @@ export class CharacterCreationWizard extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".image-picker").click(() => this._onImagePicker());
-    html.find(".input-text").change(ev => setValueForPath(this, datasetOf(ev).path, valueOf(ev)));
-    html.find(".input").change(ev => setValueForPath(this, datasetOf(ev).path, parseInt(valueOf(ev))));
+    html.find(".input-text").change(ev => {
+      setValueForPath(this, datasetOf(ev).path, valueOf(ev))
+      this.render();
+    });
+    html.find(".input").change(ev => {
+      setValueForPath(this, datasetOf(ev).path, parseInt(valueOf(ev)))
+      this.render();
+    });
     html.find(".input-numeric").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".manual-switch").click(ev => this._onManualSwitch())
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));

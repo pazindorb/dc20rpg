@@ -2,7 +2,7 @@ import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs"
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
-import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
+import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -33,7 +33,6 @@ export class DC20ChatMessage extends ChatMessage {
       if (system.targetedTokens.length > 0) system.applyToTargets = true;
       else system.applyToTargets = false;
     }
-    this._prepareDisplayedTargets();
     this._prepareMeasurementTemplates();
   }
 
@@ -118,7 +117,7 @@ export class DC20ChatMessage extends ChatMessage {
   _tokensToTargets(tokens) {
     if (!tokens) return [];
     const targets = [];
-    tokens.forEach(token => targets.push(tokenToTarget(token)));
+    tokens.forEach(token => targets.push(tokenToTarget(token, {chatMessageId: this.id})));
     return targets;
   }
 
@@ -134,6 +133,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   /** @overriden */
   async renderHTML(options) {
+    this._prepareDisplayedTargets();
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
 
@@ -160,6 +160,10 @@ export class DC20ChatMessage extends ChatMessage {
     if (defaultMessage && this.rolls.length > 0) {
       element.querySelector(".dice-roll").classList.add("default-roll-message");
     }
+
+    // Add padding to default text messages
+    if (!this.content.startsWith('<div class="chat_v2">')) element.children[1].style="padding: 7px 10px;"
+
     this._activateListeners($(element));        // Activete listeners on rendered template
     return element;
   }
@@ -244,7 +248,6 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.token-selection').click(() => this._onTargetSelectionSwap());
     html.find('.run-check-for-selected').click(ev => {
       ev.stopPropagation();
-      this._prepareDisplayedTargets();
       ui.chat.updateMessage(this);
     });
     html.find('.wrap-target').click(ev => {
@@ -314,7 +317,6 @@ export class DC20ChatMessage extends ChatMessage {
     const system = this.system;
     if (system.targetedTokens.length === 0) return;
     system.applyToTargets = !system.applyToTargets;
-    this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
   }
 
@@ -603,6 +605,7 @@ export class DC20ChatMessage extends ChatMessage {
     const dmg = target.dmg[dmgKey][dmgModified];
     const finalDmg = half ? {source: dmg.source + " - Half Damage", value: Math.ceil(dmg.value/2), type: dmg.type} : dmg;
     await applyDamage(actor, finalDmg, {messageId: this.id});
+    runEventsFor("targetConfirm", actor, triggerOnlyForIdFilter(this.speaker.actor));
   }
 
   async _onApplyHealing(targetKey, healKey, modified) {
@@ -618,6 +621,7 @@ export class DC20ChatMessage extends ChatMessage {
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     heal.allowOverheal = rollingActor.system.globalModifier.allow.overheal;
     await applyHealing(actor, heal, {messageId: this.id});
+    runEventsFor("targetConfirm", actor, triggerOnlyForIdFilter(this.speaker.actor));
   }
 
   async _onSaveRoll(targetKey, key, dc, againstStatuses) {
@@ -674,7 +678,6 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.total = rollTotal;
     }
     this.rollOutcomeStore.set(target.id, rollOutcome);
-    this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
   }
 
@@ -949,6 +952,7 @@ export class DC20ChatMessage extends ChatMessage {
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
 export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
+  const token = getTokenForActor(actor);
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
   if (hasTargets) game.user.targets.forEach(token => targets.push(token.id));
@@ -969,8 +973,16 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
     system: system,
-    flags: {dc20rpg: {itemId: item?.id}}
+    flags: {dc20rpg: {
+      itemId: item?.id, 
+      creationTime: {
+        round: game.combats?.active?.round || 0,
+        turn: game.combats?.active?.turn || 0
+      },
+      movedRecently: token.movedRecently
+    }}
   });
+  token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
@@ -987,6 +999,7 @@ function _rollsObjectToArray(rolls) {
 }
 
 export async function sendDescriptionToChat(actor, details, item) {
+  const token = getTokenForActor(actor);
   const system = {
       ...details,
       messageType: "description"
@@ -997,6 +1010,7 @@ export async function sendDescriptionToChat(actor, details, item) {
     system: system,
     flags: {dc20rpg: {itemId: item?.id}}
   });
+  token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
