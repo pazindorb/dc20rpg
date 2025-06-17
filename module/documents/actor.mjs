@@ -1,5 +1,6 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { addBasicActions, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
@@ -601,6 +602,20 @@ export class DC20RpgActor extends Actor {
       this.fromEvent = changes.fromEvent;
       this.messageId = changes.messageId;
       this.hpBeforeUpdate = this.system.resources.health;
+    }
+
+    // Run resource change event
+    if (changes.system?.resources) {
+      const before = this.system.resources;
+      for (const [key, resource] of Object.entries(changes.system.resources)) {
+        if (key === "health") continue;
+        if (key === "custom") {
+          for (const [customKey, customRes] of Object.entries(resource)) {
+            await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+          }
+        }
+        await runResourceChangeEvent(key, resource, before[key], this, false);
+      }
     }
     return await super._preUpdate(changes, options, user);
   }

@@ -2,6 +2,7 @@ import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { arrayOfTruth } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
+import { changedResourceFilter, runEventsFor } from "./events.mjs";
 
 //============================================
 //              Item Usage Costs             =
@@ -667,4 +668,10 @@ function _collectCharges(item) {
 function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
   if (companionShare(actor, key)) return actor.companionOwner;
   return actor;
+}
+
+export async function runResourceChangeEvent(key, resource, before, actor, custom) {
+  if (resource.value === undefined) return;
+  const changeValue = resource.value - before.value;
+  await runEventsFor("resourceChange", actor, changedResourceFilter(key), {resourceKey: key, change: changeValue, customResource: custom})
 }

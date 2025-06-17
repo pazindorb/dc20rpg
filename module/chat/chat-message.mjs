@@ -83,6 +83,7 @@ export class DC20ChatMessage extends ChatMessage {
     this.noTargetVersion = false;
     const system = this.system;
     const rolls = system.chatFormattedRolls;
+    if (!rolls) return;
 
     let targets = [];
     if (system.applyToTargets) targets = this._tokensToTargets(this._fetchTokens(system.targetedTokens));   // From targets

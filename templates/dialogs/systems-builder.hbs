@@ -89,6 +89,12 @@
       </select>
     </div>
     {{/ifCond}}
+    {{!-- Resource Change Trigger --}}
+    {{#ifCond fields.trigger.value '===' "resourceChange"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceKey"}}</span>
+      <input class="input" data-path="fields.changedResource.value" value="{{fields.changedResource.value}}"/>
+    </div>
     {{#if (arrayIncludes fields.trigger.value arrayString="damageTaken healingTaken")}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.minimum"}}</span>
@@ -148,6 +154,7 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.custom"}}</span>
       <a class="activable fa-2x {{#if fields.custom.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.custom.value"></a>
     </div>
+    {{/ifCond}}
     {{/ifCond}}
     {{!-- Check/Save Request --}}
     {{#ifCond fields.eventType.value '===' "checkRequest"}}

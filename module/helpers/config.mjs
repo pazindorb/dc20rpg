@@ -207,6 +207,7 @@ DC20RPG.allEventTriggers = {
   combatStart: "Combat Start",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
+  resourceChange: "Resource Change",
   effectApplied: "Effect Applied",
   effectRemoved: "Effect Removed",
   effectEnabled: "Effect Enabled",

@@ -373,6 +373,18 @@ export function minimalAmountFilter(amount) {
   return [filter];
 }
 
+export function changedResourceFilter(key) {
+  const filter = {
+    required: true,
+    eventField: "changedResource",
+    filterMethod: (field) => {
+      if (!field) return false;
+      return key === field;
+    }
+  }
+  return [filter];
+}
+
 export function currentRoundFilter(actor, currentRound) {
   const filter = {
     required: true,

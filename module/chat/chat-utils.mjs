@@ -31,7 +31,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
  */
 export function enhanceTarget(target, rolls, details, applierId) {
   const actionType = details.actionType;
-  const winner = rolls.winningRoll;
+  const winner = rolls?.winningRoll;
   
   // Prepare Common Data
   const data = {
