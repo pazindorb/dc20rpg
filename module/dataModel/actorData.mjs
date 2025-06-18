@@ -115,9 +115,9 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       tokenHotbar: new f.SchemaField({
         sectionA: new f.ObjectField({required: true}),
         sectionB: new f.ObjectField({required: true}),
-        resource1: new f.StringField({required: true, initial: ""}),
-        resource2: new f.StringField({required: true, initial: ""}),
-        resource3: new f.StringField({required: true, initial: ""}),
+        resource1: new f.ObjectField({required: true}),
+        resource2: new f.ObjectField({required: true}),
+        resource3: new f.ObjectField({required: true}),
       })
     }
   }
@@ -182,7 +182,22 @@ export class DC20CharacterData extends DC20BaseActorData {
       }),
       size: new SizeFields(true),
       movement: new MovementFields(false),
-      rest: new RestFields()
+      rest: new RestFields(),
+      tokenHotbar: new f.SchemaField({        
+        sectionA: new f.ObjectField({required: true}),
+        sectionB: new f.ObjectField({required: true}),
+        resource1: new f.ObjectField({required: true, initial: {
+          color: "#e1d676",
+          key: "stamina",
+          label: "Stamina",
+        }}),
+        resource2: new f.ObjectField({required: true, initial: {
+          color: "#81a3e7",
+          key: "mana",
+          label: "Mana",
+        }}),
+        resource3: new f.ObjectField({required: true}),
+      })
     });
   } 
 }

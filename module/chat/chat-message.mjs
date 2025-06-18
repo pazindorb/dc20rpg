@@ -980,10 +980,10 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
         round: game.combats?.active?.round || 0,
         turn: game.combats?.active?.turn || 0
       },
-      movedRecently: token.movedRecently
+      movedRecently: token?.movedRecently || null
     }}
   });
-  token.movedRecently = null;
+  if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
@@ -1011,7 +1011,7 @@ export async function sendDescriptionToChat(actor, details, item) {
     system: system,
     flags: {dc20rpg: {itemId: item?.id}}
   });
-  token.movedRecently = null;
+  if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 

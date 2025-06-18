@@ -1,11 +1,38 @@
 #tooltip {
 
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 10px;
+
+    h4 {
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+
+    .cost-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
   .custom-resource {
     display: flex;
     align-items: center;
 
     img {
       margin-left: 2px;
+      min-width: 16px;
+      min-height: 16px;
       width: 16px;
       height: 16px;
       border-radius: 2px;
@@ -13,8 +40,12 @@
     }
   }
 
-  .ap, .sp, .mp, .hp, .grit, .rest {
+  .ap, .sp, .mp, .hp, .grit, .rest, .reaction {
     text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+  }
+
+  .reaction {
+    color: $primary-color;
   }
 
   .ap {

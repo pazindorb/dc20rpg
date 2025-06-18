@@ -1,0 +1,70 @@
+<form id="token-hotbar-config" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+
+  {{!-- Section Config --}}
+  <fieldset>
+    <legend>{{localize "dc20rpg.config.tokenHotbar.sectionConfig"}}</legend>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.sectionA"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.config.tokenHotbar.rows"}}</label>
+        <input type="number" data-path="settings.sectionA.rows" value="{{settings.sectionA.rows}}" data-limit="6" data-cType="numeric"/>
+        <label>{{localize "dc20rpg.config.tokenHotbar.columns"}}</label>
+        <input type="number" data-path="settings.sectionA.columns" value="{{settings.sectionA.columns}}" data-limit="12" data-cType="numeric"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.sectionB"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.config.tokenHotbar.rows"}}</label>
+        <input type="number" data-path="settings.sectionB.rows" value="{{settings.sectionB.rows}}" data-limit="6" data-cType="numeric"/>
+        <label>{{localize "dc20rpg.config.tokenHotbar.columns"}}</label>
+        <input type="number" data-path="settings.sectionB.columns" value="{{settings.sectionB.columns}}" data-limit="12" data-cType="numeric"/>
+      </div>
+    </div>
+  </fieldset>
+
+  {{!-- Resource Config --}}
+  <fieldset>
+    <legend>{{localize "dc20rpg.config.tokenHotbar.resourceConfig"}}</legend>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.resource1"}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="data.resource1.key">
+          {{selectOptions resources selected=data.resource1.key blank=""}}
+        </select>
+        <label>{{localize "dc20rpg.config.tokenHotbar.color"}}</label>
+        <color-picker data-cType="string" data-path="data.resource1.color" value="{{data.resource1.color}}"></color-picker>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.resource2"}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="data.resource2.key">
+          {{selectOptions resources selected=data.resource2.key blank=""}}
+        </select>
+        <label>{{localize "dc20rpg.config.tokenHotbar.color"}}</label>
+        <color-picker data-cType="string" data-path="data.resource2.color" value="{{data.resource2.color}}"></color-picker>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.resource3"}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="data.resource3.key">
+          {{selectOptions resources selected=data.resource3.key blank=""}}
+        </select>
+        <label>{{localize "dc20rpg.config.tokenHotbar.color"}}</label>
+        <color-picker data-cType="string" data-path="data.resource3.color" value="{{data.resource3.color}}"></color-picker>
+      </div>
+    </div>
+  </fieldset>
+
+  {{!-- Confirm --}}
+  <footer class="form-footer">
+    <button data-action="save"><i class="fa-solid fa-floppy-disk fa-lg"></i>{{localize "dc20rpg.config.tokenHotbar.save"}}</button>
+  </footer>
+</form>

@@ -24,9 +24,45 @@
     {{/each}}
     </div>
     {{!-- Character Details --}}
-    {{#if @root.actor.img}}
-    <div class="portrait-wrapper" data-tooltip="{{localize "HOTBAR.DBCLICK"}}">
-      <img class="char-img" src="{{@root.actor.img}}">
+    {{#if actor.img}}
+    <div class="portrait-wrapper">
+      {{{resources}}}
+
+      <img class="char-img" data-tooltip="{{localize "HOTBAR.DBCLICK"}}" src="{{@root.actor.img}}">
+
+      {{!-- HP Bar --}}
+      <div class="resource margin-top-10" title="{{localize 'dc20rpg.resource.health'}}">
+        <div class="above-bar margin-top-auto">
+          <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
+            <input class="temporary-input" data-cType="actor-numeric" data-path="system.resources.health.temp" type="number" value="{{actor.system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+          </div>
+        </div>
+        
+        <div class="resource-bar-wrapper">
+          <a class="health spend-resource" data-action="spendResource" data-resource="health" title="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"><i class="fas fa-solid fa-minus"></i></a>
+          <div class="resource-bar">
+            <div class="health-bar-temp" style="width: {{actor.system.resources.health.percentTemp}}%"></div>
+            <div class="health-bar" style="width: {{actor.system.resources.health.percent}}%"></div>
+            <div class="resource-content">
+              <div class="resource-values">
+                <input class="bar-input" data-cType="actor-numeric" data-path="system.resources.health.current" type="number" value="{{actor.system.resources.health.current}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input disabled class="bar-input" type="number" data-path="actor.system.resources.health.max" value="{{actor.system.resources.health.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <a class="health regain-resource" data-action="regainResource" data-resource="health" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"><i class="fas fa-solid fa-plus"></i></a>
+        </div>
+      </div>
+
+      {{!-- Action Points --}}
+      <div class="action-points-wrapper">
+        <a class="ap spend-resource" data-action="spendResource" data-resource="ap" title="{{localize 'dc20rpg.sheet.resource.useAp'}}"><i class="fas fa-solid fa-minus"></i></a>
+        <div class="points">
+          {{{icon-printer-empty actor.system.resources.ap.value actor.system.resources.ap.max 4 "fa-solid fa-dice-d6 ap" "fa-regular fa-dice-d6 ap" actor.system.globalModifier.prevent.goUnderAP "#b20000"}}}
+        </div>
+        <a class="ap regain-resource" data-action="regainResource" data-resource="ap" title="{{localize 'dc20rpg.sheet.resource.regainAp'}}"><i class="fas fa-solid fa-plus"></i></a>
+      </div>
     </div>
     {{/if}}
 

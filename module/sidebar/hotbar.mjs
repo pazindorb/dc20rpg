@@ -1,7 +1,10 @@
 import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
+import { regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
+import { getValueFromPath } from "../helpers/utils.mjs";
 import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
+import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
 
 // MAX SLOTS IN ROW 12 (columns)
 // MARK REACTIONS SOMEHOW
@@ -10,7 +13,6 @@ export default class DC20Hotbar extends Hotbar {
   constructor(options = {}) {
     super(options);
     this.tokenHotbar = game.settings.get("dc20rpg", "tokenHotbar");
-    this.tokenHotbarSize = game.settings.get("dc20rpg", "tokenHotbarSettings");
   }
 
   /** @override */
@@ -24,7 +26,10 @@ export default class DC20Hotbar extends Hotbar {
   _initializeApplicationOptions(options) {
     const initialized = super._initializeApplicationOptions(options);
     initialized.actions.swap = this._onSwap;
-    initialized.actions.roll =this._onRoll;
+    initialized.actions.roll = this._onRoll;
+    initialized.actions.spendResource = this._spendResource;
+    initialized.actions.regainResource = this._regainResource;
+    initialized.actions.config = this._onConfigTokenHotbar;
     return initialized;
   }
 
@@ -32,6 +37,7 @@ export default class DC20Hotbar extends Hotbar {
     super._attachFrameListeners();
     this.element.addEventListener("dblclick", this._onDoubleClick.bind(this));
     this.element.addEventListener("mousedown", this._onMiddleClick.bind(this));
+    this.element.addEventListener("change", this._onChange.bind(this));
   }
 
   // ==================== CONTEXT =====================
@@ -50,19 +56,31 @@ export default class DC20Hotbar extends Hotbar {
     const token = tokens[0];
     this.actor = token.actor;
     this.actorId = this.actor.id;
+    context.actor = this.actor;
+
+    const health = this.actor.system.resources.health;
+    let hpPercent = Math.ceil(100 * health.current/health.max);
+    if (isNaN(hpPercent)) hpPercent = 0;
+    context.actor.system.resources.health.percent = Math.min(hpPercent, 100);
+    let tempPercent = Math.ceil(100 * health.value/health.max);
+    if (isNaN(tempPercent)) tempPercent = 0;
+    context.actor.system.resources.health.percentTemp = Math.min(tempPercent, 100);
 
     context.sectionA = await this._prepareSectionSlots("sectionA");
     context.sectionB = await this._prepareSectionSlots("sectionB");
-    context.sectionAWidth = this.tokenHotbarSize["sectionA"].columns;
-    context.sectionBWidth = this.tokenHotbarSize["sectionB"].columns;
-    context.actor = this.actor;
+    const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
+    context.sectionAWidth = tokenHotbarSettings["sectionA"].columns;
+    context.sectionBWidth = tokenHotbarSettings["sectionB"].columns;
+
+    context.resources = this._prepareResources() 
   }
 
   async _prepareSectionSlots(sectionKey) {
     const section = this.actor.system.tokenHotbar[sectionKey];
     const items = this.actor.items;
 
-    const sc = this.tokenHotbarSize[sectionKey];
+    const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
+    const sc = tokenHotbarSettings[sectionKey];
     const size = sc.rows * sc.columns;
     const slots = [];
     for (let i = 0; i < size; i++) {
@@ -81,7 +99,8 @@ export default class DC20Hotbar extends Hotbar {
     const data = {system: item.system};
     preprareSheetData(data, item);
 
-    const cost = useCost ? `<p style='display:flex;'><b style='margin-right:3px; align-items: center;'>Cost:</b> ${useCost}</p>` : "";
+    const reaction = item.system.isReaction ? `<i class='margin-left-3 margin-right-8 fa-solid fa-reply reaction'></i>` : "";
+    const cost = useCost ? `<div class='cost-wrapper'>${reaction}${useCost}</div>` : "";
     const action = itemAction ? `<p><b>Action:</b> ${itemAction}</p>` : "";
     const saves = data.sheetData.saves ? `<p><b>Save:</b> ${data.sheetData.saves}</p>` : "";
     const contest = data.sheetData.contests ? `<p><b>Contest:</b> ${data.sheetData.contests}</p>` : "";
@@ -92,7 +111,7 @@ export default class DC20Hotbar extends Hotbar {
     formulas += data.sheetData.otherFormula ? `<li class='margin-top-5'>Other: ${data.sheetData.otherFormula}</li>` : "";
     if (formulas) formulas = `<p><b>Outcome:</b> ${formulas}</p>`;
 
-    let middleColumn = `${cost} ${action} ${saves} ${contest} ${formulas}`;
+    let middleColumn = `${action} ${saves} ${contest} ${formulas}`;
     if (middleColumn.trim()) middleColumn = "<hr/>" + middleColumn;
 
     let descriptionColumn = item.system.description;
@@ -102,10 +121,44 @@ export default class DC20Hotbar extends Hotbar {
     }
 
     return `
-      <h4>${item.name}</h4>
+      <div class='header-section'><h4>${item.name}</h4> ${cost}</div>
       <div class='middle-section'>${middleColumn}</div>
       ${descriptionColumn}
     `
+  }
+
+  _prepareResources() {
+    const tokenHotbar = this.actor.system.tokenHotbar;
+    if (tokenHotbar.resource1.key && tokenHotbar.resource2.key && tokenHotbar.resource3.key) {
+      let content = "";
+      content += this._resource(tokenHotbar.resource1, "resource-left-short");
+      content += this._resource(tokenHotbar.resource3, "resource-middle");
+      content += this._resource(tokenHotbar.resource2, "resource-right-short");
+      return content;
+    }
+    if (tokenHotbar.resource1.key && tokenHotbar.resource2.key) {
+      let content = "";
+      content += this._resource(tokenHotbar.resource1, "resource-left");
+      content += this._resource(tokenHotbar.resource2, "resource-right");
+      return content;
+    }
+    if (tokenHotbar.resource1.key) {
+      let content = "";
+      content += this._resource(tokenHotbar.resource1, "resource-wide");
+      return content;
+    }
+    return "";
+  }
+
+  _resource(resource, clazz) {
+    const value = getValueFromPath(this.actor, `system.resources.${resource.key}.value`);
+
+    return `
+      <div class="${clazz}">
+        <input data-cType="actor-numeric" data-path="system.resources.${resource.key}.value" type="number" value="${value}"
+        data-dtype="Number" title="${resource.label}" style="background: linear-gradient(to bottom, ${resource.color}, #161616);">
+      </div>
+    `;
   }
   // ==================== CONTEXT =====================
 
@@ -143,6 +196,24 @@ export default class DC20Hotbar extends Hotbar {
     promptItemRoll(this.actor, item);
   }
 
+  async _spendResource(event, target) {
+    const key = target.dataset.resource;
+    if (!key) return;
+    await subtractBasicResource(key, this.actor, 1, true);
+    this.render();
+  }
+
+  async _regainResource(event, target) {
+    const key = target.dataset.resource;
+    if (!key) return;
+    await regainBasicResource(key, this.actor, 1, true);
+    this.render();
+  }
+
+  _onConfigTokenHotbar(event, target) {
+    openTokenHotbarConfig(this.actor);
+  }
+
   _onDoubleClick(event) {
     if (event.target.classList.contains("char-img")) {
       this.actor.sheet.render(true);
@@ -156,6 +227,21 @@ export default class DC20Hotbar extends Hotbar {
       const item = this._getItemFromSlot(dataset.index, dataset.section);
       if (item) item.sheet.render(true);
     }
+  }
+
+  async _onChange(event) {
+    const target = event.target;
+    const dataset = target.dataset;
+    const cType = dataset.ctype;
+    const path = dataset.path;
+    const value = target.value;
+
+    switch (cType) {
+      case "actor-numeric": 
+        await this.actor.update({[path]: value})
+        break;
+    }
+    this.render();
   }
   // ==================== ACTIONS =====================
 

@@ -53,7 +53,7 @@ function _wrapInBox(text) {
 }
 
 function _iconVersion(text, icon) {
-  return ` ${text} <i class='margin-left-3 margin-right-8 fa-solid ${icon}'></i>`
+  return `<div> ${text} <i class='margin-left-3 margin-right-8 fa-solid ${icon}'></i></div>`
 }
 
 function _range(item) {
