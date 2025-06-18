@@ -10,7 +10,6 @@ export function duplicateItemData(context, item) {
 
   context.itemsWithChargesIds = {};
   context.consumableItemsIds = {};
-  context.weaponsOnActor = {};
   context.hasOwner = false;
   let actor = item.actor ?? null;
   if (actor) {
@@ -18,7 +17,6 @@ export function duplicateItemData(context, item) {
     const itemIds = actor.getOwnedItemsIds(item.id);
     context.itemsWithChargesIds = itemIds.withCharges;
     context.consumableItemsIds = itemIds.consumable;
-    context.weaponsOnActor = itemIds.weapons;
   }
 }
 

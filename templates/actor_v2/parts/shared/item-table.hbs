@@ -49,27 +49,6 @@
             </a> 
           </div>
           <div class="item-name" data-item-id="{{_id}}">{{name}}</div>
-          {{#if system.usesWeapon.weaponAttack}}
-          <select class="select-other-item weapon-selector-{{_id}}" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseWeapon'}}">
-            {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}
-          </select>
-          {{/if}}
-          {{#if system.check.multiCheck.active}}
-          <select class="select-other-check check-selector-{{_id}}" data-path="system.check.checkKey" data-selector="check-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseCheck'}}">
-            {{selectOptions system.check.multiCheck.options selected=system.check.checkKey}}
-          </select>
-          {{/if}}
-          {{#if system.properties.multiFaceted.active}}
-          <a class="side-marker item-multi-faceted" title="{{varLocalize "dc20rpg.weaponStyles." system.properties.multiFaceted.labelKey ''}}"
-            {{#if system.usesWeapon.weaponAttack}}
-            data-item-id="{{system.usesWeapon.weaponId}}"
-            {{else}}
-            data-item-id="{{_id}}"
-            {{/if}}
-          >
-            <i class="fa-lg fa-solid{{#ifCond system.properties.multiFaceted.selected '===' "first"}} fa-hand-point-up{{else}} fa-hand-peace{{/ifCond}}"></i>
-          </a>
-          {{/if}}
           {{#if this.system.isReaction}}
           <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
             <i class="fa-solid fa-reply fa-lg"></i>

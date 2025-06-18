@@ -55,11 +55,6 @@ export function activateCommonLinsters(html, actor) {
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
-  html.find('.select-other-item').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
-  html.find('.select-other-check').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.select-other-check').click(ev => {ev.preventDefault(); ev.stopPropagation()});
-  html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
 

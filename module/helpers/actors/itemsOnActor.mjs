@@ -394,6 +394,16 @@ export function collectAmmoForWeapon(item, actor) {
   return ammo;
 }
 
+export function collectWeaponsFromActor(actor) {
+  const weapons = {};
+  actor.items.forEach(item => {
+    const identified = item.system.statuses ? item.system.statuses.identified : true;
+    if (item.type === "weapon" && identified) 
+      weapons[item.id] = item;
+  });
+  return weapons;
+}
+
 //======================================
 //             Item Tables             =
 //======================================

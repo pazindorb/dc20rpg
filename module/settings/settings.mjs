@@ -223,6 +223,32 @@ export function registerGameSettings(settings) {
     default: "",
     type: String
   });
+
+  settings.register("dc20rpg", "tokenHotbar", {
+    scope: "client",
+    config: false,
+    default: false,
+    type: Boolean
+  });
+
+  settings.register("dc20rpg", "tokenHotbarSettings", {
+    scope: "client",
+    config: false,
+    default: {
+      sectionA: {
+        columns: 10,
+        rows: 3
+      },
+      sectionB: {
+        columns: 3,
+        rows: 3
+      },
+      effects: {
+        rowSize: 5
+      }
+    },
+    type: Object
+  });
 }
 
 function _getInitiativeSkills() {

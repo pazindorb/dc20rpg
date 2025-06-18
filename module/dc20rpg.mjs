@@ -36,6 +36,7 @@ import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
 import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
+import DC20Hotbar from "./sidebar/hotbar.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -74,6 +75,7 @@ Hooks.once('init', async function() {
   CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
   CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
   CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;
+  CONFIG.ui.hotbar = DC20Hotbar;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;

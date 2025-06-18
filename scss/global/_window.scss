@@ -1,3 +1,47 @@
+#tooltip {
+
+  .custom-resource {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      border: 1px solid $secondary-lighter;
+    }
+  }
+
+  .ap, .sp, .mp, .hp, .grit, .rest {
+    text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+  }
+
+  .ap {
+    color: $action-point;
+  }
+
+  .sp {
+    color: $stamina;
+  }
+
+  .mp {
+    color: $mana;
+  }
+
+  .hp {
+    color: $health;
+  }
+
+  .grit {
+    color: $grit;
+  }
+
+  .rest {
+    color: #00887d;
+  }
+}
+
 .window-app {
   font-family: $font-default;
 

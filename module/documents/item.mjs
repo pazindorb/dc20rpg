@@ -113,7 +113,7 @@ export class DC20RpgItem extends Item {
     return prepareRollData(this, data);
   }
 
-  swapMultiFaceted() {
+  async swapMultiFaceted() {
     const multiFaceted = this.system.properties?.multiFaceted;
     if (!multiFaceted || !multiFaceted.active) return;
 
@@ -142,7 +142,7 @@ export class DC20RpgItem extends Item {
         }
       }
     }
-    this.update(updateData);
+    await this.update(updateData);
   }
 
   async update(data={}, operation={}) {

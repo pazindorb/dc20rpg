@@ -1274,15 +1274,35 @@
     }
   }
 
-  .ammo-use {
+  .row {
+    padding: 5px 0 5px 5px;
+    font-family: $font-header;
+    font-size: 18px;
+
+    span {
+      font-weight: normal;
+    }
+  }
+
+  .item-multi-faceted {
+    color: $primary-darker;
+    padding: 6px;
+    border-radius: 3px;
+    
+    border: 2px solid $primary-darker;
+    background-color: $secondary-lighter;
+  }
+
+  .item-selector {
     font-family: $font-header;
     font-size: 16px;
     padding: 7px;
     border: 2px solid $primary-darker;
     background-color: $secondary-color;
     border-radius: 3px;
+    gap: 5px;
 
-    .ammo {
+    .item {
       border: 2px solid $secondary-darker;
       background-color: $secondary-lighter;
       display: flex;

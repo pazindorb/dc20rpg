@@ -10,6 +10,43 @@
   src: url("fonts/Humaroid.woff") format("woff");
 }
 /* Global styles */
+#tooltip .custom-resource {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+#tooltip .custom-resource img {
+  margin-left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border: 1px solid var(--secondary-lighter);
+}
+#tooltip .ap, #tooltip .sp, #tooltip .mp, #tooltip .hp, #tooltip .grit, #tooltip .rest {
+  text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
+}
+#tooltip .ap {
+  color: var(--action-point);
+}
+#tooltip .sp {
+  color: var(--stamina);
+}
+#tooltip .mp {
+  color: var(--mana);
+}
+#tooltip .hp {
+  color: var(--health);
+}
+#tooltip .grit {
+  color: var(--grit);
+}
+#tooltip .rest {
+  color: #00887d;
+}
+
 .window-app {
   font-family: "Signika", sans-serif;
 }
@@ -404,6 +441,10 @@
 
 .margin-right-5 {
   margin-right: 5px !important;
+}
+
+.margin-right-8 {
+  margin-right: 8px !important;
 }
 
 .margin-right-10 {
@@ -2630,15 +2671,31 @@
   height: 30px;
   width: 30px;
 }
-.dc20rpg #roll-prompt .ammo-use {
+.dc20rpg #roll-prompt .row {
+  padding: 5px 0 5px 5px;
+  font-family: "Humaroid";
+  font-size: 18px;
+}
+.dc20rpg #roll-prompt .row span {
+  font-weight: normal;
+}
+.dc20rpg #roll-prompt .item-multi-faceted {
+  color: var(--primary-darker);
+  padding: 6px;
+  border-radius: 3px;
+  border: 2px solid var(--primary-darker);
+  background-color: var(--secondary-lighter);
+}
+.dc20rpg #roll-prompt .item-selector {
   font-family: "Humaroid";
   font-size: 16px;
   padding: 7px;
   border: 2px solid var(--primary-darker);
   background-color: var(--secondary-color);
   border-radius: 3px;
+  gap: 5px;
 }
-.dc20rpg #roll-prompt .ammo-use .ammo {
+.dc20rpg #roll-prompt .item-selector .item {
   border: 2px solid var(--secondary-darker);
   background-color: var(--secondary-lighter);
   display: -webkit-box;
@@ -2649,19 +2706,19 @@
   align-items: center;
   height: 35px;
 }
-.dc20rpg #roll-prompt .ammo-use .ammo img {
+.dc20rpg #roll-prompt .item-selector .item img {
   margin-right: 5px;
   width: 31px;
   height: 31px;
   border: 0;
   border-right: 2px solid var(--secondary-darker);
 }
-.dc20rpg #roll-prompt .ammo-use .ammo:hover {
+.dc20rpg #roll-prompt .item-selector .item:hover {
   -webkit-box-shadow: 0 0 10px var(--primary-light) inset;
   box-shadow: 0 0 10px var(--primary-light) inset;
   cursor: pointer;
 }
-.dc20rpg #roll-prompt .ammo-use .ammo.active {
+.dc20rpg #roll-prompt .item-selector .item.active {
   color: var(--secondary-lighter);
   background-color: var(--primary-dark);
 }
@@ -4465,10 +4522,7 @@
   border: 2px solid var(--secondary-dark);
   background-color: var(--secondary-lighter);
 }
-.dc20rpg .item-list .item-row .column .side-marker.item-multi-faceted, .dc20rpg .item-list .enh-row .column .side-marker.item-multi-faceted {
-  padding: 4px 3px 4px 5px;
-}
-.dc20rpg .item-list .item-row .column .select-other-item, .dc20rpg .item-list .item-row .column .select-other-check, .dc20rpg .item-list .enh-row .column .select-other-item, .dc20rpg .item-list .enh-row .column .select-other-check {
+.dc20rpg .item-list .item-row .column .select-other-item, .dc20rpg .item-list .enh-row .column .select-other-item {
   margin-right: 2px;
   border: 1px solid var(--secondary-dark);
   border-radius: 3px;
@@ -4476,7 +4530,7 @@
   font-size: 12px;
   font-family: "Signika", sans-serif;
 }
-.dc20rpg .item-list .item-row .column .select-other-item select, .dc20rpg .item-list .item-row .column .select-other-check select, .dc20rpg .item-list .enh-row .column .select-other-item select, .dc20rpg .item-list .enh-row .column .select-other-check select {
+.dc20rpg .item-list .item-row .column .select-other-item select, .dc20rpg .item-list .enh-row .column .select-other-item select {
   background-color: 0;
   border: 0px;
 }
@@ -10339,12 +10393,10 @@
   align-items: center;
   padding: 0px 5px;
   border-right: 2px solid var(--primary-color);
+  font-weight: bold;
 }
 .dc20rpg .item_v2 .item-sheet-header .header-content .item-roll .wrapper:last-child {
   border-right: 0;
-}
-.dc20rpg .item_v2 .item-sheet-header .header-content .item-roll .wrapper em {
-  font-weight: bold;
 }
 .dc20rpg .item_v2 .item-sheet-header .header-content .item-roll .wrapper i {
   margin-right: 4px;
@@ -12317,4 +12369,73 @@
   margin-top: 4px;
   margin-bottom: 5px;
   border: 1px solid var(--primary-color);
+}
+
+#ui-bottom #hotbar #hotbar-controls-left {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#ui-bottom #hotbar.faded-ui #action-bar .section-wrapper {
+  opacity: var(--ui-fade-opacity);
+  -webkit-transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), -webkit-transform 250ms ease;
+  transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), -webkit-transform 250ms ease;
+  transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), transform 250ms ease;
+  transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), transform 250ms ease, -webkit-transform 250ms ease;
+}
+#ui-bottom #hotbar.faded-ui #action-bar:hover .section-wrapper {
+  opacity: 1;
+  -webkit-transition: opacity var(--ui-fade-duration), -webkit-transform 250ms ease;
+  transition: opacity var(--ui-fade-duration), -webkit-transform 250ms ease;
+  transition: opacity var(--ui-fade-duration), transform 250ms ease;
+  transition: opacity var(--ui-fade-duration), transform 250ms ease, -webkit-transform 250ms ease;
+}
+#ui-bottom #hotbar.token-hotbar {
+  height: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  opacity: 1;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar {
+  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper {
+  gap: 3px;
+  margin: 0px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot {
+  width: 45px;
+  height: 45px;
+  border-radius: 5px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot img {
+  border-radius: 5px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper {
+  width: 140px;
+  height: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
 }

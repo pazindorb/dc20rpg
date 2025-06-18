@@ -157,6 +157,11 @@ export class DC20RpgActor extends Actor {
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
     prepareDataFromItems(this);
+
+    // Refresh hotbar 
+    if (ui.hotbar) {
+      if (ui.hotbar.actorId === this.id) ui.hotbar.render();
+    }
   }
 
   /**
@@ -173,15 +178,6 @@ export class DC20RpgActor extends Actor {
     }
     suspendDuplicatedConditions(this);
     this.applyActiveEffects();
-
-    let token = undefined;
-    let controlled = false;
-    const selectedTokens = getSelectedTokens();
-    if (selectedTokens?.length > 0) {
-      token = selectedTokens[0];
-      controlled = true;
-    }
-    if (token) Hooks.call('controlToken', token, controlled); // Refresh token effects tracker
   }
 
   /**
@@ -324,16 +320,6 @@ export class DC20RpgActor extends Actor {
       consumable: consumableItems,
       weapons: weapons
     }
-  }
-
-  getWeapons() {
-    const weapons = {};
-    this.items.forEach(item => {
-      const identified = item.system.statuses ? item.system.statuses.identified : true;
-      if (item.type === "weapon" && identified) 
-        weapons[item.id] = item.name;
-    });
-    return weapons;
   }
 
   hasStatus(statusId) {

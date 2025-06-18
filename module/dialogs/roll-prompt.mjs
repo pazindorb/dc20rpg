@@ -1,11 +1,11 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP, subtractGrit } from "../helpers/actors/costManipulator.mjs";
-import { collectAmmoForWeapon, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { collectAmmoForWeapon, collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
-import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { advForApChange, advForGritChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
@@ -157,6 +157,7 @@ export class RollPromptDialog extends Dialog {
     if (expectedCosts.actionPoint === 0) expectedCosts.actionPoint = undefined;
     const rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     const ammoSelection = collectAmmoForWeapon(this.item, this.actor);
+    const weaponSelection = collectWeaponsFromActor(this.actor);
     const hasAmmo = Object.keys(ammoSelection).length > 0;
     return {
       rollDetails: itemRollDetails,
@@ -168,6 +169,8 @@ export class RollPromptDialog extends Dialog {
       otherItemUse: this._prepareOtherItemUse(),
       ammoSelection: ammoSelection,
       hasAmmo: hasAmmo,
+      weaponSelection: weaponSelection,
+      useWeapon: this.item.system.usesWeapon?.weaponAttack,
       enhancements: mapToObject(this.item.allEnhancements),
       rollsHeldAction: rollsHeldAction,
       rollLevelChecked: this.rollLevelChecked,
@@ -232,12 +235,28 @@ export class RollPromptDialog extends Dialog {
       if (autoRollLevelCheck && datasetOf(ev).runCheck === "true") this._rollRollLevelCheck(false);
       this.render();
     });
-    html.find('.ammo').click(ev => {
+    html.find('.ammo-select').click(ev => {
       const selected = datasetOf(ev).itemId;
       if (selected === this.item.ammoId) this.item.ammoId = "";
       else this.item.ammoId = selected;
       this.render();
     })
+    html.find('.weapon-select').click(async ev => {
+      const selected = datasetOf(ev).itemId;
+      if (selected === this.item.system.usesWeapon.weaponId) {
+        await this.item.update({["system.usesWeapon.weaponId"]: ""});
+      }
+      else {
+        await this.item.update({["system.usesWeapon.weaponId"]: selected});
+      }
+      this.render();
+    });
+    html.find('.select-check-type').change(async ev => {
+      const selected = valueOf(ev);
+      await this.item.update({["system.check.checkKey"]: selected});
+      this.render();
+    })
+    html.find('.item-multi-faceted').click(ev => {this._onMultiFacaded(datasetOf(ev).itemId)});
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
     html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), ev, html), ev => hideTooltip(ev, html));
     html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
@@ -310,64 +329,70 @@ export class RollPromptDialog extends Dialog {
     this.render()
   }
 
-    async _onCreateMeasuredTemplate(key) {
-      const template = this.measurementTemplates[key];
-      if (!template) return;
-  
-      const applyEffects = getMesuredTemplateEffects(this.item);
-      const itemData = {
-        itemId: this.item.id, 
-        actorId: this.actor.id, 
-        tokenId: this.actor.token?.id, 
-        applyEffects: applyEffects, 
-        itemImg: this.item.img, 
-        itemName: this.item.name
-      };
-      const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
+  async _onCreateMeasuredTemplate(key) {
+    const template = this.measurementTemplates[key];
+    if (!template) return;
 
-      // We will skip Target Selector if we are using selector for applying effects
-      if (applyEffects.applyFor === "selector") return;
+    const applyEffects = getMesuredTemplateEffects(this.item);
+    const itemData = {
+      itemId: this.item.id, 
+      actorId: this.actor.id, 
+      tokenId: this.actor.token?.id, 
+      applyEffects: applyEffects, 
+      itemImg: this.item.img, 
+      itemName: this.item.name
+    };
+    const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
 
-      let tokens = {};
-      for (let i = 0; i < measuredTemplates.length; i++) {
-        const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
-        tokens = {
-          ...tokens,
-          ...collectedTokens
-        }
-      }
-      
-      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
-      if (tokens.length > 0) {
-        const user = game.user;
-        if (!user) return;
+    // We will skip Target Selector if we are using selector for applying effects
+    if (applyEffects.applyFor === "selector") return;
 
-        user.targets.forEach(target => {
-          target.setTarget(false, { user: user });
-        });
-
-        for (const token of tokens) {
-          token.setTarget(true, { user: user, releaseOthers: false });
-        }
-
-        const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-        if (autoRollLevelCheck) this._rollRollLevelCheck(false);
+    let tokens = {};
+    for (let i = 0; i < measuredTemplates.length; i++) {
+      const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
+      tokens = {
+        ...tokens,
+        ...collectedTokens
       }
     }
-  
-    _onAddTemplateSpace(key) {
-      const template = this.measurementTemplates[key];
-      if (!template) return;
-      DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1);
-      this.render()
+    
+    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+    if (tokens.length > 0) {
+      const user = game.user;
+      if (!user) return;
+
+      user.targets.forEach(target => {
+        target.setTarget(false, { user: user });
+      });
+
+      for (const token of tokens) {
+        token.setTarget(true, { user: user, releaseOthers: false });
+      }
+
+      const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+      if (autoRollLevelCheck) this._rollRollLevelCheck(false);
     }
-  
-    _onReduceTemplateSpace(key) {
-      const template = this.measurementTemplates[key];
-      if (!template) return;
-      DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1);
-      this.render()
-    }
+  }
+
+  _onAddTemplateSpace(key) {
+    const template = this.measurementTemplates[key];
+    if (!template) return;
+    DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1);
+    this.render()
+  }
+
+  _onReduceTemplateSpace(key) {
+    const template = this.measurementTemplates[key];
+    if (!template) return;
+    DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1);
+    this.render()
+  }
+
+  async _onMultiFacaded(itemId) {
+    const item = this.actor.items.get(itemId);
+    if (item) await item.swapMultiFaceted();
+    this.render();
+  }
 
   static async create(actor, data, quickRoll, fromGmHelp, dialogData = {}, options = {}) {
     const prompt = new RollPromptDialog(actor, data, quickRoll, fromGmHelp, dialogData, options);

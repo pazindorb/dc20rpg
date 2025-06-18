@@ -13,13 +13,50 @@
     </div>
   </div>
 
+            
+
+          
+
+  {{!-- Weapon Style  --}}
+  {{#if item.system.properties.multiFaceted.active}}
+  <div class="row">
+    <span>{{localize 'dc20rpg.sheet.rollMenu.changeWeaponStyle'}}</span>
+    <a class="item-multi-faceted" data-item-id="{{#if item.system.usesWeapon.weaponAttack}}{{item.system.usesWeapon.weaponId}}{{else}}{{item.id}}{{/if}}">
+      <span>{{varLocalize "dc20rpg.weaponStyles." item.system.properties.multiFaceted.labelKey ''}}</span>
+    </a>
+  </div>
+  {{/if}}
+
+  {{!-- Multi Check --}}
+  {{#if item.system.check.multiCheck.active}}
+  <div class="row">
+    <span>{{localize 'dc20rpg.sheet.itemTable.chooseCheck'}}</span>
+    <select class="select-check-type">
+      {{selectOptions item.system.check.multiCheck.options selected=item.system.check.checkKey blank=""}}
+    </select>
+  </div>
+
+  {{/if}}
+
   {{!-- Ammo use --}}
   {{#if hasAmmo}}
-  <div class="ammo-use grid grid-3col" title="{{localize 'dc20rpg.sheet.rollMenu.selectAmmo'}}">
+  <div class="item-selector grid grid-3col" title="{{localize 'dc20rpg.sheet.rollMenu.selectAmmo'}}">
     {{#each ammoSelection as |ammo itemId|}}
-    <div class="ammo item-tooltip {{#ifCond @root.item.ammoId '===' itemId}}active{{/ifCond}}" data-item-id="{{itemId}}">
-      <img class="ammo-img" src="{{ammo.img}}"/>
-      <span class="ammo-name margin-left-5">{{ammo.name}}</span>
+    <div class="item ammo-select item-tooltip {{#ifCond @root.item.ammoId '===' itemId}}active{{/ifCond}}" data-item-id="{{itemId}}">
+      <img src="{{ammo.img}}"/>
+      <span class="margin-left-5">{{ammo.name}}</span>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{!-- Item use --}}
+  {{#if useWeapon}}
+  <div class="item-selector grid grid-3col" title="{{localize 'dc20rpg.sheet.rollMenu.selectWeapon'}}">
+    {{#each weaponSelection as |weapon itemId|}}
+    <div class="item weapon-select item-tooltip {{#ifCond @root.item.system.usesWeapon.weaponId '===' itemId}}active{{/ifCond}}" data-item-id="{{itemId}}">
+      <img src="{{weapon.img}}"/>
+      <span class="margin-left-5">{{weapon.name}}</span>
     </div>
     {{/each}}
   </div>

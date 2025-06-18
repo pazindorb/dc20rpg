@@ -1,0 +1,77 @@
+<aside id="hotbar">
+  <div id="hotbar-controls-left" class="hotbar-controls flexcol" data-tooltip-direction="LEFT">
+    <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip
+      aria-label="{{localize 'HOTBAR.MUTE'}}"></button>
+    <button type="button" class="ui-control fa-solid {{#if tokenHotbar}}fa-code{{else}}fa-user{{/if}} icon" data-action="swap" data-tooltip
+      aria-label="{{#if tokenHotbar}}{{localize 'HOTBAR.HOTBAR'}}{{else}}{{localize 'HOTBAR.TOKEN'}}{{/if}}"></button>
+    <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip
+      aria-label="{{localize 'HOTBAR.MENU'}}"></button>
+    {{#if tokenHotbar}}
+    <button type="button" class="ui-control fa-solid fa-gears icon" data-action="config" data-tooltip
+      aria-label="{{localize 'HOTBAR.CONFIG'}}"></button>
+    {{/if}}
+  </div>
+  {{#if tokenHotbar}}
+  {{!-- Token Hotbar --}}
+  {{!-- Token Effects Tracker --}}
+  <menu id="action-bar" data-tooltip-direction="UP">
+    {{!-- Section B --}}
+    <div class="section-wrapper grid grid-{{sectionBWidth}}col">
+    {{#each sectionB as |item index|}}
+    <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
+      {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
+    </li>
+    {{/each}}
+    </div>
+    {{!-- Character Details --}}
+    {{#if @root.actor.img}}
+    <div class="portrait-wrapper" data-tooltip="{{localize "HOTBAR.DBCLICK"}}">
+      <img class="char-img" src="{{@root.actor.img}}">
+    </div>
+    {{/if}}
+
+    {{!-- Section A --}}
+     <div class="section-wrapper grid grid-{{sectionAWidth}}col">
+    {{#each sectionA as |item index|}}
+    <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
+      {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
+    </li>
+    {{/each}}
+    </div>
+    {{!--  --}}
+  </menu>
+  {{else}}
+
+  {{!-- Macro Hotbar --}}
+  <menu id="action-bar" class="flexrow" data-tooltip-direction="UP">
+    {{#each slots as |slot|}}
+    <li class="slot {{slot.cssClass}}" role="button" data-action="execute" data-slot="{{slot.slot}}"
+      style="{{slot.style}}" aria-label="{{slot.ariaLabel}}" {{#if slot.tooltip}}data-tooltip-text="{{slot.tooltip}}"
+      {{/if}}>
+      {{#if slot.img}}<img class="slot-icon" src="{{slot.img}}" alt="{{slot.ariaLabel}}">{{/if}}
+      <span class="key">{{slot.key}}</span>
+    </li>
+    {{/each}}
+  </menu>
+  {{/if}}
+
+  <div id="hotbar-controls-right" class="hotbar-controls flexrow" data-tooltip-direction="RIGHT">
+    {{#unless tokenHotbar}}
+    <nav id="hotbar-page-controls" class="flexcol">
+      <button type="button" class="plain hotbar-page-control page-next fa-solid fa-triangle icon" data-action="page"
+        data-direction="1" data-tooltip aria-label="{{localize 'HOTBAR.PAGE_NEXT'}}">
+      </button>
+      <span class="hotbar-page-number">{{page}}</span>
+      <button type="button" class="plain hotbar-page-control page-prev fa-solid fa-triangle icon" data-action="page"
+        data-direction="-1" data-tooltip aria-label="{{localize 'HOTBAR.PAGE_PREV'}}">
+      </button>
+    </nav>
+    {{/unless}}
+    <div class="flexcol">
+      <button type="button" class="ui-control fa-solid fa-unlock icon" data-action="lock" data-tooltip
+        aria-label="{{localize 'HOTBAR.LOCK'}}" {{#if tokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
+      <button type="button" class="ui-control fa-solid fa-trash icon" data-action="clear" data-tooltip
+        aria-label="{{localize 'HOTBAR.CLEAR'}}" {{#if tokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
+    </div>
+  </div>
+</aside>

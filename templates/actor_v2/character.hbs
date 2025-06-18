@@ -558,11 +558,11 @@
           </div>
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{item-table false basic "basic" @root.weaponsOnActor}}
+            {{item-table false basic "basic"}}
           </div>
           {{else}}
           <div class="favorites">
-            {{item-table @root.editMode favorites "favorites" @root.weaponsOnActor}}
+            {{item-table @root.editMode favorites "favorites"}}
           </div>
           {{/if}}
         </div>
@@ -603,7 +603,7 @@
         </div>
         {{/each}}
       </div>
-      {{item-table @root.editMode inventory "inventory" @root.weaponsOnActor}}
+      {{item-table @root.editMode inventory "inventory"}}
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
@@ -621,7 +621,7 @@
         </div>
         {{/if}}
       </div>
-      {{item-table @root.editMode features "features" @root.weaponsOnActor}}
+      {{item-table @root.editMode features "features"}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
@@ -644,7 +644,7 @@
       {{/if}}
       </div>
 
-      {{item-table @root.editMode techniques "techniques" @root.weaponsOnActor}}
+      {{item-table @root.editMode techniques "techniques"}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
@@ -666,7 +666,7 @@
         </div>
       {{/if}}
       </div>
-      {{item-table @root.editMode spells "spells" @root.weaponsOnActor}}
+      {{item-table @root.editMode spells "spells"}}
     </div>
     
     <div class="tab effects-tab" data-group="primary" data-tab="effects">
