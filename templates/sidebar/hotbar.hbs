@@ -17,8 +17,9 @@
   <menu id="action-bar" data-tooltip-direction="UP">
     {{!-- Section B --}}
     <div class="section">
-      <div class="upper-wrapper">
-        {{#if effects.sectionB}}{{PARTIAL "Effects Tracker"}}{{/if}}
+      <div class="upper-wrapper reverse-direction">
+        {{#ifCond effects.position '===' "sectionB"}}{{PARTIAL "Effects Tracker"}}{{else}}<div></div>{{/ifCond}}
+        {{#ifCond help.position '===' "sectionB"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
       </div>
       
       <div class="section-wrapper grid grid-{{sectionBWidth}}col">
@@ -32,6 +33,7 @@
     
     {{!-- Character Details --}}
     {{#if actor.img}}
+    <div></div>
     <div class="portrait-wrapper">
       {{{resources}}}
 
@@ -71,12 +73,25 @@
         <a class="ap regain-resource" data-action="regainResource" data-resource="ap" title="{{localize 'dc20rpg.sheet.resource.regainAp'}}"><i class="fas fa-solid fa-plus"></i></a>
       </div>
     </div>
+
+    <div class="special-action-wrapper">
+      <div class="sustain-wrapper">
+        {{#each sustain as |value index|}}
+        <img src="{{value.img}}" class="sustain-action" data-action="dropSustain" data-index={{index}} data-tooltip="{{value.name}}{{localize "dc20rpg.sheet.sustainAction.title"}}"/>
+        {{/each}}
+      </div>
+
+      {{#if heldAction}}
+      <img src="{{heldAction.itemImg}}" class="held-action" data-tooltip="{{localize "dc20rpg.sheet.heldAction.roll"}}"/>
+      {{/if}}
+    </div>
     {{/if}}
 
     {{!-- Section A --}}
     <div class="section">
       <div class="upper-wrapper">
-        {{#if effects.sectionA}}{{PARTIAL "Effects Tracker"}}{{/if}}
+        {{#ifCond effects.position '===' "sectionA"}}{{PARTIAL "Effects Tracker"}}{{else}}<div></div>{{/ifCond}}
+        {{#ifCond help.position '===' "sectionA"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
       </div>
       <div class="section-wrapper grid grid-{{sectionAWidth}}col">
       {{#each sectionA as |item index|}}
@@ -113,6 +128,17 @@
         data-direction="-1" data-tooltip aria-label="{{localize 'HOTBAR.PAGE_PREV'}}">
       </button>
     </nav>
+    {{else}}
+    {{#if actor.img}}
+    <div class="flexcol hotbar-controls" style="justify-content: end; height: 100%;">
+      <button type="button" class="ui-control fa-solid fa-dice icon margin-top-5" data-action="check" data-tooltip aria-label="{{localize 'HOTBAR.CHECK'}}"></button>
+      <button type="button" class="ui-control fa-solid fa-shield icon" data-action="save" data-tooltip aria-label="{{localize 'HOTBAR.SAVE'}}"></button>
+      {{#ifCond actor.type '===' 'character'}}
+      <button type="button" class="ui-control fa-solid fa-clover icon" data-action="grit" data-tooltip aria-label="{{localize 'dc20rpg.sheet.resource.gritToDamageReduction'}}"></button>
+      <button type="button" class="ui-control fa-solid fa-campground icon" data-action="rest" data-tooltip aria-label="{{localize 'HOTBAR.REST'}}"></button>
+      {{/ifCond}}
+    </div>
+    {{/if}}
     {{/unless}}
     <div class="flexcol">
       <button type="button" class="ui-control fa-solid fa-unlock icon" data-action="lock" data-tooltip

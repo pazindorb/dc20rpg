@@ -35,6 +35,18 @@
         </select>
       </div>
     </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.help"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.config.tokenHotbar.rowSize"}}</label>
+        <input type="number" data-path="settings.help.rowSize" value="{{settings.help.rowSize}}" data-limit="4" data-cType="numeric"/>
+        <label>{{localize "dc20rpg.config.tokenHotbar.section"}}</label>
+        <select data-cType="string" data-path="settings.help.position">
+          {{selectOptions sections selected=settings.help.position blank=""}}
+        </select>
+      </div>
+    </div>
   </fieldset>
 
   {{!-- Resource Config --}}

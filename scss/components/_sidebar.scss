@@ -145,252 +145,11 @@
   }
 }
 
-#token-effects-tracker {
-  position: absolute;
-  top: 20px;
-  right: 355px;
-  width: 40px;
-  z-index: 31;
-  transition: all 0.15s linear;
-
-  &.collapsed {
-    right: 55px;
-
-    .description-wrapper {
-      right: 95px !important;
-    }
-  }
-
-  .held-action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-right: 2px;
-    margin-bottom: 4px;
-    cursor: pointer;
-
-    img {
-      width: 38px;
-      height: 38px;
-      border-radius: 3px 3px 0 0;
-      border: 2px solid $dark-red;
-      background-color: $secondary-lighter;
-    }
-  }
-
-  .help-dice-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    .help-dice {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-      margin-right: 2px;
-      margin-bottom: 4px;
-      height: 38px;
-      width: 38px;
-      background-color: $secondary-lighter;
-      color: $primary-dark;
-      border: 2px solid $primary-darker;
-      border-radius: 3px;
-
-      &.subtraction {
-        color: $dark-red;
-      }
-    }
-  }
-
-  .effect-wrapper {
-    color: #dbdbdb !important;
-
-    strong {
-      color: #dbdbdb !important;
-    }
-
-    ul {
-      color: #dbdbdb !important;
-    }
-
-    .status-stack {
-      position: absolute;
-      width: 0px;
-      height: 0px;
-      z-index: 5;
-  
-      .letter-circle-icon {
-        position: relative;
-        width: 0px;
-        height: 0px;
-  
-        span, i {
-          width: 18px;
-          height: 18px;          
-          text-shadow: none;
-          background-color: $secondary-color;
-          color: $primary-color;
-          border: 1px solid $primary-color;
-          position: relative;
-          top: -4px;
-          left: -5px;
-          font-size: 12px;
-        }
-  
-        span {
-          font-weight: 100;
-        }
-      }
-    }
-
-    img {
-      width: 38px;
-      height: 38px;
-      border-radius: 3px 3px 0 0;
-      border: 2px solid $primary-color;
-      background-color: $secondary-dark;
-
-      &.disabled {
-        filter: opacity(0.7);
-      }
-
-      &.suspended {
-        filter: opacity(0.7);
-      }
-    }
-
-    .menu {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-
-      padding: 3px;
-      border-radius: 0 0 3px 3px;
-      border: 2px solid $primary-color;
-      background-color: $secondary-dark;
-      color: $secondary-lighter;
-      border-top: 0;
-      height: 17px;
-      width: 38px;
-
-      margin-bottom: 4px;
-      margin-top:-4px;
-
-      &.disable {
-        filter: opacity(0.6);
-      }
-
-      a, i {
-        margin-top: 2px;
-      }
-    }
-
-    .description-wrapper {
-      display: flex;
-      position: fixed;
-      right: 395px;
-      margin-top: -40px;
-      z-index: 200;
-
-      .description {
-        display: none;
-        padding: 5px;
-        border-radius: 3px;
-        border: 2px solid $primary-color;
-        background-color: $secondary-darker;
-        color: $secondary-lighter;
-        width: max-content;
-        max-width: 300px;
-  
-        .content-link {
-          color: $secondary-darker;
-        }
-  
-        &:hover {
-          display: block;
-        }
-      }
-
-      .connector {
-        min-width: 5px;
-        height: 100%;
-      }
-    }
-
-    .effect {
-      &:hover {
-        .description {
-          display: block;
-        }
-      }
-    }
-
-    .extra-statuses-wrapper {
-      margin: 0;
-      gap: 0;
-
-      .status {
-        margin-top: -4px;
-
-        img {
-          height: 18px;
-          width: 20px;
-          border-top: 0;
-          border-radius: 0;
-        }
-
-        &:nth-child(even) {
-          img {
-            border-left: 0;
-            width: 18px;
-            margin-bottom: 0;
-          }
-        }
-
-        &:hover {
-          .description {
-            display: block;
-          }
-        }
-      }
-    }
-  }
-
-  .sustain-wrapper {
-    .sustain-action {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      margin-right: 2px;
-      margin-bottom: 4px;
-      cursor: pointer;
-  
-      img {
-        width: 38px;
-        height: 38px;
-        border-radius: 3px 3px 0 0;
-        border: 2px solid #8db8db;
-        background-color: $secondary-lighter;
-      }
-    }
-  }
-
-  .separator {
-    margin-top: 4px;
-    margin-bottom: 5px;
-    border: 1px solid $primary-color;
-  }
-}
-
 #ui-bottom {
 
   #hotbar {
 
-    #hotbar-controls-left {
+    #hotbar-controls-left, #hotbar-controls-right {
       height: 100%;
       justify-content: end;
     }
@@ -420,15 +179,35 @@
         width: auto;
         display: flex;
         align-items: flex-end;
+        gap: 4px;
 
         .upper-wrapper {
           display: flex;
           flex-direction: row;
-          align-items: center;
+          align-items: end;
           justify-content: space-between;
 
           width: 100%;
           margin-bottom: 10px;
+
+          &.reverse-direction {
+            flex-direction: row-reverse;
+
+            #effects-tracker {
+              direction: rtl;
+            }
+
+            #help-tracker {
+              direction: ltr;
+            }
+
+            .letter-circle-icon {
+
+              span, i {
+                right: -4px;
+              }
+            }
+          }
 
           #effects-tracker {
             row-gap: 5px;
@@ -486,7 +265,7 @@
             img {
               width: 30px;
               height: 30px;
-              border-radius: 100%;
+              border-radius: 5px;
               border: 1px solid $crit;
               background-color: $secondary-dark;
 
@@ -498,6 +277,34 @@
               &:hover {
                 cursor: pointer;
                 box-shadow:  0 0 8px 3px $primary-darker;
+              }
+            }
+          }
+
+          #help-tracker {
+            gap: 3px;
+            margin: 0;
+            direction: rtl;
+
+            .help-dice {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+              height: 30px;
+              width: 30px;
+              background-color: $secondary-lighter;
+              color: $primary-dark;
+              border: 1px solid $primary-darker;
+              border-radius: 35px;
+
+              &.subtraction {
+                color: $dark-red;
+              }
+
+              &:hover {
+                cursor: pointer;
+                box-shadow:  0 0 6px 0 inset $primary-darker;
               }
             }
           }
@@ -799,6 +606,54 @@
               width: 50px;
               height: 90px;
               padding-bottom: 65px;
+            }
+          }
+        }
+
+        .special-action-wrapper {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+
+          .sustain-wrapper {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            .sustain-action {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+
+              width: 35px;
+              height: 35px;
+              border-radius: 5px;
+              border: 2px solid #153f61;
+              background-color: $secondary-darker;
+              margin-top: 5px;
+
+              &:hover {
+                box-shadow:  0 0 6px 2px #153f61;
+              }
+            }
+          }
+
+          .held-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            width: 45px;
+            height: 45px;
+            border-radius: 5px;
+            border: 2px solid #b20000;
+            background-color: $secondary-darker;
+            margin-top: 5px;
+
+            &:hover {
+              box-shadow:  0 0 6px 2px $dark-red;
             }
           }
         }

@@ -1,8 +1,12 @@
-import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
-import { regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
+import { createRestDialog } from "../dialogs/rest.mjs";
+import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { clearHelpDice } from "../helpers/actors/actions.mjs";
+import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
+import { canSubtractBasicResource, regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
+import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
 import { changeActivableProperty, getValueFromPath } from "../helpers/utils.mjs";
 import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
@@ -30,6 +34,11 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     initialized.actions.spendResource = this._spendResource;
     initialized.actions.regainResource = this._regainResource;
     initialized.actions.config = this._onConfigTokenHotbar;
+    initialized.actions.dropSustain = this._onDropSustain;
+    initialized.actions.rest = () => createRestDialog(this.actor);
+    initialized.actions.check = this._onCheckRoll;
+    initialized.actions.save = this._onSaveRoll;
+    initialized.actions.grit = this._onGrit;
     return initialized;
   }
 
@@ -40,6 +49,40 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     this.element.addEventListener("change", this._onChange.bind(this));
   }
 
+  _getContextMenuOptions() {
+    const options = super._getContextMenuOptions();
+    options[1].condition = li => !this.tokenHotbar;
+
+    options.push({
+          name: "MACRO.OpenSheet",
+          icon: '<i class="fa-solid fa-pen-to-square"></i>',
+          condition: li => this.#isItemSlot(li),
+          callback: li => {
+            const dataset = li.dataset;
+            const item = this._getItemFromSlot(dataset.index, dataset.section);
+            if (item) item.sheet.render(true);
+          }
+    });
+    options.push({
+          name: "MACRO.RemoveItem",
+          icon: '<i class="fa-solid fa-xmark"></i>',
+          condition: li => this.#isItemSlot(li),
+          callback: li => {
+            const dataset = li.dataset;
+            this.actor.update({[`system.tokenHotbar.${dataset.section}.-=${dataset.index}`]: null});
+          }
+    });
+    return options;
+  }
+
+  #isItemSlot(li) {
+    const itemSlot = li.classList.contains("item-slot");
+    if (!itemSlot) return;
+    const dataset = li.dataset;
+    const item = this._getItemFromSlot(dataset.index, dataset.section);
+    return item ?? false;
+  }
+
   // ==================== CONTEXT =====================
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
@@ -47,6 +90,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     else {
       this.actorId = ""; 
       this.tokenId = "";
+      this.helpDice = null;
     };
     context.tokenHotbar = this.tokenHotbar;
     return context;
@@ -79,6 +123,9 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     context.resources = this._prepareResources();
     context.effects = await this._prepareEffects(tokenHotbarSettings.effects);
+    context.help = this._prepareHelp(tokenHotbarSettings.help);
+    context.heldAction = this._prepareHeldAction();
+    context.sustain = this.actor.system.sustain;
   }
 
   async _prepareSectionSlots(sectionKey) {
@@ -171,11 +218,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const [active, disabled] = await this._prepareTemporaryEffects();
     const position = effectsConfig.position;
     const rowSize = effectsConfig.rowSize;
-    const separator = active.length === 0 || active.length !== rowSize;
+    let separator = true;
+    if (active.length === 0) separator = false;
+    if (!separator || active.length === rowSize) separator = false;
 
     const data = {
-      sectionA: position === "sectionA",
-      sectionB: position === "sectionB",
+      position: position,
       active: active,
       disabled: disabled,
       rowSize: rowSize,
@@ -270,6 +318,41 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (inner) inner = "<p>Contains: </p>" + inner;
     return inner;
   }
+
+  _prepareHelp(helpConfig) {
+    const helpData = {
+      position: helpConfig.position,
+      rowSize: helpConfig.rowSize,
+    }
+
+    const dice = {};
+    for (const [key, help] of Object.entries(this.actor.system.help.active)) {
+      let icon = "fa-dice";
+      switch (help.value) {
+        case "d20": case "-d20": icon = "fa-dice-d20"; break;
+        case "d12": case "-d12": icon = "fa-dice-d12"; break; 
+        case "d10": case "-d10": icon = "fa-dice-d10"; break; 
+        case "d8": case "-d8": icon = "fa-dice-d8"; break; 
+        case "d6": case "-d6": icon = "fa-dice-d6"; break; 
+        case "d4": case "-d4": icon = "fa-dice-d4"; break; 
+      }
+      dice[key] = {
+        formula: help.value,
+        icon: icon,
+        subtraction: help.value.includes("-"),
+        doNotExpire: help.doNotExpire
+      }
+    }
+    this.helpDice = dice;
+    helpData.dice = dice;
+    return helpData
+  }
+
+  _prepareHeldAction() {
+    const actionHeld = this.actor.flags.dc20rpg.actionHeld;
+    if (!actionHeld?.isHeld) return;
+    return actionHeld;
+  }
   // ==================== CONTEXT =====================
 
   async _onRender(context, options) {
@@ -281,7 +364,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     // Override drop behavior
     if (context.tokenHotbar) {
       new foundry.applications.ux.DragDrop.implementation({
-        dragSelector: ".slot.full",
+        dragSelector: ".slot.full, .help-dice",
         dropSelector: ".slot",
         callbacks: {
           dragstart: this._onDragStart.bind(this),
@@ -306,10 +389,50 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     promptItemRoll(this.actor, item);
   }
 
+  async _onDropSustain(event, target) {
+    let index = target.dataset.index;
+    const owner = getActorFromIds(this.actorId, this.tokenId);
+    if (!owner || index === undefined) return;
+
+    index = parseInt(index);
+    const sustain = owner.system.sustain;
+    if (!sustain[index]) return;
+
+    const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Sustain Action?"});
+    if (confirmed) {
+      const sustained = [];
+      for (let i = 0; i < sustain.length; i++) {
+        if (index !== i) sustained.push(sustain[i]); 
+      }
+      owner.update({[`system.sustain`]: sustained});
+    }
+  }
+
+  async _onCheckRoll(event, target) {
+    const options = this.actor.getCheckOptions(true, true, true, true);
+    const key = await getSimplePopup("select", {header: "Roll Skill Check", selectOptions: options});
+    const details = prepareCheckDetailsFor(key);
+    await promptRoll(this.actor, details);
+  }
+
+  async _onSaveRoll(event, target) {
+    const options = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
+    const key = await getSimplePopup("select", {header: "Roll Save", selectOptions: options});
+    const details = prepareSaveDetailsFor(key);
+    await promptRoll(this.actor, details);
+  }
+
+  async _onGrit(event, target) {
+    if (canSubtractBasicResource("grit", this.actor, 1)) {
+      await subtractBasicResource("grit", this.actor, 1, true);
+      await addFlatDamageReductionEffect(this.actor);
+    }
+  }
+
   async _spendResource(event, target) {
     const key = target.dataset.resource;
     if (!key) return;
-    await subtractBasicResource(key, this.actor, 1, true);
+    if (canSubtractBasicResource(key, this.actor, 1)) await subtractBasicResource(key, this.actor, 1, true);
     this.render();
   }
 
@@ -365,11 +488,19 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     }
   }
 
-  _onRightClick(event) {
+  async _onRightClick(event) {
     if (event.target.classList.contains("effect-img")) {
       const dataset = event.target.dataset;
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) deleteEffectFrom(dataset.effectId, owner);
+    }
+    if (event.target.classList.contains('help-dice') || event.target.parentElement.classList.contains('help-dice')) {
+      const dataset = event.target.dataset;
+      const owner = getActorFromIds(this.actorId, this.tokenId);
+      if (owner) {
+        const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
+        if (confirmed) clearHelpDice(owner, dataset.key);
+      }
     }
   }
 
@@ -417,6 +548,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   _onDragStart(event) {
+    if (event.target.classList.contains('help-dice')) this._onDragHelpDice(event);
+    else if (event.target.classList.contains('item-slot')) this._onDragItem(event);
+    else super._onDragStart(event);
+  }
+
+  _onDragItem(event) {
     const dataset = event.target.dataset;
     const index = dataset.index;
     const sectionKey = dataset.section;
@@ -430,6 +567,23 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
     this.actor.update({[`system.tokenHotbar.${sectionKey}.-=${index}`]: null});
+  }
+
+  _onDragHelpDice(event) {
+    const dataset = event.target.dataset;
+    const key = dataset.key;
+
+    const helpDice = this.helpDice[key];
+    if (helpDice) {
+      const dto = {
+        key: key,
+        formula: helpDice.formula,
+        type: "help",
+        actorId: this.actorId,
+        tokenId: this.tokenId,
+      }
+      event.dataTransfer.setData("text/plain", JSON.stringify(dto));
+    }
   }
 
   _getItemIdFromSlot(index, sectionKey) {

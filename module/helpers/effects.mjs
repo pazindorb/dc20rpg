@@ -206,7 +206,7 @@ export async function addFlatDamageReductionEffect(actor) {
   const damageReduction = {
     name: "Grit - Damage Reduction",
     img: "icons/svg/mage-shield.svg",
-    description: "You can spend Grit to reduce incoming damage",
+    description: "<p>You are spending Grit to reduce incoming damage</p>",
     duration: {rounds: 1},
     changes: [
       {
