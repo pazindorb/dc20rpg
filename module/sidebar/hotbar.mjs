@@ -1,15 +1,15 @@
 import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
-import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
+import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
+import { deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
-import { getValueFromPath } from "../helpers/utils.mjs";
+import { changeActivableProperty, getValueFromPath } from "../helpers/utils.mjs";
 import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
+import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
 
-// MAX SLOTS IN ROW 12 (columns)
-// MARK REACTIONS SOMEHOW
-
-export default class DC20Hotbar extends Hotbar { 
+export default class DC20Hotbar extends foundry.applications.ui.Hotbar { 
   constructor(options = {}) {
     super(options);
     this.tokenHotbar = game.settings.get("dc20rpg", "tokenHotbar");
@@ -36,7 +36,7 @@ export default class DC20Hotbar extends Hotbar {
   _attachFrameListeners() {
     super._attachFrameListeners();
     this.element.addEventListener("dblclick", this._onDoubleClick.bind(this));
-    this.element.addEventListener("mousedown", this._onMiddleClick.bind(this));
+    this.element.addEventListener("mousedown", this._onMouseDown.bind(this));
     this.element.addEventListener("change", this._onChange.bind(this));
   }
 
@@ -44,18 +44,23 @@ export default class DC20Hotbar extends Hotbar {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     if (this.tokenHotbar) await this._prepareTokenContext(context);
-    else {this.actorId = ""};
+    else {
+      this.actorId = ""; 
+      this.tokenId = "";
+    };
     context.tokenHotbar = this.tokenHotbar;
     return context;
   }
 
   async _prepareTokenContext(context) {
+    this.actor = null;
     const tokens = getSelectedTokens();
     if (!tokens || tokens.length !== 1) return;
 
     const token = tokens[0];
     this.actor = token.actor;
     this.actorId = this.actor.id;
+    this.tokenId = token.id;
     context.actor = this.actor;
 
     const health = this.actor.system.resources.health;
@@ -72,7 +77,8 @@ export default class DC20Hotbar extends Hotbar {
     context.sectionAWidth = tokenHotbarSettings["sectionA"].columns;
     context.sectionBWidth = tokenHotbarSettings["sectionB"].columns;
 
-    context.resources = this._prepareResources() 
+    context.resources = this._prepareResources();
+    context.effects = await this._prepareEffects(tokenHotbarSettings.effects);
   }
 
   async _prepareSectionSlots(sectionKey) {
@@ -160,6 +166,110 @@ export default class DC20Hotbar extends Hotbar {
       </div>
     `;
   }
+
+  async _prepareEffects(effectsConfig) {
+    const [active, disabled] = await this._prepareTemporaryEffects();
+    const position = effectsConfig.position;
+    const rowSize = effectsConfig.rowSize;
+    const separator = active.length === 0 || active.length !== rowSize;
+
+    const data = {
+      sectionA: position === "sectionA",
+      sectionB: position === "sectionB",
+      active: active,
+      disabled: disabled,
+      rowSize: rowSize,
+      separator: separator
+    }
+    return data;
+  }
+
+  async _prepareTemporaryEffects() {
+    const actor = this.actor;
+    const active = [];
+    const disabled = [];
+    if (actor.allEffects.length === 0) return [active, disabled];
+
+    for(const effect of actor.allEffects) {
+      if (effect.isTemporary) {
+        const TextEditor = foundry.applications.ux.TextEditor.implementation;
+        const enriched = await TextEditor.enrichHTML(effect.description, {secrets:true, autoLink:true});
+        const descriptionColumn = enriched ? `<hr/>${enriched}` : "";
+        
+        const timeLeft = effect.roundsLeft ? `<p><i class="fa-solid fa-stopwatch margin-right-5"></i> ${effect.roundsLeft} Rounds Left</p>` : "";
+        const suspended = effect.suspended ? `<p><i class="fa-solid fa-power-off margin-right-5"></i> Suspended by: ${effect.suspendedBy} </p>` : "";
+        const statuses = await this._prepareInnerStatuses(effect.statuses, effect.name);
+
+        let middleColumn = `${timeLeft} ${suspended} ${statuses}`;
+        if (middleColumn.trim()) middleColumn = "<hr/>" + middleColumn;
+
+        effect.descriptionHTML = `
+          <h4>${effect.name}</h4>
+          <div class='middle-section'>${middleColumn}</div>
+          ${descriptionColumn}
+        `
+
+        // If effect is toggleable from item we want to change default behaviour
+        const item = effect.getSourceItem();
+        if (item) {
+          // Equippable
+          if (item.system.effectsConfig?.mustEquip) effect.equippable = true; 
+
+          // Toggleable
+          if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) effect.itemId = item.id; 
+          else effect.itemId = ""; 
+        }
+
+        if(effect.disabled) disabled.push(effect);
+        else active.push(effect);
+      }
+    }
+
+    // Merge stackable conditions
+    const mergedActive = this._mergeStackableConditions(active);
+    const mergedDisabled = this._mergeStackableConditions(disabled);
+    return [mergedActive, mergedDisabled];
+  }
+
+  _mergeStackableConditions(effects) {
+    const mergedEffects = [];
+    for (const effectDoc of effects) {
+      const effect = {...effectDoc};
+      effect._id = effectDoc._id;
+      const statusId = effect.system.statusId;
+      if (statusId && isStackable(statusId)) {
+        const alreadyPushed = mergedEffects.find(e => e.system.statusId === statusId);
+        if (alreadyPushed) {
+          alreadyPushed._id = effect._id;
+          alreadyPushed.system.stack++;
+        }
+        else {
+          effect.system.stack = 1;
+          mergedEffects.push(effect);
+        }
+      }
+      else {
+        mergedEffects.push(effect);
+      }
+    }
+    return mergedEffects;
+  }
+
+  async _prepareInnerStatuses(statuses, effectName) {
+    let inner = "";
+    for (const status of CONFIG.statusEffects) {
+      if (statuses.has(status.id) && effectName !== status.name) {
+        const journal = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal;
+        const link = journal[status.id];
+        const html = `<li style='display:flex; margin-left:5px'><i class='custom-resource'><img src='${status.img}' style='margin-right:5px'/></i>@UUID[${link}]{${status.name}}</li>`;
+        const TextEditor = foundry.applications.ux.TextEditor.implementation;
+        const enriched = await TextEditor.enrichHTML(html, {secrets:true, autoLink:false});
+        inner += enriched;
+      }
+    }
+    if (inner) inner = "<p>Contains: </p>" + inner;
+    return inner;
+  }
   // ==================== CONTEXT =====================
 
   async _onRender(context, options) {
@@ -211,7 +321,7 @@ export default class DC20Hotbar extends Hotbar {
   }
 
   _onConfigTokenHotbar(event, target) {
-    openTokenHotbarConfig(this.actor);
+    if (this.actor) openTokenHotbarConfig(this.actor);
   }
 
   _onDoubleClick(event) {
@@ -220,12 +330,46 @@ export default class DC20Hotbar extends Hotbar {
     }
   }
 
+  _onMouseDown(event) {
+    if (event.button === 0) this._onLeftClick(event);
+    if (event.button === 1) this._onMiddleClick(event);
+    if (event.button === 2) this._onRightClick(event);
+  }
+
+  _onLeftClick(event) {
+    if (event.target.classList.contains("effect-img")) {
+      const dataset = event.target.dataset;
+      const owner = getActorFromIds(this.actorId, this.tokenId);
+      if (owner) {
+        if (dataset.itemId) {
+          const item = getItemFromActor(dataset.itemId, owner);
+          if (item) changeActivableProperty("system.toggle.toggledOn", item);
+        }
+        else {
+          toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+        }
+      }
+    }
+  }
+
   _onMiddleClick(event) {
-    if (event.target.classList.contains("item-slot") && event.button === 1) {
-      event.preventDefault();
-       const dataset = event.target.dataset;
+    if (event.target.classList.contains("item-slot")) {
+      const dataset = event.target.dataset;
       const item = this._getItemFromSlot(dataset.index, dataset.section);
       if (item) item.sheet.render(true);
+    }
+    if (event.target.classList.contains("effect-img")) {
+      const dataset = event.target.dataset;
+      const owner = getActorFromIds(this.actorId, this.tokenId);
+      if (owner) editEffectOn(dataset.effectId, owner);
+    }
+  }
+
+  _onRightClick(event) {
+    if (event.target.classList.contains("effect-img")) {
+      const dataset = event.target.dataset;
+      const owner = getActorFromIds(this.actorId, this.tokenId);
+      if (owner) deleteEffectFrom(dataset.effectId, owner);
     }
   }
 

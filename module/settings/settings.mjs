@@ -244,7 +244,8 @@ export function registerGameSettings(settings) {
         rows: 3
       },
       effects: {
-        rowSize: 5
+        rowSize: 8,
+        position: "sectionA"
       }
     },
     type: Object

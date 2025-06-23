@@ -1,0 +1,45 @@
+<div id="effects-tracker" class="grid grid-{{effects.rowSize}}col">
+
+  {{!-- Active --}}
+  {{#each effects.active}}
+  <div class="effect-wrapper" title="{{localize 'HOTBAR.EFFECT'}}">
+    {{#ifCond system.stack '>' 0}}
+    <div class="status-stack">
+      <div class="letter-circle-icon">
+        <span>{{system.stack}}</span>
+      </div>
+    </div>
+    {{/ifCond}}
+    <div class="effect" data-tooltip="{{descriptionHTML}}">
+      <img class="effect-img" src="{{img}}" data-effect-id="{{_id}}" data-item-id="{{itemId}}" data-turn-on="false"/>
+    </div>
+  </div>
+  {{/each}}
+
+  {{#if effects.separator}}
+  <div class="effect-wrapper"></div>
+  {{/if}}
+
+  {{!-- Disabled --}}
+  {{#each effects.disabled}}
+  <div class="effect-wrapper" title="{{localize 'HOTBAR.EFFECT'}}">
+    {{#ifCond system.stack '>' 0}}
+    <div class="status-stack">
+      <div class="letter-circle-icon">
+        <span>{{system.stack}}</span>
+      </div>
+    </div>
+    {{/ifCond}}
+    {{#if suspended}}
+    <div class="status-stack">
+      <div class="letter-circle-icon">
+        <i class="fa-solid fa-power-off"></i>
+      </div>
+    </div>
+    {{/if}}
+    <div class="effect" data-tooltip="{{descriptionHTML}}">
+      <img class="effect-img off" src="{{img}}" data-effect-id="{{_id}}" data-item-id="{{itemId}}" data-turn-on="true"/>
+    </div>
+  </div>
+  {{/each}}
+</div>

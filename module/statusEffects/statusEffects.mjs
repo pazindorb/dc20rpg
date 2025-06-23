@@ -327,7 +327,7 @@ function _bleeding() {
     <p>You take <strong>X</strong> True damage at the start of each of your turns.</p>
     <p><em><strong>Ending Bleeding:</strong></em> All stacks of the Condition end when you're subjected to an effect that restores your HP. Alternatively, a creature can attempt to remove 1 or more stacks of the Condition by taking the Medicine Action.</p>
     <p></p>
-    <h3>Medicine (Action)</h3>
+    <h4>Medicine (Action)</h4>
     <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a <strong>DC 10</strong> Medicine Check. <strong>Success (each 5):</strong> You end 1 stack of <strong>Bleeding</strong> on the target.</p>
     `,
     changes: [
@@ -1178,7 +1178,7 @@ function _poisoned() {
         </li>
     </ul>
     <p></p>
-    <h3>Medicine (Action)</h3>
+    <h4>Medicine (Action)</h4>
     <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a Medicine Check against the DC of the Poison. <strong>Success:</strong> You end the Poison on the target.</p>
     `,
     changes: [

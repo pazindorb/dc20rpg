@@ -32,6 +32,10 @@ export class TokenHotbarConfig extends DC20Dialog {
     context.data = this.data;
     context.settings = this.settings;
     context.resources = this._collectResources();
+    context.sections = {
+      sectionA: "Section A [Right]",
+      sectionB: "Section B [Left]",
+    }
     return context;
   }
 

@@ -1,28 +1,35 @@
 <aside id="hotbar">
   <div id="hotbar-controls-left" class="hotbar-controls flexcol" data-tooltip-direction="LEFT">
-    <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip
-      aria-label="{{localize 'HOTBAR.MUTE'}}"></button>
     <button type="button" class="ui-control fa-solid {{#if tokenHotbar}}fa-code{{else}}fa-user{{/if}} icon" data-action="swap" data-tooltip
       aria-label="{{#if tokenHotbar}}{{localize 'HOTBAR.HOTBAR'}}{{else}}{{localize 'HOTBAR.TOKEN'}}{{/if}}"></button>
-    <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip
-      aria-label="{{localize 'HOTBAR.MENU'}}"></button>
     {{#if tokenHotbar}}
     <button type="button" class="ui-control fa-solid fa-gears icon" data-action="config" data-tooltip
       aria-label="{{localize 'HOTBAR.CONFIG'}}"></button>
     {{/if}}
+    <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip
+      aria-label="{{localize 'HOTBAR.MUTE'}}"></button>
+    <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip
+      aria-label="{{localize 'HOTBAR.MENU'}}"></button>
   </div>
   {{#if tokenHotbar}}
   {{!-- Token Hotbar --}}
   {{!-- Token Effects Tracker --}}
   <menu id="action-bar" data-tooltip-direction="UP">
     {{!-- Section B --}}
-    <div class="section-wrapper grid grid-{{sectionBWidth}}col">
-    {{#each sectionB as |item index|}}
-    <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
-      {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
-    </li>
-    {{/each}}
+    <div class="section">
+      <div class="upper-wrapper">
+        {{#if effects.sectionB}}{{PARTIAL "Effects Tracker"}}{{/if}}
+      </div>
+      
+      <div class="section-wrapper grid grid-{{sectionBWidth}}col">
+      {{#each sectionB as |item index|}}
+      <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
+        {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
+      </li>
+      {{/each}}
+      </div>
     </div>
+    
     {{!-- Character Details --}}
     {{#if actor.img}}
     <div class="portrait-wrapper">
@@ -67,14 +74,18 @@
     {{/if}}
 
     {{!-- Section A --}}
-     <div class="section-wrapper grid grid-{{sectionAWidth}}col">
-    {{#each sectionA as |item index|}}
-    <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
-      {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
-    </li>
-    {{/each}}
+    <div class="section">
+      <div class="upper-wrapper">
+        {{#if effects.sectionA}}{{PARTIAL "Effects Tracker"}}{{/if}}
+      </div>
+      <div class="section-wrapper grid grid-{{sectionAWidth}}col">
+      {{#each sectionA as |item index|}}
+      <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
+        {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
+      </li>
+      {{/each}}
+      </div>
     </div>
-    {{!--  --}}
   </menu>
   {{else}}
 

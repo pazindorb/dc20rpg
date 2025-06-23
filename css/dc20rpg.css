@@ -10,7 +10,7 @@
   src: url("fonts/Humaroid.woff") format("woff");
 }
 /* Global styles */
-#tooltip .header-section {
+#tooltip .header-section, .locked-tooltip .header-section {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -22,11 +22,11 @@
   align-items: center;
   margin-top: 10px;
 }
-#tooltip .header-section h4 {
+#tooltip .header-section h4, .locked-tooltip .header-section h4 {
   margin-right: 10px;
   margin-bottom: 0;
 }
-#tooltip .header-section .cost-wrapper {
+#tooltip .header-section .cost-wrapper, .locked-tooltip .header-section .cost-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -37,7 +37,7 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-#tooltip .header-section .cost-wrapper div {
+#tooltip .header-section .cost-wrapper div, .locked-tooltip .header-section .cost-wrapper div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -48,7 +48,7 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-#tooltip .custom-resource {
+#tooltip .custom-resource, .locked-tooltip .custom-resource {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -56,7 +56,7 @@
   -ms-flex-align: center;
   align-items: center;
 }
-#tooltip .custom-resource img {
+#tooltip .custom-resource img, .locked-tooltip .custom-resource img {
   margin-left: 2px;
   min-width: 16px;
   min-height: 16px;
@@ -65,28 +65,28 @@
   border-radius: 2px;
   border: 1px solid var(--secondary-lighter);
 }
-#tooltip .ap, #tooltip .sp, #tooltip .mp, #tooltip .hp, #tooltip .grit, #tooltip .rest, #tooltip .reaction {
+#tooltip .ap, #tooltip .sp, #tooltip .mp, #tooltip .hp, #tooltip .grit, #tooltip .rest, #tooltip .reaction, .locked-tooltip .ap, .locked-tooltip .sp, .locked-tooltip .mp, .locked-tooltip .hp, .locked-tooltip .grit, .locked-tooltip .rest, .locked-tooltip .reaction {
   text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
 }
-#tooltip .reaction {
+#tooltip .reaction, .locked-tooltip .reaction {
   color: var(--primary-color);
 }
-#tooltip .ap {
+#tooltip .ap, .locked-tooltip .ap {
   color: var(--action-point);
 }
-#tooltip .sp {
+#tooltip .sp, .locked-tooltip .sp {
   color: var(--stamina);
 }
-#tooltip .mp {
+#tooltip .mp, .locked-tooltip .mp {
   color: var(--mana);
 }
-#tooltip .hp {
+#tooltip .hp, .locked-tooltip .hp {
   color: var(--health);
 }
-#tooltip .grit {
+#tooltip .grit, .locked-tooltip .grit {
   color: var(--grit);
 }
-#tooltip .rest {
+#tooltip .rest, .locked-tooltip .rest {
   color: #00887d;
 }
 
@@ -12415,22 +12415,10 @@
 }
 
 #ui-bottom #hotbar #hotbar-controls-left {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-#ui-bottom #hotbar.faded-ui #action-bar .section-wrapper {
-  opacity: var(--ui-fade-opacity);
-  -webkit-transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), -webkit-transform 250ms ease;
-  transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), -webkit-transform 250ms ease;
-  transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), transform 250ms ease;
-  transition: opacity var(--ui-fade-delay) var(--ui-fade-duration), transform 250ms ease, -webkit-transform 250ms ease;
-}
-#ui-bottom #hotbar.faded-ui #action-bar:hover .section-wrapper {
-  opacity: 1;
-  -webkit-transition: opacity var(--ui-fade-duration), -webkit-transform 250ms ease;
-  transition: opacity var(--ui-fade-duration), -webkit-transform 250ms ease;
-  transition: opacity var(--ui-fade-duration), transform 250ms ease;
-  transition: opacity var(--ui-fade-duration), transform 250ms ease, -webkit-transform 250ms ease;
+  height: 100%;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
 }
 #ui-bottom #hotbar.token-hotbar {
   height: auto;
@@ -12447,6 +12435,87 @@
   -webkit-box-align: end;
   -ms-flex-align: end;
   align-items: flex-end;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper #effects-tracker {
+  row-gap: 5px;
+  -webkit-column-gap: 3px;
+  -moz-column-gap: 3px;
+  column-gap: 3px;
+  margin: 0;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper {
+  color: #dbdbdb !important;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper strong {
+  color: #dbdbdb !important;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper ul {
+  color: #dbdbdb !important;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper .status-stack {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  z-index: 5;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper .status-stack .letter-circle-icon {
+  position: relative;
+  width: 0px;
+  height: 0px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper .status-stack .letter-circle-icon span, #ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper .status-stack .letter-circle-icon i {
+  width: 17px;
+  height: 17px;
+  text-shadow: none;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  position: relative;
+  top: -6px;
+  left: -4px;
+  padding: 0px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper .status-stack .letter-circle-icon i {
+  font-size: 12px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper .status-stack .letter-circle-icon span {
+  font-family: "Humaroid";
+  font-weight: 100;
+  font-size: 14px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper img {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  border: 1px solid var(--crit);
+  background-color: var(--secondary-dark);
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper img.off {
+  -webkit-filter: opacity(0.6);
+  filter: opacity(0.6);
+  border-color: var(--primary-darker);
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper img:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 8px 3px var(--primary-darker);
+  box-shadow: 0 0 8px 3px var(--primary-darker);
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper {
   gap: 3px;

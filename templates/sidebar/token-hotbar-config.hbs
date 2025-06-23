@@ -23,6 +23,18 @@
         <input type="number" data-path="settings.sectionB.columns" value="{{settings.sectionB.columns}}" data-limit="12" data-cType="numeric"/>
       </div>
     </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.effects"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.config.tokenHotbar.rowSize"}}</label>
+        <input type="number" data-path="settings.effects.rowSize" value="{{settings.effects.rowSize}}" data-limit="12" data-cType="numeric"/>
+        <label>{{localize "dc20rpg.config.tokenHotbar.section"}}</label>
+        <select data-cType="string" data-path="settings.effects.position">
+          {{selectOptions sections selected=settings.effects.position blank=""}}
+        </select>
+      </div>
+    </div>
   </fieldset>
 
   {{!-- Resource Config --}}
