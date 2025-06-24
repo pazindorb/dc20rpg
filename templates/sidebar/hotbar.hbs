@@ -1,15 +1,12 @@
 <aside id="hotbar">
   <div id="hotbar-controls-left" class="hotbar-controls flexcol" data-tooltip-direction="LEFT">
-    <button type="button" class="ui-control fa-solid {{#if tokenHotbar}}fa-code{{else}}fa-user{{/if}} icon" data-action="swap" data-tooltip
-      aria-label="{{#if tokenHotbar}}{{localize 'HOTBAR.HOTBAR'}}{{else}}{{localize 'HOTBAR.TOKEN'}}{{/if}}"></button>
     {{#if tokenHotbar}}
-    <button type="button" class="ui-control fa-solid fa-gears icon" data-action="config" data-tooltip
-      aria-label="{{localize 'HOTBAR.CONFIG'}}"></button>
+    <button type="button" class="ui-control fa-solid {{filter.icon}} icon" data-action="filter" data-tooltip aria-label="{{localize 'HOTBAR.FILTER'}}{{filter.label}}"></button>
+    <button type="button" class="ui-control fa-solid fa-gears icon" data-action="config" data-tooltip aria-label="{{localize 'HOTBAR.CONFIG'}}"></button>
     {{/if}}
-    <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip
-      aria-label="{{localize 'HOTBAR.MUTE'}}"></button>
-    <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip
-      aria-label="{{localize 'HOTBAR.MENU'}}"></button>
+    <button type="button" class="ui-control fa-solid {{#if tokenHotbar}}fa-code{{else}}fa-user{{/if}} icon" data-action="swap" data-tooltip aria-label="{{#if tokenHotbar}}{{localize 'HOTBAR.HOTBAR'}}{{else}}{{localize 'HOTBAR.TOKEN'}}{{/if}}"></button>
+    <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip aria-label="{{localize 'HOTBAR.MUTE'}}"></button>
+    <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip aria-label="{{localize 'HOTBAR.MENU'}}"></button>
   </div>
   {{#if tokenHotbar}}
   {{!-- Token Hotbar --}}
@@ -22,9 +19,9 @@
         {{#ifCond help.position '===' "sectionB"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
       </div>
       
-      <div class="section-wrapper grid grid-{{sectionBWidth}}col">
+      <div class="section-wrapper grid grid-{{sectionBWidth}}row">
       {{#each sectionB as |item index|}}
-      <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
+      <li class="slot {{item.borderColor}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
       </li>
       {{/each}}
@@ -82,7 +79,7 @@
       </div>
 
       {{#if heldAction}}
-      <img src="{{heldAction.itemImg}}" class="held-action" data-tooltip="{{localize "dc20rpg.sheet.heldAction.roll"}}"/>
+      <img src="{{heldAction.itemImg}}" class="held-action" data-action="heldAction" data-tooltip="{{localize "dc20rpg.sheet.heldAction.roll"}}"/>
       {{/if}}
     </div>
     {{/if}}
@@ -93,9 +90,9 @@
         {{#ifCond effects.position '===' "sectionA"}}{{PARTIAL "Effects Tracker"}}{{else}}<div></div>{{/ifCond}}
         {{#ifCond help.position '===' "sectionA"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
       </div>
-      <div class="section-wrapper grid grid-{{sectionAWidth}}col">
+      <div class="section-wrapper grid grid-{{sectionAWidth}}row">
       {{#each sectionA as |item index|}}
-      <li class="slot {{#if item}}full{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
+      <li class="slot {{item.borderColor}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
       </li>
       {{/each}}
@@ -131,7 +128,11 @@
     {{else}}
     {{#if actor.img}}
     <div class="flexcol hotbar-controls" style="justify-content: end; height: 100%;">
-      <button type="button" class="ui-control fa-solid fa-dice icon margin-top-5" data-action="check" data-tooltip aria-label="{{localize 'HOTBAR.CHECK'}}"></button>
+      {{#ifCond actor.type '!==' 'character'}}
+      <button type="button" class="ui-control fa-solid fa-user icon" data-action="original" {{#if original}}style="background-color:#8a00b7;"{{/if}} data-tooltip aria-label="{{localize 'HOTBAR.ORIGINAL'}}"></button>
+      {{/ifCond}}
+      <button type="button" class="ui-control fa-solid fa-fill-drip icon" data-action="autofill" data-tooltip aria-label="{{localize 'HOTBAR.FILL'}}"></button>
+      <button type="button" class="ui-control fa-solid fa-dice icon" data-action="check" data-tooltip aria-label="{{localize 'HOTBAR.CHECK'}}"></button>
       <button type="button" class="ui-control fa-solid fa-shield icon" data-action="save" data-tooltip aria-label="{{localize 'HOTBAR.SAVE'}}"></button>
       {{#ifCond actor.type '===' 'character'}}
       <button type="button" class="ui-control fa-solid fa-clover icon" data-action="grit" data-tooltip aria-label="{{localize 'dc20rpg.sheet.resource.gritToDamageReduction'}}"></button>

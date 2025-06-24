@@ -251,6 +251,7 @@ export function registerGameSettings(settings) {
         rowSize: 3,
         position: "sectionA"
       },
+      borderColor: true,
     },
     type: Object
   });

@@ -1,7 +1,7 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHelpDice } from "../helpers/actors/actions.mjs";
+import { clearHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { canSubtractBasicResource, regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
@@ -17,6 +17,47 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   constructor(options = {}) {
     super(options);
     this.tokenHotbar = game.settings.get("dc20rpg", "tokenHotbar");
+    this.skipTypes = [
+      "basicAction",
+      "class",
+      "subclass",
+      "ancestry",
+      "background",
+      "loot",
+      "container"
+    ]
+    this.filter = {
+      index: 0,
+      type: "none",
+      icon: "fa-border-all",
+      options: [
+        {
+          type: "none",
+          label: "None",
+          icon: "fa-border-all"
+        },
+        {
+          type: "reaction",
+          label: "Reaction",
+          icon: "fa-reply"
+        },
+        {
+          type: "attack",
+          label: "Martial Attack",
+          icon: "fa-sword"
+        },
+        {
+          type: "spell",
+          label: "Spell Check",
+          icon: "fa-hat-wizard"
+        },
+        {
+          type: "skill",
+          label: "Skill Check",
+          icon: "fa-books"
+        },
+      ]
+    };
   }
 
   /** @override */
@@ -35,10 +76,14 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     initialized.actions.regainResource = this._regainResource;
     initialized.actions.config = this._onConfigTokenHotbar;
     initialized.actions.dropSustain = this._onDropSustain;
+    initialized.actions.heldAction = this._onHeldAction;
     initialized.actions.rest = () => createRestDialog(this.actor);
     initialized.actions.check = this._onCheckRoll;
     initialized.actions.save = this._onSaveRoll;
     initialized.actions.grit = this._onGrit;
+    initialized.actions.filter = this._onFilterChange;
+    initialized.actions.autofill = this._onAutofill;
+    initialized.actions.original = this._onOriginalSwap;
     return initialized;
   }
 
@@ -69,7 +114,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           condition: li => this.#isItemSlot(li),
           callback: li => {
             const dataset = li.dataset;
-            this.actor.update({[`system.tokenHotbar.${dataset.section}.-=${dataset.index}`]: null});
+            this.actor.update({[`system.tokenHotbar.${dataset.section}.${dataset.index}`]: ""});
           }
     });
     return options;
@@ -92,8 +137,15 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       this.tokenId = "";
       this.helpDice = null;
     };
+    context.filter = this.filter;
     context.tokenHotbar = this.tokenHotbar;
     return context;
+  }
+
+  _getActorFrom(token) {
+    const actorLink = token.document.actorLink;
+    if (!actorLink && this.original) return game.actors.get(token.document.actorId);
+    return token.actor;
   }
 
   async _prepareTokenContext(context) {
@@ -102,7 +154,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (!tokens || tokens.length !== 1) return;
 
     const token = tokens[0];
-    this.actor = token.actor;
+    this.actor = this._getActorFrom(token);
     this.actorId = this.actor.id;
     this.tokenId = token.id;
     context.actor = this.actor;
@@ -118,14 +170,15 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     context.sectionA = await this._prepareSectionSlots("sectionA");
     context.sectionB = await this._prepareSectionSlots("sectionB");
     const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
-    context.sectionAWidth = tokenHotbarSettings["sectionA"].columns;
-    context.sectionBWidth = tokenHotbarSettings["sectionB"].columns;
+    context.sectionAWidth = tokenHotbarSettings["sectionA"].rows;
+    context.sectionBWidth = tokenHotbarSettings["sectionB"].rows;
 
     context.resources = this._prepareResources();
     context.effects = await this._prepareEffects(tokenHotbarSettings.effects);
     context.help = this._prepareHelp(tokenHotbarSettings.help);
     context.heldAction = this._prepareHeldAction();
     context.sustain = this.actor.system.sustain;
+    context.original = this.original;
   }
 
   async _prepareSectionSlots(sectionKey) {
@@ -133,14 +186,20 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const items = this.actor.items;
 
     const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
+    const borderColor = tokenHotbarSettings.borderColor;
     const sc = tokenHotbarSettings[sectionKey];
     const size = sc.rows * sc.columns;
     const slots = [];
     for (let i = 0; i < size; i++) {
       const itemId = section[i];
-      const item = items.get(itemId);
-      if (item) item.description = await this._prepareDescription(item);
-      slots[i] = item || {}
+      const original = items.get(itemId);
+      const item = original ? {...original} : null;
+      if (item) {
+        item.description = await this._prepareDescription(item);
+        if (borderColor) item.borderColor = this._borderColorFor(item);
+        this._runFilter(item);
+      }
+      slots[i] = item || {filterOut: this.filter.type !== "none"}
     }
     return slots;
   }
@@ -178,6 +237,47 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       <div class='middle-section'>${middleColumn}</div>
       ${descriptionColumn}
     `
+  }
+
+  _borderColorFor(item) {
+    const actionType = item.system?.actionType;
+    const attackCheckType = item.system?.attackFormula?.checkType;
+    const checkType = item.system?.check?.checkKey;
+
+    if (actionType === "attack" && attackCheckType === "attack") return "martial-attack";
+    else if (actionType === "attack" && attackCheckType === "spell") return "spell-attack";
+    else if (actionType === "check" && checkType === "att") return "martial-attack";
+    else if (actionType === "check" && checkType === "spe") return "spell-check";
+    else if (actionType === "check") return "skill-check";
+    else return "";
+  }
+
+  _runFilter(item) {
+    const filter = this.filter.type;
+    if (filter === "none") return;
+
+    const actionType = item.system?.actionType;
+    const attackCheckType = item.system?.attackFormula?.checkType;
+    const checkType = item.system?.check?.checkKey;
+    const reaction = item.system?.isReaction;
+
+    const attackFilter = (actionType === "attack" && attackCheckType === "attack") || (actionType === "check" && checkType === "att");
+    const spellFilter = (actionType === "attack" && attackCheckType === "spell") || (actionType === "check" && checkType === "spe");
+    const skillFilter = (actionType === "check" && (checkType !== "spe" && checkType !== "att"))
+
+    switch (filter) {
+      case "reaction":
+        if (!reaction) item.filterOut = true; break;
+
+      case "attack":
+        if (!attackFilter) item.filterOut = true; break;
+
+      case "spell":
+        if (!spellFilter) item.filterOut = true; break;
+
+      case "skill":
+        if (!skillFilter) item.filterOut = true; break;
+    }
   }
 
   _prepareResources() {
@@ -373,7 +473,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       }).bind(this.element);
     }
   }
- 
 
   // ==================== ACTIONS =====================
   _onSwap(event, target) {
@@ -408,6 +507,11 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     }
   }
 
+  _onHeldAction(event, target) {
+    const owner = getActorFromIds(this.actorId, this.tokenId);
+    if (owner) triggerHeldAction(owner);
+  }
+
   async _onCheckRoll(event, target) {
     const options = this.actor.getCheckOptions(true, true, true, true);
     const key = await getSimplePopup("select", {header: "Roll Skill Check", selectOptions: options});
@@ -427,6 +531,81 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       await subtractBasicResource("grit", this.actor, 1, true);
       await addFlatDamageReductionEffect(this.actor);
     }
+  }
+
+  _onFilterChange(event, target) {
+    let index = this.filter.index + 1;
+    let newFilter = this.filter.options[index];
+    if (!newFilter) {
+      newFilter = this.filter.options[0];
+      index = 0;
+    }
+    this.filter.type = newFilter.type;
+    this.filter.index = index;
+    this.filter.label = newFilter.label;
+    this.filter.icon = newFilter.icon;
+    this.render();
+  }
+
+  async _onAutofill(event, target) {
+    await this._clearSection(this.actor.system.tokenHotbar.sectionA, "sectionA");
+    await this._clearSection(this.actor.system.tokenHotbar.sectionB, "sectionB");
+
+    const usableItems = this.actor.items
+                .filter(item => item.system?.actionType !== "")
+                .filter(item => !this.skipTypes.includes(item.type));
+
+    const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
+    const sca = tokenHotbarSettings.sectionA;
+    const scb = tokenHotbarSettings.sectionB;
+    const size = {
+      A: sca.rows * sca.columns,
+      B: scb.rows * scb.columns
+    }
+    const updateData = {
+      sectionA: {},
+      sectionB: {}
+    };
+
+    let section = size.A >= size.B ? "A" : "B";
+    const full = {
+      A: size.A === 0,
+      B: size.B === 0
+    }
+    let counter = 0;
+    for (const item of usableItems) {
+      if (counter > size[section]) {
+        full[section] = true;
+        if (section === "A" && !full.B) {
+          section = "B";
+          counter = 0;
+        }
+        else if (section === "B" && !full.A) {
+          section = "A";
+          counter = 0;
+        }
+        else {
+          break;
+        }
+      }
+      updateData[`section${section}`][counter] = item.id;
+      counter++;
+    }
+
+    await this.actor.update({["system.tokenHotbar"]: updateData});
+  }
+
+  async _clearSection(section, sectionKey) {
+    const updateData = {}
+    for (const key of Object.keys(section)) {
+      updateData[`system.tokenHotbar.${sectionKey}.${key}`] = "";
+    }
+    await this.actor.update(updateData);
+  }
+
+  _onOriginalSwap(event, target) {
+    this.original = !this.original;
+    this.render();
   }
 
   async _spendResource(event, target) {
@@ -566,7 +745,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     }
 
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-    this.actor.update({[`system.tokenHotbar.${sectionKey}.-=${index}`]: null});
+    this.actor.update({[`system.tokenHotbar.${sectionKey}.${index}`]: ""});
   }
 
   _onDragHelpDice(event) {
