@@ -1,20 +1,25 @@
-<form id="mix-ancestry-dialog" class="dialog-v2">
-  <div class="title">
-    <a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="ancestry" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
-    <span>{{localize "dc20rpg.dialog.mixAncestry.title"}}</span>
-  </div>
+<form id="mix-ancestry-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.mixAncestry.title"}}</h4>
 
-  <div class="table-wrapper">
-    {{#each ancestryCollection as |ancestry key|}}
-    <div class="item-row">
-      <img class="item-img" src="{{ancestry.img}}"/>
-      <div class="item-name">
-        <div>{{ancestry.name}}</div>
-        <a class="remove-item fa-solid fa-trash" title="Remove" data-id="{{key}}"></a>
-      </div>
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.mixAncestry.first'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="ancestry1">
+        {{selectOptions ancestries selected=ancestry1 blank=""}}
+      </select>
     </div>
-    {{/each}}
   </div>
 
-  <button {{#unless canMix}}disabled{{/unless}} class="close mix button margin-top-5">{{localize "dc20rpg.dialog.config.finish"}}</button>
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.mixAncestry.second'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="ancestry2">
+        {{selectOptions ancestries selected=ancestry2 blank=""}}
+      </select>
+    </div>
+  </div>
+
+  <footer class="form-footer">
+    <button {{#unless canMix}}disabled{{/unless}} data-action="mix"><i class="fa-solid fa-network-wired fa-lg margin-right-5"></i>{{localize "dc20rpg.dialog.mixAncestry.finish"}}</button>
+  </footer>
 </form>

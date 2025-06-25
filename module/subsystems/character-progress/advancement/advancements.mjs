@@ -139,6 +139,12 @@ export async function removeMulticlassInfoFromActor(actor, key) {
 
 
 export async function registerUniqueSystemItems() {
+	CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS = {
+		class: {},
+		subclass: {},
+		ancestry: {},
+		background: {}
+	}
 	CONFIG.DC20RPG.UNIQUE_ITEM_IDS = {
 		class: {},
 		subclass: {},
@@ -149,11 +155,13 @@ export async function registerUniqueSystemItems() {
 
 	const clazz = await collectItemsForType("class");
 	clazz.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.class[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[itemKey] = item.name;
 	});
 	const subclass = await collectItemsForType("subclass");
 	subclass.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.subclass[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		const classKey = item.system.forClass.classSpecialId;
 		if (itemKey) {
@@ -163,11 +171,13 @@ export async function registerUniqueSystemItems() {
 	});
 	const ancestry = await collectItemsForType("ancestry");
 	ancestry.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.ancestry[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry[itemKey] = item.name;
 	});
 	const background = await collectItemsForType("background");
 	background.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.background[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.background[itemKey] = item.name;
 	});

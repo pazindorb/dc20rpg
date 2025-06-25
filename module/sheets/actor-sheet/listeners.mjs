@@ -113,8 +113,8 @@ export function activateCommonLinsters(html, actor) {
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
   html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
-  html.find('.mix-ancestry').click(async () => {
-    const ancestryData = await createMixAncestryDialog();
+  html.find('.mix-ancestry').click(async ev => {
+    const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
     if (ancestryData) await createItemOnActor(actor, ancestryData);
   });
 

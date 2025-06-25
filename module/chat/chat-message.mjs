@@ -968,9 +968,8 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
     messageType: "roll"
   };
 
-  const message = await DC20ChatMessage.create({
+  let chatData = {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
-    rollMode: game.settings.get('core', 'rollMode'),
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
     system: system,
@@ -982,7 +981,9 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
       },
       movedRecently: token?.movedRecently || null
     }}
-  });
+  }
+  chatData = DC20ChatMessage.applyRollMode(chatData, game.settings.get('core', 'rollMode'));
+  const message = await DC20ChatMessage.create(chatData);
   if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
@@ -1005,12 +1006,14 @@ export async function sendDescriptionToChat(actor, details, item) {
       ...details,
       messageType: "description"
   };
-  const message = await DC20ChatMessage.create({
+  let chatData = {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
     flags: {dc20rpg: {itemId: item?.id}}
-  });
+  };
+  chatData = DC20ChatMessage.applyRollMode(chatData, game.settings.get('core', 'rollMode'));
+  const message = await DC20ChatMessage.create(chatData);
   if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
