@@ -12,6 +12,20 @@
     </div>
 
     <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.markers"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="settings.markers" {{checked settings.markers}}/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.config.tokenHotbar.showCharges"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="settings.showCharges" {{checked settings.showCharges}}/>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label>{{localize "dc20rpg.config.tokenHotbar.sectionA"}}</label>
       <div class="form-fields">
         <label>{{localize "dc20rpg.config.tokenHotbar.rows"}}</label>

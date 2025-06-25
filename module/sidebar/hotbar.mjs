@@ -187,6 +187,9 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
     const borderColor = tokenHotbarSettings.borderColor;
+    const markers = tokenHotbarSettings.markers;
+    const showCharges = tokenHotbarSettings.showCharges;
+
     const sc = tokenHotbarSettings[sectionKey];
     const size = sc.rows * sc.columns;
     const slots = [];
@@ -196,7 +199,9 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const item = original ? {...original} : null;
       if (item) {
         item.description = await this._prepareDescription(item);
-        if (borderColor) item.borderColor = this._borderColorFor(item);
+        if (borderColor) this._borderColor(item);
+        if (markers) this._markers(item);
+        if (showCharges) this._charges(item);
         this._runFilter(item);
       }
       slots[i] = item || {filterOut: this.filter.type !== "none"}
@@ -239,17 +244,41 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     `
   }
 
-  _borderColorFor(item) {
+  _borderColor(item) {
     const actionType = item.system?.actionType;
     const attackCheckType = item.system?.attackFormula?.checkType;
     const checkType = item.system?.check?.checkKey;
 
-    if (actionType === "attack" && attackCheckType === "attack") return "martial-attack";
-    else if (actionType === "attack" && attackCheckType === "spell") return "spell-attack";
-    else if (actionType === "check" && checkType === "att") return "martial-attack";
-    else if (actionType === "check" && checkType === "spe") return "spell-check";
-    else if (actionType === "check") return "skill-check";
-    else return "";
+    let color = "";
+    if (actionType === "attack" && attackCheckType === "attack") color = "martial-attack";
+    else if (actionType === "attack" && attackCheckType === "spell") color = "spell-attack";
+    else if (actionType === "check" && checkType === "att") color = "martial-attack";
+    else if (actionType === "check" && checkType === "spe") color = "spell-check";
+    else if (actionType === "check") color = "skill-check";
+    item.borderColor = color;
+  }
+
+  _markers(item) {
+    const actionType = item.system?.actionType;
+    const attackCheckType = item.system?.attackFormula?.checkType;
+    const checkType = item.system?.check?.checkKey;
+
+    let actionIcon = "";
+    if (actionType === "attack" && attackCheckType === "attack") actionIcon = "fa-sword";
+    else if (actionType === "attack" && attackCheckType === "spell") actionIcon = "fa-hat-wizard";
+    else if (actionType === "check" && checkType === "att") actionIcon = "fa-sword";
+    else if (actionType === "check" && checkType === "spe") actionIcon = "fa-hat-wizard";
+    else if (actionType === "check") actionIcon = "fa-books";
+    
+    item.actionMarker = actionIcon;
+    if (item.system?.isReaction) item.reactionMarker = "fa-reply";
+  }
+
+  _charges(item) {
+    const charges = item.system.costs?.charges;
+    if (!charges) return;
+    if (!charges.maxChargesFormula) return;
+    item.showCharges = charges.current;
   }
 
   _runFilter(item) {
@@ -352,7 +381,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
         if (middleColumn.trim()) middleColumn = "<hr/>" + middleColumn;
 
         effect.descriptionHTML = `
-          <h4>${effect.name}</h4>
+          <h4 class='margin-top-5'>${effect.name}${effect.disabled ? " [Disabled]" : ""}</h4>
           <div class='middle-section'>${middleColumn}</div>
           ${descriptionColumn}
         `
@@ -548,10 +577,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   async _onAutofill(event, target) {
+    const favorities = target.dataset.special === "favorities";
     await this._clearSection(this.actor.system.tokenHotbar.sectionA, "sectionA");
     await this._clearSection(this.actor.system.tokenHotbar.sectionB, "sectionB");
 
     const usableItems = this.actor.items
+                .filter(item => !favorities || item.flags.dc20rpg.favorite)
                 .filter(item => item.system?.actionType !== "")
                 .filter(item => !this.skipTypes.includes(item.type));
 

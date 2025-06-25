@@ -591,7 +591,7 @@ function _descriptionIcon(description, icon) {
 function _descriptionChar(description, char) {
   return `
   <div class="description-icon" title="">
-    <div class="letter-circle-icon" data-tooltip="="<span style='display:flex; text-align: center;'>${description}</span>">
+    <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <span class="char">${char}</span>
     </div>
   </div>

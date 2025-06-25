@@ -12239,6 +12239,10 @@
   -ms-flex-pack: end;
   justify-content: end;
 }
+#ui-bottom #hotbar #hotbar-controls-left .hotbar-controls button, #ui-bottom #hotbar #hotbar-controls-right .hotbar-controls button {
+  width: 35px;
+  height: 26px;
+}
 #ui-bottom #hotbar.token-hotbar {
   height: auto;
   width: -webkit-max-content;
@@ -12398,16 +12402,16 @@
   border-radius: 4px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.spell-check {
-  border-color: #6f009b;
+  border-color: #bd2ed6;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.skill-check {
-  border-color: #055519;
+  border-color: #00a329;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.martial-attack {
-  border-color: #6d0606;
+  border-color: #b10000;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.spell-attack {
-  border-color: #02325a;
+  border-color: #006ec9;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot:hover {
   border-color: var(--color-warm-1) !important;
@@ -12415,6 +12419,31 @@
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.filter-out {
   -webkit-filter: opacity(0.6);
   filter: opacity(0.6);
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges {
+  position: absolute;
+  background-color: rgba(59, 59, 59, 0.7607843137);
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type {
+  font-size: 11px;
+  border-radius: 4px 0 10px 0;
+  padding: 3px 5px 3px 3px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction {
+  font-size: 10px;
+  margin-left: 23px;
+  border-radius: 0 4px 0 10px;
+  padding: 2px 3px 4px 5px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges {
+  text-align: center;
+  height: 15px;
+  width: 15px;
+  font-size: 14px;
+  font-family: "Humaroid";
+  margin-top: -17px;
+  border-radius: 0 10px 0 4px;
+  padding-bottom: 2px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper {
   width: 140px;

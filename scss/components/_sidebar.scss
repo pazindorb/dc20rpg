@@ -152,6 +152,13 @@
     #hotbar-controls-left, #hotbar-controls-right {
       height: 100%;
       justify-content: end;
+
+      .hotbar-controls {
+        button {
+          width: 35px;
+          height: 26px;
+        }
+      }
     }
 
     // &.faded-ui {
@@ -325,19 +332,19 @@
             }
 
             &.spell-check {
-              border-color: #6f009b;
+              border-color: #bd2ed6;
             }
 
             &.skill-check {
-              border-color: #055519;
+              border-color: #00a329;
             }
 
             &.martial-attack {
-              border-color: #6d0606;
+              border-color: #b10000;
             }
 
             &.spell-attack {
-              border-color: #02325a;
+              border-color: #006ec9;
             }
 
             &:hover {
@@ -347,6 +354,35 @@
             &.filter-out {
               filter: opacity(0.6);
             }
+          }
+
+          .action-type, .is-reaction, .show-charges {
+            position: absolute;
+            background-color: #3b3b3bc2;
+          }
+
+          .action-type {
+            font-size: 11px;
+            border-radius: 4px 0 10px 0;
+            padding: 3px 5px 3px 3px;
+          }
+
+          .is-reaction {
+            font-size: 10px;
+            margin-left: 23px;
+            border-radius: 0 4px 0 10px;
+            padding: 2px 3px 4px 5px;
+          }
+
+          .show-charges {
+            text-align: center;
+            height: 15px;
+            width: 15px;
+            font-size: 14px;
+            font-family: "Humaroid";
+            margin-top: -17px;
+            border-radius: 0 10px 0 4px;
+            padding-bottom: 2px;
           }
         }
 

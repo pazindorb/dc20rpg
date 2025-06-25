@@ -252,6 +252,8 @@ export function registerGameSettings(settings) {
         position: "sectionA"
       },
       borderColor: true,
+      markers: true,
+      showCharges: true,
     },
     type: Object
   });
