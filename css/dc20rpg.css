@@ -12249,6 +12249,9 @@
   width: -moz-max-content;
   width: max-content;
   opacity: 1;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar {
   width: auto;
@@ -12343,13 +12346,12 @@
   width: 30px;
   height: 30px;
   border-radius: 5px;
-  border: 1px solid var(--crit);
+  border: 1px solid var(--primary-darker);
   background-color: var(--secondary-dark);
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper img.off {
   -webkit-filter: opacity(0.6);
   filter: opacity(0.6);
-  border-color: var(--primary-darker);
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .upper-wrapper .effect-wrapper img:hover {
   cursor: pointer;

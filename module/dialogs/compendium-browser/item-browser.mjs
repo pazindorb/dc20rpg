@@ -99,7 +99,7 @@ export class CompendiumBrowser extends Dialog {
     html.find(".add-item").click(ev => this._onAddItem(ev));
     html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
 
-    html.find('.item-tooltip').hover(ev => {
+    html.find('.item-tooltip').hover(async ev => {
       let position = null;
       const column = html.find(".filter-column");
       if (column[0]) {
@@ -109,7 +109,7 @@ export class CompendiumBrowser extends Dialog {
         };
       }
       const uuid = datasetOf(ev).uuid;
-      const item = fromUuidSync(uuid);
+      const item = await fromUuid(uuid);
       if (item) itemTooltip(item, ev, html, {position: position});
     },
     ev => hideTooltip(ev, html));
@@ -134,9 +134,9 @@ export class CompendiumBrowser extends Dialog {
     this.render(true);
   }
 
-  _onItemShow(ev) {
+  async _onItemShow(ev) {
     const uuid = datasetOf(ev).uuid;
-    const item = fromUuidSync(uuid);
+    const item = await fromUuid(uuid);
     if (item) item.sheet.render(true);
   }
 

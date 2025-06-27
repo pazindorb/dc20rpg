@@ -689,9 +689,9 @@ function _prepareEffectsFromItems(item, forceAddToChat) {
   // From Item itself
   if (item.effects.size !== 0) {
     item.effects.forEach(effect => {
-      const addToChat = effect.flags.dc20rpg?.addToChat;
+      const addToChat = effect.system.addToChat;
       if (forceAddToChat || addToChat) {
-        const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
+        const requireEnhancement = effect.system.requireEnhancement;
         if (requireEnhancement) {
           const number = item.allEnhancements.get(requireEnhancement)?.number
           if (number > 0) effects.push(effect.toObject());

@@ -25,7 +25,7 @@ export async function applyAdvancement(advancement, actor) {
   const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
   
   // Check for Martial Expansion that comes from the class, Martial Path or some other items
-  const martialExpansion = _checkMartialExpansion(advancement, actor);
+  const martialExpansion = await _checkMartialExpansion(advancement, actor);
   if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
   
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement);
@@ -89,7 +89,7 @@ async function _applyPathProgression(advancement, extraAdvancements) {
     case "martial":
       const numberOfMartialPaths = overrideScalingValue(parentItem, index, "martial"); 
       if (numberOfMartialPaths === 2 && !parentItem.system.martial) {
-        const expansion = _getSpellcasterStaminaAdvancement();
+        const expansion = await _getSpellcasterStaminaAdvancement();
         expansion.level = advancement.level;
         expansion.key = "spellcasterStamina";
         expansion.parentItem = advancement.parentItem;
@@ -129,7 +129,7 @@ async function _addItemsToActor(items, actor, advancement) {
       extraAdvancements.set(extraAdvancement.key, extraAdvancement);
     }
 
-    const martialExpansion = _martialExpansion(created, actor, parentItem);
+    const martialExpansion = await _martialExpansion(created, actor, parentItem);
     if (martialExpansion) {
       martialExpansion.level = advancement.level;
       martialExpansion.parentItem = parentItem;
@@ -172,10 +172,10 @@ function _extraAdvancement(item) {
   return null;
 }
 
-function _martialExpansion(item, actor, parentItem) {
+async function _martialExpansion(item, actor, parentItem) {
   // Martial Expansion
   if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !parentItem.martialExpansionProvided) {
-    const expansion = _getMartialExpansionAdvancement();
+    const expansion = await _getMartialExpansionAdvancement();
     expansion.key = "martialExpansion";
     expansion.parentItem = parentItem;
     parentItem.martialExpansionProvided = true;
@@ -184,14 +184,14 @@ function _martialExpansion(item, actor, parentItem) {
   return null;
 }
 
-function _checkMartialExpansion(advancement, actor) {
+async function _checkMartialExpansion(advancement, actor) {
   const parentItem = advancement.parentItem;
   if (actor.system.details.martialExpansionProvided || parentItem.martialExpansionProvided) return null;
 
   const fromItem = parentItem.system.martialExpansion;
   const fromMartialPath = advancement.progressPath && advancement.mastery === "martial";
   if (fromItem || fromMartialPath) {
-    const expansion = _getMartialExpansionAdvancement();
+    const expansion = await _getMartialExpansionAdvancement();
     expansion.level = advancement.level;
     expansion.key = "martialExpansion";
     expansion.parentItem = parentItem;
@@ -242,8 +242,8 @@ async function _addRepeatableAdvancement(oldAdv) {
   });
 }
 
-function _getMartialExpansionAdvancement() {
-  const martialExpansion = fromUuidSync(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
+async function _getMartialExpansionAdvancement() {
+  const martialExpansion = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
   if (!martialExpansion || !martialExpansion?.system) {
     ui.notifications.warn("Martial Expansion Item cannot be found")
     return;
@@ -254,8 +254,8 @@ function _getMartialExpansionAdvancement() {
   return advancement;
 }
 
-function _getSpellcasterStaminaAdvancement() {
-  const spellcasterStamina = fromUuidSync(CONFIG.DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina);
+async function _getSpellcasterStaminaAdvancement() {
+  const spellcasterStamina = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina);
   if (!spellcasterStamina || !spellcasterStamina?.system) {
     ui.notifications.warn("Spellcaster Stamina Expansion Item cannot be found")
     return;

@@ -1,12 +1,13 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
+import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import { DC20RpgTokenDocument } from "../documents/tokenDoc.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { ColorSetting } from "../settings/colors.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
@@ -28,6 +29,7 @@ export function prepareDC20tools() {
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     DC20RpgTokenDocument,
+    ColorSetting,
     rollItemWithName,
     forceRunMigration,
     effects: {
@@ -66,8 +68,10 @@ export function prepareDC20tools() {
       promptRoll,
       promptItemRoll,
       promptRollToOtherPlayer,
+      promptItemRollToOtherPlayer,
       getSimplePopup,
       sendSimplePopupToUsers,
+      sendSimplePopupToActorOwners,
       getActiveActorOwners,
       getIdsOfActiveActorOwners,
       tokenToTarget,

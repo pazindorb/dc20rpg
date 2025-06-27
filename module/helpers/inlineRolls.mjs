@@ -111,6 +111,7 @@ export function recognizeAndAddLinks(text) {
   delete jounralLinks.object;
   delete jounralLinks.spell;
   delete jounralLinks.move;
+  delete jounralLinks.jump;
 
   Object.entries(jounralLinks).forEach(([key, link]) => {
     const regex = new RegExp(`(?<!@UUID\\[.*?)\\b\\w*${escapeRegex(key)}\\w*\\b`, "gi");

@@ -11,13 +11,14 @@ export function registerSystemSockets() {
   // Simple Popup
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "simplePopup") {
-      const { popupType, popupData, userIds } = data.payload
+      const { popupType, popupData, userIds, signature } = data.payload;
       if (userIds.includes(game.user.id)) {
         const result = await getSimplePopup(popupType, popupData);
         game.socket.emit('system.dc20rpg', {
           payload: result, 
           emmiterId: emmiterId,
-          type: "simplePopupResult"
+          type: "simplePopupResult",
+          signature: signature
         });
       }
     }
@@ -39,6 +40,13 @@ export function registerSystemSockets() {
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "rollPrompt") {
       await rollPrompt(data.payload, emmiterId);
+    }
+  });
+
+  // Roll Item Prompt 
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "itemRollPrompt") {
+      await itemRollPrompt(data.payload, emmiterId);
     }
   });
 
@@ -179,6 +187,24 @@ async function rollPrompt(payload, emmiterId) {
       emmiterId: emmiterId,
       actorId: actorId,
       type: "rollPromptResult"
+    });
+  }
+}
+
+async function itemRollPrompt(payload, emmiterId) {
+  const {actorId, itemId, isToken, tokenId} = payload;
+  let actor = game.actors.get(actorId);
+  // If we are rolling with unlinked actor we need to use token version
+  if (isToken) actor = game.actors.tokens[tokenId]; 
+  const item = actor.items.get(itemId);
+  
+  if (actor && actor.ownership[game.user.id] === 3 && item) {
+    const roll = await promptItemRoll(actor, item);
+    game.socket.emit('system.dc20rpg', {
+      payload: {...roll}, 
+      emmiterId: emmiterId,
+      actorId: actorId,
+      type: "itemRollPromptResult"
     });
   }
 }

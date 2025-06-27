@@ -437,8 +437,8 @@ export class ActorAdvancement extends Dialog {
     html.find(".language-mastery-toggle").mousedown(async ev => {await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor); this.render();});
 
     // Tooltips
-    html.find('.item-tooltip').hover(ev => {
-      const item = datasetOf(ev).source === "advancement" ? this._itemFromAdvancement(datasetOf(ev).itemKey) : this._itemFromUuid(datasetOf(ev).itemKey);
+    html.find('.item-tooltip').hover(async ev => {
+      const item = datasetOf(ev).source === "advancement" ? await this._itemFromAdvancement(datasetOf(ev).itemKey) : await this._itemFromUuid(datasetOf(ev).itemKey);
       itemTooltip(item, ev, html, {position: this._getTooltipPosition(html)});
     },
     ev => hideTooltip(ev, html));
@@ -458,9 +458,9 @@ export class ActorAdvancement extends Dialog {
     });
     html.find('.open-item-suggestions').click(() => this._onOpenSuggestions());
     html.find('.close-item-suggestions').click(() => {this.suggestionsOpen = false; this.render()});
-    html.find('.add-edit-item').mousedown(ev => {
+    html.find('.add-edit-item').mousedown(async ev => {
       if (ev.which === 1) this._onItemAdd(datasetOf(ev).uuid);
-      else this._itemFromUuid(datasetOf(ev).uuid).sheet.render(true);
+      else await this._itemFromUuid(datasetOf(ev).uuid).sheet.render(true);
     })
   }
 
@@ -673,15 +673,15 @@ export class ActorAdvancement extends Dialog {
     this.render();
   }
 
-  _itemFromAdvancement(itemKey) {
+  async _itemFromAdvancement(itemKey) {
     const advancement = this.currentAdvancement;
     const uuid = advancement.items[itemKey].uuid;
-    const item = fromUuidSync(uuid);
+    const item = await fromUuid(uuid);
     return item;
   }
 
-  _itemFromUuid(uuid) {
-    const item = fromUuidSync(uuid);
+  async _itemFromUuid(uuid) {
+    const item = await fromUuid(uuid);
     return item;
   }
 

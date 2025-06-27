@@ -277,7 +277,7 @@
               {{#ifCond @root.userIsGM '||' ../../isOwner}}
               <div class="button-container">
                 <div class="small-button-wrapper">
-                  <a class="modify-roll chat-button margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
+                  <a class="modify-roll chat-button margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-target-id="{{ ../../id}}" data-key="{{rollKey}}" data-type="dmg" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
                   <a class="modify-roll chat-button margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.subtractOneDmg"}}"> - </a>
                 </div>
                 <a class="apply-damage chat-button" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyDamage"}}">

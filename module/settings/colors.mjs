@@ -96,10 +96,10 @@ function _defaultColors() {
     ['--pc-unique-item-color']: "#ac45d5a6",
 
     // Storage Sheet
-    ['--storage-main']: "#1f268d",
-    ['--storage-main-light']: "#534d69",
-    ['--storage-main-lighter']: "#6876a7",
-    ['--storage-main-dark']: "#0e1250",
+    ['--storage-main']: "#2a8d16",
+    ['--storage-main-light']: "#82b861",
+    ['--storage-main-lighter']: "#adc299",
+    ['--storage-main-dark']: "#0f4e0e",
     ['--storage-secondary']: "#c0c0c0",
     ['--storage-secondary-light']: "#dfdfdf",
     ['--storage-secondary-light-alpha']: "#dfdfdfcc",
@@ -108,8 +108,8 @@ function _defaultColors() {
     ['--storage-text-color-1']: "#ffffff",
     ['--storage-text-color-2']: "#000000",
     ['--storage-background']: "transparent",
-    ['--storage-table-1']: "#262a69",
-    ['--storage-table-2']: "#050947",
+    ['--storage-table-1']: "#2e6926",
+    ['--storage-table-2']: "#194805",
     ['--storage-header-image-color']: "#3c8316a3",
     ['--storage-sidetab-image-color']: "#3c8316a3",
   }
@@ -197,10 +197,10 @@ function _darkColors() {
     ['--pc-unique-item-color']: "#ac45d5a6",
 
     // Storage Sheet
-    ['--storage-main']: "#1f268d",
-    ['--storage-main-light']: "#534d69",
-    ['--storage-main-lighter']: "#6876a7",
-    ['--storage-main-dark']: "#0e1250",
+    ['--storage-main']: "#2a8d16",
+    ['--storage-main-light']: "#82b861",
+    ['--storage-main-lighter']: "#adc299",
+    ['--storage-main-dark']: "#0f4e0e",
     ['--storage-secondary']: "#c0c0c0",
     ['--storage-secondary-light']: "#dfdfdf",
     ['--storage-secondary-light-alpha']: "#dfdfdfcc",
@@ -209,14 +209,36 @@ function _darkColors() {
     ['--storage-text-color-1']: "#ffffff",
     ['--storage-text-color-2']: "#000000",
     ['--storage-background']: "#303030",
-    ['--storage-table-1']: "#262a69",
-    ['--storage-table-2']: "#050947",
-    ['--storage-header-image-color']: "#2442c9a3",
-    ['--storage-sidetab-image-color']: "#2442c9a3",
+    ['--storage-table-1']: "#2e6926",
+    ['--storage-table-2']: "#194805",
+    ['--storage-header-image-color']: "#3c8316a3",
+    ['--storage-sidetab-image-color']: "#3c8316a3",
   }
 }
 
 export class ColorSetting extends FormApplication {
+
+  static async fillMissingPaletteValues() {
+    const colorPalette = {...game.settings.get("dc20rpg", "colorPaletteStore")};
+    const defaultPalette = defaultColorPalette();
+
+    let anyChanges = false;
+    Object.entries(colorPalette).forEach(([palKey, palette]) => {
+      const form = defaultPalette[palKey] || defaultPalette.default;
+
+      Object.entries(form).forEach(([colorKey, color]) => {
+        if (!palette[colorKey]) {
+          palette[colorKey] = color;
+          anyChanges = true;
+        }
+      })
+    })
+
+    if (anyChanges) {
+      await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
+      prepareColorPalette();
+    }
+  }
 
   constructor(dialogData = {title: "Color Palette Selection"}, options = {}) {
     super(dialogData, options);

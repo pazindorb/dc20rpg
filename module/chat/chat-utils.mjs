@@ -86,11 +86,10 @@ function _prepareRolls(rolls, target, data, rollType) {
     }
 
     const finalRoll = target.noTarget ? calculateNoTarget(roll, calculateData) : calculateForTarget(target, roll, calculateData);
-    const key = generateKey();
     finalRoll.showModified = showModified;
     finalRoll.targetSpecific = rll.targetSpecific;
     if (defenceOverriden) finalRoll.overridenDefence = rll.modified.overrideDefence;
-    prepared[key] = finalRoll;
+    prepared[rll.modified.id] = finalRoll;
   }
   return prepared;
 }

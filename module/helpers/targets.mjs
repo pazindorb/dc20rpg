@@ -265,7 +265,7 @@ function _matchingConditionals(target, data) {
 
       if (includeDisabled) return true;
       else return !effect.disabled;
-    }).find(effect => effect.flags.dc20rpg?.effectKey === effectKey) !== undefined;
+    }).find(effect => effect.system?.effectKey === effectKey) !== undefined;
 
   const matching = [];
   data.conditionals.forEach(con => {

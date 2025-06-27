@@ -445,9 +445,9 @@ export async function promptItemRoll(actor, item, quickRoll=false, fromGmHelp=fa
  * If there are multiple owners, dialog will be created for each but only the first response will be considered.
  * If there is no active owner it will behave the same as promptRoll method.
  */
-export async function promptRollToOtherPlayer(actor, details, waitForRoll = true, quickRoll=false) {
+export async function promptRollToOtherPlayer(actor, details, waitForRoll=true, quickRoll=false) {
 
-  // If there is no active actor owner DM will make a roll
+  // If there is no active actor owner GM will make a roll
   if (_noUserToRoll(actor)) {
     if (waitForRoll) {
       return await promptRoll(actor, details, quickRoll, false);
@@ -474,6 +474,44 @@ export async function promptRollToOtherPlayer(actor, details, waitForRoll = true
   }
   else {
     emitSystemEvent("rollPrompt", payload);
+    return;
+  }
+}
+
+/**
+ * Creates Item Roll Request dialog for all owners of given actor.
+ * If there are multiple owners, dialog will be created for each but only the first response will be considered.
+ * If there is no active owner it will behave the same as promptItemRoll method.
+ */
+export async function promptItemRollToOtherPlayer(actor, item, waitForRoll=true, quickRoll=false) {
+
+  // If there is no active actor owner GM will make a roll
+  if (_noUserToRoll(actor)) {
+    if (waitForRoll) {
+      return await promptItemRoll(actor, item, quickRoll, false);
+    }
+    else {
+      promptItemRoll(actor, item, quickRoll, false);
+      return;
+    }
+  }
+
+  const payload = {
+    actorId: actor.id,
+    itemId: item.id,
+    isToken: actor.isToken
+  };
+  if (actor.isToken) payload.tokenId = actor.token.id;
+
+  if (waitForRoll) {
+    const validationData = {emmiterId: game.user.id, actorId: actor.id}
+    const rollPromise = responseListener("itemRollPromptResult", validationData);
+    emitSystemEvent("itemRollPrompt", payload);
+    const roll = await rollPromise;
+    return roll;
+  }
+  else {
+    emitSystemEvent("itemRollPrompt", payload);
     return;
   }
 }

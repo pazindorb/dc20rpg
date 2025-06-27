@@ -50,7 +50,7 @@ async function _runTemporaryItemMacro(item, trigger, actor, additionalFields, gl
   if (!macros) return;
   
   for (const macro of Object.values(macros)) {
-    if (macro.trigger === trigger && !macro.disabled && macro.global === global) {
+    if (macro.trigger === trigger && !macro.disabled && (!!macro.global) === (!!global)) {
       const command = macro.command;
       if (command) {
         await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});

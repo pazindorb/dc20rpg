@@ -181,6 +181,7 @@
       height: auto;
       width: max-content;
       opacity: 1;
+      transform: none;
 
       #action-bar {
         width: auto;
@@ -273,12 +274,11 @@
               width: 30px;
               height: 30px;
               border-radius: 5px;
-              border: 1px solid $crit;
+              border: 1px solid $primary-darker;
               background-color: $secondary-dark;
 
               &.off {
                 filter: opacity(0.6);
-                border-color: $primary-darker;
               }
 
               &:hover {

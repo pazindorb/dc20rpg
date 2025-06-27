@@ -15,24 +15,28 @@ export function onSortItem(event, itemData, actor) {
   const items = actor.items;
   const source = items.get(itemData._id);
 
-  let dropTarget = event.target.closest("[data-item-id]");
-
-  // if itemId not found we want to check if user doesn't dropped item on table header
-  if (!dropTarget) {
-    dropTarget = event.target.closest("[data-table-name]"); 
-    if (!dropTarget) return;
-    source.update({["flags.dc20rpg.tableName"]: dropTarget.dataset.tableName});
-    return;
+  // Look for Table Name
+  let tableTarget = event.target.parentElement;
+  while (tableTarget) {
+    if (tableTarget.classList.contains("table-name")) break;
+    tableTarget = tableTarget.parentElement;
   }
-
-  const target = items.get(dropTarget.dataset.itemId);
+  if (tableTarget) {
+    const tableName = tableTarget.children[0]?.dataset?.tableName;
+    if (tableName) source.update({["system.tableName"]: tableName});
+  }
+  
+  // Sort Item
+  const itemTarget = event.target.closest("[data-item-id]");
+  if (!itemTarget) return;
+  const target = items.get(itemTarget.dataset.itemId);
 
   // Don't sort on yourself
   if ( source.id === target.id ) return;
 
   // Identify sibling items based on adjacent HTML elements
   const siblings = [];
-  for ( let el of dropTarget.parentElement.children ) {
+  for ( let el of itemTarget.parentElement.children ) {
     const siblingId = el.dataset.itemId;
     if ( siblingId && (siblingId !== source.id) ) {
       siblings.push(items.get(el.dataset.itemId));
@@ -46,7 +50,6 @@ export function onSortItem(event, itemData, actor) {
     update._id = u.target._id;
     return update;
   });
-  source.update({["flags.dc20rpg.tableName"]: target.flags.dc20rpg.tableName});
   
   // Perform the update
   return actor.updateEmbeddedDocuments("Item", updateData);
@@ -321,7 +324,7 @@ export function prepareItemFormulas(item, actor) {
 }
 
 function _addItemToTable(item, headers, fallback) {
-  const headerName = item.flags.dc20rpg.tableName;
+  const headerName = item.system.tableName;
 
   if (!headerName || !headers[headerName]) {
     if (headers[fallback]) headers[fallback].items[item.id] = item;

@@ -702,14 +702,18 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (event.target.classList.contains("effect-img")) {
       const dataset = event.target.dataset;
       const owner = getActorFromIds(this.actorId, this.tokenId);
-      if (owner) deleteEffectFrom(dataset.effectId, owner);
+      if (owner) {
+        const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Effect?"});
+        if (confirmed) deleteEffectFrom(dataset.effectId, owner);
+      }
     }
     if (event.target.classList.contains('help-dice') || event.target.parentElement.classList.contains('help-dice')) {
-      const dataset = event.target.dataset;
+      let key = event.target.dataset?.key;
+      if (!key) key = event.target.parentElement.dataset?.key;
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
-        if (confirmed) clearHelpDice(owner, dataset.key);
+        if (confirmed) clearHelpDice(owner, key);
       }
     }
   }

@@ -23,6 +23,8 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     if (!this.rollOutcomeStore) this.rollOutcomeStore = new Map();
+    if (!this.formulaModificationsStore) this.formulaModificationsStore = new Map();
+    
     super.prepareDerivedData();
     if (this.system.chatFormattedRolls?.core) this._prepareRolls();
     const system = this.system;
@@ -99,6 +101,7 @@ export class DC20ChatMessage extends ChatMessage {
         target.rollOutcome = this.rollOutcomeStore.get(target.id);
       }
       enhanceTarget(target, rolls, system, this.speaker.actor);
+      this._applyCachedModifications(target);
       target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
     });
@@ -130,6 +133,21 @@ export class DC20ChatMessage extends ChatMessage {
       noTarget: true,
       effects: [],
     }];
+  }
+
+  _applyCachedModifications(target) {
+    const cached = this.formulaModificationsStore.get(target.id);
+    if (!cached) return;
+    
+    cached.forEach(mod => {
+      const roll = mod.modified ? "modified" : "clear";
+      const toModify = target[mod.type]?.[mod.key]?.[roll];
+      if (toModify) {
+        toModify.value += mod.value;
+        const source = mod.value > 0 ? " + 1 (Manual)" : " - 1 (Manual)";
+        toModify.source += source;
+      }
+    })
   }
 
   /** @overriden */
@@ -249,6 +267,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.token-selection').click(() => this._onTargetSelectionSwap());
     html.find('.run-check-for-selected').click(ev => {
       ev.stopPropagation();
+      this.formulaModificationsStore = new Map();
       ui.chat.updateMessage(this);
     });
     html.find('.wrap-target').click(ev => {
@@ -290,7 +309,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.send-all-roll-requests').click(() => this._onSendRollAll())
     html.find('.apply-all-effects-fail').click(() => this._onApplyAllEffects(true));
     html.find('.apply-all-effects').click(() => this._onApplyAllEffects(false));
-    html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
+    html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev)));
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
@@ -543,8 +562,8 @@ export class DC20ChatMessage extends ChatMessage {
     }
     const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
     
-    // We will skip Target Selector if we are using selector for applying effects
-    if (applyEffects.applyFor === "selector") return;
+    // We will skip Target Selector if we are using Measurement Template to apply effects because it is confusing
+    if (applyEffects.applyFor) return;
 
     let tokens = {};
     for (let i = 0; i < measuredTemplates.length; i++) {
@@ -579,20 +598,16 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onModifyRoll(direction, modified, path) {
-    modified = modified === "true"; // We want boolean
-    const extra = direction === "up" ? 1 : -1;
-    const source = (direction === "up" ? " + 1 " : " - 1 ") + "(Manual)";
-
-    const toModify = getValueFromPath(this, path);
-    if (modified) {
-      toModify.modified.value += extra;
-      toModify.modified.source += source;
-    }
-    else {
-      toModify.clear.value += extra;
-      toModify.clear.source += source;
-    }
+  _onModifyRoll(dataset) {
+    const targetId = dataset.targetId;
+    const modifications = this.formulaModificationsStore.get(targetId) || [];
+    modifications.push({
+      type: dataset.type,
+      key: dataset.key,
+      modified: dataset.modified === "true",
+      value: dataset.direction === "up" ? 1 : -1
+    })
+    this.formulaModificationsStore.set(targetId, modifications);
     ui.chat.updateMessage(this);
   }
 
@@ -690,13 +705,13 @@ export class DC20ChatMessage extends ChatMessage {
     return actor;
   }
 
-  _onRevertHp() {
+  async _onRevertHp() {
     const system = this.system;
     const type = system.messageType;
     const amount = system.amount;
     const uuid = system.actorUuid;
 
-    const actor = fromUuidSync(uuid);
+    const actor = await fromUuid(uuid);
     if (!actor) return;
 
     const health = actor.system.resources.health;
@@ -707,12 +722,12 @@ export class DC20ChatMessage extends ChatMessage {
     this.delete();
   }
 
-  _onRevertEffect() {
+  async _onRevertEffect() {
     const system = this.system;
     const effectData = system.effect;
 
     const uuid = system.actorUuid;
-    const actor = fromUuidSync(uuid);
+    const actor = await fromUuid(uuid);
     if (!actor) return;
 
     createEffectOn(effectData, actor);

@@ -1,4 +1,5 @@
 export async function runMigration(migrateModules) {
+  await game.dc20rpg.ColorSetting.fillMissingPaletteValues();
   await _migrateItems(migrateModules);
   await _migrateActors(migrateModules);
 }
@@ -6,6 +7,7 @@ export async function runMigration(migrateModules) {
 async function _migrateActors(migrateModules) {
   // Iterate over actors
   for (const actor of game.actors) {
+    await _updateActorMulticlassInfo(actor);
     await _moveEffectFlagsToSystem(actor);
     await _updateActorItems(actor);
   }
@@ -18,6 +20,8 @@ async function _migrateActors(migrateModules) {
   for (let i = 0; i < allTokens.length; i++) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
+
+    await _updateActorMulticlassInfo(actor);
     await _moveEffectFlagsToSystem(actor);
     await _updateActorItems(actor);
   }
@@ -30,6 +34,7 @@ async function _migrateActors(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
+        await _updateActorMulticlassInfo(actor);
         await _moveEffectFlagsToSystem(actor);
         await _updateActorItems(actor);
       }
@@ -41,6 +46,7 @@ async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
     await _moveEffectFlagsToSystem(item);
+    await _updateItemProperties(item);
   }
 
   // Iterate over compendium items
@@ -52,6 +58,7 @@ async function _migrateItems(migrateModules) {
       const content = await compendium.getDocuments();
       for (const item of content) {
         await _moveEffectFlagsToSystem(item);
+        await _updateItemProperties(item);
       }
     }
   }
@@ -61,7 +68,39 @@ async function _migrateItems(migrateModules) {
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await _moveEffectFlagsToSystem(item);
+    await _updateItemProperties(item);
   }
+}
+
+async function _updateActorMulticlassInfo(actor) {
+  const classItemId = actor.system.details?.class?.id;
+  const classItem = actor.items.get(classItemId);
+  if (!classItem) return;
+
+  const multiclassTalents = actor.system.details?.advancementInfo?.multiclassTalents;
+  if (!multiclassTalents) return;
+
+  await classItem.update({['system.multiclass']: multiclassTalents})
+}
+
+async function _updateItemProperties(item) {
+  const properties = item.system.properties;
+  if (!properties) return;
+
+  const updateData = {}
+  for (const [propKey, prop] of Object.entries(properties)) {
+    const blueprint = CONFIG.DC20RPG.PROPERTIES[propKey];
+    
+    updateData[propKey] = {
+      ...prop,
+      label: blueprint.label,
+      journalUuid: blueprint.journalUuid,
+      for: blueprint.for,
+      cost: blueprint.cost,
+      valueCostMultiplier: blueprint.valueCostMultiplier
+    }
+  }
+  await item.update({[`system.properties`]: updateData});
 }
 
 async function _moveEffectFlagsToSystem(owner) {

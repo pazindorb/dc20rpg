@@ -1,5 +1,7 @@
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
+import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
+import { generateKey } from "../helpers/utils.mjs";
 
 
 export class SimplePopup extends Dialog {
@@ -97,14 +99,24 @@ export async function getSimplePopup(popupType, popupData={}) {
  * For more information take a look at getSimplePopup documentation
  */
 export async function sendSimplePopupToUsers(userIds, popupType, popupData={}) {
+  const signature = generateKey();
   const payload = {
     popupType: popupType,
     popupData: popupData,
-    userIds: userIds
+    userIds: userIds,
+    signature: signature
   };
-  const validationData = {emmiterId: game.user.id}
+  const validationData = {emmiterId: game.user.id, signature: signature}
   const simplePopupResult = responseListener("simplePopupResult", validationData);
   emitSystemEvent("simplePopup", payload);
   const response = await simplePopupResult;
   return response;
+}
+
+export async function sendSimplePopupToActorOwners(actor, popupType, popupData={}) {
+  const actorOwners = getIdsOfActiveActorOwners(actor, false);
+  if (actorOwners.length > 0) {
+    return await sendSimplePopupToUsers(actorOwners, popupType, popupData);
+  }
+  return await getSimplePopup(popupType, popupData);
 }
