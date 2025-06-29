@@ -94,7 +94,8 @@ export async function clearMovePoints(actor) {
   await actor.update({["system.movePoints"]: 0});
 }
 
-export async function subtractMovePoints(actor, cost) {    
+export async function subtractMovePoints(actor, cost) {   
+  if (!actor) return true;
   const movePoints = actor.system.movePoints;
   const newMovePoints = movePoints - cost;
   if (newMovePoints < -0.1) return Math.abs(newMovePoints);

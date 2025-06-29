@@ -38,6 +38,8 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   _prepareSystemSpecificVisionModes() {
     if (!this.sight.enabled) return; // Only when using vision
+    if (!this.actor) return;
+    
     const senses = this.actor.system.senses;
     const sight = this.sight;
     const detection = this.detectionModes;

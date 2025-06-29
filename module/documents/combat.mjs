@@ -68,6 +68,8 @@ export class DC20RpgCombat extends Combat {
 
     rollableCharacters.forEach(combatant => {
       const actor = combatant.actor;
+      if (!actor) return;
+      
       const activeOwners = getActiveActorOwners(actor, false);
       if (activeOwners.length === 0) actor.rollInitiative({rerollInitiative: true});
       else emitSystemEvent("initative", {actorId: actor.id});
@@ -125,6 +127,8 @@ export class DC20RpgCombat extends Combat {
     let successPCs = 0;
     this.combatants.forEach(combatant => {
       const actor = combatant.actor;
+      if (!actor) return;
+
       if (actor.type === "character") {
         numberOfPCs++;
         successPCs += this._checkInvidualOutcomes(combatant);
@@ -247,6 +251,8 @@ export class DC20RpgCombat extends Combat {
 
   async _onStartTurn(combatant) {
     const actor = combatant.actor;
+    if (!actor) return;
+    
     await this._respectRoundCounterForEffects();
     this._deathsDoorCheck(actor);
     this._sustainCheck(actor);
@@ -266,6 +272,8 @@ export class DC20RpgCombat extends Combat {
 
   async _onEndTurn(combatant) {
     const actor = combatant.actor;
+    if (!actor) return;
+    
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
     refreshOnRoundEnd(actor);
     runEventsFor("turnEnd", actor);
@@ -297,6 +305,7 @@ export class DC20RpgCombat extends Combat {
   async _runEventsForAllCombatants(trigger, filters, currentRound) {
     this.combatants.forEach(combatant => {
       const actor = combatant.actor;
+      if (!actor) return;
       if (currentRound) filters = [...filters, ...currentRoundFilter(actor, currentRound)];
       runEventsFor(trigger, actor, filters);
       reenableEventsOn(trigger, actor, filters);
@@ -306,6 +315,7 @@ export class DC20RpgCombat extends Combat {
   _checkInvidualOutcomes(combatant) {
     const initiativeDC = this.flags.dc20rpg.initiativeDC;
     const actor = combatant.actor;
+    if (!actor) return;
 
     // Crit Success
     if (combatant.flags.dc20rpg?.initativeOutcome?.crit) {
@@ -340,6 +350,7 @@ export class DC20RpgCombat extends Combat {
 
   async _initiativeRollForPC(combatant) {
     const actor = combatant.actor;
+    if (!actor) return;
 
     // TODO: Is initiative choice still an option?
     // const options = {"flat": "Flat d20 Roll", "initiative": "Initiative (Agi + CM)", ...actor.getCheckOptions(true, true, true, true)};

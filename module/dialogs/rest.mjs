@@ -210,12 +210,14 @@ export async function refreshAllResources(actor) {
 }
 
 export async function refreshOnRoundEnd(actor) {
+  if (!actor) return;
   refreshAllActionPoints(actor);
   await _refreshItemsOn(actor, ["round"]);
   await _refreshCustomResourcesOn(actor, ["round"]);
 }
 
 export async function refreshOnCombatStart(actor) {
+  if (!actor) return;
   refreshAllActionPoints(actor);
   await _refreshStamina(actor);
   await _refreshItemsOn(actor, ["round", "combat"]);

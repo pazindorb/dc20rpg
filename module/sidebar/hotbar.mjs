@@ -155,6 +155,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     const token = tokens[0];
     this.actor = this._getActorFrom(token);
+    if (!this.actor) return;
+
     this.actorId = this.actor.id;
     this.tokenId = token.id;
     context.actor = this.actor;
