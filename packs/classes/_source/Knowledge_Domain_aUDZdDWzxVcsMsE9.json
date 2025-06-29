@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -239,19 +240,52 @@
       "_id": "kXnrH38oKA9ye2Nr",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [
         {
-          "key": "system.expertise.skills",
+          "key": "system.expertise.automated",
           "mode": 5,
-          "value": "true",
+          "value": "arc",
           "priority": null
         },
         {
           "key": "system.skillPoints.skill.bonus",
           "mode": 2,
           "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.expertise.automated",
+          "mode": 2,
+          "value": "his",
+          "priority": null
+        },
+        {
+          "key": "system.expertise.automated",
+          "mode": 2,
+          "value": "eng",
+          "priority": null
+        },
+        {
+          "key": "system.expertise.automated",
+          "mode": 2,
+          "value": "rel",
+          "priority": null
+        },
+        {
+          "key": "system.expertise.automated",
+          "mode": 2,
+          "value": "occ",
+          "priority": null
+        },
+        {
+          "key": "system.expertise.automated",
+          "mode": 2,
+          "value": "nat",
           "priority": null
         }
       ],
@@ -280,10 +314,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1750934674897,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!aUDZdDWzxVcsMsE9.kXnrH38oKA9ye2Nr"
@@ -296,9 +330,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1739350034938,
-    "modifiedTime": 1745412706871,
+    "modifiedTime": 1750934676333,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -4,7 +4,7 @@
   "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
   "system": {
     "itemKey": "psychicResistance",
-    "description": "<p>You have Resistance (Half) to Psychic damage.</p>",
+    "description": "<p>You have Psychic Resistance (Half).</p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 2,
@@ -129,7 +129,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -210,8 +211,8 @@
       }
     },
     "featureType": "ancestry",
-    "featureOrigin": "Orc",
-    "featureSourceItem": "orc",
+    "featureOrigin": "Psyborn",
+    "featureSourceItem": "psyborn",
     "staminaFeature": false,
     "flavorFeature": false,
     "isResource": false,
@@ -274,7 +275,10 @@
       "_id": "xjdl7iySBGvlvZ0w",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [
         {
@@ -284,7 +288,7 @@
           "priority": null
         }
       ],
-      "description": "<p>You have Resistance (Half) to Psychic damage.</p>",
+      "description": "<p>You have Psychic Resistance (Half).</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -311,10 +315,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1751194752718,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!QbDd9QttEhAcyo0o.xjdl7iySBGvlvZ0w"
@@ -327,9 +331,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1745523528912,
-    "modifiedTime": 1745525618187,
+    "modifiedTime": 1751194749789,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",

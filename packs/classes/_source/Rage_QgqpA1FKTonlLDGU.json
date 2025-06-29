@@ -244,7 +244,15 @@
       "_id": "5U3if2bPcsRsZpD0",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": true,
+          "onTimeEnd": "disable"
+        },
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [
         {
@@ -342,9 +350,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1745433791178,
+        "modifiedTime": 1750880256688,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

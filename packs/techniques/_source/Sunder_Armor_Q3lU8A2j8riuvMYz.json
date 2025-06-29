@@ -4,7 +4,7 @@
   "type": "technique",
   "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to make an <strong>Martial</strong> <strong>Attack</strong> against a creature's AD.</p><p><strong>Hit:</strong> Until the start of your next turn, the target gains <strong>Vulnerability (1)</strong> to damage type dealt by the Attack</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to make an <strong>Martial</strong> <strong>Attack</strong> against a creature's PD.</p><p><strong>Hit:</strong> Until the start of your next turn, the target gains <strong>Vulnerability (1)</strong> to damage type dealt by the Attack</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -21,7 +21,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "area",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -47,7 +47,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -141,7 +142,11 @@
       "_id": "R0WAyMFv3G3MRuEX",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "effectKey": "sunderArmor"
       },
       "changes": [
         {
@@ -185,9 +190,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1747998783650,
+        "modifiedTime": 1750880257001,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -205,9 +210,9 @@
     "duplicateSource": "Item.9QBDaOuSnHjeXMqt",
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1719849211604,
-    "modifiedTime": 1745414917768,
+    "modifiedTime": 1751196315560,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

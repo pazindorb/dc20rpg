@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/strike-weapons-orange.webp",
   "system": {
-    "description": "<p>You gain Combat Training with Weapons and access to Attack Maneuvers.</p><p></p><p><em><strong>System Tip:</strong> If you have Attack Manuvers already this feature will create duplicates that you need to remove manually.</em></p>",
+    "description": "<p>You gain Combat Training with Weapons and access to Attack Maneuvers.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -176,7 +177,7 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "hasAdvancement": true,
+    "hasAdvancement": false,
     "advancements": {
       "default": {
         "name": "Item Advancement",
@@ -213,92 +214,15 @@
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
-        "items": {
-          "UZMUmBv5E3RQGFlx": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.UZMUmBv5E3RQGFlx",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/skills/melee/strike-axe-energy-pink.webp",
-            "name": "Power Attack"
-          },
-          "qrkBxXBYqdsd7rUt": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.qrkBxXBYqdsd7rUt",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/skills/melee/strike-polearm-glowing-white.webp",
-            "name": "Extend Attack"
-          },
-          "2iRK0FdWRvCPH44g": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.2iRK0FdWRvCPH44g",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/skills/melee/strikes-sword-scimitar.webp",
-            "name": "Sweep Attack"
-          },
-          "RaLHWY6CsDzghUNt": {
-            "uuid": "Compendium.dc20rpg.system-items.Item.RaLHWY6CsDzghUNt",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/weapons/misc/whip-red-yellow.webp",
-            "name": "Whip Style"
-          },
-          "8p8PHs5ddM3ia69L": {
-            "uuid": "Compendium.dc20rpg.system-items.Item.8p8PHs5ddM3ia69L",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/skills/ranged/projectile-strike-impale-gray.webp",
-            "name": "Spear Style"
-          },
-          "KUMM85xa1Sea4JtZ": {
-            "uuid": "Compendium.dc20rpg.system-items.Item.KUMM85xa1Sea4JtZ",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/skills/ranged/target-bullseye-arrow-green.webp",
-            "name": "Crossbow Style"
-          },
-          "MQpSMP9FRuH9d4oQ": {
-            "uuid": "Compendium.dc20rpg.system-items.Item.MQpSMP9FRuH9d4oQ",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": false,
-            "img": "icons/skills/melee/strike-flail-spiked-red.webp",
-            "name": "Chained Style"
-          }
-        },
-        "customTitle": "War Domain - Attack Maneuvers and Weapon Types"
+        "items": {},
+        "customTitle": ""
       }
     },
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "provideMartialExpansion": true
   },
   "effects": [
     {
@@ -318,7 +242,10 @@
       "_id": "r3roYtATEjIzNocB",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [
         {
@@ -353,10 +280,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1750880256684,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!Pxe98W6r6PhvcDQg.r3roYtATEjIzNocB"
@@ -369,9 +296,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1739350035142,
-    "modifiedTime": 1745412688199,
+    "modifiedTime": 1750925689788,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

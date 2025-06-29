@@ -27,7 +27,19 @@
     },
     "properties": {
       "attunement": {
-        "active": false
+        "active": false,
+        "label": "dc20rpg.properties.attunement",
+        "journalUuid": "",
+        "for": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy",
+          "other"
+        ],
+        "cost": 0
       },
       "reinforced": {
         "active": false
@@ -50,13 +62,26 @@
         "active": false
       },
       "mounted": {
-        "active": false
+        "active": false,
+        "label": "dc20rpg.properties.mounted",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
+        "for": [
+          "hshield"
+        ],
+        "cost": 1
       },
       "thrown": {
         "active": false
       },
       "toss": {
-        "active": false
+        "active": false,
+        "label": "dc20rpg.properties.toss",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
+        "for": [
+          "melee",
+          "lshield"
+        ],
+        "cost": 1
       }
     },
     "isReaction": false,
@@ -89,7 +114,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -145,9 +171,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1720120184902,
-    "modifiedTime": 1745412747324,
+    "modifiedTime": 1751010526151,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

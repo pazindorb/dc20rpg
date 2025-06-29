@@ -160,7 +160,12 @@
       "_id": "AVYT2ka3O0OcCgvG",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "path": "system.details.armor.armorEquipped",
+          "mode": "==",
+          "value": "true"
+        }
       },
       "changes": [
         {
@@ -210,9 +215,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1745417170384,
+        "modifiedTime": 1750880257470,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

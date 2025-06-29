@@ -1,9 +1,10 @@
 {
-  "name": "Coast",
+  "folder": "q25l8ej0WVsXLSje",
+  "name": "Mental Clarity",
   "type": "feature",
-  "img": "icons/environment/wilderness/cave-entrance-island.webp",
+  "img": "icons/magic/symbols/runes-carved-stone-yellow.webp",
   "system": {
-    "description": "<ul><li><p>You gain a Swim Speed equal to your Speed. </p></li><li><p>Your Attack Checks no longer have DisADV as a result of being underwater.  </p></li><li><p>You can hold your breath twice as long as normal.  </p></li><li><p>You have ADV on <strong>Awareness</strong> <strong>Checks</strong> while underwater.</p></li></ul>",
+    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2939ce776edfd6fa]{Stunned}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,15 +16,35 @@
       "linkWithToggle": false,
       "flags": {
         "ignorePdr": false,
+        "ignoreEdr": false,
         "ignoreMdr": false,
         "ignoreResistance": {},
         "ignoreImmune": {}
       },
-      "effect": null
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -31,7 +52,12 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      }
     },
     "duration": {
       "value": null,
@@ -46,7 +72,6 @@
     },
     "target": {
       "count": null,
-      "invidual": true,
       "type": "",
       "areas": {
         "default": {
@@ -63,13 +88,13 @@
       "checkKey": "att",
       "contestedKey": "phy",
       "checkDC": 10,
+      "failEffect": "",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "againstDC": true,
-      "respectSizeRules": false,
-      "failEffect": ""
+      "respectSizeRules": false
     },
     "formulas": {},
     "enhancements": {},
@@ -114,8 +139,8 @@
         "consumeCharge": true
       }
     },
-    "featureType": "inner",
-    "featureOrigin": "Favored Terrain",
+    "featureType": "ancestry",
+    "featureOrigin": "Psyborn",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -124,7 +149,8 @@
       "active": false,
       "addToChat": false,
       "linkWithToggle": false,
-      "toggleItem": true
+      "toggleItem": true,
+      "addToTemplates": ""
     },
     "isResource": false,
     "resource": {
@@ -156,11 +182,22 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "itemKey": "coast",
-    "choicePointCost": 1,
+    "choicePointCost": 2,
+    "itemKey": "mentalClarity",
+    "featureSourceItem": "psyborn",
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "shortInfo": "",
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "doNotExpire": false
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -177,15 +214,17 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
+    "conditionals": {},
     "hasAdvancement": false,
+    "provideMartialExpansion": false,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
-        "mustChoose": false,
-        "pointAmount": 1,
-        "level": 0,
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
         "applied": false,
-        "talent": false,
+        "additionalAdvancement": false,
         "repeatable": false,
         "repeatAt": [
           0,
@@ -210,21 +249,29 @@
           0,
           0
         ],
+        "progressPath": false,
+        "mustChoose": false,
+        "pointAmount": 1,
         "allowToAddItems": false,
-        "additionalAdvancement": true,
-        "compendium": "",
-        "preFilters": "",
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "talentFilter": false,
+          "ancestryFilter": false,
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
         "items": {}
       }
     },
-    "help": {
-      "ignoreMHP": false,
-      "subtract": false
-    }
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
   },
   "effects": [
     {
-      "origin": "Item.40YSHkFT46k4NkJG",
+      "origin": "Item.Bnex2jE7x2Q8HNXv",
       "duration": {
         "rounds": null,
         "startTime": null,
@@ -235,57 +282,94 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Favored Terrain: Coast",
-      "img": "icons/environment/wilderness/cave-entrance-island.webp",
-      "_id": "7GJqcas3X1G46a3a",
+      "name": "Mental Clarity",
+      "img": "icons/magic/symbols/runes-carved-stone-yellow.webp",
+      "_id": "CfrBNQ2z6mUiOnPu",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": "",
+        "disableWhen": {
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "nonessential": false,
+        "requireEnhancement": ""
+      },
       "changes": [
         {
-          "key": "system.movement.swimming.fullSpeed",
-          "mode": 5,
-          "value": "true",
+          "key": "system.statusResistances.dazed.resistance",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.statusResistances.stunned.resistance",
+          "mode": 2,
+          "value": "1",
           "priority": null
         }
       ],
-      "description": "<ul><li><p><span>You gain a Swim Speed equal to your Speed.</span></p></li><li><p><span>Your Attack Checks no longer have DisADV as a result of being underwater. </span></p></li><li><p><span>You can hold your breath twice as long as normal. </span></p></li><li><p><span>You have ADV on <strong>Awareness</strong> <strong>Checks</strong> while underwater.</span></p></li></ul>",
+      "description": "<p>You have ADV on Saves against being <strong>Dazed </strong>or <strong>Stunned</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
+        "exportSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": 1747998784673,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
-      "_key": "!items.effects!W5MfgTRiV93l3JK4.7GJqcas3X1G46a3a"
+      "_key": "!items.effects!npbRTokO1S5zuMDc.CfrBNQ2z6mUiOnPu"
     }
   ],
-  "folder": "0xHwSQYKF1SrpW78",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
-    "createdTime": 1739350033998,
-    "modifiedTime": 1750934337692,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "systemVersion": "0.9.7.0",
+    "createdTime": 1751194919091,
+    "modifiedTime": 1751194919091,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "W5MfgTRiV93l3JK4",
+  "_id": "npbRTokO1S5zuMDc",
   "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!W5MfgTRiV93l3JK4"
+  "_key": "!items!npbRTokO1S5zuMDc"
 }

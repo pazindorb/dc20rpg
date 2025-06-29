@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -248,7 +249,12 @@
       "_id": "byk1nVgeMAKxtq2k",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "effectKey": "secondWind",
+        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()"
       },
       "changes": [
         {
@@ -285,9 +291,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1745758487453,
+        "modifiedTime": 1751009350602,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -359,7 +365,11 @@
       "_id": "kUlVk1Xxrtxewcjx",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "effectKey": "advance"
       },
       "tint": "#ffffff",
       "transfer": false,
@@ -370,9 +380,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1747998784682,
+        "modifiedTime": 1750880256731,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -438,7 +448,11 @@
       "_id": "PAXrK0u8OdGUUuu0",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "effectKey": "brace"
       },
       "tint": "#ffffff",
       "transfer": false,
@@ -449,10 +463,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1750880256733,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!o3A1c3BNoF3vnlwI.PAXrK0u8OdGUUuu0"
@@ -474,7 +488,11 @@
       "_id": "yQRXMHsi7wTlC2YC",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "effectKey": "dodge"
       },
       "changes": [
         {
@@ -540,13 +558,76 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1747998784683,
+        "modifiedTime": 1750880256735,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!o3A1c3BNoF3vnlwI.yQRXMHsi7wTlC2YC"
+    },
+    {
+      "name": "Combat Readiness Trigger",
+      "img": "icons/svg/clockwork.svg",
+      "origin": "Compendium.dc20rpg.classes.Item.o3A1c3BNoF3vnlwI",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "startRound": 2,
+        "startTurn": 1,
+        "seconds": null,
+        "rounds": null,
+        "turns": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "0dL58g6MuN63kUss",
+      "type": "base",
+      "system": {
+        "statusId": "",
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "requireEnhancement": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"combatStart\", \"label\": \"Combat Readiness Trigger\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>Event that triggers Fighting Spirit - Combat Readiness at the combat start.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.344",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.6.0",
+        "createdTime": 1750883414702,
+        "modifiedTime": 1751009350612,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!o3A1c3BNoF3vnlwI.0dL58g6MuN63kUss"
     }
   ],
   "folder": "1teXNA4X8W8tzM5c",
@@ -556,9 +637,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1739350034491,
-    "modifiedTime": 1745412732159,
+    "modifiedTime": 1750882410477,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

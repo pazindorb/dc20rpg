@@ -1,10 +1,10 @@
 {
   "folder": "wJcCIYPuqUeQd5AC",
-  "name": "Strong Minded",
+  "name": "Force of Mind",
   "type": "feature",
-  "img": "icons/creatures/magical/humanoid-silhouette-aliens-green.webp",
+  "img": "icons/creatures/magical/spirit-earth-stone-magma-yellow.webp",
   "system": {
-    "description": "<p>You gain Psychic Resistance (1)</p>",
+    "description": "<p>Your AD increases by 1</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -78,7 +78,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -139,7 +140,7 @@
       }
     },
     "featureType": "ancestry",
-    "featureOrigin": "Orc",
+    "featureOrigin": "Psyborn",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -182,7 +183,7 @@
       "customMaxFormula": ""
     },
     "itemKey": "strongMinded",
-    "featureSourceItem": "orc",
+    "featureSourceItem": "psyborn",
     "requirements": {
       "level": 0,
       "items": ""
@@ -271,12 +272,15 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Strong Minded",
-      "img": "icons/creatures/magical/humanoid-silhouette-aliens-green.webp",
+      "name": "Force of Mind",
+      "img": "icons/creatures/magical/spirit-earth-stone-magma-yellow.webp",
       "_id": "6hhqSKq6k5IquucS",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [
         {
@@ -286,7 +290,7 @@
           "priority": null
         }
       ],
-      "description": "<p>You gain Psychic Resistance (1)</p>",
+      "description": "<p>Your AD increases by 1</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -314,10 +318,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1751194726915,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!DtUbwBCsLFdR8gLU.6hhqSKq6k5IquucS"
@@ -329,9 +333,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1745523616565,
-    "modifiedTime": 1745525618180,
+    "modifiedTime": 1751194686744,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

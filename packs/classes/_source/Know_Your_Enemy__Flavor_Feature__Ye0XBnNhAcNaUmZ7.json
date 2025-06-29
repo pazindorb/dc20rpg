@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/sundries/gaming/chess-knight-white.webp",
   "system": {
-    "description": "<p>You can spend 1 minute observing or interacting with a creature out of Combat (or spend <strong>1 AP</strong> in Combat) to learn information about its physical capabilities compared to your own.</p><p>Choose one of the following stats of the creature to assess:</p><ul><li><p>Might</p></li><li><p>Agility</p></li><li><p>PD</p></li><li><p>AD</p></li><li><p>HP</p></li></ul><p>Make a <strong>DC 10 Knowledge</strong> or <strong>Insight Check</strong> (your choice).</p><p><strong>Success:</strong> You learn if the chosen stat is higher, lower, or the same as yours.</p>",
+    "description": "<p>You can spend 1 minute observing or interacting with a creature out of Combat (or spend <strong>1 AP</strong> in Combat) to learn information about its physical capabilities compared to your own</p><p>Choose one of the following stats of the creatureto assess:</p><ul><li><p>Might</p></li><li><p>Agility</p></li><li><p>PD</p></li><li><p>AD</p></li><li><p>HP</p></li></ul><p>Make a <strong>DC 10 Knowledge</strong> or <strong>Insight Check</strong> (your choice).</p><p><strong>Success:</strong> You learn if the chosen stat is higher, lower, or the same as yours.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -78,7 +79,90 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "p7JZnx9C2LrUnomX": {
+        "name": "Spend 1 Minute",
+        "number": 0,
+        "resources": {
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macro": "",
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p><span style=\"font-family: Signika, sans-serif\">You can spend 1 minute observing or interacting with a creature out of Combat</span></p>",
+        "hide": false
+      }
+    },
     "copyEnhancements": {
       "copy": false,
       "copyFor": "",
@@ -238,9 +322,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1739350034270,
-    "modifiedTime": 1745412688217,
+    "modifiedTime": 1750867029934,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

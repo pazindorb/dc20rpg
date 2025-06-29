@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -155,23 +156,11 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "hasAdvancement": true,
+    "hasAdvancement": false,
     "advancements": {
       "default": {
         "name": "Monk Training",
-        "items": {
-          "xrSVEkCoKamknZqO": {
-            "uuid": "Compendium.dc20rpg.classes.Item.xrSVEkCoKamknZqO",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": false,
-            "ignoreKnown": false,
-            "img": "icons/skills/melee/unarmed-punch-fist-yellow-red.webp",
-            "name": "Unarmed Strike (Iron Palm)"
-          }
-        },
+        "items": {},
         "customTitle": "Iron Palm"
       }
     },
@@ -179,7 +168,24 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "yUGns5UAgTkWacnl": {
+        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\nunarmedStrike.update({\n  [\"system.formulas.weaponDamage.formula\"]: \"1\",\n  [\"system.properties.impact.active\"]: true\n});",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Add Iron Palm to Unarmed Strike",
+        "title": "",
+        "global": false
+      },
+      "NLsw4JOssO2ObCWd": {
+        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\nunarmedStrike.update({\n  [\"system.formulas.weaponDamage.formula\"]: \"0\",\n  [\"system.properties.impact.active\"]: false\n});",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Iron Palm from Unarmed Strike",
+        "title": "",
+        "global": false
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -220,7 +226,12 @@
       "_id": "rOcCiD71ZOlxYJ7K",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "path": "system.details.armor.armorEquipped",
+          "mode": "==",
+          "value": "true"
+        }
       },
       "changes": [
         {
@@ -276,9 +287,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": 1744980204150,
-        "modifiedTime": 1747998784672,
+        "modifiedTime": 1750880256686,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -292,9 +303,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1739350034306,
-    "modifiedTime": 1745412688200,
+    "modifiedTime": 1750923170735,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

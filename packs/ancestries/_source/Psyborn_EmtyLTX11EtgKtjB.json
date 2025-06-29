@@ -3,7 +3,7 @@
   "type": "ancestry",
   "img": "icons/creatures/magical/humanoid-silhouette-green.webp",
   "system": {
-    "description": "<h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.dwP7gnH9349mGPfs]{(1) Psionic Hand}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.QbDd9QttEhAcyo0o]{(2) Psychic Resistance}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.DtUbwBCsLFdR8gLU]{(1) Strong Minded}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.3gsCM1ocfY357MxY]{(1) Telepahy}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.3EJFnB4pbOP6WlOr]{(0) Shrouded Mind}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.up6U3z3oDfZzBR3x]{(-1) Frail}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.6vqn35Ie6AIBzWcI]{(1) Psionic Grit}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.MO5N847gbvJ0CHIn]{(1) Psionic Leap}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.G6oWzWozUP8ITWba]{(2) Psionic Magic}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.DPlAvqWgg4aud9rc]{(2) Strong Mind}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.hc1nfvEXAF89gupc]{(1) Telepathic Link}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.ED7316ZaG7w4bZTo]{(1) Telepathic Reach}</p>",
+    "description": "<h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.dwP7gnH9349mGPfs]{(1) Psionic Hand}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.QbDd9QttEhAcyo0o]{(2) Psychic Resistance}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.DtUbwBCsLFdR8gLU]{(1) Strong Minded}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.3gsCM1ocfY357MxY]{(1) Telepahy}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.3EJFnB4pbOP6WlOr]{(0) Shrouded Mind}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.up6U3z3oDfZzBR3x]{(-1) Frail}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.6vqn35Ie6AIBzWcI]{(1) Psionic Grit}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.MO5N847gbvJ0CHIn]{(1) Psionic Leap}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.G6oWzWozUP8ITWba]{(2) Psionic Magic}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.DPlAvqWgg4aud9rc]{(2) Strong Mind}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.hc1nfvEXAF89gupc]{(1) Telepathic Link}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.ED7316ZaG7w4bZTo]{(1) Telepathic Reach}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.npbRTokO1S5zuMDc]{(2) Mental Clarity}</p>",
     "movement": {
       "speed": 5
     },
@@ -41,8 +41,8 @@
             "mandatory": false,
             "canBeCounted": false,
             "ignoreKnown": false,
-            "img": "icons/creatures/magical/humanoid-silhouette-aliens-green.webp",
-            "name": "Strong Minded"
+            "img": "icons/creatures/magical/spirit-earth-stone-magma-yellow.webp",
+            "name": "Force of Mind"
           },
           "3gsCM1ocfY357MxY": {
             "uuid": "Compendium.dc20rpg.ancestries.Item.3gsCM1ocfY357MxY",
@@ -142,6 +142,17 @@
             "ignoreKnown": false,
             "img": "icons/magic/control/sihouette-hold-beam-green.webp",
             "name": "Telepathic Reach"
+          },
+          "npbRTokO1S5zuMDc": {
+            "uuid": "Compendium.dc20rpg.ancestries.Item.npbRTokO1S5zuMDc",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 2,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/runes-carved-stone-yellow.webp",
+            "name": "Mental Clarity"
           }
         },
         "name": "Psyborn Traits",
@@ -184,7 +195,8 @@
           "itemType": "feature",
           "helpText": "Add more Ancestry Traits",
           "preFilters": "{\"featureType\": \"ancestry\"}",
-          "itemLimit": null
+          "itemLimit": null,
+          "ancestryFilter": true
         }
       }
     },
@@ -208,9 +220,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.5",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1745523389237,
-    "modifiedTime": 1746455742908,
+    "modifiedTime": 1751194942639,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
