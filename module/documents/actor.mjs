@@ -4,6 +4,7 @@ import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { emitEventToGM } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
@@ -522,6 +523,23 @@ export class DC20RpgActor extends Actor {
       attribute += ".value";
     }
     return await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+  }
+
+  /**
+   * Run update opperation on Actor. If user doesn't have permissions to do so he will send a request to the active GM.
+   * If request was sended, no object will be returned by this method.
+   */
+  async gmUpdate(updateData) {
+    if (!this.canUserModify(game.user, "update")) {
+      emitEventToGM("updateDocument", {
+        docType: "actor",
+        docId: this.id, 
+        actorUuid: this.uuid,
+        updateData: updateData
+      });
+      return;
+    }
+    return await this.update(updateData);
   }
 
   /** @override */

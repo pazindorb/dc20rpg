@@ -544,6 +544,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   async _onCheckRoll(event, target) {
     const options = this.actor.getCheckOptions(true, true, true, true);
     const key = await getSimplePopup("select", {header: "Roll Skill Check", selectOptions: options});
+    if (!key) return;
+    
     const details = prepareCheckDetailsFor(key);
     await promptRoll(this.actor, details);
   }
@@ -551,6 +553,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   async _onSaveRoll(event, target) {
     const options = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
     const key = await getSimplePopup("select", {header: "Roll Save", selectOptions: options});
+    if (!key) return;
+
     const details = prepareSaveDetailsFor(key);
     await promptRoll(this.actor, details);
   }

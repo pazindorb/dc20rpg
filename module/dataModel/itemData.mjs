@@ -21,7 +21,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       requirements: new f.SchemaField({
-        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         items: new f.StringField({required: true, initial: ""}),
       }),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
@@ -242,6 +242,10 @@ export class DC20FeatureData extends DC20UsableItemData {
       featureSourceItem: new f.StringField({required: true, initial: ""}),
       staminaFeature: new f.BooleanField({required: true, initial: false}),
       flavorFeature: new f.BooleanField({required: true, initial: false}),
+      requirements: new f.SchemaField({
+        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+        items: new f.StringField({required: true, initial: ""}),
+      }),
       isResource: new f.BooleanField({required: true, initial: false}),
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),

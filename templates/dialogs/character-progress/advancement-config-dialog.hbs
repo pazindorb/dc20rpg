@@ -46,6 +46,10 @@
         <a class="activable" data-path="addItemsOptions.talentFilter"><i class="fa-2x {{#if addItemsOptions.talentFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
       </div>
       {{/ifCond}}
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.dialog.advancement.ancestryFilter"}}</span>
+        <a class="activable" data-path="addItemsOptions.ancestryFilter"><i class="fa-2x {{#if addItemsOptions.ancestryFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
       <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.preFiltersTitle"}}">
         <span>{{localize "dc20rpg.dialog.advancement.preFilters"}}</span>
         <textarea class="input" type="text" data-path="addItemsOptions.preFilters">{{addItemsOptions.preFilters}}</textarea>

@@ -116,6 +116,7 @@ export async function sendSimplePopupToUsers(userIds, popupType, popupData={}) {
 export async function sendSimplePopupToActorOwners(actor, popupType, popupData={}) {
   const actorOwners = getIdsOfActiveActorOwners(actor, false);
   if (actorOwners.length > 0) {
+    if (actorOwners.find(ownerId => game.user.id === ownerId)) return await getSimplePopup(popupType, popupData);
     return await sendSimplePopupToUsers(actorOwners, popupType, popupData);
   }
   return await getSimplePopup(popupType, popupData);

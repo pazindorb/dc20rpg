@@ -95,6 +95,13 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceKey"}}</span>
       <input class="input" data-path="fields.changedResource.value" value="{{fields.changedResource.value}}"/>
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.operation"}}</span>
+      <select class="selectable" data-path="fields.operation.value">
+        {{selectOptions fields.operation.selectOptions selected=fields.operation.value blank=""}}
+      </select>
+    </div>
+    {{/ifCond}}
     {{#if (arrayIncludes fields.trigger.value arrayString="damageTaken healingTaken")}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.minimum"}}</span>
@@ -154,7 +161,6 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.custom"}}</span>
       <a class="activable fa-2x {{#if fields.custom.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.custom.value"></a>
     </div>
-    {{/ifCond}}
     {{/ifCond}}
     {{!-- Check/Save Request --}}
     {{#ifCond fields.eventType.value '===' "checkRequest"}}

@@ -1,4 +1,3 @@
-import { updateActor } from "../helpers/actors/actorOperations.mjs";
 import { createItemOnActor, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
@@ -257,6 +256,6 @@ async function _moveCurrency(from, to, currency, exchangeToGold) {
   toWallet.gp += currency.gp;
   toWallet.pp += currency.pp;
 
-  await updateActor(from, {["system.currency"]: fromWallet});
-  await updateActor(to, {["system.currency"]: toWallet}); 
+  await from.gmUpdate({["system.currency"]: fromWallet});
+  await to.gmUpdate({["system.currency"]: toWallet}); 
 }

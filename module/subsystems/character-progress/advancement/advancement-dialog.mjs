@@ -168,7 +168,7 @@ export class ActorAdvancement extends Dialog {
       });
       return list;
     }
-    if (this.currentItem?.type === "ancestry") {
+    if (this.currentAdvancement.addItemsOptions?.ancestryFilter) {
       this.currentAdvancement.ancestryFilter = true;
       return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry;
     }

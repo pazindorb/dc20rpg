@@ -1,7 +1,6 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { updateActor } from "./actors/actorOperations.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { createToken, deleteToken } from "./actors/tokens.mjs";
 import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor, updateEffectOn } from "./effects.mjs";
@@ -110,7 +109,7 @@ export function registerSystemSockets() {
         if (!actor) return;
         if (docType === "item") await updateItemOnActor(docId, actor, updateData);
         if (docType === "effect") await updateEffectOn(docId, actor, updateData);
-        if (docType === "actor") await updateActor(actor, updateData);
+        if (docType === "actor") await actor.gmUpdate(updateData);
       }
     }
   });

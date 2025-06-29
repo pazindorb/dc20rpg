@@ -30,6 +30,7 @@ export class AdvancementConfiguration extends Dialog {
 
   async getData() {
     const advancement = this.advancement;
+    if (!advancement.items) advancement.items = {};
 
     // Collect items that are part of advancement
     Object.values(advancement.items).forEach(async record => {

@@ -116,7 +116,7 @@ export async function applyDamage(actor, dmg, options={}) {
     fromEvent: options.fromEvent,
     messageId: options.messageId
   }
-  await actor.update(updateData);
+  await actor.gmUpdate(updateData);
   sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
 }
 
@@ -171,7 +171,7 @@ export async function applyHealing(actor, heal, options={}) {
       fromEvent: options.fromEvent,
       messageId: options.messageId
     }
-    actor.update(updateData);
+    await actor.gmUpdate(updateData);
     sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
   }
   
@@ -186,7 +186,7 @@ export async function applyHealing(actor, heal, options={}) {
     else if (oldTemp > 0) {
       sources += ` -> (Adds ${healAmount - oldTemp} to curent Temporary HP)`;
     }
-    await actor.update({["system.resources.health.temp"]: healAmount});
+    await actor.gmUpdate({["system.resources.health.temp"]: healAmount});
     sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
   }
 }

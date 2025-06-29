@@ -20,6 +20,7 @@ export function createNewAdvancement() {
 			itemType: "",
 			preFilters: "",
 			talentFilter: false,
+			ancestryFilter: false,
 			helpText: "",
 			itemLimit: null,
  		},

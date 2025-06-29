@@ -288,6 +288,19 @@ export class SystemsBuilder extends Dialog {
             dontSkipFor: ["resourceChange"]
           }
         },
+        operation: {
+          value: "",
+          format: "string",
+          selectOptions: {
+            "": "All",
+            "subtraction": "Subtraction",
+            "addition": "Addition"
+          },
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["resourceChange"]
+          }
+        },
         withEffectName: {
           value: "",
           format: "string",

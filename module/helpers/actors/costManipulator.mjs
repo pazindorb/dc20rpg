@@ -671,7 +671,11 @@ function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
 }
 
 export async function runResourceChangeEvent(key, resource, before, actor, custom) {
+  if (!before) return;
   if (resource.value === undefined) return;
+  
   const changeValue = resource.value - before.value;
-  await runEventsFor("resourceChange", actor, changedResourceFilter(key), {resourceKey: key, change: changeValue, customResource: custom})
+  if (changeValue === 0) return;
+  const operation = changeValue > 0 ? "addition" : "subtraction";
+  await runEventsFor("resourceChange", actor, changedResourceFilter(key, operation), {resourceKey: key, change: changeValue, customResource: custom})
 }
