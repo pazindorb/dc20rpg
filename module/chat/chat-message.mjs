@@ -1034,7 +1034,10 @@ export async function sendDescriptionToChat(actor, details, item) {
 }
 
 export function sendHealthChangeMessage(actor, amount, source, messageType) {
-  const gmOnly = !game.settings.get("dc20rpg", "showEventChatMessage");
+  const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
+  if (showEventChatMessage === "none") return;
+  const gmOnly = showEventChatMessage === "gm";
+
   const system = {
     actorName: actor.name,
     image: actor.img,
@@ -1053,7 +1056,10 @@ export function sendHealthChangeMessage(actor, amount, source, messageType) {
 }
 
 export function sendEffectRemovedMessage(actor, effect) {
-  const gmOnly = !game.settings.get("dc20rpg", "showEventChatMessage");
+  const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
+  if (showEventChatMessage === "none") return;
+  const gmOnly = showEventChatMessage === "gm";
+  
   const system = {
     actorName: actor.name,
     image: actor.img,

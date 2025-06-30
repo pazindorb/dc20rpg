@@ -401,7 +401,7 @@ export class DC20RpgCombat extends Combat {
     }
 
     return {
-      label: "Initiative Critical Success",
+      name: "Initiative Critical Success",
       img: "icons/svg/angel.svg",
       origin: actor.uuid,
       duration: {
@@ -434,7 +434,7 @@ export class DC20RpgCombat extends Combat {
     }
 
     return {
-      label: "Initiative Critical Fail",
+      name: "Initiative Critical Fail",
       img: "icons/svg/coins.svg",
       origin: actor.uuid,
       duration: {

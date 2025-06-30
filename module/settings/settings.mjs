@@ -16,7 +16,7 @@
 import { ColorSetting, defaultColorPalette } from "./colors.mjs";
 import { defaultSkillList, SkillConfiguration } from "./skillConfig.mjs";
 
-// For more custom settings (with popups for example) see DND5e system
+// For more custom settings (with popups for example)
 export function registerGameSettings(settings) {
   settings.register("dc20rpg", "lastMigration", {
     name: "Latest System Migration Applied",
@@ -51,6 +51,10 @@ export function registerGameSettings(settings) {
   //   type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitiativeSkills()})
   // });
 
+  
+  // ======================================
+  // ==            MOVEMENT              ==
+  // ======================================
   settings.register("dc20rpg", "useMovementPoints", {
     name: "Use Movement Points",
     hint: "Select, when Movement Points should be subtracted.",
@@ -93,6 +97,27 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  // ======================================
+  // ==           TARGETTING             ==
+  // ======================================
+  settings.register("dc20rpg", "autoRollLevelCheck", {
+    name: "Run Roll Level Check Automatically",
+    hint: "If selected, Roll Level Check will run automatically when performing a roll and modifing roll level with enhancement or range change.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
+  settings.register("dc20rpg", "enableRangeCheck", {
+    name: "Enable Range Check",
+    hint: "If selected, Normal/Long/Out of Range rulles will be respected (e.g. Weapon Ranges).",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "enablePositionCheck", {
     name: "Enable Position Check",
     hint: "If selected, Token positioning rules will be respected (e.g. Close Quarters, Flanking).",
@@ -115,36 +140,25 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  settings.register("dc20rpg", "enableRangeCheck", {
-    name: "Enable Range Check",
-    hint: "If selected, Normal/Long/Out of Range rulles will be respected (e.g. Weapon Ranges).",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-	});
-
-  settings.register("dc20rpg", "autoRollLevelCheck", {
-    name: "Run Roll Level Check Automatically",
-    hint: "If selected, Roll Level Check will run automatically when performing a roll and modifing roll level with enhancement or range change.",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-	})
-
+  // ======================================
+  // ==          CHAT MESSAGE            ==
+  // ======================================
   settings.register("dc20rpg", "showEventChatMessage", {
-    name: "Show Event Chat Messages to Players",
-    hint: "If selected damage/healing taken and effect removed messages will be send to public chat instead of being GM only.",
+    name: "Show Event Chat Messages",
+    hint: "Who should see messages about taking damage/healing and losing effects.",
     scope: "world",
     config: true,
-    default: false,
-    type: Boolean
+    default: "gm",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "gm", choices: {
+      all: "All Players",
+      gm: "GM Only",
+      none: "None"
+    }}),
 	});
 
   settings.register("dc20rpg", "showDamageForPlayers", {
-    name: "Show Damage and Healing on Chat Message",
-    hint: "If false, only GM will be able to see expected damage and healing target will receive.",
+    name: "Show Damage/Healing calculations",
+    hint: "If false, only GM will be able to see damage and healing calculations per target.",
     scope: "world",
     config: true,
     default: true,
@@ -160,6 +174,46 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  // ======================================
+  // ==          TOKEN HOTBAR            ==
+  // ======================================
+  settings.register("dc20rpg", "tokenHotbar", {
+    scope: "client",
+    config: false,
+    default: false,
+    type: Boolean
+  });
+
+  settings.register("dc20rpg", "tokenHotbarSettings", {
+    scope: "client",
+    config: false,
+    default: {
+      sectionA: {
+        columns: 10,
+        rows: 3
+      },
+      sectionB: {
+        columns: 3,
+        rows: 3
+      },
+      effects: {
+        rowSize: 8,
+        position: "sectionA"
+      },
+      help: {
+        rowSize: 3,
+        position: "sectionA"
+      },
+      borderColor: true,
+      markers: true,
+      showCharges: true,
+    },
+    type: Object
+  });
+
+  // ======================================
+  // ==         VARIANT RULES            ==
+  // ======================================
   settings.register("dc20rpg", "useMaxPrime", {
     name: "Prime Modifer Equals Attribute Limit",
     hint: "Variant Rule: If selected Attribute Limit will be used as Prime Modifier value.",
@@ -178,6 +232,9 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  // ======================================
+  // ==             OTHERS               ==
+  // ======================================
   settings.register("dc20rpg", "selectedColor", {
     scope: "user",
     config: false,
@@ -222,40 +279,6 @@ export function registerGameSettings(settings) {
     config: false,
     default: "",
     type: String
-  });
-
-  settings.register("dc20rpg", "tokenHotbar", {
-    scope: "client",
-    config: false,
-    default: false,
-    type: Boolean
-  });
-
-  settings.register("dc20rpg", "tokenHotbarSettings", {
-    scope: "client",
-    config: false,
-    default: {
-      sectionA: {
-        columns: 10,
-        rows: 3
-      },
-      sectionB: {
-        columns: 3,
-        rows: 3
-      },
-      effects: {
-        rowSize: 8,
-        position: "sectionA"
-      },
-      help: {
-        rowSize: 3,
-        position: "sectionA"
-      },
-      borderColor: true,
-      markers: true,
-      showCharges: true,
-    },
-    type: Object
   });
 }
 
