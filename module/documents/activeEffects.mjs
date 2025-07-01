@@ -61,7 +61,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     const activeCombat = game.combats.active;
     if (useCounter && activeCombat) {
       const duration = this.duration;
-      const beforeTurn = duration.startTurn > activeCombat.turn ? 1 : 0;
+      const beforeTurn = duration.startTurn > activeCombat.lastActiveTurn ? 1 : 0;
       const roundsLeft = duration.rounds + duration.startRound + beforeTurn - activeCombat.round;
       return roundsLeft;
     }

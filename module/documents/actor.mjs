@@ -1,8 +1,9 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { addBasicActions, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
-import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
+import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
@@ -88,6 +89,23 @@ export class DC20RpgActor extends Actor {
 
   get statusIds() {
     return this.statuses.map(status => status.id);
+  }
+
+  get myTurnActive() {
+    const activeCombat = game.combats.active;
+    if (!activeCombat?.started) return false;
+
+    const myTurn = !!(activeCombat.activeCombatants.find(combatant => {
+      if (this.token) return combatant.tokenId === this.token.id;
+      else return combatant.actorId === this.id;
+    }));
+    if (myTurn) return true;
+
+    if (companionShare(this, "initiative")) {
+      const ownerTurn = !!(activeCombat.activeCombatants.find(combatant => combatant.actorId === this.companionOwner.id));
+      if (ownerTurn) return true;
+    }
+    return false;
   }
 
   /** @override */
@@ -529,17 +547,18 @@ export class DC20RpgActor extends Actor {
    * Run update opperation on Actor. If user doesn't have permissions to do so he will send a request to the active GM.
    * If request was sended, no object will be returned by this method.
    */
-  async gmUpdate(updateData) {
+  async gmUpdate(updateData={}, operation={}) {
     if (!this.canUserModify(game.user, "update")) {
       emitEventToGM("updateDocument", {
         docType: "actor",
         docId: this.id, 
         actorUuid: this.uuid,
-        updateData: updateData
+        updateData: updateData,
+        operation: operation
       });
       return;
     }
-    return await this.update(updateData);
+    return await this.update(updateData, operation);
   }
 
   /** @override */

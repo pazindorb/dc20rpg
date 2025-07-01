@@ -30,6 +30,13 @@ export class DC20RpgCombatTracker extends foundry.applications.sidebar.tabs.Comb
   async _prepareTurnContext(combat, combatant, index) {
     const turn = await super._prepareTurnContext(combat, combatant, index);
 
+    // Override active if we are using slot merge
+    const combatSlotMerge = game.settings.get("dc20rpg", "combatSlotMerge");
+    if (combatSlotMerge) {
+      turn.active = !!(combat.activeCombatants.find(cmb => cmb.id === combatant.id));
+      if (turn.active) turn.css += " active";
+    }
+
     // Slot initataive and companions
     turn.skip = combatant.skip;
     if(turn.initiative !== null) turn.slot = 20 - turn.initiative;

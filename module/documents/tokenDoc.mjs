@@ -12,22 +12,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.flags?.dc20rpg?.itemData !== undefined;
   }
 
-  get activeCombatant() {
-    const activeCombat = game.combats.active;
-    if (!activeCombat?.started) return false;
-
-    const combatantId = activeCombat.current.combatantId;
-    const combatant = activeCombat.combatants.get(combatantId);
-
-    const myTurn = combatant?.tokenId === this.id;
-    if (myTurn) return true;
-
-    if (companionShare(this.actor, "initiative")) {
-      const ownerTurn = combatant?.actorId === this.actor.companionOwner.id;
-      if (ownerTurn) return true;
-    }
-    return false;
-  }
 
   /**@override*/
   prepareData() {
@@ -197,7 +181,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (onCombat || onTurn) {
       const activeCombat = game.combats.active;
       if (!activeCombat?.started) return false;
-      if (onTurn && !this.activeCombatant) return false;
+      if (onTurn && !this.actor.myTurnActive) return false;
     }
     return true;
   }

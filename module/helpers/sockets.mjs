@@ -103,13 +103,13 @@ export function registerSystemSockets() {
   // Update Document on Actor
   game.socket.on('system.dc20rpg', async (data) => {
     if (data.type === "updateDocument") {
-      const { docType, docId, actorUuid, updateData, gmUserId } = data.payload;
+      const { docType, docId, actorUuid, updateData, operation, gmUserId } = data.payload;
       if (game.user.id === gmUserId) {
         const actor = await fromUuid(actorUuid);
         if (!actor) return;
         if (docType === "item") await updateItemOnActor(docId, actor, updateData);
         if (docType === "effect") await updateEffectOn(docId, actor, updateData);
-        if (docType === "actor") await actor.gmUpdate(updateData);
+        if (docType === "actor") await actor.gmUpdate(updateData, operation);
       }
     }
   });
