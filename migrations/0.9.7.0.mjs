@@ -8,6 +8,7 @@ async function _migrateActors(migrateModules) {
   // Iterate over actors
   for (const actor of game.actors) {
     await _updateActorMulticlassInfo(actor);
+    await _updateBasicActions(actor);
     await _moveEffectFlagsToSystem(actor);
     await _updateActorItems(actor);
   }
@@ -22,6 +23,7 @@ async function _migrateActors(migrateModules) {
     if (!actor) continue; // Some modules create tokens without actors
 
     await _updateActorMulticlassInfo(actor);
+    await _updateBasicActions(actor);
     await _moveEffectFlagsToSystem(actor);
     await _updateActorItems(actor);
   }
@@ -35,6 +37,7 @@ async function _migrateActors(migrateModules) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
         await _updateActorMulticlassInfo(actor);
+        await _updateBasicActions(actor);
         await _moveEffectFlagsToSystem(actor);
         await _updateActorItems(actor);
       }
@@ -70,6 +73,13 @@ async function _updateActorItems(actor) {
     await _moveEffectFlagsToSystem(item);
     await _updateItemProperties(item);
   }
+}
+
+async function _updateBasicActions(actor) {
+  const basicActionIds = actor.items.filter(item => item.type === "basicAction" || item.system.itemKey === "unarmedStrike").map(item => item.id);
+  await actor.deleteEmbeddedDocuments("Item", basicActionIds);
+  await actor.update({["flags.basicActionsAdded"]: false});
+  actor.prepareBasicActions();
 }
 
 async function _updateActorMulticlassInfo(actor) {

@@ -813,20 +813,7 @@ function _toggleItem(item) {
 
 function _deleteEffectsMarkedForRemoval(actor) {
   if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
-  actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
-    if (game.user.isGM) {
-      effectsToRemovePerActor(toRemove);
-    }
-    else {
-      const activeGM = game.users.activeGM;
-      if (!activeGM) {
-        ui.notifications.error("There needs to be an active GM to remove effects from other actors");
-      }
-      else {
-        emitSystemEvent("removeEffectFrom", {toRemove: toRemove, gmUserId: activeGM.id});
-      }
-    }
-  });
+  actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => effectsToRemovePerActor(toRemove));
   actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); // Clear effects to remove
 } 
 

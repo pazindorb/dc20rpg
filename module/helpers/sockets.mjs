@@ -3,7 +3,7 @@ import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-pr
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { createToken, deleteToken } from "./actors/tokens.mjs";
-import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor, updateEffectOn } from "./effects.mjs";
+import { createEffectOn, deleteEffectFrom, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
@@ -128,12 +128,14 @@ export function registerSystemSockets() {
     }
   });
 
-  // Remove Effect from Actor 
+  // Disable/Enable Effect 
   game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "removeEffectFrom") {
-      const m = data.payload;
-      if (game.user.id === m.gmUserId) {
-        effectsToRemovePerActor(m.toRemove);
+    if (data.type === "toggleEffectOn") {
+      const { effectId, turnOn, ownerUuid, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const owner = await fromUuid(ownerUuid);
+        if (ownerUuid && !owner) return;
+        await toggleEffectOn(effectId, owner, turnOn);
       }
     }
   });

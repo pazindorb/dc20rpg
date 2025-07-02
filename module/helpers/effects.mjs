@@ -154,6 +154,15 @@ export async function deleteEffectFrom(effectId, owner) {
 }
 
 export async function toggleEffectOn(effectId, owner, turnOn) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
+    emitEventToGM("toggleEffectOn", {
+      turnOn: turnOn,
+      effectId: effectId, 
+      ownerUuid: owner.uuid
+    });
+    return;
+  }
+
   const options = turnOn ? {disabled: true} : {active: true};
   const effect = getEffectFrom(effectId, owner, options);
   if (effect) {
@@ -195,9 +204,9 @@ export async function effectsToRemovePerActor(toRemove) {
     if (effect) {
       if (afterRoll === "delete") {
         sendEffectRemovedMessage(actor, effect);
-        effect.delete();
+        await deleteEffectFrom(toRemove.effectId, actor);
       }
-      if (afterRoll === "disable") effect.disable();
+      if (afterRoll === "disable") await toggleEffectOn(toRemove.effectId, actor, false);
     }
   }
 }

@@ -480,7 +480,7 @@
           </div> 
           <div class="oneliner-content">
             {{#each skills.allSkills as |skill key|}}
-            {{#if mastery}}
+            {{#if skill.shouldShow}}
             <div class="margin-top-2">
               <i class="fa-solid fa-square"></i>
               <a class="rollable" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 

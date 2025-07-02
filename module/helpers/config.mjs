@@ -11,12 +11,13 @@ import { ColorSetting } from "../settings/colors.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
+import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./actors/attrAndSkills.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./actors/costManipulator.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
 import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
-import { createToken, deleteToken, getSelectedTokens } from "./actors/tokens.mjs";
+import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getTokenForActor } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
@@ -57,10 +58,20 @@ export function prepareDC20tools() {
       canSubtractCustomResource,
       subtractAP,
     },
+    rolls: {
+      prepareCheckDetailsFor,
+      prepareSaveDetailsFor,
+      promptRoll,
+      promptItemRoll,
+      promptRollToOtherPlayer,
+      promptItemRollToOtherPlayer,
+    },
     tools: {
       getSelectedTokens,
       createToken,
       deleteToken,
+      getTokenForActor,
+      getAllTokensForActor,
       createItemOnActor,
       updateItemOnActor,
       deleteItemFromActor,

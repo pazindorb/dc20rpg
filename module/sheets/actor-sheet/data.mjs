@@ -165,7 +165,11 @@ function _size(context) {
 
 function _allSkills(context) {
   const skills = Object.entries(context.system.skills)
-                  .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
+                  .map(([key, skill]) => {
+                    const skl = _prepSkillMastery(skill);
+                    if (key === "awa") skl.shouldShow = true
+                    return [key, skl]
+                  });
   context.skills = {
     allSkills: Object.fromEntries(skills)
   }
@@ -196,6 +200,7 @@ function _prepSkillMastery(skill) {
   
   skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
   skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
+  skill.shouldShow = mastery > 0;
   return skill;
 }
 
