@@ -1,3 +1,4 @@
+import { getActiveHelpDice } from "../../helpers/actors/actions.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
@@ -7,6 +8,14 @@ export function duplicateData(context, actor) {
   context.flags = actor.flags;
   context.editMode = context.flags.dc20rpg?.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
+  context.help = _help(actor);
+}
+
+function _help(actor) {
+  return {
+    dice: getActiveHelpDice(actor),
+    rowSize: 5
+  }
 }
 
 export function prepareCommonData(context) {

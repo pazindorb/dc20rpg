@@ -1,7 +1,7 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { canSubtractBasicResource, regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
@@ -98,8 +98,35 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const options = super._getContextMenuOptions();
     options[1].condition = li => !this.tokenHotbar;
 
+    // Item Slot
     options.push({
-          name: "MACRO.OpenSheet",
+          name: "dc20rpg.contextMenu.toggle",
+          icon: '<i class="fa-solid fa-toggle-on"></i>',
+          condition: li => {
+            const item = this.#isItemSlot(li);
+            if (!item) return false;
+            return item.system?.toggle?.toggleable;
+          },
+          callback: li => {
+            const item = this.#isItemSlot(li);
+            item.toggle();
+          }
+    });
+    options.push({
+          name: "dc20rpg.contextMenu.onDemand",
+          icon: '<i class="fa-solid fa-code"></i>',
+          condition: li => {
+            const item = this.#isItemSlot(li);
+            if (!item) return false;
+            return item.hasMacroForTrigger("onDemand");
+          },
+          callback: li => {
+            const item = this.#isItemSlot(li);
+            item.callMacro("onDemand");
+          }
+    });
+    options.push({
+          name: "dc20rpg.contextMenu.openItemSheet",
           icon: '<i class="fa-solid fa-pen-to-square"></i>',
           condition: li => this.#isItemSlot(li),
           callback: li => {
@@ -109,7 +136,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           }
     });
     options.push({
-          name: "MACRO.RemoveItem",
+          name: "dc20rpg.contextMenu.removeItem",
           icon: '<i class="fa-solid fa-xmark"></i>',
           condition: li => this.#isItemSlot(li),
           callback: li => {
@@ -117,6 +144,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
             this.actor.update({[`system.tokenHotbar.${dataset.section}.${dataset.index}`]: ""});
           }
     });
+    
     return options;
   }
 
@@ -217,6 +245,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const itemAction = getItemActionDetails(item);
     const data = {system: item.system};
     preprareSheetData(data, item);
+    const active = item.system?.toggle?.toggledOn ? " [Active]" : "";
 
     const reaction = item.system.isReaction ? `<i class='margin-left-3 margin-right-8 fa-solid fa-reply reaction'></i>` : "";
     const cost = useCost ? `<div class='cost-wrapper'>${reaction}${useCost}</div>` : "";
@@ -240,7 +269,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     }
 
     return `
-      <div class='header-section'><h4>${item.name}</h4> ${cost}</div>
+      <div class='header-section'><h4>${item.name}${active}</h4> ${cost}</div>
       <div class='middle-section'>${middleColumn}</div>
       ${descriptionColumn}
     `
@@ -456,27 +485,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       rowSize: helpConfig.rowSize,
     }
 
-    const dice = {};
-    for (const [key, help] of Object.entries(this.actor.system.help.active)) {
-      let icon = "fa-dice";
-      switch (help.value) {
-        case "d20": case "-d20": icon = "fa-dice-d20"; break;
-        case "d12": case "-d12": icon = "fa-dice-d12"; break; 
-        case "d10": case "-d10": icon = "fa-dice-d10"; break; 
-        case "d8": case "-d8": icon = "fa-dice-d8"; break; 
-        case "d6": case "-d6": icon = "fa-dice-d6"; break; 
-        case "d4": case "-d4": icon = "fa-dice-d4"; break; 
-      }
-      dice[key] = {
-        formula: help.value,
-        icon: icon,
-        subtraction: help.value.includes("-"),
-        doNotExpire: help.doNotExpire
-      }
-    }
-    this.helpDice = dice;
-    helpData.dice = dice;
-    return helpData
+    const helpDice = getActiveHelpDice(this.actor);
+    this.helpDice = helpDice;
+    helpData.dice = helpDice;
+    return helpData;
   }
 
   _prepareHeldAction() {

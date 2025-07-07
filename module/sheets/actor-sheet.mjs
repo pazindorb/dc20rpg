@@ -22,7 +22,8 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       dragDrop: [
         {dragSelector: ".custom-resource[data-key]", dropSelector: null},
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
-        {dragSelector: ".item-list .item", dropSelector: null}
+        {dragSelector: ".item-list .item", dropSelector: null},
+        {dragSelector: ".help-dice", dropSelector: null}
       ],
     });
   }
@@ -147,6 +148,22 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       resource.key = dataset.key;
       if (!resource) return;
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
+    }
+    if (dataset.type === "help") {
+      const key = dataset.key;
+      const helpDice = this.actor.system.help.active[key];
+
+      if (helpDice) {
+        const dto = {
+          key: key,
+          formula: helpDice.value,
+          type: "help",
+          actorId: this.actor.id,
+          tokenId: this.actor?.token?.id,
+        }
+        event.dataTransfer.setData("text/plain", JSON.stringify(dto));
+      }
+      return;
     }
     if (dataset.effectId) {
       const effect = getEffectFrom(dataset.effectId, this.actor);

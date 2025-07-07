@@ -39,7 +39,7 @@ export async function addBasicActions(actor) {
  *  "doNotExpire": Boolean - If provided help dice wont expire at the start of actor's next turn.
  * }
  */
-export function prepareHelpAction(actor, options) {
+export function prepareHelpAction(actor, options={}) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
   if (options.diceValue) maxDice = options.diceValue;
@@ -63,6 +63,28 @@ export async function clearHelpDice(actor, key) {
       if (!help.doNotExpire) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
+}
+
+export function getActiveHelpDice(actor) {
+  const dice = {};
+  for (const [key, help] of Object.entries(actor.system.help.active)) {
+    let icon = "fa-dice";
+    switch (help.value) {
+      case "d20": case "-d20": icon = "fa-dice-d20"; break;
+      case "d12": case "-d12": icon = "fa-dice-d12"; break; 
+      case "d10": case "-d10": icon = "fa-dice-d10"; break; 
+      case "d8": case "-d8": icon = "fa-dice-d8"; break; 
+      case "d6": case "-d6": icon = "fa-dice-d6"; break; 
+      case "d4": case "-d4": icon = "fa-dice-d4"; break; 
+    }
+    dice[key] = {
+      formula: help.value,
+      icon: icon,
+      subtraction: help.value.includes("-"),
+      doNotExpire: help.doNotExpire
+    }
+  }
+  return dice;
 }
 
 //===================================

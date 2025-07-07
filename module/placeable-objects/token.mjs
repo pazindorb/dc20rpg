@@ -1,8 +1,8 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
-import { getActorsForUser } from "../helpers/users.mjs";
-import { isPointInPolygon, isPointInSquare, toSelectOptions } from "../helpers/utils.mjs";
+import { getTokensForUser } from "../helpers/users.mjs";
+import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
@@ -204,13 +204,14 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
   async _onClickLeft2(event) {
     if (this.document.itemToken) {
-      const actors = getActorsForUser(false);
-      const selectOptions = toSelectOptions(actors, "id", "name");
-      const actorId = await getSimplePopup("select", {selectOptions: selectOptions, header: "Select Actor to pick up"});
-      const actor = game.actors.get(actorId);
-      if (!actor) return;
+      const tokens = getTokensForUser();
+      const selected = await getTokenSelector(tokens, "Select Actor to pick up");
+      if (selected.length === 0) return;
 
-      await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+      for (const token of selected) {
+        const actor = token?.actor;
+        if (actor) await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+      }
       await deleteToken(this.id);
     }
     else await super._onClickLeft2(event);

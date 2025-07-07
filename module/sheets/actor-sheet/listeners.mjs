@@ -22,6 +22,7 @@ import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
 import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
+import { prepareHelpAction } from "../../helpers/actors/actions.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -40,6 +41,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
+  html.find('.make-help-action').click(() => prepareHelpAction(actor));
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));

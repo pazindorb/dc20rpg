@@ -20,6 +20,11 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  */
 export class DC20RpgActor extends Actor {
 
+  get sceneKey() {
+    if (this.isToken) return `${this.id}#${this.token.id}`;
+    else return this.id;
+  }
+
   get class() {
     return this.items.get(this.system.details.class.id);
   }

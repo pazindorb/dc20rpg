@@ -180,6 +180,12 @@ export function getRangeAreaAroundGridlessToken(token, distance) {
   return rangeArea;
 }
 
+export function getActorFromSceneKey(sceneKey) {
+  if (!sceneKey) return null;
+  const [actorId, tokenId] = sceneKey.split("#");
+  return getActorFromIds(actorId, tokenId);
+}
+
 export function getActorFromIds(actorId, tokenId) {
   let actor = game.actors.tokens[tokenId];        // Try to find unlinked actors first
   if (!actor) actor = game.actors.get(actorId);   // Try to find linked actor next

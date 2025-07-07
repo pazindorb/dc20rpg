@@ -323,8 +323,8 @@
           height: fit-content;
           
           .slot {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 5px;
 
             img {
@@ -353,6 +353,13 @@
 
             &.filter-out {
               filter: opacity(0.6);
+            }
+
+            &.outline img {
+              outline-width: 4px;
+              outline-offset: -2px;
+              outline-color: #ffffffcc;
+              outline-style: dashed;
             }
           }
 

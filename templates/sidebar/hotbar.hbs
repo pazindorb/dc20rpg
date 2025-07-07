@@ -21,7 +21,7 @@
       
       <div class="section-wrapper grid grid-{{sectionBWidth}}row">
       {{#each sectionB as |item index|}}
-      <li class="slot {{item.borderColor}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
+      <li class="slot {{item.borderColor}} {{#if item.system.toggle.toggledOn}}outline{{/if}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
         {{#if item.actionMarker}}<i class="action-type fa-solid {{item.actionMarker}}"></i>{{/if}}
         {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
@@ -95,7 +95,7 @@
       </div>
       <div class="section-wrapper grid grid-{{sectionAWidth}}row">
       {{#each sectionA as |item index|}}
-      <li class="slot {{item.borderColor}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
+      <li class="slot {{item.borderColor}} {{#if item.system.toggle.toggledOn}}outline{{/if}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
         {{#if item.actionMarker}}<i class="action-type fa-solid {{item.actionMarker}}"></i>{{/if}}
         {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}

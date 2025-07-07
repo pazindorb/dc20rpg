@@ -6493,6 +6493,74 @@
   -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
   box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
 }
+.dc20rpg .actor_v2 .char-sheet-header .details-column .help-dice-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  height: 30px;
+  padding: 3px;
+  margin-top: 5px;
+  background-color: var(--secondary-light-alpha);
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+}
+.dc20rpg .actor_v2 .char-sheet-header .details-column .help-dice-wrapper #help-tracker {
+  width: 100%;
+  height: 20px;
+  margin: 0px;
+  gap: 5px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .details-column .help-dice-wrapper #help-tracker .help-dice {
+  height: 20px;
+  color: var(--primary-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .details-column .help-dice-wrapper #help-tracker .help-dice i {
+  margin-top: 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .details-column .help-dice-wrapper #help-tracker .help-dice:hover {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+.dc20rpg .actor_v2 .char-sheet-header .details-column .help-dice-wrapper .make-help-action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  width: 30px;
+  border-left: 2px solid var(--primary-color);
+  padding-left: 4px;
+  margin-left: 4px;
+  color: var(--primary-darker);
+}
 .dc20rpg .actor_v2 .char-sheet-header .attributes-column {
   min-width: 160px;
   width: 100%;
@@ -8210,6 +8278,16 @@
 .dc20rpg .actor_v2 .npc-header .details-column .check-save-column .saves {
   border-color: var(--npc-main) !important;
 }
+.dc20rpg .actor_v2 .npc-header .details-column .help-dice-wrapper {
+  border-color: var(--npc-main) !important;
+}
+.dc20rpg .actor_v2 .npc-header .details-column .help-dice-wrapper #help-tracker .help-dice {
+  color: var(--npc-main) !important;
+}
+.dc20rpg .actor_v2 .npc-header .details-column .help-dice-wrapper .make-help-action {
+  border-color: var(--npc-main) !important;
+  color: var(--npc-main-dark) !important;
+}
 .dc20rpg .actor_v2 .npc-header .attributes-column {
   border-color: var(--npc-main);
 }
@@ -9389,6 +9467,16 @@
 }
 .dc20rpg .actor_v2 .pc-header .details-column .check-save-column .saves {
   border-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-header .details-column .help-dice-wrapper {
+  border-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-header .details-column .help-dice-wrapper #help-tracker .help-dice {
+  color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-header .details-column .help-dice-wrapper .make-help-action {
+  border-color: var(--pc-main) !important;
+  color: var(--pc-main-dark) !important;
 }
 .dc20rpg .actor_v2 .pc-header .check-buttons .roll-button {
   border: 2px solid var(--pc-main) !important;
@@ -12396,8 +12484,8 @@
   height: fit-content;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 5px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot img {
@@ -12421,6 +12509,12 @@
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.filter-out {
   -webkit-filter: opacity(0.6);
   filter: opacity(0.6);
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot.outline img {
+  outline-width: 4px;
+  outline-offset: -2px;
+  outline-color: rgba(255, 255, 255, 0.8);
+  outline-style: dashed;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges {
   position: absolute;

@@ -49,3 +49,10 @@ export function getActorsForUser(onlyPC=false, user=game.user) {
               .filter(actor =>  actor.testUserPermission(user, "OWNER"))
               .filter(actor => !onlyPC || actor.type === "character");
 }
+
+export function getTokensForUser(onlyPC=false, user=game.user) {
+  return canvas.tokens.placeables
+                .filter(token => token && token.actor)
+                .filter(token => token.actor.testUserPermission(user, "OWNER"))
+                .filter(token => !onlyPC || token.actor.type === "character");
+}

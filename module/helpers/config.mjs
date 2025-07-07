@@ -675,7 +675,7 @@ DC20RPG.DROPDOWN_DATA.invidualTargets = {
   enemy: "Enemy",
   creature: "Creature",
   object: "Object",
-  space: "Space"
+  space: "Spaces"
 }
 
 DC20RPG.DROPDOWN_DATA.areaTypes = {
