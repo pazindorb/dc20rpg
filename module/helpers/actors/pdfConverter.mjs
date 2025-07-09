@@ -320,6 +320,8 @@ function _setSkills(form, actor) {
   // Prepere Skill Masteries
   for (const [key, skill] of skillEntries) {
     let label = skill.label;
+    try { form.getCheckBox(`${label}-Proficiency`) } catch (e) { continue }
+
     if (expertise.has(key)) _checkbox(form.getCheckBox(`${label}-Proficiency`), true, "diamond");
     else _checkbox(form.getCheckBox(`${label}-Proficiency`), false, "diamond");
 
