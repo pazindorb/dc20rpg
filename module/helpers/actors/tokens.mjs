@@ -1,4 +1,33 @@
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { DC20RpgActor } from "../../documents/actor.mjs";
+import { emitEventToGM } from "../sockets.mjs";
 import { isPointInPolygon } from "../utils.mjs";
+import { deleteItemFromActor } from "./itemsOnActor.mjs";
+
+export async function createToken(tokenData) {
+  if (!game.user.can("TOKEN_CREATE")) {
+    emitEventToGM("addDocument", {
+      docType: "token",
+      docData: tokenData
+    });
+    return;
+  }
+  return await canvas.scene.createEmbeddedDocuments("Token", [tokenData]);
+}
+
+export async function deleteToken(tokenId) {
+  const token = canvas.tokens.get(tokenId);
+  if (!token) return;
+
+  if (!game.user.can("TOKEN_DELETE")) {
+    emitEventToGM("removeDocument", {
+      docType: "token",
+      docId: tokenId, 
+    });
+    return;
+  }
+  await token.document.delete();
+}
 
 export function getTokenForActor(actor) {
   if (actor.isToken) return actor.token.object;
@@ -151,6 +180,12 @@ export function getRangeAreaAroundGridlessToken(token, distance) {
   return rangeArea;
 }
 
+export function getActorFromSceneKey(sceneKey) {
+  if (!sceneKey) return null;
+  const [actorId, tokenId] = sceneKey.split("#");
+  return getActorFromIds(actorId, tokenId);
+}
+
 export function getActorFromIds(actorId, tokenId) {
   let actor = game.actors.tokens[tokenId];        // Try to find unlinked actors first
   if (!actor) actor = game.actors.get(actorId);   // Try to find linked actor next
@@ -243,12 +278,49 @@ export function displayScrollingTextOnToken(token, text, color) {
  * Called when new actor is being created, makes simple pre-configuration on actor's prototype token depending on its type.
  */
 export function preConfigurePrototype(actor) {
-  const prototypeToken = actor.prototypeToken;
-  prototypeToken.displayBars = 20;
-  prototypeToken.displayName = 20;
+  const updateData = {prototypeToken: {}}
+  updateData.prototypeToken.displayBars = 20;
+  updateData.prototypeToken.displayName = 20;
   if (actor.type === "character" || actor.type === "companion") {
-    prototypeToken.actorLink = true;
-    prototypeToken.disposition = 1;
+    updateData.prototypeToken.actorLink = true;
+    updateData.prototypeToken.disposition = 1;
   }
-  actor.update({['prototypeToken'] : prototypeToken});
+  if (actor.type === "storage") {
+    updateData.prototypeToken.disposition = 1;
+  }
+  actor.update(updateData);
+}
+
+export async function canvasItemDrop(canvas, data, event) {
+  if (data.type !== "Item") return;
+
+  const confirmed = await getSimplePopup("confirm", {header: "Do you want to drop that item?"});
+  if (!confirmed) return;
+
+  const item = await fromUuid(data.uuid);
+  if (!item) return;
+  const itemData = item.toObject();
+  deleteItemFromActor(item.id, item.actor);
+
+  const tempActor = new DC20RpgActor({
+    type: "storage",
+    name: itemData.name,
+    img: itemData.img,
+  })
+  const tokenData = await tempActor.getTokenDocument();
+  tokenData.updateSource({
+    x: data.x, 
+    y: data.y,
+    name: itemData.name,
+    img: itemData.img,
+    flags: {
+      dc20rpg: {itemData: itemData}
+    },
+    texture: {src: itemData.img},
+    disposition: -2,
+    displayName: 0,
+    width: 0.65,
+    height: 0.65,
+  });
+  await createToken(tokenData.toObject());
 }

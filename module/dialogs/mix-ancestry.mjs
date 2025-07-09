@@ -1,13 +1,20 @@
 import { mixAncestry } from "../helpers/actors/itemsOnActor.mjs";
-import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { createItemBrowser } from "./compendium-browser/item-browser.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 
-export class MixAncestryDialog extends Dialog {
+export class MixAncestryDialog extends DC20Dialog {
 
-  constructor(dialogData = {}, options = {}) {
-    super(dialogData, options);
-    this.ancestryCollection = {};
+  constructor(options = {}) {
+    super(options);
+    this.ancestry1 = "";
+    this.ancestry2 = "";
   }
+
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
+      template: "systems/dc20rpg/templates/dialogs/mix-ancestry-dialog.hbs",
+    }
+  };
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -15,33 +22,29 @@ export class MixAncestryDialog extends Dialog {
     });
   }
 
-  /** @override */
-  get template() {
-    return "systems/dc20rpg/templates/dialogs/mix-ancestry-dialog.hbs";
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Ancestry Mixer";
+    initialized.window.icon = "fa-solid fa-network-wired";
+    initialized.position.width = 420;
+
+    initialized.actions.mix = this._onMix;
+    return initialized;
   }
 
-  getData() {
-    return {
-      ancestryCollection: this.ancestryCollection,
-      canMix: Object.keys(this.ancestryCollection).length === 2
-    }
-  }
-
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find(".mix").click(ev => this._onMix(ev));
-    html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).id));
-    html.find('.open-compendium').click(ev => createItemBrowser("ancestry", true, this));
-
-    // Drag and drop events
-    html[0].addEventListener('dragover', ev => ev.preventDefault());
-    html[0].addEventListener('drop', async ev => await this._onDrop(ev));
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.ancestry1 = this.ancestry1;
+    context.ancestry2 = this.ancestry2;
+    context.canMix = this.ancestry1 && this.ancestry2;
+    context.ancestries = CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.ancestry;
+    return context;
   }
 
   async _onMix(event) {
     event.preventDefault();
-    const [first, second] = Object.values(this.ancestryCollection);
+    const first = await fromUuid(this.ancestry1);
+    const second = await fromUuid(this.ancestry2);
     const ancestryData = mixAncestry(first, second);
     
     if (ancestryData) {
@@ -50,29 +53,8 @@ export class MixAncestryDialog extends Dialog {
     }
   }
 
-  async _onDrop(event) {
-    event.preventDefault();
-    const droppedData  = event.dataTransfer.getData('text/plain');
-    if (!droppedData) return;
-    
-    const droppedObject = JSON.parse(droppedData);
-    if (droppedObject.type !== "Item") return;
-
-    const item = await Item.fromDropData(droppedObject);
-    if (item.type !== "ancestry") return;
-
-    if (Object.keys(this.ancestryCollection).length >= 2) return; // For now we only want to merge two ancestries, no more
-    this.ancestryCollection[item.id] = item;
-    this.render();
-  }
-
-  _onItemRemoval(id) {
-    delete this.ancestryCollection[id];
-    this.render();
-  }
-
-  static async create(dialogData = {}, options = {}) {
-    const dialog = new MixAncestryDialog(dialogData, options);
+  static async create(options = {}) {
+    const dialog = new MixAncestryDialog(options);
     return new Promise((resolve) => {
       dialog.promiseResolve = resolve;
       dialog.render(true);
@@ -86,6 +68,6 @@ export class MixAncestryDialog extends Dialog {
   }
 }
 
-export async function createMixAncestryDialog() {
-  return await MixAncestryDialog.create({title: "Mix Ancestry"});
+export async function createMixAncestryDialog(options = {}) {
+  return await MixAncestryDialog.create(options);
 }

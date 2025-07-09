@@ -1,21 +1,23 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { createItemOnActor, deleteItemFromActor } from "./actors/itemsOnActor.mjs";
-import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor } from "./effects.mjs";
+import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
+import { createToken, deleteToken } from "./actors/tokens.mjs";
+import { createEffectOn, deleteEffectFrom, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
   // Simple Popup
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "simplePopup") {
-      const { popupType, popupData, userIds } = data.payload
+      const { popupType, popupData, userIds, signature } = data.payload;
       if (userIds.includes(game.user.id)) {
         const result = await getSimplePopup(popupType, popupData);
         game.socket.emit('system.dc20rpg', {
           payload: result, 
           emmiterId: emmiterId,
-          type: "simplePopupResult"
+          type: "simplePopupResult",
+          signature: signature
         });
       }
     }
@@ -37,6 +39,13 @@ export function registerSystemSockets() {
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "rollPrompt") {
       await rollPrompt(data.payload, emmiterId);
+    }
+  });
+
+  // Roll Item Prompt 
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "itemRollPrompt") {
+      await itemRollPrompt(data.payload, emmiterId);
     }
   });
 
@@ -83,9 +92,24 @@ export function registerSystemSockets() {
       const { docType, docData, actorUuid, gmUserId } = data.payload;
       if (game.user.id === gmUserId) {
         const actor = await fromUuid(actorUuid);
-        if (!actor) return;
+        if (actorUuid && !actor) return;
         if (docType === "item") await createItemOnActor(actor, docData);
         if (docType === "effect") await createEffectOn(docData, actor);
+        if (docType === "token") await createToken(docData);
+      }
+    }
+  });
+
+  // Update Document on Actor
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "updateDocument") {
+      const { docType, docId, actorUuid, updateData, operation, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const actor = await fromUuid(actorUuid);
+        if (!actor) return;
+        if (docType === "item") await updateItemOnActor(docId, actor, updateData);
+        if (docType === "effect") await updateEffectOn(docId, actor, updateData);
+        if (docType === "actor") await actor.gmUpdate(updateData, operation);
       }
     }
   });
@@ -96,19 +120,22 @@ export function registerSystemSockets() {
       const { docType, docId, actorUuid, gmUserId } = data.payload;
       if (game.user.id === gmUserId) {
         const actor = await fromUuid(actorUuid);
-        if (!actor) return;
+        if (actorUuid && !actor) return;
         if (docType === "item") await deleteItemFromActor(docId, actor);
         if (docType === "effect") await deleteEffectFrom(docId, actor);
+        if (docType === "token") await deleteToken(docId);
       }
     }
   });
 
-  // Remove Effect from Actor 
+  // Disable/Enable Effect 
   game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "removeEffectFrom") {
-      const m = data.payload;
-      if (game.user.id === m.gmUserId) {
-        effectsToRemovePerActor(m.toRemove);
+    if (data.type === "toggleEffectOn") {
+      const { effectId, turnOn, ownerUuid, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const owner = await fromUuid(ownerUuid);
+        if (ownerUuid && !owner) return;
+        await toggleEffectOn(effectId, owner, turnOn);
       }
     }
   });
@@ -161,6 +188,24 @@ async function rollPrompt(payload, emmiterId) {
       emmiterId: emmiterId,
       actorId: actorId,
       type: "rollPromptResult"
+    });
+  }
+}
+
+async function itemRollPrompt(payload, emmiterId) {
+  const {actorId, itemId, isToken, tokenId} = payload;
+  let actor = game.actors.get(actorId);
+  // If we are rolling with unlinked actor we need to use token version
+  if (isToken) actor = game.actors.tokens[tokenId]; 
+  const item = actor.items.get(itemId);
+  
+  if (actor && actor.ownership[game.user.id] === 3 && item) {
+    const roll = await promptItemRoll(actor, item);
+    game.socket.emit('system.dc20rpg', {
+      payload: {...roll}, 
+      emmiterId: emmiterId,
+      actorId: actorId,
+      type: "itemRollPromptResult"
     });
   }
 }

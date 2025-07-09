@@ -19,8 +19,7 @@ import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
-import { collapseTokenEffectsTracker, createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
-import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
+import { DC20CharacterData, DC20CompanionData, DC20NpcData, DC20StorageData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
@@ -34,6 +33,9 @@ import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
+import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
+import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
+import DC20Hotbar from "./sidebar/hotbar.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -45,6 +47,7 @@ Hooks.once('init', async function() {
   CONFIG.DC20RPG = DC20RPG;
   initDC20Config();
   prepareDC20tools();
+  registerDC20ConditionalHelpers();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";
@@ -71,16 +74,19 @@ Hooks.once('init', async function() {
   CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
   CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
   CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;
+  CONFIG.ui.hotbar = DC20Hotbar;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;
   CONFIG.Actor.dataModels.npc = DC20NpcData;
   CONFIG.Actor.dataModels.companion = DC20CompanionData;
+  CONFIG.Actor.dataModels.storage = DC20StorageData;
   CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
+  CONFIG.Item.dataModels.container = itemDM.DC20ContainerData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
@@ -115,8 +121,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.9.0", "0.9.5", new Set(["dc20-core-rulebook"]));
-  // await testMigration("0.9.5-hf1", "0.9.6.0");
+  // await testMigration("0.9.5.2", "0.9.7.0", new Set(["dc20-core-rulebook"]));
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -135,7 +140,6 @@ Hooks.once("ready", async function() {
   });
 
   registerSystemSockets();
-  createTokenEffectsTracker();
   registerUniqueSystemItems();
 
   if(game.user.isGM) await createGmToolsMenu();
@@ -157,18 +161,14 @@ Hooks.once("ready", async function() {
     }
   });
 });
-Hooks.on("collapseSidebar", (sidebar, collapsed) => collapseTokenEffectsTracker(collapsed));
 Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
 Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));
-Hooks.on("renderDialog", (app, html, data) => {
+Hooks.on("renderDialogV2", (app, element, context, option) => {
   // We want to remove "basicAction" from "Create Item Dialog"
-  if (html.find('[name="type"]').length > 0) {
-    const typeSelect = html.find('[name="type"]');
-    const typesToRemove = ["basicAction"];
-
-    typesToRemove.forEach(type => {
-      typeSelect.find(`option[value="${type}"]`).remove();
-    });
+  const selector = element.querySelector('[name="type"]');
+  if (selector) {
+    const basicActionOption = selector.querySelector('[value="basicAction"]');
+    if (basicActionOption) selector.removeChild(basicActionOption);
   }
 });
 Hooks.on("createScene", async (scene, options, userId) => {
@@ -182,3 +182,4 @@ Hooks.on("createScene", async (scene, options, userId) => {
     });
   }
 });
+Hooks.on("dropCanvasData", async (canvas, data, event) => canvasItemDrop(canvas, data, event));

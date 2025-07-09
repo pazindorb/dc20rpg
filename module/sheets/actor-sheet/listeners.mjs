@@ -1,10 +1,10 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog, rechargeItem } from "../../dialogs/rest.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
-import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, spendRpOnHp, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
-import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
+import { canSubtractBasicResource, changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, spendRpOnHp, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
+import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement, splitItem } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
-import { createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
+import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
@@ -19,6 +19,10 @@ import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
+import { createTransferDialog } from "../../dialogs/transfer.mjs";
+import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
+import { openItemCreator } from "../../dialogs/item-creator.mjs";
+import { prepareHelpAction } from "../../helpers/actors/actions.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -31,11 +35,13 @@ export function activateCommonLinsters(html, actor) {
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
   html.find('.ap-for-adv').mousedown(ev => advForApChange(actor, ev.which));
   html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
+  html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
+  html.find('.make-help-action').click(() => prepareHelpAction(actor));
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
@@ -44,21 +50,16 @@ export function activateCommonLinsters(html, actor) {
   html.find('.item-copy').click(ev => duplicateItem(datasetOf(ev).itemId, actor));
   html.find('.editable').mousedown(ev => {
     if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
-    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
+    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html, actor.type);
   });
   html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
-  html.find('.select-other-item').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
-  html.find('.select-other-check').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.select-other-check').click(ev => {ev.preventDefault(); ev.stopPropagation()});
-  html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
-  
+
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));
   html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
@@ -73,6 +74,12 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 3) subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
     if (ev.which === 1) regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
   });
+  html.find(".grit-to-damage-reduction").click(async ev => {
+    if (canSubtractBasicResource("grit", actor, 1)) {
+      await subtractBasicResource("grit", actor, 1, true);
+      await addFlatDamageReductionEffect(actor);
+    }
+  })
   html.find(".rest-point-to-hp").click(async ev => {datasetOf(ev); await spendRpOnHp(actor, 1)});
 
   // Custom Resources
@@ -108,8 +115,8 @@ export function activateCommonLinsters(html, actor) {
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
   html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
-  html.find('.mix-ancestry').click(async () => {
-    const ancestryData = await createMixAncestryDialog();
+  html.find('.mix-ancestry').click(async ev => {
+    const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
     if (ancestryData) await createItemOnActor(actor, ancestryData);
   });
 
@@ -134,6 +141,11 @@ export function activateCharacterLinsters(html, actor) {
   html.find(".rerun-advancement").click(ev => rerunAdvancement(actor, datasetOf(ev).classId));
   html.find(".configuration").click(() => characterConfigDialog(actor));
   html.find(".keyword-editor").click(() => keywordEditor(actor));
+  html.find('.transfer').click(() => _onTransfer(actor));
+  html.find('.open-item-creator').click(async ev => {
+    const itemData = await openItemCreator(datasetOf(ev).itemType);
+    await createItemOnActor(actor, itemData);
+  });
 
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
@@ -159,6 +171,10 @@ export function activateCompanionListeners(html, actor) {
     actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
   });
   html.find(".remove-companion-owner").click(() => actor.update({["system.companionOwnerId"]: ""}));
+}
+
+export function activateStorageListeners(html, actor) {
+  html.find(".transfer").click(() => createTransferDialog(actor, getActorsForUser(true), {currencyOnly: true}));
 }
 
 function _onSidetab(ev) {
@@ -188,4 +204,10 @@ async function _onItemCreate(tab, actor) {
     name: `New ${getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes)}`
   }
   createItemOnActor(actor, itemData);
+}
+
+async function _onTransfer(actor) {
+  const user = await userSelector(true);
+  const traders = getActorsForUser(true, user);
+  createTransferDialog(actor, traders, {lockFlexibleTrader: true});
 }

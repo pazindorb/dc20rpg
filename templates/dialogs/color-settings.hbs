@@ -43,6 +43,7 @@
       <a class="item" data-tab="core">{{localize "dc20rpg.dialog.settings.nav.core"}}</a>
       <a class="item" data-tab="pc">{{localize "dc20rpg.dialog.settings.nav.pc"}}</a>
       <a class="item" data-tab="npc">{{localize "dc20rpg.dialog.settings.nav.npc"}}</a>
+      <a class="item" data-tab="storage">{{localize "dc20rpg.dialog.settings.nav.storage"}}</a>
       <a class="item" data-tab="other">{{localize "dc20rpg.dialog.settings.nav.other"}}</a>
     </nav>
 
@@ -69,6 +70,15 @@
 
       <div class="tab" data-group="primary" data-tab="npc">
         {{#each selected.npc as |color key|}} 
+        <div class="row margin-top-3">
+          <span>{{key}}</span>
+          <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="tab" data-group="primary" data-tab="storage">
+        {{#each selected.storage as |color key|}} 
         <div class="row margin-top-3">
           <span>{{key}}</span>
           <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>

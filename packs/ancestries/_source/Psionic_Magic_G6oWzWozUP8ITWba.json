@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/light/orbs-smoke-pink.webp",
   "system": {
-    "description": "<p>You learn 1 Spell of your choice with the Psychic or Gravity Spell Tag.</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p><p><em><strong>System Tip:</strong> You can use that item macro to change spell name later</em><span ><em >.</em></span></p>",
+    "description": "<p>You learn 1 Spell of your choice with the Psychic or Gravity Spell Tag.</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -77,7 +77,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -191,7 +192,7 @@
       }
     },
     "featureType": "ancestry",
-    "featureOrigin": "Orc",
+    "featureOrigin": "Psyborn",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -234,29 +235,29 @@
       "customMaxFormula": ""
     },
     "choicePointCost": 2,
-    "hasAdvancement": false,
+    "hasAdvancement": true,
     "advancements": {
       "default": {
-        "name": "Celestial Magic",
+        "name": "Psionic Magic",
         "allowToAddItems": true,
         "compendium": "spell",
-        "customTitle": "Celestial Magic - You learn 1 Spell from the Divine Spell List"
+        "customTitle": "Psionic Magic - You learn 1 Spell with the Psychic or Gravity Spell Tag",
+        "items": {},
+        "addItemsOptions": {
+          "itemLimit": 1,
+          "itemType": "spell",
+          "helpText": "Add Psionic Magic Spell"
+        },
+        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Psionic/ Magic Spell not found - Add it manually by running Macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Psionic Magic Spell not found - Add it manually by running Macro\");\n}\nelse {\n  const psionicMagic = actor.items.find(item => item.system.itemKey === \"psionicMagic\");\n  if (psionicMagic) psionicMagic.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spell.createdItemId}\"`});\n}"
       }
     },
     "macros": {
-      "uxKymTFYYi3YV2Xf": {
-        "name": "onCreate",
-        "trigger": "onCreate",
-        "command": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Psionic Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
-        "disabled": false,
-        "title": ""
-      },
       "ukFADETbm8f6MXP1": {
-        "name": "onDemand",
+        "name": "Change Psionic Magic Spell",
         "trigger": "onDemand",
-        "command": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Psionic Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
+        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Psionic Magic Spell\", selectOptions: options});\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n}",
         "disabled": false,
-        "title": "Change Psionic Magic"
+        "title": "Change Psionic Magic Spell"
       }
     },
     "itemKey": "psionicMagic",
@@ -289,7 +290,7 @@
     },
     "conditionals": {},
     "provideMartialExpansion": false,
-    "featureSourceItem": "orc",
+    "featureSourceItem": "psyborn",
     "staminaFeature": false,
     "flavorFeature": false
   },
@@ -311,7 +312,10 @@
       "_id": "vAZ5tIfdsRX8eS0h",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [
         {
@@ -348,10 +352,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1750880257351,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!G6oWzWozUP8ITWba.vAZ5tIfdsRX8eS0h"
@@ -364,9 +368,9 @@
     "duplicateSource": null,
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1745524031161,
-    "modifiedTime": 1747998785033,
+    "modifiedTime": 1751135829723,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",

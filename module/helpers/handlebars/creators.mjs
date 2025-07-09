@@ -111,7 +111,7 @@ export function registerHandlebarsCreators() {
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
 
-  Handlebars.registerHelper('item-table', (editMode, items, navTab, weaponsOnActor) => {
+  Handlebars.registerHelper('item-table', (editMode, items, navTab) => {
     const partialPath = allPartials()["Item Table"];
     const template = Handlebars.partials[partialPath];
     if (template) {
@@ -119,7 +119,6 @@ export function registerHandlebarsCreators() {
         editMode: editMode,
         navTab: navTab,
         items: items,
-        weaponsOnActor: weaponsOnActor
       }
       return new Handlebars.SafeString(template(context));
     }
@@ -352,6 +351,12 @@ export function registerHandlebarsCreators() {
                 : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
     component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
 
+    // Short Info 
+    const shortInfo = item.system.shortInfo;
+    if (shortInfo) {
+      component +=  `<a class="short-info fas fa-square-info" data-tooltip="${shortInfo}"></a>`;
+    }
+
     // Known Toggle
     if (tab === "techniques" || tab === "spells") {
       const knownLimit = item.system.knownLimit;
@@ -493,6 +498,7 @@ export function registerHandlebarsCreators() {
       switch(mods.formula.category) {
         case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
         case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
+        case "other": component += _formulas([mods.formula], "fa-gear", {}); break;
       }
     }
     return component;
@@ -532,7 +538,7 @@ function _attack(attack) {
   if (attack.checkType === "spell" && attack.rangeType === "melee") icon = 'fa-hand-sparkles';
   if (attack.checkType === "spell" && attack.rangeType === "ranged") icon = 'fa-wand-magic-sparkles';
   const description = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
-  return _descriptionIcon(description, icon);
+  return _descriptionIcon(`<p>${description}</p>`, icon);
 }
 
 function _save(saves) {
@@ -541,13 +547,13 @@ function _save(saves) {
     description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes)}</b>`;
     if (i !== saves.length - 1) description += "<br>or ";
   }
-  return _descriptionIcon(description, 'fa-shield');
+  return _descriptionIcon(`<p>${description}</p>`, 'fa-shield');
 }
 
 function _check(check) {
   const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
-  return _descriptionIcon(description, 'fa-user-check');
+  const description = `${checkDC} <b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
+  return _descriptionIcon(`<p>${description}</p>`, 'fa-user-check');
 }
 
 function _contest(contests) {
@@ -557,7 +563,7 @@ function _contest(contests) {
     description += `<b>${getLabelFromKey(contests[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests)}</b>`;
     if (i !== contests.length - 1) description += "<br>or ";
   }
-  return _descriptionIcon(description, 'fa-hand-back-fist');
+  return _descriptionIcon(`<p>${description}</p>`, 'fa-hand-back-fist');
 }
 
 function _formulas(formulas, icon, types) {
@@ -569,19 +575,14 @@ function _formulas(formulas, icon, types) {
     const value = formulas[i].formula;
     description += `${value} ${type}`;
   }
-  return _descriptionIcon(description, icon);
+  return _descriptionIcon(`<p>${description}</p>`, icon);
 }
 
 function _descriptionIcon(description, icon) {
   return `
   <div class="description-icon" title="">
-    <div class="letter-circle-icon">
+    <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <i class="fa-solid ${icon}"></i>
-    </div>
-    <div class="description">
-      <div class="description-wrapper"> 
-        <span>${description}</span>
-      </div>
     </div>
   </div>
   `
@@ -590,13 +591,8 @@ function _descriptionIcon(description, icon) {
 function _descriptionChar(description, char) {
   return `
   <div class="description-icon" title="">
-    <div class="letter-circle-icon">
+    <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <span class="char">${char}</span>
-    </div>
-    <div class="description">
-      <div class="description-wrapper"> 
-        <span>${description}</span>
-      </div>
     </div>
   </div>
   `

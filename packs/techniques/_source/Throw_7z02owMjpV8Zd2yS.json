@@ -45,7 +45,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -61,7 +62,21 @@
       "failEffect": "",
       "againstDC": false
     },
-    "formulas": {},
+    "formulas": {
+      "7WOdtzx7K7K9U8m8": {
+        "formula": "max(round(@mig/2), 1)",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": true,
+        "each5Formula": "1",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": "Throw Distance"
+      }
+    },
     "enhancements": {
       "lr18cRJg7JJYRKss": {
         "name": "Throw",
@@ -86,11 +101,18 @@
           "additionalFormula": "",
           "overrideDamageType": false,
           "damageType": "",
-          "addsNewFormula": false,
+          "addsNewFormula": true,
           "formula": {
-            "formula": "",
+            "formula": "max(round(@mig/2), 1)",
             "type": "",
-            "category": "damage"
+            "category": "other",
+            "overrideDefence": "",
+            "perTarget": true,
+            "each5": true,
+            "label": "Throw Distance",
+            "each5Formula": "1",
+            "fail": true,
+            "failFormula": "0"
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -210,7 +232,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.6.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1747998783653,
+    "modifiedTime": 1751014189829,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -7,7 +7,7 @@ import { getLabelFromKey } from "./utils.mjs";
 /**
  * Converts tokens to targets used by chat message or damage calculation.
  */
-export function tokenToTarget(token) {
+export function tokenToTarget(token, flags={}) {
   const actor = token.actor;
   const statuses = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
   const rollData = actor?.getRollData();
@@ -25,7 +25,9 @@ export function tokenToTarget(token) {
         numberOfConditions: _numberOfConditions(actor.coreStatuses),
         system: rollData
       }
-    }
+    },
+    token: token,
+    flags: flags
   };
   return target;
 }
@@ -49,8 +51,8 @@ function _numberOfConditions(coreStatuses) {
 export function getAttackOutcome(target, data) {
   if (!data.isAttack || !target) return {};
   if (!data.hit) {
-    const defence = target.system.defences[data.defenceKey].value;
-    data.hit = data.rollTotal - defence;
+    const conditionals = target ? _matchingConditionals(target, data) : [];
+    data.hit = _calculateHit(target, data.defenceKey, data.rollTotal, conditionals);
   }
 
   const outcome = {};
@@ -117,13 +119,19 @@ export function calculateForTarget(target, formulaRoll, data) {
 
   // 1.A. If Attack Calculate hit value 1st
   if (data.isAttack && !data.hit) {
-    const defence = target.system.defences[data.defenceKey].value;
-    data.hit = data.rollTotal - defence;
+    const conditionals = target ? _matchingConditionals(target, data) : [];
+    data.hit = _calculateHit(target, data.defenceKey, data.rollTotal, conditionals);
   }
 
   // 1.B. If Check Calculate degree of success
-  if (data.isCheck && data.againstDC && data.checkDC) {
-    _degreeOfSuccess(data.rollTotal, data.isCritMiss, data.checkDC, final);
+  if (data.isCheck) {
+    if (data.againstDC && data.checkDC) {
+      _degreeOfSuccess(data.rollTotal, data.isCritMiss, data.checkDC, final);
+    }
+    else if (target?.rollOutcome) {
+      const rollOutcome = target.rollOutcome;
+      _degreeOfSuccess(data.rollTotal, data.isCritMiss, rollOutcome.total, final, true);
+    }
   }
   
   // 2.Collect conditionals with matching condition
@@ -203,14 +211,16 @@ export function calculateNoTarget(formulaRoll, data) {
   return final;
 }
 
-function _degreeOfSuccess(checkValue, natOne, checkDC, final) {
+function _degreeOfSuccess(checkValue, natOne, checkDC, final, contest) {
   const modified = final.modified;
 
   // Check Failed
   if (natOne || (checkValue < checkDC)) {
     const failValue = modified.failValue;
-    if (failValue) {
-      modified.source = modified.source.replace("Base Value", "Check Failed");
+    if (failValue !== undefined) {
+      modified.source = modified.source.replace("Base Value", "");
+      if (contest) modified.source = "[Contest Lost] " + modified.source;
+      else modified.source += "[Check Failed] " + modified.source;
       modified.value = failValue;
     }
   }
@@ -219,7 +229,9 @@ function _degreeOfSuccess(checkValue, natOne, checkDC, final) {
     const each5Value = modified.each5Value;
     if (each5Value) {
       const degree = Math.floor((checkValue - checkDC) / 5);
-      modified.source = modified.source.replace("Base Value", `Check Succeeded over ${(degree * 5)}`);
+      modified.source = modified.source.replace("Base Value", "");
+      if (contest) modified.source += `[Contest Won over ${(degree * 5)}] ${modified.source}`;
+      else modified.source += `[Check Succeeded over ${(degree * 5)}] ${modified.source}`;
       modified.value += (degree * each5Value);
     }
   }
@@ -253,14 +265,14 @@ function _matchingConditionals(target, data) {
 
       if (includeDisabled) return true;
       else return !effect.disabled;
-    }).find(effect => effect.flags.dc20rpg?.effectKey === effectKey) !== undefined;
+    }).find(effect => effect.system?.effectKey === effectKey) !== undefined;
 
   const matching = [];
   data.conditionals.forEach(con => {
     const condition = con.condition;
     try {
-      const conditionFulfilled = new Function('hit', 'crit', 'target', `return ${condition};`);
-      if (conditionFulfilled(data.hit, data.isCritHit, target)) matching.push(con);
+      const conditionFulfilled = new Function('hit', 'crit', 'target', 'helpers', `return ${condition};`);
+      if (conditionFulfilled(data.hit, data.isCritHit, target, CONFIG.DC20ConditionalHelpers)) matching.push(con);
     } catch (e) {
       console.warn(`Cannot evaluate '${condition}' conditional: ${e}`);
     }
@@ -299,6 +311,23 @@ function _modificationsFromConditionals(conditionals, final, target, skipConditi
   })
   final.modified = modified;
   return {ignore: ignore};
+}
+
+function _calculateHit(target, defenceKey, rollTotal, conditionals) {
+  const defence = target.system.defences[defenceKey].value;
+  
+  let defReducion = 0;
+  conditionals.forEach(cond => {
+    if (defenceKey === "precision" && cond.flags.reducePd) {
+      const roll = evaluateDicelessFormula(cond.flags.reducePd, target.rollData);
+      if (roll) defReducion += roll._total;
+    }
+    if (defenceKey === "area" && cond.flags.reduceAd) {
+      const roll = evaluateDicelessFormula(cond.flags.reduceAd, target.rollData);
+      if (roll) defReducion += roll._total;
+    }
+  });
+  return rollTotal - defence + defReducion;
 }
 
 function _applyAttackRollModifications(hit, dmg, skipFor) {

@@ -420,7 +420,12 @@
       "_id": "yevEkVaUZjDPUB31",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "effectKey": "minorFlameBlade",
+        "macro": "const item = game.dc20rpg.tools.getItemFromActorByKey(\"minorFlameBlade\", actor);\nif (item) {\n  const weaponId = item.flags.dc20rpg.weaponId;\n  const weapon = actor.items.get(weaponId);\n  if (weapon) {\n    const name = weapon.name.replace(\" [Flame Blade]\", \"\");\n    weapon.update({\n      name: name,\n      [\"system.formulas.-=minorFlameBlade\"]: null,\n      [\"system.formulas.-=flameBound\"]: null,\n      [\"system.macros.postChatMessageCreated\"]: weapon.flags.dc20rpg.oldMacro\n    })\n  }\n}"
       },
       "changes": [
         {
@@ -440,10 +445,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1750880256911,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!gZWoBwcqaoSHkuHD.yevEkVaUZjDPUB31"

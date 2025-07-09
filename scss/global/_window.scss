@@ -1,3 +1,78 @@
+#tooltip, .locked-tooltip {
+
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 10px;
+
+    h4 {
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+
+    .cost-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .custom-resource {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-left: 2px;
+      min-width: 16px;
+      min-height: 16px;
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      border: 1px solid $secondary-lighter;
+    }
+  }
+
+  .ap, .sp, .mp, .hp, .grit, .rest, .reaction {
+    text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+  }
+
+  .reaction {
+    color: $primary-color;
+  }
+
+  .ap {
+    color: $action-point;
+  }
+
+  .sp {
+    color: $stamina;
+  }
+
+  .mp {
+    color: $mana;
+  }
+
+  .hp {
+    color: $health;
+  }
+
+  .grit {
+    color: $grit;
+  }
+
+  .rest {
+    color: #00887d;
+  }
+}
+
 .window-app {
   font-family: $font-default;
 
@@ -51,6 +126,11 @@
   min-height: $char-sheet-min-height;
 }
 
+.dc20rpg.sheet.actor.storage {
+  min-width: 500px;
+  min-height: $char-sheet-min-height;
+}
+
 .dc20rpg.sheet.actor.companion {
   min-width: 672px;
   min-height: $char-sheet-min-height;
@@ -71,6 +151,7 @@
     margin-top: 200px;
     background-blend-mode: color-burn;
   }
+
   .window-header {
     z-index: 2;
     border-bottom: 1px solid $secondary-lighter;
@@ -78,6 +159,19 @@
     .header-button {
       z-index: 3;
     }
+  }
+}
+
+.dc20rpg.sheet.actor.storage {
+  &:not(.minimized) {
+
+    .window-header .window-title {
+      margin-left: 0px;
+    }
+  }
+
+  .window-content {
+    margin-top: 150px;
   }
 }
 

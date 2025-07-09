@@ -1241,7 +1241,7 @@
     "moveCost": 1,
     "keywords": {
       "draconicOrigin": {
-        "value": "fire",
+        "value": "corrosion",
         "updateItems": [
           "Ma93noOssIJQKCjL"
         ]
@@ -2097,7 +2097,10 @@
           "_id": "SCi94rqWEjGNNySA",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -2127,10 +2130,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880267931,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.MZMPXdcKcwZXzQBz.SCi94rqWEjGNNySA"
@@ -2215,31 +2218,73 @@
           "attunement": {
             "active": false,
             "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
+            "label": "dc20rpg.properties.attunement",
+            "journalUuid": "",
+            "for": [
+              "melee",
+              "ranged",
+              "lshield",
+              "hshield",
+              "light",
+              "heavy",
+              "other"
+            ],
+            "cost": 0
           },
           "ammo": {
             "active": false,
-            "label": "dc20rpg.properties.ammo"
+            "label": "dc20rpg.properties.ammo",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh",
+            "for": [
+              "ranged"
+            ],
+            "cost": 0
           },
           "concealable": {
             "active": false,
-            "label": "dc20rpg.properties.concealable"
+            "label": "dc20rpg.properties.concealable",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "guard": {
             "active": false,
-            "label": "dc20rpg.properties.guard"
+            "label": "dc20rpg.properties.guard",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "heavy": {
             "active": false,
-            "label": "dc20rpg.properties.heavy"
+            "label": "dc20rpg.properties.heavy",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY",
+            "for": [
+              "melee",
+              "ranged"
+            ],
+            "cost": 2
           },
           "impact": {
             "active": true,
-            "label": "dc20rpg.properties.impact"
+            "label": "dc20rpg.properties.impact",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "longRanged": {
             "active": false,
-            "label": "dc20rpg.properties.longRanged"
+            "label": "dc20rpg.properties.longRanged",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW",
+            "for": [
+              "ranged"
+            ],
+            "cost": 1
           },
           "multiFaceted": {
             "active": false,
@@ -2253,50 +2298,108 @@
               "first": "bludgeoning",
               "second": "piercing"
             },
-            "label": "dc20rpg.properties.multiFaceted"
+            "label": "dc20rpg.properties.multiFaceted",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "reach": {
             "active": false,
             "value": 1,
-            "label": "dc20rpg.properties.reach"
+            "label": "dc20rpg.properties.reach",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "reload": {
             "active": false,
             "value": 1,
             "loaded": true,
-            "label": "dc20rpg.properties.reload"
+            "label": "dc20rpg.properties.reload",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv",
+            "for": [
+              "ranged"
+            ],
+            "cost": 0
           },
           "silent": {
             "active": false,
-            "label": "dc20rpg.properties.silent"
+            "label": "dc20rpg.properties.silent",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa",
+            "for": [
+              "ranged"
+            ],
+            "cost": 1
           },
           "toss": {
             "active": false,
-            "label": "dc20rpg.properties.toss"
+            "label": "dc20rpg.properties.toss",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
+            "for": [
+              "melee",
+              "lshield"
+            ],
+            "cost": 1
           },
           "thrown": {
             "active": false,
-            "label": "dc20rpg.properties.thrown"
+            "label": "dc20rpg.properties.thrown",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "twoHanded": {
             "active": false,
-            "label": "dc20rpg.properties.twoHanded"
+            "label": "dc20rpg.properties.twoHanded",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy",
+            "for": [
+              "melee",
+              "ranged"
+            ],
+            "cost": -1
           },
           "unwieldy": {
             "active": false,
-            "label": "dc20rpg.properties.unwieldy"
+            "label": "dc20rpg.properties.unwieldy",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w",
+            "for": [
+              "melee",
+              "ranged"
+            ],
+            "cost": -1
           },
           "versatile": {
             "active": true,
-            "label": "dc20rpg.properties.versatile"
+            "label": "dc20rpg.properties.versatile",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "returning": {
             "active": false,
-            "label": "dc20rpg.properties.returning"
+            "label": "dc20rpg.properties.returning",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "capture": {
             "active": false,
-            "label": "dc20rpg.properties.capture"
+            "label": "dc20rpg.properties.capture",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           }
         },
         "isReaction": false,
@@ -2506,10 +2609,10 @@
         "duplicateSource": "Item.CsmaMkiy6vPtEXNY",
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1751010741951,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_id": "PC6nEz59LQE0NhLE",
@@ -2548,45 +2651,115 @@
           "attunement": {
             "active": false,
             "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
+            "label": "dc20rpg.properties.attunement",
+            "journalUuid": "",
+            "for": [
+              "melee",
+              "ranged",
+              "lshield",
+              "hshield",
+              "light",
+              "heavy",
+              "other"
+            ],
+            "cost": 0
           },
           "adIncrease": {
             "active": true,
             "value": 1,
-            "label": "dc20rpg.properties.adIncrease"
+            "label": "dc20rpg.properties.adIncrease",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
+            "for": [
+              "lshield",
+              "hshield",
+              "light",
+              "heavy"
+            ],
+            "cost": 1,
+            "valueCostMultiplier": true
           },
           "pdIncrease": {
             "active": true,
             "value": 1,
-            "label": "dc20rpg.properties.pdIncrease"
+            "label": "dc20rpg.properties.pdIncrease",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
+            "for": [
+              "lshield",
+              "hshield",
+              "light",
+              "heavy"
+            ],
+            "cost": 1,
+            "valueCostMultiplier": true
           },
           "edr": {
             "active": false,
-            "label": "dc20rpg.properties.edr"
+            "label": "dc20rpg.properties.edr",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
+            "for": [
+              "hshield",
+              "light",
+              "heavy"
+            ],
+            "cost": 2
           },
           "pdr": {
             "active": true,
-            "label": "dc20rpg.properties.pdr"
+            "label": "dc20rpg.properties.pdr",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
+            "for": [
+              "hshield",
+              "heavy"
+            ],
+            "cost": 2
           },
           "bulky": {
             "active": true,
-            "label": "dc20rpg.properties.bulky"
+            "label": "dc20rpg.properties.bulky",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
+            "for": [
+              "hshield",
+              "heavy"
+            ],
+            "cost": -1
           },
           "rigid": {
             "active": true,
-            "label": "dc20rpg.properties.rigid"
+            "label": "dc20rpg.properties.rigid",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
+            "for": [
+              "hshield",
+              "heavy"
+            ],
+            "cost": -1
           },
           "grasp": {
             "active": false,
-            "label": "dc20rpg.properties.grasp"
+            "label": "dc20rpg.properties.grasp",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE",
+            "for": [
+              "lshield"
+            ],
+            "cost": 1
           },
           "toss": {
             "active": false,
-            "label": "dc20rpg.properties.toss"
+            "label": "dc20rpg.properties.toss",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
+            "for": [
+              "melee",
+              "lshield"
+            ],
+            "cost": 1
           },
           "mounted": {
             "active": false,
-            "label": "dc20rpg.properties.mounted"
+            "label": "dc20rpg.properties.mounted",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
+            "for": [
+              "hshield"
+            ],
+            "cost": 1
           }
         },
         "effectsConfig": {
@@ -2803,10 +2976,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1751010741976,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_id": "AS2ZpH8sOFd4ByNY",
@@ -3145,7 +3318,7 @@
         "attackFormula": {
           "rangeType": "ranged",
           "checkType": "spell",
-          "targetDefence": "area",
+          "targetDefence": "physical",
           "rollBonus": 0,
           "combatMastery": true,
           "critThreshold": 20,
@@ -3203,7 +3376,7 @@
         "formulas": {
           "lXgjLMUGlLWGYPPQ": {
             "formula": "2",
-            "type": "fire",
+            "type": "corrosion",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -3521,12 +3694,12 @@
       "_stats": {
         "compendiumSource": "Item.7nOCHb3llandPzQJ",
         "duplicateSource": "Item.7nOCHb3llandPzQJ",
-        "coreVersion": "13.344",
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.7.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1751580548724,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_id": "Ma93noOssIJQKCjL",
@@ -3824,7 +3997,10 @@
           "_id": "SCi94rqWEjGNNySA",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -3854,10 +4030,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880267957,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.zIU9ry3uS7vhhmZC.SCi94rqWEjGNNySA"
@@ -3916,45 +4092,115 @@
           "attunement": {
             "active": false,
             "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
+            "label": "dc20rpg.properties.attunement",
+            "journalUuid": "",
+            "for": [
+              "melee",
+              "ranged",
+              "lshield",
+              "hshield",
+              "light",
+              "heavy",
+              "other"
+            ],
+            "cost": 0
           },
           "adIncrease": {
             "active": true,
             "value": 1,
-            "label": "dc20rpg.properties.adIncrease"
+            "label": "dc20rpg.properties.adIncrease",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
+            "for": [
+              "lshield",
+              "hshield",
+              "light",
+              "heavy"
+            ],
+            "cost": 1,
+            "valueCostMultiplier": true
           },
           "pdIncrease": {
             "active": false,
             "value": 1,
-            "label": "dc20rpg.properties.pdIncrease"
+            "label": "dc20rpg.properties.pdIncrease",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
+            "for": [
+              "lshield",
+              "hshield",
+              "light",
+              "heavy"
+            ],
+            "cost": 1,
+            "valueCostMultiplier": true
           },
           "edr": {
             "active": false,
-            "label": "dc20rpg.properties.edr"
+            "label": "dc20rpg.properties.edr",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
+            "for": [
+              "hshield",
+              "light",
+              "heavy"
+            ],
+            "cost": 2
           },
           "pdr": {
             "active": false,
-            "label": "dc20rpg.properties.pdr"
+            "label": "dc20rpg.properties.pdr",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
+            "for": [
+              "hshield",
+              "heavy"
+            ],
+            "cost": 2
           },
           "bulky": {
             "active": false,
-            "label": "dc20rpg.properties.bulky"
+            "label": "dc20rpg.properties.bulky",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
+            "for": [
+              "hshield",
+              "heavy"
+            ],
+            "cost": -1
           },
           "rigid": {
             "active": false,
-            "label": "dc20rpg.properties.rigid"
+            "label": "dc20rpg.properties.rigid",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
+            "for": [
+              "hshield",
+              "heavy"
+            ],
+            "cost": -1
           },
           "grasp": {
             "active": false,
-            "label": "dc20rpg.properties.grasp"
+            "label": "dc20rpg.properties.grasp",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE",
+            "for": [
+              "lshield"
+            ],
+            "cost": 1
           },
           "toss": {
             "active": true,
-            "label": "dc20rpg.properties.toss"
+            "label": "dc20rpg.properties.toss",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
+            "for": [
+              "melee",
+              "lshield"
+            ],
+            "cost": 1
           },
           "mounted": {
             "active": false,
-            "label": "dc20rpg.properties.mounted"
+            "label": "dc20rpg.properties.mounted",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
+            "for": [
+              "hshield"
+            ],
+            "cost": 1
           }
         },
         "effectsConfig": {
@@ -4182,10 +4428,10 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1751010742002,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_id": "Zh7T224PW2xNq8gS",
@@ -5922,7 +6168,12 @@
           "_id": "byk1nVgeMAKxtq2k",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "effectKey": "secondWind",
+            "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied1\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()"
           },
           "changes": [
             {
@@ -5959,10 +6210,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880267981,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.Orp21MX3xq0SpexE.byk1nVgeMAKxtq2k"
@@ -6033,7 +6284,11 @@
           "_id": "kUlVk1Xxrtxewcjx",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "effectKey": "advance"
           },
           "tint": "#ffffff",
           "transfer": false,
@@ -6044,10 +6299,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268006,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.Orp21MX3xq0SpexE.kUlVk1Xxrtxewcjx"
@@ -6112,7 +6367,11 @@
           "_id": "PAXrK0u8OdGUUuu0",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "effectKey": "brace"
           },
           "tint": "#ffffff",
           "transfer": false,
@@ -6123,10 +6382,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268030,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.Orp21MX3xq0SpexE.PAXrK0u8OdGUUuu0"
@@ -6148,7 +6407,11 @@
           "_id": "yQRXMHsi7wTlC2YC",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "effectKey": "dodge"
           },
           "changes": [
             {
@@ -6214,10 +6477,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268054,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.Orp21MX3xq0SpexE.yQRXMHsi7wTlC2YC"
@@ -6573,7 +6836,10 @@
           "_id": "3jRjMeQu9SfRg9KS",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -6614,10 +6880,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268079,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.I035Rhfd8TNhhxxx.3jRjMeQu9SfRg9KS"
@@ -11219,7 +11485,11 @@
           "_id": "ISOiDDBWKhoUpSgv",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "requireEnhancement": "GgLBFuMWupAyzhGn"
           },
           "changes": [
             {
@@ -11327,10 +11597,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268105,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.ivLRwKGFYbnQjx23.ISOiDDBWKhoUpSgv"
@@ -12908,7 +13178,10 @@
           "_id": "q11dyOEQpnZF878I",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -12962,10 +13235,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268130,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.Z34DpWf6QmgFuKen.q11dyOEQpnZF878I"
@@ -13232,7 +13505,10 @@
           "_id": "q11dyOEQpnZF878I",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -13286,10 +13562,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268166,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.QZ6qztDEKZUaTD6l.q11dyOEQpnZF878I"
@@ -13556,7 +13832,10 @@
           "_id": "q11dyOEQpnZF878I",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -13621,10 +13900,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268215,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.Pgu1QvpPasAJRY2n.q11dyOEQpnZF878I"
@@ -13891,7 +14170,10 @@
           "_id": "q11dyOEQpnZF878I",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -13956,10 +14238,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268252,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.CMmsa0s5nJaCwQSv.q11dyOEQpnZF878I"
@@ -14244,7 +14526,11 @@
           "_id": "0wmnvRGDfTTfcff3",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "addToChat": true
           },
           "changes": [
             {
@@ -14306,10 +14592,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268289,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.sdctTSwLtFgRJcm3.0wmnvRGDfTTfcff3"
@@ -15830,7 +16116,10 @@
           "_id": "pM1B2Fug0n5OTNeg",
           "type": "base",
           "system": {
-            "statusId": "taunted"
+            "statusId": "taunted",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -15886,10 +16175,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268327,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.do7nqccP8s4PWcWd.pM1B2Fug0n5OTNeg"
@@ -15911,7 +16200,10 @@
           "_id": "jKRxZSxqvt4N20ey",
           "type": "base",
           "system": {
-            "statusId": "taunted"
+            "statusId": "taunted",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -15998,10 +16290,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268364,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.do7nqccP8s4PWcWd.jKRxZSxqvt4N20ey"
@@ -16023,7 +16315,10 @@
           "_id": "jTQvA8gVqZXEBnSx",
           "type": "base",
           "system": {
-            "statusId": "taunted"
+            "statusId": "taunted",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -16117,10 +16412,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268403,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.do7nqccP8s4PWcWd.jTQvA8gVqZXEBnSx"
@@ -16936,7 +17231,11 @@
           "_id": "i6sBwjgFhuSEimtp",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            },
+            "effectKey": "feint"
           },
           "changes": [
             {
@@ -16997,10 +17296,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268432,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.NhNuv0HlEndrtAFc.i6sBwjgFhuSEimtp"
@@ -18283,7 +18582,10 @@
           "_id": "KR70WPqkYDtPZ1eD",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -18319,10 +18621,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268458,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.8zmCgaQlpASm57v1.KR70WPqkYDtPZ1eD"
@@ -18344,7 +18646,10 @@
           "_id": "ikVeaebEUee9EZmU",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -18380,10 +18685,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268484,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.8zmCgaQlpASm57v1.ikVeaebEUee9EZmU"
@@ -18405,7 +18710,10 @@
           "_id": "ZM9cZtUFd9MyzZ0X",
           "type": "base",
           "system": {
-            "statusId": ""
+            "statusId": "",
+            "disableWhen": {
+              "mode": "=="
+            }
           },
           "changes": [
             {
@@ -18441,10 +18749,10 @@
             "duplicateSource": null,
             "coreVersion": "13.344",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.5",
+            "systemVersion": "0.9.6.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
+            "modifiedTime": 1750880268509,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "_key": "!actors.items.effects!32ZQa8HvBiaQjLwY.8zmCgaQlpASm57v1.ZM9cZtUFd9MyzZ0X"
@@ -19557,31 +19865,73 @@
           "attunement": {
             "active": false,
             "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
+            "label": "dc20rpg.properties.attunement",
+            "journalUuid": "",
+            "for": [
+              "melee",
+              "ranged",
+              "lshield",
+              "hshield",
+              "light",
+              "heavy",
+              "other"
+            ],
+            "cost": 0
           },
           "ammo": {
             "active": false,
-            "label": "dc20rpg.properties.ammo"
+            "label": "dc20rpg.properties.ammo",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh",
+            "for": [
+              "ranged"
+            ],
+            "cost": 0
           },
           "concealable": {
             "active": false,
-            "label": "dc20rpg.properties.concealable"
+            "label": "dc20rpg.properties.concealable",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "guard": {
             "active": false,
-            "label": "dc20rpg.properties.guard"
+            "label": "dc20rpg.properties.guard",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "heavy": {
             "active": false,
-            "label": "dc20rpg.properties.heavy"
+            "label": "dc20rpg.properties.heavy",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY",
+            "for": [
+              "melee",
+              "ranged"
+            ],
+            "cost": 2
           },
           "impact": {
             "active": false,
-            "label": "dc20rpg.properties.impact"
+            "label": "dc20rpg.properties.impact",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "longRanged": {
             "active": false,
-            "label": "dc20rpg.properties.longRanged"
+            "label": "dc20rpg.properties.longRanged",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW",
+            "for": [
+              "ranged"
+            ],
+            "cost": 1
           },
           "multiFaceted": {
             "active": false,
@@ -19595,50 +19945,108 @@
               "first": "bludgeoning",
               "second": "piercing"
             },
-            "label": "dc20rpg.properties.multiFaceted"
+            "label": "dc20rpg.properties.multiFaceted",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "reach": {
             "active": false,
             "value": 1,
-            "label": "dc20rpg.properties.reach"
+            "label": "dc20rpg.properties.reach",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "reload": {
             "active": false,
             "value": 1,
             "loaded": true,
-            "label": "dc20rpg.properties.reload"
+            "label": "dc20rpg.properties.reload",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv",
+            "for": [
+              "ranged"
+            ],
+            "cost": 0
           },
           "silent": {
             "active": false,
-            "label": "dc20rpg.properties.silent"
+            "label": "dc20rpg.properties.silent",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa",
+            "for": [
+              "ranged"
+            ],
+            "cost": 1
           },
           "toss": {
             "active": false,
-            "label": "dc20rpg.properties.toss"
+            "label": "dc20rpg.properties.toss",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
+            "for": [
+              "melee",
+              "lshield"
+            ],
+            "cost": 1
           },
           "thrown": {
             "active": false,
-            "label": "dc20rpg.properties.thrown"
+            "label": "dc20rpg.properties.thrown",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "twoHanded": {
             "active": false,
-            "label": "dc20rpg.properties.twoHanded"
+            "label": "dc20rpg.properties.twoHanded",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy",
+            "for": [
+              "melee",
+              "ranged"
+            ],
+            "cost": -1
           },
           "unwieldy": {
             "active": false,
-            "label": "dc20rpg.properties.unwieldy"
+            "label": "dc20rpg.properties.unwieldy",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w",
+            "for": [
+              "melee",
+              "ranged"
+            ],
+            "cost": -1
           },
           "versatile": {
             "active": false,
-            "label": "dc20rpg.properties.versatile"
+            "label": "dc20rpg.properties.versatile",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "returning": {
             "active": false,
-            "label": "dc20rpg.properties.returning"
+            "label": "dc20rpg.properties.returning",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           },
           "capture": {
             "active": false,
-            "label": "dc20rpg.properties.capture"
+            "label": "dc20rpg.properties.capture",
+            "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV",
+            "for": [
+              "melee"
+            ],
+            "cost": 1
           }
         },
         "isReaction": false,
@@ -19845,9 +20253,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.6.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1751010742027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -20050,11 +20458,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.346",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1745571281238,
-    "modifiedTime": 1745825604821,
+    "modifiedTime": 1751580548795,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

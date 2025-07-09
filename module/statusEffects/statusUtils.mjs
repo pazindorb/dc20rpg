@@ -1,4 +1,5 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { companionShare } from "../helpers/actors/companion.mjs";
 
 export function isStackable(statusId) {
   const status = CONFIG.statusEffects.find(e => e.id === statusId);
@@ -56,7 +57,7 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   if (extras.untilYourNextTurnEnd) {
     const activeCombat = game.combats.active;
     if (activeCombat && activeCombat.started) {
-      const isCurrent = activeCombat.isActorCurrentCombatant(extras.actorId);
+      const isCurrent = _isActorCurrentCombatant(extras.actorId, activeCombat);
       if (isCurrent) changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
       else changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
     }
@@ -72,8 +73,31 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     effect.system.duration.useCounter = true;
     effect.system.duration.onTimeEnd = "delete";
   }
+  if (extras.forXRounds) {
+    effect.duration.rounds = extras.forXRounds;
+    effect.system.duration.useCounter = true;
+    effect.system.duration.onTimeEnd = "delete";
+  }
   effect.changes = changes;
   return effect;
+}
+
+function _isActorCurrentCombatant(actorId, combat) {
+  for (const combatant of combat.activeCombatants) {
+    if (combatant.actor.id === actorId) return true;
+    
+    if (combatant.companions && combatant.companions.length !== 0) {
+      // Check companions
+      const comapnionIds = combatant.companions;
+      for (const cmb of combat.combatants) {
+        if (!comapnionIds.includes(cmb.id)) continue;
+        if (companionShare(cmb.actor, "initiative")) {
+          if (cmb.actor.id === actorId) return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 function _newEvent(trigger, label, actorId) {

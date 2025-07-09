@@ -244,7 +244,12 @@
       "_id": "bB57v59XwJ28ukLG",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "path": "statusIds",
+          "mode": "hasNot",
+          "value": "\"deathsDoor\""
+        }
       },
       "changes": [
         {
@@ -279,9 +284,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1747998785004,
+        "modifiedTime": 1750880257348,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

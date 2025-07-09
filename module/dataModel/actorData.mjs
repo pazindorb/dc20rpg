@@ -27,6 +27,8 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         manual: new f.ArrayField(new f.StringField(), {required: true}),
         levelIncrease: new f.ArrayField(new f.StringField(), {required: true}),
       }),
+      details: new f.SchemaField({}),
+      resources: new ResourceFields(false),
       help: new f.SchemaField({
         active: new f.ObjectField({required: true}),
         maxDice: new f.NumberField({required: true, initial: 8})
@@ -57,6 +59,27 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
+      saveDC: new f.SchemaField({
+        value: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 8 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 8 }),
+        }),
+        bonus: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+      }),
+      attackMod: new f.SchemaField({
+        value: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+        bonus: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+      }),
+      combatTraining: new CombatTraining(),
       globalFormulaModifiers: new GFModFields(),
       globalModifier: new f.SchemaField({
         range: new f.SchemaField({
@@ -88,20 +111,15 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       rollLevel: new RollLevelFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       sustain: new f.ArrayField(new f.ObjectField(), {required: true}),
-      journal: new f.StringField({required: true, initial: ""})
+      journal: new f.StringField({required: true, initial: ""}),
+      tokenHotbar: new f.SchemaField({
+        sectionA: new f.ObjectField({required: true}),
+        sectionB: new f.ObjectField({required: true}),
+        resource1: new f.ObjectField({required: true}),
+        resource2: new f.ObjectField({required: true}),
+        resource3: new f.ObjectField({required: true}),
+      })
     }
-  }
-
-  static migrateData(source) {
-    if (source.vision) {
-      source.senses = source.vision;
-      delete source.vision;
-    }
-    if (source.conditions) {
-      source.statusResistances = source.conditions
-      delete source.conditions;
-    }
-    return super.migrateData(source);
   }
 
   static mergeSchema(a, b) {
@@ -158,40 +176,30 @@ export class DC20CharacterData extends DC20BaseActorData {
         martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: true}),
-        advancementInfo: new f.SchemaField({
-          multiclassTalents: new f.ObjectField({required: true}),
+        advancementInfo: new f.SchemaField({ // BACKWARD COMPATIBILITY: This info was moved to class item - remove after 0.9.7.0
+          multiclassTalents: new f.ObjectField({required: true}), 
         })
       }),
       size: new SizeFields(true),
       movement: new MovementFields(false),
-      saveDC: new f.SchemaField({
-        value: new f.SchemaField({
-          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 8 }),
-          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 8 }),
-        }),
-        bonus: new f.SchemaField({
-          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
-      }),
-      attackMod: new f.SchemaField({
-        value: new f.SchemaField({
-          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
-        bonus: new f.SchemaField({
-          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
-      }),
-      combatTraining: new CombatTraining(),
-      rest: new RestFields()
+      rest: new RestFields(),
+      tokenHotbar: new f.SchemaField({        
+        sectionA: new f.ObjectField({required: true}),
+        sectionB: new f.ObjectField({required: true}),
+        resource1: new f.ObjectField({required: true, initial: {
+          color: "#e1d676",
+          key: "stamina",
+          label: "Stamina",
+        }}),
+        resource2: new f.ObjectField({required: true, initial: {
+          color: "#81a3e7",
+          key: "mana",
+          label: "Mana",
+        }}),
+        resource3: new f.ObjectField({required: true}),
+      })
     });
   } 
-
-  static migrateData(source) {
-    return super.migrateData(source);
-  }
 }
 
 export class DC20NpcData extends DC20BaseActorData {
@@ -201,7 +209,6 @@ export class DC20NpcData extends DC20BaseActorData {
     return this.mergeSchema(super.defineSchema(), {
       defences: new DefenceFields("flat"),
       jump: new JumpFields("flat"),
-      resources: new ResourceFields(false),
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -279,5 +286,24 @@ export class DC20CompanionData extends DC20NpcData {
         initiative: new f.BooleanField({required: true, initial: false}),
       }),
     })
+  }
+}
+
+export class DC20StorageData extends DC20BaseActorData {
+    static defineSchema() {
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      randomLoot: new f.SchemaField({
+        numberOfItems: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        rollDice: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),
+      }),
+      vendor: new f.SchemaField({
+        allowSelling: new f.BooleanField({required: true, initial: false}),
+        sellCostPercent: new f.NumberField({ required: true, nullable: false, integer: true, initial: 30 }),
+        infiniteStock: new f.BooleanField({required: true, initial: false}),
+      }),
+      storageType: new f.StringField({required: true, initial: ""}),
+    });
   }
 }

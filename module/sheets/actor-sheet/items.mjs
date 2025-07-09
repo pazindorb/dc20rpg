@@ -15,28 +15,28 @@ export function onSortItem(event, itemData, actor) {
   const items = actor.items;
   const source = items.get(itemData._id);
 
-  let dropTarget = event.target.closest("[data-item-id]");
-
-  // We dont want to change tableName if item is sorted on Attacks table
-  const itemRow = event.target.closest("[data-item-attack]");
-  const isAttack = itemRow ? true : false;
-
-  // if itemId not found we want to check if user doesn't dropped item on table header
-  if (!dropTarget) {
-    dropTarget = event.target.closest("[data-table-name]"); 
-    if (!dropTarget || isAttack) return;
-    source.update({["flags.dc20rpg.tableName"]: dropTarget.dataset.tableName});
-    return;
+  // Look for Table Name
+  let tableTarget = event.target.parentElement;
+  while (tableTarget) {
+    if (tableTarget.classList.contains("table-name")) break;
+    tableTarget = tableTarget.parentElement;
   }
-
-  const target = items.get(dropTarget.dataset.itemId);
+  if (tableTarget) {
+    const tableName = tableTarget.children[0]?.dataset?.tableName;
+    if (tableName) source.update({["system.tableName"]: tableName});
+  }
+  
+  // Sort Item
+  const itemTarget = event.target.closest("[data-item-id]");
+  if (!itemTarget) return;
+  const target = items.get(itemTarget.dataset.itemId);
 
   // Don't sort on yourself
   if ( source.id === target.id ) return;
 
   // Identify sibling items based on adjacent HTML elements
   const siblings = [];
-  for ( let el of dropTarget.parentElement.children ) {
+  for ( let el of itemTarget.parentElement.children ) {
     const siblingId = el.dataset.itemId;
     if ( siblingId && (siblingId !== source.id) ) {
       siblings.push(items.get(el.dataset.itemId));
@@ -50,12 +50,7 @@ export function onSortItem(event, itemData, actor) {
     update._id = u.target._id;
     return update;
   });
-
-  // Change items tableName to targets one, skip this if item was sorted on attack row
-  if (!isAttack) {
-    source.update({["flags.dc20rpg.tableName"]: target.flags.dc20rpg.tableName});
-  }
-
+  
   // Perform the update
   return actor.updateEmbeddedDocuments("Item", updateData);
 }
@@ -73,6 +68,7 @@ export function prepareItemsForCharacter(context, actor) {
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
+  const containers = [];
 
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
@@ -83,6 +79,9 @@ export function prepareItemsForCharacter(context, actor) {
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
+      case 'container':
+        containers.push(item);
+        break;
       case 'weapon': case 'equipment': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
@@ -111,6 +110,7 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
+  context.containers = containers;
   context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
   context.features = _filterItems(actor.flags.dc20rpg.headerFilters?.features, features);
   context.techniques = _filterItems(actor.flags.dc20rpg.headerFilters?.techniques, techniques);
@@ -129,6 +129,7 @@ export function prepareItemsForNpc(context, actor) {
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
+  const containers = [];
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
@@ -141,6 +142,9 @@ export function prepareItemsForNpc(context, actor) {
       if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
     }
+    else if (item.type === "container") {
+      containers.push(item);
+    }
     else if (item.type === "basicAction") {
       _addItemToTable(item, basic, item.system.category)
       if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
@@ -151,10 +155,38 @@ export function prepareItemsForNpc(context, actor) {
     }
   }
  
+  context.containers = containers;
   context.main = _filterItems(actor.flags.dc20rpg.headerFilters?.main, main);
   context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
+}
+
+export function prepareItemsForStorage(context, actor) {
+  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  if (!headersOrdering) return;
+
+  const inventory = _sortAndPrepareTables(headersOrdering.inventory);
+  const containers = [];
+
+   for (const item of context.items) {
+    _prepareItemUsageCosts(item, actor);
+    prepareItemFormulas(item, actor);
+    _checkIfItemIsIdentified(item);
+    item.img = item.img || DEFAULT_TOKEN;
+
+    switch (item.type) {
+      
+      case 'weapon': case 'equipment': case 'consumable': case 'loot':
+        _addItemToTable(item, inventory); 
+        break;
+      case 'container':
+        containers.push(item);
+        break;
+    }
+   }
+   context.containers = containers;
+   context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
 }
 
 export function prepareCompanionTraits(context, actor) {
@@ -292,7 +324,7 @@ export function prepareItemFormulas(item, actor) {
 }
 
 function _addItemToTable(item, headers, fallback) {
-  const headerName = item.flags.dc20rpg.tableName;
+  const headerName = item.system.tableName;
 
   if (!headerName || !headers[headerName]) {
     if (headers[fallback]) headers[fallback].items[item.id] = item;

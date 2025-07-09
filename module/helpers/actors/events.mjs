@@ -1,7 +1,7 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
-import { getEffectFrom } from "../effects.mjs";
+import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
@@ -273,20 +273,20 @@ async function _deleteEffect(effectId, actor) {
   const effect = getEffectFrom(effectId, actor);
   if (!effect) return;
   sendEffectRemovedMessage(actor, effect);
-  await effect.delete();
+  await deleteEffectFrom(effectId, actor);
 }
 
 async function _disableEffect(effectId, actor) {
   const effect = getEffectFrom(effectId, actor, {active: true});
   if (!effect) return;
-  await effect.disable();
+  await toggleEffectOn(effectId, actor, false);
   return effect;
 }
 
 async function _enableEffect(effectId, actor) {
   const effect = getEffectFrom(effectId, actor, {disabled: true});
   if (!effect) return;
-  await effect.enable();
+  await toggleEffectOn(effectId, actor, true);
   return effect;
 }
 
@@ -371,6 +371,27 @@ export function minimalAmountFilter(amount) {
     }
   }
   return [filter];
+}
+
+export function changedResourceFilter(key, opperation) {
+  const filters = [];
+  filters.push({
+    required: true,
+    eventField: "changedResource",
+    filterMethod: (field) => {
+      if (!field) return false;
+      return key === field;
+    }
+  });
+  filters.push({
+    required: true,
+    eventField: "operation",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return opperation === field;
+    }
+  });
+  return filters;
 }
 
 export function currentRoundFilter(actor, currentRound) {

@@ -1,0 +1,39 @@
+<form id="actor-request" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{header}}</h4>
+  
+  {{!-- Select Roll --}}
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.actorRequest.selected'}}</label>    
+    <div class="form-fields">
+      <select data-cType="string" data-path="selected">
+        {{selectOptions rollOptions selected=selected blank=""}}
+      </select>
+    </div>
+  </div>
+
+  {{!-- Actor Select --}}
+  {{#if hasActors}}
+  <div class="box-content">
+    {{#each selectedActors as |actor actorId|}}
+      <div class="actor">
+        <div class="wrapper">
+          <img src="{{actor.actor.img}}"/>
+          <input disabled value="{{actor.actor.name}}"/>
+        </div>
+        {{{checkbox "selectedActors.${actorId}.selected" actor.selected checked="fa-2x fa-solid fa-square-check" unchecked="fa-2x fa-regular fa-square" actorId=actorId}}}
+      </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <div class="box-content">
+    <div class="actor">
+      <div class="wrapper">
+        <span>{{localize "dc20rpg.dialog.actorRequest.noPlayer"}}</span>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  </div>
+
+  <button {{#unless hasActors}}disabled{{/unless}} class="button margin-top-5" data-action="confirm"><i class="fa-solid {{icon}}"></i>{{localize "dc20rpg.dialog.actorRequest.send"}} {{header}}</button>
+</form>

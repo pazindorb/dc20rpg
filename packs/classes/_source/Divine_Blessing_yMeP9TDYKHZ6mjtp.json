@@ -430,7 +430,15 @@
       "_id": "OgmnSZOGLjPfvvhh",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": true,
+          "onTimeEnd": "disable"
+        },
+        "disableWhen": {
+          "mode": "=="
+        }
       },
       "changes": [],
       "description": "<p>You have an active Blessing. <span>Once during the next minute, you can apply the blessing to a Spell you cast.</span></p>",
@@ -458,9 +466,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1747998784692,
+        "modifiedTime": 1750880256770,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

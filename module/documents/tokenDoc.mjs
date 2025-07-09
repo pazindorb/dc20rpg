@@ -1,30 +1,17 @@
-import { roundFloat } from "../helpers/utils.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
+import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
   movementCostHistory = [];
 
-  get activeCombatant() {
-    const activeCombat = game.combats.active;
-    if (!activeCombat?.started) return false;
-
-    const combatantId = activeCombat.current.combatantId;
-    const combatant = activeCombat.combatants.get(combatantId);
-
-    const myTurn = combatant?.tokenId === this.id;
-    if (myTurn) return true;
-
-    if (companionShare(this.actor, "initiative")) {
-      const ownerTurn = combatant?.actorId === this.actor.companionOwner.id;
-      if (ownerTurn) return true;
-    }
-    return false;
+  get itemToken() {
+    return this.flags?.dc20rpg?.itemData !== undefined;
   }
+
 
   /**@override*/
   prepareData() {
@@ -35,6 +22,8 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   _prepareSystemSpecificVisionModes() {
     if (!this.sight.enabled) return; // Only when using vision
+    if (!this.actor) return;
+    
     const senses = this.actor.system.senses;
     const sight = this.sight;
     const detection = this.detectionModes;
@@ -125,6 +114,16 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (userId === game.user.id && this.actor) {
       if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
         runEventsFor("move", this.actor);
+        this.object.movedRecently = {
+          from: {
+            x: this.object.x,
+            y: this.object.y
+          },
+          to: {
+            x: changed.x || this.object.x,
+            y: changed.y || this.object.y
+          }
+        };
         
         // Wait for movement to finish before triggering measured template check
         let counter = 0;  // Max amount of loops
@@ -156,11 +155,11 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
 
     const movementCost = movement.passed.cost;
-    let subtracted = await this.subtractMovePoints(movementCost);
+    let subtracted = await subtractMovePoints(this.actor, movementCost);
 
     // Spend extra AP to move
     if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
-      subtracted = await this.spendMoreApOnMovement(subtracted);
+      subtracted = await spendMoreApOnMovement(this.actor, subtracted, this.movementAction);
     }
 
     // Do not move the actor
@@ -182,39 +181,9 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (onCombat || onTurn) {
       const activeCombat = game.combats.active;
       if (!activeCombat?.started) return false;
-      if (onTurn && !this.activeCombatant) return false;
+      if (onTurn && !this.actor.myTurnActive) return false;
     }
     return true;
-  }
-
-  async subtractMovePoints(cost) {    
-    const movePoints = this.actor.system.movePoints;
-    const newMovePoints = movePoints - cost;
-    if (newMovePoints < -0.1) return Math.abs(newMovePoints);
-
-    await this.actor.update({["system.movePoints"]: roundFloat(newMovePoints)});
-    return true;
-  }
-
-  async spendMoreApOnMovement(missingMovePoints) {
-    const selectedMovement = this.movementAction;
-    const actor = this.actor;
-    const movePoints = actor.system.movement[selectedMovement].current;
-    if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
-
-    let apSpend = 0;
-    let movePointsGained = 0;
-    while ((missingMovePoints - movePointsGained) > 0) {
-      apSpend++;
-      movePointsGained += movePoints;
-    }
-    const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-    const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
-    if (proceed && subtractAP(actor, apSpend)) {
-      await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
-      return true;
-    }
-    return missingMovePoints;
   }
 
   _onUpdateMovement(movement, operation, user) {
@@ -229,6 +198,16 @@ export class DC20RpgTokenDocument extends TokenDocument {
         }
       }
     }
+  }
+
+  async _onCreate(data, options, userId) {
+    if (userId === game.user.id && this.actor) {
+      if (this.actor?.type === "storage") {
+        if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
+        if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
+      }
+    }
+    super._onCreate(data, options, userId);
   }
 
   //=====================================

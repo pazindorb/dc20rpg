@@ -1,8 +1,7 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey, getPointsOnLine, roundFloat } from "../utils.mjs";
-import { companionShare } from "./companion.mjs";
+import { generateKey, roundFloat } from "../utils.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
@@ -40,7 +39,7 @@ export async function addBasicActions(actor) {
  *  "doNotExpire": Boolean - If provided help dice wont expire at the start of actor's next turn.
  * }
  */
-export function prepareHelpAction(actor, options) {
+export function prepareHelpAction(actor, options={}) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
   if (options.diceValue) maxDice = options.diceValue;
@@ -64,6 +63,28 @@ export async function clearHelpDice(actor, key) {
       if (!help.doNotExpire) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
+}
+
+export function getActiveHelpDice(actor) {
+  const dice = {};
+  for (const [key, help] of Object.entries(actor.system.help.active)) {
+    let icon = "fa-dice";
+    switch (help.value) {
+      case "d20": case "-d20": icon = "fa-dice-d20"; break;
+      case "d12": case "-d12": icon = "fa-dice-d12"; break; 
+      case "d10": case "-d10": icon = "fa-dice-d10"; break; 
+      case "d8": case "-d8": icon = "fa-dice-d8"; break; 
+      case "d6": case "-d6": icon = "fa-dice-d6"; break; 
+      case "d4": case "-d4": icon = "fa-dice-d4"; break; 
+    }
+    dice[key] = {
+      formula: help.value,
+      icon: icon,
+      subtraction: help.value.includes("-"),
+      doNotExpire: help.doNotExpire
+    }
+  }
+  return dice;
 }
 
 //===================================
@@ -93,6 +114,35 @@ export async function makeMoveAction(actor, options={}) {
 
 export async function clearMovePoints(actor) {
   await actor.update({["system.movePoints"]: 0});
+}
+
+export async function subtractMovePoints(actor, cost) {   
+  if (!actor) return true;
+  const movePoints = actor.system.movePoints;
+  const newMovePoints = movePoints - cost;
+  if (newMovePoints < -0.1) return Math.abs(newMovePoints);
+
+  await actor.update({["system.movePoints"]: roundFloat(newMovePoints)});
+  return true;
+}
+
+export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMovement="ground") {
+  const movePoints = actor.system.movement[selectedMovement].current;
+  if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
+
+  let apSpend = 0;
+  let movePointsGained = 0;
+  while ((missingMovePoints - movePointsGained) > 0) {
+    apSpend++;
+    movePointsGained += movePoints;
+  }
+  const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
+  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
+  if (proceed && subtractAP(actor, apSpend)) {
+    await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
+    return true;
+  }
+  return missingMovePoints;
 }
 
 //===================================

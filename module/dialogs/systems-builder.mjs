@@ -280,6 +280,27 @@ export class SystemsBuilder extends Dialog {
             dontSkipFor: ["damageTaken", "healingTaken"]
           }
         },
+        changedResource: {
+          value: "",
+          format: "string",
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["resourceChange"]
+          }
+        },
+        operation: {
+          value: "",
+          format: "string",
+          selectOptions: {
+            "": "All",
+            "subtraction": "Subtraction",
+            "addition": "Addition"
+          },
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["resourceChange"]
+          }
+        },
         withEffectName: {
           value: "",
           format: "string",

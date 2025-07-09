@@ -6,7 +6,6 @@ export async function runMigration(migrateModules) {
 async function _migrateActors(migrateModules) {
   // Iterate over actors
   for (const actor of game.actors) {
-
     await _moveEffectFlagsToSystem(actor);
     await _updateActorItems(actor);
   }
@@ -19,7 +18,6 @@ async function _migrateActors(migrateModules) {
   for (let i = 0; i < allTokens.length; i++) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
-
     await _moveEffectFlagsToSystem(actor);
     await _updateActorItems(actor);
   }
@@ -32,7 +30,6 @@ async function _migrateActors(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
-
         await _moveEffectFlagsToSystem(actor);
         await _updateActorItems(actor);
       }
@@ -88,51 +85,5 @@ async function _moveEffectFlagsToSystem(owner) {
       nonessential: flags.nonessential,
       requireEnhancement: flags.requireEnhancement
     }});
-  }
-}
-
-// EFFECTS
-async function _updateConditionResistances(owner) {
-  const effects = owner.effects;
-  for (const effect of effects) {
-    const changes = effect.changes;
-    let hasChanges = false;
-
-    for (let i = 0; i < changes.length; i++) {
-      if (changes[i].key.includes(".advantage")) {
-        if (changes[i].value > 0) {
-          changes[i].key = changes[i].key.replace(".advantage", ".resistance");
-          hasChanges = true;
-        }
-        if (changes[i].value < 0) {
-          changes[i].key = changes[i].key.replace(".advantage", ".vulnerability");
-          changes[i].value = Math.abs(changes[i].value);
-          hasChanges = true;
-        }
-      }
-    }
-    if (hasChanges) await effect.update({changes: effect.changes});
-  }
-}
-
-async function _updateDamageReduction(owner) {
-  const effects = owner.effects;
-  for (const effect of effects) {
-    const changes = effect.changes;
-    let hasChanges = false;
-
-    for (let i = 0; i < changes.length; i++) {
-      if (changes[i].key === "system.damageReduction.pdr.bonus") {
-        changes[i].key = "system.damageReduction.pdr.active";
-        changes[i].value = true;
-        hasChanges = true;
-      }
-      if (changes[i].key === "system.damageReduction.mdr.bonus") {
-        changes[i].key = "system.damageReduction.mdr.active";
-        changes[i].value = true;
-        hasChanges = true;
-      }
-    }
-    if (hasChanges) await effect.update({changes: effect.changes});
   }
 }

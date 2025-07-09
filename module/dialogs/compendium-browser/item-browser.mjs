@@ -5,12 +5,13 @@ import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "./b
 
 export class CompendiumBrowser extends Dialog {
 
-  constructor(itemType, lockItemType, parentWindow, preSelectedFilters, dialogData = {}, options = {}) {
+  constructor(itemType, lockItemType, parentWindow, preSelectedFilters, extraDropData, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.collectedItems = [];
     this.collectedItemCache = {};
     this.lockItemType = lockItemType;
     this.parentWindow = parentWindow;
+    this.extraDropData = extraDropData || {};
     this.filters = getDefaultItemFilters(preSelectedFilters);
 
     if (itemType === "inventory") {
@@ -98,7 +99,7 @@ export class CompendiumBrowser extends Dialog {
     html.find(".add-item").click(ev => this._onAddItem(ev));
     html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
 
-    html.find('.item-tooltip').hover(ev => {
+    html.find('.item-tooltip').hover(async ev => {
       let position = null;
       const column = html.find(".filter-column");
       if (column[0]) {
@@ -108,7 +109,7 @@ export class CompendiumBrowser extends Dialog {
         };
       }
       const uuid = datasetOf(ev).uuid;
-      const item = fromUuidSync(uuid);
+      const item = await fromUuid(uuid);
       if (item) itemTooltip(item, ev, html, {position: position});
     },
     ev => hideTooltip(ev, html));
@@ -133,9 +134,9 @@ export class CompendiumBrowser extends Dialog {
     this.render(true);
   }
 
-  _onItemShow(ev) {
+  async _onItemShow(ev) {
     const uuid = datasetOf(ev).uuid;
-    const item = fromUuidSync(uuid);
+    const item = await fromUuid(uuid);
     if (item) item.sheet.render(true);
   }
 
@@ -149,7 +150,8 @@ export class CompendiumBrowser extends Dialog {
 
     const dragData = {
       uuid:  uuid,
-      type: "Item"
+      type: "Item",
+      ...this.extraDropData
     };
     const dragEvent = new DragEvent('dragstart', {
       bubbles: true,
@@ -201,9 +203,9 @@ export class CompendiumBrowser extends Dialog {
 }
 
 let itemBrowserInstance = null;
-export function createItemBrowser(itemType, lockItemType, parentWindow, preSelectedFilters) {
+export function createItemBrowser(itemType, lockItemType, parentWindow, preSelectedFilters, extraDropData) {
   if (itemBrowserInstance) itemBrowserInstance.close();
-  const dialog = new CompendiumBrowser(itemType, lockItemType, parentWindow, preSelectedFilters, {title: `Item Browser`});
+  const dialog = new CompendiumBrowser(itemType, lockItemType, parentWindow, preSelectedFilters, extraDropData, {title: `Item Browser`});
   dialog.render(true);
   itemBrowserInstance = dialog;
 }

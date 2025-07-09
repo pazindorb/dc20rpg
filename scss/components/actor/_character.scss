@@ -64,7 +64,7 @@
         border-radius: 4px;
         background-color: $secondary-lighter;
 
-        .regain-resource, .spend-resource, .spend-regain-resource {
+        .regain-resource, .spend-resource, .spend-regain-resource, .grit-to-damage-reduction {
           background-color: transparent;
           width: 18px;
           height: 20px;
@@ -480,13 +480,18 @@
         width: 100%;
         height: 28px;
 
-        .regain-resource, .spend-resource, .spend-regain-resource {
+        .regain-resource, .spend-resource, .spend-regain-resource, .grit-to-damage-reduction {
           background-color: transparent;
           width: 20px;
           height: 20px;
           border: 0;
           line-height: 0;
           padding: 0;
+        }
+
+        .grit-to-damage-reduction {
+          border-right: 1px solid $primary-color;
+          border-radius: 0;
         }
 
         .stamina {
@@ -1213,6 +1218,58 @@
         box-shadow: 0 0 3px 2px #fd0000bd inset;
       }
     }
+
+    .help-dice-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      height: 30px;
+      padding: 3px;
+      margin-top: 5px;
+      background-color: $secondary-light-alpha;
+      border-radius: 5px;
+      border: 2px solid $primary-color;
+
+      #help-tracker {
+        width: 100%;
+        height: 20px;
+        margin: 0px;
+        gap: 5px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        align-items: center;
+        justify-content: center;
+
+        .help-dice {
+          height: 20px;
+          color: $primary-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          i {
+            margin-top: 2px;
+          }
+          
+          &:hover {
+            cursor: grab;
+          }
+        }
+      }
+
+      .make-help-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 30px;
+        border-left: 2px solid $primary-color;
+        padding-left: 4px;
+        margin-left: 4px;
+        color: $primary-darker;
+      }
+    }
   }
 
   .attributes-column {
@@ -1852,6 +1909,42 @@
           justify-content: center;
           height: 31px;
         }
+      }
+    }
+
+    .containers {
+      padding: 0px 5px;
+      display: flex;
+      align-items: center;
+
+      .container {
+        margin-bottom: 5px;
+        margin-right: 5px;
+
+        img {
+          background-color: $secondary-dark;
+          border: 2px solid $primary-color;
+          border-radius: 3px;
+
+          min-height: 50px;
+          min-width: 50px;
+          height: 50px;
+          width: 50px;
+
+          &:hover {
+            box-shadow: 0 0 5px 1px $primary-darker;
+            cursor: pointer;
+          }
+        }
+
+        a {
+          position: absolute;
+          margin-top: 5px;
+          margin-left: -3px;
+          color: $dark-red;
+          text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+        }
+ 
       }
     }
 

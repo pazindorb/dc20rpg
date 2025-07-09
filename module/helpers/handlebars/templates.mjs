@@ -49,5 +49,7 @@ export function sharedPartials() {
   return {
     "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
     "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs",
+    "Effects Tracker": "systems/dc20rpg/templates/sidebar/token-hotbar/effects-tracker.hbs",
+    "Help Tracker": "systems/dc20rpg/templates/sidebar/token-hotbar/help-tracker.hbs",
   }
 }

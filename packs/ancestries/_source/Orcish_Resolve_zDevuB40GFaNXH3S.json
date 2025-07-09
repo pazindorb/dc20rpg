@@ -44,7 +44,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -156,7 +157,12 @@
       "_id": "SEoDjndyICQoxQBi",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "path": "statusIds",
+          "mode": "hasNot",
+          "value": "deathsDoor"
+        }
       },
       "changes": [
         {
@@ -195,9 +201,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": 1734339022198,
-        "modifiedTime": 1743750523294,
+        "modifiedTime": 1750880257479,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -215,9 +221,9 @@
     "duplicateSource": "Item.dNf7K72pn7ZiTgGr",
     "coreVersion": "13.344",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.6.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1745525618196,
+    "modifiedTime": 1750925605796,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -14,6 +14,10 @@ import { prepareRollData } from "./item/item-rollData.mjs";
 export class DC20RpgItem extends Item {
   static enhLoopCounter = 0;
 
+  get itemKey() {
+    return this.system.itemKey;
+  }
+
   get checkKey() {
     const actionType = this.system.actionType;
     if (actionType === "attack") return this.system.attackFormula.checkType.substr(0, 3);
@@ -113,7 +117,7 @@ export class DC20RpgItem extends Item {
     return prepareRollData(this, data);
   }
 
-  swapMultiFaceted() {
+  async swapMultiFaceted() {
     const multiFaceted = this.system.properties?.multiFaceted;
     if (!multiFaceted || !multiFaceted.active) return;
 
@@ -142,7 +146,7 @@ export class DC20RpgItem extends Item {
         }
       }
     }
-    this.update(updateData);
+    await this.update(updateData);
   }
 
   async update(data={}, operation={}) {
@@ -184,6 +188,14 @@ export class DC20RpgItem extends Item {
     return await super._preDelete(options, user);
   }
 
+  toDragData() {
+    const dragData = super.toDragData();
+    if (this.actor) {
+      dragData.actorType = this.actor.type;
+    }
+    return dragData;
+  }
+
   //=========================
   //        FORMULAS        =
   //=========================
@@ -215,6 +227,7 @@ export class DC20RpgItem extends Item {
       each5Formula: "",
       dontMerge: false,
       overrideDefence: "",
+      perTarget: false,
     }
   }
 
@@ -336,13 +349,7 @@ export class DC20RpgItem extends Item {
       overrideDamageType: false,
       damageType: "",
       addsNewFormula: false,
-      formula: {
-        formula: "",
-        type: "",
-        category: "damage",
-        dontMerge: false,
-        overrideDefence: ""
-      },
+      formula: this.getFormulaObjectExample(),
       addsNewRollRequest: false,
       rollRequest: {
         category: "",
@@ -428,7 +435,9 @@ export class DC20RpgItem extends Item {
         ignoreEdr: false,
         ignoreMdr: false,
         ignoreResistance: {},
-        ignoreImmune: {}
+        ignoreImmune: {},
+        reduceAd: "",
+        reducePd: ""
       },
       effect: null,
       addsNewRollRequest: false,
@@ -442,13 +451,7 @@ export class DC20RpgItem extends Item {
         respectSizeRules: false,
       },
       addsNewFormula: false,
-      formula: {
-        formula: "",
-        type: "",
-        category: "damage",
-        dontMerge: false,
-        overrideDefence: "",
-      },
+      formula: this.getFormulaObjectExample(),
     };
   }
 
@@ -487,6 +490,37 @@ export class DC20RpgItem extends Item {
       disabled: false,
       name: "New Macro",
       title: "",
+      global: false,
     };
+  }
+
+  async callMacro(trigger, additionalFields, preventGlobalCall) {
+    await runTemporaryItemMacro(this, trigger, this.actor, additionalFields, preventGlobalCall);
+  }
+
+  hasMacroForTrigger(trigger) {
+    const macros = this.system.macros;
+    if (!macros) return false;
+    
+    for (const macro of Object.values(macros)) {
+      if (macro.trigger === trigger && !macro.disabled) return true;
+    }
+    return false;
+  }
+
+  async updateShortInfo(text) {
+    return await this.update({["system.shortInfo"]: text});
+  }
+
+  //==========================
+  //       TOGGLE ITEM       =
+  //==========================
+  async toggle(options={forceOn: false, forceOff: false}) {
+    if (!this.system?.toggle?.toggleable) return;
+
+    let newState = !this.system.toggle.toggledOn;
+    if (options.forceOn) newState = true;
+    else if (options.forceOff) newState = false;
+    await this.update({["system.toggle.toggledOn"]: newState})
   }
 }

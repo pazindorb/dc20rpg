@@ -1,0 +1,116 @@
+<form class="{{cssClass}} {{item.type}} item_v2" autocomplete="off">
+  <header class="item-sheet-header">
+    {{#if userIsGM}}
+    <div class="identified-button">
+      <a class="activable fa-lg fa-solid {{#if system.statuses.identified}}fa-book{{else}}fa-circle-question{{/if}}" data-path="system.statuses.identified" 
+          title="{{#if system.statuses.identified}}{{localize 'dc20rpg.item.sheet.identified'}}{{else}}{{localize 'dc20rpg.item.sheet.unidentified'}}{{/if}}"></a>
+    </div>
+    {{/if}}
+
+    {{#if system.statuses.identified}} 
+    {{PARTIAL "Header"}}
+    {{else}}
+    <div class="item-img">
+      <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    </div>
+    <div class="header-content">
+      <div class="item-details">
+        <input disabled class="item-name" type="text" value="{{localize "dc20rpg.item.sheet.unidentifiedName"}}" title="{{localize 'dc20rpg.item.sheet.name'}}" placeholder="{{localize 'dc20rpg.item.sheet.name'}}"/>
+      </div>
+    </div>
+    {{/if}}
+  </header>
+
+  {{!-- Tooltip --}}
+  {{PARTIAL "Tooltip"}}
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="contents"><span>{{localize 'dc20rpg.item.sheet.contents.tab'}}</span></a>
+    <a class="item" data-tab="desc"><span>{{localize 'dc20rpg.item.sheet.description'}}</span></a>
+  </nav>
+
+  <section class="item-sheet-body">
+    <div class="tab contents-tab content" data-group="primary" data-tab="contents">
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.container.inventoryOnly"}}</span>
+        <a class="fa-lg activable {{#if system.inventoryOnly}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.inventoryOnly"></a>
+      </div>
+      <div class="contents-box margin-top-10">
+        {{#each tables as |table tableKey|}}
+        {{#if table.notEmpty}}
+        <div class="item-list table-name">
+          {{!-- Header --}}
+          <div class="item-header" style="grid-template-columns: 35px 1fr 100px 50px 30px">
+            <div class="column"></div>
+            {{!-- Name --}}
+            <div class="column name"> <input disabled type="text" value="{{table.label}}"/> </div>
+            {{!-- Cost --}}
+            <div class="column"><i class="fa-solid fa-coins" title="{{localize 'dc20rpg.sheet.itemTable.cost'}}"></i></div>
+            {{!-- Quantity --}}
+            <div class="column"><i class="fa-solid fa-boxes-stacked" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"></i></div>
+            {{!-- Config --}}
+            <div class="column"><i class="fa-solid fa-gear"></i></div>
+          </div>
+          
+          {{!-- Row --}}
+          {{#each table.items as |item itemKey|}}
+          <div class="item item-row" data-item-key="{{itemKey}}" style="grid-template-columns: 1fr 100px 50px 30px">
+            {{!-- Name --}}
+            <div class="column name item-tooltip" data-item-key="{{itemKey}}">
+              <div class="item-img-wrapper">
+                <img src="{{img}}"/>
+              </div>
+              <div class="item-name">{{name}}</div>
+            </div>
+
+            {{!-- Cost --}}
+            <div class="column" title="{{localize 'dc20rpg.sheet.itemTable.cost'}}">
+              <input class="numeric-input" type="text" value="{{item.system.price.value}}" data-path="system.contents.{{itemKey}}.system.price.value">
+              <select class="selectable" data-path="system.contents.{{itemKey}}.system.price.currency">
+                {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=item.system.price.currency}}
+              </select>
+            </div>
+
+            {{!-- Quantity --}}
+            <div class="column" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}">
+              <input class="numeric-input" type="text" value="{{system.quantity}}" data-path="system.contents.{{itemKey}}.system.quantity">
+            </div>
+
+            <div class="column config">
+              <a class="remove-item fas fa-trash" data-item-key="{{itemKey}}" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"></a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="tab description-tab content with-price" data-group="primary" data-tab="desc">
+      <div class="description-box">
+        {{#if system.statuses.identified}} 
+          {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
+        {{else}}
+          <b>{{localize 'dc20rpg.item.sheet.unidentifiedDescription'}}</b>
+        {{/if}}
+      </div>
+      <div class="item-cost">
+        <div class="row">
+          <div class="left-part-row" title="{{localize "dc20rpg.item.sheet.itemCost"}}">
+            <i class="fa-solid fa-coins"></i>
+            <input class="margin-left-10 margin-right-3" type="text" name="system.price.value" value="{{system.price.value}}" data-dtype="Number"/>
+            <select name="system.price.currency">
+              {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=system.price.currency}}
+            </select>
+          </div>
+
+          <div class="right-part-row" title="{{localize "dc20rpg.item.sheet.itemQuantity"}}">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <input class="margin-left-10" type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>

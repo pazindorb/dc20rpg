@@ -1,0 +1,299 @@
+<form id="adventurers-register" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.adventurersRegister.title"}}</h4>
+
+  {{!-- Select Group --}}
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectGroup'}}</label>    
+    <div class="form-fields">
+      <select data-cType="string" data-path="selectedGroup">
+        {{selectOptions groups selected=selectedGroup blank=""}}
+      </select>
+    </div>
+    {{#if selectedGroup}}
+    <a class="fa-solid fa-users-slash" style="flex: 0;" data-tooltip="{{localize 'dc20rpg.dialog.adventurersRegister.removeGroup'}}" data-action="removeGroup"></a>
+    {{else}}
+    <a class="fa-solid fa-users-medical" style="flex: 0;" data-tooltip="{{localize 'dc20rpg.dialog.adventurersRegister.addGroup'}}" data-action="addGroup"></a>
+    {{/if}}
+  </div>
+
+  {{!-- Navigation --}}
+  <nav class="sheet-tabs tabs margin-top-5">
+    {{#each tabs}}
+    <a data-action="tab" data-group="{{group}}" data-tab="{{id}}">
+      <i class="{{icon}} margin-right-3"></i><span>{{localize label}}</span>
+    </a>
+    {{/each}}
+  </nav>
+
+  {{!-- CORE --}}
+  <section class="tab changes{{#ifCond activeTab '===' "core"}} active{{/ifCond}}" data-group="sheet" data-tab="core">
+    <div class="item-list">
+      <div class="item-header" style="grid-template-columns: 1fr 50px 50px 50px 50px 35px 35px 35px 35px 35px !important;">
+        <div class="column" data-tooltip=""><i class="fa-solid fa-signature"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.health"}}"><i class="fa-solid fa-heart"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.stamina"}}"><i class="fa-solid fa-hand-fist"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.mana"}}"><i class="fa-solid fa-star"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.grit"}}"><i class="fa-solid fa-clover"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.pd"}}"><i class="fa-solid fa-shield"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.ad"}}"><i class="fa-solid fa-globe"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.movement"}}"><i class="fa-solid fa-person-walking"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.jump"}}"><i class="fa-solid fa-up"></i></div>
+        {{#if selectedGroup}}
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.removeFromGroup"}}"><i class="fa-solid fa-user-minus"></i></div>
+        {{else}}
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.addToGroup"}}"><i class="fa-solid fa-user-plus"></i></div>
+        {{/if}}
+      </div>
+      {{#each adventurers}}
+      <div class="item-row" style="grid-template-columns: 1fr 50px 50px 50px 50px 35px 35px 35px 35px 35px !important;">
+        <div class="column name" data-action="sheet" data-actor-id="{{id}}">
+          <img class="item-img margin-right-5" src="{{img}}"/>
+          <label>{{name}}</label>
+        </div>
+        <div class="column centered">
+          <span>{{system.resources.health.current}}/{{system.resources.health.max}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.resources.stamina.value}}/{{system.resources.stamina.max}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.resources.mana.value}}/{{system.resources.mana.max}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.resources.grit.value}}/{{system.resources.grit.max}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.defences.precision.value}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.defences.area.value}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.movement.ground.current}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.jump.current}}</span>
+        </div>
+
+        {{#if @root.selectedGroup}}
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.removeFromGroup"}}" data-action="removeFromGroup" data-actor-id="{{id}}">
+          <i class="fa-solid fa-minus"></i>
+        </a>
+        {{else}}
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.addToGroup"}}" data-action="addToGroup" data-actor-id="{{id}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  {{!-- COMBAT --}}
+  <section class="tab changes{{#ifCond activeTab '===' "combat"}} active{{/ifCond}}" data-group="sheet" data-tab="combat">
+    <div class="item-list">
+      <div class="item-header" style="grid-template-columns: 1fr 50px 35px 35px 35px 35px 35px 50px 50px !important;">
+        <div class="column" data-tooltip=""><i class="fa-solid fa-signature"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.health"}}"><i class="fa-solid fa-heart"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.pd"}}"><i class="fa-solid fa-shield"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.ad"}}"><i class="fa-solid fa-globe"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.pdr"}}"><i class="fa-solid fa-axe-battle"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.edr"}}"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.mdr"}}"><i class="fa-solid fa-brain"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.attackMod"}}"><i class="fa-solid fa-dice-d20"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.saveDC"}}"><i class="fa-solid fa-share"></i></div>
+      </div>
+      {{#each adventurers}}
+      <div class="item-row" style="grid-template-columns: 1fr 50px 35px 35px 35px 35px 35px 50px 50px !important;">
+        <div class="column name" data-action="sheet" data-actor-id="{{id}}">
+          <img class="item-img margin-right-5" src="{{img}}"/>
+          <label>{{name}}</label>
+        </div>
+        <div class="column centered">
+          <span>{{system.resources.health.current}}/{{system.resources.health.max}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.defences.precision.value}}</span>
+        </div>
+        <div class="column centered">
+          <span>{{system.defences.area.value}}</span>
+        </div>
+        <div class="column centered">
+          {{#if system.damageReduction.pdr.active}}<i class="fa-solid fa-check"></i>{{/if}}
+        </div>
+        <div class="column centered">
+          {{#if system.damageReduction.edr.active}}<i class="fa-solid fa-check"></i>{{/if}}
+        </div>
+        <div class="column centered">
+          {{#if system.damageReduction.mdr.active}}<i class="fa-solid fa-check"></i>{{/if}}
+        </div>
+        <div class="column centered">
+          {{#ifCond system.attackMod.value.martial '===' system.attackMod.value.spell}}
+          <span>{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
+          {{else}}
+          <span>{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}/{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
+          {{/ifCond}}
+        </div>
+        <div class="column centered">
+          {{#ifCond system.saveDC.value.martial '===' system.saveDC.value.spell}}
+          <span>{{system.saveDC.value.martial}}</span>
+          {{else}}
+          <span>{{system.saveDC.value.martial}}/{{system.saveDC.value.spell}}</span>
+          {{/ifCond}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  {{!-- ATTRIBUTES --}}
+  <section class="tab changes{{#ifCond activeTab '===' "attr"}} active{{/ifCond}}" data-group="sheet" data-tab="attr">
+    <div class="item-list">
+      <div class="item-header" style="grid-template-columns: 1fr 70px 70px 70px 70px 45px 45px !important;">
+        <div class="column" data-tooltip=""><i class="fa-solid fa-signature"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.mig"}}">MIG</div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.agi"}}">AGI</div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.cha"}}">CHA</div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.int"}}">INT</div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.phy"}}">PHY</div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.men"}}">MEN</div>
+      </div>
+      {{#each adventurers}}
+      <div class="item-row" style="grid-template-columns: 1fr 35px 35px 35px 35px 35px 35px 35px 35px 45px 45px !important;">
+        <div class="column name" data-action="sheet" data-actor-id="{{id}}" style="border-width: 2px;">
+          <img class="item-img margin-right-5" src="{{img}}"/>
+          <label>{{name}}</label>
+        </div>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="mig" data-type="check" data-actor-id="{{id}}">
+          <span>{{numberFormat system.attributes.mig.check decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.save"}}" data-action="roll" data-key="mig" data-type="save" data-actor-id="{{id}}" style="border-width: 2px;">
+          <span>{{numberFormat system.attributes.mig.save decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="agi" data-type="check" data-actor-id="{{id}}">
+          <span>{{numberFormat system.attributes.agi.check decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.save"}}" data-action="roll" data-key="agi" data-type="save" data-actor-id="{{id}}" style="border-width: 2px;">
+          <span>{{numberFormat system.attributes.agi.save decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="cha" data-type="check" data-actor-id="{{id}}">
+          <span>{{numberFormat system.attributes.cha.check decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.save"}}" data-action="roll" data-key="cha" data-type="save" data-actor-id="{{id}}" style="border-width: 2px;">
+          <span>{{numberFormat system.attributes.cha.save decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="int" data-type="check" data-actor-id="{{id}}">
+          <span>{{numberFormat system.attributes.int.check decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.save"}}" data-action="roll" data-key="int" data-type="save" data-actor-id="{{id}}" style="border-width: 2px;">
+          <span>{{numberFormat system.attributes.int.save decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.save"}}" data-action="roll" data-key="phy" data-type="save" data-actor-id="{{id}}" style="border-width: 2px;">
+          <span>{{numberFormat system.special.phySave decimals=0 sign=true}}</span>
+        </a>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.save"}}" data-action="roll" data-key="men" data-type="save" data-actor-id="{{id}}" style="border-width: 2px;">
+          <span>{{numberFormat system.special.menSave decimals=0 sign=true}}</span>
+        </a>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  {{!-- SKILLS --}}
+  <section class="tab changes{{#ifCond activeTab '===' "skills"}} active{{/ifCond}}" data-group="sheet" data-tab="skills">
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectCharacter'}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="selectedActorId">
+          {{selectOptions actors selected=selectedActorId blank=""}}
+        </select>
+      </div>
+    </div>
+    
+    <div class="item-list">
+      <div class="item-header" style="grid-template-columns: 1fr 50px 50px !important;">
+        <div class="column"></div>
+        <div class="column"><i class="fa-solid fa-book"></i></div>
+        <div class="column"><i class="fa-solid fa-dice-d20"></i></div>
+      </div>
+      {{#each selectedActor.system.skills as |skill key|}}
+      <div class="item-row" style="grid-template-columns: 1fr 50px 50px !important;">
+        <div class="column" style="padding-left: 10px;">
+          <label>{{localize skill.label}}</label>
+        </div>
+        <div class="column centered" data-tooltip="{{localize 'dc20rpg.dialog.adventurersRegister.passive'}}">
+          <span>{{add skill.modifier 10}}</span>
+        </div>
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="{{key}}" data-type="check" data-actor-id="{{@root.selectedActor.id}}">
+          <span>{{numberFormat skill.modifier decimals=0 sign=true}}</span>
+        </a>
+      </div>
+      {{/each}}
+    </div>
+
+  </section>
+
+  {{!-- LANGUAGES --}}
+  <section class="tab changes{{#ifCond activeTab '===' "languages"}} active{{/ifCond}}" data-group="sheet" data-tab="languages">
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectCharacter'}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="selectedActorId">
+          {{selectOptions actors selected=selectedActorId blank=""}}
+        </select>
+      </div>
+    </div>
+
+    <div class="item-list">
+      <div class="item-header" style="grid-template-columns: 1fr 50px !important;">
+        <div class="column"></div>
+        <div class="column"><i class="fa-solid fa-comments"></i></div>
+      </div>
+      {{#each selectedActor.system.languages as |lang key|}}
+      <div class="item-row" style="grid-template-columns: 1fr 50px !important;">
+        <div class="column" style="padding-left: 10px;">
+          <label>{{localize lang.label}}</label>
+        </div>
+        <div class="column centered">
+          {{#ifCond lang.mastery '===' 2}}
+            <i class="fa-solid fa-check" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.fluent"}}"></i>
+          {{/ifCond}}
+          {{#ifCond lang.mastery '===' 1}}
+            <i class="fa-solid fa-l" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.limited"}}"></i>
+          {{/ifCond}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  {{!-- ADVANCED --}}
+  <section class="tab changes{{#ifCond activeTab '===' "advanced"}} active{{/ifCond}}" data-group="sheet" data-tab="advanced">
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectCharacter'}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="selectedActorId">
+          {{selectOptions actors selected=selectedActorId blank=""}}
+        </select>
+      </div>
+    </div>
+
+    {{#if selectedActor}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectedPath'}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="selectedPath">
+          {{selectOptions actorPaths selected=selectedPath blank=""}}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectedPathValue'}}</label>
+      <div class="form-fields">
+        <input disabled value="{{selectedPathValue}}"/>
+      </div>
+    </div>
+    {{/if}}
+  </section>
+</form>

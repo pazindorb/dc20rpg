@@ -1,3 +1,5 @@
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+
 /**
  * Returns array of owners of specific Actor
  */
@@ -18,7 +20,7 @@ export function getActiveActorOwners(actor, allowGM=false) {
 /**
  * Returns array of user its of owners of specific Actor
  */
-export function getActiveActorOwnersIds(actor, allowGM) {
+export function getIdsOfActiveActorOwners(actor, allowGM) {
   const owners = getActiveActorOwners(actor, allowGM);
   return owners.map(owner => owner._id);
 }
@@ -30,4 +32,27 @@ export function getActivePlayers(allowGM) {
         if (user.isGM) return allowGM;
         else return true;
       })
+}
+
+export async function userSelector(skipGM) {
+  const users = {};
+  game.users
+          .filter(user => !skipGM || !user.isGM)
+          .filter(user => game.userId !== user.id)
+          .forEach(user => users[user.id] = user.name);
+  const userId = await getSimplePopup("select", {header: "Select User", selectOptions: users});
+  return game.users.get(userId);
+}
+
+export function getActorsForUser(onlyPC=false, user=game.user) {
+  return game.actors
+              .filter(actor =>  actor.testUserPermission(user, "OWNER"))
+              .filter(actor => !onlyPC || actor.type === "character");
+}
+
+export function getTokensForUser(onlyPC=false, user=game.user) {
+  return canvas.tokens.placeables
+                .filter(token => token && token.actor)
+                .filter(token => token.actor.testUserPermission(user, "OWNER"))
+                .filter(token => !onlyPC || token.actor.type === "character");
 }

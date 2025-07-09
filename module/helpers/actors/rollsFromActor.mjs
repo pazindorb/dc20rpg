@@ -2,7 +2,6 @@ import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction,
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
@@ -12,7 +11,6 @@ import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
 import { emitSystemEvent } from "../sockets.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -117,12 +115,24 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   
   const rollMenu = item.flags.dc20rpg.rollMenu;
 
-  // 1. Subtract Cost
+  // 0. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) {
     resetEnhancements(item, actor);
     resetRollMenu(rollMenu, item);
     return;
+  }
+
+  // 1. Add changes related to ammo
+  if (item.ammoId) {
+    const ammo = actor.items.get(item.ammoId);
+    if (ammo) {
+      item.system.rollRequests = foundry.utils.mergeObject(item.system.rollRequests, ammo.system.rollRequests);
+      item.system.againstStatuses = foundry.utils.mergeObject(item.system.againstStatuses, ammo.system.againstStatuses);
+      item.system.formulas = foundry.utils.mergeObject(item.system.formulas, ammo.system.formulas);
+      item.system.macros = foundry.utils.mergeObject(item.system.macros, ammo.system.macros);
+      item.overridenDamage = ammo.system.overridenDamageType;
+    }
   }
   
   // 2. Pre Item Roll Events and macros
@@ -364,7 +374,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
   const formulas = _collectAllFormulasForAnItem(item, enhancements);
 
   // Check if damage type should be overriden
-  let overridenDamage = "";
+  let overridenDamage = item.overridenDamage || "";
   if (enhancements) {
     enhancements.values().forEach(enh => {
       if (enh.number > 0) {
@@ -428,6 +438,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
           _fillCommonRollProperties(roll, commonData);
           // We want only modified rolls
           roll.clear = new Roll("0", rollData);
+          roll.modified.perTarget = formula.perTarget;
           otherRolls.push(roll);
           break;
       }
@@ -678,9 +689,9 @@ function _prepareEffectsFromItems(item, forceAddToChat) {
   // From Item itself
   if (item.effects.size !== 0) {
     item.effects.forEach(effect => {
-      const addToChat = effect.flags.dc20rpg?.addToChat;
+      const addToChat = effect.system.addToChat;
       if (forceAddToChat || addToChat) {
-        const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
+        const requireEnhancement = effect.system.requireEnhancement;
         if (requireEnhancement) {
           const number = item.allEnhancements.get(requireEnhancement)?.number
           if (number > 0) effects.push(effect.toObject());
@@ -727,6 +738,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
+  delete item.overridenDamage;
 }
 
 export function resetRollMenu(rollMenu, owner) {
@@ -801,20 +813,7 @@ function _toggleItem(item) {
 
 function _deleteEffectsMarkedForRemoval(actor) {
   if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
-  actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
-    if (game.user.isGM) {
-      effectsToRemovePerActor(toRemove);
-    }
-    else {
-      const activeGM = game.users.activeGM;
-      if (!activeGM) {
-        ui.notifications.error("There needs to be an active GM to remove effects from other actors");
-      }
-      else {
-        emitSystemEvent("removeEffectFrom", {toRemove: toRemove, gmUserId: activeGM.id});
-      }
-    }
-  });
+  actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => effectsToRemovePerActor(toRemove));
   actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); // Clear effects to remove
 } 
 

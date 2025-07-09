@@ -94,6 +94,24 @@ function _defaultColors() {
     ['--pc-header-image-color']: "#44116ba3",
     ['--pc-sidetab-image-color']: "#431169a3",
     ['--pc-unique-item-color']: "#ac45d5a6",
+
+    // Storage Sheet
+    ['--storage-main']: "#2a8d16",
+    ['--storage-main-light']: "#82b861",
+    ['--storage-main-lighter']: "#adc299",
+    ['--storage-main-dark']: "#0f4e0e",
+    ['--storage-secondary']: "#c0c0c0",
+    ['--storage-secondary-light']: "#dfdfdf",
+    ['--storage-secondary-light-alpha']: "#dfdfdfcc",
+    ['--storage-secondary-dark']: "#646464",
+    ['--storage-secondary-darker']: "#262626",
+    ['--storage-text-color-1']: "#ffffff",
+    ['--storage-text-color-2']: "#000000",
+    ['--storage-background']: "transparent",
+    ['--storage-table-1']: "#2e6926",
+    ['--storage-table-2']: "#194805",
+    ['--storage-header-image-color']: "#3c8316a3",
+    ['--storage-sidetab-image-color']: "#3c8316a3",
   }
 }
 
@@ -177,10 +195,50 @@ function _darkColors() {
     ['--pc-header-image-color']: "#371452a3",
     ['--pc-sidetab-image-color']: "#371452a3",
     ['--pc-unique-item-color']: "#ac45d5a6",
+
+    // Storage Sheet
+    ['--storage-main']: "#2a8d16",
+    ['--storage-main-light']: "#82b861",
+    ['--storage-main-lighter']: "#adc299",
+    ['--storage-main-dark']: "#0f4e0e",
+    ['--storage-secondary']: "#c0c0c0",
+    ['--storage-secondary-light']: "#dfdfdf",
+    ['--storage-secondary-light-alpha']: "#dfdfdfcc",
+    ['--storage-secondary-dark']: "#646464",
+    ['--storage-secondary-darker']: "#262626",
+    ['--storage-text-color-1']: "#ffffff",
+    ['--storage-text-color-2']: "#000000",
+    ['--storage-background']: "#303030",
+    ['--storage-table-1']: "#2e6926",
+    ['--storage-table-2']: "#194805",
+    ['--storage-header-image-color']: "#3c8316a3",
+    ['--storage-sidetab-image-color']: "#3c8316a3",
   }
 }
 
 export class ColorSetting extends FormApplication {
+
+  static async fillMissingPaletteValues() {
+    const colorPalette = {...game.settings.get("dc20rpg", "colorPaletteStore")};
+    const defaultPalette = defaultColorPalette();
+
+    let anyChanges = false;
+    Object.entries(colorPalette).forEach(([palKey, palette]) => {
+      const form = defaultPalette[palKey] || defaultPalette.default;
+
+      Object.entries(form).forEach(([colorKey, color]) => {
+        if (!palette[colorKey]) {
+          palette[colorKey] = color;
+          anyChanges = true;
+        }
+      })
+    })
+
+    if (anyChanges) {
+      await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
+      prepareColorPalette();
+    }
+  }
 
   constructor(dialogData = {title: "Color Palette Selection"}, options = {}) {
     super(dialogData, options);
@@ -216,11 +274,13 @@ export class ColorSetting extends FormApplication {
     const core = {};
     const pc = {};
     const npc = {};
+    const storage = {};
     const other = {};
 
     Object.entries(selected).forEach(([key, color]) => {
       if (key.startsWith("--pc")) pc[key] = color;
       else if (key.startsWith("--npc")) npc[key] = color;
+      else if (key.startsWith("--storage")) storage[key] = color;
       else if (key.startsWith("--primary") || key.startsWith("--secondary")) core[key] = color;
       else other[key] = color;
     })
@@ -228,6 +288,7 @@ export class ColorSetting extends FormApplication {
       core: core,
       pc: pc,
       npc: npc,
+      storage: storage,
       other: other
     }
   }

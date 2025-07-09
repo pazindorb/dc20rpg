@@ -1,6 +1,6 @@
 import { prepareActiveEffects } from "../helpers/effects.mjs";
 import { activateCommonLinsters } from "./item-sheet/is-listeners.mjs";
-import { duplicateItemData, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
+import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -21,6 +21,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
       ],
       dragDrop: [
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
+        {dragSelector: ".item-list .item", dropSelector: null},
       ]
     });
   }
@@ -39,11 +40,12 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
     prepareItemData(context, this.item);
     preprareSheetData(context, this.item);
     prepareActiveEffects(this.item, context);
+    if (this.item.type === "container") prepareContainer(this.item, context);
 
     // Enrich text editors
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
-    context.enriched.description = await TextEditor.enrichHTML(context.system.description, {secrets:true});
+    context.enriched.description = await TextEditor.enrichHTML(context.system.description, {secrets:true, autoLink:true});
 
     return context;
   }
@@ -59,11 +61,20 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
     let dragData;
 
     const dataset = event.currentTarget.dataset;
-    if ( dataset.effectId ) {
+    if (dataset.effectId) {
       const effect = this.item.effects.get(dataset.effectId);
       dragData = effect.toDragData();
     }
-    if ( !dragData ) return;
+    if (dataset.itemKey) {
+      const item = this.item.system.contents[dataset.itemKey];
+      if (!item) return
+
+      dragData = item;
+      dragData.fromContainer = true;
+      dragData.containerUuid = this.item.uuid;
+      dragData.itemKey = dataset.itemKey;
+    }
+    if (!dragData) return;
 
     // Set data transfer
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));

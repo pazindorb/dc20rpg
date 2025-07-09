@@ -1,0 +1,110 @@
+<form id="item-creator" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{varLocalize "dc20rpg.dialog.itemCreator.title." itemType ""}}</h4>
+
+  <div class="form-group margin-top-10">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.type'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="blueprint.system.{{itemType}}Type">
+        {{selectOptions itemSubTypes selected=subType blank=""}}
+      </select>
+    </div>
+  </div>
+
+  {{!-- Weapon Specific --}}
+  {{#ifCond blueprint.type "===" "weapon"}}{{#if subType}}
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.weaponStyle'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="blueprint.system.weaponStyle" data-hover="tooltip" data-tooltip-type="journal" data-header="{{weaponStyleHeader}}" data-uuid="{{weaponStyleJournalUuid}}">
+        {{selectOptions weaponStyles selected=blueprint.system.weaponStyle blank=""}}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.damageType'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="blueprint.system.formulas.weaponDamage.type">
+        {{selectOptions damageTypes selected=blueprint.system.formulas.weaponDamage.type}}
+      </select>
+    </div>
+  </div>
+  {{/if}}{{/ifCond}}
+
+  {{!-- Multi Faceted Config --}}
+  {{#if properties.multiFaceted.active}}
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.secondDamageType'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="blueprint.system.properties.multiFaceted.weaponStyle.second"  data-hover="tooltip" data-tooltip-type="journal" data-header="{{secondWeaponStyleHeader}}" data-uuid="{{secondWeaponStyleJournalUuid}}">
+        {{selectOptions weaponStyles selected=blueprint.system.properties.multiFaceted.weaponStyle.second blank=""}}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.secondDamageType'}}</label>
+    <div class="form-fields">
+      <select data-cType="string" data-path="blueprint.system.properties.multiFaceted.damageType.second">
+        {{selectOptions damageTypes selected=blueprint.system.properties.multiFaceted.damageType.second blank=""}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if properties.pdIncrease.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.pdIncrease'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.pdIncrease.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.pdIncrease.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+  {{#if properties.adIncrease.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.adIncrease'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.adIncrease.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.adIncrease.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+
+  {{!-- Property Points --}}
+  <div class="property-points margin-top-10"> 
+    {{propertyPointsLeft}} {{localize 'dc20rpg.dialog.itemCreator.pointsLeft'}}
+  </div>
+  {{!-- Properties --}}
+  <div class="grid grid-4col grid-gap-5 no-margin">
+    {{#each properties as |property key|}} 
+    <a class="{{#if property.disabled}}disable{{/if}} activable-box {{#if property.active}}active{{/if}}" data-hover="tooltip" data-tooltip-type="journal"
+          data-header="{{localize property.label}}  ({{property.cost}})" data-uuid="{{property.journalUuid}}" data-path="blueprint.system.properties.{{key}}.active" {{#unless property.disabled}}data-cType="activable"{{/unless}}
+    >{{localize property.label}}
+    </a>
+    {{/each}}
+  </div>
+
+  {{!-- Item Summary --}}
+  <fieldset>
+    <legend>{{localize "dc20rpg.dialog.itemCreator.itemSummary"}}</legend>
+    <div class="item-display">
+      <img src="{{blueprint.img}}"/>
+      <input class="item-name" data-path="blueprint.name" type="text" cType="string" value="{{blueprint.name}}"/>
+    </div>
+
+    {{#ifCond blueprint.type "===" "weapon"}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.itemCreator.damage'}}</label>
+      <span>{{blueprint.system.formulas.weaponDamage.formula}} {{labelFromKey blueprint.system.formulas.weaponDamage.type damageTypes}}</span>
+    </div>
+    {{/ifCond}}
+    
+    {{#if blueprint.system.range.normal}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.itemCreator.range'}}</label>
+      <span>{{blueprint.system.range.normal}} / {{blueprint.system.range.max}} {{localize "dc20rpg.item.sheet.target.spaces"}}</span>
+    </div>
+    {{/if}}
+  </fieldset>
+
+  <footer class="form-footer">
+    <button data-action="createItem"><i class="fa-solid fa-hammer-crash fa-lg"></i>{{localize "dc20rpg.dialog.itemCreator.title.weapon"}}</button>
+  </footer>
+</form>

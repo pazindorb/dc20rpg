@@ -1,3 +1,4 @@
+import { getActiveHelpDice } from "../../helpers/actors/actions.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
@@ -7,7 +8,14 @@ export function duplicateData(context, actor) {
   context.flags = actor.flags;
   context.editMode = context.flags.dc20rpg?.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
-  context.weaponsOnActor = actor.getWeapons();
+  context.help = _help(actor);
+}
+
+function _help(actor) {
+  return {
+    dice: getActiveHelpDice(actor),
+    rowSize: 5
+  }
 }
 
 export function prepareCommonData(context) {
@@ -30,6 +38,11 @@ export function prepareNpcData(context) {
   _languages(context);
 }
 
+export function prepareStorageData(context) {
+  context.isGM = game.user.isGM;
+  context.gridTemplate = _getGridTemplate(context.system.storageType);
+}
+
 export function prepareCompanionData(context) {
   context.shareWithCompanionOwner = _shareOptionsSimplyfied(context.system.shareWithCompanionOwner, "");
 }
@@ -50,6 +63,17 @@ function _shareOptionsSimplyfied(options, prefix) {
     }
   })
   return simplified;
+}
+
+function _getGridTemplate(type) {
+  const isGM = game.user.isGM;
+  if (type === "vendor" && isGM) return "1fr 100px 50px 50px";
+  if (type === "vendor" && !isGM) return "1fr 100px 50px";
+  if (type === "partyInventory" && !isGM) return "1fr 50px";
+  if (type === "partyInventory" && isGM) return "1fr 50px 50px";
+  if (type === "randomLootTable" && isGM) return "1fr 50px 50px 50px";
+  if (type === "randomLootTable" && !isGM) return "1fr 50px";
+  return "1fr 50px";
 }
 
 function _damageReduction(context) {
@@ -150,7 +174,11 @@ function _size(context) {
 
 function _allSkills(context) {
   const skills = Object.entries(context.system.skills)
-                  .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
+                  .map(([key, skill]) => {
+                    const skl = _prepSkillMastery(skill);
+                    if (key === "awa") skl.shouldShow = true
+                    return [key, skl]
+                  });
   context.skills = {
     allSkills: Object.fromEntries(skills)
   }
@@ -181,6 +209,7 @@ function _prepSkillMastery(skill) {
   
   skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
   skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
+  skill.shouldShow = mastery > 0;
   return skill;
 }
 

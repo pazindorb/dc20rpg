@@ -379,6 +379,11 @@
           {{/ifCond}}
         </div>
       </div>
+
+      <div class="help-dice-wrapper" title="Help Dice">
+        {{PARTIAL "Help Tracker"}}
+        <a class="make-help-action fa-solid fa-handshake-angle fa-lg" title="Perform Help Action"></a>
+      </div>
     </div>
   </header>
 
@@ -432,7 +437,7 @@
           </div> 
           <div class="oneliner-content">
             {{#each skills.allSkills as |skill key|}}
-            {{#if mastery}}
+            {{#if skill.shouldShow}}
             <div class="margin-top-2">
               <i class="fa-solid fa-square"></i>
               <a class="rollable" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
@@ -450,9 +455,9 @@
           <div class="top-menu">
             {{#if @root.editMode}}
             <div class="top-menu-buttons">
-              <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-              <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="weapon" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
               <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+              <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="weapon" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+              <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-sack"></i></a>
             </div>
             {{else}}
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -464,14 +469,22 @@
               <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
             </a>
           </div>
+          <div class="containers item-list">
+            {{#each containers}}
+            <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
+              {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
+              <img src="{{img}}"/>
+            </div>
+            {{/each}}
+          </div>
 
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{item-table false basic "basic" @root.weaponsOnActor}}
+            {{item-table false basic "basic"}}
           </div>
           {{else}}
           <div class="main">
-            {{item-table @root.editMode main "main" @root.weaponsOnActor}} 
+            {{item-table @root.editMode main "main"}} 
           </div>
           {{/if}}
         </div>
@@ -811,7 +824,7 @@
   <nav class="char-sheet-navigation tabs npc-navigation" data-group="primary">
     <a class="item" data-tab="core" title="{{localize 'dc20rpg.sheet.nav.core'}}"><i class="fa-solid fa-lg fa-list-ul"></i></a>
     <a class="item" data-tab="effects" title="{{localize 'dc20rpg.sheet.nav.effects'}}"><i class="fa-solid fa-lg fa-bolt"></i></a>
-    <a class="item" data-tab="journal" title="{{localize 'dc20rpg.sheet.nav.journal'}}"><i class="fa-solid fa-lg fa-feather"></i></a>
     <a class="item" data-tab="config" title="{{localize 'dc20rpg.sheet.nav.config'}}"><i class="fa-solid fa-lg fa-gear"></i></a>
+    <a class="item" data-tab="journal" title="{{localize 'dc20rpg.sheet.nav.journal'}}"><i class="fa-solid fa-lg fa-feather"></i></a>
   </nav>
 </form>

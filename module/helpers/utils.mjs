@@ -8,6 +8,15 @@ export function removeWhitespaces(str) {
 }
 
 /**
+ * Remove all styles (style="XYZ") from text 
+ */
+export function clearStyles(text) {
+  const regex = /style="[^"]*"/g;
+  const clean = text.replace(regex, '');
+  return clean;
+}
+
+/**
  * Checks if all elements in array are true;
  */
 export function arrayOfTruth(array) {
@@ -193,4 +202,15 @@ export function getPointsOnLine(x1, y1, x2, y2, interval) {
 
 export function roundFloat(float) {
   return Math.round(float * 10)/10;
+}
+
+export function arraysHaveCommonString(arr1, arr2) {
+  const set1 = new Set(arr1);
+  return arr2.some(item => set1.has(item));
+}
+
+export function toSelectOptions(objectArray, key, label) {
+  const options = {};
+  objectArray.forEach(obj => options[obj[key]] = obj[label]);
+  return options;
 }

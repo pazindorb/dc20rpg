@@ -108,7 +108,7 @@ export async function createNewEffectOn(type, owner, flags) {
 }
 
 export async function createEffectOn(effectData, owner) {
-  if (!owner.canUserModify(game.user, "create")) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("addDocument", {
       docType: "effect",
       docData: effectData, 
@@ -126,8 +126,22 @@ export function editEffectOn(effectId, owner) {
   if (effect) effect.sheet.render(true);
 }
 
+export async function updateEffectOn(effectId, owner, updateData) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
+    emitEventToGM("updateDocument", {
+      docType: "effect",
+      docId: effectId, 
+      actorUuid: owner.uuid,
+      updateData: updateData
+    });
+    return;
+  }
+  const item = getItemFromActor(itemId, actor);
+  return await item.update(updateData);
+}
+
 export async function deleteEffectFrom(effectId, owner) {
-  if (!owner.canUserModify(game.user, "delete")) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("removeDocument", {
       docType: "effect",
       docId: effectId, 
@@ -140,6 +154,15 @@ export async function deleteEffectFrom(effectId, owner) {
 }
 
 export async function toggleEffectOn(effectId, owner, turnOn) {
+  if (!owner.testUserPermission(game.user, "OWNER")) {
+    emitEventToGM("toggleEffectOn", {
+      turnOn: turnOn,
+      effectId: effectId, 
+      ownerUuid: owner.uuid
+    });
+    return;
+  }
+
   const options = turnOn ? {disabled: true} : {active: true};
   const effect = getEffectFrom(effectId, owner, options);
   if (effect) {
@@ -181,13 +204,39 @@ export async function effectsToRemovePerActor(toRemove) {
     if (effect) {
       if (afterRoll === "delete") {
         sendEffectRemovedMessage(actor, effect);
-        effect.delete();
+        await deleteEffectFrom(toRemove.effectId, actor);
       }
-      if (afterRoll === "disable") effect.disable();
+      if (afterRoll === "disable") await toggleEffectOn(toRemove.effectId, actor, false);
     }
   }
 }
-   
+
+export async function addFlatDamageReductionEffect(actor) {
+  const damageReduction = {
+    name: "Grit - Damage Reduction",
+    img: "icons/svg/mage-shield.svg",
+    description: "<p>You are spending Grit to reduce incoming damage</p>",
+    duration: {rounds: 1},
+    changes: [
+      {
+        key: "system.damageReduction.flat",
+        mode: 2,
+        value:"1"
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+      }
+    ]
+  }
+  await createEffectOn(damageReduction, actor);
+}
 
 //===========================================================
 export function injectFormula(effect, effectOwner) {

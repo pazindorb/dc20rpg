@@ -52,14 +52,14 @@ export class ActorBrowser extends Dialog {
     html[0].addEventListener('dragover', ev => ev.preventDefault());
   }
 
-  _showActor(uuid) {
-    const actor = fromUuidSync(uuid);
+  async _showActor(uuid) {
+    const actor = await fromUuid(uuid);
     if (actor) actor.sheet.render(true);
   }
 
   async _onImportActor(ev) {
     ev.stopPropagation();
-    const actor = fromUuidSync(datasetOf(ev).uuid);
+    const actor = await fromUuid(datasetOf(ev).uuid);
     if (!actor) return;
     const createdActor = await Actor.create(actor);
     createdActor.sheet.render(true);

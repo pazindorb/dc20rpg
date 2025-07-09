@@ -1,0 +1,158 @@
+<aside id="hotbar">
+  <div id="hotbar-controls-left" class="hotbar-controls flexcol" data-tooltip-direction="LEFT">
+    {{#if tokenHotbar}}
+    <button type="button" class="ui-control fa-solid {{filter.icon}} icon" data-action="filter" data-tooltip aria-label="{{localize 'HOTBAR.FILTER'}}{{filter.label}}"></button>
+    <button type="button" class="ui-control fa-solid fa-gears icon" data-action="config" data-tooltip aria-label="{{localize 'HOTBAR.CONFIG'}}"></button>
+    {{/if}}
+    <button type="button" class="ui-control fa-solid {{#if tokenHotbar}}fa-code{{else}}fa-user{{/if}} icon" data-action="swap" data-tooltip aria-label="{{#if tokenHotbar}}{{localize 'HOTBAR.HOTBAR'}}{{else}}{{localize 'HOTBAR.TOKEN'}}{{/if}}"></button>
+    <button type="button" class="ui-control fa-solid fa-volume icon" data-action="mute" data-tooltip aria-label="{{localize 'HOTBAR.MUTE'}}"></button>
+    <button type="button" class="ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip aria-label="{{localize 'HOTBAR.MENU'}}"></button>
+  </div>
+  {{#if tokenHotbar}}
+  {{!-- Token Hotbar --}}
+  {{!-- Token Effects Tracker --}}
+  <menu id="action-bar" data-tooltip-direction="UP">
+    {{!-- Section B --}}
+    <div class="section">
+      <div class="upper-wrapper reverse-direction">
+        {{#ifCond effects.position '===' "sectionB"}}{{PARTIAL "Effects Tracker"}}{{else}}<div></div>{{/ifCond}}
+        {{#ifCond help.position '===' "sectionB"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
+      </div>
+      
+      <div class="section-wrapper grid grid-{{sectionBWidth}}row">
+      {{#each sectionB as |item index|}}
+      <li class="slot {{item.borderColor}} {{#if item.system.toggle.toggledOn}}outline{{/if}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionB">
+        {{#if item.actionMarker}}<i class="action-type fa-solid {{item.actionMarker}}"></i>{{/if}}
+        {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
+        {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
+        {{#ifCond item.showCharges '!==' undefined}}<span class="show-charges">{{item.showCharges}}</span>{{/ifCond}}
+      </li>
+      {{/each}}
+      </div>
+    </div>
+    
+    {{!-- Character Details --}}
+    {{#if actor.img}}
+    <div></div>
+    <div class="portrait-wrapper">
+      {{{resources}}}
+
+      <img class="char-img" data-tooltip="{{localize "HOTBAR.DBCLICK"}}" src="{{@root.actor.img}}">
+
+      {{!-- HP Bar --}}
+      <div class="resource margin-top-10" title="{{localize 'dc20rpg.resource.health'}}">
+        <div class="above-bar margin-top-auto">
+          <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
+            <input class="temporary-input" data-cType="actor-numeric" data-path="system.resources.health.temp" type="number" value="{{actor.system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+          </div>
+        </div>
+        
+        <div class="resource-bar-wrapper">
+          <a class="health spend-resource" data-action="spendResource" data-resource="health" title="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"><i class="fas fa-solid fa-minus"></i></a>
+          <div class="resource-bar">
+            <div class="health-bar-temp" style="width: {{actor.system.resources.health.percentTemp}}%"></div>
+            <div class="health-bar" style="width: {{actor.system.resources.health.percent}}%"></div>
+            <div class="resource-content">
+              <div class="resource-values">
+                <input class="bar-input" data-cType="actor-numeric" data-path="system.resources.health.current" type="number" value="{{actor.system.resources.health.current}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input disabled class="bar-input" type="number" data-path="actor.system.resources.health.max" value="{{actor.system.resources.health.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <a class="health regain-resource" data-action="regainResource" data-resource="health" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"><i class="fas fa-solid fa-plus"></i></a>
+        </div>
+      </div>
+
+      {{!-- Action Points --}}
+      <div class="action-points-wrapper">
+        <a class="ap spend-resource" data-action="spendResource" data-resource="ap" title="{{localize 'dc20rpg.sheet.resource.useAp'}}"><i class="fas fa-solid fa-minus"></i></a>
+        <div class="points">
+          {{{icon-printer-empty actor.system.resources.ap.value actor.system.resources.ap.max 4 "fa-solid fa-dice-d6 ap" "fa-regular fa-dice-d6 ap" actor.system.globalModifier.prevent.goUnderAP "#b20000"}}}
+        </div>
+        <a class="ap regain-resource" data-action="regainResource" data-resource="ap" title="{{localize 'dc20rpg.sheet.resource.regainAp'}}"><i class="fas fa-solid fa-plus"></i></a>
+      </div>
+    </div>
+
+    <div class="special-action-wrapper">
+      <div class="sustain-wrapper">
+        {{#each sustain as |value index|}}
+        <img src="{{value.img}}" class="sustain-action" data-action="dropSustain" data-index={{index}} data-tooltip="{{value.name}}{{localize "dc20rpg.sheet.sustainAction.title"}}"/>
+        {{/each}}
+      </div>
+
+      {{#if heldAction}}
+      <img src="{{heldAction.itemImg}}" class="held-action" data-action="heldAction" data-tooltip="{{localize "dc20rpg.sheet.heldAction.roll"}}"/>
+      {{/if}}
+    </div>
+    {{/if}}
+
+    {{!-- Section A --}}
+    <div class="section">
+      <div class="upper-wrapper">
+        {{#ifCond effects.position '===' "sectionA"}}{{PARTIAL "Effects Tracker"}}{{else}}<div></div>{{/ifCond}}
+        {{#ifCond help.position '===' "sectionA"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
+      </div>
+      <div class="section-wrapper grid grid-{{sectionAWidth}}row">
+      {{#each sectionA as |item index|}}
+      <li class="slot {{item.borderColor}} {{#if item.system.toggle.toggledOn}}outline{{/if}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" data-tooltip="{{{item.description}}}" data-section="sectionA">
+        {{#if item.actionMarker}}<i class="action-type fa-solid {{item.actionMarker}}"></i>{{/if}}
+        {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
+        {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
+        {{#ifCond item.showCharges '!==' undefined}}<span class="show-charges">{{item.showCharges}}</span>{{/ifCond}}
+      </li>
+      {{/each}}
+      </div>
+    </div>
+  </menu>
+  {{else}}
+
+  {{!-- Macro Hotbar --}}
+  <menu id="action-bar" class="flexrow" data-tooltip-direction="UP">
+    {{#each slots as |slot|}}
+    <li class="slot {{slot.cssClass}}" role="button" data-action="execute" data-slot="{{slot.slot}}"
+      style="{{slot.style}}" aria-label="{{slot.ariaLabel}}" {{#if slot.tooltip}}data-tooltip-text="{{slot.tooltip}}"
+      {{/if}}>
+      {{#if slot.img}}<img class="slot-icon" src="{{slot.img}}" alt="{{slot.ariaLabel}}">{{/if}}
+      <span class="key">{{slot.key}}</span>
+    </li>
+    {{/each}}
+  </menu>
+  {{/if}}
+
+  <div id="hotbar-controls-right" class="hotbar-controls flexrow" data-tooltip-direction="RIGHT">
+    {{#unless tokenHotbar}}
+    <nav id="hotbar-page-controls" class="flexcol">
+      <button type="button" class="plain hotbar-page-control page-next fa-solid fa-triangle icon" data-action="page"
+        data-direction="1" data-tooltip aria-label="{{localize 'HOTBAR.PAGE_NEXT'}}">
+      </button>
+      <span class="hotbar-page-number">{{page}}</span>
+      <button type="button" class="plain hotbar-page-control page-prev fa-solid fa-triangle icon" data-action="page"
+        data-direction="-1" data-tooltip aria-label="{{localize 'HOTBAR.PAGE_PREV'}}">
+      </button>
+    </nav>
+    {{else}}
+    {{#if actor.img}}
+    <div class="flexcol hotbar-controls" style="justify-content: end; height: 100%;">
+      <button type="button" class="ui-control fa-solid fa-dice icon" data-action="check" data-tooltip aria-label="{{localize 'HOTBAR.CHECK'}}"></button>
+      <button type="button" class="ui-control fa-solid fa-shield icon" data-action="save" data-tooltip aria-label="{{localize 'HOTBAR.SAVE'}}"></button>
+      {{#ifCond actor.type '===' 'character'}}
+      <button type="button" class="ui-control fa-solid fa-clover icon" data-action="grit" data-tooltip aria-label="{{localize 'dc20rpg.sheet.resource.gritToDamageReduction'}}"></button>
+      <button type="button" class="ui-control fa-solid fa-campground icon" data-action="rest" data-tooltip aria-label="{{localize 'HOTBAR.REST'}}"></button>
+      <button type="button" class="ui-control fa-solid fa-star icon" data-action="autofill" data-special="favorities" data-tooltip aria-label="{{localize 'HOTBAR.FILLFAVS'}}"></button>
+      {{/ifCond}}
+      <button type="button" class="ui-control fa-solid fa-fill-drip icon" data-action="autofill" data-tooltip aria-label="{{localize 'HOTBAR.FILL'}}"></button>
+      {{#ifCond actor.type '!==' 'character'}}
+      <button type="button" class="ui-control fa-solid fa-user icon" data-action="original" {{#if original}}style="background-color:#8a00b7;"{{/if}} data-tooltip aria-label="{{localize 'HOTBAR.ORIGINAL'}}"></button>
+      {{/ifCond}}
+    </div>
+    {{/if}}
+    {{/unless}}
+    <div class="flexcol">
+      <button type="button" class="ui-control fa-solid fa-unlock icon" data-action="lock" data-tooltip
+        aria-label="{{localize 'HOTBAR.LOCK'}}" {{#if tokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
+      <button type="button" class="ui-control fa-solid fa-trash icon" data-action="clear" data-tooltip
+        aria-label="{{localize 'HOTBAR.CLEAR'}}" {{#if tokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
+    </div>
+  </div>
+</aside>

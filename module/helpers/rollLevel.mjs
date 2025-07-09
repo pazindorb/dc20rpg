@@ -643,14 +643,7 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
   // Companion might share MCP with owner
   if (companionShare(actor, "mcp")) actorToUpdate = actor.companionOwner; 
 
-  // Get active started combat
-  const activeCombat = game.combats.active;
-  if (!activeCombat || !activeCombat.started) return;
-
-  // If roll was made by actor on his turn apply multiple check penalty
-  const combatantId = activeCombat.current.combatantId;
-  const combatant = activeCombat.combatants.get(combatantId);
-  if (combatant?.actorId === actorToUpdate.id) {
+  if (actorToUpdate.myTurnActive) {
     const mcp = actorToUpdate.system.mcp;
     mcp.push(distinction);
     actorToUpdate.update({["system.mcp"]: mcp});

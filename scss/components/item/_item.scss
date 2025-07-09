@@ -26,7 +26,7 @@
     }
   }
 
-  .weapon-creator-wrapper, .scroll-creator-wrapper {
+  .item-creator-wrapper, .scroll-creator-wrapper {
     position: relative;
     height: 0;
     width: 0;
@@ -160,13 +160,10 @@
         align-items: center;
         padding: 0px 5px;
         border-right: 2px solid $primary-color;
+        font-weight: bold;
 
         &:last-child {
           border-right: 0;
-        }
-
-        em {
-          font-weight: bold;
         }
 
         i {
@@ -284,7 +281,7 @@
   height: calc(100% - 168px);
   border: 2px solid $primary-color;
   border-top: 0;
-  margin-bottom: 5px;
+  border-bottom: 0;
 
   hr {
     border-top: 1px solid $primary-dark;
@@ -745,6 +742,26 @@
     }
   }
 
+  .stargin-equipment {
+
+    .letter-circle-icon {
+
+      a {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+        border: 1px solid $secondary-darker;
+        background-color: $secondary-lighter;
+        text-shadow: none;
+
+        &.active {
+          background-color: $primary-dark;
+          color: white;
+        }
+      }
+    }
+  }
+
   .activable-box {
     font-family: $dc20-font;
     padding: 3px 3px 2px 3px;
@@ -781,14 +798,15 @@
     }
   }
 
-  .description-tab {
+  .description-tab, .contents-tab {
     height: 100%;
+    padding: 7px;
 
     &.with-price {
       height: calc(100% - 40px);
     }
 
-    .description {
+    .description, .contents-box {
       height: 100%;
     }
 
@@ -796,12 +814,15 @@
       height: 40px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
 
       margin-top: 3px;
-      padding: 3px;
+      padding: 3px 10px;
       border-top: 2px solid $primary-color;
       font-weight: bold;
+
+      .row {
+        width: 100%;
+      }
     }
   }
 }

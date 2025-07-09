@@ -184,13 +184,40 @@ export function openRestDialogForOtherPlayers(actor, preselected) {
   });
 }
 
+export async function refreshAllResources(actor) {
+  const updateData = {};
+  if (actor.system.resources.mana) {
+    const mana = actor.system.resources.mana.max;
+    updateData["system.resources.mana.value"] = mana;
+  }
+  if (actor.system.resources.stamina) {
+    const stamina = actor.system.resources.stamina.max;
+    updateData["system.resources.stamina.value"] = stamina;
+  }
+  if (actor.system.resources.health) {
+    const health = actor.system.resources.health.max;
+    updateData["system.resources.health.current"] = health;
+  }
+  if (actor.system.resources.grit) {
+    const grit = actor.system.resources.grit.max;
+    updateData["system.resources.grit.value"] = grit;
+  }
+  if (actor.system.resources.restPoints) {
+    const restPoints = actor.system.resources.restPoints.max;
+    updateData["system.resources.restPoints.value"] = restPoints;
+  }
+  await actor.update(updateData);
+}
+
 export async function refreshOnRoundEnd(actor) {
+  if (!actor) return;
   refreshAllActionPoints(actor);
   await _refreshItemsOn(actor, ["round"]);
   await _refreshCustomResourcesOn(actor, ["round"]);
 }
 
 export async function refreshOnCombatStart(actor) {
+  if (!actor) return;
   refreshAllActionPoints(actor);
   await _refreshStamina(actor);
   await _refreshItemsOn(actor, ["round", "combat"]);
@@ -248,13 +275,11 @@ async function _refreshCustomResourcesOn(actor, resetTypes) {
   const updateData = {}
   Object.entries(customResources).forEach(([key, resource]) => {
     if (resetTypes.includes(resource.reset) || (resource.reset === "halfOnShort" && resetTypes.includes("long"))) {
-      resource.value = resource.max;
-      updateData[`system.resources.custom.${key}`] = resource;
+      updateData[`system.resources.custom.${key}.value`] = resource.max;
     }
     else if (resource.reset === "halfOnShort" && resetTypes.includes("short")) {
-      const newValue = resource.value + Math.ceil(resource.max/2)
-      resource.value = Math.min(newValue, resource.max);
-      updateData[`system.resources.custom.${key}`] = resource;
+      const newValue = resource.value + Math.ceil(resource.max/2);
+      updateData[`system.resources.custom.${key}.value`] = Math.min(newValue, resource.max);
     }
   });
   actor.update(updateData);

@@ -1,24 +1,27 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
+import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
+import { DC20RpgTokenDocument } from "../documents/tokenDoc.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { ColorSetting } from "../settings/colors.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
+import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./actors/attrAndSkills.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./actors/costManipulator.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
-import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey } from "./actors/itemsOnActor.mjs";
+import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
-import { getSelectedTokens } from "./actors/tokens.mjs";
-import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./effects.mjs";
-import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName, runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
+import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getTokenForActor } from "./actors/tokens.mjs";
+import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
+import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
-import { getActiveActorOwners, getActiveActorOwnersIds } from "./users.mjs";
+import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 
 export function prepareDC20tools() {
   game.dc20rpg = {
@@ -26,10 +29,13 @@ export function prepareDC20tools() {
     DC20RpgItem,
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
+    DC20RpgTokenDocument,
+    ColorSetting,
     rollItemWithName,
     forceRunMigration,
     effects: {
       createEffectOn,
+      updateEffectOn,
       deleteEffectFrom,
       getEffectByName,
       getEffectById,
@@ -52,18 +58,33 @@ export function prepareDC20tools() {
       canSubtractCustomResource,
       subtractAP,
     },
+    rolls: {
+      prepareCheckDetailsFor,
+      prepareSaveDetailsFor,
+      promptRoll,
+      promptItemRoll,
+      promptRollToOtherPlayer,
+      promptItemRollToOtherPlayer,
+    },
     tools: {
       getSelectedTokens,
+      createToken,
+      deleteToken,
+      getTokenForActor,
+      getAllTokensForActor,
       createItemOnActor,
+      updateItemOnActor,
       deleteItemFromActor,
       getItemFromActorByKey,
       promptRoll,
       promptItemRoll,
       promptRollToOtherPlayer,
+      promptItemRollToOtherPlayer,
       getSimplePopup,
       sendSimplePopupToUsers,
+      sendSimplePopupToActorOwners,
       getActiveActorOwners,
-      getActiveActorOwnersIds,
+      getIdsOfActiveActorOwners,
       tokenToTarget,
       calculateForTarget,
       applyDamage,
@@ -201,6 +222,7 @@ DC20RPG.allEventTriggers = {
   combatStart: "Combat Start",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
+  resourceChange: "Resource Change",
   effectApplied: "Effect Applied",
   effectRemoved: "Effect Removed",
   effectEnabled: "Effect Enabled",
@@ -347,6 +369,12 @@ DC20RPG.DROPDOWN_DATA.sizes = {
   titanic: "Titanic",
 }
 
+DC20RPG.DROPDOWN_DATA.storageTypes = {
+  partyInventory: "Party Inventory",
+  randomLootTable: "Random Loot Table",
+  vendor: "Vendor"
+}
+
 DC20RPG.DROPDOWN_DATA.attributesWithPrime = {
   prime: "Prime",
   ...DC20RPG.TRANSLATION_LABELS.attributes
@@ -377,15 +405,22 @@ DC20RPG.DROPDOWN_DATA.basicActionsCategories = {
 
 DC20RPG.DROPDOWN_DATA.weaponTypes = {
   melee: "Melee",
-  ranged: "Ranged",
-  special: "Special"
+  ranged: "Ranged"
+}
+
+DC20RPG.DROPDOWN_DATA.armorTypes = {
+  light: "Light Armor",
+  heavy: "Heavy Armor",
+}
+
+DC20RPG.DROPDOWN_DATA.shieldTypes = {
+  lshield: "Light Shield",
+  hshield: "Heavy Shield",
 }
 
 DC20RPG.DROPDOWN_DATA.equipmentTypes = {
-  light: "Light Armor",
-  heavy: "Heavy Armor",
-  lshield: "Light Shield",
-  hshield: "Heavy Shield",
+  ...DC20RPG.DROPDOWN_DATA.armorTypes,
+  ...DC20RPG.DROPDOWN_DATA.shieldTypes,
   clothing: "Clothing",
   trinket: "Trinket",
   other: "Other"
@@ -487,6 +522,11 @@ DC20RPG.DROPDOWN_DATA.formulaCategories = {
   healing: "Healing Formula"
 }
 
+DC20RPG.DROPDOWN_DATA.allFormulaCategories = {
+  ...DC20RPG.DROPDOWN_DATA.formulaCategories,
+  other: "Other Formula"
+}
+
 DC20RPG.DROPDOWN_DATA.physicalDamageTypes = {
   bludgeoning: "Bludgeoning",
   slashing: "Slashing",
@@ -530,6 +570,7 @@ DC20RPG.DROPDOWN_DATA.inventoryTypes = {
   weapon: "Weapon",
   equipment: "Equipment",
   consumable: "Consumable",
+  container: "Container",
   loot: "Loot"
 }
 
@@ -634,7 +675,7 @@ DC20RPG.DROPDOWN_DATA.invidualTargets = {
   enemy: "Enemy",
   creature: "Creature",
   object: "Object",
-  space: "Space"
+  space: "Spaces"
 }
 
 DC20RPG.DROPDOWN_DATA.areaTypes = {
@@ -695,48 +736,6 @@ DC20RPG.DROPDOWN_DATA.rarities = {
   veryRare: "Very Rare",
   legendary: "Legendary"
 }
-
-DC20RPG.DROPDOWN_DATA.properties = {
-  agiDis: "Agi Checks DisADV",
-  ammo: "Ammunition",
-  attunement: "Attunement",
-  concealable: "Concealable",
-  finesee: "Finesee",
-  focus: "Focus",
-  reach: "Reach",
-  requirement: "Requirement",
-  reload: "Reload",
-  special: "Special",
-  thrown: "Thrown",
-  twoHanded: "Two-Handed",
-  versatile: "Versatile",
-  sturdy: "Sturdy (Agility Checks DisADV)",
-  damageReduction: "Damage Reduction",
-  dense: "Dense (-1 Speed)",
-  mobile: "Mobile",
-  impact: "Impact",
-  threatening: "Threatening",
-  reinforced: "Reinforced (Max Agility Limit)",
-  mounted: "Mounted",
-  unwieldy: "Unwieldy",
-  silent: "Silent",
-  toss: "Toss",
-  returning: "Returning",
-  capture: "Capture",
-  multiFaceted: "Multi-Faceted",
-  guard: "Guard",
-  heavy: "Heavy",
-  longRanged: "Long-Ranged",
-  silent: "Silent",
-  adIncrease: "AD Increase",
-  pdIncrease: "PD Increase",
-  edr: "EDR",
-  pdr: "PDR",
-  bulky: "Bulky",
-  rigid: "Rigid",
-  grasp: "Grasp",
-  mounted: "Mounted",
-},
 
 DC20RPG.DROPDOWN_DATA.rollTemplates = {
   dynamic: "Dynamic Attack Save",
@@ -804,47 +803,211 @@ DC20RPG.DROPDOWN_DATA.jumpCalculationKeys = {
 
 DC20RPG.DROPDOWN_DATA.templatesActivationEffectTypes = {
   "": "None",
-  "all": "All Tokens",
-  "enemy": "Enemy Tokens",
-  "ally": "Ally Tokens",
-  "selector": "Token Selector"
+  all: "All Tokens",
+  enemy: "Enemy Tokens",
+  ally: "Ally Tokens",
+  selector: "Token Selector"
+}
+
+DC20RPG.DROPDOWN_DATA.difficultTerrainTypes = {
+  "": "None",
+  all: "All Tokens",
+  friendly: "Friendly Disposition Tokens",
+  hostile: "Hostile Disposition Tokens"
 }
 
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================
+DC20RPG.PROPERTIES = {
+  attunement: {
+    label: "dc20rpg.properties.attunement",
+    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other"],
+    cost: 0,
+    journalUuid: ""
+  },
+  ammo: {
+    label: "dc20rpg.properties.ammo",
+    for: ["ranged"],
+    cost: 0,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh"
+  },
+  concealable: {
+    label: "dc20rpg.properties.concealable",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J"
+  },
+  guard: {
+    label: "dc20rpg.properties.guard",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe"
+  },
+  heavy: {
+    label: "dc20rpg.properties.heavy",
+    for: ["melee", "ranged"],
+    cost: 2,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY"
+  },
+  impact: {
+    label: "dc20rpg.properties.impact",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY"
+  },
+  longRanged: {
+    label: "dc20rpg.properties.longRanged",
+    for: ["ranged"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW"
+  },
+  multiFaceted: {
+    label: "dc20rpg.properties.multiFaceted",
+    for: ["melee"],
+    cost: 1,
+    selected: "first",
+    weaponStyle: {
+      first: "",
+      second: ""
+    },
+    damageType: {
+      first: "",
+      second: ""
+    },
+    labelKey: "",
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6"
+  },
+  reach: {
+    label: "dc20rpg.properties.reach",
+    for: ["melee"],
+    cost: 1,
+    value: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB"
+  },
+  reload: {
+    label: "dc20rpg.properties.reload",
+    for: ["ranged"],
+    cost: 0,
+    loaded: true,
+    value: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv"
+  },
+  silent: {
+    label: "dc20rpg.properties.silent",
+    for: ["ranged"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa"
+  },
+  toss: {
+    label: "dc20rpg.properties.toss",
+    for: ["melee", "lshield"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6"
+  },
+  thrown: {
+    label: "dc20rpg.properties.thrown",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK"
+  },
+  twoHanded: {
+    label: "dc20rpg.properties.twoHanded",
+    for: ["melee", "ranged"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy"
+  },
+  unwieldy: {
+    label: "dc20rpg.properties.unwieldy",
+    for: ["melee", "ranged"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w"
+  },
+  versatile: {
+    label: "dc20rpg.properties.versatile",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich"
+  },
+  returning: {
+    label: "dc20rpg.properties.returning",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog"
+  },
+  capture: {
+    label: "dc20rpg.properties.capture",
+    for: ["melee"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV"
+  },
+
+  adIncrease: {
+    label: "dc20rpg.properties.adIncrease",
+    for: ["lshield", "hshield", "light", "heavy"],
+    cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp"
+  },
+  pdIncrease: {
+    label: "dc20rpg.properties.pdIncrease",
+    for: ["lshield", "hshield", "light", "heavy"],
+    cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf"
+  },
+  edr: {
+    label: "dc20rpg.properties.edr",
+    for: ["hshield", "light", "heavy"],
+    cost: 2,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk"
+  },
+  pdr: {
+    label: "dc20rpg.properties.pdr",
+    for: ["hshield", "heavy"],
+    cost: 2,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB"
+  },
+  bulky: {
+    label: "dc20rpg.properties.bulky",
+    for: ["hshield", "heavy"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR"
+  },
+  rigid: {
+    label: "dc20rpg.properties.rigid",
+    for: ["hshield", "heavy"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo"
+  },
+  grasp: {
+    label: "dc20rpg.properties.grasp",
+    for: ["lshield"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE"
+  },
+  mounted: {
+    label: "dc20rpg.properties.mounted",
+    for: ["hshield"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
+  },
+}
+
+DC20RPG.ICONS = {
+  martialExpansion: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
+  cantrips: "icons/sundries/scrolls/scroll-bound-blue-white.webp",
+  spells: "icons/skills/trades/academics-book-study-runes.webp",
+  maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
+  techniques: "icons/skills/melee/spear-tips-quintuple-orange.webp",
+  attributes: "icons/skills/trades/academics-investigation-puzzles.webp"
+}
+
 DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
   adv: "Advantage", 
   dis: "Disadvantage"
-}
-
-DC20RPG.SYSTEM_CONSTANTS.propertiesCost = {
-  attunement: 0,
-  ammo: 0,
-  concealable: 1,
-  reach: 1,
-  reload: 0,
-  thrown: 1,
-  twoHanded: -1,
-  versatile: 1,
-  impact: 1,
-  unwieldy: -1,
-  silent: 1,
-  toss: 1,
-  returning: 1,
-  capture: 0,
-  multiFaceted: 1,
-  guard: 1,
-  heavy: 2,
-  longRanged: 1,
-  adIncrease: 1,
-  pdIncrease: 1,
-  edr: 2,
-  pdr: 2,
-  bulky: -1,
-  rigid: -1,
-  grasp: 1,
-  mounted: 1,
 }
 
 DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel = {
@@ -1013,7 +1176,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   burning: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5",
   charmed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0f27a9c67ee55f2c",
   dazed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b",
-  disoriented: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b",
+  disoriented: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.aiyTcZJdK1Qjbmxe",
   deafened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5fa74b85758bd263",
   doomed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.89c5df57ec2d8d0e",
   exhaustion: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb",
@@ -1023,7 +1186,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   immobilized: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk",
   hindered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3be8114c415718d2",
   impaired: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a",
-  weakened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a",
+  weakened: "Compendium.world.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0qADnucZuuZHI9XW",
   incapacitated: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.e49439b5f79839d3",
   intimidated: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f",
   invisible: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2226eef8173ad6f0",
@@ -1046,40 +1209,6 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   deathsDoor: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.000a46e5db7cb982",
   partiallyConcealed: "Compendium.dc20rpg.rules.JournalEntry.UgSNzjIdhqUjQ9Yo.JournalEntryPage.da1f84c1f010eae2",
   fullyConcealed: "Compendium.dc20rpg.rules.JournalEntry.UgSNzjIdhqUjQ9Yo.JournalEntryPage.da1f84c1f010eae2",
-}
-
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal = {
-  ammo: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh",
-  concealable: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J",
-  reach: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
-  reload: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv",
-  thrown: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK",
-  twoHanded: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy",
-  versatile: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich",
-  impact: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY",
-  unwieldy: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w",
-  silent: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa",
-  toss: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
-  returning: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog",
-  capture: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV",
-  multiFaceted: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
-  guard: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
-  heavy: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY",
-  longRanged: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW",
-  reinforced: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.dXjyS6YvhubjwjSn",
-  sturdy: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.NyofkTW2dROcxpT5",
-  dense: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.lJqNgXRpjo8tlZ9B",
-  thrownS: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.SGMZI8qMi3C9CYc6",
-  mounted: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
-  attunement: "",
-  adIncrease: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
-  pdIncrease: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
-  edr: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
-  pdr: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
-  bulky: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
-  rigid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
-  grasp: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE",
-  mounted: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {

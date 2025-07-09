@@ -20,9 +20,11 @@ export function createNewAdvancement() {
 			itemType: "",
 			preFilters: "",
 			talentFilter: false,
+			ancestryFilter: false,
 			helpText: "",
 			itemLimit: null,
  		},
+		macro: "",
 		items: {}
 	};
 }
@@ -32,33 +34,40 @@ export function deleteAdvancement(item, key) {
 }
 
 export function applyAdvancements(actor, level, clazz, subclass, ancestry, background, oldSystem) {
-	let advForItems = {};
+	const advancements = [];
 
 	if (ancestry) {
-		const advancements = collectAdvancementsFromItem(level, ancestry);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, ancestry);
+		advancements.push(...fromItem);
 	}
 	if (background) {
-		const advancements = collectAdvancementsFromItem(level, background);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, background);
+		advancements.push(...fromItem);
 	}
 	if (subclass) {
-		const advancements = collectAdvancementsFromItem(level, subclass);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, subclass);
+		advancements.push(...fromItem);
 	}
 	if (clazz) {
-		const advancements = collectAdvancementsFromItem(level, clazz);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
+		const fromItem = collectAdvancementsFromItem(level, clazz);
+		advancements.push(...fromItem);
 	}
 
-	actorAdvancementDialog(actor, advForItems, oldSystem, level === 3);
+	const subclassId = actor.system.details.subclass.id;
+	actorAdvancementDialog(actor, advancements, oldSystem, (level === 3 && !subclassId));
 }
 
 export function collectAdvancementsFromItem(level, item) {
 	const advancements = item.system.advancements;
-	return Object.fromEntries(Object.entries(advancements)
-		.filter(([key, advancement]) => advancement.level <= level)
-		.filter(([key, advancement]) => !advancement.applied));
+
+	return Object.entries(advancements)
+							.filter(([key, advancement]) => advancement.level <= level)
+							.filter(([key, advancement]) => !advancement.applied)
+							.map(([key, advancement]) => {
+								advancement.key = key;
+								advancement.parentItem = item;
+								return advancement;
+							});
 }
 
 export async function removeAdvancements(actor, level, clazz, subclass, ancestry, background, itemDeleted) {
@@ -81,8 +90,8 @@ async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 		});
 
 	for (const [key, advancement] of entries) {
-		await _removeItemsFromActor(actor, advancement.items);
-		await _removeMulticlassInfoFromActor(actor, key);
+		await removeItemsFromActor(actor, advancement.items);
+		await removeMulticlassInfoFromActor(actor, key);
 		if (!itemDeleted) {
 			// We dont need to mark advancement if parent was removed.
 			await _markAdvancementAsNotApplied(advancement, key, actor, item._id);
@@ -90,7 +99,7 @@ async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 	}
 }
 
-async function _removeItemsFromActor(actor, items) {
+export async function removeItemsFromActor(actor, items) {
 	for (const [key, record] of Object.entries(items)) {
 		const itemExist = await actor.items.has(record.createdItemId);
 		if (itemExist) {
@@ -108,7 +117,10 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 
 		// If advancement does not come from base item we want to remove it instad of marking it as not applied
 		if (advancement.additionalAdvancement) {
-			if (key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: false});
+			if (key === "martialExpansion") {
+				await actor.update({["system.details.martialExpansionProvided"]: false});
+				item.martialExpansionProvided = false;
+			}
 			await item.update({[`system.advancements.-=${key}`]: null});
 		}
 		else {
@@ -118,13 +130,22 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 	}
 }
 
-async function _removeMulticlassInfoFromActor(actor, key) {
-	const multiclassTalents = actor.system.details.advancementInfo?.multiclassTalents;
-	if (multiclassTalents[key]) await actor.update({[`system.details.advancementInfo.multiclassTalents.-=${key}`]: null})
+export async function removeMulticlassInfoFromActor(actor, key) {
+	const clazz = actor.class;
+	if (!clazz) return;
+
+	const multiclassTalents = clazz.system.multiclass;
+	if (multiclassTalents[key]) await clazz.update({[`system.multiclass.-=${key}`]: null})
 }
 
 
 export async function registerUniqueSystemItems() {
+	CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS = {
+		class: {},
+		subclass: {},
+		ancestry: {},
+		background: {}
+	}
 	CONFIG.DC20RPG.UNIQUE_ITEM_IDS = {
 		class: {},
 		subclass: {},
@@ -135,11 +156,13 @@ export async function registerUniqueSystemItems() {
 
 	const clazz = await collectItemsForType("class");
 	clazz.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.class[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[itemKey] = item.name;
 	});
 	const subclass = await collectItemsForType("subclass");
 	subclass.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.subclass[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		const classKey = item.system.forClass.classSpecialId;
 		if (itemKey) {
@@ -149,11 +172,13 @@ export async function registerUniqueSystemItems() {
 	});
 	const ancestry = await collectItemsForType("ancestry");
 	ancestry.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.ancestry[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry[itemKey] = item.name;
 	});
 	const background = await collectItemsForType("background");
 	background.forEach(item => {
+		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.background[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.background[itemKey] = item.name;
 	});

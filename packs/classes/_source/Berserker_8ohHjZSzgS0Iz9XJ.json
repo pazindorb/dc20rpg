@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/bear-roar-bite-brown-green.webp",
   "system": {
-    "description": "<p>Your primal savagery grants you the following benefits:</p><p></p><ul><li><p><strong>Charge:</strong> When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong> on your turn, you can move up to 2 Spaces immediately before making the Attack.</p></li><li><p><strong>Berserker Defense:</strong> While you aren't wearing Armor you gain <strong>+2 AD</strong>. </p></li><li><p><strong>Fast Movement:</strong> You gain +1 Speed while not wearing Armor.</p></li><li><p><strong>Mighty Leap: </strong>You can use your Might instead of Agility to determine your Jump Distance and the damage you take from Falling.</p></li></ul><p></p><p><span ><em ><strong >System Tip:</strong></em></span><em><strong> </strong></em><span ><em ><strong>Might</strong> is not selected by default as a Jump Attribute you can change it on your character sheet.</em></span></p>",
+    "description": "<p>Your primal savagery grants you the following benefits:</p><ul><li><p><strong>Charge:</strong> When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong> on your turn, you can move up to 2 Spaces immediately before making the Attack.</p></li><li><p><strong>Berserker Defense:</strong> While you aren't wearing Armor you gain <strong>+2 AD</strong>. </p></li><li><p><strong>Fast Movement:</strong> You gain +1 Speed while not wearing Armor.</p></li><li><p><strong>Mighty Leap: </strong>You can use your Might instead of Agility to determine your Jump Distance and the damage you take from Falling.</p></li></ul><p></p><p><span><em><strong>System Tip:</strong></em></span><em><strong> </strong></em><span><em><strong>Might</strong> is not selected by default as a Jump Attribute you can change it on your character sheet.</em></span></p><p><span><em><strong>System Tip 2:</strong></em></span><em><strong> </strong>Use this item to grant yourself 2 Move Points.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -159,7 +160,16 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
-    "macros": {},
+    "macros": {
+      "HGobL7frEy469RvL": {
+        "command": "game.dc20rpg.tools.makeMoveAction(actor, {movePoints: 2});",
+        "trigger": "preItemRoll",
+        "disabled": false,
+        "name": "Gain 2 Move Points",
+        "title": "",
+        "global": false
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -240,7 +250,12 @@
       "_id": "lUgxbjcsn235CIks",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "path": "system.details.armor.armorEquipped",
+          "mode": "==",
+          "value": "true"
+        }
       },
       "changes": [
         {
@@ -284,9 +299,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1747998784645,
+        "modifiedTime": 1750880256598,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -302,7 +317,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.6.0",
     "createdTime": 1739350035383,
-    "modifiedTime": 1747998784694,
+    "modifiedTime": 1750928908206,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

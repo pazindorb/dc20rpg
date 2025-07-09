@@ -2,10 +2,25 @@ import { calculateForTarget, calculateNoTarget, collectTargetSpecificEffects, co
 import { generateKey } from "../helpers/utils.mjs";
 
 
-export function enhanceOtherRolls(winningRoll, otherRolls, checkDetails) {
-  if (checkDetails?.checkDC && checkDetails?.againstDC) {
-    _degreeOfSuccess(checkDetails.checkDC, winningRoll, otherRolls, true);
-  }
+export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
+  if (!winningRoll) return;
+  if (otherRolls.length === 0) return;
+
+  if (target) target.other = [];
+  otherRolls.forEach(roll => {
+    if (target && roll.perTarget) {
+      if (target.rollOutcome) {
+        const rollOutcome = target.rollOutcome;
+        const otherRoll = _degreeOfSuccess(winningRoll._total, data.isCritMiss, rollOutcome.total, roll, true);
+        target.other.push(otherRoll);
+      }
+    }
+    if (!target) {
+      if (data?.againstDC && data.checkDC) {
+        roll = _degreeOfSuccess(winningRoll._total, data.isCritMiss, data.checkDC, roll);
+      }
+    }
+  })
 }
 
 //========================================
@@ -16,7 +31,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, checkDetails) {
  */
 export function enhanceTarget(target, rolls, details, applierId) {
   const actionType = details.actionType;
-  const winner = rolls.winningRoll;
+  const winner = rolls?.winningRoll;
   
   // Prepare Common Data
   const data = {
@@ -47,20 +62,21 @@ export function enhanceTarget(target, rolls, details, applierId) {
   if (game.settings.get("dc20rpg", "mergeDamageTypes")) _mergeFormulasByType(rolls);
 
   // Prepare final damage and healing
-  target.dmg = _prepareRolls(rolls.dmg, target, data, true);
-  target.heal = _prepareRolls(rolls.heal, target, data, false);
+  target.dmg = _prepareRolls(rolls.dmg, target, data, "damage");
+  target.heal = _prepareRolls(rolls.heal, target, data, "healing");
+  enhanceOtherRolls(winner, rolls.other, data, target);
 
   // Prepare additional target specific fields
   target.effects = collectTargetSpecificEffects(target, data);
   target.rollRequests = collectTargetSpecificRollRequests(target, data);
 }
 
-function _prepareRolls(rolls, target, data, isDamage) {
+function _prepareRolls(rolls, target, data, rollType) {
   const prepared = {};
   for (const rll of rolls) {
     const showModified = Object.keys(prepared).length === 0; // By default only 1st roll should be modified
     const roll = _formatRoll(rll);
-    const calculateData = {...data, isDamage: isDamage, isHealing: !isDamage};
+    const calculateData = {...data, isDamage: rollType === "damage", isHealing: rollType === "healing"};
     
     let defenceOverriden = false;
     delete calculateData.hit; // We always want to calculate hit value in the calculateForTarget function
@@ -70,11 +86,10 @@ function _prepareRolls(rolls, target, data, isDamage) {
     }
 
     const finalRoll = target.noTarget ? calculateNoTarget(roll, calculateData) : calculateForTarget(target, roll, calculateData);
-    const key = generateKey();
     finalRoll.showModified = showModified;
     finalRoll.targetSpecific = rll.targetSpecific;
     if (defenceOverriden) finalRoll.overridenDefence = rll.modified.overrideDefence;
-    prepared[key] = finalRoll;
+    prepared[rll.modified.id] = finalRoll;
   }
   return prepared;
 }
@@ -96,37 +111,39 @@ function _formatRoll(roll) {
   }
 }
 
-function _degreeOfSuccess(checkDC, winningRoll, rolls, otherRoll) {
-  const checkValue = winningRoll._total;
-  const natOne = winningRoll.fail;
+function _degreeOfSuccess(checkValue, natOne, checkDC, roll, contest) {
+  const modified = contest ? {...roll} : roll;
+  modified.source = modified.modifierSources;
 
-  if (rolls) rolls.forEach(roll => {
-    const modified = otherRoll ? roll : roll.modified;
-    // Check Failed
-    if (natOne || (checkValue < checkDC)) {
-      const failRoll = modified.failRoll;
-      if (failRoll) {
-        modified.modifierSources = modified.modifierSources.replace("Base Value", "Check Failed");;
-        modified._formula = failRoll.formula;
-        modified._total = failRoll.total;
-        modified.terms = failRoll.terms;
-      }
+  // Check Failed
+  if (natOne || (checkValue < checkDC)) {
+    const failRoll = roll.failRoll;
+    if (failRoll) {
+      modified.source = modified.source.replace("Base Value", "");
+      if (contest) modified.source = "[Contest Lost] " + modified.source;
+      else modified.source = "[Check Failed] " + modified.source;
+      
+      modified._formula = failRoll.formula;
+      modified._total = failRoll.total;
+      modified.terms = failRoll.terms;
     }
-    // Check succeed by 5 or more
-    else if (checkValue >= checkDC + 5) {
-      const each5Roll = modified.each5Roll;
-      if (each5Roll) {
-        const degree = Math.floor((checkValue - checkDC) / 5);
-        const formula = degree > 1 ? `(${degree} * ${each5Roll.formula})` : each5Roll.formula;
+  }
+  // Check succeed by 5 or more
+  else if (checkValue >= checkDC + 5) {
+    const each5Roll = roll.each5Roll;
+    if (each5Roll) {
+      const degree = Math.floor((checkValue - checkDC) / 5);
+      const formula = degree > 1 ? `(${degree} * ${each5Roll.formula})` : each5Roll.formula;
 
-        modified.modifierSources = modified.modifierSources.replace("Base Value", `Check Succeeded over ${(degree * 5)}`);
-        modified._formula += ` + ${formula}`;
-        modified._total += (degree * each5Roll.total);
-      }
+      modified.source = modified.source.replace("Base Value", "");
+      if (contest) modified.source = `[Contest Won over ${(degree * 5)}] ${modified.source}`;
+      else modified.source = `[Check Succeeded over ${(degree * 5)}] ${modified.source}`;
+      
+      modified._formula += ` + ${formula}`;
+      modified._total += (degree * each5Roll.total);
     }
-    if (otherRoll) roll = modified;
-    else roll.modified = modified;
-  })
+  }
+  return modified;
 }
 
 function _mergeFormulasByType(rolls) {

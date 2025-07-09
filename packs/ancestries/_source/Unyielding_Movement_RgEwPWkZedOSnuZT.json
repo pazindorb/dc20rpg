@@ -161,7 +161,11 @@
       "_id": "2Nsf89ZDAMOrGDRW",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "",
+        "disableWhen": {
+          "mode": "=="
+        },
+        "macro": "const isSlow = extras.createdEffect.statuses.has(\"slowed\");\n\nif (isSlow) {\n  const slowed = actor.statuses.find(status => status.id === \"slowed\")\n  \n  if (slowed && slowed.stack >= 1) {\n    ui.notifications.warn(\"Unyielding Movement - cannot be more slowed\");\n    extras.createdEffect.preventCreation = true\n  }\n}"
       },
       "changes": [
         {
@@ -200,9 +204,9 @@
         "duplicateSource": null,
         "coreVersion": "13.344",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.6.0",
         "createdTime": 1737753354873,
-        "modifiedTime": 1745437041429,
+        "modifiedTime": 1750880257384,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

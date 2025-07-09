@@ -1,7 +1,11 @@
-import { addBasicActions } from "../helpers/actors/actions.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { addBasicActions, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { companionShare } from "../helpers/actors/companion.mjs";
+import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
-import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
+import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { emitEventToGM } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
@@ -16,12 +20,21 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  */
 export class DC20RpgActor extends Actor {
 
+  get sceneKey() {
+    if (this.isToken) return `${this.id}#${this.token.id}`;
+    else return this.id;
+  }
+
+  get class() {
+    return this.items.get(this.system.details.class.id);
+  }
+
   get exhaustion() {
     return getStatusWithId(this, "exhaustion")?.stack || 0
   }
 
   get slowed() {
-    return getStatusWithId(this, "slowed")?.stack || 0
+    return this.system.moveCost - 1 || 0;
   }
 
   get allEffects() {
@@ -81,6 +94,23 @@ export class DC20RpgActor extends Actor {
 
   get statusIds() {
     return this.statuses.map(status => status.id);
+  }
+
+  get myTurnActive() {
+    const activeCombat = game.combats.active;
+    if (!activeCombat?.started) return false;
+
+    const myTurn = !!(activeCombat.activeCombatants.find(combatant => {
+      if (this.token) return combatant.tokenId === this.token.id;
+      else return combatant.actorId === this.id;
+    }));
+    if (myTurn) return true;
+
+    if (companionShare(this, "initiative")) {
+      const ownerTurn = !!(activeCombat.activeCombatants.find(combatant => combatant.actorId === this.companionOwner.id));
+      if (ownerTurn) return true;
+    }
+    return false;
   }
 
   /** @override */
@@ -151,6 +181,11 @@ export class DC20RpgActor extends Actor {
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
     prepareDataFromItems(this);
+
+    // Refresh hotbar 
+    if (ui.hotbar) {
+      if (ui.hotbar.actorId === this.id) ui.hotbar.render();
+    }
   }
 
   /**
@@ -167,15 +202,6 @@ export class DC20RpgActor extends Actor {
     }
     suspendDuplicatedConditions(this);
     this.applyActiveEffects();
-
-    let token = undefined;
-    let controlled = false;
-    const selectedTokens = getSelectedTokens();
-    if (selectedTokens?.length > 0) {
-      token = selectedTokens[0];
-      controlled = true;
-    }
-    if (token) Hooks.call('controlToken', token, controlled); // Refresh token effects tracker
   }
 
   /**
@@ -307,7 +333,7 @@ export class DC20RpgActor extends Actor {
     const items = this.items;
     items.forEach(item => {
       if (item.id !== excludedId && !excludedTypes.includes(item.type)) {
-        const maxChargesFormula = item.system.costs.charges.maxChargesFormula;
+        const maxChargesFormula = item.system.costs?.charges?.maxChargesFormula;
         if (maxChargesFormula) itemsWithCharges[item.id] = item.name; 
         if (item.type === "consumable") consumableItems[item.id] = item.name;
         if (item.type === "weapon") weapons[item.id] = item.name;
@@ -318,16 +344,6 @@ export class DC20RpgActor extends Actor {
       consumable: consumableItems,
       weapons: weapons
     }
-  }
-
-  getWeapons() {
-    const weapons = {};
-    this.items.forEach(item => {
-      const identified = item.system.statuses ? item.system.statuses.identified : true;
-      if (item.type === "weapon" && identified) 
-        weapons[item.id] = item.name;
-    });
-    return weapons;
   }
 
   hasStatus(statusId) {
@@ -414,6 +430,23 @@ export class DC20RpgActor extends Actor {
 
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
+      if (statusId === "prone") {
+        const confirmed = await getSimplePopup("confirm", {header: "Should spend 2 Move Points to stand up from Prone?"});
+        if (confirmed) {
+          let subtracted = await subtractMovePoints(this, 2);
+
+          // Spend extra AP
+          if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
+            subtracted = await spendMoreApOnMovement(this, subtracted);
+          }
+
+          if (subtracted !== true) {
+            ui.notifications.warn("Not enough move points to stand up from Prone!");
+            return false;
+          }
+        }
+      }
+
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
       this.reset();
       return false;
@@ -515,6 +548,24 @@ export class DC20RpgActor extends Actor {
     return await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
   }
 
+  /**
+   * Run update opperation on Actor. If user doesn't have permissions to do so he will send a request to the active GM.
+   * If request was sended, no object will be returned by this method.
+   */
+  async gmUpdate(updateData={}, operation={}) {
+    if (!this.canUserModify(game.user, "update")) {
+      emitEventToGM("updateDocument", {
+        docType: "actor",
+        docId: this.id, 
+        actorUuid: this.uuid,
+        updateData: updateData,
+        operation: operation
+      });
+      return;
+    }
+    return await this.update(updateData, operation);
+  }
+
   /** @override */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
@@ -552,6 +603,24 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+
+    // Update Storage token
+    if (this.type === "storage") {
+      const storageType = changed?.system?.storageType;
+      if (storageType) {
+        switch(storageType) {
+          case "partyInventory": 
+            this.update({['prototypeToken.actorLink'] : true});
+            break;
+          case "randomLootTable": 
+            this.update({['prototypeToken.actorLink'] : false});
+            break;
+          case "vendor": 
+            this.update({['prototypeToken.actorLink'] : false});
+            break;
+        }
+      }
+    }
   }
 
   /** @inheritDoc */
@@ -562,10 +631,25 @@ export class DC20RpgActor extends Actor {
       this.messageId = changes.messageId;
       this.hpBeforeUpdate = this.system.resources.health;
     }
+
+    // Run resource change event
+    if (changes.system?.resources) {
+      const before = this.system.resources;
+      for (const [key, resource] of Object.entries(changes.system.resources)) {
+        if (key === "health") continue;
+        if (key === "custom") {
+          for (const [customKey, customRes] of Object.entries(resource)) {
+            await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+          }
+        }
+        await runResourceChangeEvent(key, resource, before[key], this, false);
+      }
+    }
     return await super._preUpdate(changes, options, user);
   }
 
   prepareBasicActions() {
+    if (this.type === "storage") return;
     if (!this.flags.basicActionsAdded) {
       addBasicActions(this);
     }

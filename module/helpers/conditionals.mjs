@@ -1,3 +1,4 @@
+import { getTokenForActor } from "./actors/tokens.mjs";
 import { getValueFromPath } from "./utils.mjs";
 
 /**
@@ -40,4 +41,78 @@ function _checkAND(combinations, item) {
     }
   };
   return true;
+}
+
+export function registerDC20ConditionalHelpers() { 
+  const helpers = {};
+
+  helpers.whipHelper = (actorId, target) => {
+    const actor = game.actors.get(actorId);
+    const token = getTokenForActor(actor);
+    if (token) return !target.token.isTokenInRange(token, 1);
+    return false;
+  }
+  
+  helpers.crossbowHelper = (actorId, target) => {
+    const chatMessageId = target.flags.chatMessageId;
+    if (!chatMessageId) return false;
+    const currentAttack = game.messages.get(chatMessageId);
+    if (!currentAttack) return false;
+
+    const attackItemId = currentAttack.flags?.dc20rpg?.itemId;
+    const attackTime = currentAttack.flags?.dc20rpg?.creationTime;
+    if (!attackTime || !attackItemId) return false;
+
+    const messages = game.messages
+                      .filter(msg => msg.speaker.actor === actorId)
+                      .filter(msg => {
+                        const itemId = msg.flags?.dc20rpg?.itemId;
+                        if (!itemId) return false;
+                        return itemId === attackItemId;
+                      })
+                      .filter(msg => {
+                        const creationTime = msg.flags?.dc20rpg?.creationTime;
+                        if (!creationTime) return false;
+
+                        if (creationTime.round > attackTime.round) return false;
+                        if (creationTime.round === attackTime.round) return true;
+                        if (creationTime.round + 1 < attackTime.round) return false;
+                        if (creationTime.turn >= attackTime.turn) return true;
+                        return false;
+                      });
+    
+    
+    const beforeCurrent = []
+    for (const msg of messages) { 
+      if (msg.id === currentAttack.id) break;
+      beforeCurrent.push(msg);
+    }
+    if (beforeCurrent.length === 0) return false;
+
+    const lastMathing = beforeCurrent.pop();
+    const targets = Object.keys(lastMathing.system.targets);
+    const found = targets.find(id => id === target.id);
+    if (found) return true;
+    return false;
+  }
+
+  helpers.spearHelper = (target) => {
+    const chatMessageId = target.flags.chatMessageId;
+    if (!chatMessageId) return false;
+    const currentAttack = game.messages.get(chatMessageId);
+    if (!currentAttack) return false;
+    const movedRecently = currentAttack.flags?.dc20rpg?.movedRecently;
+    if (!movedRecently) return false;
+
+    const position = {
+      x: target.token.x,
+      y: target.token.y
+    }
+    const start = canvas.grid.measurePath([movedRecently.from, position]).distance;
+    const end = canvas.grid.measurePath([movedRecently.to, position]).distance;
+    const distance = canvas.grid.measurePath([movedRecently.from, movedRecently.to]).distance;
+    return distance >= 2 && start > end;
+  }
+
+  CONFIG.DC20ConditionalHelpers = helpers;
 }

@@ -1,5 +1,35 @@
+import { recognizeAndAddLinks } from "./inlineRolls.mjs";
 import { itemDetailsToHtml } from "./items/itemDetails.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
+import { clearStyles } from "./utils.mjs";
+
+export function tooltipElement() {
+  const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
+  const tooltip = document.createElement("div");
+  tooltip.id = "tooltip-container";
+  tooltip.classList.add(`theme-${colorTheme}`);
+  tooltip.innerHTML = `
+    <div class="tooltip-info">
+      <div>${game.i18n.localize("dc20rpg.tooltip.holdAlt")}</div>
+      <div class="margin-top-1">${game.i18n.localize("dc20rpg.tooltip.goBack")}</div>
+    </div>
+    <div class="tooltip-header"></div>
+    <div class="tooltip-details"></div> 
+    <div class="tooltip-description"></div>
+  `;
+  return tooltip;
+}
+
+export function tooltipListeners(event, type, isEntering, dataset, html) {
+    if (!isEntering) {
+      hideTooltip(event, html);
+      return;
+    }
+
+    switch (type) {
+      case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html); break;
+    }
+}
 
 export function effectTooltip(effect, event, html, options={}) {
   if (!effect) return _showTooltip(html, event, "-", "Effect not found", "");
@@ -50,7 +80,7 @@ export async function journalTooltip(uuid, header, img, event, html, options={})
   const page = await fromUuid(uuid);
   if (!page) return;
 
-  const description = page.text.content;
+  const description = clearStyles(page.text.content);
   let imgHeader = ""
   if (img !== undefined) imgHeader = `<img src="${img}" style="background-color:black;"/>`
   const tooltipHeader = `${imgHeader}<input disabled value="${header}"/>`;
@@ -206,6 +236,8 @@ function _itemDescription(item) {
 }
 
 function _enhanceDescription(description) {
+  description = recognizeAndAddLinks(description);
+
   const uuidRegex = /@UUID\[[^\]]*]\{[^}]*}/g;
   const itemLinks = [...description.matchAll(uuidRegex)];
   itemLinks.forEach(link => {
@@ -221,7 +253,7 @@ function _enhanceDescription(description) {
     else tooltipLink = `<span><b>${name}</b></span>`;
     description = description.replace(link, tooltipLink);
   });
-  return description;
+  return clearStyles(description);
 }
 
 function _itemDetails(item) {

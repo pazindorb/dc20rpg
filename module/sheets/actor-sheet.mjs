@@ -1,10 +1,11 @@
 import { getEffectFrom, prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
-import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
-import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData } from "./actor-sheet/data.mjs";
-import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
-import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
+import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters, activateStorageListeners } from "./actor-sheet/listeners.mjs";
+import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
+import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { createTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { itemTransfer } from "../helpers/actors/storage.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -21,7 +22,8 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       dragDrop: [
         {dragSelector: ".custom-resource[data-key]", dropSelector: null},
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
-        {dragSelector: ".item-list .item", dropSelector: null}
+        {dragSelector: ".item-list .item", dropSelector: null},
+        {dragSelector: ".help-dice", dropSelector: null}
       ],
     });
   }
@@ -74,13 +76,20 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
           context.companionOwner = this.actor.companionOwner;
         }
         break;
+      case "storage": 
+        this.options.classes.push(actorType);
+        this.position.width = 500;
+        this.position.height = 600;
+        prepareStorageData(context);
+        prepareItemsForStorage(context, this.actor);
+        break;
     } 
     prepareActiveEffectsAndStatuses(this.actor, context);
 
     // Enrich text editors
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
-    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {secrets:true});
+    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {secrets:true, autoLink:true});
     return context;
   }
 
@@ -98,6 +107,9 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       case "companion": 
         activateNpcLinsters(html, this.actor);
         activateCompanionListeners(html, this.actor);
+        break;
+      case "storage": 
+        activateStorageListeners(html, this.actor);
         break;
     }
   }
@@ -132,10 +144,26 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
     const dataset = event.currentTarget.dataset;
     if (dataset.type === "resource") {
       const resource = this.actor.system.resources.custom[dataset.key];
-      resource.type = "resource";
+      resource.type = "Resource";
       resource.key = dataset.key;
       if (!resource) return;
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
+    }
+    if (dataset.type === "help") {
+      const key = dataset.key;
+      const helpDice = this.actor.system.help.active[key];
+
+      if (helpDice) {
+        const dto = {
+          key: key,
+          formula: helpDice.value,
+          type: "help",
+          actorId: this.actor.id,
+          tokenId: this.actor?.token?.id,
+        }
+        event.dataTransfer.setData("text/plain", JSON.stringify(dto));
+      }
+      return;
     }
     if (dataset.effectId) {
       const effect = getEffectFrom(dataset.effectId, this.actor);
@@ -147,18 +175,49 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
     super._onDragStart(event);
   }
 
+  async _onDrop(event) {
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    const droppedObject = JSON.parse(droppedData);
+
+    if (droppedObject?.fromContainer) {
+      const container = await fromUuid(droppedObject.containerUuid);
+      await Item.create(droppedObject, {parent: this.actor});
+      if (container) await container.update({[`system.contents.-=${droppedObject.itemKey}`]: null});
+    }
+    else await super._onDrop(event);
+  }
+
   /** @override */
   async _onDropItem(event, data) {
+    if ((this.actor.type === "storage" && data.actorType !== undefined) || data.actorType === "storage") {
+      await itemTransfer(event, data, this.actor);
+      return;
+    }
+
+    const onSelf = data.uuid.includes(this.actor.uuid);
+    const item = await Item.implementation.fromDropData(data);
+    if (data.actorType !== undefined && CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type] && !onSelf) {
+      const selected = await getSimplePopup("confirm", {header: "Transfer or Duplicate Item?", information: ["Do you want to transfer or duplicate this item?", "Yes: Transfer", "No: Duplicate"]});
+      if (selected) {
+        await itemTransfer(event, data, this.actor);
+        return;
+      }
+    }
+
+    // Create companion trait instead of an item
     if (this.actor.type === "companion") {
       const selected = await getSimplePopup("confirm", {header: "Add as Companion Trait?", information: ["Do you want to add this item as Companion Trait?", "Yes: Add as Companion Trait", "No: Add as Standard Item"]});
       if (selected) {
-        const item = await Item.implementation.fromDropData(data);
         const itemData = item.toObject();
         createTrait(itemData, this.actor);
+        return;
       }
-      else return await super._onDropItem(event, data);
     }
-    else return await super._onDropItem(event, data);
+
+    const stackable = item.system.stackable;
+    if (stackable && onSelf) await handleStackableItem(item, this.actor, event, false);
+    else await super._onDropItem(event, data);
   }
 
   /** @override */
@@ -184,5 +243,15 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       }
       this.actor.update({["system.companionOwnerId"]: companionOwner.id});
     }
+  }
+
+  _canDragDrop(selector) {
+    if (this.actor.type === "storage") return true;
+    else return super._canDragDrop(selector);
+  }
+
+  _canDragStart(selector) {
+    if (this.actor.type === "storage") return true;
+    else return super._canDragStart(selector);
   }
 }

@@ -29,7 +29,7 @@
   </nav>
 
   <section class="item-sheet-body">
-    <div class="tab description-tab content padding-7 with-price" data-group="primary" data-tab="description">
+    <div class="tab description-tab content with-price" data-group="primary" data-tab="description">
       <div class="description-box">
         {{#if system.statuses.identified}} 
           {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
@@ -38,12 +38,19 @@
         {{/if}}
       </div>
       <div class="item-cost">
-        <span>{{localize "dc20rpg.item.sheet.itemCost"}}</span>
         <div class="row">
-          <input class="margin-right-3" type="text" name="system.price.value" value="{{system.price.value}}" data-dtype="Number"/>
-          <select name="system.price.currency">
-            {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=system.price.currency}}
-          </select>
+          <div class="left-part-row" title="{{localize "dc20rpg.item.sheet.itemCost"}}">
+            <i class="fa-solid fa-coins"></i>
+            <input class="margin-left-10 margin-right-3" type="text" name="system.price.value" value="{{system.price.value}}" data-dtype="Number"/>
+            <select name="system.price.currency">
+              {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=system.price.currency}}
+            </select>
+          </div>
+
+          <div class="right-part-row" title="{{localize "dc20rpg.item.sheet.itemQuantity"}}">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <input class="margin-left-10" type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number"/>
+          </div>
         </div>
       </div>
     </div>

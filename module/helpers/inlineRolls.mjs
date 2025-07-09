@@ -6,6 +6,7 @@ import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
+    if (options.autoLink) content = recognizeAndAddLinks(content);
     content = _parseInlineRolls(content);
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     return oldFunction.call(TextEditor, content, options);
@@ -99,4 +100,27 @@ function _handleHealing(data, token) {
   const target = tokenToTarget(token);
   heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
   applyHealing(token.actor, heal.modified);
+}
+
+export function recognizeAndAddLinks(text) {
+  const jounralLinks = {
+    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal,
+    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems,
+  }
+  delete jounralLinks.attack;
+  delete jounralLinks.object;
+  delete jounralLinks.spell;
+  delete jounralLinks.move;
+  delete jounralLinks.jump;
+
+  Object.entries(jounralLinks).forEach(([key, link]) => {
+    const regex = new RegExp(`(?<!@UUID\\[.*?)\\b\\w*${escapeRegex(key)}\\w*\\b`, "gi");
+    text = text.replace(regex, (match) => `@UUID[${link}]{${match}}`);
+  });
+
+  return text;
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

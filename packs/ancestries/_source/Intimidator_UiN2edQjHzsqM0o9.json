@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/unholy/demon-fire-horned-mask.webp",
   "system": {
-    "description": "<p>Once per Combat you can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.4dbd80cbe7f919cb]{Intimidate}</strong> Action as a Minor Action.</p><p></p><p><span ><em ><strong >System Tip:</strong></em></span> <span ><em >Use this item instead of </em></span><em>Intimidate</em> <span ><em >Action.</em></span></p><p></p>",
+    "description": "<p>Once per Combat you can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.4dbd80cbe7f919cb]{Intimidate}</strong> Action as a Minor Action.</p><p></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "check",
+    "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -46,7 +46,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -63,10 +64,93 @@
       "againstDC": false
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "YvFfkbIrk9PeFF8p": {
+        "name": "Intimidator",
+        "number": 0,
+        "resources": {
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": true,
+          "fromOriginal": true
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macro": "",
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>Once per Combat you can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.4dbd80cbe7f919cb]{Intimidate}</strong> Action as a Minor Action.</p>",
+        "hide": false
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "system.itemKey=[\"intimidate\"]"
     },
     "save": {
       "type": "phy",
@@ -141,28 +225,8 @@
       "id": "intimidated",
       "untilYourNextTurnEnd": true
     },
-    "rollRequests": {
-      "rollRequestFromTemplate": {
-        "category": "contest",
-        "saveKey": "",
-        "contestedKey": "cha",
-        "dcCalculation": "spell",
-        "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
-      }
-    },
-    "againstStatuses": {
-      "fKJ1kftFL3oq9rMF": {
-        "id": "intimidated",
-        "supressFromChatMessage": false,
-        "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": true,
-        "untilTargetNextTurnStart": false,
-        "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
-      }
-    },
+    "rollRequests": {},
+    "againstStatuses": {},
     "itemKey": "intimidator",
     "featureSourceItem": "fiendborn",
     "requirements": {
@@ -183,7 +247,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.6.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1747998785040,
+    "modifiedTime": 1750930681681,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

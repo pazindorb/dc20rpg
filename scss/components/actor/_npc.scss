@@ -33,8 +33,8 @@
 
     .oneliner {
       margin: 5px 7px;
-      @import 'shared/oneliners';
       color: $npc-text-color-2 !important;
+      @import 'shared/oneliners';
   
       img {
         border-color: $npc-main !important;
@@ -86,6 +86,7 @@
           height: 38px;
           width: 38px;
           border-radius: 3px;
+          margin-right: 4px;
   
           img {
             object-position: 50% 0;
@@ -93,6 +94,8 @@
             border: 0;
             height: 38px;
             width: 38px;
+            min-height: 38px;
+            min-width: 38px;
           }
         }
       }
@@ -303,6 +306,19 @@
   
       .saves {
         border-color: $npc-main !important;
+      }
+    }
+
+    .help-dice-wrapper {
+      border-color: $npc-main !important;
+
+      #help-tracker .help-dice {
+        color: $npc-main !important;
+      }
+
+      .make-help-action {
+        border-color: $npc-main !important;
+        color: $npc-main-dark !important;
       }
     }
   }
@@ -653,8 +669,8 @@
 
     .oneliner {
       margin: 5px 3px;
-      @import 'shared/oneliners';
       color: $npc-text-color-2 !important;
+      @import 'shared/oneliners';
 
       img {
         border-color: $npc-main !important;

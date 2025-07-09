@@ -116,15 +116,23 @@
       display: flex;
       align-items: center;
       border-right: 1px solid $secondary-dark;
+      width: 100%;
+      height: 100%;
 
       &:last-child {
         border-right: 0;
+      }
+
+      &.centered {
+        justify-content: center;
       }
 
       .item-img {
         height: 36px;
         min-width: 36px;
         width: 36px;
+        object-position: 50% 0;
+        object-fit: cover;
         
         img {
           height: 36px;
@@ -175,13 +183,9 @@
         
         border: 2px solid $secondary-dark;
         background-color: $secondary-lighter;
-
-        &.item-multi-faceted {
-          padding: 4px 3px 4px 5px;
-        }
       }
 
-      .select-other-item, .select-other-check {
+      .select-other-item {
         margin-right: 2px;
         border: 1px solid $secondary-dark;
         border-radius: 3px;
@@ -192,6 +196,18 @@
         select {
           background-color: 0;
           border: 0px;
+        }
+      }
+
+      select, input {
+        background-color: transparent;
+        border: 0;
+        text-align: center;
+      }
+
+      .short-info {
+        &:hover {
+          cursor: default;
         }
       }
     }
@@ -228,10 +244,6 @@
             width: 27px;
             border: 2px solid white;
           }
-        }
-
-        .description {
-          position: relative;
         }
 
         .fa-droplet {

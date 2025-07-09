@@ -2,6 +2,7 @@ import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { arrayOfTruth } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
+import { changedResourceFilter, runEventsFor } from "./events.mjs";
 
 //============================================
 //              Item Usage Costs             =
@@ -201,11 +202,13 @@ export async function respectUsageCost(actor, item) {
   if(_canSubtractAllResources(actor, item, costs.basicCosts, costs.charges) 
         && _canSubtractFromOtherItem(actor, item)
         && _canSubtractFromEnhLinkedItems(actor, item)
+        && _canSubtractAmmo(actor, item)
   ) {
     actor.subtractOperation = {charges: [], quantity: [], resources: {}};
     await _subtractAllResources(actor, item, costs.basicCosts, costs.charges);
     _subtractFromOtherItem(actor, item);
     _subtractFromEnhLinkedItems(actor, item);
+    _subtractAmmo(actor, item);
     if (weaponWasLoaded) unloadWeapon(item, actor);
     return true;
   }
@@ -473,6 +476,26 @@ function _prepareCustomResourcesModification(customCosts, newResources, resource
 //===============================
 //        Item Resources        =
 //===============================
+function _canSubtractAmmo(actor, item) {
+  const ammoId = item.ammoId;
+  if (!ammoId) return true;
+
+  const ammo = actor.items.get(ammoId);
+  if (!ammo) {
+    ui.notifications.error( `Ammunition used by '${item.name}' doesn't exist.`);
+    return false;
+  }
+  return _canSubtractQuantity(ammo, 1);
+}
+
+function _subtractAmmo(actor, item) {
+  const ammoId = item.ammoId;
+  const ammo = actor.items.get(ammoId);
+  if (ammo) {
+    _subtractQuantity(ammo, 1, false, actor.subtractOperation);
+  }
+}
+
 function _canSubtractFromOtherItem(actor, item) {
   const otherItemUsage = item.system.costs.otherItem;
   if (!otherItemUsage.itemId) return true;
@@ -645,4 +668,14 @@ function _collectCharges(item) {
 function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
   if (companionShare(actor, key)) return actor.companionOwner;
   return actor;
+}
+
+export async function runResourceChangeEvent(key, resource, before, actor, custom) {
+  if (!before) return;
+  if (resource.value === undefined) return;
+  
+  const changeValue = resource.value - before.value;
+  if (changeValue === 0) return;
+  const operation = changeValue > 0 ? "addition" : "subtraction";
+  await runEventsFor("resourceChange", actor, changedResourceFilter(key, operation), {resourceKey: key, change: changeValue, customResource: custom})
 }

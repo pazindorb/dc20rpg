@@ -29,7 +29,12 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     this.document.displayBars = 40;
     context.statusEffects = this._prepareStatusEffects(context.statusEffects);
     context.linkedTemplates = this._prepareLinkedTemplates();
-    context.movePoints = this.actor.system.movePoints;
+    context.movePoints = this.actor?.system?.movePoints || 0;
+
+    if (!this.actor) {
+      context.nonActor = true;
+      context.canConfigure = true;
+    }
     return context;
   }
 

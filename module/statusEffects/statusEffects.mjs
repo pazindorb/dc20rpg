@@ -237,7 +237,8 @@ function _fullyStunned() {
     statuses: ["incapacitated"],
     system: {
       statusId: "fullyStunned",
-      hide: true
+      hide: true,
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/fullyStunned.svg",
     description: `
@@ -318,14 +319,15 @@ function _bleeding() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "bleeding"
+      statusId: "bleeding",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/bleeding.svg",
     description: `
     <p>You take <strong>X</strong> True damage at the start of each of your turns.</p>
     <p><em><strong>Ending Bleeding:</strong></em> All stacks of the Condition end when you're subjected to an effect that restores your HP. Alternatively, a creature can attempt to remove 1 or more stacks of the Condition by taking the Medicine Action.</p>
     <p></p>
-    <h3>Medicine (Action)</h3>
+    <h4>Medicine (Action)</h4>
     <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a <strong>DC 10</strong> Medicine Check. <strong>Success (each 5):</strong> You end 1 stack of <strong>Bleeding</strong> on the target.</p>
     `,
     changes: [
@@ -352,7 +354,8 @@ function _burning() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "burning"
+      statusId: "burning",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/burning.svg",
     description: `
@@ -377,7 +380,8 @@ function _doomed() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "doomed"
+      statusId: "doomed",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/doomed.svg",
     description: `
@@ -415,7 +419,8 @@ function _exhaustion() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "exhaustion"
+      statusId: "exhaustion",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/exhaustion.svg",
     description: `
@@ -442,7 +447,8 @@ function _exposed() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "exposed"
+      statusId: "exposed",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/exposed.svg",
     description: "<p>Attacks against you have ADV <strong>X</strong>.</p>",
@@ -482,7 +488,8 @@ function _hindered() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "hindered"
+      statusId: "hindered",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/hindered.svg",
     description: "<p>You have DisADV <strong>X</strong> on Attacks.</p>",
@@ -534,7 +541,8 @@ function _dazed() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "dazed"
+      statusId: "dazed",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/dazed.svg",
     description: "<p>You have DisADV <strong>X</strong> on Mental Checks.</p>",
@@ -580,7 +588,8 @@ function _disoriented() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "disoriented"
+      statusId: "disoriented",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/disoriented.svg",
     description: "<p>You have DisADV X on <b>Mental Saves</b>.</p>",
@@ -607,7 +616,8 @@ function _impaired() {
     label: "Impaired",
     stackable: true,
     system: {
-      statusId: "impaired"
+      statusId: "impaired",
+      condition: true
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/impaired.svg",
@@ -654,7 +664,8 @@ function _weakened() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "weakened"
+      statusId: "weakened",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/weakened.svg",
     description: "<p>You have DisADV <strong>X</strong> on Physical Saves.</p>",
@@ -682,7 +693,8 @@ function _slowed() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "slowed"
+      statusId: "slowed",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/slowed.svg",
     description: "<p>Every 1 Space you move costs an extra <strong>X</strong> Spaces of movement.</p>",
@@ -704,7 +716,8 @@ function _stunned() {
     stackable: true,
     statuses: [],
     system: {
-      statusId: "stunned"
+      statusId: "stunned",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/stunned.svg",
     description: `
@@ -745,6 +758,7 @@ function _charmed() {
     statuses: [],
     system: {
       statusId: "charmed",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/charmed.svg",
     description: `
@@ -777,6 +791,7 @@ function _immobilized() {
     statuses: [],
     system: {
       statusId: "immobilized",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/immobilized.svg",
     description: "<p>You can't move and you have <strong>DisADV</strong> on Agility Saves.</p>",
@@ -804,7 +819,8 @@ function _intimidated() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "intimidated"
+      statusId: "intimidated",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/intimidated.svg",
     description: "<p>You have <strong>DisADV</strong> on all Checks made against the source.</p>",
@@ -881,7 +897,8 @@ function _frightened() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "frightened"
+      statusId: "frightened",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/frightened.svg",
     description: `
@@ -968,7 +985,8 @@ function _restrained() {
     stackable: false,
     statuses: ["immobilized", "grappled"],
     system: {
-      statusId: "restrained"
+      statusId: "restrained",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/restrained.svg",
     description: `
@@ -1057,7 +1075,8 @@ function _taunted() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "taunted"
+      statusId: "taunted",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/taunted.svg",
     description: "<p>You have DisADV on Attacks against targets other than the source.</p>",
@@ -1097,7 +1116,8 @@ function _tethered() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "tethered"
+      statusId: "tethered",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/tethered.svg",
     description: "<p>You are <strong>Tethered</strong> to a creature or Space. While <strong>Tethered</strong>, you can't move farther than the specified Spaces from the location of your Tether.</p>",
@@ -1112,7 +1132,8 @@ function _terrified() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "terrified"
+      statusId: "terrified",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/terrified.svg",
     description: `
@@ -1142,7 +1163,8 @@ function _poisoned() {
     stackable: false,
     statuses: ["impaired"],
     system: {
-      statusId: "poisoned"
+      statusId: "poisoned",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/poisoned.svg",
     description: `
@@ -1156,7 +1178,7 @@ function _poisoned() {
         </li>
     </ul>
     <p></p>
-    <h3>Medicine (Action)</h3>
+    <h4>Medicine (Action)</h4>
     <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a Medicine Check against the DC of the Poison. <strong>Success:</strong> You end the Poison on the target.</p>
     `,
     changes: [
@@ -1207,7 +1229,8 @@ function _deafened() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "deafened"
+      statusId: "deafened",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/deafened.svg",
     description: `
@@ -1246,7 +1269,8 @@ function _blinded() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "blinded"
+      statusId: "blinded",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/blinded.svg",
     description: `
@@ -1524,7 +1548,8 @@ function _incapacitated() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "incapacitated"
+      statusId: "incapacitated",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/incapacitated.svg",
     description: `
@@ -1563,7 +1588,8 @@ function _paralyzed() {
     stackable: false,
     statuses: ["incapacitated"],
     system: {
-      statusId: "paralyzed"
+      statusId: "paralyzed",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/paralyzed.svg",
     description: `
@@ -1668,7 +1694,8 @@ function _unconscious() {
     stackable: false,
     statuses: ["incapacitated"],
     system: {
-      statusId: "unconscious"
+      statusId: "unconscious",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/unconscious.svg",
     description: `
@@ -1776,7 +1803,8 @@ function _petrified() {
     stackable: false,
     statuses: ["incapacitated"],
     system: {
-      statusId: "petrified"
+      statusId: "petrified",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/petrified.svg",
     description: `
@@ -1944,7 +1972,8 @@ function _surprised() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "surprised"
+      statusId: "surprised",
+      condition: true
     },
     img: "systems/dc20rpg/images/statuses/surprised.svg",
     description: "<p>Your current and maximum <strong>AP</strong> is reduced by 2.</p>",

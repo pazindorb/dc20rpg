@@ -264,7 +264,7 @@
       {{!-- Grit Points --}}
       <div class="resource grit-background margin-top-3" title="{{localize 'dc20rpg.resource.grit'}}">
         <img src="systems/dc20rpg/images/sheet/header/grit.svg" class="resource-icon grit">
-        <div class="resource-bar-wrapper">
+        <div class="resource-bar-wrapper" style="grid-template-columns: 1fr 20px 20px;">
           <div class="resource-bar">
             <div class="grit-bar" style="width: {{system.resources.grit.percent}}%"></div>
             <div class="resource-content">
@@ -275,6 +275,7 @@
               </div>
             </div>
           </div>
+          <button class="grit grit-to-damage-reduction" title="{{localize 'dc20rpg.sheet.resource.gritToDamageReduction'}}"><i class="fas fa-sm fa-solid fa-shield"></i></button>
           <button class="grit spend-regain-resource" data-key="grit" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainGrit'}}RMB: {{localize 'dc20rpg.sheet.resource.spendGrit'}}"><i class="fas fa-sm fa-solid fa-plus-minus"></i></button>
         </div>
       </div>
@@ -464,6 +465,11 @@
           {{/ifCond}}
         </div>
       </div>
+
+      <div class="help-dice-wrapper" title="Help Dice">
+        {{PARTIAL "Help Tracker"}}
+        <a class="make-help-action fa-solid fa-handshake-angle fa-lg" title="Perform Help Action"></a>
+      </div>
     </div>
   </header>
 
@@ -557,11 +563,11 @@
           </div>
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{item-table false basic "basic" @root.weaponsOnActor}}
+            {{item-table false basic "basic"}}
           </div>
           {{else}}
           <div class="favorites">
-            {{item-table @root.editMode favorites "favorites" @root.weaponsOnActor}}
+            {{item-table @root.editMode favorites "favorites"}}
           </div>
           {{/if}}
         </div>
@@ -572,9 +578,11 @@
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="inventory" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="inventory" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="open-item-creator" data-item-type="weapon" title="{{localize 'dc20rpg.sheet.items.createWeapon'}}"><i class="fa-lg fa-solid fa-sword"></i></a>
+          <a class="open-item-creator" data-item-type="equipment" title="{{localize 'dc20rpg.sheet.items.createEquipment'}}"><i class="fa-lg fa-solid fa-helmet-battle"></i></a>
         </div>
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -588,19 +596,28 @@
             <input type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
           </div>
           {{/each}}
+          <a class="fa-lg fa-solid fa-money-bill-transfer transfer margin-left-5" title="{{localize "dc20rpg.sheet.transfer"}}"></a>
         </div>
         {{/if}}
       </div>
-      {{item-table @root.editMode inventory "inventory" @root.weaponsOnActor}}
+      <div class="containers item-list">
+        {{#each containers}}
+        <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
+          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
+          <img src="{{img}}"/>
+        </div>
+        {{/each}}
+      </div>
+      {{item-table @root.editMode inventory "inventory"}}
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="feature"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="feature"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -609,16 +626,16 @@
         </div>
         {{/if}}
       </div>
-      {{item-table @root.editMode features "features" @root.weaponsOnActor}}
+      {{item-table @root.editMode features "features"}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
       <div class="top-menu">
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="technique"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="technique"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -632,16 +649,16 @@
       {{/if}}
       </div>
 
-      {{item-table @root.editMode techniques "techniques" @root.weaponsOnActor}}
+      {{item-table @root.editMode techniques "techniques"}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
       <div class="top-menu">
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
-          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="spell"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="spell"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
@@ -654,7 +671,7 @@
         </div>
       {{/if}}
       </div>
-      {{item-table @root.editMode spells "spells" @root.weaponsOnActor}}
+      {{item-table @root.editMode spells "spells"}}
     </div>
     
     <div class="tab effects-tab" data-group="primary" data-tab="effects">

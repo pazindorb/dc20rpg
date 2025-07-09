@@ -7,6 +7,7 @@ import SaveFields from "./fields/item/save.mjs";
 import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
 import CombatTraining from "./fields/combatTraining.mjs";
+import { createNewAdvancement } from "../subsystems/character-progress/advancement/advancements.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -15,11 +16,12 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
     return {
       itemKey: new f.StringField({required: true, initial: ""}),
       description: new f.StringField({required: true, initial: ""}),
+      shortInfo: new f.StringField({required: true, initial: ""}),
       tableName: new f.StringField({required: true, initial: ""}),
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       requirements: new f.SchemaField({
-        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         items: new f.StringField({required: true, initial: ""}),
       }),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
@@ -31,24 +33,6 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static mergeSchema(a, b) {
     Object.assign(a, b);
     return a;
-  }
-
-  static migrateData(source) {
-    if (source.effectsConfig?.toggleable) {
-      const effectConfig = source.effectsConfig;
-      source.toggle = {
-        toggleable: true,
-        toggledOn: false,
-        toggleOnRoll: false
-      }
-      source.effectsConfig.linkWithToggle = effectConfig.toggleable;
-      delete source.effectsConfig.toggleable
-      if (source.conditional?.connectedToEffects) {
-        source.conditional.linkWithToggle = source.conditional.connectedToEffects;
-        delete source.conditional.connectedToEffects;
-      }
-    }
-    super.migrateData(source);
   }
 }
 
@@ -112,7 +96,7 @@ class DC20UsableItemData extends DC20BaseItemData {
             distance: null,
             width: null,
             unit: "",
-            difficult: false,
+            difficult: "",
           }
         }})
       }),
@@ -120,24 +104,8 @@ class DC20UsableItemData extends DC20BaseItemData {
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
-      advancements: new f.ObjectField({required: true, initial: {
-        default: {
-          name: "Item Advancement",
-          mustChoose: false,
-          pointAmount: 1,
-          level: 0,
-          applied: false,
-          talent: false,
-          repeatable: false,
-          repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          allowToAddItems: false,
-          additionalAdvancement: true,
-          compendium: "",
-          preFilters: "",
-          tip: "",
-          items: {}
-        }
-      }})
+      advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
+      tip: new f.StringField({required: true, initial: ""}),
     })
   }
 }
@@ -148,6 +116,8 @@ class DC20ItemItemData extends DC20BaseItemData {
 
     return this.mergeSchema(super.defineSchema(), {
       quantity: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      lootRoll: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      stackable: new f.BooleanField({required: true, initial: false}),
       weight: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       price: new f.SchemaField({
         value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -186,18 +156,6 @@ class DC20UniqueItemData extends DC20BaseItemData {
       advancements: new f.ObjectField({required: true}),
     })
   }
-
-  static migrateData(source) {
-    if (source.advancements) {
-      const entries = Object.entries(source.advancements);
-      for (const [key, advancement] of entries) {
-        if (advancement.repeatAt === undefined) {
-          source.advancements[key].repeatAt = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        }
-      }
-    }
-    return super.migrateData(source);
-  }
 }
 
 export class DC20WeaponData extends DC20ItemUsableMergeData {
@@ -208,7 +166,21 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
       weaponStyleActive: new f.BooleanField({required: true, initial: false}),
+      actionType: new f.StringField({required: true, initial: "attack"}),
       properties: new PropertyFields("weapon"),
+      formulas: new f.ObjectField({required: true, initial: {
+        weaponDamage: {
+          formula: "1",
+          type: "slashing",
+          category: "damage",
+          fail: false,
+          failFormula: "",
+          each5: false,
+          each5Formula: "",
+          dontMerge: false,
+          overrideDefence: "",
+        }
+      }}),
     })
   }
 }
@@ -229,17 +201,34 @@ export class DC20ConsumableData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      stackable: new f.BooleanField({required: true, initial: true}),
       consumableType: new f.StringField({required: true, initial: ""}),
       consume: new f.BooleanField({required: true, initial: true}),
       deleteOnZero: new f.BooleanField({required: true, initial: true}),
       showAsResource: new f.BooleanField({required: true, initial: false}),
+      overridenDamageType: new f.StringField({required: true, initial: ""})
     })
   }
 }
 
 export class DC20LootData extends DC20ItemItemData {
   static defineSchema() {
-    return super.defineSchema();
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      stackable: new f.BooleanField({required: true, initial: true}),
+    });
+  }
+}
+
+export class DC20ContainerData extends DC20ItemItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      contents: new f.ObjectField({required: true}),
+      inventoryOnly: new f.BooleanField({required: true, initial: true}),
+    });
   }
 }
 
@@ -253,6 +242,10 @@ export class DC20FeatureData extends DC20UsableItemData {
       featureSourceItem: new f.StringField({required: true, initial: ""}),
       staminaFeature: new f.BooleanField({required: true, initial: false}),
       flavorFeature: new f.BooleanField({required: true, initial: false}),
+      requirements: new f.SchemaField({
+        level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+        items: new f.StringField({required: true, initial: ""}),
+      }),
       isResource: new f.BooleanField({required: true, initial: false}),
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),
@@ -365,6 +358,7 @@ export class DC20ClassData extends DC20UniqueItemData {
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
       martialExpansion: new f.BooleanField({required: true, initial: false}),
+      multiclass: new f.ObjectField({required: true}),
       talentMasteries: new f.ArrayField(
         new f.StringField({required: true, initial: ""}), {
           required: true,
@@ -412,11 +406,7 @@ export class DC20ClassData extends DC20UniqueItemData {
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         }
       }}),
-      startingEquipment: new f.SchemaField({
-        weapons: new f.StringField({required: true, initial: ""}),
-        armor: new f.StringField({required: true, initial: ""}),
-        other: new f.StringField({required: true, initial: ""})
-      }),
+      startingEquipment: new f.ObjectField({required: true, initial: {}})
     })
   }
 }
@@ -443,13 +433,6 @@ export class DC20AncestryData extends DC20UniqueItemData {
         speed: new f.NumberField({ required: true, nullable: false, integer: true, initial: 5 })
       })
     })
-  }
-
-  static migrateData(source) {
-    if (source.size) {
-      delete source.size;
-    }
-    return super.migrateData(source);
   }
 }
 

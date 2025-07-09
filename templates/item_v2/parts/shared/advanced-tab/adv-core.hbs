@@ -42,6 +42,7 @@
   <div class="sub-header margin-top-10">
     <span>{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}</span>
     <div>
+      <a class="tip edit-description fa-solid fa-money-check-pen margin-right-5" data-path="system.tip" title="{{localize "dc20rpg.item.sheet.advancement.provideTip"}}"></a>
       <a class="activable margin-right-5 fa-lg {{#if system.hasAdvancement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.hasAdvancement" title="{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}"></a>
       {{#if system.hasAdvancement}}
       <a class="advancement-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="default" title="{{localize "dc20rpg.item.sheet.advancement.editAdvancement"}}"></a>
@@ -136,6 +137,7 @@
       <div class="left-part-row">
         <span>{{localize "dc20rpg.item.sheet.macros.trigger"}}</span>
         <div>
+          <a class="activable fa-solid fa-lg fa-globe margin-right-3 {{#unless macro.global}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.global"}}" data-path="system.macros.{{key}}.global"></a>
           <a class="activable fa-solid fa-lg fa-power-off margin-right-3 {{#unless macro.disabled}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.disable"}}" data-path="system.macros.{{key}}.disabled"></a>
           <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg {{#unless macro.command}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="{{key}}"></a>
         </div>

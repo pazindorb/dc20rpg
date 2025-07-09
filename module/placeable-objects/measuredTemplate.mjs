@@ -15,7 +15,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
         for (const point of travelPoints) {
           const templates = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(point.x, point.y);
           for (const template of templates) {
-            if (template.document.flags?.dc20rpg?.difficult) {
+            if (DC20RpgMeasuredTemplate.isDifficultTerrainFor(template, token)) {
               finalCost += 1;
               break;
             }
@@ -26,7 +26,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
         if (distnaceLeft > 0.1) {
           const templates = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(to.j, to.i);
           for (const template of templates) {
-            if (template.document.flags?.dc20rpg?.difficult) {
+            if (DC20RpgMeasuredTemplate.isDifficultTerrainFor(template, token)) {
               finalCost += distnaceLeft;
               break;
             }
@@ -40,11 +40,26 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
         if (options.ignoreDT) return 0;
         const templates = DC20RpgMeasuredTemplate.getAllTemplatesOnCord(to.i, to.j);
         for (const template of templates) {
-          if (template.document.flags?.dc20rpg?.difficult) return 1;
+          if (DC20RpgMeasuredTemplate.isDifficultTerrainFor(template, token)) return 1;
         }
         return 0;
       };
     }
+  }
+
+  static isDifficultTerrainFor(template, token) {
+    const difficult = template.document.flags?.dc20rpg?.difficult;
+    if (!difficult) return false;
+
+    let disposition = token.disposition;
+    if (disposition === 0 && game.settings.get("dc20rpg", "neutralDispositionIdentity") === "ally") disposition = 1; // Decide what to do with neutral tokens
+
+    switch (difficult) {
+      case "all": return true;
+      case "friendly": return disposition === 1;
+      case "hostile": return disposition !== 1;
+    }
+    return false;
   }
 
   static getAllTemplatesOnCord(i, j) {

@@ -50,6 +50,11 @@ export function prepareEquippedItemsFlags(actor) {
 	const equippedFlags = {
 		armorEquipped: false,
 		heavyEquipped: false,
+		shieldEquipped: false,
+		shieldBonus: {
+			ad: 0,
+			pd: 0
+		},
 	}
 
 	actor.items.forEach(item => {
@@ -60,11 +65,25 @@ export function prepareEquippedItemsFlags(actor) {
 			if (["heavy"].includes(item.system.equipmentType)) {
 				equippedFlags.heavyEquipped = true;
 			}
+			if (["lshield", "hshield"].includes(item.system.equipmentType)) {
+				equippedFlags.shieldEquipped = true;
+				const properties = item.system.properties;
+				
+				if (properties.adIncrease.active) {
+					equippedFlags.shieldBonus.ad = properties.adIncrease.value;
+				}
+				if (properties.pdIncrease.active) {
+					equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
+				}
+				
+			}
 		}
 	});
 	actor.system.details.armor = {
 		armorEquipped: equippedFlags.armorEquipped,
-		heavyEquipped: equippedFlags.heavyEquipped
+		heavyEquipped: equippedFlags.heavyEquipped,
+		shieldEquipped: equippedFlags.shieldEquipped,
+		shieldBonus: equippedFlags.shieldBonus
 	}
 }
 
@@ -312,8 +331,9 @@ function _coreAttributes(actor) {
 		const current = companionShare(actor, `attributes.${key}`) 
 											? actor.companionOwner.system.attributes[key].value
 											: attribute.current
-		// Final value (after respecting bonuses) (-2 is a lower limit)
-		attribute.value = Math.max(current + attribute.bonuses.value, -2);
+		// Final value (after respecting bonuses) (-2 is a lower limit for characters)
+		attribute.value = current + attribute.bonuses.value;
+		if (actor.type === "character") attribute.value = Math.max(attribute.value, -2);
 
 		// Save Modifier
 		if (companionShare(actor, `saves.${key}`)) {
