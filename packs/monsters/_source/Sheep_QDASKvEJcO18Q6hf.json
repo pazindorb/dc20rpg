@@ -217,58 +217,48 @@
       }
     },
     "expertise": {
-      "skills": 0,
-      "trade": 0
+      "automated": [],
+      "manual": [],
+      "levelIncrease": []
     },
     "defences": {
-      "physical": {
+      "precision": {
+        "normal": 5,
         "formulaKey": "flat",
         "customFormula": "",
         "value": 8,
-        "normal": 5,
         "heavy": 0,
         "brutal": 0,
-        "label": "dc20rpg.defence.physical",
-        "bonuses": {
-          "noArmor": 0,
-          "noHeavy": 0,
-          "always": 0,
-          "armor": 0
-        }
-      },
-      "mystical": {
-        "formulaKey": "flat",
-        "customFormula": "",
-        "value": 8,
-        "normal": 5,
-        "heavy": 0,
-        "brutal": 0,
-        "label": "dc20rpg.defence.mystical",
+        "label": "dc20rpg.defence.precision",
         "bonuses": {
           "noArmor": 0,
           "noHeavy": 0,
           "always": 0
         }
       },
-      "precision": {
-        "normal": 5
-      },
       "area": {
-        "normal": 5
+        "normal": 5,
+        "formulaKey": "flat",
+        "customFormula": "",
+        "value": 8,
+        "heavy": 0,
+        "brutal": 0,
+        "label": "dc20rpg.defence.area",
+        "bonuses": {
+          "noArmor": 0,
+          "noHeavy": 0,
+          "always": 0
+        }
       }
     },
     "damageReduction": {
       "pdr": {
-        "number": 0,
-        "value": 0,
-        "bonus": 0,
-        "label": "dc20rpg.damageReduction.pdr"
+        "label": "dc20rpg.damageReduction.pdr",
+        "active": false
       },
       "mdr": {
-        "number": 0,
-        "value": 0,
-        "bonus": 0,
-        "label": "dc20rpg.damageReduction.mdr"
+        "label": "dc20rpg.damageReduction.mdr",
+        "active": false
       },
       "damageTypes": {
         "corrosion": {
@@ -379,138 +369,12 @@
           "category": "physical",
           "label": "dc20rpg.reductions.bludgeoning"
         }
-      }
-    },
-    "conditions": {
-      "charmed": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.charmed"
       },
-      "burning": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.burning"
-      },
-      "bleeding": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.bleeding"
-      },
-      "poisoned": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.poisoned"
-      },
-      "taunted": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.taunted"
-      },
-      "deafened": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.deafened"
-      },
-      "blinded": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.blinded"
-      },
-      "intimidated": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.intimidated"
-      },
-      "rattled": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.rattled"
-      },
-      "frightened": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.frightened"
-      },
-      "slowed": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.slowed"
-      },
-      "grappled": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.grappled"
-      },
-      "exposed": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.exposed"
-      },
-      "hindered": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.hindered"
-      },
-      "restrained": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.restrained"
-      },
-      "prone": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.prone"
-      },
-      "incapacitated": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.incapacitated"
-      },
-      "stunned": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.stunned"
-      },
-      "paralyzed": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.paralyzed"
-      },
-      "unconscious": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.unconscious"
-      },
-      "petrified": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.petrified"
-      },
-      "surprised": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.surprised"
-      },
-      "doomed": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.doomed"
-      },
-      "exhaustion": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.exhaustion"
-      },
-      "impaired": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.impaired"
-      },
-      "dazed": {
-        "advantage": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.dazed"
+      "flat": 0,
+      "flatHalf": false,
+      "edr": {
+        "active": false,
+        "label": "dc20rpg.damageReduction.edr"
       }
     },
     "customCondition": "",
@@ -636,33 +500,14 @@
         "bonus": 0,
         "max": 2,
         "current": 2,
-        "temp": null
-      },
-      "stamina": {
-        "value": 0,
-        "bonus": 0,
-        "max": 0,
-        "label": "dc20rpg.resource.stamina"
-      },
-      "mana": {
-        "value": 0,
-        "bonus": 0,
-        "max": 0,
-        "label": "dc20rpg.resource.mana"
-      },
-      "grit": {
-        "value": 0,
-        "max": 0,
-        "label": "dc20rpg.resource.grit"
+        "temp": null,
+        "useFlat": true
       },
       "custom": {}
     },
-    "exhaustion": 0,
     "death": {
       "active": false,
-      "stable": true,
       "treshold": 0,
-      "doomed": 0,
       "bonus": 0
     },
     "globalFormulaModifiers": {
@@ -670,7 +515,6 @@
       "attackCheck": [],
       "spellCheck": [],
       "skillCheck": [],
-      "tradeCheck": [],
       "save": [],
       "attackDamage": {
         "martial": {
@@ -709,7 +553,11 @@
           "agi": [],
           "int": [],
           "cha": []
-        }
+        },
+        "deathSave": [],
+        "initiative": [],
+        "skills": [],
+        "tradeSkills": []
       },
       "againstYou": {
         "martial": {
@@ -719,43 +567,23 @@
         "spell": {
           "melee": [],
           "ranged": []
-        }
-      }
-    },
-    "autoRollOutcome": {
-      "onYou": {
-        "martial": {
-          "melee": "",
-          "ranged": ""
-        },
-        "spell": {
-          "melee": "",
-          "ranged": ""
         },
         "checks": {
-          "mig": "",
-          "agi": "",
-          "int": "",
-          "cha": "",
-          "att": "",
-          "spe": ""
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": [],
+          "att": [],
+          "spe": []
         },
         "saves": {
-          "mig": "",
-          "agi": "",
-          "int": "",
-          "cha": ""
-        }
-      },
-      "againstYou": {
-        "martial": {
-          "melee": "",
-          "ranged": ""
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": []
         },
-        "spell": {
-          "melee": "",
-          "ranged": ""
-        }
+        "skills": [],
+        "tradeSkills": []
       }
     },
     "mcp": [],
@@ -764,8 +592,8 @@
       "level": 1,
       "combatMastery": 0,
       "creatureType": "",
-      "category": "",
-      "role": ""
+      "role": "",
+      "aligment": ""
     },
     "saveDC": {
       "flat": true,
@@ -789,14 +617,262 @@
         "martial": 0
       }
     },
-    "masteries": {
+    "help": {
+      "active": {},
+      "maxDice": 8
+    },
+    "healingReduction": {
+      "flat": 0,
+      "flatHalf": false
+    },
+    "statusResistances": {
+      "magical": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.magical"
+      },
+      "curse": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.curse"
+      },
+      "movement": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.movement"
+      },
+      "bleeding": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.bleeding"
+      },
+      "blinded": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.blinded"
+      },
+      "burning": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.burning"
+      },
+      "charmed": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.charmed"
+      },
+      "dazed": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.dazed"
+      },
+      "deafened": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.deafened"
+      },
+      "disoriented": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.disoriented"
+      },
+      "doomed": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.doomed"
+      },
+      "exhaustion": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.exhaustion"
+      },
+      "exposed": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.exposed"
+      },
+      "frightened": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.frightened"
+      },
+      "grappled": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.grappled"
+      },
+      "hindered": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.hindered"
+      },
+      "impaired": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.impaired"
+      },
+      "immobilized": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.immobilized"
+      },
+      "incapacitated": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.incapacitated"
+      },
+      "intimidated": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.intimidated"
+      },
+      "paralyzed": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.paralyzed"
+      },
+      "petrified": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.petrified"
+      },
+      "prone": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.prone"
+      },
+      "poisoned": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.poisoned"
+      },
+      "restrained": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.restrained"
+      },
+      "slowed": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.slowed"
+      },
+      "stunned": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.stunned"
+      },
+      "surprised": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.surprised"
+      },
+      "taunted": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.taunted"
+      },
+      "tethered": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.tethered"
+      },
+      "terrified": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.terrified"
+      },
+      "unconscious": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.unconscious"
+      },
+      "weakened": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.weakened"
+      }
+    },
+    "scaling": {},
+    "currency": {
+      "cp": 0,
+      "sp": 0,
+      "gp": 0,
+      "pp": 0
+    },
+    "movePoints": 0,
+    "moveCost": 1,
+    "combatTraining": {
       "weapons": true,
       "lightShield": true,
       "heavyShield": true,
       "lightArmor": true,
-      "heavyArmor": true,
-      "spellcasting": true,
-      "weaponStyles": true
+      "heavyArmor": true
+    },
+    "globalModifier": {
+      "range": {
+        "melee": 0,
+        "normal": 0,
+        "max": 0
+      },
+      "allow": {
+        "overheal": false
+      },
+      "prevent": {
+        "goUnderAP": 0,
+        "hpRegeneration": false
+      },
+      "ignore": {
+        "difficultTerrain": false,
+        "closeQuarters": false,
+        "longRange": false,
+        "flanking": false
+      },
+      "provide": {
+        "halfCover": false,
+        "tqCover": false
+      }
+    },
+    "keywords": {},
+    "sustain": [],
+    "tokenHotbar": {
+      "sectionA": {},
+      "sectionB": {},
+      "resource1": {},
+      "resource2": {},
+      "resource3": {}
     }
   },
   "prototypeToken": {
@@ -1107,7 +1183,11 @@
         },
         "effectsConfig": {
           "mustEquip": true,
-          "addToChat": false
+          "addToChat": false,
+          "linkWithToggle": false,
+          "toggleItem": true,
+          "active": false,
+          "addToTemplates": ""
         },
         "isReaction": false,
         "actionType": "attack",
@@ -1119,14 +1199,26 @@
           "combatMastery": true,
           "critThreshold": 20,
           "halfDmgOnMiss": false,
-          "formulaMod": "physical"
+          "formulaMod": "physical",
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "conditionals": false
+          }
         },
         "check": {
           "canCrit": false,
           "checkKey": "att",
           "contestedKey": "phy",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "multiCheck": {
+            "active": false,
+            "options": {}
+          },
+          "againstDC": true,
+          "respectSizeRules": false
         },
         "save": {
           "type": "phy",
@@ -1141,7 +1233,9 @@
             "stamina": null,
             "mana": null,
             "health": null,
-            "custom": {}
+            "custom": {},
+            "grit": null,
+            "restPoints": null
           },
           "charges": {
             "current": null,
@@ -1149,7 +1243,11 @@
             "maxChargesFormula": "",
             "overriden": false,
             "reset": "",
-            "showAsResource": false
+            "showAsResource": false,
+            "rechargeFormula": "",
+            "rechargeDice": "",
+            "requiredTotalMinimum": null,
+            "subtract": 1
           },
           "otherItem": {
             "itemId": "",
@@ -1171,12 +1269,15 @@
         "enhancements": {},
         "copyEnhancements": {
           "copy": false,
-          "copyFor": ""
+          "copyFor": "",
+          "linkWithToggle": false,
+          "hideFromRollMenu": false
         },
         "range": {
           "normal": null,
           "max": null,
-          "unit": ""
+          "unit": "",
+          "melee": 1
         },
         "duration": {
           "value": null,
@@ -1185,7 +1286,6 @@
         },
         "target": {
           "count": null,
-          "invidual": true,
           "type": "",
           "areas": {
             "default": {
@@ -1201,8 +1301,34 @@
           "name": "",
           "condition": "",
           "useFor": "",
-          "connectedToEffects": false,
-          "bonus": 0
+          "bonus": "0",
+          "linkWithToggle": false,
+          "flags": {
+            "ignorePdr": false,
+            "ignoreEdr": false,
+            "ignoreMdr": false,
+            "ignoreResistance": {},
+            "ignoreImmune": {}
+          },
+          "effect": null,
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false,
+            "overrideDefence": ""
+          }
         },
         "hasAdvancement": false,
         "advancements": {
@@ -1244,32 +1370,64 @@
           }
         },
         "weaponStyle": "",
-        "weaponType": ""
+        "weaponType": "",
+        "itemKey": "",
+        "shortInfo": "",
+        "requirements": {
+          "level": 0,
+          "items": ""
+        },
+        "quickRoll": false,
+        "macros": {},
+        "lootRoll": 1,
+        "stackable": false,
+        "help": {
+          "ignoreMHP": false,
+          "subtract": false,
+          "doNotExpire": false
+        },
+        "toggle": {
+          "toggleable": false,
+          "toggledOn": false,
+          "toggleOnRoll": false
+        },
+        "againstEffect": {
+          "id": "",
+          "supressFromChatMessage": false,
+          "untilYourNextTurnStart": false,
+          "untilYourNextTurnEnd": false,
+          "untilTargetNextTurnStart": false,
+          "untilTargetNextTurnEnd": false,
+          "untilFirstTimeTriggered": false
+        },
+        "againstStatuses": {},
+        "rollRequests": {},
+        "conditionals": {},
+        "provideMartialExpansion": false,
+        "tip": "",
+        "weaponStyleActive": false
       },
       "effects": [],
       "folder": null,
       "sort": 0,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20rpg": {
           "tableName": "action"
         }
       },
       "_stats": {
-        "compendiumSource": "Actor.rEP8ox6yNsxaKdQe.Item.K067S4adgeRovalW",
+        "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1751010741588,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.K067S4adgeRovalW"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.K067S4adgeRovalW"
     },
     {
       "name": "Attack",
@@ -1489,15 +1647,13 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "4kuxWHZSmuNdlmkW",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
@@ -1505,15 +1661,16 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.hsePatuiekhyAR6Q"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.hsePatuiekhyAR6Q"
     },
     {
       "name": "Disarm",
@@ -1759,32 +1916,31 @@
         },
         "againstStatuses": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "4kuxWHZSmuNdlmkW",
       "sort": 200000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
         "compendiumSource": null,
-        "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-        "coreVersion": "13.344",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "NUOZ4qHSbGNnSoHp",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.NUOZ4qHSbGNnSoHp"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.NUOZ4qHSbGNnSoHp"
     },
     {
       "name": "Grapple",
@@ -2023,32 +2179,31 @@
           "doNotExpire": false
         },
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "4kuxWHZSmuNdlmkW",
       "sort": 150000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
         "compendiumSource": null,
-        "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
-        "coreVersion": "13.344",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "tGKvbh4s2oOfUx3M",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.tGKvbh4s2oOfUx3M"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.tGKvbh4s2oOfUx3M"
     },
     {
       "name": "Shove",
@@ -2296,32 +2451,31 @@
           "doNotExpire": false
         },
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "4kuxWHZSmuNdlmkW",
       "sort": 300000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
         "compendiumSource": null,
-        "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
-        "coreVersion": "13.344",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "D9pPdXnW0ajK5nem",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.D9pPdXnW0ajK5nem"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.D9pPdXnW0ajK5nem"
     },
     {
       "name": "Tackle",
@@ -2560,32 +2714,31 @@
           "doNotExpire": false
         },
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "4kuxWHZSmuNdlmkW",
       "sort": 400000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
         "compendiumSource": null,
-        "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
-        "coreVersion": "13.344",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "C3Hl1iLGmPXfvLDD",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.C3Hl1iLGmPXfvLDD"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.C3Hl1iLGmPXfvLDD"
     },
     {
       "name": "Disengage",
@@ -2804,7 +2957,9 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -2826,8 +2981,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -2879,40 +3046,35 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266841,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.29ndEq50TFE8li0F.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.29ndEq50TFE8li0F.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "29ndEq50TFE8li0F",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.29ndEq50TFE8li0F"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.29ndEq50TFE8li0F"
     },
     {
       "name": "Full Disengage",
@@ -3131,7 +3293,9 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -3153,8 +3317,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -3206,40 +3382,35 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266855,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.zLuALVYMo2mvTy73.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.zLuALVYMo2mvTy73.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "zLuALVYMo2mvTy73",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.zLuALVYMo2mvTy73"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.zLuALVYMo2mvTy73"
     },
     {
       "name": "Dodge",
@@ -3458,7 +3629,9 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -3480,8 +3653,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -3544,40 +3729,35 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266868,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.NlPGxHxg9GeEhCMf.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.NlPGxHxg9GeEhCMf.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "NlPGxHxg9GeEhCMf",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.NlPGxHxg9GeEhCMf"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.NlPGxHxg9GeEhCMf"
     },
     {
       "name": "Full Dodge",
@@ -3796,7 +3976,9 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -3818,8 +4000,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -3882,40 +4076,35 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266882,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.YszwDJ8omlbfENoD.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.YszwDJ8omlbfENoD.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.Y6oevdLqA31GPcbt",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "YszwDJ8omlbfENoD",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.YszwDJ8omlbfENoD"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.YszwDJ8omlbfENoD"
     },
     {
       "name": "Hide",
@@ -4134,7 +4323,9 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -4174,9 +4365,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
+              "mode": "==",
+              "path": "",
+              "value": ""
             },
-            "addToChat": true
+            "addToChat": true,
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -4236,40 +4438,35 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266896,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.WF3Dp86a57J0ZNpi.0wmnvRGDfTTfcff3"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.WF3Dp86a57J0ZNpi.0wmnvRGDfTTfcff3"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "WF3Dp86a57J0ZNpi",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.WF3Dp86a57J0ZNpi"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.WF3Dp86a57J0ZNpi"
     },
     {
       "name": "Move",
@@ -4496,32 +4693,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "SvxA57HGyAhazYbX",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.N5w8JDg9ddpC8nkm",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "NwlbabVvLOMnik6e",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.NwlbabVvLOMnik6e"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.NwlbabVvLOMnik6e"
     },
     {
       "name": "Help",
@@ -4740,32 +4936,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "SvxA57HGyAhazYbX",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "nPEUJj1Bdjpuo4HQ",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.nPEUJj1Bdjpuo4HQ"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.nPEUJj1Bdjpuo4HQ"
     },
     {
       "name": "Object",
@@ -4984,32 +5179,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "SvxA57HGyAhazYbX",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "rx66aSvo0fMLcZJz",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.rx66aSvo0fMLcZJz"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.rx66aSvo0fMLcZJz"
     },
     {
       "name": "Spell",
@@ -5228,32 +5422,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "SvxA57HGyAhazYbX",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.aIaSBL0WEAQbINL7",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "wrQxVvwiy0LSX2qW",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.wrQxVvwiy0LSX2qW"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.wrQxVvwiy0LSX2qW"
     },
     {
       "name": "Analyze Creature",
@@ -5478,32 +5671,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.b4GqFH5BSPAssSPq",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "quEwzOL0FCp4uJsu",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.quEwzOL0FCp4uJsu"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.quEwzOL0FCp4uJsu"
     },
     {
       "name": "Calm Animal",
@@ -5742,7 +5934,9 @@
           "doNotExpire": false
         },
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -5764,8 +5958,20 @@
           "system": {
             "statusId": "taunted",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -5819,15 +6025,13 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266910,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.phsIQlitAZauGi5D.pM1B2Fug0n5OTNeg"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.phsIQlitAZauGi5D.pM1B2Fug0n5OTNeg"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -5848,8 +6052,20 @@
           "system": {
             "statusId": "taunted",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -5932,17 +6148,15 @@
             }
           },
           "_stats": {
-            "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
+            "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266923,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.phsIQlitAZauGi5D.jKRxZSxqvt4N20ey"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.phsIQlitAZauGi5D.jKRxZSxqvt4N20ey"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -5963,8 +6177,20 @@
           "system": {
             "statusId": "taunted",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -6054,42 +6280,37 @@
             }
           },
           "_stats": {
-            "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
+            "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266937,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.phsIQlitAZauGi5D.jTQvA8gVqZXEBnSx"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.phsIQlitAZauGi5D.jTQvA8gVqZXEBnSx"
         }
       ],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "phsIQlitAZauGi5D",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.phsIQlitAZauGi5D"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.phsIQlitAZauGi5D"
     },
     {
       "name": "Combat Insight",
@@ -6327,32 +6548,31 @@
         },
         "againstStatuses": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "KZIMxJcFaRmQ2eeI",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.KZIMxJcFaRmQ2eeI"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.KZIMxJcFaRmQ2eeI"
     },
     {
       "name": "Conceal",
@@ -6571,32 +6791,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "svlnmGSeeZw8aPDe",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.svlnmGSeeZw8aPDe"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.svlnmGSeeZw8aPDe"
     },
     {
       "name": "Feint",
@@ -6857,7 +7076,9 @@
           "untilFirstTimeTriggered": false
         },
         "againstStatuses": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -6879,9 +7100,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
+              "mode": "==",
+              "path": "",
+              "value": ""
             },
-            "effectKey": "feint"
+            "effectKey": "feint",
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -6940,40 +7172,35 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266950,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.j5KzIWj2plPIwKdK.i6sBwjgFhuSEimtp"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.j5KzIWj2plPIwKdK.i6sBwjgFhuSEimtp"
         }
       ],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "j5KzIWj2plPIwKdK",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.j5KzIWj2plPIwKdK"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.j5KzIWj2plPIwKdK"
     },
     {
       "name": "Intimidate",
@@ -7212,32 +7439,31 @@
           "doNotExpire": false
         },
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.g41WHLdM8uNaSCWG",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "Jv48dptw1JS99jlG",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.Jv48dptw1JS99jlG"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.Jv48dptw1JS99jlG"
     },
     {
       "name": "Investigate",
@@ -7466,32 +7692,31 @@
         },
         "againstStatuses": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "hFw72EQjWarS3chM",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.hFw72EQjWarS3chM"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.hFw72EQjWarS3chM"
     },
     {
       "name": "Jump",
@@ -7710,32 +7935,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "0IsQKDM9MTyun0I3",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.0IsQKDM9MTyun0I3"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.0IsQKDM9MTyun0I3"
     },
     {
       "name": "Medicine",
@@ -7964,32 +8188,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "V52YbLdW5GuIhROi",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.V52YbLdW5GuIhROi"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.V52YbLdW5GuIhROi"
     },
     {
       "name": "Mounted Defense",
@@ -8208,7 +8431,9 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [
         {
@@ -8230,8 +8455,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -8263,17 +8500,15 @@
             }
           },
           "_stats": {
-            "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
+            "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266964,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.nrwAf0Vp6ZGZ1UZz.KR70WPqkYDtPZ1eD"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.nrwAf0Vp6ZGZ1UZz.KR70WPqkYDtPZ1eD"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -8294,8 +8529,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -8327,17 +8574,15 @@
             }
           },
           "_stats": {
-            "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
+            "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266978,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.nrwAf0Vp6ZGZ1UZz.ikVeaebEUee9EZmU"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.nrwAf0Vp6ZGZ1UZz.ikVeaebEUee9EZmU"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -8358,8 +8603,20 @@
           "system": {
             "statusId": "",
             "disableWhen": {
-              "mode": "=="
-            }
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "addToChat": false,
+            "nonessential": false,
+            "requireEnhancement": ""
           },
           "changes": [
             {
@@ -8391,42 +8648,37 @@
             }
           },
           "_stats": {
-            "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
+            "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "13.344",
+            "exportSource": null,
+            "coreVersion": "13.346",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.6.0",
-            "createdTime": null,
-            "modifiedTime": 1750880266992,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y",
-            "exportSource": null
+            "systemVersion": "0.9.7.0",
+            "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!zJC4Er1JQNKVISfv.nrwAf0Vp6ZGZ1UZz.ZM9cZtUFd9MyzZ0X"
+          "_key": "!actors.items.effects!QDASKvEJcO18Q6hf.nrwAf0Vp6ZGZ1UZz.ZM9cZtUFd9MyzZ0X"
         }
       ],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.Z9UxQK1yb6Ht05Xr",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "nrwAf0Vp6ZGZ1UZz",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.nrwAf0Vp6ZGZ1UZz"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.nrwAf0Vp6ZGZ1UZz"
     },
     {
       "name": "Pass Through",
@@ -8655,32 +8907,31 @@
         },
         "againstStatuses": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "IFXA7nF36FBDIyAb",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.IFXA7nF36FBDIyAb"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.IFXA7nF36FBDIyAb"
     },
     {
       "name": "Search",
@@ -8909,32 +9160,31 @@
         },
         "againstStatuses": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "mCD2eSqHM4yVjCS0",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.mCD2eSqHM4yVjCS0"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.mCD2eSqHM4yVjCS0"
     },
     {
       "name": "Opportunity Attack",
@@ -9153,32 +9403,31 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "atqX9E3XHYUrlhZg",
       "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20BasicActionsSource": {},
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.aIaSBL0WEAQbINL7",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "Wxj0m0IQodl8jjYy",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.Wxj0m0IQodl8jjYy"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.Wxj0m0IQodl8jjYy"
     },
     {
       "name": "Spell Duel",
@@ -9405,15 +9654,13 @@
         "againstStatuses": {},
         "rollRequests": {},
         "conditionals": {},
-        "provideMartialExpansion": false
+        "provideMartialExpansion": false,
+        "shortInfo": "",
+        "tip": ""
       },
       "effects": [],
       "folder": "atqX9E3XHYUrlhZg",
       "sort": 200000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
       "flags": {
         "dc20rpg": {
           "rollMenu": {
@@ -9439,25 +9686,41 @@
         "dc20BasicActionKey": {}
       },
       "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.1OVlkg9k0CcbBXYj",
-        "coreVersion": "13.344",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
-        "createdTime": 1745825604033,
-        "modifiedTime": 1745825604033,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
       "_id": "cpQyM29qUQgXKimY",
-      "_key": "!actors.items!zJC4Er1JQNKVISfv.cpQyM29qUQgXKimY"
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!QDASKvEJcO18Q6hf.cpQyM29qUQgXKimY"
     }
   ],
   "effects": [
     {
       "name": "Bloodied",
       "system": {
-        "statusId": "bloodied1"
+        "statusId": "bloodied1",
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "requireEnhancement": ""
       },
       "statuses": [
         "bloodied1"
@@ -9485,15 +9748,13 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
-        "exportSource": null
+        "systemVersion": "0.9.7.0",
+        "lastModifiedBy": null
       },
-      "_key": "!actors.effects!zJC4Er1JQNKVISfv.ezSTPaooB79OkWhk"
+      "_key": "!actors.effects!QDASKvEJcO18Q6hf.ezSTPaooB79OkWhk"
     }
   ],
   "folder": null,
@@ -9625,19 +9886,19 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.5",
-    "createdTime": 1730712314663,
-    "modifiedTime": 1745825604086,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "systemVersion": "0.9.7.0",
+    "createdTime": 1752049843217,
+    "modifiedTime": 1752049843217,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "zJC4Er1JQNKVISfv",
-  "sort": 200000,
+  "_id": "QDASKvEJcO18Q6hf",
+  "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!actors!zJC4Er1JQNKVISfv"
+  "_key": "!actors!QDASKvEJcO18Q6hf"
 }

@@ -7376,7 +7376,8 @@
               "area": "",
               "distance": null,
               "width": null,
-              "unit": ""
+              "unit": "",
+              "difficult": ""
             }
           }
         },
@@ -7489,7 +7490,7 @@
             "trigger": "onDemand",
             "command": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\ngame.dc20rpg.tools.getSimplePopup(\"info\", {header: \"Help Dice Ready\", information:[`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]});",
             "disabled": false,
-            "title": ""
+            "title": "You Scored Crit or Heavy Hit"
           }
         },
         "toggle": {
@@ -7565,7 +7566,9 @@
               "ignorePdr": true,
               "ignoreMdr": false,
               "ignoreResistance": {},
-              "ignoreImmune": {}
+              "ignoreImmune": {},
+              "reduceAd": "",
+              "reducePd": ""
             },
             "effect": null,
             "addsNewRollRequest": false,
@@ -7688,15 +7691,19 @@
         }
       ],
       "folder": "Ugg6V0gcjB2tcoLc",
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "favorite": true
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.7.0",
         "createdTime": 1745571562066,
-        "modifiedTime": 1745571562066,
+        "modifiedTime": 1751580607457,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

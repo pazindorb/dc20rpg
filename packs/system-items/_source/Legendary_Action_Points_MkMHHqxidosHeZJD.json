@@ -1,10 +1,10 @@
 {
-  "name": "Life Tap",
+  "name": "Legendary Action Points",
   "type": "feature",
-  "img": "icons/commodities/treasure/plaque-skull-blue-green.webp",
+  "img": "icons/magic/light/explosion-star-glow-yellow.webp",
   "system": {
-    "description": "<p>When you produce an <strong>MP Effect</strong>, you can spend <strong>HP</strong> in place of <strong>MP</strong>.</p><p>The total amount of HP and MP spent can't exceed your Mana Spend Limit.</p><p>You can use this Feature once per Long Rest, and regain the ability to use it again when you roll for Initiative.</p>",
-    "tableName": "",
+    "description": "<p><strong>Legendary Action:</strong> At the end of a turn, the monster can spend any number of Legendary Action points to take a number of Actions equal to the number of PCs occupying that turn. </p><p>Legendary Action Points are regained at start of the round.</p>",
+    "tableName": "feature",
     "source": "",
     "conditional": {
       "hasConditional": false,
@@ -17,13 +17,33 @@
         "ignorePdr": false,
         "ignoreMdr": false,
         "ignoreResistance": {},
-        "ignoreImmune": {}
+        "ignoreImmune": {},
+        "ignoreEdr": false
       },
-      "effect": null
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -31,7 +51,12 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      }
     },
     "duration": {
       "value": null,
@@ -46,7 +71,6 @@
     },
     "target": {
       "count": null,
-      "invidual": true,
       "type": "",
       "areas": {
         "default": {
@@ -60,36 +84,51 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
+      "checkKey": "att",
       "contestedKey": "phy",
       "checkDC": 10,
+      "failEffect": "",
       "multiCheck": {
         "active": false,
         "options": {}
       },
-      "againstDC": true,
       "respectSizeRules": false,
-      "failEffect": ""
+      "againstDC": true
     },
     "formulas": {},
     "enhancements": {
-      "kwDRuJBrEactIVpR": {
-        "name": "Life Tap",
+      "rF7NpC1SmkKu49xz": {
+        "name": "Use Legendary AP",
         "number": 0,
         "resources": {
-          "actionPoint": null,
-          "health": 1,
-          "mana": -1,
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
           "stamina": null,
           "grit": null,
-          "custom": {},
+          "custom": {
+            "legendary-ap": {
+              "name": "Legendary Action Points",
+              "img": "icons/magic/light/explosion-star-glow-yellow.webp",
+              "value": 1,
+              "maxFormula": "3",
+              "max": 3,
+              "reset": "round",
+              "type": "Resource",
+              "key": "legendary-ap"
+            }
+          },
           "restPoints": null
         },
         "charges": {
-          "consume": true,
-          "fromOriginal": true
+          "consume": false,
+          "fromOriginal": false
         },
         "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
           "hasAdditionalFormula": false,
           "additionalFormula": "",
           "overrideDamageType": false,
@@ -98,7 +137,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -119,8 +165,15 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macro": "",
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -134,12 +187,17 @@
             "max": null
           }
         },
-        "description": "<p>When you produce an <strong>MP Effect</strong>, you can spend <strong>HP</strong> in place of <strong>MP</strong>.</p><p>The total amount of HP and MP spent can't exceed your Mana Spend Limit.</p><p>You can use this Feature once per Long Rest, and regain the ability to use it again when you roll for Initiative.</p>"
+        "description": "<p><strong>Legendary Action:</strong> At the end of a turn, the monster can spend any number of Legendary Action points to take a number of Actions equal to the number of PCs occupying that turn.</p><p>Legendary Action Points are regained at start of the round.</p>",
+        "hide": false,
+        "sourceItemId": "KPoL0ErrJF70D7DL",
+        "sourceItemName": "Legendary Action Points",
+        "sourceItemImg": "icons/magic/light/explosion-star-glow-yellow.webp",
+        "enhCosts": 0
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "type=[\"spell\", \"feature\"]",
+      "copyFor": "system.costs.resources.actionPoint=[1, 2, 3, 4]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -156,17 +214,28 @@
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {},
+        "custom": {
+          "legendary-ap": {
+            "name": "Legendary Action Points",
+            "img": "icons/magic/light/explosion-star-glow-yellow.webp",
+            "value": null,
+            "maxFormula": "3",
+            "max": 3,
+            "reset": "round",
+            "type": "Resource",
+            "key": "legendary-ap"
+          }
+        },
         "grit": null,
         "restPoints": null
       },
       "charges": {
-        "current": 1,
+        "current": null,
         "max": null,
-        "maxChargesFormula": "1",
+        "maxChargesFormula": "",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "combat",
+        "reset": "",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -178,8 +247,8 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
-    "featureOrigin": "Warlock",
+    "featureType": "monster",
+    "featureOrigin": "",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -188,13 +257,14 @@
       "active": false,
       "addToChat": false,
       "linkWithToggle": false,
-      "toggleItem": true
+      "toggleItem": true,
+      "addToTemplates": ""
     },
-    "isResource": false,
+    "isResource": true,
     "resource": {
-      "name": "",
-      "resourceKey": "key",
-      "reset": "",
+      "name": "Legendary AP",
+      "resourceKey": "legendary-ap",
+      "reset": "round",
       "values": [
         0,
         0,
@@ -217,13 +287,12 @@
         0,
         0
       ],
-      "useStandardTable": true,
-      "customMaxFormula": ""
+      "useStandardTable": false,
+      "customMaxFormula": "3"
     },
-    "itemKey": "lifeTap",
     "choicePointCost": 1,
-    "hideFromCompendiumBrowser": false,
-    "quickRoll": false,
+    "hideFromCompendiumBrowser": true,
+    "quickRoll": true,
     "macros": {},
     "toggle": {
       "toggleable": false,
@@ -239,8 +308,6 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -277,38 +344,57 @@
         "allowToAddItems": false,
         "additionalAdvancement": true,
         "compendium": "",
-        "preFilters": "",
         "items": {}
       }
     },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "itemKey": "legendaryActionPoints",
     "help": {
       "ignoreMHP": false,
-      "subtract": false
+      "subtract": false,
+      "doNotExpire": false
     },
     "requirements": {
-      "level": 2
+      "level": 1,
+      "items": ""
     },
-    "featureSourceItem": "warlock"
+    "conditionals": {},
+    "provideMartialExpansion": false,
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "shortInfo": "",
+    "tip": ""
   },
   "effects": [],
-  "folder": "dycSuUa1p7R1yhSG",
-  "flags": {},
+  "folder": null,
+  "flags": {
+    "dc20rpg": {
+      "rollMenu": {
+        "showMenu": false,
+        "rangeType": false,
+        "adv": 0,
+        "dis": 0
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.346",
     "systemId": "dc20rpg",
     "systemVersion": "0.9.7.0",
-    "createdTime": 1739350034855,
-    "modifiedTime": 1751528158703,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "createdTime": 1751527276015,
+    "modifiedTime": 1751527276015,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "NOT8OkPS5C446ZBK",
+  "_id": "MkMHHqxidosHeZJD",
   "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!NOT8OkPS5C446ZBK"
+  "_key": "!items!MkMHHqxidosHeZJD"
 }
