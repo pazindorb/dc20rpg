@@ -22,7 +22,8 @@ import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
 import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
-import { prepareHelpAction } from "../../helpers/actors/actions.mjs";
+import { clearHelpDice, prepareHelpAction } from "../../helpers/actors/actions.mjs";
+import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -42,6 +43,15 @@ export function activateCommonLinsters(html, actor) {
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
   html.find('.make-help-action').click(() => prepareHelpAction(actor));
+  html.find('.help-dice').mousedown(async ev => {
+    if (ev.which !== 3) return;
+    const key = ev.currentTarget.dataset?.key;
+    const owner = getActorFromIds(actor.id, actor.token?.id);
+    if (owner) {
+      const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
+      if (confirmed) clearHelpDice(owner, key);
+    }
+  });
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
