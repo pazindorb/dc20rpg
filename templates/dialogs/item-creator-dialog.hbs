@@ -33,7 +33,7 @@
   {{!-- Multi Faceted Config --}}
   {{#if properties.multiFaceted.active}}
   <div class="form-group">
-    <label>{{localize 'dc20rpg.dialog.itemCreator.secondDamageType'}}</label>
+    <label>{{localize 'dc20rpg.dialog.itemCreator.secondWeaponStyle'}}</label>
     <div class="form-fields">
       <select data-cType="string" data-path="blueprint.system.properties.multiFaceted.weaponStyle.second"  data-hover="tooltip" data-tooltip-type="journal" data-header="{{secondWeaponStyleHeader}}" data-uuid="{{secondWeaponStyleJournalUuid}}">
         {{selectOptions weaponStyles selected=blueprint.system.properties.multiFaceted.weaponStyle.second blank=""}}
@@ -105,6 +105,6 @@
   </fieldset>
 
   <footer class="form-footer">
-    <button data-action="createItem"><i class="fa-solid fa-hammer-crash fa-lg"></i>{{localize "dc20rpg.dialog.itemCreator.title.weapon"}}</button>
+    <button data-action="createItem"><i class="fa-solid fa-hammer-crash fa-lg"></i>{{varLocalize "dc20rpg.dialog.itemCreator.title." itemType ""}}</button>
   </footer>
 </form>

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
   "system": {
-    "description": "<p>You have an assortment of unique oils, tools, and weapon accessories that you can use to modify a Weapon (or piece of ammunition) when making an Attack.</p><p><span ><strong >Hunter’s Strike: </strong>You can spend<strong > 1 SP</strong> as part of an Attack Check to add 1 of the effects listed below. You can only use 1 of these effects per Attack Check.</span></p><ul><li><p><span ><strong >Piercing:</strong></span> 2 Piercing damage and <span ><strong >Physical Save </strong></span>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong><span ><strong >.</strong></span></p></li><li><p><span ><strong >Snare: </strong></span>2 Bludgeoning damage and <span ><strong >Physical Save </strong></span>against <span ><strong >@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk]{Immobilized}.</strong></span></p></li><li><p><strong>Acid:</strong> 2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1}</strong> until the end of your next turn.</p></li><li><p><strong>Toxin:</strong> 2 Poison damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> until the end of your next turn.</p></li><li><p><span ><strong >Flash Bang: </strong>2 Sonic damage and <strong >Mental Save </strong>against <strong >@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>until the end of your next turn.</span></p></li><li><p><span ><strong >Fire Oil: </strong>2 Fire damage and <strong >Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5]{Burning}</strong>.</span></p></li></ul><p></p>",
+    "description": "<p>You have an assortment of unique oils, tools, and weapon accessories that you can use to modify a Weapon (or piece of ammunition) when making an Attack.</p><p><span><strong>Hunter’s Strike: </strong>You can spend<strong> 1 SP</strong> as part of an Attack Check to add 1 of the effects listed below. You can only use 1 of these effects per Attack Check.</span></p><ul><li><p><span><strong>Piercing:</strong></span> 2 Piercing damage and <span><strong>Physical Save </strong></span>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong><span><strong>.</strong></span></p></li><li><p><span><strong>Snare: </strong></span>2 Bludgeoning damage and <span><strong>Physical Save </strong></span>against <span><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk]{Immobilized} </strong></span>until the end of your next turn<span><strong>.</strong></span></p></li><li><p><strong>Acid:</strong> 2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1}</strong> until the end of your next turn.</p></li><li><p><strong>Toxin:</strong> 2 Poison damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> until the end of your next turn.</p></li><li><p><span><strong>Flash Bang: </strong>2 Sonic damage and <strong>Mental Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>until the end of your next turn.</span></p></li><li><p><span><strong>Fire Oil: </strong>2 Fire damage and <strong>Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5]{Burning}</strong>.</span></p></li></ul><p></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -190,7 +191,7 @@
             "id": "immobilized",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
+            "untilYourNextTurnEnd": true,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
@@ -621,11 +622,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.346",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.7.0",
     "createdTime": 1739350035174,
-    "modifiedTime": 1747998784702,
+    "modifiedTime": 1752244949213,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

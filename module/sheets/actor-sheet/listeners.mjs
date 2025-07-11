@@ -42,7 +42,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
-  html.find('.make-help-action').click(() => prepareHelpAction(actor));
+  html.find('.make-help-action').click(async () => {if (subtractAP(actor, 1)) prepareHelpAction(actor)});
   html.find('.help-dice').mousedown(async ev => {
     if (ev.which !== 3) return;
     const key = ev.currentTarget.dataset?.key;
