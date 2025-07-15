@@ -22,6 +22,7 @@ import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, 
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
+import { toSelectOptions } from "./utils.mjs";
 
 export function prepareDC20tools() {
   game.dc20rpg = {
@@ -92,7 +93,8 @@ export function prepareDC20tools() {
       makeMoveAction,
       prepareHelpAction,
       createRestDialog,
-      sendDescriptionToChat
+      sendDescriptionToChat,
+      toSelectOptions
     },
     events: {
       runEventsFor,

@@ -100,6 +100,19 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     // Item Slot
     options.push({
+          name: "dc20rpg.contextMenu.equip",
+          icon: '<i class="fa-solid fa-suitcase-rolling"></i>',
+          condition: li => {
+            const item = this.#isItemSlot(li);
+            if (!item) return false;
+            return item.system?.statuses?.hasOwnProperty("equipped");
+          },
+          callback: li => {
+            const item = this.#isItemSlot(li);
+            item.equip();
+          }
+    });
+    options.push({
           name: "dc20rpg.contextMenu.toggle",
           icon: '<i class="fa-solid fa-toggle-on"></i>',
           condition: li => {
@@ -600,8 +613,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     await this._clearSection(this.actor.system.tokenHotbar.sectionB, "sectionB");
 
     const usableItems = this.actor.items
-                .filter(item => !favorities || item.flags.dc20rpg.favorite)
-                .filter(item => item.system?.actionType !== "")
+                .filter(item => {
+                  if (favorities) return item.flags.dc20rpg.favorite;
+                  else return item.system?.actionType !== ""
+                })
                 .filter(item => !this.skipTypes.includes(item.type));
 
     const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");

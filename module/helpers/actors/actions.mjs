@@ -5,28 +5,6 @@ import { generateKey, roundFloat } from "../utils.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
-export async function addBasicActions(actor) {
-  const actionsData = [];
-  for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
-    const action = await fromUuid(uuid);
-    const data = action.toObject();
-    data.flags.dc20BasicActionsSource = uuid;
-    data.flags.dc20BasicActionKey = key;
-    actionsData.push(data);
-  }
-
-  if (actor.type === "character") {
-    const uuid = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike;
-    const action = await fromUuid(uuid);
-    const data = action.toObject();
-    data.flags.dc20BasicActionsSource = uuid;
-    data.flags.dc20BasicActionKey = "unarmedStrike";
-    actionsData.push(data);
-  }
-  await actor.createEmbeddedDocuments("Item", actionsData);
-  await actor.update({["flags.basicActionsAdded"]: true})
-}
-
 //===================================
 //            HELP ACTION           =
 //===================================

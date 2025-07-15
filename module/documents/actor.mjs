@@ -1,5 +1,5 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { addBasicActions, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
@@ -648,10 +648,55 @@ export class DC20RpgActor extends Actor {
     return await super._preUpdate(changes, options, user);
   }
 
-  prepareBasicActions() {
+  //======================================
+  //=           ITEMS ON ACTOR           =
+  //======================================
+  async prepareBasicActions() {
     if (this.type === "storage") return;
-    if (!this.flags.basicActionsAdded) {
-      addBasicActions(this);
+
+    // Remove all basic actions
+    const basicActionIds = this.items.filter(item => item.type === "basicAction").map(item => item.id);
+    await this.deleteEmbeddedDocuments("Item", basicActionIds);
+
+    // Add basic actions
+    const actionsData = [];
+    for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
+      const action = await fromUuid(uuid);
+      const data = action.toObject();
+      data.flags.dc20BasicActionsSource = uuid;
+      data.flags.dc20BasicActionKey = key;
+      actionsData.push(data);
     }
+
+    if (this.type === "character") {
+      const uuid = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike;
+      const action = await fromUuid(uuid);
+      const data = action.toObject();
+      data.flags.dc20BasicActionsSource = uuid;
+      data.flags.dc20BasicActionKey = "unarmedStrike";
+      actionsData.push(data);
+    }
+    await this.createEmbeddedDocuments("Item", actionsData);
+  }
+
+  /**
+   * Returns all items from actor that match given type and filters (if provided)
+   * 
+   * @param {Array} types - array of types that should match item type
+   * @param {Array} filters - array of optional filters (functions) that items should be run against. Filters must return true/false. Filter example:
+   *                          (item) => item.name === "My specific weapon"
+   */
+  getAllItemsWithType(types, filters=[]) {
+    const items = this.items.filter(item => types.includes(item.type));
+    if (filters.length === 0) return items;
+
+    return items.filter(item => this.#matchFilters(item, filters));
+  }
+
+  #matchFilters(item, filters) {
+    for (const filter of filters) {
+      if (!filter(item)) return false;
+    }
+    return true;
   }
 }

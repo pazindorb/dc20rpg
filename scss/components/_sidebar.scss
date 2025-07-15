@@ -363,7 +363,7 @@
             }
           }
 
-          .action-type, .is-reaction, .show-charges {
+          .action-type, .is-reaction, .show-charges, .equipped {
             position: absolute;
             background-color: #3b3b3bc2;
           }
@@ -376,9 +376,18 @@
 
           .is-reaction {
             font-size: 10px;
-            margin-left: 23px;
+            margin-left: 28px;
             border-radius: 0 4px 0 10px;
             padding: 2px 3px 4px 5px;
+          }
+
+          .equipped {
+            font-size: 11px;
+            margin-left: 30px;
+            padding: 2px 3px 4px 5px;
+            margin-top: -15px;
+            border-radius: 10px 0 4px 0;
+            padding-bottom: 2px;
           }
 
           .show-charges {
@@ -387,7 +396,7 @@
             width: 15px;
             font-size: 14px;
             font-family: "Humaroid";
-            margin-top: -17px;
+            margin-top: -15px;
             border-radius: 0 10px 0 4px;
             padding-bottom: 2px;
           }

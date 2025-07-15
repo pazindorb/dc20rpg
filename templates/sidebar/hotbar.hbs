@@ -26,6 +26,7 @@
         {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
         {{#ifCond item.showCharges '!==' undefined}}<span class="show-charges">{{item.showCharges}}</span>{{/ifCond}}
+        {{#if item.system.statuses.equipped}}<i class="equipped fa-solid fa-suitcase-rolling"></i>{{/if}}
       </li>
       {{/each}}
       </div>
@@ -100,6 +101,7 @@
         {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
         {{#ifCond item.showCharges '!==' undefined}}<span class="show-charges">{{item.showCharges}}</span>{{/ifCond}}
+        {{#if item.system.statuses.equipped}}<i class="equipped fa-solid fa-suitcase-rolling"></i>{{/if}}
       </li>
       {{/each}}
       </div>

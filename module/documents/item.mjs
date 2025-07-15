@@ -521,6 +521,15 @@ export class DC20RpgItem extends Item {
     let newState = !this.system.toggle.toggledOn;
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
-    await this.update({["system.toggle.toggledOn"]: newState})
+    await this.update({["system.toggle.toggledOn"]: newState});
+  }
+
+  async equip(options={forceEquip: false, forceUneqip: false}) {
+    if (!this.system?.statuses?.hasOwnProperty("equipped")) return;
+    
+    let newState = !this.system?.statuses?.equipped;
+    if (options.forceEquip) newState = true;
+    else if (options.forceUneqip) newState = false;
+    await this.update({["system.statuses.equipped"]: newState});
   }
 }

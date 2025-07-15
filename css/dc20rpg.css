@@ -12516,7 +12516,7 @@
   outline-color: rgba(255, 255, 255, 0.8);
   outline-style: dashed;
 }
-#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges {
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .equipped {
   position: absolute;
   background-color: rgba(59, 59, 59, 0.7607843137);
 }
@@ -12527,9 +12527,17 @@
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction {
   font-size: 10px;
-  margin-left: 23px;
+  margin-left: 28px;
   border-radius: 0 4px 0 10px;
   padding: 2px 3px 4px 5px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .equipped {
+  font-size: 11px;
+  margin-left: 30px;
+  padding: 2px 3px 4px 5px;
+  margin-top: -15px;
+  border-radius: 10px 0 4px 0;
+  padding-bottom: 2px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges {
   text-align: center;
@@ -12537,7 +12545,7 @@
   width: 15px;
   font-size: 14px;
   font-family: "Humaroid";
-  margin-top: -17px;
+  margin-top: -15px;
   border-radius: 0 10px 0 4px;
   padding-bottom: 2px;
 }
