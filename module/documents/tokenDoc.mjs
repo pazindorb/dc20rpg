@@ -172,6 +172,8 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   shouldSubtractMovePoints() {
+    if (!this.actor) return false;
+    
     const movePointsUseOption = game.settings.get("dc20rpg", "useMovementPoints");
     const onTurn = movePointsUseOption === "onTurn";
     const onCombat = movePointsUseOption === "onCombat";

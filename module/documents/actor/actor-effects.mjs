@@ -25,7 +25,7 @@ export function enhanceEffects(actor) {
 export function modifyActiveEffects(effects, actor) {
   for ( const effect of effects ) {
     const item = effect.getSourceItem();
-    if (item) {
+    if (item && actor.isOwner) {
       _checkToggleableEffects(effect, item);
       _checkEquippedAndAttunedEffects(effect, item);
     }

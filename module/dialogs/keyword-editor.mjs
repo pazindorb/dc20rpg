@@ -1,7 +1,6 @@
-import { removeKeyword, removeUpdateItemFromKeyword } from "../helpers/actors/keywords.mjs";
+import { removeKeyword } from "../helpers/actors/keywords.mjs";
 import { activateDefaultListeners, datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 class KeywordEditor extends Dialog {
 

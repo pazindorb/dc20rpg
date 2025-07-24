@@ -131,7 +131,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
         setValueForPath(doc, path, textValue);
         break;
     }
-    this.document.updateSource({changes: doc.changes});
+    this.document.update({changes: doc.changes});
   }
 
   async close(options) {

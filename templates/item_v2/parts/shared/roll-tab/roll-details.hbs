@@ -253,12 +253,12 @@
           <div class="buttons">
             <a class="activable margin-right-3 fa-solid fa-solid {{#if formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="system.formulas.{{key}}.dontMerge" 
                 {{#if formula.dontMerge}}title="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}title="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
-            {{#ifCond @root.system.actionType "===" "check"}}{{#unless formula.each5}} 
+            {{#if (each5Condition @root.system.actionType category)}}{{#unless formula.each5}} 
             <a class="activable each5-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
-            {{/unless}}{{/ifCond}}
-            {{#ifCond @root.system.actionType "===" "check"}}{{#unless formula.fail}} 
+            {{/unless}}{{/if}}
+            {{#if (each5Condition @root.system.actionType category)}}{{#unless formula.fail}} 
             <a class="activable fail-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}" data-path="system.formulas.{{key}}.fail"></a>
-            {{/unless}}{{/ifCond}}
+            {{/unless}}{{/if}}
             <a class="remove-formula damage-formula margin-right-3 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-key={{key}}></a>
           </div>
         </div>
@@ -278,7 +278,7 @@
       </div>
 
       {{!-- Check only --}}
-      {{#ifCond @root.system.actionType "===" "check"}}
+      {{#if (each5Condition @root.system.actionType category)}}
         {{!-- Each 5 --}}
         {{#if formula.each5}} 
         <div class="row margin-top-3">
@@ -314,7 +314,7 @@
           </div>
         </div>
         {{/if}}
-      {{/ifCond}}
+      {{/if}}
 
       {{!-- Other Formula Label --}}
       {{#ifCond category '===' "other"}}

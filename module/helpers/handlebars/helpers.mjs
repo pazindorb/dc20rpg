@@ -44,6 +44,10 @@ export function registerHandlebarsHelpers() {
     return options.fn(condition ? valueIfTrue : valueIfFalse);
   });
 
+  Handlebars.registerHelper('each5Condition', function(actionType, formulaCategory) {
+    return actionType === "check" || formulaCategory === "other";
+  })
+
   Handlebars.registerHelper('includes', function(string, toInclude) {
     return string.includes(toInclude);
   });
