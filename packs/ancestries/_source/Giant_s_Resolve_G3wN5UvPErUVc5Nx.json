@@ -47,7 +47,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -161,7 +162,7 @@
       "QUW52hmPLYJEU4KR": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const fortitude = game.dc20rpg.tools.getItemFromActorByKey(\"giantsFortitude\", actor);\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"bloodied2\"});\n}",
+        "command": "const fortitude = game.dc20rpg.tools.getItemFromActorByKey(\"giantsFortitude\", actor);\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"wellBloodied\"});\n}",
         "disabled": false,
         "title": ""
       }
@@ -249,7 +250,8 @@
           "path": "statusIds",
           "mode": "hasNot",
           "value": "\"deathsDoor\""
-        }
+        },
+        "effectKey": "giantsResolve"
       },
       "changes": [
         {
@@ -282,11 +284,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.346",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.9.7.2",
         "createdTime": null,
-        "modifiedTime": 1750880257348,
+        "modifiedTime": 1755008630524,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -297,11 +299,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.346",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.7.2",
     "createdTime": 1738067028080,
-    "modifiedTime": 1745412760084,
+    "modifiedTime": 1755009748218,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

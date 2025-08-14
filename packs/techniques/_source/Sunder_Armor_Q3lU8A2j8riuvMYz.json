@@ -113,7 +113,7 @@
       "LCOZF8xGZ8UAb8sv": {
         "name": "Select Damage Type",
         "trigger": "postChatMessageCreated",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Damage Vulnerability Type\", selectOptions: damageTypes});\nif (selected) {\n  const effects = chatMessage.system.applicableEffects;\n  const updated = [];\n  effects.forEach(effect => {\n    if (effect.flags.dc20rpg.effectKey === \"sunderArmor\") {\n      effect.changes[0].key=`system.damageReduction.damageTypes.${selected}.vulnerable`;\n    }\n    updated.push(effect);\n  })\n  chatMessage.update({[\"system.applicableEffects\"]: updated});\n}\n",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Damage Vulnerability Type\", selectOptions: damageTypes});\nif (selected) {\n  const effects = chatMessage.system.applicableEffects;\n  const updated = [];\n  effects.forEach(effect => {\n    if (effect.system.effectKey === \"sunderArmor\") {\n      effect.changes[0].key=`system.damageReduction.damageTypes.${selected}.vulnerable`;\n    }\n    updated.push(effect);\n  })\n  chatMessage.update({[\"system.applicableEffects\"]: updated});\n}",
         "disabled": false,
         "title": ""
       }
@@ -208,11 +208,11 @@
   "_stats": {
     "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
     "duplicateSource": "Item.9QBDaOuSnHjeXMqt",
-    "coreVersion": "13.344",
+    "coreVersion": "13.346",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.7.2",
     "createdTime": 1719849211604,
-    "modifiedTime": 1751196315560,
+    "modifiedTime": 1755010033482,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

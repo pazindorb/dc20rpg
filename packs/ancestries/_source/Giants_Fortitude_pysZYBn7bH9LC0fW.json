@@ -46,7 +46,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -142,14 +143,14 @@
       "GnSCl8X5GvGxWFLv": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"wellBloodied\"});\n}",
+        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"wellBloodied\"});\n}",
         "disabled": false,
         "title": ""
       },
       "K8P9AqG0GQO7YNQJ": {
         "name": "preDelete",
         "trigger": "preDelete",
-        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"deathsDoor\"});\n}",
+        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"deathsDoor\"});\n}",
         "disabled": false,
         "title": ""
       }
@@ -169,11 +170,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "13.344",
+    "coreVersion": "13.346",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.5",
+    "systemVersion": "0.9.7.2",
     "createdTime": 1720100552718,
-    "modifiedTime": 1745758719274,
+    "modifiedTime": 1755009782326,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
