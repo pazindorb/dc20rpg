@@ -156,7 +156,7 @@ export class DC20RpgActor extends Actor {
         Hooks.on("updateActor", (actor, updateData) => {
           if (actor.id === this.companionOwner?.id) {
             this.companionOwner = actor;
-            this.prepareData();
+            this.reset();
             this.sheet.render(false, { focus: false });
             this.getActiveTokens().forEach(token => token.refresh());
           }

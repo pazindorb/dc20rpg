@@ -12,7 +12,7 @@
     {{#with ../fields.changes.element.fields as |changeFields|}}
     <li data-index="{{i}}">
       <div class="useCustom">
-        {{formGroup changeFields.useCustom name=(concat "changes." i ".useCustom") value=change.useCustom rootId=rootId}} 
+        {{formGroup changeFields.useCustom data-index=i name=(concat "cache." i ".useCustom") value=change.useCustom}} 
       </div>
       <div class="key">
         {{#if change.useCustom}}

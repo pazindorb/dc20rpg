@@ -265,7 +265,7 @@ export function parseEvent(event) {
     const obj = JSON.parse(`{${event}}`);
     return obj;
   } catch (e) {
-    console.warn(`Cannot parse event json {${event}} with error: ${e}`)
+    ui.notifications.error(`Cannot parse event json {${event}} with error: ${e}`)
   }
 }
 

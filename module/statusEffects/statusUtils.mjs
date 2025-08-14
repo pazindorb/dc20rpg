@@ -184,8 +184,8 @@ export function healthThresholdsCheck(currentHP, actor) {
   const maxHP = actor.system.resources.health.max;
   const deathThreshold = actor.type === "character" ? actor.system.death.treshold : 0;
 
-  _checkStatus("bloodied", currentHP, Math.floor(maxHP/2), actor);
-  _checkStatus("wellBloodied", currentHP, Math.floor(maxHP/4), actor);
+  _checkStatus("bloodied", currentHP, Math.ceil(maxHP/2), actor);
+  _checkStatus("wellBloodied", currentHP, Math.ceil(maxHP/4), actor);
   if (actor.type === "character") _checkStatus("deathsDoor", currentHP, 0, actor);
   _checkStatus("dead", currentHP, deathThreshold, actor);
 }

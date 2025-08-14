@@ -1198,7 +1198,6 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   prone: "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.0wgHQIXjhxgu9i0s",
   tethered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.w9QjKl0BzncI1DRv",
   terrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.UkBt66vXWP3eyEOj",
-  rattled: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.945222f698836210",
   restrained: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a",
   slowed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e",
   stunned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2939ce776edfd6fa",

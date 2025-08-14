@@ -76,7 +76,7 @@
           </div>
         </div>
         {{#each collectedItems}}
-        <div class="item-row item-tooltip show-item" data-uuid="{{uuid}}" data-type="{{@root.itemType}}" title="{{localize "dc20rpg.dialog.compendiumBrowser.openSheet"}}">
+        <div class="item-row item-tooltip show-item" data-uuid="{{uuid}}" data-item-id="{{id}}" data-type="{{@root.itemType}}" title="{{localize "dc20rpg.dialog.compendiumBrowser.openSheet"}}">
           <div class="column name" data-uuid="{{uuid}}">
             <img class="item-img" src="{{img}}"/>
             <div class="item-name">{{name}}</div>

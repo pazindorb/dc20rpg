@@ -108,8 +108,7 @@ export class CompendiumBrowser extends Dialog {
           height: column.height() - 10,
         };
       }
-      const uuid = datasetOf(ev).uuid;
-      const item = await fromUuid(uuid);
+      const item = this.collectedItems.find(item => item.id === datasetOf(ev).itemId);
       if (item) itemTooltip(item, ev, html, {position: position});
     },
     ev => hideTooltip(ev, html));
@@ -135,8 +134,7 @@ export class CompendiumBrowser extends Dialog {
   }
 
   async _onItemShow(ev) {
-    const uuid = datasetOf(ev).uuid;
-    const item = await fromUuid(uuid);
+    const item = this.collectedItems.find(item => item.id === datasetOf(ev).itemId);
     if (item) item.sheet.render(true);
   }
 

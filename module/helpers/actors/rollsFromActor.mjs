@@ -840,7 +840,7 @@ function _extractGlobalModStringForType(path, actor) {
       if (globalMod.source === "") globalMod.source += `${mod.source}`
       else globalMod.source += ` + ${mod.source}`
     } catch (e) {
-      console.warn(`Cannot parse global formula modifier json {${json}} with error: ${e}`)
+      ui.notifications.error(`Cannot parse global formula modifier json {${json}} with error: ${e}`)
     }
   }
   return globalMod;

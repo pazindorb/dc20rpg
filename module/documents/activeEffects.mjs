@@ -239,6 +239,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     }
     // add new changes
     const newStatus = CONFIG.statusEffects.find(e => e.id === newStatusId)
+    if (!updateData.changes) updateData.changes = [];
     if (newStatus) updateData.changes = updateData.changes.concat(newStatus.changes);
   }
 

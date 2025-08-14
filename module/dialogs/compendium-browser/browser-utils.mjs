@@ -95,7 +95,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
     try {
       parsedFilters = JSON.parse(preSelectedFilters);
     } catch (e) {
-      console.warn(`Cannot parse pre selected filters '${preSelectedFilters}' with error: ${e}`)
+      ui.notifications.error(`Cannot parse pre selected filters '${preSelectedFilters}' with error: ${e}`)
     }
   }
 

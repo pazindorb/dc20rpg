@@ -1,4 +1,4 @@
-import { recognizeAndAddLinks } from "./inlineRolls.mjs";
+import { recognizeAndAddLinks } from "./textEnrichments.mjs";
 import { itemDetailsToHtml } from "./items/itemDetails.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles } from "./utils.mjs";

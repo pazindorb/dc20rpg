@@ -13,6 +13,9 @@ export function expandEnrichHTML(oldFunction) {
   }
 }
 
+//==========================================
+//=              INLINE ROLL               =
+//==========================================
 export function registerGlobalInlineRollListener() {
   document.body.addEventListener('click', ev => {
     if (!ev.target.classList.contains('roll-inline')) return;
@@ -102,25 +105,74 @@ function _handleHealing(data, token) {
   applyHealing(token.actor, heal.modified);
 }
 
-export function recognizeAndAddLinks(text) {
-  const jounralLinks = {
+//==========================================
+//=               AUTO LINK                =
+//==========================================
+const EXCLUDE = new Set(["attack","object","spell","move","jump"]);
+const UUID_TOKEN_RE = /@UUID\[[^\]]+]\{[^}]*}/g;
+
+const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+let WORD_WITH_KEY_RE = null;
+let CAPTURE_TO_LINK = [];
+
+// Call this once after CONFIG is ready (e.g., on init)
+export function initJournalLinker() {
+  const raw = {
     ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal,
-    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems,
-  }
-  delete jounralLinks.attack;
-  delete jounralLinks.object;
-  delete jounralLinks.spell;
-  delete jounralLinks.move;
-  delete jounralLinks.jump;
+    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems
+  };
 
-  Object.entries(jounralLinks).forEach(([key, link]) => {
-    const regex = new RegExp(`(?<!@UUID\\[.*?)\\b\\w*${escapeRegex(key)}\\w*\\b`, "gi");
-    text = text.replace(regex, (match) => `@UUID[${link}]{${match}}`);
-  });
+  const entries = Object.entries(raw).filter(([k]) => !EXCLUDE.has(k));
 
-  return text;
+  // Sort longer first so 'fullyStunned' wins over 'stunned'
+  const ordered = entries
+    .map(([k, v]) => ({ k, v }))
+    .sort((a, b) => b.k.length - a.k.length);
+
+  CAPTURE_TO_LINK = [];
+  const alternation = ordered
+    .map(({ k, v }, idx) => {
+      CAPTURE_TO_LINK[idx] = v;             // capture group idx → UUID
+      return `(${escapeRegex(k)})`;         // <-- each key gets its own capture
+    })
+    .join("|");
+
+  // Match a whole word that *contains* any key, case-insensitive
+  WORD_WITH_KEY_RE = new RegExp(`\\b\\w*(?:${alternation})\\w*\\b`, "gi");
 }
 
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+// ---------- main ----------
+export function recognizeAndAddLinks(text) {
+  if (!text) return text;
+  if (!WORD_WITH_KEY_RE) initJournalLinker(); // lazy init if needed
+
+  let out = "";
+  let lastIndex = 0;
+
+  // Copy existing @UUID[...] tokens as-is, process only the text outside them
+  for (const m of text.matchAll(UUID_TOKEN_RE)) {
+    const start = m.index;
+    const end = start + m[0].length;
+    if (start > lastIndex) out += replaceOutside(text.slice(lastIndex, start));
+    out += m[0];
+    lastIndex = end;
+  }
+  if (lastIndex < text.length) out += replaceOutside(text.slice(lastIndex));
+
+  return out;
+}
+
+function replaceOutside(chunk) {
+  return chunk.replace(WORD_WITH_KEY_RE, function (match, ...args) {
+    // args = [g1, g2, ..., gN, offset, input, groups]
+    const N = CAPTURE_TO_LINK.length;
+    for (let i = 0; i < N; i++) {
+      if (args[i] !== undefined) {
+        const link = CAPTURE_TO_LINK[i];
+        return `@UUID[${link}]{${match}}`;
+      }
+    }
+    return match; // safety fallback
+  });
 }

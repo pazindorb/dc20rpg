@@ -4,6 +4,7 @@ import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
+  changesCache = new Map();
 
   constructor(dialogData = {}, options = {}) {
     super(dialogData, options);
@@ -70,16 +71,23 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     context.statusIds = statusIds;
 
     if (options.isFirstRender) {
-      this._customKeyCheck(context.source.changes, context.effectKeys);
+      this._prepareChangesCache(context.source.changes, context.effectKeys);
     }
+    this._setUseCustomFlagFromCache(context.source.changes);
     return context;
   }
 
-  _customKeyCheck(changes, keys) {
+  _prepareChangesCache(changes, keys) {
     for (let i = 0; i < changes.length; i++) {
-      if (!changes[i].key) changes[i].useCustom = false;
-      else if (keys[changes[i].key]) changes[i].useCustom = false;
-      else changes[i].useCustom = true;
+      if (!changes[i].key) this.changesCache.set(i, false);
+      else if (keys[changes[i].key]) this.changesCache.set(i, false);
+      else this.changesCache.set(i, true);
+    }
+  }
+
+  _setUseCustomFlagFromCache(changes) {
+    for (let i = 0; i < changes.length; i++) {
+      changes[i].useCustom = this.changesCache.get(i) || false;
     }
   }
 
@@ -114,6 +122,9 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
       this._updateChanges(event);
       this.render();
     }
+    if (event.target.name && event.target.name.startsWith("cache.")) {
+      this._updateCache(event);
+    }
   }
 
   _updateChanges(event) {
@@ -130,8 +141,21 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
         const textValue = event.target.value;
         setValueForPath(doc, path, textValue);
         break;
+
+      case "number": 
+        const numberValue = event.target.value ? parseInt(event.target.value) : null;
+        setValueForPath(doc, path, numberValue);
+        break;
     }
     this.document.update({changes: doc.changes});
+  }
+
+  _updateCache(event) {
+    const [type, stringIndex, field] = event.target.name.split(".");
+    const index = parseInt(stringIndex);
+    const value = this.changesCache.get(index) || false;
+    this.changesCache.set(index, !value);
+    this.render();
   }
 
   async close(options) {
