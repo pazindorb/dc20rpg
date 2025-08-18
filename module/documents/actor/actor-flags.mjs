@@ -26,26 +26,11 @@ export function preInitializeFlags(actor) {
 		}
 	}
 
-	_initializeRollMenu(flags);
 	if (actor.type === 'character') _initializeFlagsForCharacter(flags);
 	else if (actor.type === 'storage') _initializeFlagsForStorage(flags)
 	else _initializeFlagsForNpc(flags);
 
 	actor.update({[`flags.dc20rpg`]: flags});
-}
-
-function _initializeRollMenu(flags) {
-	flags.rollMenu = {
-		autoCrit: false,
-		autoFail: false,
-		dis: 0,
-		adv: 0,
-		apCost: 0,
-		gritCost: 0,
-		d8: 0,
-		d6: 0,
-		d4: 0,
-	}
 }
 
 function _initializeFlagsForCharacter(flags) {

@@ -13,6 +13,7 @@ import RollLevelFields from "./fields/actor/rollLevel.mjs";
 import SenseFields from "./fields/actor/senses.mjs";
 import SizeFields from "./fields/actor/size.mjs";
 import SkillFields from "./fields/actor/skills.mjs";
+import RollMenu from "./fields/rollMenu.mjs";
 
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -80,6 +81,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
       }),
       combatTraining: new CombatTraining(),
+      rollMenu: new RollMenu(false),
       globalFormulaModifiers: new GFModFields(),
       globalModifier: new f.SchemaField({
         range: new f.SchemaField({

@@ -1,3 +1,4 @@
+import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -222,6 +223,7 @@ export class DC20RpgActor extends Actor {
    * This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
    */
   prepareDerivedData() {
+    enhanceRollMenuObject(this);
     makeCalculations(this);
     this._prepareCustomResources();
     translateLabels(this);

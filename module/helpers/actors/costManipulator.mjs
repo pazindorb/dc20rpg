@@ -404,11 +404,11 @@ export function canSubtractBasicResource(key, actor, cost) {
 }
 
 function _costFromAdvForApAndGrit(actor, basicCosts) {
-  const apCostFromAdv = actor.flags.dc20rpg.rollMenu.apCost;
+  const apCostFromAdv = actor.system.rollMenu.apCost;
   if (basicCosts.actionPoint) basicCosts.actionPoint += apCostFromAdv;
   else basicCosts.actionPoint = apCostFromAdv;
 
-  const gritCostFromAdv = actor.flags.dc20rpg.rollMenu.gritCost;
+  const gritCostFromAdv = actor.system.rollMenu.gritCost;
   if (basicCosts.grit) basicCosts.grit += gritCostFromAdv;
   else basicCosts.grit = gritCostFromAdv;
   return basicCosts;

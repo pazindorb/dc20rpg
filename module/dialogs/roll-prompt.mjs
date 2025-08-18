@@ -1,5 +1,5 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
-import { collectExpectedUsageCost, subtractAP, subtractGrit } from "../helpers/actors/costManipulator.mjs";
+import { canSubtractBasicResource, collectExpectedUsageCost, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { collectAmmoForWeapon, collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
@@ -105,11 +105,11 @@ export class RollPromptDialog extends Dialog {
   }
 
   async _prepareAttackRange() {
-    let rangeType = false; 
+    let rangeType = ""; 
     const system = this.item.system;
     if (system.actionType === "attack") rangeType = system.attackFormula.rangeType;
-    this.item.flags.dc20rpg.rollMenu.rangeType = rangeType;
-    await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: rangeType});
+    this.item.system.rollMenu.rangeType = rangeType;
+    await this.item.update({["system.rollMenu.rangeType"]: rangeType});
   }
 
   async _prepareHeldAction() {
@@ -126,7 +126,7 @@ export class RollPromptDialog extends Dialog {
     }
 
     // Update roll menu
-    await this.item.update({["flags.dc20rpg.rollMenu"]: {
+    await this.item.update({["system.rollMenu"]: {
       apCost: actionHeld.apForAdv,
       adv: actionHeld.apForAdv
     }});
@@ -271,9 +271,9 @@ export class RollPromptDialog extends Dialog {
   }
 
   async _onRangeChange() {
-    const current = this.item.flags.dc20rpg.rollMenu.rangeType;
+    const current = this.item.system.rollMenu.rangeType;
     let newRange = current === "melee" ? "ranged" : "melee";
-    await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: newRange});
+    await this.item.update({["system.rollMenu.rangeType"]: newRange});
     const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
     if (autoRollLevelCheck) this._rollRollLevelCheck(false);
     else this.render();
@@ -290,11 +290,13 @@ export class RollPromptDialog extends Dialog {
   async _onRoll(event) {
     if(event) event.preventDefault();
     let roll = null;
-    const rollMenu = this.menuOwner.flags.dc20rpg.rollMenu;
+    const rollMenu = this.menuOwner.system.rollMenu;
     if (this.itemRoll) {
       roll = await rollFromItem(this.item._id, this.actor);
     }
-    else if (subtractAP(this.actor, rollMenu.apCost) && subtractGrit(this.actor, rollMenu.gritCost)) {
+    else if (canSubtractBasicResource("ap", this.actor, rollMenu.apCost) && canSubtractBasicResource("grit", this.actor, rollMenu.gritCost)) {
+      subtractBasicResource("ap", this.actor, rollMenu.apCost);
+      subtractBasicResource("grit", this.actor, rollMenu.gritCost);
       roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);

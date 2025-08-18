@@ -73,9 +73,9 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
   return addedAdvancements;
 }
 
-export async function shouldLearnNewSpellsOrTechniques(actor) {
+export async function shouldLearnNewSpellsOrTechniques(actor, skipRefresh) {
   const shouldLearn = [];
-  actor = await refreshActor(actor);
+  if (!skipRefresh) actor = await refreshActor(actor); // TODO do we even need to do that? Test
   for (const [key, known] of Object.entries(actor.system.known)) {
     if (known.max - known.current > 0) shouldLearn.push(key);
   }

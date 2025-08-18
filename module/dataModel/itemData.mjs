@@ -8,6 +8,7 @@ import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
 import CombatTraining from "./fields/combatTraining.mjs";
 import { createNewAdvancement } from "../subsystems/character-progress/advancement/advancements.mjs";
+import RollMenu from "./fields/rollMenu.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -24,6 +25,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         items: new f.StringField({required: true, initial: ""}),
       }),
+      rollMenu: new RollMenu(true),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
       quickRoll: new f.BooleanField({required: true, initial: false}),
       macros: new f.ObjectField({required: true})

@@ -3,7 +3,7 @@ import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
-import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
+import { resetEnhancements } from "./rollsFromActor.mjs";
 
 //===================================
 //            HELP ACTION           =
@@ -130,7 +130,7 @@ export function heldAction(item, actor) {
   const apCost = collectExpectedUsageCost(actor, item)[0].actionPoint;
   if (!subtractAP(actor, apCost)) return;
 
-  const rollMenu = item.flags.dc20rpg.rollMenu;
+  const rollMenu = item.system.rollMenu;
   const enhancements = {};
   item.allEnhancements.entries().forEach(([key, enh]) => enhancements[key] = enh.number);
   const actionHeld = {
@@ -144,7 +144,7 @@ export function heldAction(item, actor) {
   }
   actor.update({["flags.dc20rpg.actionHeld"]: actionHeld});
   resetEnhancements(item, actor);
-  resetRollMenu(rollMenu, item);
+  rollMenu.clear();
 }
 
 export async function triggerHeldAction(actor) {

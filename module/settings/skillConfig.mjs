@@ -137,7 +137,7 @@ export class SkillConfiguration extends FormApplication {
       ui.notifications.error("Incorrect key!");
       return;
     }
-    const skill = category === "languages" ? SkillConfiguration.lang("mortal", "New Languange") : SkillConfiguration.skill("mig", "New Skill");
+    const skill = category === "languages" ? SkillConfiguration.lang("mortal", "New Language") : SkillConfiguration.skill("mig", "New Skill");
     this.skillStore[category][key] = skill;
     this.render();
   }

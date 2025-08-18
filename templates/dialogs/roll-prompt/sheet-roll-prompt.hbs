@@ -23,26 +23,26 @@
         <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
           <span>Adv: </span>
           <a class="toggle-numeric adv"
-            data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
+            data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
         </div>
         <div class="absolute-button-sheet">
           <a class="ap-for-adv square" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
             <span class="fa-solid fa-dice-d6 dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
+            <div class="value"><span>{{system.rollMenu.apCost}}</span></div>
           </a>
         </div>
         {{#ifCond type '===' "character"}}{{#ifCond rollDetails.type '===' "save"}}
         <div class="absolute-button-sheet">
           <a class="grit-for-adv square" title="{{localize 'dc20rpg.sheet.rollMenu.gritCost'}}">
             <span class="fa-solid fa-clover fa-lg dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.gritCost}}</span></div>
+            <div class="value"><span>{{system.rollMenu.gritCost}}</span></div>
           </a>
         </div>
         {{/ifCond}}{{/ifCond}}
         <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
           <span>Dis: </span>
           <a class="toggle-numeric dis"
-            data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
+            data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
         </div>
       </div>
     </div>
@@ -52,11 +52,11 @@
         <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
       </div>
       <div class="item-roll-options">
-        <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoCrit" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
-          <i class="fa-2x fa-square-up-right{{#if flags.dc20rpg.rollMenu.autoCrit}} crit fa-solid{{else}} fa-light{{/if}}"></i>
+        <a class="activable margin-right-5 margin-left-5" data-path="system.rollMenu.autoCrit" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
+          <i class="fa-2x fa-square-up-right{{#if system.rollMenu.autoCrit}} crit fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
-        <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoFail" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
-          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if flags.dc20rpg.rollMenu.autoFail}} fail fa-solid{{else}} fa-light{{/if}}"></i>
+        <a class="activable margin-right-5 margin-left-5" data-path="system.rollMenu.autoFail" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if system.rollMenu.autoFail}} fail fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
     </div>
@@ -65,26 +65,7 @@
       <div class="sub-header">
         <span>{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}</span>
       </div>
-      <div class="help-dices">
-        {{!-- d8 --}}
-        <a class="toggle-numeric-minus diamond" data-path="flags.dc20rpg.rollMenu.d8"
-          title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
-          <span class="fa-solid fa-diamond dice"></span>
-          <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
-        </a>
-        {{!-- d6 --}}
-        <a class="toggle-numeric-minus square" data-path="flags.dc20rpg.rollMenu.d6"
-          title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
-          <span class="fa-solid fa-square dice"></span>
-          <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
-        </a>
-        {{!-- d4 --}}
-        <a class="toggle-numeric-minus triangle" data-path="flags.dc20rpg.rollMenu.d4"
-          title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
-          <span class="fa-solid fa-play fa-rotate-270 dice"></span>
-          <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>
-        </a>
-      </div>
+      {{!-- TODO: Rework as part of roll prompt redesign --}}
     </div>
   </div>
 

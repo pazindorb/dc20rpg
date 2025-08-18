@@ -1,3 +1,4 @@
+import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
 import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
 import { toggleCheck } from "../helpers/items/itemConfig.mjs";
@@ -103,6 +104,7 @@ export class DC20RpgItem extends Item {
   }
  
   prepareDerivedData() {
+    enhanceRollMenuObject(this);
     makeCalculations(this);
     translateLabels(this);
     this.prepared = true; // Mark item as prepared

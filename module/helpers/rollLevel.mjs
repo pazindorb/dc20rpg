@@ -8,8 +8,8 @@ import { getTokenForActor} from "./actors/tokens.mjs";
 //               ROLL LEVEL               =
 //=========================================
 export async function advForApChange(object, which) {
-  let adv = object.flags.dc20rpg.rollMenu.adv;
-  let apCost = object.flags.dc20rpg.rollMenu.apCost;
+  let adv = object.system.rollMenu.adv;
+  let apCost = object.system.rollMenu.apCost;
 
   if (which === 1) {  // Add
     if (adv >= 9) return;
@@ -22,14 +22,14 @@ export async function advForApChange(object, which) {
     adv = Math.max(adv - 1, 0);
   }
   await object.update({
-    ['flags.dc20rpg.rollMenu.apCost']: apCost,
-    ['flags.dc20rpg.rollMenu.adv']: adv
+    ['system.rollMenu.apCost']: apCost,
+    ['system.rollMenu.adv']: adv
   });
 }
 
 export async function advForGritChange(object, which) {
-  let adv = object.flags.dc20rpg.rollMenu.adv;
-  let gritCost = object.flags.dc20rpg.rollMenu.gritCost;
+  let adv = object.system.rollMenu.adv;
+  let gritCost = object.system.rollMenu.gritCost;
 
   if (which === 1) {  // Add
     if (adv >= 9) return;
@@ -42,8 +42,8 @@ export async function advForGritChange(object, which) {
     adv = Math.max(adv - 1, 0);
   }
   await object.update({
-    ['flags.dc20rpg.rollMenu.gritCost']: gritCost,
-    ['flags.dc20rpg.rollMenu.adv']: adv
+    ['system.rollMenu.gritCost']: gritCost,
+    ['system.rollMenu.adv']: adv
   });
 }
 
@@ -64,7 +64,7 @@ export async function runItemRollLevelCheck(item, actor) {
     case "attack":
       const attackFormula = item.system.attackFormula;
       const oldRange = attackFormula.rangeType;
-      attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
+      attackFormula.rangeType = item.system.rollMenu.rangeType || oldRange;
       attackFormula.range = item.system.range.normal;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
@@ -82,7 +82,7 @@ export async function runItemRollLevelCheck(item, actor) {
       [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules, specificCheckOptions);
       break;
   }
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.system.rollMenu);
 
   const rollLevel = {
     adv: (actorRollLevel.adv + targetRollLevel.adv + mcpRollLevel.adv),
@@ -102,7 +102,7 @@ export async function runSheetRollLevelCheck(details, actor) {
   const [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(details, actor, "onYou", "You");
   const [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", details, actor);
   const [statusRollLevel, statusGenesis, statusCrit] = _getRollLevelAgainsStatuses(actor, details.statuses);
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.flags.dc20rpg.rollMenu);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.system.rollMenu);
 
   const rollLevel = {
     adv: (actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
@@ -397,18 +397,18 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   }
 
   // Check roll level from ap and grit for adv
-  const apCost = owner.flags.dc20rpg.rollMenu.apCost;
-  const gritCost = owner.flags.dc20rpg.rollMenu.gritCost;
+  const apCost = owner.system.rollMenu.apCost;
+  const gritCost = owner.system.rollMenu.gritCost;
   if (apCost > 0) levelsToUpdate.adv += apCost;
   if (gritCost > 0) levelsToUpdate.adv += gritCost;
 
   const updateData = {
-    ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
-    ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
-    ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
-    ["flags.dc20rpg.rollMenu.flanks"]: flanked,
-    ["flags.dc20rpg.rollMenu.halfCover"]: halfCover,
-    ["flags.dc20rpg.rollMenu.tqCover"]: tqCover,
+    ["system.rollMenu"]: levelsToUpdate,
+    ["system.rollMenu.autoCrit"]: autoCrit,
+    ["system.rollMenu.autoFail"]: autoFail,
+    ["system.rollMenu.flanks"]: flanked,
+    ["system.rollMenu.halfCover"]: halfCover,
+    ["system.rollMenu.tqCover"]: tqCover,
   }
   await owner.update(updateData);
 

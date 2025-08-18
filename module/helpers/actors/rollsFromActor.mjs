@@ -30,7 +30,7 @@ export async function rollFromSheet(actor, details) {
  * @returns {Roll} Winning roll.
  */
 async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO SHOULD WE MOVE ROLL MENU TO SYSTEM? I THINK WE SHOULD
-  const rollMenu = actor.flags.dc20rpg.rollMenu;
+  const rollMenu = actor.system.rollMenu;
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
 
@@ -55,12 +55,12 @@ async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO S
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
 
   const globalMod = _extractGlobalModStringForType(details.type, actor);
-  const helpDices = _collectHelpDices(rollMenu);
-  formula += " " + globalMod.value + helpDices;
+  const helpDice = rollMenu.helpDiceFormula;
+  formula += " " + globalMod.value + helpDice;
 
   let source = details.type === "save" ? "Save Formula" : "Check Formula";
   if (globalMod.source !== "") source += ` + ${globalMod.source}`;
-  if (helpDices !== "") source += ` + Help Dice`;
+  if (helpDice !== "") source += ` + Help Dice`;
 
   // 4. Roll Formula
   const roll = _prepareCoreRoll(formula, rollData, details.label)
@@ -88,7 +88,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO S
   }
   _runCritAndCritFailEvents(roll, actor, rollMenu)
   if (!details.initiative) _respectNat1Rules(roll, actor, details.type, null, rollMenu);
-  resetRollMenu(rollMenu, actor);
+  rollMenu.clear();
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
 
@@ -113,13 +113,13 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   const item = actor.items.get(itemId);
   if (!item) return;
   
-  const rollMenu = item.flags.dc20rpg.rollMenu;
+  const rollMenu = item.system.rollMenu;
 
   // 0. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) {
     resetEnhancements(item, actor);
-    resetRollMenu(rollMenu, item);
+    rollMenu.clear();
     return;
   }
 
@@ -192,7 +192,7 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
   const evalData = {
     rollData: rollData,
     rollLevel: rollLevel,
-    helpDices: _collectHelpDices(item.flags.dc20rpg.rollMenu)
+    helpDice: item.system.rollMenu.helpDiceFormula()
   }
 
   if (actionType === "attack") {
@@ -211,7 +211,7 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
 }
 
 async function _evaluateAttackRoll(actor, item, evalData) {
-  evalData.rollMenu = item.flags.dc20rpg.rollMenu;
+  evalData.rollMenu = item.system.rollMenu;
   const source = {value: "Attack Formula"};
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
@@ -225,7 +225,7 @@ async function _evaluateAttackRoll(actor, item, evalData) {
 }
 
 async function _evaluateCheckRoll(actor, item, evalData) {
-  evalData.rollMenu = item.flags.dc20rpg.rollMenu;
+  evalData.rollMenu = item.system.rollMenu;
   const source = {value: "Check Formula"};
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   const checkKey = item.checkKey;
@@ -312,14 +312,6 @@ async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   else if (rollLevel <= 0 && failNo > 0) roll.fail = true;
   else if (rollLevel <= 0 && critNo > Math.abs(rollLevel)) roll.crit = true;
   else if (rollLevel >= 0 && failNo > rollLevel) roll.fail = true;
-}
-
-function _collectHelpDices(rollMenu) {
-  let helpDicesFormula = "";
-  if (rollMenu.d8 !== 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
-  if (rollMenu.d6 !== 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
-  if (rollMenu.d4 !== 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
-  return helpDicesFormula;
 }
 
 function _collectCoreRollModifiers(rollMenu, source, enhancements) {
@@ -543,20 +535,20 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
 
 function _prepareCheckFormula(actor, checkKey, evalData, source) {
   const rollLevel = evalData.rollLevel;
-  const helpDices = evalData.helpDices;
+  const helpDice = evalData.helpDice;
   const rollModifiers = evalData.rollModifiers;
 
   const [d20roll, rollType] = prepareCheckFormulaAndRollType(checkKey, rollLevel);
   const globalMod = _extractGlobalModStringForType(rollType, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
-  if (helpDices !== "") source.value += ` + Help Dice`;
-  return `${d20roll} ${globalMod.value} ${helpDices} ${rollModifiers}`;
+  if (helpDice !== "") source.value += ` + Help Dice`;
+  return `${d20roll} ${globalMod.value} ${helpDice} ${rollModifiers}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, evalData, source) {
   const rollLevel = evalData.rollLevel;
-  const helpDices = evalData.helpDices;
+  const helpDice = evalData.helpDice;
   const rollModifiers = evalData.rollModifiers;
 
   // We need to consider advantages and disadvantages
@@ -567,8 +559,8 @@ function _prepareAttackFromula(actor, attackFormula, evalData, source) {
   const globalMod = _extractGlobalModStringForType(rollType, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
-  if (helpDices !== "") source.value += ` + Help Dice`;
-  return `${d20roll} ${formulaMod} ${globalMod.value} ${helpDices} ${rollModifiers}`;
+  if (helpDice !== "") source.value += ` + Help Dice`;
+  return `${d20roll} ${formulaMod} ${globalMod.value} ${helpDice} ${rollModifiers}`;
 }
 
 //=======================================
@@ -733,32 +725,12 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   }
   _addSpellToSustain(item, actor);
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
-  resetRollMenu(rollMenu, item);
+  rollMenu.clear();
   resetEnhancements(item, actor, true);
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
   delete item.overridenDamage;
-}
-
-export function resetRollMenu(rollMenu, owner) {
-  rollMenu.dis = 0
-  rollMenu.adv = 0;
-  rollMenu.apCost = 0;
-  rollMenu.gritCost = 0;
-  rollMenu.d8 = 0;
-  rollMenu.d6 = 0;
-  rollMenu.d4 = 0;
-  if (rollMenu.free) rollMenu.free = false;
-  if (rollMenu.versatile) rollMenu.versatile = false;
-  if (rollMenu.ignoreMCP) rollMenu.ignoreMCP = false;
-  if (rollMenu.flanks) rollMenu.flanks = false;
-  if (rollMenu.halfCover) rollMenu.halfCover = false;
-  if (rollMenu.tqCover) rollMenu.tqCover = false;
-  if (rollMenu.initiative) rollMenu.initiative = false;
-  if (rollMenu.autoCrit) rollMenu.autoCrit = false;
-  if (rollMenu.autoFail) rollMenu.autoFail = false;
-  owner.update({['flags.dc20rpg.rollMenu']: rollMenu});
 }
 
 export function resetEnhancements(item, actor, itemRollFinished) {
@@ -798,7 +770,7 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
   }
 
   if (coreRoll.fail && ["spellCheck", "spe"].includes(rollType)) {
-    if (item && !item.flags.dc20rpg.rollMenu.free) {
+    if (item && !item.system.rollMenu.free) {
       delete actor.subtractOperation.resources?.before?.ap;
       revertUsageCostSubtraction(actor);
     }

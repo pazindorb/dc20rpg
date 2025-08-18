@@ -93,6 +93,7 @@ export class ActorAdvancement extends Dialog {
   //=====================================
   async getData() {
     const scalingValues = await collectScalingValues(this.actor, this.oldSystemData);
+    const advancementProgress = await this._getAdvancementProgress();
     const skillPoints = {
       attributePoints: this.actor.system.attributePoints,
       skillPoints: this.actor.system.skillPoints,
@@ -111,7 +112,6 @@ export class ActorAdvancement extends Dialog {
     const showItemSuggestions = this._shouldShowItemSuggestions(advancementData);
     if (!showItemSuggestions) this.suggestionsOpen = false;
 
-    const advancementProgress = await this._getAdvancementProgress()
     return {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
@@ -258,7 +258,7 @@ export class ActorAdvancement extends Dialog {
 
     // Add spell/techniques selector (before those were added already)
     if (!this.knownApplied) {
-      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor);
+      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor, true);
       for (const known of shouldLearn) {
         progress.push({
           img: CONFIG.DC20RPG.ICONS[known],
