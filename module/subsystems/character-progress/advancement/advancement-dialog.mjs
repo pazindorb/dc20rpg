@@ -7,7 +7,6 @@ import { createItemBrowser } from "../../../dialogs/compendium-browser/item-brow
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
-import { regainBasicResource, regainCustomResource } from "../../../helpers/actors/costManipulator.mjs";
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { collectAdvancementsFromItem } from "./advancements.mjs";
 
@@ -501,12 +500,12 @@ export class ActorAdvancement extends Dialog {
     // Add new resource values
     const scalingValues = await collectScalingValues(this.actor, this.oldSystemData);
     for (const scaling of scalingValues) {
-      if (!scaling.resourceKey) continue;
+      const resourceKey = scaling.resourceKey;
+      if (!resourceKey) continue;
       if (scaling.previous === scaling.current) continue;
 
       const toAdd = scaling.current - scaling.previous;
-      if (scaling.custom) regainCustomResource(scaling.resourceKey, this.actor, toAdd, true);
-      else regainBasicResource(scaling.resourceKey, this.actor, toAdd, true);
+      this.actor.resources[resourceKey].regain(toAdd);
     }
     
     this.close();

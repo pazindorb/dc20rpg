@@ -1,3 +1,4 @@
+import { enhanceResourcesObject } from "../dataModel/fields/actor/resources.mjs";
 import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
@@ -7,7 +8,7 @@ import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
-import { translateLabels } from "../helpers/utils.mjs";
+import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
@@ -112,6 +113,14 @@ export class DC20RpgActor extends Actor {
       if (ownerTurn) return true;
     }
     return false;
+  }
+
+  companionShareCheck(key) {
+    if (this.type === "companion" && this.companionOwner) {
+      const shouldShare = getValueFromPath(this, `system.shareWithCompanionOwner.${key}`);
+      if (shouldShare) return this.companionOwner;
+    }
+    return this;
   }
 
   /** @override */
@@ -223,10 +232,12 @@ export class DC20RpgActor extends Actor {
    * This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
    */
   prepareDerivedData() {
-    enhanceRollMenuObject(this);
     makeCalculations(this);
     this._prepareCustomResources();
     translateLabels(this);
+
+    enhanceRollMenuObject(this);
+    enhanceResourcesObject(this);
     this.prepared = true; // Mark actor as prepared
   }
 
@@ -398,11 +409,8 @@ export class DC20RpgActor extends Actor {
   }
 
   _prepareCustomResources() {
-    const customResources = this.system.resources.custom;
-
     // remove empty custom resources and calculate its max charges
-    for (const [key, resource] of Object.entries(customResources)) {
-      if (!resource.name) delete customResources[key];
+    for (const [key, resource] of Object.entries(this.system.resources.custom)) {
       const fromFormula = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
       resource.max = fromFormula + (resource.bonus || 0);
     }

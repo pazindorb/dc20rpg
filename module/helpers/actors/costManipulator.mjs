@@ -70,92 +70,47 @@ function _getOtherItem(item, actor) {
 //============================================
 //          Resources Manipulations          =
 //============================================
+/** @deprecated since v0.9.8 until 0.11.0 */
 export function subtractAP(actor, amount) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.subtractAP' method is deprecated, and will be removed in the later system version. Use 'actor.resources.ap.checkAndSpend' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
   if (typeof amount !== 'number') return true;
-  if (canSubtractBasicResource("ap", actor, amount)) {
-    subtractBasicResource("ap", actor, amount);
-    return true;
-  }
-  return false;
+  return actor.resources.ap.checkAndSpend(amount);
 }
 
-export function subtractGrit(actor, amount) {
-  if (typeof amount !== 'number') return true;
-  if (canSubtractBasicResource("grit", actor, amount)) {
-    subtractBasicResource("grit", actor, amount);
-    return true;
-  }
-  return false;
+/** @deprecated since v0.9.8 until 0.11.0 */
+export async function subtractBasicResource(key, actor, amount) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.subtractBasicResource' method is deprecated, and will be removed in the later system version. Use 'actor.resources[resourceKey].spend' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
+  await actor.resources[key].spend(amount);
 }
 
-export async function spendRpOnHp(actor, amount) {
-  if (canSubtractBasicResource("restPoints", actor, amount)) {
-    await subtractBasicResource("restPoints", actor, amount);
-    await regainBasicResource("health", actor, amount, true);
-    return true;
-  }
-  return false;
+/** @deprecated since v0.9.8 until 0.11.0 */
+export async function regainBasicResource(key, actor, amount) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.regainBasicResource' method is deprecated, and will be removed in the later system version. Use 'actor.resources[resourceKey].regain' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
+  await actor.resources[key].regain(amount);
 }
 
-export function refreshAllActionPoints(actor) {
-  actor = _checkIfShouldSubtractFromCompanionOwner(actor, "ap");
-  const max = actor.system.resources.ap.max;
-  actor.update({["system.resources.ap.value"] : max});
+/** @deprecated since v0.9.8 until 0.11.0 */
+export async function subtractCustomResource(key, actor, amount) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.subtractCustomResource' method is deprecated, and will be removed in the later system version. Use 'actor.resources[resourceKey].spend' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
+  await actor.resources[key].spend(amount);
 }
 
-export async function subtractBasicResource(key, actor, amount, boundary) {
-  amount = parseInt(amount);
-  if (amount <= 0) return;
-
-  actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
-  const resources = actor.system.resources;
-  if (!resources.hasOwnProperty(key)) return;
-
-  const current = resources[key].value;
-  const newAmount = (boundary === "true" || boundary === true) ? Math.max(current - amount, 0) : current - amount;
-
-  await actor.update({[`system.resources.${key}.value`] : newAmount});
+/** @deprecated since v0.9.8 until 0.11.0 */
+export async function regainCustomResource(key, actor, amount) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.regainCustomResource' method is deprecated, and will be removed in the later system version. Use 'actor.resources[resourceKey].regain' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
+  await actor.resources[key].regain(amount);
 }
 
-export async function regainBasicResource(key, actor, amount, boundary) {
-  amount = parseInt(amount);
-  if (amount <= 0) return;
-
-  actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
-  const resources = actor.system.resources;
-  if (!resources.hasOwnProperty(key)) return;
-
-  const valueKey = key === "health" ? "current" : "value"
-  const current = resources[key][valueKey];
-  const max = resources[key].max;
-  const newAmount = (boundary === "true" || boundary === true) ? Math.min(current + amount, max) : current + amount;
-
-  await actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
+/** @deprecated since v0.9.8 until 0.11.0 */
+export function canSubtractBasicResource(key, actor, amount) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.canSubtractBasicResource' method is deprecated, and will be removed in the later system version. Use 'actor.resources[resourceKey].canSpend' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
+  return actor.resources[key].canSpend(amount);
 }
 
-export async function subtractCustomResource(key, actor, amount, boundary) {
-  amount = parseInt(amount);
-  if (amount <= 0) return;
-
-  const custom = actor.system.resources.custom[key];
-  if (!custom) return;
-
-  const current = custom.value;
-  const newAmount = (boundary === "true" || boundary === true) ? Math.max(current - amount, 0) : current - amount;
-  await actor.update({[`system.resources.custom.${key}.value`] : newAmount});
-}
-
-export async function regainCustomResource(key, actor, amount, boundary) {
-  amount = parseInt(amount);
-  if (amount <= 0) return;
-
-  const custom = actor.system.resources.custom[key];
-  if (!custom) return;
-
-  const current = custom.value;
-  const max = custom.max;
-  const newAmount = (boundary === "true" || boundary === true) ? Math.min(current + amount, max) : current + amount;
-  await actor.update({[`system.resources.custom.${key}.value`] : newAmount});
+/** @deprecated since v0.9.8 until 0.11.0 */
+export function canSubtractCustomResource(key, actor, cost) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.resources.canSubtractCustomResource' method is deprecated, and will be removed in the later system version. Use 'actor.resources[resourceKey].canSpend' instead.", { since: " 0.9.8", until: "0.11.0", once: true });
+  return actor.resources[key].canSpend(cost);
 }
 
 //===========================================
@@ -296,13 +251,13 @@ function _costsAndEnhancements(actor, item) {
 
 function _canSubtractAllResources(actor, item, costs, charges) {
   let canSubtractAllResources = [
-    canSubtractBasicResource("ap", actor, costs.actionPoint),
-    canSubtractBasicResource("stamina", actor, costs.stamina),
-    canSubtractBasicResource("mana", actor, costs.mana),
-    canSubtractBasicResource("health", actor, costs.health),
-    canSubtractBasicResource("grit", actor, costs.grit),
-    canSubtractBasicResource("restPoints", actor, costs.restPoints),
-    _canSubtractCustomResources(actor, costs.custom),
+    actor.resources.ap.canSpend(costs.actionPoint),
+    actor.resources.stamina.canSpend(costs.stamina),
+    actor.resources.mana.canSpend(costs.mana),
+    actor.resources.health.canSpend(costs.health),
+    actor.resources.grit.canSpend(costs.grit),
+    actor.resources.restPoints.canSpend(costs.restPoints),
+    _canSubtractAllCustomResources(actor, costs.custom),
     _canSubtractCharge(item, charges),
     _canSubtractQuantity(item, 1),
   ];
@@ -375,34 +330,6 @@ function _copyResources(old) {
 //================================
 //        Basic Resources        =
 //================================
-export function canSubtractBasicResource(key, actor, cost) {
-  if (cost <= 0) return true;
-
-  actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
-  const resources = actor.system.resources;
-  if (!resources.hasOwnProperty(key)) return true;
-  
-  const current = key === "health" ? resources[key].current : resources[key].value;
-  const newAmount = current - cost;
-
-  if (newAmount < 0) {
-    let errorMessage = `Cannot subract ${cost} ${key} from ${actor.name}. Not enough ${key} (Current amount: ${current}).`;
-    ui.notifications.error(errorMessage);
-    return false;
-  }
-
-  // AP Spend Limit 
-  if (key === "ap") {
-    const spendLimit = actor.system.globalModifier.prevent.goUnderAP;
-    if (newAmount < spendLimit) {
-      if (spendLimit >= resources[key].max) ui.notifications.error(`You cannot spend AP`);
-      else ui.notifications.error(`You cannot go under ${spendLimit} AP`);
-      return false;
-    }
-  }
-  return true;
-}
-
 function _costFromAdvForApAndGrit(actor, basicCosts) {
   const apCostFromAdv = actor.system.rollMenu.apCost;
   if (basicCosts.actionPoint) basicCosts.actionPoint += apCostFromAdv;
@@ -436,25 +363,11 @@ function _prepareBasicResourceModification(key, cost, newResources, resourceMax,
 //=================================
 //        Custom Resources        =
 //=================================
-export function canSubtractCustomResource(key, actor, cost) {
-  const customResource = actor.system.resources.custom[key];
-  if (!customResource) return true;
-  if (cost.value <= 0) return true;
-
-  const current = customResource.value;
-  const newAmount = current - cost.value;
-
-  if (newAmount < 0) {
-    let errorMessage = `Cannot subract ${cost.value} charges of custom resource ${cost.name} from ${actor.name}. Current amount: ${current}.`;
-    ui.notifications.error(errorMessage);
-    return false;
-  }
-  return true;
-}
-
-function _canSubtractCustomResources(actor, customCosts) {
+function _canSubtractAllCustomResources(actor, customCosts) {
   for (const [key, cost] of Object.entries(customCosts)) {
-    if (!canSubtractCustomResource(key, actor, cost)) return false;
+    const resource = actor.resources[key]; 
+    if (!resource) continue;
+    if (!resource.canSpend(cost.value)) return false;
   }
   return true;
 }
@@ -663,11 +576,6 @@ function _collectCharges(item) {
     }
   }
   return [charges, chargesFromOtherItems];
-}
-
-function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
-  if (companionShare(actor, key)) return actor.companionOwner;
-  return actor;
 }
 
 export async function runResourceChangeEvent(key, resource, before, actor, custom) {

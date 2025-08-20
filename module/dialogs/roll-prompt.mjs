@@ -1,5 +1,5 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
-import { canSubtractBasicResource, collectExpectedUsageCost, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
+import { collectExpectedUsageCost } from "../helpers/actors/costManipulator.mjs";
 import { collectAmmoForWeapon, collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
@@ -38,7 +38,7 @@ export class RollPromptDialog extends Dialog {
     }
     else {
       this.itemRoll = false;
-      this.details = data;
+      this.details = {...data};
       this.menuOwner = this.actor;
     }
     this.promiseResolve = null;
@@ -294,9 +294,10 @@ export class RollPromptDialog extends Dialog {
     if (this.itemRoll) {
       roll = await rollFromItem(this.item._id, this.actor);
     }
-    else if (canSubtractBasicResource("ap", this.actor, rollMenu.apCost) && canSubtractBasicResource("grit", this.actor, rollMenu.gritCost)) {
-      subtractBasicResource("ap", this.actor, rollMenu.apCost);
-      subtractBasicResource("grit", this.actor, rollMenu.gritCost);
+    else {
+      this.details.costs = [];
+      if (rollMenu.apCost) this.details.costs.push({key: "ap", value: rollMenu.apCost});
+      if (rollMenu.gritCost) this.details.costs.push({key: "grit", value: rollMenu.gritCost});      
       roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);

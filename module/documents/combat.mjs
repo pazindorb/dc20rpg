@@ -6,7 +6,6 @@ import { sendSimplePopupToActorOwners } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
@@ -548,7 +547,7 @@ export class DC20RpgCombat extends Combat {
       const confirmed = await sendSimplePopupToActorOwners(actor, "confirm", {header: message});
 
       if (confirmed) {
-        const subtracted = await subtractAP(actor, 1);
+        const subtracted = actor.resources.ap.checkAndSpend(1);
         if (subtracted) sustained.push(sustain);
         else {
           sendDescriptionToChat(actor, {

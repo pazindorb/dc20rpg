@@ -1,4 +1,4 @@
-import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
+import { respectUsageCost, revertUsageCostSubtraction } from "./costManipulator.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
@@ -10,7 +10,6 @@ import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
-import { emitSystemEvent } from "../sockets.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -37,10 +36,11 @@ async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO S
   // 1. Subtract Cost
   if (details.costs) {
     for (const cost of details.costs) {
-      if (canSubtractBasicResource(cost.key, actor, cost.value)) {
-        subtractBasicResource(cost.key, actor, cost.value, "true");
-      }
-      else return;
+      if (!actor.resources[cost.key].canSpend(cost.value)) return;
+    }
+    // Do spend resources
+    for (const cost of details.costs) {
+      actor.resources[cost.key].spend(cost.value)
     }
   }
 
@@ -55,7 +55,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO S
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
 
   const globalMod = _extractGlobalModStringForType(details.type, actor);
-  const helpDice = rollMenu.helpDiceFormula;
+  const helpDice = rollMenu.helpDiceFormula();
   formula += " " + globalMod.value + helpDice;
 
   let source = details.type === "save" ? "Save Formula" : "Check Formula";

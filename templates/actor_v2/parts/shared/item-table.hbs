@@ -41,7 +41,7 @@
     <div class="expandable-row">
       <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#ifCond system.toggle.toggleable '&&' system.toggle.toggledOn}} activated-effect{{/ifCond}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}
-        <div class="column name item-tooltip roll-item" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}} {{localize "dc20rph.sheet.rollMenu.quickRoll"}}">
+        <div class="column name item-tooltip roll-item" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}} {{localize "dc20rpg.sheet.rollMenu.quickRoll"}}">
           <div class="item-img-wrapper">
             <a class="original"><img src="{{img}}"/></a>
             <a class="hovered">

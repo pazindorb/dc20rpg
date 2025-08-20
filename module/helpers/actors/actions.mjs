@@ -2,7 +2,7 @@ import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";
-import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
+import { collectExpectedUsageCost } from "./costManipulator.mjs";
 import { resetEnhancements } from "./rollsFromActor.mjs";
 
 //===================================
@@ -116,7 +116,7 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
   const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
-  if (proceed && subtractAP(actor, apSpend)) {
+  if (proceed && actor.resources.ap.checkAndSpend(apSpend)) {
     await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;
   }
@@ -128,7 +128,7 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
 //===================================
 export function heldAction(item, actor) {
   const apCost = collectExpectedUsageCost(actor, item)[0].actionPoint;
-  if (!subtractAP(actor, apCost)) return;
+  if (!actor.resources.ap.checkAndSpend(apCost)) return;
 
   const rollMenu = item.system.rollMenu;
   const enhancements = {};

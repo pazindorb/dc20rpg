@@ -4,7 +4,6 @@ import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
-import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
@@ -103,15 +102,15 @@ export async function addItemToActorInterceptor(item, actor) {
 
   // Item Provided Custom Resource
   if (item.system.isResource) {
-    createNewCustomResourceFromItem(item.system.resource, item.img, actor);
+    _createNewCustomResourceFromItem(item, actor);
   }
 }
 
 export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if isResource was we can update actor's custom resources
   if (updateData.system?.hasOwnProperty("isResource")) {
-    if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);
-    else removeResource(item.system.resource.resourceKey, actor);
+    if(updateData.system.isResource) _createNewCustomResourceFromItem(item, actor);
+    else actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
 
   // Check if on item toggle macro should be runned 
@@ -134,8 +133,22 @@ export async function removeItemFromActorInterceptor(item, actor) {
 
   // Item Provided Custom Resource
   if (item.system.isResource) {
-    removeResource(item.system.resource.resourceKey, actor);
+    actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
+}
+
+async function _createNewCustomResourceFromItem(item, actor) {
+  const resource = item.system.resource;
+  const resourceKey = resource.resourceKey;
+
+  const maxFormula = resource.useStandardTable ?  `@scaling.${resourceKey}` : resource.customMaxFormula;
+  const newResource = {
+    label: resource.name,
+    img: item.img,
+    maxFormula: maxFormula,
+    reset: resource.reset
+  }
+  await actor.resources.createCustomResource(newResource, resourceKey);
 }
 
 //======================================
@@ -198,11 +211,6 @@ async function removeUniqueItemFromActor(item, actor) {
 
   const uniqueItemId = actor.system.details[itemType].id;
   if (uniqueItemId === item._id) {
-    
-    // Remove item's custom resources from actor
-    Object.entries(item.system.scaling)
-      .filter(([key, scalingValue]) => scalingValue.isResource)
-      .forEach(([key, scalingValue]) => removeResource(key, actor));
 
     switch (itemType) {
       case "class":

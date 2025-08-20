@@ -5,13 +5,12 @@ import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs"
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
-import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./costManipulator.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
 let preTriggerTurnedOffEvents = [];
 /**
  * EVENT EXAMPLES:
- * "eventType": "damage", "label": "Rozpierdol", "trigger": "turnStart", "value": 1, "type": "fire", "continuous": "true"
+ * "eventType": "damage", "label": "Rozpierdol", "trigger": "turnStart", "value": 1, "type": "fire"
  * "eventType": "healing", "label": "Rozpierdol", "trigger": "turnEnd", "value": 2, "type": "heal"
  * "eventType": "saveRequest", "label": "Fear Me", "trigger": "turnEnd", "checkKey": "mig", "statuses": ["rattled", "charmed"]
  * "eventType": "saveRequest/checkRequest", "label": "Exposee", "trigger": "turnStart", "checkKey": "mig", "statuses": ["exposed"], "against": "14"
@@ -73,7 +72,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
         break;
 
       case "resource":
-        await _resourceManipulation(event.value, event.resourceKey, event.custom, event.label, actor);
+        await _resourceManipulation(event.value, event.resourceKey, event.label, actor);
         break;
 
       case "macro": 
@@ -186,26 +185,20 @@ async function _rollOutcomeCheck(roll, event, actor) {
   }
 }
 
-async function _resourceManipulation(value, key, custom, label, actor) {
-  const canSubtract = custom ? canSubtractCustomResource : canSubtractBasicResource;
-  const regain = custom ? regainCustomResource : regainBasicResource;
-  const subtract = custom ? subtractCustomResource : subtractCustomResource;
-
-  const cost = {
-    value: value,
-    name: label
-  }
+async function _resourceManipulation(value, key, label, actor) {
+  const resource = actor.resources[key];
+  if (!resource) return;
   // Subtract
   if (value > 0) {
-    if (canSubtract(key, actor, cost)) {
-      await subtract(key, actor, value, true);
-      ui.notifications.info(`"${label}" - subtracted ${value} from ${key}`);
+    if (resource.canSpend(value)) {
+      await resource.spend(value);
+      ui.notifications.info(`"${label}" - Subtracted ${value} from ${resource.label}`);
     }
   }
   // Regain
   if (value < 0) {
-    await regain(key, actor, Math.abs(value), true);
-    ui.notifications.info(`"${label}" - regained ${Math.abs(value)} ${key}`);
+    await resource.regain(Math.abs(value));
+    ui.notifications.info(`"${label}" - Regained ${Math.abs(value)} ${resource.label}`);
   }
 }
 

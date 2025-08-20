@@ -205,7 +205,7 @@
       <div class="custom-resource-wrapper">
         {{!-- Custom Resource --}}
         {{#each system.resources.custom as |resource key|}}
-        <div class="custom-resource margin-bottom-3" title="{{resource.name}}" data-key="{{key}}" data-type="resource">
+        <div class="custom-resource margin-bottom-3" title="{{resource.label}}" data-key="{{key}}" data-type="resource">
           <img class="resource-icon {{#if @root.editMode}}edit-resource-img{{/if}}" src="{{resource.img}}" {{#if @root.editMode}} data-key="{{key}}"{{/if}}/>
           <div class="resource-charges">
             <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
@@ -219,7 +219,7 @@
           </div>
           {{else}}
             <div class="resource-buttons">
-              <a class="spend-regain-custom-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
+              <a class="spend-regain-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
             </div>
           {{/if}}
         </div>

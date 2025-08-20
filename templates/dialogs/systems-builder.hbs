@@ -129,10 +129,6 @@
         {{selectOptions fields.type.damageTypes selected=fields.type.value blank=""}}
       </select>
     </div>
-    <div class="row margin-top-5 ignore-symetry">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.continuous"}}</span>
-      <a class="activable fa-2x {{#if fields.continuous.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.continuous.value"></a>
-    </div>
     {{/ifCond}}
     {{!-- Healing event type --}}
     {{#ifCond fields.eventType.value '===' "healing"}}
@@ -156,10 +152,6 @@
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceKey"}}</span>
       <input class="input" data-path="fields.resourceKey.value" value="{{fields.resourceKey.value}}"/>
-    </div>
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.custom"}}</span>
-      <a class="activable fa-2x {{#if fields.custom.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.custom.value"></a>
     </div>
     {{/ifCond}}
     {{!-- Check/Save Request --}}

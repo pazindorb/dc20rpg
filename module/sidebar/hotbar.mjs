@@ -3,7 +3,6 @@ import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
-import { canSubtractBasicResource, regainBasicResource, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
@@ -587,8 +586,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   async _onGrit(event, target) {
-    if (canSubtractBasicResource("grit", this.actor, 1)) {
-      await subtractBasicResource("grit", this.actor, 1, true);
+    if (this.actor.resources.grit.checkAndSpend(1)) {
       await addFlatDamageReductionEffect(this.actor);
     }
   }
@@ -675,14 +673,16 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   async _spendResource(event, target) {
     const key = target.dataset.resource;
     if (!key) return;
-    if (canSubtractBasicResource(key, this.actor, 1)) await subtractBasicResource(key, this.actor, 1, true);
+    if (key === "health" || this.actor.resources[key].canSpend(1)) {
+      await this.actor.resources[key].spend(1, true);
+    }
     this.render();
   }
 
   async _regainResource(event, target) {
     const key = target.dataset.resource;
     if (!key) return;
-    await regainBasicResource(key, this.actor, 1, true);
+    await this.actor.resources[key].regain(1);
     this.render();
   }
 

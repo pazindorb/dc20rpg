@@ -1,9 +1,9 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog, rechargeItem } from "../../dialogs/rest.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
-import { canSubtractBasicResource, changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, spendRpOnHp, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
+import { changeCurrentCharges } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement, splitItem } from "../../helpers/actors/itemsOnActor.mjs";
-import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
+import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown } from "../../helpers/utils.mjs";
@@ -42,7 +42,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
-  html.find('.make-help-action').click(async () => {if (subtractAP(actor, 1)) prepareHelpAction(actor)});
+  html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) prepareHelpAction(actor)});
   html.find('.help-dice').mousedown(async ev => {
     if (ev.which !== 3) return;
     const key = ev.currentTarget.dataset?.key;
@@ -71,36 +71,36 @@ export function activateCommonLinsters(html, actor) {
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
 
   // Resources
-  html.find(".use-ap").click(() => subtractAP(actor, 1));
-  html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
-  html.find(".regain-all-ap").click(() => refreshAllActionPoints(actor));
+  html.find(".use-ap").click(() => actor.resources.ap.checkAndSpend(1));
+  html.find(".regain-ap").click(() => actor.resources.ap.regain(1));
+  html.find(".regain-all-ap").click(() => actor.resources.ap.regain("max"));
   html.find(".edit-max-ap").change(ev => {
     changeNumericValue(valueOf(ev), "system.resources.ap.value", actor);
     changeNumericValue(valueOf(ev), "system.resources.ap.max", actor);
   })
-  html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
-  html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
+  html.find(".regain-resource").click(ev => actor.resources[datasetOf(ev).key].regain(1));
+  html.find(".spend-resource").click(ev => actor.resources[datasetOf(ev).key].spend(1, true));
   html.find(".spend-regain-resource").mousedown(ev => {
-    if (ev.which === 3) subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
-    if (ev.which === 1) regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
+    if (ev.which === 3) actor.resources[datasetOf(ev).key].checkAndSpend(1);
+    if (ev.which === 1) actor.resources[datasetOf(ev).key].regain(1);
   });
   html.find(".grit-to-damage-reduction").click(async ev => {
-    if (canSubtractBasicResource("grit", actor, 1)) {
-      await subtractBasicResource("grit", actor, 1, true);
+    if (actor.resources.grit.checkAndSpend(1)) {
       await addFlatDamageReductionEffect(actor);
     }
   })
-  html.find(".rest-point-to-hp").click(async ev => {datasetOf(ev); await spendRpOnHp(actor, 1)});
+  html.find(".rest-point-to-hp").click(ev => {
+    datasetOf(ev); 
+    if (actor.resources.restPoints.checkAndSpend(1)) {
+      actor.resources.health.regain(1);
+    }
+  });
 
   // Custom Resources
-  html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
+  html.find(".add-custom-resource").click(() => actor.resources.createCustomResource());
   html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
-  html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
-  html.find(".edit-resource-img").click(ev => changeResourceIcon(datasetOf(ev).key, actor));
-  html.find(".spend-regain-custom-resource").mousedown(ev => {
-    if (ev.which === 3) subtractCustomResource(datasetOf(ev).key, actor, 1, "true");
-    if (ev.which === 1) regainCustomResource(datasetOf(ev).key, actor, 1, "true");
-  });
+  html.find(".remove-resource").click(ev => actor.resources.removeCustomResource(datasetOf(ev).key));
+  html.find(".edit-resource-img").click(ev => actor.resources[datasetOf(ev).key].changeIcon());
 
   // Active Effects
   html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, actor));

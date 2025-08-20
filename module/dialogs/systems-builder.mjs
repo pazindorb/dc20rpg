@@ -177,14 +177,6 @@ export class SystemsBuilder extends Dialog {
             dontSkipFor: ["resource"]
           }
         },
-        custom: {
-          value: false,
-          format: "boolean",
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["resource"]
-          }
-        },
         // damage/healing eventType
         type: {
           value: "",
@@ -194,14 +186,6 @@ export class SystemsBuilder extends Dialog {
           skip: {
             key: "eventType",
             dontSkipFor: ["damage", "healing"]
-          }
-        },
-        continuous: {
-          value: false,
-          format: "boolean",
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["damage"]
           }
         },
         // checkRequest/saveRequest eventType

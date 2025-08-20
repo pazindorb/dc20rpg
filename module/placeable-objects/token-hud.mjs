@@ -1,5 +1,4 @@
 import { makeMoveAction } from "../helpers/actors/actions.mjs";
-import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { toggleStatusOn } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
@@ -51,15 +50,15 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     if (!actor) return;
 
     const type = target.dataset.type;
-    if (type === "spend") subtractAP(actor, 1);
-    if (type === "regain") regainBasicResource("ap", actor, 1, true);
+    if (type === "spend") actor.resources.ap.checkAndSpend(1);
+    if (type === "regain") actor.resources.ap.regain(1);
   }
 
   async _onMoveAction() {
     const actor = this.actor;
     if (!actor) return;
 
-    const subtracted = await subtractAP(actor, 1);
+    const subtracted = actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
 
     const selectedMovement = this.document.movementAction;
