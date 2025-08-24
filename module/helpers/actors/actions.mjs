@@ -2,7 +2,6 @@ import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";
-import { collectExpectedUsageCost } from "./costManipulator.mjs";
 import { resetEnhancements } from "./rollsFromActor.mjs";
 
 //===================================
@@ -127,8 +126,8 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
 //            HELD ACTION           =
 //===================================
 export function heldAction(item, actor) {
-  const apCost = collectExpectedUsageCost(actor, item)[0].actionPoint;
-  if (!actor.resources.ap.checkAndSpend(apCost)) return;
+  const cost = item.use.collectUseCost();
+  if (!actor.resources.ap.checkAndSpend(cost.resources.ap)) return;
 
   const rollMenu = item.system.rollMenu;
   const enhancements = {};

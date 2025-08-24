@@ -236,52 +236,45 @@ export function registerHandlebarsCreators() {
     return itemDetailsToHtml(item);
   });
 
-  Handlebars.registerHelper('charges-printer', (charges, source) => {
-    if (!charges) return "";
-
-    const icon = source === "self" ? "fa-bolt" : "fa-right-from-bracket";
-    let component = "";
-    for (let i = 0; i < charges; i++) {
-      component += `<i class="fa-solid ${icon} cost-icon" title=${game.i18n.localize('dc20rpg.sheet.itemTable.charges')}></i>`;
-    }
-    return component;
-  });
-
-  Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
-    if (!costs) return '';
-
+  Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => {
     let component = '';
-    const icons = {
-      actionPoint: "ap fa-dice-d6",
-      stamina: "sp fa-hand-fist",
-      mana: "mp fa-star",
-      health: "hp fa-heart",
-      grit: "grit fa-clover",
-      restPoints: "rest fa-campground"
-    }
-    if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
-
-    // Print core resources
-    Object.entries(costs).forEach(([key, resCost]) => {
-      const cost = resCost?.cost || resCost;
-      switch (key) {
-        case "custom": break;
-        case "actionPoint":
-          component += _printWithZero(cost, mergeAmount, icons[key]);
-          break;
-        default: 
-          component += _printNonZero(cost, mergeAmount, icons[key]);
-          break;
+    if (resources) {
+      for (const [key, resource] of Object.entries(cost.resources)) {
+        const isMinor = key === "ap" && resource.amount === 0 && showMinorAction;
+        if (resource.amount === 0 && !isMinor) continue;
+        
+        const weight = isMinor ? "fa-light" : "fa-solid";
+        const icon = resource.custom ? `<img src=${resource.img} class="cost-img">` : `<i class="${resource.icon} ${weight}"></i>`;
+        component += _toCost(key, icon, resource.amount, resource.label);
       }
-    });
+    }
 
-    if (!costs.custom) return component;
-    // Print custom resources
-    Object.values(costs.custom).forEach(resource => {
-      component += _printImg(resource.value, mergeAmount, resource.img);
-    });
-    return component;
+    if (charges) {
+      for (const charge of Object.values(cost.charges)) {
+        if (charge.amount === 0) continue;
+        const icon = `<i class="${charge.icon} fa-solid"></i>`;
+        const title = `Charges from: '${charge.itemName}'`;
+        component += _toCost("charge", icon, charge.amount, title);
+      }
+    }
+
+    if (quantity) {
+      for (const quantity of Object.values(cost.quantity)) {
+        if (quantity.amount === 0) continue;
+        const icon = `<i class="${quantity.icon} fa-solid"></i>`;
+        const title = `Quantity from: '${quantity.itemName}'`;
+        component += _toCost("quantity", icon, quantity.amount, title);
+      }
+    }
+
+    return component ? `<ul class="cost-printer">${component}</ul>` : "";
   });
+
+  function _toCost(key, icon, amount, title) {
+    const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
+    const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
+    return `<li class="cost ${key}" title="${title}">${number}${icon}${symbol}</li>`;
+  }
 
   Handlebars.registerHelper('item-config', (item, editMode, tab) => {
     if (!item) return '';
@@ -503,32 +496,6 @@ export function registerHandlebarsCreators() {
     }
     return component;
   });
-}
-
-function _printWithZero(cost, mergeAmount, icon) {
-  if (cost === undefined) return '';
-  if (cost === 0) return `<i class="${icon} fa-light cost-icon"></i>`;
-  const costIconHtml = cost < 0 ? `<i class="${icon} fa-solid cost-icon">+</i>` : `<i class="${icon} fa-solid cost-icon"></i>`;
-  return _print(Math.abs(cost), mergeAmount, costIconHtml);
-}
-
-function _printNonZero(cost, mergeAmount, icon) {
-  if (!cost) return '';
-  const costIconHtml = cost < 0 ? `<i class="${icon} fa-solid cost-icon">+</i>` : `<i class="${icon} fa-solid cost-icon"></i>`;
-  return _print(Math.abs(cost), mergeAmount, costIconHtml);
-}
-
-function _printImg(cost, mergeAmount, iconPath) {
-  if (!cost) return '';
-  const costImg = cost < 0 ? `<img src=${iconPath} class="cost-img">+` : `<img src=${iconPath} class="cost-img">`;
-  return _print(Math.abs(cost), mergeAmount, costImg);
-}
-
-function _print(cost, mergeAmount, costIconHtml) {
-  if (mergeAmount > 4 && cost > 1) return `<b>${cost}x</b>${costIconHtml}`;
-  let pointsPrinter = "";
-  for (let i = 1; i <= cost; i ++) pointsPrinter += costIconHtml;
-  return pointsPrinter;
 }
 
 function _attack(attack) {

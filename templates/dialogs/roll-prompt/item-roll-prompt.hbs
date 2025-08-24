@@ -13,10 +13,6 @@
     </div>
   </div>
 
-            
-
-          
-
   {{!-- Weapon Style  --}}
   {{#if item.system.properties.multiFaceted.active}}
   <div class="row">
@@ -76,18 +72,7 @@
         {{{enhancement-mods enhancement}}}
       </div>
       <div class="column usage costs" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-        {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
-        {{#if enhancement.charges.consume}}
-          {{#if enhancement.charges.fromOriginal}} 
-            {{#ifCond enhancement.sourceItemId '===' @root.item._id}}
-            <i class="fa-solid fa-bolt cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"></i>
-            {{else}}
-            <i class="fa-solid fa-right-from-bracket cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.chargesFrom'}} {{enhancement.sourceItemName}}"></i>
-            {{/ifCond}}
-          {{else}}
-          <i class="fa-solid fa-bolt cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"></i>
-          {{/if}}
-        {{/if}}
+        {{{cost-printer enhancement.useCost true true false false}}}
       </div>
       <div class="column enh-number">
         {{#if @root.rollsHeldAction}}
@@ -109,24 +94,7 @@
     <div class="cost-label">
       <span>{{localize "dc20rpg.dialog.rollPrompt.expectedCost"}}</span>
     </div>
-    <div class="costs">
-      {{{cost-printer expectedCosts 1 false}}}
-      {{{charges-printer expectedCharges "self"}}}
-      {{{charges-printer chargesFromOtherItems "other"}}}
-
-      {{!-- Print Consume other item - non enhancement way --}}
-      {{#if otherItemUse}} 
-        <div class="cost other-item" title="{{otherItemUse.name}}">
-          <img src={{otherItemUse.image}} class="cost-img">
-          <span class="margin-right-2">({{item.system.costs.otherItem.amountConsumed}})</span>
-          {{#if otherItemUse.consumeCharge}}
-          <i class="fa-solid fa-bolt fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeCharge'}}"></i>
-          {{else}}
-          <i class="fa-solid fa-boxes-stacked fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeQuantity'}}"></i>
-          {{/if}}
-        </div>
-      {{/if}}
-    </div>
+    {{{cost-printer expectedCost true true false false}}}
   </div>
 
   {{!-- Measured Templates --}}

@@ -1,12 +1,8 @@
 <div class="item-img">
   <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-  {{#if usageCosts.resources.counter}}
   <div class="cost-wrapper">
-    <div class="item-cost">
-      {{{cost-printer usageCosts.resources.costs usageCosts.resources.counter false}}}
-    </div>
+    {{{cost-printer useCost true true false true}}}
   </div>
-  {{/if}}
 </div>
 
 <div class="header-content">

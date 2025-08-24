@@ -1,4 +1,3 @@
-import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
 import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../../helpers/items/itemDetails.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
@@ -197,7 +196,8 @@ function _prepareAdvancements(context) {
 }
 
 function _prepareItemUsageCosts(context, item) {
-  context.usageCosts = getItemUsageCosts(item);
+  if (!item.use) return;
+  context.useCost = item.use.useCostDisplayData(true);
 } 
 
 function _prepareTypesAndSubtypes(context, item) {

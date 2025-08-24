@@ -1,5 +1,4 @@
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
-import { collectExpectedUsageCost } from "./costManipulator.mjs";
 import { getItemFromActor } from "./itemsOnActor.mjs";
 
 let font = null;
@@ -401,7 +400,7 @@ function _setCustomResources(form, actor) {
     if (!key) continue;
 
     counter++;
-    _text(form.getTextField(`Resource ${key}`), custom.name);
+    _text(form.getTextField(`Resource ${key}`), custom.label);
     _text(form.getTextField(`Resource ${key} Current`), custom.max);
     _text(form.getTextField(`Resource ${key} Cap`), custom.max);
   }
@@ -507,7 +506,7 @@ function _itemDetails(item) {
 
 function _itemUseCost(item, actor) {
   let text = "";
-  const cost = collectExpectedUsageCost(actor, item)[0];
+  const cost =  item.use.collectUseCost(true).resources;
 
   if (cost.actionPoint > 0) text += `${cost.actionPoint} AP, `;
   if (cost.stamina > 0) text += `${cost.stamina} SP, `;
@@ -519,7 +518,7 @@ function _itemUseCost(item, actor) {
   // Prepare Custom resource cost
   if (cost.custom) {
     for (const custom of Object.values(cost.custom)) {
-      if (custom.value > 0) text += `${custom.value} ${custom.name}, `
+      if (custom.value > 0) text += `${custom.value} ${custom.label}, `
     }
   }
 

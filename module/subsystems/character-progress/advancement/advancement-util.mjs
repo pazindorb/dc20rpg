@@ -487,7 +487,7 @@ export async function collectScalingValues(actor, oldSystemData) {
       scalingValues.push({
         resourceKey: key,
         custom: true,
-        label: custom.name,
+        label: custom.label,
         previous: oldResources.custom[key]?.max || 0,
         current: custom.max
       });

@@ -1,16 +1,14 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
-import { collectExpectedUsageCost } from "../helpers/actors/costManipulator.mjs";
 import { collectAmmoForWeapon, collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
-import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { advForApChange, advForGritChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
-import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
+import { changeActivableProperty, toggleUpOrDown } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 import { getSimplePopup } from "./simple-popup.mjs";
@@ -153,8 +151,7 @@ export class RollPromptDialog extends Dialog {
     }
 
     prepareItemFormulas(this.item, this.actor);
-    const [expectedCosts, expectedCharges, chargesFromOtherItems] = collectExpectedUsageCost(this.actor, this.item);
-    if (expectedCosts.actionPoint === 0) expectedCosts.actionPoint = undefined;
+    const enhancements = this._prepareEnhancements()
     const rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     const ammoSelection = collectAmmoForWeapon(this.item, this.actor);
     const weaponSelection = collectWeaponsFromActor(this.actor);
@@ -163,34 +160,25 @@ export class RollPromptDialog extends Dialog {
       rollDetails: itemRollDetails,
       item: this.item,
       itemRoll: this.itemRoll,
-      expectedCosts: expectedCosts,
-      expectedCharges: expectedCharges,
-      chargesFromOtherItems: chargesFromOtherItems,
-      otherItemUse: this._prepareOtherItemUse(),
+      expectedCost: this.item.use.useCostDisplayData(),
       ammoSelection: ammoSelection,
       hasAmmo: hasAmmo,
       weaponSelection: weaponSelection,
       useWeapon: this.item.system.usesWeapon?.weaponAttack,
-      enhancements: mapToObject(this.item.allEnhancements),
+      enhancements: enhancements,
       rollsHeldAction: rollsHeldAction,
       rollLevelChecked: this.rollLevelChecked,
       measurementTemplates: this.measurementTemplates
     };
   }
 
-  _prepareOtherItemUse() {
-    const otherItemUse = this.item.system?.costs?.otherItem;
-    const otherItem = this.actor.items.get(otherItemUse?.itemId);
-    if (otherItem && otherItemUse.amountConsumed > 0) {
-      const use = {
-        name: otherItem.name,
-        image: otherItem.img,
-        amount: otherItemUse.amountConsumed,
-        consumeCharge: otherItemUse.consumeCharge
-      }
-      return use;
+  _prepareEnhancements() {
+    const enhancements = {};
+    for (const [key, enh] of this.item.allEnhancements.entries()) {
+      enhancements[key] = {...enh};
+      enhancements[key].useCost = this.item.use.enhancementCostDisplayData(key);
     }
-    return null
+    return enhancements;
   }
 
   /** @override */
@@ -226,7 +214,7 @@ export class RollPromptDialog extends Dialog {
       this.render();
     });
     html.find('.reload-weapon').click(async () => {
-      await reloadWeapon(this.item, this.actor);
+      await this.item.reloadable.reload();
       this.render();
     });
     html.find('.enh-use-number').mousedown(async ev => {

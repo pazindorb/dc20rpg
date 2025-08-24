@@ -42,7 +42,7 @@ export function getItemUseCost(item, wrapInBox) {
   // Prepare Custom resource cost
   if (cost.custom) {
     for (const custom of Object.values(cost.custom)) {
-      if (custom.value > 0)   content += wrapInBox ? _wrapInBox(`${custom.value} ${custom.name}`) : ` ${custom.value} <i class='margin-right-8 custom-resource'><img src='${custom.img}'/> </i>`;
+      if (custom.value > 0)   content += wrapInBox ? _wrapInBox(`${custom.value} ${custom.label}`) : ` ${custom.value} <i class='margin-right-8 custom-resource'><img src='${custom.img}'/> </i>`;
     }
   }
   return content;  

@@ -43,6 +43,7 @@ class DC20UsableItemData extends DC20BaseItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      usable: new f.BooleanField({required: true, initial: true, readonly: true}),
       isReaction: new f.BooleanField({required: true, initial: false}),
       help: new f.SchemaField({
         ignoreMHP: new f.BooleanField({required: true, initial: false}),
@@ -117,6 +118,7 @@ class DC20ItemItemData extends DC20BaseItemData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      inventory: new f.BooleanField({required: true, initial: true, readonly: true}),
       quantity: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       lootRoll: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       stackable: new f.BooleanField({required: true, initial: false}),
@@ -154,6 +156,7 @@ class DC20UniqueItemData extends DC20BaseItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      unique: new f.BooleanField({required: true, initial: true, readonly: true}),
       scaling: new f.ObjectField({required: true}),
       advancements: new f.ObjectField({required: true}),
     })

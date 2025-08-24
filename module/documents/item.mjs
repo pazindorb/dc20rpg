@@ -1,3 +1,5 @@
+import { enhancePropertiesObject } from "../dataModel/fields/item/properties.mjs";
+import { enhanceUseCostObject } from "../dataModel/fields/item/useCost.mjs";
 import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
 import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
@@ -104,9 +106,17 @@ export class DC20RpgItem extends Item {
   }
  
   prepareDerivedData() {
-    enhanceRollMenuObject(this);
     makeCalculations(this);
     translateLabels(this);
+
+    enhanceRollMenuObject(this);
+    if (this.system.usable) {
+      this.use = {};
+      enhanceUseCostObject(this);
+    }
+    if (this.system.properties) {
+      enhancePropertiesObject(this);
+    }
     this.prepared = true; // Mark item as prepared
   }
 
@@ -338,7 +348,8 @@ export class DC20RpgItem extends Item {
       custom: customCosts
     };
     const charges = {
-      consume: false,
+      subtract: null,
+      consume: false, // TODO backward compatibilty remove as part of 0.11.0 update
       fromOriginal: false
     };
     const modifications = {

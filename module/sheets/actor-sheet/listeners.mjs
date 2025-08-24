@@ -1,7 +1,6 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog, rechargeItem } from "../../dialogs/rest.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
-import { changeCurrentCharges } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement, splitItem } from "../../helpers/actors/itemsOnActor.mjs";
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -10,7 +9,6 @@ import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromK
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { advForApChange  } from "../../helpers/rollLevel.mjs";
-import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
@@ -39,7 +37,12 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
-  html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.update-charges').change(async ev => {
+    const item = actor.items.get(datasetOf(ev).itemId);
+    const max = item.system.costs.charges.max;
+    await changeNumericValue(valueOf(ev), "system.costs.charges.current", item, {upperLimit: max, lowerLimit: 0});
+    actor.sheet.render();
+  });
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
   html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) prepareHelpAction(actor)});
@@ -68,7 +71,6 @@ export function activateCommonLinsters(html, actor) {
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
   html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
-  html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
 
   // Resources
   html.find(".use-ap").click(() => actor.resources.ap.checkAndSpend(1));

@@ -4,11 +4,12 @@ import { getLabelFromKey } from "../../helpers/utils.mjs";
 export function duplicateData(context, actor) {
   context.config = CONFIG.DC20RPG;
   context.type = actor.type;
-  context.system = actor.system;
-  context.flags = actor.flags;
+  context.system = foundry.utils.deepClone(actor.system);
+  context.flags = foundry.utils.deepClone(actor.flags);
   context.editMode = context.flags.dc20rpg?.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.help = _help(actor);
+  context.items = actor.items.contents;
 }
 
 function _help(actor) {

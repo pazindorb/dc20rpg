@@ -98,23 +98,12 @@
         {{!-- Item use other item --}}
         {{#unless (arrayIncludes @root.navTab arrayString="favorites main basic")}}
         <div class="column item-use" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}">
-          {{#ifCond usageCosts.otherItem.amount '>' 0}}
-          <div class="cost other-item" title="{{usageCosts.otherItem.name}}">
-            <img src={{usageCosts.otherItem.image}} class="cost-img">
-            <span class="margin-right-3"><b>({{usageCosts.otherItem.amount}})</b></span>
-            {{#if usageCosts.otherItem.consumeCharge}}
-              <i class="fa-solid fa-bolt fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeCharge'}}"></i>
-            {{else}}
-              <i class="fa-solid fa-boxes-stacked fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeQuantity'}}"></i>
-            {{/if}}
-          </div>
-          {{/ifCond}}
         </div>
         {{/unless}}
 
         {{!-- Resource Usage --}}
         <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-          {{{cost-printer usageCosts.resources.costs usageCosts.resources.counter false}}}
+          {{{cost-printer useCost true false false true}}}
         </div>
 
         {{!-- Config --}}

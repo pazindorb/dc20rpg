@@ -1406,52 +1406,6 @@
     }
   }
 
-  .costs {
-    display: flex;
-    align-items: center;
-
-    .cost-icon, .cost-img {
-      margin: 0 2px;
-      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-    }
-
-    b {
-      margin: 3px -2px 0 2px;
-      font-size: 10px;
-    }
-
-    .cost-img {
-      height: 15px;
-      width: 15px;
-      border: 0;
-      border-radius: 7px
-    }
-
-    .ap {
-      color: $action-point;
-    }
-
-    .sp {
-      color: $stamina;
-    }
-
-    .mp {
-      color: $mana;
-    }
-
-    .hp {
-      color: $health;
-    }
-
-    .grit {
-      color: $grit;
-    }
-
-    .rest {
-      color: #00887d;
-    }
-  }
-
   .expected-cost {
     display: flex;
     justify-content: space-between;
@@ -1474,36 +1428,26 @@
       margin-right: 5px;
     }
 
-    .costs {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow-x: auto;
+    .cost-printer {
+
+      .cost-icon {
+        font-size: 16px;
+      }
 
       .cost-img {
         height: 18px;
         width: 18px;
-        border: 1px solid $primary-darker;
+        border-radius: 7px
       }
 
-      .cost-icon {
-        font-size: 19px;
+      b {
+        font-size: 16px;
       }
-    }
 
-    .other-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border: 1px solid $primary-darker;
-      border-radius: 2px;
-      padding: 1px;
-      background-color: $secondary-lighter;
-
-      span {
-        font-family: $font-default;
-        font-size: 14px;
+      .symbol {
+        font-size: 24px;
+        margin-left: -4px;
+        margin-top: -7px;
       }
     }
   }
@@ -1580,6 +1524,29 @@
 
         &.costs {
           border-left: 0;
+        }
+
+        .cost-printer {
+
+          .cost-icon {
+            font-size: 13px;
+          }
+
+          .cost-img {
+            height: 15px;
+            width: 15px;
+            border-radius: 7px
+          }
+
+          b {
+            font-size: 13px;
+          }
+
+          .symbol {
+            font-size: 17px;
+            margin-left: -3px;
+            margin-top: -5px;
+          }
         }
       }
   

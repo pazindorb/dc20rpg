@@ -776,6 +776,67 @@
   box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
 }
 
+.cost-printer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+.cost-printer .cost {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-right: 3px;
+}
+.cost-printer .cost:last-child {
+  margin-right: 0;
+}
+.cost-printer .cost b {
+  font-family: "Humaroid";
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.cost-printer .cost .cost-icon, .cost-printer .cost .cost-img {
+  margin-left: 2px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.cost-printer .cost .cost-img {
+  border: 1px solid white;
+  margin: 0;
+}
+.cost-printer .cost.ap {
+  color: var(--action-point);
+}
+.cost-printer .cost.stamina {
+  color: var(--stamina);
+  margin-right: 5px;
+}
+.cost-printer .cost.mana {
+  color: var(--mana);
+}
+.cost-printer .cost.health {
+  color: var(--health);
+}
+.cost-printer .cost.grit {
+  color: var(--grit);
+}
+.cost-printer .cost.restPoints {
+  color: #00887d;
+}
+
 #token-hud .ap-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2894,46 +2955,6 @@
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
 }
-.dc20rpg #roll-prompt .costs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .costs .cost-icon, .dc20rpg #roll-prompt .costs .cost-img {
-  margin: 0 2px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg #roll-prompt .costs b {
-  margin: 3px -2px 0 2px;
-  font-size: 10px;
-}
-.dc20rpg #roll-prompt .costs .cost-img {
-  height: 15px;
-  width: 15px;
-  border: 0;
-  border-radius: 7px;
-}
-.dc20rpg #roll-prompt .costs .ap {
-  color: var(--action-point);
-}
-.dc20rpg #roll-prompt .costs .sp {
-  color: var(--stamina);
-}
-.dc20rpg #roll-prompt .costs .mp {
-  color: var(--mana);
-}
-.dc20rpg #roll-prompt .costs .hp {
-  color: var(--health);
-}
-.dc20rpg #roll-prompt .costs .grit {
-  color: var(--grit);
-}
-.dc20rpg #roll-prompt .costs .rest {
-  color: #00887d;
-}
 .dc20rpg #roll-prompt .expected-cost {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2968,44 +2989,21 @@
   width: fit-content;
   margin-right: 5px;
 }
-.dc20rpg #roll-prompt .expected-cost .costs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  overflow-x: auto;
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-icon {
+  font-size: 16px;
 }
-.dc20rpg #roll-prompt .expected-cost .costs .cost-img {
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-img {
   height: 18px;
   width: 18px;
-  border: 1px solid var(--primary-darker);
+  border-radius: 7px;
 }
-.dc20rpg #roll-prompt .expected-cost .costs .cost-icon {
-  font-size: 19px;
+.dc20rpg #roll-prompt .expected-cost .cost-printer b {
+  font-size: 16px;
 }
-.dc20rpg #roll-prompt .expected-cost .other-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  border: 1px solid var(--primary-darker);
-  border-radius: 2px;
-  padding: 1px;
-  background-color: var(--secondary-lighter);
-}
-.dc20rpg #roll-prompt .expected-cost .other-item span {
-  font-family: "Signika", sans-serif;
-  font-size: 14px;
+.dc20rpg #roll-prompt .expected-cost .cost-printer .symbol {
+  font-size: 24px;
+  margin-left: -4px;
+  margin-top: -7px;
 }
 .dc20rpg #roll-prompt .enhancements {
   margin-top: 5px;
@@ -3079,6 +3077,22 @@
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .usage.costs {
   border-left: 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-icon {
+  font-size: 13px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-img {
+  height: 15px;
+  width: 15px;
+  border-radius: 7px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer b {
+  font-size: 13px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .symbol {
+  font-size: 17px;
+  margin-left: -3px;
+  margin-top: -5px;
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .enh-number {
   display: -webkit-box;
@@ -4711,37 +4725,18 @@
   height: 33px;
   background-color: var(--secondary-color);
 }
-.dc20rpg .item-list .item-row .usage .cost-icon, .dc20rpg .item-list .item-row .usage .cost-img, .dc20rpg .item-list .enh-row .usage .cost-icon, .dc20rpg .item-list .enh-row .usage .cost-img {
-  margin: 0 2px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg .item-list .item-row .usage b, .dc20rpg .item-list .enh-row .usage b {
-  margin: 3px -2px 0 2px;
-  font-size: 10px;
-}
-.dc20rpg .item-list .item-row .usage .cost-img, .dc20rpg .item-list .enh-row .usage .cost-img {
+.dc20rpg .item-list .item-row .usage .cost-printer .cost-img, .dc20rpg .item-list .enh-row .usage .cost-printer .cost-img {
   height: 15px;
   width: 15px;
-  border: 0;
   border-radius: 7px;
 }
-.dc20rpg .item-list .item-row .usage .ap, .dc20rpg .item-list .enh-row .usage .ap {
-  color: var(--action-point);
+.dc20rpg .item-list .item-row .usage .cost-printer b, .dc20rpg .item-list .enh-row .usage .cost-printer b {
+  font-size: 14px;
 }
-.dc20rpg .item-list .item-row .usage .sp, .dc20rpg .item-list .enh-row .usage .sp {
-  color: var(--stamina);
-}
-.dc20rpg .item-list .item-row .usage .mp, .dc20rpg .item-list .enh-row .usage .mp {
-  color: var(--mana);
-}
-.dc20rpg .item-list .item-row .usage .hp, .dc20rpg .item-list .enh-row .usage .hp {
-  color: var(--health);
-}
-.dc20rpg .item-list .item-row .usage .grit, .dc20rpg .item-list .enh-row .usage .grit {
-  color: var(--grit);
-}
-.dc20rpg .item-list .item-row .usage .rest, .dc20rpg .item-list .enh-row .usage .rest {
-  color: #00887d;
+.dc20rpg .item-list .item-row .usage .cost-printer .symbol, .dc20rpg .item-list .enh-row .usage .cost-printer .symbol {
+  font-size: 17px;
+  margin-left: -3px;
+  margin-top: -5px;
 }
 .dc20rpg .item-list .item-row .item-use, .dc20rpg .item-list .enh-row .item-use {
   display: -webkit-box;
@@ -10467,7 +10462,7 @@
   height: 0;
   width: 0;
 }
-.dc20rpg .item_v2 .item-sheet-header .item-cost {
+.dc20rpg .item_v2 .item-sheet-header .cost-printer {
   position: absolute;
   border-radius: 5px;
   padding: 4px;
@@ -10486,33 +10481,18 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.dc20rpg .item_v2 .item-sheet-header .item-cost .cost-icon, .dc20rpg .item_v2 .item-sheet-header .item-cost .cost-img {
-  margin: 0 2px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .cost-img {
-  height: 15px;
-  width: 15px;
-  border: 0;
+.dc20rpg .item_v2 .item-sheet-header .cost-printer .cost-img {
+  min-height: 18px;
+  min-width: 18px;
+  height: 18px;
+  width: 18px;
   border-radius: 7px;
+  border: 1px solid white;
 }
-.dc20rpg .item_v2 .item-sheet-header .item-cost .ap {
-  color: var(--action-point);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .sp {
-  color: var(--stamina);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .mp {
-  color: var(--mana);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .grit {
-  color: var(--grit);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .hp {
-  color: var(--health);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .rest {
-  color: #00887d;
+.dc20rpg .item_v2 .item-sheet-header .cost-printer .symbol {
+  font-size: 22px;
+  margin-left: -3px;
+  margin-top: -8px;
 }
 .dc20rpg .item_v2 .item-sheet-header .header-content {
   width: 100%;

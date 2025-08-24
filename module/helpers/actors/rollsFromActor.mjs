@@ -1,4 +1,3 @@
-import { respectUsageCost, revertUsageCostSubtraction } from "./costManipulator.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
@@ -116,7 +115,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   const rollMenu = item.system.rollMenu;
 
   // 0. Subtract Cost
-  const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
+  const costsSubracted = rollMenu.free ? true : await item.use.respectUseCost();
   if (!costsSubracted) {
     resetEnhancements(item, actor);
     rollMenu.clear();
@@ -771,8 +770,8 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
 
   if (coreRoll.fail && ["spellCheck", "spe"].includes(rollType)) {
     if (item && !item.system.rollMenu.free) {
-      delete actor.subtractOperation.resources?.before?.ap;
-      revertUsageCostSubtraction(actor);
+      delete item.useCostHistory.resources.ap;
+      item.use.revertUseCost();
     }
   }
 }

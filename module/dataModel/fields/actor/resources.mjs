@@ -82,6 +82,7 @@ export function enhanceResourcesObject(actor) {
 
   actor.resources.createCustomResource = async (data, key) => await _createCustomResource(data, key, actor);
   actor.resources.removeCustomResource = async (key) => await _removeCustomResource(key, actor);
+  actor.resources.hasResource = (key) => !!actor.resources[key];
 }
 
 //==================================
@@ -164,8 +165,7 @@ function _canSpendResource(amount, resource, actor) {
   const current = resource.value;
   const newAmount = current - amount;
   if (newAmount < 0) {
-    let errorMessage = `Cannot subract ${amount} ${resource.label} from ${actor.name}. Not enough ${resource.label} (Current amount: ${current}).`;
-    ui.notifications.error(errorMessage);
+    ui.notifications.error(`Cannot subract ${amount} ${resource.label} from ${actor.name}. Not enough ${resource.label} (Current amount: ${current}).`);
     return false;
   }
 
