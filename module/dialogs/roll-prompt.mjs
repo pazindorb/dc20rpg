@@ -381,7 +381,7 @@ export class RollPromptDialog extends Dialog {
 
   async _onMultiFacaded(itemId) {
     const item = this.actor.items.get(itemId);
-    if (item) await item.swapMultiFaceted();
+    if (item) await item.multiFacaded.swap();
     this.render();
   }
 

@@ -23,6 +23,7 @@ function _preparePropertiesFor(itemType, fields) {
 
 export function enhancePropertiesObject(item) {
   _enhanceReload(item);
+  _enhanceMultiFacaded(item);
 }
 
 //==================================
@@ -55,4 +56,46 @@ async function _reloadItem(item, free) {
 
 async function _unloadItem(item) {
   await item.update({[`system.properties.reload.loaded`]: false});
+}
+
+//==================================
+//          MULTI FACETED          =
+//==================================
+function _enhanceMultiFacaded(item) {
+  const property = item.system?.properties?.multiFaceted;
+  if (!property || !property.active) return;
+
+  item.multiFacaded = {
+    swap: () => _swapMultiFaceted(item)
+  }
+}
+
+async function _swapMultiFaceted(item) {
+  const multiFaceted = item.system.properties?.multiFaceted;
+  const damageFormula = item.system.formulas.weaponDamage;
+  if (!damageFormula) {
+    ui.notifications.error("Original damage formula cannot be found. You have to recreate this item to fix that problem");
+    return;
+  }
+
+  if (multiFaceted.selected === "first") multiFaceted.selected = "second";
+  else multiFaceted.selected = "first";
+  const selected = multiFaceted.selected;
+
+  multiFaceted.labelKey = multiFaceted.weaponStyle[selected];
+  const weaponStyle = multiFaceted.weaponStyle[selected];
+  damageFormula.type = multiFaceted.damageType[selected];
+
+  const updateData = {
+    system: {
+      weaponStyle: weaponStyle,
+      properties: {
+        multiFaceted: multiFaceted
+      },
+      formulas: {
+        weaponDamage: damageFormula
+      }
+    }
+  }
+  await item.update(updateData);
 }

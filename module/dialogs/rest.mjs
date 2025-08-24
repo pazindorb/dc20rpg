@@ -1,42 +1,68 @@
-import { refreshAllActionPoints, regainBasicResource, spendRpOnHp } from "../helpers/actors/costManipulator.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
 
 /**
  * Dialog window for resting.
  */
-export class RestDialog extends Dialog {
+export class RestDialog extends DC20Dialog {
 
-  constructor(actor, preselected, dialogData = {}, options = {}) {
-    super(dialogData, options);
+  constructor(actor, preselected, options = {}) {
+    super(options);
     this.actor = actor;
-    this.data = {
-      selectedRestType: preselected || "long",
-      noActivity: true
+    this.restType = preselected || "long";
+    this.history = {
+      rbBefore: this.actor.system.resources.restPoints.value,
+      noActivity: true,
+      regained: {
+        hp: 0,
+        mana: 0,
+        stamina: 0,
+        grit: 0,
+        custom: this._prepareCustomResources()
+      }
     }
   }
+
+  _prepareCustomResources() {
+    // this.actor.
+  }
+
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
+      template: "systems/dc20rpg/templates/dialogs/rest-dialog.hbs",
+    }
+  };
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/rest-dialog.hbs",
-      classes: ["dc20rpg", "dialog", "flex-dialog"]
+      classes: ["dc20rpg", "dialog"]
     });
   }
 
-  getData() {
-    const restTypes = CONFIG.DC20RPG.DROPDOWN_DATA.restTypes;
-    this.data.rest = this.actor.system.rest;
-    this.data.resources = {
-      restPoints: this.actor.system.resources.restPoints
-    };
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Rest";
+    initialized.window.icon = "fa-solid fa-campground";
+    initialized.position.width = 420;
 
-    return {
-      restTypes: restTypes,
-      ...this.data
-    }
+    initialized.actions.rpRegain = this._onRpRegain;
+    initialized.actions.rpSpend = this._onRpSpend;
+    initialized.actions.switchActivity = this._onSwitchActivity;
+    return initialized;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const restTypes = CONFIG.DC20RPG.DROPDOWN_DATA.restTypes;
+
+    context.restPoints = this.actor.system.resources.restPoints;
+
+    return context;
   }
 
    /** @override */
@@ -56,21 +82,23 @@ export class RestDialog extends Dialog {
     this.render();
   }
 
-  async _onSwitch(event) {
+  async _onSwitchActivity(event) {
     const activity = datasetOf(event).activity === "true";
-    this.data.noActivity = !activity;
+    this.noActivity = !activity;
     this.render();
   }
 
   async _onRpSpend(event) {
     event.preventDefault();
-    await spendRpOnHp(this.actor, 1);
+    if (this.actor.resources.restPoints.checkAndSpend(1)) {
+      await this.actor.resources.health.regain(1);
+    }
     this.render();
   }
 
-  async _onRpRegained(event) {
+  async _onRpRegain(event) {
     event.preventDefault();
-    await regainBasicResource("restPoints", this.actor, 1, true);
+    await this.actor.resources.grit.regain(1);
     this.render();
   }
 
@@ -211,14 +239,14 @@ export async function refreshAllResources(actor) {
 
 export async function refreshOnRoundEnd(actor) {
   if (!actor) return;
-  refreshAllActionPoints(actor);
+  await actor.resources.ap.regain("max");
   await _refreshItemsOn(actor, ["round"]);
   await _refreshCustomResourcesOn(actor, ["round"]);
 }
 
 export async function refreshOnCombatStart(actor) {
   if (!actor) return;
-  refreshAllActionPoints(actor);
+  await actor.resources.ap.regain("max");
   await _refreshStamina(actor);
   await _refreshItemsOn(actor, ["round", "combat"]);
   await _refreshCustomResourcesOn(actor, ["round", "combat"]);
