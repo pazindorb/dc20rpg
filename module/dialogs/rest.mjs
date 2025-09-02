@@ -1,6 +1,5 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
-import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { evaluateFormula } from "../helpers/rolls.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
@@ -13,22 +12,15 @@ export class RestDialog extends DC20Dialog {
   constructor(actor, preselected, options = {}) {
     super(options);
     this.actor = actor;
-    this.restType = preselected || "long";
+    this.selectedRestType = preselected || "long";
     this.history = {
-      rbBefore: this.actor.system.resources.restPoints.value,
-      noActivity: true,
-      regained: {
-        hp: 0,
-        mana: 0,
-        stamina: 0,
-        grit: 0,
-        custom: this._prepareCustomResources()
-      }
+      resources: {},
+      rpToHP: 0,
+      exhaustion: 0,
+      doomed: false,
     }
-  }
-
-  _prepareCustomResources() {
-    // this.actor.
+    this.noActivity = true;
+    this.newDay = false;
   }
 
   static PARTS = {
@@ -50,55 +42,41 @@ export class RestDialog extends DC20Dialog {
     initialized.window.icon = "fa-solid fa-campground";
     initialized.position.width = 420;
 
-    initialized.actions.rpRegain = this._onRpRegain;
     initialized.actions.rpSpend = this._onRpSpend;
-    initialized.actions.switchActivity = this._onSwitchActivity;
+    initialized.actions.activity = this._onSwitchActivity;
+    initialized.actions.finishRest = this._onFinishRest;
+    initialized.actions.resetRest = this._onResetRest;
     return initialized;
   }
 
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    const restTypes = CONFIG.DC20RPG.DROPDOWN_DATA.restTypes;
-
+    context.restTypes = CONFIG.DC20RPG.DROPDOWN_DATA.restTypes;
+    context.selectedRestType = this.selectedRestType;
     context.restPoints = this.actor.system.resources.restPoints;
+    context.rest = this.actor.system.rest;
+    context.newDay = this.newDay;
+    context.noActivity = this.noActivity;
 
+    const halfLongRestDone = this.actor.system.rest.longRest.half;
+    context.halfButton = this.selectedRestType === "long" && !halfLongRestDone;
+    context.resetButton = this.selectedRestType === "long" && halfLongRestDone;
     return context;
   }
 
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find(".selectable").change(ev => this._onSelection(ev));
-    html.find(".regain-rp").click(ev => this._onRpRegained(ev));
-    html.find(".spend-rp").click(ev => this._onRpSpend(ev));
-    html.find(".finish-rest").click(ev => this._onFinishRest(ev));
-    html.find(".reset-rest").click(ev => this._onResetRest(ev));
-    html.find(".activity").click(ev => this._onSwitch(ev));
-  }
-
-  async _onSelection(event) {
-    event.preventDefault();
-    this.data.selectedRestType = event.currentTarget.value;
-    this.render();
-  }
-
   async _onSwitchActivity(event) {
-    const activity = datasetOf(event).activity === "true";
-    this.noActivity = !activity;
+    event.preventDefault();
+    this.noActivity = !this.noActivity;
     this.render();
   }
 
   async _onRpSpend(event) {
     event.preventDefault();
-    if (this.actor.resources.restPoints.checkAndSpend(1)) {
+    if (this.actor.resources.restPoints.canSpend(1)) {
+      await this.actor.resources.restPoints.spend(1);
       await this.actor.resources.health.regain(1);
+      this.history.rpToHP++;
     }
-    this.render();
-  }
-
-  async _onRpRegain(event) {
-    event.preventDefault();
-    await this.actor.resources.grit.regain(1);
     this.render();
   }
 
@@ -108,93 +86,159 @@ export class RestDialog extends DC20Dialog {
     this.render();
   }
 
-  //==================================//
-  //            Finish Rest           //
-  //==================================//
   async _onFinishRest(event) {
     event.preventDefault();
-    switch (this.data.selectedRestType) {
-      case "quick":
-        await this._finishQuickRest(this.actor);
-        this.close();
-        break;
-      case "short":
-        await this._finishShortRest(this.actor);
-        this.close();
-        break;
-      case "long":
-        const closeWindow = await this._finishLongRest(this.actor, this.data.noActivity);
-        if (closeWindow) this.close();
-        else this.render(true);
-        break;
-      case "full": 
-        await this._finishFullRest(this.actor);
-        this.close();
-        break;
-      default:
-        ui.notifications.error("Choose correct rest type first.");
+    let closeAfter = true;
+    
+    const availableTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.restTypes);
+    const index = availableTypes.indexOf(this.selectedRestType);
+    if (index === -1) {
+      ui.notifications.warn("Rest Type does not exist");
+      return;
+    }
+    const restTypes = availableTypes.slice(0, index+1);
+    if (this.newDay) restTypes.push("day");
+    if (restTypes.find(x => x === "short")) restTypes.push("halfOnShort");
+    if (this.selectedRestType === "full") restTypes.push("long4h");
+    if (this.selectedRestType === "long") {
+      const halfFinished = this.actor.system.rest.longRest.half;
+      if (!halfFinished) {
+        restTypes[restTypes.indexOf("long")] = "long4h";
+      }
+    }
+
+    await this._refreshResources(restTypes);
+    await this._refreshItems(restTypes);
+
+    let runEvent = true;
+    if (this.selectedRestType === "long") {
+      await this._respectActivity();
+      const halfFinished = this.actor.system.rest.longRest.half;
+      if (!halfFinished) { // 1nd Half of Long Rest
+        await this.actor.update({["system.rest.longRest.half"]: true});
+        closeAfter = false;
+      }
+      else { // 2st Half of Long Rest
+        await this._clearDoomed();
+        this._resetLongRest();
+        this._shouldRollExhaustionSave();
+
+        // We don't want to run short and quick rest events twice (we did in 1st part of the Long Rest)
+        await runEventsFor("rest", this.actor, ["long"]); 
+        runEvent = false;
+      }
+    }
+    if (this.selectedRestType === "full") {
+      await this._clearExhaustion();
+      await this._clearDoomed();
+    }
+
+    if (runEvent) await runEventsFor("rest", this.actor, restTypeFilter(restTypes));
+    if (closeAfter) {
+      this._finishRestChatMessage();
+      this.close();
+    }
+    this.render();
+  }
+
+  async _refreshResources(resetTypes) {
+    for (const resource of this.actor.resources.iterate()) {
+      if (resetTypes.includes(resource.reset)) {
+        const regainType = resource.reset === "halfOnShort" && !resetTypes.includes("long") ? "half" : "max";
+        const oldValue = resource.value;
+        await resource.regain(regainType);
+        const newValue = this.actor.resources[resource.key].value;
+        this.history.resources[resource.key] = newValue - oldValue;
+      }
     }
   }
 
-  async _finishQuickRest(actor) {
-    await _refreshItemsOn(actor, ["round", "quick"]);
-    await _refreshCustomResourcesOn(actor, ["round", "quick"]);
-    await runEventsFor("rest", actor, restTypeFilter(["quick"]));
-    return true;
-  }
-  
-  async _finishShortRest(actor) {
-    await _refreshItemsOn(actor, ["round", "quick", "short"]);
-    await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
-    await runEventsFor("rest", actor, restTypeFilter(["quick", "short"]));
-    return true;
-  }
-  
-  async _finishLongRest(actor, noActivity) {
-    await _respectActivity(actor, noActivity);
-  
-    const halfFinished = actor.system.rest.longRest.half;
-    if (halfFinished) {
-      await _refreshMana(actor);
-      await _refreshGrit(actor);
-      await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long"]);
-      await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
-      await _checkForExhaustionSave(actor);
-      await _clearDoomed(actor);
-      await runEventsFor("rest", actor, restTypeFilter(["long"]));
-      await this._resetLongRest();
-      return true;
-    } 
-    else {
-      await _refreshRestPoints(actor);
-      await _refreshItemsOn(actor, ["round", "quick", "short"]);
-      await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
-      await runEventsFor("rest", actor, restTypeFilter(["quick", "short"]));
-      await actor.update({["system.rest.longRest.half"]: true});
-      return false;
+  async _refreshItems(restTypes) {
+    for (const item of this.actor.items) {
+      if (!item.system.usable) continue;
+      if (!item.use.hasCharges) continue;
+      
+      const charges = item.system.costs.charges;
+      if (restTypes.includes(charges.reset)) {
+        const half = charges.reset === "halfOnShort" && !restTypes.includes("long") ? true : false;
+        await item.use.regainCharges(half);
+      }
     }
   }
-  
-  async _finishFullRest(actor) {
-    await _refreshMana(actor);
-    await _refreshGrit(actor);
-    await _refreshRestPoints(actor);
-    await _refreshHealth(actor);
-    await _clearExhaustion(actor);
-    await _clearDoomed(actor);
-    await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long", "full", "day"]);
-    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"]);
-    await runEventsFor("rest", actor, restTypeFilter(["quick", "short", "long", "full"]));
-    return true;
+
+  async _respectActivity() {
+    if (this.noActivity) {
+      this.history.exhaustion++;
+      await this.actor.toggleStatusEffect("exhaustion", { active: false });
+      await this.actor.update({["system.rest.longRest.noActivity"]: true});
+    }
+  }
+
+  async _clearExhaustion() {
+    await this.actor.update({["system.rest.longRest.exhSaveDC"]: 10});
+    if (!this.actor.hasStatus("exhaustion")) return;
+    this.history.exhaustion = "all";
+
+    for (const effect of this.actor.effects) {
+      if (effect.system?.statusId === "exhaustion") await effect.delete();
+    }
+  }
+
+  async _clearDoomed() {
+    if (!this.actor.hasStatus("doomed")) return;
+    this.history.doomed = true;
+
+    for (const effect of this.actor.effects) {
+      if (effect.system?.statusId === "doomed") await effect.delete();
+    }
+  }
+
+  async _shouldRollExhaustionSave() {
+    const longRest = this.actor.system.rest.longRest;
+    const noActivity = longRest.noActivity;
+    if (noActivity) return;
+
+    const details = {
+      roll: "d20 + @attributes.mig.save",
+      label: `Might Save vs DC ${longRest.exhSaveDC}`,
+      rollTitle: "Exhaustion Save",
+      type: "save",
+      against: longRest.exhSaveDC
+    }
+    const roll = await promptRoll(this.actor, details);
+    if (roll.total < longRest.exhSaveDC) {
+      await this.actor.toggleStatusEffect("exhaustion", { active: true });
+      await this.actor.update({["system.rest.longRest.exhSaveDC"]: longRest.exhSaveDC + 5});
+    }
   }
 
   async _resetLongRest() {
-    const updateData = {
+    await this.actor.update({
       ["system.rest.longRest.half"]: false,
       ["system.rest.longRest.noActivity"]: false
-    };
-    await this.actor.update(updateData);
-    return;
+    });
+  }
+
+  _finishRestChatMessage() {
+    let content = "";
+    if (this.history.rpToHP) {
+      content += `<li>Rest Points spent on Health: ${this.history.rpToHP}</li>`;
+    }
+    for (const [key, value] of Object.entries(this.history.resources)) {
+      if (key === "restPoints") continue;
+      if (!value) continue;
+      content += `<li>Regained ${value} ${this.actor.resources[key].label}</li>`;
+    }
+
+    if (this.history.doomed) content += "<li>Cleared all stacks of Doomed condition</li>";
+    if (this.history.exhaustion) content += `<li>Cleared ${this.history.exhaustion} stacks of Exhaustion</li>`;
+
+    if (content) content = `<ul>${content}</ul>`
+    sendDescriptionToChat(this.actor, {
+      rollTitle: `${CONFIG.DC20RPG.DROPDOWN_DATA.restTypes[this.selectedRestType]} Finished`,
+      image: this.actor.img,
+      description: content,
+    });
   }
 }
 
@@ -202,7 +246,7 @@ export class RestDialog extends DC20Dialog {
  * Opens Rest Dialog popup for given actor.
  */
 export function createRestDialog(actor, preselected) {
-  new RestDialog(actor, preselected, {title: `Begin Your Rest ${actor.name}`}).render(true);
+  new RestDialog(actor, preselected).render(true);
 }
 
 export function openRestDialogForOtherPlayers(actor, preselected) {
@@ -210,172 +254,4 @@ export function openRestDialogForOtherPlayers(actor, preselected) {
     actorId: actor.id,
     preselected: preselected
   });
-}
-
-export async function refreshAllResources(actor) {
-  const updateData = {};
-  if (actor.system.resources.mana) {
-    const mana = actor.system.resources.mana.max;
-    updateData["system.resources.mana.value"] = mana;
-  }
-  if (actor.system.resources.stamina) {
-    const stamina = actor.system.resources.stamina.max;
-    updateData["system.resources.stamina.value"] = stamina;
-  }
-  if (actor.system.resources.health) {
-    const health = actor.system.resources.health.max;
-    updateData["system.resources.health.current"] = health;
-  }
-  if (actor.system.resources.grit) {
-    const grit = actor.system.resources.grit.max;
-    updateData["system.resources.grit.value"] = grit;
-  }
-  if (actor.system.resources.restPoints) {
-    const restPoints = actor.system.resources.restPoints.max;
-    updateData["system.resources.restPoints.value"] = restPoints;
-  }
-  await actor.update(updateData);
-}
-
-export async function refreshOnRoundEnd(actor) {
-  if (!actor) return;
-  await actor.resources.ap.regain("max");
-  await _refreshItemsOn(actor, ["round"]);
-  await _refreshCustomResourcesOn(actor, ["round"]);
-}
-
-export async function refreshOnCombatStart(actor) {
-  if (!actor) return;
-  await actor.resources.ap.regain("max");
-  await _refreshStamina(actor);
-  await _refreshItemsOn(actor, ["round", "combat"]);
-  await _refreshCustomResourcesOn(actor, ["round", "combat"]);
-}
-
-export async function rechargeItem(item, half) {
-  if (!item.system.costs) return;
-  const charges = item.system.costs.charges;
-  if (charges.max === charges.current) return;
-
-  const rollData = await item.getRollData();
-  let newCharges = charges.max;
-
-  if (charges.rechargeDice) {
-    const roll = await evaluateFormula(charges.rechargeDice, rollData);
-    const result = roll.total;
-    const rechargeOutput = result >= charges.requiredTotalMinimum 
-                                ? game.i18n.localize("dc20rpg.rest.rechargedDescription") 
-                                : game.i18n.localize("dc20rpg.rest.notrechargedDescription")
-    ui.notifications.info(`${item.actor.name} ${rechargeOutput} ${item.name}`);
-    if (result < charges.requiredTotalMinimum) return;
-  }
-  if (charges.overriden) {
-    const roll = await evaluateFormula(charges.rechargeFormula, rollData);
-    newCharges = roll.total;
-  }
-
-  if (half) newCharges = Math.ceil(newCharges/2);
-  item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
-}
-
-async function _refreshItemsOn(actor, resetTypes) {
-  const items = actor.items;
-
-  items.forEach(async item => {
-    if (!item.system.costs) return;
-    const charges = item.system.costs.charges;
-    if (charges.max === charges.current) return;
-    if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) return;
-
-    const half = charges.reset === "halfOnShort" && resetTypes.includes("short") && !resetTypes.includes("long");
-    rechargeItem(item, half);
-  })
-}
-
-function _halfOnShortValid(reset, resetTypes) {
-  if (reset !== "halfOnShort") return false;
-  if (resetTypes.includes("short") || resetTypes.includes("long")) return true;
-  return false;
-}
-
-async function _refreshCustomResourcesOn(actor, resetTypes) {
-  const customResources = actor.system.resources.custom;
-  const updateData = {}
-  Object.entries(customResources).forEach(([key, resource]) => {
-    if (resetTypes.includes(resource.reset) || (resource.reset === "halfOnShort" && resetTypes.includes("long"))) {
-      updateData[`system.resources.custom.${key}.value`] = resource.max;
-    }
-    else if (resource.reset === "halfOnShort" && resetTypes.includes("short")) {
-      const newValue = resource.value + Math.ceil(resource.max/2);
-      updateData[`system.resources.custom.${key}.value`] = Math.min(newValue, resource.max);
-    }
-  });
-  actor.update(updateData);
-}
-
-async function _clearExhaustion(actor) {
-  actor.effects.forEach(effect => {
-    if (effect.system?.statusId === "exhaustion") effect.delete();
-  })
-  await actor.update({["system.rest.longRest.exhSaveDC"]: 10});
-}
-
-async function _clearDoomed(actor) {
-  actor.effects.forEach(effect => {
-    if (effect.system?.statusId === "doomed") effect.delete();
-  })
-}
-
-async function _respectActivity(actor, noActivity) {
-  if (noActivity) {
-    await actor.toggleStatusEffect("exhaustion", { active: false });
-    await actor.update({["system.rest.longRest.noActivity"]: true});
-  }
-}
-
-async function _checkForExhaustionSave(actor) {
-  const noActivity = actor.system.rest.longRest.noActivity;
-  if (!noActivity) {
-    const rollDC = actor.system.rest.longRest.exhSaveDC;
-    const details = {
-      roll: "d20 + @attributes.mig.save",
-      label: `Might Save vs DC ${rollDC}`,
-      rollTitle: "Exhaustion Save",
-      type: "save",
-      against: rollDC
-    }
-    const roll = await promptRoll(actor, details);
-    if (roll.total < rollDC) {
-      await actor.toggleStatusEffect("exhaustion", { active: true });
-      await actor.update({["system.rest.longRest.exhSaveDC"]: rollDC + 5});
-    }
-  }
-}
-
-async function _refreshMana(actor) {
-  if (!actor.system.resources.mana) return;
-  const manaMax = actor.system.resources.mana.max;
-  await actor.update({["system.resources.mana.value"]: manaMax});
-}
-
-async function _refreshStamina(actor) {
-  if (!actor.system.resources.stamina) return;
-  const manaStamina = actor.system.resources.stamina.max;
-  await actor.update({["system.resources.stamina.value"]: manaStamina});
-}
-
-async function _refreshHealth(actor) {
-  const hpMax = actor.system.resources.health.max;
-  await actor.update({["system.resources.health.current"]: hpMax});
-}
-
-async function _refreshGrit(actor) {
-  if (!actor.system.resources.grit) return;
-  const gritMax = actor.system.resources.grit.max;
-  await actor.update({["system.resources.grit.value"]: gritMax});
-}
-
-async function _refreshRestPoints(actor) {
-  const rpMax = actor.system.resources.restPoints.max;
-  await actor.update({["system.resources.restPoints.value"]: rpMax});
 }

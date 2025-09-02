@@ -1,57 +1,71 @@
-<form id="rest-dialog" class="dialog-v2">
-  <div class="header">
-    <span>{{localize "dc20rpg.dialog.rest.header"}}</span>
-  </div>
+<form id="rest-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.rest.header"}}</h4>
 
-  <div class="row">
-    <span>{{localize 'dc20rpg.dialog.rest.restType'}}</span>
-    <select class="selectable">
-      {{selectOptions restTypes selected=selectedRestType}}
-    </select>
-  </div>
-
-  <div class="content-wrapper margin-top-5">
-    <div class="header"> 
-      <i class="fa-solid fa-campground margin-right-5"></i>
-      <label>{{localize "dc20rpg.dialog.rest.spendPoints"}}</label>
+  <fieldset>
+    <legend>{{localize 'dc20rpg.dialog.rest.spendPoints'}}</legend>
+    <p class="hint">{{localize 'dc20rpg.dialog.rest.spendPointsTip'}}</p>
+    
+    <div class="form-group spend-rest-points">
+      <div class="form-fields">
+        <span>{{restPoints.value}}</span>
+        <span>/</span>
+        <span>{{restPoints.max}}</span>
+      </div>
+      <div class="form-fields">
+        <button data-action="rpSpend"><i class="fa-heart-circle-plus fa-solid"></i>{{localize "dc20rpg.dialog.rest.spend"}}</button>
+      </div>
     </div>
-    <div class="content">
-      <div class="separated-values">
-        <span class="value" title="Current Rest Points">{{resources.restPoints.value}}</span>
-        <span class="separator">/</span>
-        <span class="value" title="Max Rest Points">{{resources.restPoints.max}}</span>
-      </div>
-      <div class="button-wrapper">
-        <button class="button regain-rp margin-top-5">{{localize "dc20rpg.dialog.rest.regain"}}</button>
-        <button class="button spend-rp margin-top-5">{{localize "dc20rpg.dialog.rest.spend"}}</button>
-      </div>
+  </fieldset>
 
-      {{#ifCond selectedRestType '===' 'long'}}
-      <div class="row ignore-symetry exhaustion-wrapper">
-        <span>{{localize "dc20rpg.dialog.rest.exhaustionDC"}}</span>
+  <fieldset>
+    <legend>{{localize 'dc20rpg.dialog.rest.rest'}}</legend>
+
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.rest.restType'}}</label>
+      <div class="form-fields">
+        <select data-cType="string" data-path="selectedRestType">
+          {{selectOptions restTypes selected=selectedRestType}}
+        </select>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.rest.newDay'}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="newDay" {{checked newDay}}/>
+      </div>
+      <p class="hint">{{localize 'dc20rpg.dialog.rest.newDayTip'}}</p>
+    </div>
+
+    {{#ifCond selectedRestType '===' 'long'}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.rest.activity'}}</label>
+      <div class="form-fields">
+        <button data-action="activity"><i class="fa-solid {{#if noActivity}}fa-bed{{else}}fa-person-walking{{/if}} fa-lg margin-right-5"></i>
+          {{#if noActivity}}{{localize "dc20rpg.dialog.rest.noActivity"}}{{else}}{{localize "dc20rpg.dialog.rest.lightActivity"}}{{/if}}
+        </button>
+      </div>
+      <p class="hint">{{localize 'dc20rpg.dialog.rest.activityTip'}}</p>
+    </div>
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.rest.exhaustionDC'}}</label>
+      <div class="form-fields">
         <span class="save-dc">{{rest.longRest.exhSaveDC}}</span>
       </div>
-      <div class="row ignore-symetry activity-wrapper">
-        <span>{{localize "dc20rpg.dialog.rest.activityType"}}</span>
-        <div class="activity-switch" title="{{localize "dc20rpg.dialog.rest.activitySelect"}}">
-          <i class="activity fa-solid fa-person-walking fa-2x {{#unless noActivity}}selected{{/unless}} margin-right-2" title="{{localize "dc20rpg.dialog.rest.lightActivity"}}" data-activity="true"></i>
-          <i class="activity fa-solid fa-bed fa-2x  {{#if noActivity}}selected{{/if}} margin-left-2" title="{{localize "dc20rpg.dialog.rest.noActivity"}}" data-activity="false"></i>
-        </div>
-      </div>
-      {{/ifCond}}
+      <p class="hint">{{localize 'dc20rpg.dialog.rest.exhaustionTip'}}</p>
     </div>
-  </div>
+    {{/ifCond}}
 
-  {{#ifCond selectedRestType '===' 'long'}}
-    {{#if rest.longRest.half}}
-    <div class="button-wrapper">
-      <button class="button reset-rest margin-top-5">{{localize "dc20rpg.dialog.rest.reset"}}</button>
-      <button class="button finish-rest margin-top-5">{{varLocalize 'dc20rpg.dialog.rest.finish.' selectedRestType ''}}</button>
-    </div>
-    {{else}}
-    <button class="button finish-rest margin-top-5">{{localize "dc20rpg.dialog.rest.1stHalf"}}</button>
+    <footer class="form-footer margin-top-5">
+    {{#if resetButton}}
+      <button data-action="resetRest"><i class="fa-solid fa-solid fa-rotate-right fa-lg fa-flip-vertical margin-right-5"></i>{{localize 'dc20rpg.dialog.rest.reset'}}</button>
     {{/if}}
-  {{else}}
-  <button class="button finish-rest margin-top-5">{{varLocalize 'dc20rpg.dialog.rest.finish.' selectedRestType ''}}</button>
-  {{/ifCond}}
+    {{#if halfButton}}
+      <button data-action="finishRest"><i class="fa-solid fa-campground fa-lg margin-right-5"></i>{{localize 'dc20rpg.dialog.rest.1stHalf'}}</button>
+    {{else}}
+      <button data-action="finishRest"><i class="fa-solid fa-campground fa-lg margin-right-5"></i>{{localize (concat 'dc20rpg.dialog.rest.finish.' selectedRestType '')}}</button> 
+    {{/if}}
+    </footer>
+  </fieldset>
 </form>

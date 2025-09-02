@@ -223,80 +223,17 @@
 
 #rest-dialog {
 
-  .separated-values {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    font-size: 32px;
-    font-weight: bold;
-    text-shadow: -2px 0 $primary-darker, 0 2px $primary-darker, 2px 0 $primary-darker, 0 -2px $primary-darker;
-    color: $secondary-lighter;
-    
-    .value {
-      flex: 1; 
-      text-align: center; 
-      white-space: nowrap; 
-    }
-    
-    .separator {
-      margin: 0 5px;
+  .spend-rest-points {
+
+    span {
+      font-size: 20px;
+      justify-content: center;
     }
   }
 
-  .exhaustion-wrapper {
-    margin: 0 5px;
-    margin-top: 8px;
-
-    span {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .save-dc {
-      padding: 6px 10px;
-      border-radius: 3px;
-      border: 2px solid $primary-darker;
-      background-color: $secondary-lighter;
-      font-size: 16px;
-      color: $primary-darker;
-    }
-  }
-
-  .activity-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 5px;
-    margin-top: 5px;
-
-    .activity-switch {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-  
-      .activity {
-        width: 45px;
-        height: 40px;
-        padding: 4px;
-
-        justify-content: center;
-        display: flex;
-
-        border: 2px solid $secondary-lighter;
-        border-radius: 3px;
-  
-        &.selected {
-          background-color: $secondary-lighter;
-          border: 2px solid $primary-darker;
-          color: $secondary-color;
-          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-        }
-      }
-    }
-
-    span {
-      font-size: 14px;
-    }
+  .save-dc {
+    font-family: $font-header;
+    font-size: 24px;
   }
 }
 

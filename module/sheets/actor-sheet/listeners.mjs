@@ -1,5 +1,5 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
-import { createRestDialog, rechargeItem } from "../../dialogs/rest.mjs";
+import { createRestDialog } from "../../dialogs/rest.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement, splitItem } from "../../helpers/actors/itemsOnActor.mjs";
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
@@ -43,7 +43,7 @@ export function activateCommonLinsters(html, actor) {
     await changeNumericValue(valueOf(ev), "system.costs.charges.current", item, {upperLimit: max, lowerLimit: 0});
     actor.sheet.render();
   });
-  html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
+  html.find('.recharge-item').click(ev => getItemFromActor(datasetOf(ev).itemId, actor).use.regainCharges());
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
   html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) prepareHelpAction(actor)});
   html.find('.help-dice').mousedown(async ev => {

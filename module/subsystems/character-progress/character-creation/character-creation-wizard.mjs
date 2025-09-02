@@ -6,7 +6,6 @@ import { createItemBrowser } from "../../../dialogs/compendium-browser/item-brow
 import { createMixAncestryDialog } from "../../../dialogs/mix-ancestry.mjs";
 import { hideTooltip, itemTooltip } from "../../../helpers/tooltip.mjs";
 import { openItemCreator } from "../../../dialogs/item-creator.mjs";
-import { refreshAllResources } from "../../../dialogs/rest.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -310,7 +309,7 @@ export class CharacterCreationWizard extends Dialog {
     }
 
     // Refresh actor resources
-    refreshAllResources(actor);
+    actor.resources.iterate().forEach(resource => resource.regain("max"));
 
     this.close();
     await game.settings.set("dc20rpg", "suppressAdvancements", false);

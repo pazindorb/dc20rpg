@@ -11,7 +11,7 @@ export function createLegenedaryResources(actor) {
     value: 3,
     maxFormula: "3",
     max: 0,
-    reset: "round"
+    reset: "roundEnd"
   }
 
   const bossPoints = {

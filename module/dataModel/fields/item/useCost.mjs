@@ -1,4 +1,5 @@
 import { runTemporaryItemMacro } from "../../../helpers/macros.mjs";
+import { evaluateFormula } from "../../../helpers/rolls.mjs";
 
 export default class UseCostFields extends foundry.data.fields.SchemaField {
   constructor(fields={}, options={}) {
@@ -43,8 +44,9 @@ export function enhanceUseCostObject(item) {
   item.use.hasCharges = !!item.system.costs.charges.max;
   item.use.canRemoveCharge = (amount) => _canRemoveCharge(amount, item);
   item.use.removeCharge = async (amount) => await _removeCharge(amount, item);
-  item.use.useCharge = async () => await _useCharge(item);
+  item.use.useCharges = async () => await _useCharges(item);
   item.use.addCharge = async (amount) => await _addCharge(amount, item);
+  item.use.regainCharges = async (half=false) => await _regainCharges(half, item);
 
   if (item.type === "consumable") {
     item.use.canConsumeQuantity = (amount=1) => _canConsumeQuantity(amount, item);
@@ -92,11 +94,35 @@ async function _addCharge(amount, item) {
   await item.update({["system.costs.charges.current"] : newValue});
 }
 
-async function _useCharge(item) {
+async function _useCharges(item) {
   const amount = item.system.costs.charges.subtract;
   if (_canRemoveCharge(amount, item)) {
     await _removeCharge(amount, item);
   }
+}
+
+async function _regainCharges(half, item) {
+  const charges = item.system.costs.charges;
+  let newValue = charges.max;
+
+  const rollData = await item.getRollData();
+  if (charges.rechargeDice) {
+    const roll = await evaluateFormula(charges.rechargeDice, rollData);
+    const result = roll.total;
+
+    const rechargeOutput = result >= charges.requiredTotalMinimum 
+                                ? game.i18n.localize("dc20rpg.rest.rechargedDescription") 
+                                : game.i18n.localize("dc20rpg.rest.notRechargedDescription")
+    ui.notifications.info(`${item.actor.name} ${rechargeOutput} ${item.name}`);
+    if (result < charges.requiredTotalMinimum) return;
+  }
+  if (charges.overriden) {
+    const roll = await evaluateFormula(charges.rechargeFormula, rollData);
+    newValue = roll.total;
+  }
+
+  if (half) newValue = Math.ceil(newValue/2);
+  await item.update({["system.costs.charges.current"]: Math.min(charges.current + newValue, charges.max)});
 }
 
 //==================================

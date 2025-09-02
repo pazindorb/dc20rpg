@@ -1,6 +1,5 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
-import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { sendSimplePopupToActorOwners } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
@@ -177,7 +176,7 @@ export class DC20RpgCombat extends Combat {
         numberOfPCs++;
         successPCs += this._checkInvidualOutcomes(combatant);
       }
-      refreshOnCombatStart(actor);
+      this._refreshOnCombatStart(actor);
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
     });
@@ -324,6 +323,7 @@ export class DC20RpgCombat extends Combat {
       await this._respectRoundCounterForEffects();
       this._deathsDoorCheck(actor);
       this._sustainCheck(actor);
+      this._refreshOnRoundStart(actor);
       runEventsFor("turnStart", actor);
       reenableEventsOn("turnStart", actor);
       this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
@@ -348,7 +348,7 @@ export class DC20RpgCombat extends Combat {
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
 
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
-    refreshOnRoundEnd(actor);
+    this._refreshOnRoundEnd(actor);
     runEventsFor("turnEnd", actor);
     runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
@@ -383,6 +383,45 @@ export class DC20RpgCombat extends Combat {
       runEventsFor(trigger, actor, filters);
       reenableEventsOn(trigger, actor, filters);
     });
+  }
+
+  async _refreshOnRoundStart(actor) {
+    await this._refreshResources(actor, ["roundStart"]);
+    await this._refreshItems(actor, ["roundStart"]);
+  }
+
+  // TODO: REMOVE "round" in the future - replaced by "roundEnd"
+  async _refreshOnRoundEnd(actor) {
+    await this._refreshResources(actor, ["round", "roundEnd"]);
+    await this._refreshItems(actor, ["round", "roundEnd"]);
+  }
+
+  async _refreshOnCombatStart(actor) {
+    await this._refreshResources(actor, ["round", "roundEnd", "roundStart", "combat"]);
+    await this._refreshItems(actor, ["round", "roundEnd", "roundStart", "combat"]);
+  }
+
+  async _refreshResources(actor, resetTypes) {
+    if (!actor) return;
+    for (const resource of actor.resources.iterate()) {
+      if (resetTypes.includes(resource.reset)) {
+        await resource.regain("max");
+      }
+    }
+  }
+
+  async _refreshItems(actor, resetTypes) {
+    if (!actor) return;
+
+    for (const item of actor.items) {
+      if (!item.system.usable) continue;
+      if (!item.use.hasCharges) continue;
+      
+      const charges = item.system.costs.charges;
+      if (resetTypes.includes(charges.reset)) {
+        await item.use.regainCharges();
+      }
+    }
   }
 
   // =================================

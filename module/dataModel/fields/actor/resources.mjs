@@ -16,6 +16,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 4 }),
         label: new f.StringField({initial: "dc20rpg.resource.ap"}),
+        reset: new f.StringField({initial: "roundEnd"}),
       }),
       custom: new f.ObjectField({required: true}),
       ...fields
@@ -27,20 +28,24 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.stamina"}),
           maxFormula: new f.StringField({ required: true, initial: "@resources.stamina.bonus + @details.class.bonusStamina"}),
+          reset: new f.StringField({initial: "combat"}),
         }),
         mana: new f.SchemaField({
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.mana"}),
           maxFormula: new f.StringField({ required: true, initial: "@resources.mana.bonus + @details.class.bonusMana"}),
+          reset: new f.StringField({initial: "long"}),
         }),
         grit: new f.SchemaField({ 
           ...resource(),
           label: new f.StringField({initial: "dc20rpg.resource.grit"}),
           maxFormula: new f.StringField({ required: true, initial: "2 + @cha + @resources.grit.bonus"}),
+          reset: new f.StringField({initial: "long"}),
         }),
         restPoints: new f.SchemaField({
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.restPoints"}), 
+          reset: new f.StringField({initial: "long4h"}),
         }),
         health: new f.SchemaField({
           ...resource(),
@@ -49,6 +54,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
           temp: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
           useFlat: new f.BooleanField({required: true, initial: false}),
+          reset: new f.StringField({initial: ""}),
         }),
         ...fields
       }
@@ -62,6 +68,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
           temp: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
           useFlat: new f.BooleanField({required: true, initial: true}),
+          reset: new f.StringField({initial: ""}),
         }),
         ...fields
       }
@@ -83,6 +90,7 @@ export function enhanceResourcesObject(actor) {
   actor.resources.createCustomResource = async (data, key) => await _createCustomResource(data, key, actor);
   actor.resources.removeCustomResource = async (key) => await _removeCustomResource(key, actor);
   actor.resources.hasResource = (key) => !!actor.resources[key];
+  actor.resources.iterate = () => _iterateOverResources(actor);
 }
 
 //==================================
@@ -131,6 +139,7 @@ function _enhanceCustomResources(actor) {
 
 async function _regainResource(amount, resource, actor) {
   if (amount === "max") amount = resource.max;
+  if (amount === "half") amount = Math.ceil(resource.max/2);
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -207,4 +216,8 @@ async function _createCustomResource(data={}, key, actor) {
 
 async function _removeCustomResource(key, actor) {
   await actor.update({[`system.resources.custom.-=${key}`]: null });
+}
+
+function _iterateOverResources(actor) {
+  return Object.values(actor.resources).filter(res => res.key);
 }
