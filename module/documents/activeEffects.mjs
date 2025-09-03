@@ -19,6 +19,11 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         useCustom: new fields.BooleanField({required: true, initial: false})
       })),
       system: new fields.SchemaField({
+        sustained: new fields.SchemaField({
+          isSustained: new fields.BooleanField({required: true, initial: false}),
+          actorUuid: new fields.StringField({required: true}),
+          itemId: new fields.StringField({required: true}),
+        }),
         statusId: new fields.StringField({required: true}),
         duration: new fields.SchemaField({
           useCounter: new fields.BooleanField({required: true, initial: false}),
@@ -217,7 +222,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         this.update(this.constructor.getInitialDuration());
       }
       runInstantEvents(this, this.parent);
+      this._shouldAddToSustainList(data.system.sustained);
     }
+  }
+
+  async _shouldAddToSustainList(sustained) {
+    if (!sustained.isSustained) return;
+    const actor = await fromUuid(sustained.actorUuid);
+    if (actor) actor.addEffectToSustain(sustained.itemId, this.uuid);
   }
 
   _runStatusChangeCheck(updateData) {

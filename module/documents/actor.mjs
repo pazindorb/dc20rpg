@@ -1,3 +1,4 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { enhanceResourcesObject } from "../dataModel/fields/actor/resources.mjs";
 import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
@@ -6,6 +7,7 @@ import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
+import { deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
@@ -708,5 +710,57 @@ export class DC20RpgActor extends Actor {
       if (!filter(item)) return false;
     }
     return true;
+  }
+
+  //======================================
+  //=               SUSTAIN              =
+  //======================================
+  shouldSustain(item) {
+    if (item.system.duration.type !== "sustain") return false;
+
+    const activeCombat = game.combats.active;
+    const notInCombat = !(activeCombat && activeCombat.started && this.inCombat);
+    if (notInCombat) return false;
+    return true;
+  }
+
+  async addSustain(item) {
+    await this.update({[`system.sustain.${item.id}`]: {
+      name: item.name,
+      img: item.img,
+      itemId: item.id,
+      description: item.system.description,
+      linkedEffects: []
+    }});
+  }
+
+  async addEffectToSustain(key, effectUuid) {
+    const sustain = this.system.sustain[key];
+    if (!sustain) return;
+    const linkedEffects = sustain.linkedEffects;
+    linkedEffects.push(effectUuid);
+    await this.gmUpdate({[`system.sustain.${key}.linkedEffects`]: linkedEffects});
+  }
+
+  async dropSustain(key, message) {
+    const sustain = this.system.sustain[key];
+    if (!sustain) return;
+
+    for (const effectUuid of sustain.linkedEffects) {
+      const effect = await fromUuid(effectUuid);
+      if (!effect) continue;
+      const owner = effect.getOwningActor();
+      if (!owner) continue;
+      deleteEffectFrom(effect.id, owner);
+    }
+    await this.update({[`system.sustain.-=${key}`]: null});
+
+    if (message) {
+      sendDescriptionToChat(this, {
+        rollTitle: `[Sustain dropped] ${sustain.name}`,
+        image: sustain.img,
+        description: `You are no longer sustaining '${sustain.name}' - ${message}`,
+      });
+    }
   }
 }

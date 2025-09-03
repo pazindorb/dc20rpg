@@ -579,34 +579,17 @@ export class DC20RpgCombat extends Combat {
   }
 
   async _sustainCheck(actor) {
-    const currentSustain = actor.system.sustain;
-    let sustained = [];
-    for (const sustain of currentSustain) {
+    for (const [key, sustain] of Object.entries(actor.system.sustain)) {
       const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
       const confirmed = await sendSimplePopupToActorOwners(actor, "confirm", {header: message});
 
       if (confirmed) {
         const subtracted = actor.resources.ap.checkAndSpend(1);
-        if (subtracted) sustained.push(sustain);
-        else {
-          sendDescriptionToChat(actor, {
-            rollTitle: `${sustain.name} - Sustain dropped`,
-            image: sustain.img,
-            description: `You are no longer sustaining '${sustain.name}' - Not enough AP to sustain`,
-          });
-        }
+        if (!subtracted) actor.dropSustain(key, "Not enough AP to sustain.");
       }
       else {
-        sendDescriptionToChat(actor, {
-          rollTitle: `${sustain.name} - Sustain dropped`,
-          image: sustain.img,
-          description: `You are no longer sustaining '${sustain.name}'`,
-        });
+        actor.dropSustain(key, "You decided not to sustain it anymore.");
       }
-    }
-
-    if (sustained.length !== currentSustain.length) {
-      await actor.update({[`system.sustain`]: sustained});
     }
   }
 }

@@ -586,6 +586,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     areas: item.system.target?.areas,
     againstStatuses: _prepareAgainstStatuses(item),
     rollRequests: _prepareRollRequests(item),
+    sustain: actor.shouldSustain(item),
     applicableEffects: _prepareEffectsFromItems(item, item.system.effectsConfig?.addToChat) // addToChat left for BACKWARD COMPATIBILITY - remove in the future
   };
 
@@ -722,7 +723,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
     if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
-  _addSpellToSustain(item, actor);
+  if (actor.shouldSustain(item)) actor.addSustain(item);
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   rollMenu.clear();
   resetEnhancements(item, actor, true);
@@ -830,21 +831,4 @@ async function _runEnancementsMacro(item, macroKey, actor, additionalFields) {
       await runTemporaryMacro(command, item, {item: item, actor: actor, enh: enh, enhKey: enhKey, ...additionalFields})
     }
   }
-}
-
-async function _addSpellToSustain(item, actor) {
-  if (item.system.duration.type !== "sustain") return;
-
-  const activeCombat = game.combats.active;
-  const notInCombat = !(activeCombat && activeCombat.started && actor.inCombat);
-  if (notInCombat) return;
-
-  const currentSustain = actor.system.sustain;
-  currentSustain.push({
-    name: item.name,
-    img: item.img,
-    itemId: item.id,
-    description: item.system.description
-  })
-  await actor.update({[`system.sustain`]: currentSustain});
 }

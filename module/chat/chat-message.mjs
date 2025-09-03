@@ -355,6 +355,7 @@ export class DC20ChatMessage extends ChatMessage {
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
     effectData.flags.dc20rpg.applierId = this.speaker.actor;
+    if (this.system.sustain) this._linkWithSustain(effectData, rollingActor);
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
@@ -379,6 +380,7 @@ export class DC20ChatMessage extends ChatMessage {
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
         injectFormula(effectData, rollingActor);
         effectData.flags.dc20rpg.applierId = this.speaker.actor;
+        if (this.system.sustain) this._linkWithSustain(effectData, rollingActor);
         createEffectOn(effectData, actor);
       }
     });
@@ -412,6 +414,14 @@ export class DC20ChatMessage extends ChatMessage {
       if (changeValue.includes("#SPEAKER_ID#")) {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
+    }
+  }
+
+  _linkWithSustain(effect, rollingActor) {
+    effect.system.sustained = {
+      itemId: this.system.itemId,
+      actorUuid: rollingActor.uuid,
+      isSustained: true
     }
   }
 

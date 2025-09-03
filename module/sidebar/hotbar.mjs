@@ -544,21 +544,16 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   async _onDropSustain(event, target) {
-    let index = target.dataset.index;
+    const key = target.dataset.key;
     const owner = getActorFromIds(this.actorId, this.tokenId);
-    if (!owner || index === undefined) return;
+    if (!owner || key === undefined) return;
 
-    index = parseInt(index);
-    const sustain = owner.system.sustain;
-    if (!sustain[index]) return;
+    const sustain = owner.system.sustain[key];
+    if (!sustain) return;
 
     const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Sustain Action?"});
     if (confirmed) {
-      const sustained = [];
-      for (let i = 0; i < sustain.length; i++) {
-        if (index !== i) sustained.push(sustain[i]); 
-      }
-      owner.update({[`system.sustain`]: sustained});
+      await owner.dropSustain(key);
     }
   }
 

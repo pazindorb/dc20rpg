@@ -77,8 +77,8 @@
 
     <div class="special-action-wrapper">
       <div class="sustain-wrapper">
-        {{#each sustain as |value index|}}
-        <img src="{{value.img}}" class="sustain-action" data-action="dropSustain" data-index={{index}} data-tooltip="{{value.name}}{{localize "dc20rpg.sheet.sustainAction.title"}}"/>
+        {{#each sustain as |value key|}}
+        <img src="{{value.img}}" class="sustain-action" data-action="dropSustain" data-key={{key}} data-tooltip="{{value.name}}{{localize "dc20rpg.sheet.sustainAction.title"}}"/>
         {{/each}}
       </div>
 
