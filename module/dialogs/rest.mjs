@@ -40,7 +40,7 @@ export class RestDialog extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Rest";
     initialized.window.icon = "fa-solid fa-campground";
-    initialized.position.width = 420;
+    initialized.position.width = 450;
 
     initialized.actions.rpSpend = this._onRpSpend;
     initialized.actions.activity = this._onSwitchActivity;
@@ -144,7 +144,8 @@ export class RestDialog extends DC20Dialog {
   async _refreshResources(resetTypes) {
     for (const resource of this.actor.resources.iterate()) {
       if (resetTypes.includes(resource.reset)) {
-        const regainType = resource.reset === "halfOnShort" && !resetTypes.includes("long") ? "half" : "max";
+        let regainType = resource.reset === "halfOnShort" && !resetTypes.includes("long") ? "half" : "max";
+        if (resource.key === "restPoints" && regainType === "max") regainType = "formula";
         const oldValue = resource.value;
         await resource.regain(regainType);
         const newValue = this.actor.resources[resource.key].value;
@@ -168,9 +169,10 @@ export class RestDialog extends DC20Dialog {
 
   async _respectActivity() {
     if (this.noActivity) {
+      await this.actor.update({["system.rest.longRest.noActivity"]: true});
+      if (!this.actor.hasStatus("exhaustion")) return;
       this.history.exhaustion++;
       await this.actor.toggleStatusEffect("exhaustion", { active: false });
-      await this.actor.update({["system.rest.longRest.noActivity"]: true});
     }
   }
 

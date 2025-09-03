@@ -1,3 +1,4 @@
+import { evaluateFormula } from "../../../helpers/rolls.mjs";
 import { generateKey, getValueFromPath } from "../../../helpers/utils.mjs";
 
 export default class ResourceFields extends foundry.data.fields.SchemaField {
@@ -46,6 +47,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.restPoints"}), 
           reset: new f.StringField({initial: "long4h"}),
+          regenerationFormula: new f.StringField({initial: "@resources.health.max"}), 
         }),
         health: new f.SchemaField({
           ...resource(),
@@ -138,6 +140,7 @@ function _enhanceCustomResources(actor) {
 }
 
 async function _regainResource(amount, resource, actor) {
+  if (amount === "formula") amount = await _fromRegenerationFormula(resource, actor);
   if (amount === "max") amount = resource.max;
   if (amount === "half") amount = Math.ceil(resource.max/2);
   amount = parseInt(amount);
@@ -149,6 +152,14 @@ async function _regainResource(amount, resource, actor) {
   const max = resource.max;
   const newAmount = Math.min(current + amount, max);
   await actor.update({[`system.resources.${resource.fullKey}.value`] : newAmount});
+}
+
+async function _fromRegenerationFormula(resource, actor) {
+  const formula = resource.regenerationFormula;
+  if (!formula) return resource.max;
+  const rollData = await actor.getRollData();
+  const roll = await evaluateFormula(formula, rollData, true);
+  return roll.total;
 }
 
 async function _spendResource(amount, resource, actor, allowNegatives=false) {
