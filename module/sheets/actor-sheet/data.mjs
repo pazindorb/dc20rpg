@@ -30,7 +30,7 @@ export function prepareCommonData(context) {
 
 export function prepareCharacterData(context) {
   _skills(context);
-  _tradeSkills(context);
+  _trades(context);
   _languages(context);
 }
 
@@ -193,10 +193,10 @@ function _skills(context) {
   }
 }
 
-function _tradeSkills(context) {
-  const trade = Object.entries(context.system.tradeSkills)
+function _trades(context) {
+  const trades = Object.entries(context.system.trades)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
-  context.skills.trade = Object.fromEntries(trade);
+  context.skills.trades = Object.fromEntries(trades);
 }
 
 function _languages(context) {

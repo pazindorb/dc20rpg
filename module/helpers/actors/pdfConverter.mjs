@@ -286,7 +286,7 @@ function _setSkills(form, actor) {
 
   const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
   const skillEntries = Object.entries(actor.system.skills);
-  const tradeEntries = Object.entries(actor.system.tradeSkills);
+  const tradeEntries = Object.entries(actor.system.trades);
 
   // Prepare Trades Masteries
   let tradesCounter = 0;

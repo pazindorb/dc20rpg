@@ -3188,13 +3188,12 @@
   width: -webkit-fill-available;
 }
 .dc20rpg #skill-config {
-  max-height: 650px;
+  max-height: 750px;
 }
-.dc20rpg #skill-config .box-header {
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  font-weight: bold;
+.dc20rpg #skill-config .remove-skill {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
 }
 .dc20rpg #simple-popup .info-wrapper {
   font-size: 14px;
@@ -4025,6 +4024,15 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+.dc20rpg .dialog-v13 .multi-select-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 .dc20rpg .dialog-v13 .activable-box {
   font-family: "Humaroid";

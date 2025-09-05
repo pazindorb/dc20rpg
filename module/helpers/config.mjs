@@ -126,9 +126,9 @@ export function initDC20Config() {
   const skills = {};
   Object.entries(skillStore.skills).forEach(([key, skill]) => skills[key] = CONFIG.DC20RPG.skills[key] || skill.label);
   CONFIG.DC20RPG.skills = skills;
-  const tradeSkills = {};
-  Object.entries(skillStore.trades).forEach(([key, skill]) => tradeSkills[key] = CONFIG.DC20RPG.tradeSkills[key] || skill.label);
-  CONFIG.DC20RPG.tradeSkills = tradeSkills;
+  const trades = {};
+  Object.entries(skillStore.trades).forEach(([key, skill]) => trades[key] = CONFIG.DC20RPG.trades[key] || skill.label);
+  CONFIG.DC20RPG.trades = trades;
   const languages = {};
   Object.entries(skillStore.languages).forEach(([key, skill]) => languages[key] = CONFIG.DC20RPG.languages[key] || skill.label);
   CONFIG.DC20RPG.languages = languages;
@@ -165,7 +165,7 @@ export function initDC20Config() {
 
   // Prepare Trade Skill Checks
   const tradeChecks = {};
-  Object.entries(CONFIG.DC20RPG.tradeSkills).forEach(([key, label]) => {
+  Object.entries(CONFIG.DC20RPG.trades).forEach(([key, label]) => {
     tradeChecks[key] = `${label} Check`;
   });
   CONFIG.DC20RPG.ROLL_KEYS.tradeChecks = tradeChecks;
@@ -284,7 +284,7 @@ DC20RPG.skills = {
   inf: "Influence",
 }
 
-DC20RPG.tradeSkills = {
+DC20RPG.trades = {
   alc: "Alchemy",
   arc: "Arcana",
   bla: "Blacksmithing",
@@ -387,7 +387,8 @@ DC20RPG.DROPDOWN_DATA.shortAttributes = {
   agi: "AGI",
   int: "INT",
   cha: "CHA",
-  prime: "PRI"
+  prime: "PRI",
+  max: "MAX"
 }
 
 DC20RPG.DROPDOWN_DATA.dcCalculationTypes = {
@@ -1074,7 +1075,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal = {
   inf: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2988a8b8837f8347",
 }
 
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradeSkillsJournal = {
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradesJournal = {
   ill: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.44af238d059dc591",
   mus: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2c03a393671adfab",
   the: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.80d0246ffad3fc76",

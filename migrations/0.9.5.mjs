@@ -33,7 +33,7 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
-    await actor.refreshSkills();
+    await actor.skillAndLanguage.refreshAll();
   }
 
   // Iterate over tokens
@@ -50,7 +50,7 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
-    await actor.refreshSkills();
+    await actor.skillAndLanguage.refreshAll();
   }
 
   // Iterate over compendium actors
@@ -67,7 +67,7 @@ async function _migrateActors(migrateModules) {
         await _updateActorClass(actor);
         await _updateConditionResistances(actor);
         await _updateDamageReduction(actor);
-        await actor.refreshSkills();
+        await actor.skillAndLanguage.refreshAll();
       }
     }
   }

@@ -436,7 +436,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
 
     "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
-    "system.rollLevel.onYou.tradeSkills": "Roll Level with Trade Check",
+    "system.rollLevel.onYou.trades": "Roll Level with Trade Check",
 
     "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
@@ -457,7 +457,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
 
     "system.rollLevel.againstYou.skills": "Against You: Roll Level with Skill Check",
-    "system.rollLevel.againstYou.tradeSkills": "Against You: Roll Level with Trade Check",
+    "system.rollLevel.againstYou.trades": "Against You: Roll Level with Trade Check",
 
     "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
     "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
@@ -510,8 +510,8 @@ function _skillBonuses() {
   Object.entries(CONFIG.DC20RPG.skills)
     .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} - Skill Check Bonus`);
 
-  Object.entries(CONFIG.DC20RPG.tradeSkills)
-    .forEach(([key, skillLabel]) => skills[`system.tradeSkills.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
+  Object.entries(CONFIG.DC20RPG.trades)
+    .forEach(([key, skillLabel]) => skills[`system.trades.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
 
   return skills;
 }

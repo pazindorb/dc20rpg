@@ -293,22 +293,3 @@ export function registerGameSettings(settings) {
     type: String
   });
 }
-
-function _getInitiativeSkills() {
-  const skillStore = game.settings.get("dc20rpg", "skillStore");
-  const skills = {}
-  for (const [key, skill] of Object.entries(skillStore.skills)) {
-    skills[key] = skill.label
-  }
-  return {
-    "flat": "Flat",
-    "att": "Attack",
-    "spe": "Spell",
-    "prime": "Prime",
-    "mig": "Might",
-    "agi": "Agility",
-    "cha": "Charisma",
-    "int": "Inteligence",
-    ...skills
-  }
-}

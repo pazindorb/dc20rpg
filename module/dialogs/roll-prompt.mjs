@@ -395,6 +395,8 @@ export class RollPromptDialog extends Dialog {
 
   /** @override */
   close(options) {
+    // this.actor.rollMenu.clear() TODO: Clear rollMenu when window closes?
+
     if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);
   }

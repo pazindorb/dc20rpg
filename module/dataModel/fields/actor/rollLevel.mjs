@@ -28,7 +28,7 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
         deathSave: new f.ArrayField(new f.StringField(), {required: true}),
         initiative: new f.ArrayField(new f.StringField(), {required: true}),
         skills: new f.ArrayField(new f.StringField(), {required: true}),
-        tradeSkills: new f.ArrayField(new f.StringField(), {required: true}),
+        trades: new f.ArrayField(new f.StringField(), {required: true}),
       }),
       againstYou: new f.SchemaField({
         martial: new f.SchemaField({
@@ -54,10 +54,17 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
           cha: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         skills: new f.ArrayField(new f.StringField(), {required: true}),
-        tradeSkills: new f.ArrayField(new f.StringField(), {required: true}),
+        trades: new f.ArrayField(new f.StringField(), {required: true}),
         ...fields
       }),
     };
     super(fields, options);
   }
+}
+
+export function prepareDiceRollLevel(rollLevel=0) {
+  if (rollLevel === 0) return "d20";
+  const value = Math.abs(rollLevel) + 1;
+  const type = rollLevel > 0 ? "kh" : "kl";
+  return `${value}d20${type}`;
 }

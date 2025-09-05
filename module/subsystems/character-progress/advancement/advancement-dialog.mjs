@@ -212,7 +212,7 @@ export class ActorAdvancement extends Dialog {
   _prepareSkills() {
     // Go over skills and mark ones that reach max mastery level
     const skills = this.actor.system.skills;
-    const trades = this.actor.system.tradeSkills;
+    const trades = this.actor.system.trades;
     const languages = this.actor.system.languages;
     const attributes = this.actor.system.attributes;
 
@@ -235,7 +235,7 @@ export class ActorAdvancement extends Dialog {
 
     return {
       skills: skills,
-      tradeSkills: trades,
+      trades: trades,
       languages: languages,
       attributes: attributes,
     }

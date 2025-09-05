@@ -9542,7 +9542,7 @@
         "quickRoll": false,
         "macros": {
           "KjSNCfqQBF81Ox3F": {
-            "command": "if (!triggeringItem) return;\n\nconst rollMenu = triggeringItem.flags.dc20rpg?.rollMenu;\nif (!rollMenu?.flanks) return;\n\nif (triggeringItem.system.attackFormula) {\n  triggeringItem.system.attackFormula.rollBonus += 2;\n  item.callReset = true;\n}",
+            "command": "if (!triggeringItem) return;\n\nconst rollMenu = triggeringItem.system.rollMenu;\nif (!rollMenu?.flanks) return;\n\nif (triggeringItem.system.attackFormula) {\n  actor.system.globalFormulaModifiers.attackCheck.push('\"value\": \"+ 2\", \"source\": \"Pack Tactics\"');\n  actor.system.globalFormulaModifiers.attackDamage.martial.ranged.push('\"value\": \"+ 2\", \"source\": \"Pack Tactics\"');\n  actor.system.globalFormulaModifiers.attackDamage.martial.melee.push('\"value\": \"+ 2\", \"source\": \"Pack Tactics\"');\n  item.callReset = true;\n}",
             "trigger": "preItemRoll",
             "disabled": false,
             "name": "Pack Tactics",
@@ -9550,7 +9550,7 @@
             "global": true
           },
           "r7OmqZnZ9ScncPFM": {
-            "command": "if (item.callReset) {\n  item.callReset = false;\n  if (triggeringItem) triggeringItem.reset();\n}",
+            "command": "if (item.callReset) {\n  item.callReset = false;\n  actor.reset();\n}",
             "trigger": "postChatMessageCreated",
             "disabled": false,
             "name": "Reset Pack Tactics",
@@ -9640,10 +9640,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.346",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.7.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.9.8.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1755527612306
       },
       "sort": 150000,
       "_id": "WLtKr8g9LjsFtCbk",

@@ -99,7 +99,7 @@ function _allSkills(data, actor) {
 		allSkills[key] = skill.modifier;
 	}
 	if (actor.type === "character") {
-		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
+		for (let [key, skill] of Object.entries(actor.system.trades)) {
 			allSkills[key] = skill.modifier;
 		}
 	}

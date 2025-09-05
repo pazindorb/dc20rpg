@@ -61,6 +61,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
       case "numeric": this._onChangeNumeric(path, value, false, dataset); break;
       case "numeric-nullable": this._onChangeNumeric(path, value, true, dataset); break;
       case "boolean" : this._onChangeBoolean(path, dataset); break;
+      case "multi-select": this._onMultiSelectChange(path, value, dataset); break;
     }
   }
 
@@ -68,10 +69,12 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const target = event.target;
     const dataset = target.dataset;
     const cType = dataset.ctype;
+    const value = dataset.value;
     const path = dataset.path;
 
     switch (cType) {
       case "activable": this._onActivable(path, dataset); break;
+      case "remove-option": this._onRemoveOption(path, value, dataset); break;
     }
   }
 
@@ -107,6 +110,22 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
   _onChangeBoolean(path, dataset) {
     const value = getValueFromPath(this, path);
     setValueForPath(this, path, !value);
+    this.render();
+  }
+
+  _onMultiSelectChange(path, value, dataset) {
+    if (!value) return;
+    const array = getValueFromPath(this, path);
+    if (array.indexOf(value) !== -1) return;
+    array.push(value);
+    this.render();
+  }
+
+  _onRemoveOption(path, value, dataset) {
+    const array = getValueFromPath(this, path);
+    const index = array.indexOf(value);
+    if (index === -1) return;
+    array.splice(index, 1);
     this.render();
   }
 

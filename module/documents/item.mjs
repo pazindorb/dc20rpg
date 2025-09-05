@@ -317,7 +317,7 @@ export class DC20RpgItem extends Item {
     };
     const charges = {
       subtract: null,
-      consume: false, // TODO backward compatibilty remove as part of 0.11.0 update
+      consume: false, // TODO backward compatibilty remove as part of 0.10.0 update
       fromOriginal: false
     };
     const modifications = {

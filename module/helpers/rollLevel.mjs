@@ -142,7 +142,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
     case "skillCheck":
       let category = "";
       if (actor.system.skills[check.checkKey]) category = "skills";
-      if (actor.type === "character" && actor.system.tradeSkills[check.checkKey]) category = "tradeSkills";
+      if (actor.type === "character" && actor.system.trades[check.checkKey]) category = "trades";
       rollLevelPath = _getCheckPath(check.checkKey, actor, category, actorAskingForCheck);
       
       // Run check for specific skill not just attribute

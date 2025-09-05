@@ -5,6 +5,12 @@ export async function runMigration(migrateModules) {
 
 // ACTOR
 async function _migrateActors(migrateModules) {
+  // TODO migracja przenosząca mastery z tradeSkills do trades 
+  // + effekty trzeba zupdatować takie co zwiększały coś z tradeSkills bo teraz jest tradees
+  //  - system.rollLevel.onYou.trades
+  //  - system.rollLevel.againstYou.trades
+  //  - skills[`system.trades.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
+  
   // Iterate over actors
   for (const actor of game.actors) {
     await _updateActorItems(actor);

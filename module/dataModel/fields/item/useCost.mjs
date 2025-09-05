@@ -8,7 +8,7 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
 
     fields = {
       resources: new f.SchemaField({
-        actionPoint: new f.NumberField(initNull), // TODO backward compatibilty remove as part of 0.11.0 update
+        actionPoint: new f.NumberField(initNull), // TODO backward compatibilty remove as part of 0.10.0 update
         ap: new f.NumberField(initNull),
         stamina: new f.NumberField(initNull),
         mana: new f.NumberField(initNull),
@@ -29,7 +29,7 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         showAsResource: new f.BooleanField({required: true, initial: false}),
         subtract: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       }),
-      // TODO backward compatibilty remove as part of 0.11.0 update
+      // TODO backward compatibilty remove as part of 0.10.0 update
       otherItem: new f.SchemaField({
         itemId: new f.StringField({required: true, initial: ""}),
         amountConsumed: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
@@ -193,7 +193,7 @@ function _collectUseCost(item, clean=false) {
       _addToResources(cost, key, value * enhancement.number, actor);
     }
     // Collect charges
-    // TODO backward compatibilty remove as part of 0.11.0 update
+    // TODO backward compatibilty remove as part of 0.10.0 update
     if (enhancement.charges?.consume && enhancement.charges.subtract === undefined) {
       enhancement.charges.subtract = 1;
     } 
@@ -216,7 +216,7 @@ function _collectUseCost(item, clean=false) {
 }
 
 function _addToResources(cost, key, value, actor) {
-  if (key === "actionPoint") key = "ap"; //TODO backward compatibilty remove as part of 0.11.0 update
+  if (key === "actionPoint") key = "ap"; //TODO backward compatibilty remove as part of 0.10.0 update
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
       _addToResources(cost, customKey, customRes.value, actor);
@@ -520,7 +520,7 @@ function _collectEnhancementCost(item, enhKey) {
   for (let [key, value] of Object.entries(enhancement.resources)) {
     _addToResources(cost, key, value, actor);
   }
-  // TODO backward compatibilty remove as part of 0.11.0 update
+  // TODO backward compatibilty remove as part of 0.10.0 update
   if (enhancement.charges?.consume && enhancement.charges.subtract === undefined) {
     enhancement.charges.subtract = 1;
   } 

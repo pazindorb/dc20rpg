@@ -161,7 +161,8 @@ export class DC20CharacterData extends DC20BaseActorData {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
       }),
-      tradeSkills: new SkillFields("trade"),
+      tradeSkills: new SkillFields("trade"), // TODO backward compatibilty remove as part of 0.10.0 update
+      trades: new SkillFields("trade"),
       details: new f.SchemaField({
         ancestry: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
         background: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
