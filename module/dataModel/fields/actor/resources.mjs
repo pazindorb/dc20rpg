@@ -146,7 +146,7 @@ async function _regainResource(amount, resource, actor) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
-  if (!resource.isCustom) actor = actor.companionShareCheck(resource.key); // Key or full key? not important for now as we can only share health
+  if (!resource.isCustom) actor = actor.companionShareFor(resource.key); // Key or full key? not important for now as we can only share health
   
   const current = resource.value;
   const max = resource.max;
@@ -167,7 +167,7 @@ async function _spendResource(amount, resource, actor, allowNegatives=false) {
   amount = parseInt(amount);
   if (amount === 0) return;
 
-  if (!resource.isCustom) actor = actor.companionShareCheck(resource.key);
+  if (!resource.isCustom) actor = actor.companionShareFor(resource.key);
   
   const current = resource.value;
   let newAmount = current - amount;
@@ -180,7 +180,7 @@ function _canSpendResource(amount, resource, actor) {
   amount = parseInt(amount);
   if (amount <= 0) return true;
 
-  if (!resource.isCustom) actor = actor.companionShareCheck(resource.key);
+  if (!resource.isCustom) actor = actor.companionShareFor(resource.key);
 
   const current = resource.value;
   const newAmount = current - amount;

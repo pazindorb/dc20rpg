@@ -817,7 +817,7 @@
                 <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-                      <a class="skill-mastery-toggle" data-type="skills" data-key="{{key}}">{{skill.short}}</a>
+                      <a class="mastery-toggle" data-type="skills" data-key="{{key}}">{{skill.short}}</a>
                     </div>
                   </div>
                   <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
@@ -841,7 +841,7 @@
                 <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{lang.masteryLabel}}">
-                      <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{lang.short}}</a>
+                      <a class="mastery-toggle" data-type="languages" data-key="{{key}}">{{lang.short}}</a>
                     </div>
                   </div>
                   <input class="name" type="text" name="system.languages.{{key}}.label" value="{{lang.label}}" title="{{lang.label}}">

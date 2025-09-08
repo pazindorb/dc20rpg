@@ -118,12 +118,15 @@ export class DC20RpgActor extends Actor {
     return false;
   }
 
-  companionShareCheck(key) {
-    if (this.type === "companion" && this.companionOwner) {
-      const shouldShare = getValueFromPath(this, `system.shareWithCompanionOwner.${key}`);
-      if (shouldShare) return this.companionOwner;
-    }
+  companionShareFor(key) {
+    if (this.shouldShareWithOwner(key)) return this.companionOwner;
     return this;
+  }
+
+  shouldShareWithOwner(key) {
+    if (this.type !== "companion") return false;
+    if (!this.companionOwner) return false;
+    return getValueFromPath(this, `system.shareWithCompanionOwner.${key}`);
   }
 
   /** @override */
@@ -314,12 +317,26 @@ export class DC20RpgActor extends Actor {
     this.overrides = foundry.utils.expandObject(overrides);
   }
 
+  //=====================================
+  //=         ROLL FROM ACTOR           =
+  //=====================================
   /** @override */
   getRollData(activeEffectCalls) { 
-    // We want to operate on copy of original data because we are making some changes to it
     const data = {...super.getRollData()}
     if (activeEffectCalls) return prepareRollDataForEffectCall(this, data);
     return prepareRollData(this, data);
+  }
+
+  prepareRollDetails(key, type, options) {
+    // TODO
+  }
+
+  async rollCheck() {
+    // TODO
+  }
+
+  async rollSave() {
+    // TODO
   }
 
   getCheckOptions(attack, attributes, skills, trades) {

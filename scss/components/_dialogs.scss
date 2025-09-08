@@ -598,7 +598,7 @@
               font-size: 22px;
             }
 
-            .expertise-toggle, .skill-mastery-toggle {
+            .expertise-toggle, .mastery-toggle {
               font-family: $dc20-font;
 
               &.expert {
@@ -1651,11 +1651,10 @@
 }
 
 #skill-config {
-  max-height: 650px;
-
-  .box-header {
-    justify-content: space-between;
-    font-weight: bold;
+  max-height: 750px;
+  
+  .remove-skill {
+    flex: 0;
   }
 }
 
@@ -2447,6 +2446,11 @@
       justify-content: end;
       display: flex;
     }
+  }
+
+  .multi-select-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
   .activable-box {

@@ -2,7 +2,7 @@
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
-import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, manualSkillExpertiseToggle, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
+import { convertSkillPoints, manipulateAttribute } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
@@ -210,33 +210,16 @@ export class ActorAdvancement extends Dialog {
   }
 
   _prepareSkills() {
-    // Go over skills and mark ones that reach max mastery level
-    const skills = this.actor.system.skills;
-    const trades = this.actor.system.trades;
-    const languages = this.actor.system.languages;
     const attributes = this.actor.system.attributes;
-
-    for (const [key, skill] of Object.entries(skills)) {
-      skill.masteryLimit = getSkillMasteryLimit(this.actor, key);
-      skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
-    }
-    for (const [key, trade] of Object.entries(trades)) {
-      trade.masteryLimit = getSkillMasteryLimit(this.actor, key);
-      trade.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[trade.mastery];
-    }
-    for (const [key, lang] of Object.entries(languages)) {
-      lang.masteryLimit = 2;
-      lang.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[lang.mastery];
-    }
     const maxPrime = 3 + Math.floor(this.actor.system.details.level/5);
     for (const [key, attr] of Object.entries(attributes)) {
       attr.maxPrime = maxPrime === attr.value;
     }
 
     return {
-      skills: skills,
-      trades: trades,
-      languages: languages,
+      skills: this.actor.system.skills,
+      trades: this.actor.system.trades,
+      languages: this.actor.system.languages,
       attributes: attributes,
     }
   }
@@ -431,9 +414,8 @@ export class ActorAdvancement extends Dialog {
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
     html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
-    html.find(".skill-mastery-toggle").mousedown(async ev => {await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor); this.render();});
-    html.find(".expertise-toggle").click(async ev => {await manualSkillExpertiseToggle(datasetOf(ev).key, this.actor, datasetOf(ev).type); this.render();});
-    html.find(".language-mastery-toggle").mousedown(async ev => {await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor); this.render();});
+    html.find(".mastery-toggle").mousedown(async ev => this._onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which));
+    html.find(".expertise-toggle").click(async ev => this._onToggleExpertise(datasetOf(ev).key, datasetOf(ev).type));
 
     // Tooltips
     html.find('.item-tooltip').hover(async ev => {
@@ -669,6 +651,19 @@ export class ActorAdvancement extends Dialog {
     const advancement = this.currentAdvancement;
     delete advancement.items[itemKey];
     this.currentItem.update({[`system.advancements.${advancement.key}.items.-=${itemKey}`] : null});
+    this.render();
+  }
+
+  async _onToggleMastery(key, type, which) {
+    const obj = this.actor.skillAndLanguage[type][key];
+    if (which === 1) await obj.masteryUp();
+    if (which === 3) await obj.masteryDown();
+    this.render();
+  }
+  
+  async _onToggleExpertise(key, type) {
+    const obj = this.actor.skillAndLanguage[type][key];
+    await obj.expertiseToggle();
     this.render();
   }
 

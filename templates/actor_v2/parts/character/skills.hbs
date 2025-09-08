@@ -31,7 +31,7 @@
 				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-type="skills" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-						<a class="skill-mastery-toggle" data-type="skills" data-key="{{key}}">{{skill.short}}</a>
+						<a class="mastery-toggle" data-type="skills" data-key="{{key}}">{{skill.short}}</a>
 					</div>
 				</div>
 				<select class="base-attribute {{#if @root.editMode}}pointer{{/if}}" {{#unless @root.editMode}}disabled{{/unless}}
@@ -91,7 +91,7 @@
 				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-type="trades" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-						<a class="skill-mastery-toggle" data-type="trades" data-key="{{key}}">{{skill.short}}</a>
+						<a class="mastery-toggle" data-type="trades" data-key="{{key}}">{{skill.short}}</a>
 					</div>
 				</div>
 				<select class="base-attribute {{#if @root.editMode}}pointer{{/if}}" {{#unless @root.editMode}}disabled{{/unless}}
@@ -147,7 +147,7 @@
 			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-						<a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>
+						<a class="mastery-toggle" data-type="languages" data-key="{{key}}">{{skill.short}}</a>
 					</div>
 				</div>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.languages.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">

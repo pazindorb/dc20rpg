@@ -113,16 +113,15 @@ export function activateCommonLinsters(html, actor) {
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
   
   // Skills
-  html.find(".expertise-toggle").click(ev => skills.manualSkillExpertiseToggle(datasetOf(ev).key, actor, datasetOf(ev).type));
-  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, actor));
-  html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
+  html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
+  html.find(".mastery-toggle").mousedown(ev => _onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
-  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false));
-  html.find('.remove-skill').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
-  html.find('.add-trade').click(() => skills.addCustomSkill(actor, true));
-  html.find('.remove-trade').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, true));
-  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
-  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
+  html.find('.add-skill').click(() => actor.skillAndLanguage.addCustom("skills"));
+  html.find('.remove-skill').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "skills"));
+  html.find('.add-trade').click(() => actor.skillAndLanguage.addCustom("trades"));
+  html.find('.remove-trade').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "trades"));
+  html.find('.add-language').click(() => actor.skillAndLanguage.addCustom("languages"));
+  html.find('.remove-language').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "languages"));
 
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
@@ -222,4 +221,10 @@ async function _onTransfer(actor) {
   const user = await userSelector(true);
   const traders = getActorsForUser(true, user);
   createTransferDialog(actor, traders, {lockFlexibleTrader: true});
+}
+
+function _onToggleMastery(key, type, which, actor) {
+  const obj = actor.skillAndLanguage[type][key];
+  if (which === 1) obj.masteryUp();
+  if (which === 3) obj.masteryDown();
 }

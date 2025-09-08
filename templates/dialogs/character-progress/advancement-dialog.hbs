@@ -99,7 +99,7 @@
             </div>
             <div class="buttons">
               <a class="left-button expertise-toggle {{#if skill.expertise}}expert{{/if}}" data-type="skills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.expertise"}}"><i class="fa-solid fa-up-long"></i></a>
-              <a class="right-button skill-mastery-toggle" data-type="skills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
+              <a class="right-button mastery-toggle" data-type="skills" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
             </div>
           </div>
           {{/each}}
@@ -130,7 +130,7 @@
             </div>
             <div class="buttons">
               <a class="left-button expertise-toggle {{#if skill.expertise}}expert{{/if}}" data-type="trades" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.expertise"}}"><i class="fa-solid fa-up-long"></i></a>
-              <a class="right-button skill-mastery-toggle" data-type="trades" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
+              <a class="right-button mastery-toggle" data-type="trades" data-key="{{key}}" title="{{localize "dc20rpg.sheet.skills.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
             </div>
           </div>
           {{/each}}
@@ -159,7 +159,7 @@
               <input disabled class="input" type="text" value="{{skill.masteryLabel}}">
             </div>
             <div class="buttons">
-              <a class="full-button language-mastery-toggle" data-path="system.languages.{{key}}.mastery" title="{{localize "dc20rpg.sheet.languages.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
+              <a class="full-button mastery-toggle" data-type="languages" data-key="{{key}}" title="{{localize "dc20rpg.sheet.languages.mastery"}}"><i class="fa-solid fa-plus-minus"></i></a>
             </div>
           </div>
           {{/each}}
