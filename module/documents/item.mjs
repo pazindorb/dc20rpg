@@ -1,6 +1,3 @@
-import { enhancePropertiesObject } from "../dataModel/fields/item/properties.mjs";
-import { enhanceUseCostObject } from "../dataModel/fields/item/useCost.mjs";
-import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
 import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
 import { toggleCheck } from "../helpers/items/itemConfig.mjs";
@@ -8,6 +5,7 @@ import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.m
 import { generateKey, translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { initFlags } from "./item/item-flags.mjs";
+import { enrichWithHelpers } from "./item/item-helpers.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
 
 /**
@@ -108,15 +106,7 @@ export class DC20RpgItem extends Item {
   prepareDerivedData() {
     makeCalculations(this);
     translateLabels(this);
-
-    enhanceRollMenuObject(this);
-    if (this.system.usable) {
-      this.use = {};
-      enhanceUseCostObject(this);
-    }
-    if (this.system.properties) {
-      enhancePropertiesObject(this);
-    }
+    enrichWithHelpers(this);
     this.prepared = true; // Mark item as prepared
   }
 

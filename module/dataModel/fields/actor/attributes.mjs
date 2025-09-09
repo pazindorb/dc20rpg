@@ -26,34 +26,3 @@ export default class AttributeFields extends foundry.data.fields.SchemaField {
     super(fields, options);
   }
 }
-
-export function enhanceAttributesObject(actor) {
-  actor.attributes = {};
-
-  for (const [key, original] of Object.entries(actor.system.attributes)) {
-    const attribute = foundry.utils.deepClone(original);
-    attribute.key = key;
-
-    attribute.promptCheck = async (options, details) => await actor.promptRoll(key, "check", options, details);
-    attribute.promptSave = async (options, details) => await actor.promptRoll(key, "save", options, details);
-    
-    attribute.increase = async () => await _increaseAttribute(key, actor);
-    attribute.decrease = async () => await _decreaseAttribute(key, actor);
-    
-    actor.attributes[key] = attribute;
-  }
-}
-
-async function _increaseAttribute(key, actor) {
-  const level = actor.system.details.level;
-  const upperLimit = 3 + Math.floor(level/5);
-  const value = actor.system.attributes[key].current;
-  const newValue = Math.min(upperLimit, value + 1);
-	await actor.update({[`system.attributes.${key}.current`]: newValue});
-}
-
-async function _decreaseAttribute(key, actor) {
-  const value = actor.system.attributes[key].current;
-  const newValue = Math.max(-2, value - 1);
-	await actor.update({[`system.attributes.${key}.current`]: newValue});
-}

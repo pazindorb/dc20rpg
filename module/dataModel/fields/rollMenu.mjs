@@ -32,7 +32,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
   }
 }
 
-export function enhanceRollMenuObject(object) {
+export function enrichRollMenuObject(object) {
   object.system.rollMenu.clear = () => {
     const clearRollMenu = {
       dis: 0,

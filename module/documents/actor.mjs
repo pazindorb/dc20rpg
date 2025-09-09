@@ -1,8 +1,4 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { enhanceAttributesObject } from "../dataModel/fields/actor/attributes.mjs";
-import { enhanceResourcesObject } from "../dataModel/fields/actor/resources.mjs";
-import { enhanceSkillsObject } from "../dataModel/fields/actor/skills.mjs";
-import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
 import { promptRoll } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
@@ -21,6 +17,7 @@ import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
+import { enrichWithHelpers } from "./actor/actor-helpers.mjs";
 import {prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-roll.mjs";
 
 /**
@@ -245,11 +242,7 @@ export class DC20RpgActor extends Actor {
     makeCalculations(this);
     this._prepareCustomResources();
     translateLabels(this);
-
-    enhanceRollMenuObject(this);
-    enhanceResourcesObject(this);
-    enhanceSkillsObject(this);
-    enhanceAttributesObject(this);
+    enrichWithHelpers(this);
     this.prepared = true; // Mark actor as prepared
   }
 
