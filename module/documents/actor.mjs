@@ -448,7 +448,14 @@ export class DC20RpgActor extends Actor {
         }
       }
 
-      await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
+      // Sometimes one effects triggers removal of another one
+      const effectId = existing.pop();
+      const effect = this.effects.get(effectId);
+      for (const statusId of effect.system.disableStatusOnRemoval) {
+        await this.toggleStatusEffect(statusId, {active: false});
+      }
+
+      await this.deleteEmbeddedDocuments("ActiveEffect", [effectId]); // We want to remove 1 stack of effect at the time
       this.reset();
       return false;
     }
@@ -470,10 +477,10 @@ export class DC20RpgActor extends Actor {
     effectData._id = effect._id;
     const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
 
-    // Unconscious also causes prone
-    if (created.statuses.has("unconscious")) await this.toggleStatusEffect("prone", {active: true});
-    // Deaths Doors also adds one exhaustion stack
-    if (created.statuses.has("deathsDoor")) await this.toggleStatusEffect("exhaustion", {active: true});
+    // Sometimes one effects triggers application of another one
+    for (const statusId of created.system.enableStatusOnCreation) {
+      await this.toggleStatusEffect(statusId, {active: true});
+    }
     
     this.reset();
     return created;
