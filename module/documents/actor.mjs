@@ -432,18 +432,20 @@ export class DC20RpgActor extends Actor {
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
       if (statusId === "prone") {
-        const confirmed = await getSimplePopup("confirm", {header: "Should spend 2 Move Points to stand up from Prone?"});
-        if (confirmed) {
-          let subtracted = await subtractMovePoints(this, 2);
+        const spendMovePointsToStandFromProne = game.settings.get("dc20rpg","spendMovePointsToStandFromProne");
+        if (spendMovePointsToStandFromProne !== "never") {
+          let confirmed = true;
+          if (spendMovePointsToStandFromProne === "ask") confirmed = await getSimplePopup("confirm", {header: "Should spend 2 Move Points to stand up from Prone?"});
 
-          // Spend extra AP
-          if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
-            subtracted = await spendMoreApOnMovement(this, subtracted);
-          }
-
-          if (subtracted !== true) {
-            ui.notifications.warn("Not enough move points to stand up from Prone!");
-            return false;
+          if (confirmed) {
+            let subtracted = await subtractMovePoints(this, 2);
+            if (subtracted !== true) {
+              subtracted = await spendMoreApOnMovement(this, subtracted);
+            }
+            if (subtracted !== true) {
+              ui.notifications.warn("Not enough move points to stand up from Prone!");
+              return false;
+            }
           }
         }
       }

@@ -104,6 +104,9 @@ export async function subtractMovePoints(actor, cost) {
 }
 
 export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMovement="ground") {
+  const spendExtraAP = game.settings.get("dc20rpg","spendMoreApOnMovePoints");
+  if (spendExtraAP === "never") return missingMovePoints;
+
   const movePoints = actor.system.movement[selectedMovement].current;
   if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
 
@@ -114,7 +117,8 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
     movePointsGained += movePoints;
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
+  let proceed = true;
+  if (spendExtraAP === "ask") proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
   if (proceed && actor.resources.ap.checkAndSpend(apSpend)) {
     await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;

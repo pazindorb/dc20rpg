@@ -157,8 +157,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const movementCost = movement.passed.cost;
     let subtracted = await subtractMovePoints(this.actor, movementCost);
 
-    // Spend extra AP to move
-    if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
+    if (subtracted !== true) {
       subtracted = await spendMoreApOnMovement(this.actor, subtracted, this.movementAction);
     }
 
