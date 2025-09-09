@@ -1,7 +1,6 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog } from "../../dialogs/rest.mjs";
-import * as skills from "../../helpers/actors/attrAndSkills.mjs";
-import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement, splitItem } from "../../helpers/actors/itemsOnActor.mjs";
+import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
@@ -115,7 +114,7 @@ export function activateCommonLinsters(html, actor) {
   // Skills
   html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
   html.find(".mastery-toggle").mousedown(ev => _onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which, actor));
-  html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
+  html.find(".skill-point-converter").click(ev => actor.skillAndLanguage.convertPoints(datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
   html.find('.add-skill').click(() => actor.skillAndLanguage.addCustom("skills"));
   html.find('.remove-skill').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "skills"));
   html.find('.add-trade').click(() => actor.skillAndLanguage.addCustom("trades"));
@@ -159,8 +158,8 @@ export function activateCharacterLinsters(html, actor) {
   });
 
   // Attributes
-  html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
-  html.find('.add-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, false));
+  html.find('.subtract-attribute-point').click(ev => actor.attributes[datasetOf(ev).key].decrease());
+  html.find('.add-attribute-point').click(ev => actor.attributes[datasetOf(ev).key].increase());
 }
 
 export function activateNpcLinsters(html, actor) {

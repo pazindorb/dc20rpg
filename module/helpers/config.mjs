@@ -7,6 +7,7 @@ import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import { DC20RpgTokenDocument } from "../documents/tokenDoc.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 import { ColorSetting } from "../settings/colors.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
@@ -31,6 +32,7 @@ export function prepareDC20tools() {
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     DC20RpgTokenDocument,
+    DC20Roll,
     ColorSetting,
     rollItemWithName,
     forceRunMigration,

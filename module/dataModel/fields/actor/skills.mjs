@@ -1,6 +1,5 @@
 import { generateKey } from "../../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../../settings/skillConfig.mjs";
-import { prepareDiceRollLevel } from "./rollLevel.mjs";
 
 export default class SkillFields {
   constructor(type) {
@@ -21,6 +20,7 @@ export function enhanceSkillsObject(actor) {
   actor.skillAndLanguage.refreshAll = async () => await _refreshAll(actor);
   actor.skillAndLanguage.addCustom = async (type) => await _addCustom(type, actor);
   actor.skillAndLanguage.removeCustom = async (key, type) => await _removeCustom(key, type, actor);
+  actor.skillAndLanguage.convertPoints = async (from, to, opperation, rate) => await _convertPoints(from, to, opperation, rate, actor);
 
   _enhanceSkills(actor);
   _enhanceLanguages(actor);
@@ -97,6 +97,31 @@ async function _removeCustom(key, type, actor) {
   actor.update({[`system.${type}.-=${key}`]: null});
 }
 
+async function _convertPoints(from, to, opertaion, rate, actor) {
+  const skillFrom = actor.system.skillPoints[from];
+  const skillTo = actor.system.skillPoints[to];
+  
+  if (opertaion === "convert") {
+    const updateData = {
+      [`system.skillPoints.${from}.converted`]: skillFrom.converted + 1,
+      [`system.skillPoints.${to}.extra`]: skillTo.extra + parseInt(rate)
+    }
+    await actor.update(updateData);
+  }
+  if (opertaion === "revert") {
+    const newExtra = skillFrom.extra - parseInt(rate);
+    if (newExtra < 0) {
+      ui.notifications.error("Cannot revert more points!");
+      return;
+    }
+    const updateData = {
+      [`system.skillPoints.${from}.extra`]: newExtra,
+      [`system.skillPoints.${to}.converted`]: skillTo.converted - 1 
+    }
+    await actor.update(updateData);
+  }
+}
+
 //==================================
 //      SKILL SPECIFIC METHODS     =
 //==================================
@@ -118,9 +143,7 @@ function _enhanceSkill(original, key, type, actor) {
   skill.key = key;
   skill.type = type;
 
-  skill.getRollDetails = (options) => _getRollDetails(skill, options);
-  skill.roll = async (options, detalis) => await _roll(skill, detalis, options, actor);
-
+  skill.promptCheck = async (options, details) => await actor.promptRoll(skill.key, "check", options, details);
   skill.masteryUp = async () => await _toggleSkillMastery(skill, true, actor);
   skill.masteryDown = async () => await _toggleSkillMastery(skill, false, actor);
   skill.expertiseToggle = async () => await _toggleExpertise(skill, actor);
@@ -130,7 +153,6 @@ function _enhanceSkill(original, key, type, actor) {
   actor.skillAndLanguage[type][key] = skill;
 }
 
-//========= MASTERY AND EXPERTISE =========
 async function _toggleSkillMastery(skill, up, actor) {
   let limit = skill.masteryLimit;
   let value = skill.mastery;
@@ -160,38 +182,6 @@ async function _toggleExpertise(skill, actor) {
   await actor.update({["system.expertise.manual"]: manual});
 }
 
-//========= ROLL AND ROLL DETAILS =========
-function _getRollDetails(skill, options={}) {
-  return; // TODO REWORK
-  const key = skill.key;
-  const dice = prepareDiceRollLevel(options.rollLevel);
-  const formula = `${dice} + @allSkills.${key}`;
-
-  let label = options.customLabel || getLabelFromKey(key, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
-  const rollTitle = options.rollTitle || label;
-  
-  let against = options.against;
-  if (against) {
-    label += ` vs ${against}`;
-    against = parseInt(against);
-  }
-
-  return {
-    roll: formula,
-    label: label,
-    rollTitle: rollTitle,
-    type: "skillCheck",
-    against: against,
-    checkKey: key,
-    statuses: options.statuses || []
-  }
-}
-
-
-async function _roll(skill, details, options={}, actor) {
-  return; // TODO
-}
-
 //==================================
 //    LANGUAGE SPECIFIC METHODS    =
 //==================================
@@ -200,11 +190,10 @@ function _enhanceLanguages(actor) {
   for (const [key, original] of Object.entries(actor.system.languages)) {
     const language = foundry.utils.deepClone(original);
     language.key = key;
-
+ 
+    language.promptCheck = async (options, details) => await _onLanguageCheck(key, options, details, actor);
     language.masteryUp = async () => await _toggleLanguageMastery(language, true, actor);
     language.masteryDown = async () => await _toggleLanguageMastery(language, false, actor);
-
-    // TODO: Roll language check
 
     actor.skillAndLanguage.languages[key] = language;
   }
@@ -223,4 +212,10 @@ function _masterySwitch(current, up, limit) {
     const newValue = current - 1;
     return newValue < 0 ? limit : newValue;
   }
+}
+
+async function _onLanguageCheck(key, options, details, actor) {
+  const rollTitle = `${CONFIG.DC20RPG.languages[key]} Check`;
+  const customLabel = "Language Check";
+  return await actor.promptRoll("language", "check", {rollTitle: rollTitle, customLabel: customLabel, ...options}, details);
 }

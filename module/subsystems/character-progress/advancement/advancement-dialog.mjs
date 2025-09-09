@@ -2,7 +2,6 @@
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
-import { convertSkillPoints, manipulateAttribute } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
@@ -413,9 +412,9 @@ export class ActorAdvancement extends Dialog {
     // Spend Points
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
-    html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
-    html.find(".mastery-toggle").mousedown(async ev => this._onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which));
-    html.find(".expertise-toggle").click(async ev => this._onToggleExpertise(datasetOf(ev).key, datasetOf(ev).type));
+    html.find(".skill-point-converter").click(ev => {this._onConvertPoints(datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate)});
+    html.find(".mastery-toggle").mousedown(ev => this._onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which));
+    html.find(".expertise-toggle").click(ev => this._onToggleExpertise(datasetOf(ev).key, datasetOf(ev).type));
 
     // Tooltips
     html.find('.item-tooltip').hover(async ev => {
@@ -473,7 +472,8 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _onAttrChange(key, add) {
-    await manipulateAttribute(key, this.actor, !add);
+    if (add) this.actor.attributes[key].increase();
+    else this.actor.attributes[key].decrease();
     this.render();
   }
 
@@ -651,6 +651,11 @@ export class ActorAdvancement extends Dialog {
     const advancement = this.currentAdvancement;
     delete advancement.items[itemKey];
     this.currentItem.update({[`system.advancements.${advancement.key}.items.-=${itemKey}`] : null});
+    this.render();
+  }
+
+  async _onConvertPoints(from, to, operation, rate) {
+    await this.actor.skillAndLanguage.convertPoints(from, to, operation, rate);
     this.render();
   }
 

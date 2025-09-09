@@ -3,13 +3,13 @@ import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { sendSimplePopupToActorOwners } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
-import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -128,15 +128,7 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
     if (!actor) return;
 
-    // TODO: Is initiative choice still an option?
-    // const options = {"flat": "Flat d20 Roll", "initiative": "Initiative (Agi + CM)", ...actor.getCheckOptions(true, true, true, true)};
-    // const preselected = game.settings.get("dc20rpg", "defaultInitiativeKey");
-    // const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: (preselected || "initiative")});
-    // if (!checkKey) return null;
-    // const details = prepareCheckDetailsFor(checkKey, null, null, "Initiative Roll", options[checkKey]);
-    // details.type = "initiative" // For Roll Level Check
-
-    const details = prepareCheckDetailsFor("initiative", null, null, "Initiative Roll");
+    const details = DC20Roll.prepareCheckDetails("initiative", {rollTitle: "Initiative", customLabel: "Initiative Roll"});
     const roll = await promptRoll(actor, details);
     if (!roll) return null;
 
@@ -198,7 +190,7 @@ export class DC20RpgCombat extends Combat {
     await super.endCombat();
     const combatantId = this.current.combatantId;
     const combatant = this.combatants.get(combatantId);
-    if (combatant) clearMultipleCheckPenalty(combatant.actor);
+    if (combatant) await clearMultipleCheckPenalty(combatant.actor);
   }
 
   /** @override **/
@@ -354,7 +346,7 @@ export class DC20RpgCombat extends Combat {
     reenableEventsOn("turnEnd", actor);
     this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id));
     this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id), currentRound);
-    clearMultipleCheckPenalty(actor);
+    await clearMultipleCheckPenalty(actor);
     clearMovePoints(actor);
     await super._onEndTurn(combatant, context);
 

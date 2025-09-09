@@ -1,8 +1,8 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../../helpers/actors/attrAndSkills.mjs";
 import { getValueFromPath, toSelectOptions } from "../../helpers/utils.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
 
 export class AdventurersRegister extends DC20Dialog {
 
@@ -124,8 +124,8 @@ export class AdventurersRegister extends DC20Dialog {
     if (!actor) return;
 
     const details = dataset.type === "save" 
-                        ? prepareSaveDetailsFor(dataset.key) 
-                        : prepareCheckDetailsFor(dataset.key);
+                        ? DC20Roll.prepareSaveDetails(dataset.key) 
+                        : DC20Roll.prepareCheckDetails(dataset.key);
 
     promptRollToOtherPlayer(actor, details);
   }

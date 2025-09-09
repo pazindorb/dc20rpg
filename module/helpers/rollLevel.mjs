@@ -662,13 +662,13 @@ export function applyMultipleHelpPenalty(actor, maxDice) {
   return maxDice - (2 * penalty.length);
 }
 
-export function clearMultipleCheckPenalty(actor) {
+export async function clearMultipleCheckPenalty(actor) {
   if (actor.flags.dc20rpg.actionHeld?.isHeld) {
     let mcp = actor.system.mcp;
     if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
-    actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
+    await actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
   }
-  actor.update({["system.mcp"]: []});
+  await actor.update({["system.mcp"]: []});
 }
 
 function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {

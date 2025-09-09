@@ -61,10 +61,3 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
     super(fields, options);
   }
 }
-
-export function prepareDiceRollLevel(rollLevel=0) {
-  if (rollLevel === 0) return "d20";
-  const value = Math.abs(rollLevel) + 1;
-  const type = rollLevel > 0 ? "kh" : "kl";
-  return `${value}d20${type}`;
-}

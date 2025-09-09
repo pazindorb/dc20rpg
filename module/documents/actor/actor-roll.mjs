@@ -1,3 +1,7 @@
+
+//===================================
+//= 			ROLL DATA PREPARATION			=
+//===================================
 export function prepareRollData(actor, data) {
   _attributes(data);
   _details(data);
@@ -65,9 +69,12 @@ function _attributes(data) {
 	// formulas like `@mig + 4` or `@prime + 4`
 	if (data.attributes) {
 		for (let [key, attribute] of Object.entries(data.attributes)) {
-			data[key] = foundry.utils.deepClone(attribute.value);
+			data[key] = attribute.check;
+			data[`${key}Save`] = attribute.save;
 		}
 	}
+	if (data.special?.phySave) data.phySave = data.special.phySave;
+	if (data.special?.menSave) data.menSave = data.special.phySave;
 }
 
 function _details(data) {

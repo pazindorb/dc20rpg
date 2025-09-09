@@ -2,12 +2,12 @@ import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
 import { changeActivableProperty, getValueFromPath } from "../helpers/utils.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
@@ -567,8 +567,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const key = await getSimplePopup("select", {header: "Roll Skill Check", selectOptions: options});
     if (!key) return;
     
-    const details = prepareCheckDetailsFor(key);
-    await promptRoll(this.actor, details);
+    await promptRoll(this.actor, DC20Roll.prepareCheckDetails(key));
   }
 
   async _onSaveRoll(event, target) {
@@ -576,8 +575,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const key = await getSimplePopup("select", {header: "Roll Save", selectOptions: options});
     if (!key) return;
 
-    const details = prepareSaveDetailsFor(key);
-    await promptRoll(this.actor, details);
+    await promptRoll(this.actor, DC20Roll.prepareSaveDetails(key));
   }
 
   async _onGrit(event, target) {

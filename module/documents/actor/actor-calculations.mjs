@@ -118,6 +118,9 @@ function _specialRollTypes(actor) {
 	const ath = data.skills.ath;
 	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
 
+	// Language Check
+	special.languageCheck = Math.max(int.check, cha.check);
+
 	// Initiative Check
 	const CM = actor.system.details.combatMastery;
 	special.initiative = agi.check + CM;

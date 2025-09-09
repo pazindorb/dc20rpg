@@ -1,23 +1,27 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { enhanceAttributesObject } from "../dataModel/fields/actor/attributes.mjs";
 import { enhanceResourcesObject } from "../dataModel/fields/actor/resources.mjs";
 import { enhanceSkillsObject } from "../dataModel/fields/actor/skills.mjs";
 import { enhanceRollMenuObject } from "../dataModel/fields/rollMenu.mjs";
+import { promptRoll } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
+import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
-import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
+import {prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-roll.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -245,6 +249,7 @@ export class DC20RpgActor extends Actor {
     enhanceRollMenuObject(this);
     enhanceResourcesObject(this);
     enhanceSkillsObject(this);
+    enhanceAttributesObject(this);
     this.prepared = true; // Mark actor as prepared
   }
 
@@ -327,16 +332,20 @@ export class DC20RpgActor extends Actor {
     return prepareRollData(this, data);
   }
 
-  prepareRollDetails(key, type, options) {
-    // TODO
+  async roll(key, type, options={}, details) {
+    if (!details) {
+      if (type === "save") details = DC20Roll.prepareSaveDetails(key, options);
+      if (type === "check") details = DC20Roll.prepareCheckDetails(key, options);
+    }
+    return await rollFromSheet(actor, details);
   }
 
-  async rollCheck() {
-    // TODO
-  }
-
-  async rollSave() {
-    // TODO
+  async promptRoll(key, type, options={}, details) {
+    if (!details) {
+      if (type === "save") details = DC20Roll.prepareSaveDetails(key, options);
+      if (type === "check") details = DC20Roll.prepareCheckDetails(key, options);
+    }
+    return await promptRoll(this, details, options.quickRoll, options.fromGmHelp);
   }
 
   getCheckOptions(attack, attributes, skills, trades) {

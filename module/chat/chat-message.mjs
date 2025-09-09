@@ -1,6 +1,5 @@
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
@@ -17,6 +16,7 @@ import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -657,7 +657,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (!actor) return;
 
     if (!againstStatuses) againstStatuses = this.system.againstStatuses;
-    const details = prepareSaveDetailsFor(key, dc, againstStatuses);
+    const details = DC20Roll.prepareSaveDetails(key, {against: dc, statuses: againstStatuses});
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -672,7 +672,7 @@ export class DC20ChatMessage extends ChatMessage {
       this._onSaveRoll(targetKey, key, against, againstStatuses);
       return;
     }
-    const details = prepareCheckDetailsFor(key, against, againstStatuses);
+    const details = DC20Roll.prepareCheckDetails(key, {against: against, statuses: againstStatuses});
     this._rollAndUpdate(target, actor, details);
   }
 

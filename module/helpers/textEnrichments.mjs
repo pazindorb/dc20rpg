@@ -1,5 +1,5 @@
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./actors/attrAndSkills.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
@@ -74,13 +74,11 @@ async function _handleRoll(data, token) {
 }
 
 function _handleSave(data, actor) {
-  const saveDetails = prepareSaveDetailsFor(data.subtype);
-  promptRollToOtherPlayer(actor, saveDetails);
+  promptRollToOtherPlayer(actor, DC20Roll.prepareSaveDetails(data.subtype));
 }
 
 function _handleCheck(data, actor) {
-  const checkDetails = prepareCheckDetailsFor(data.subtype);
-  promptRollToOtherPlayer(actor, checkDetails);
+  promptRollToOtherPlayer(actor, DC20Roll.prepareCheckDetails(data.subtype));
 }
 
 function _handleDamage(data, token) {

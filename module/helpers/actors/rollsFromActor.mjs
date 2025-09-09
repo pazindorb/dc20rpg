@@ -8,7 +8,7 @@ import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
-import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -537,12 +537,12 @@ function _prepareCheckFormula(actor, checkKey, evalData, source) {
   const helpDice = evalData.helpDice;
   const rollModifiers = evalData.rollModifiers;
 
-  const [d20roll, rollType] = prepareCheckFormulaAndRollType(checkKey, rollLevel);
-  const globalMod = _extractGlobalModStringForType(rollType, actor);
+  const details = DC20Roll.prepareCheckDetails(checkKey, {rollLevel: rollLevel});
+  const globalMod = _extractGlobalModStringForType(details.type, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
   if (helpDice !== "") source.value += ` + Help Dice`;
-  return `${d20roll} ${globalMod.value} ${helpDice} ${rollModifiers}`;
+  return `${details.roll} ${globalMod.value} ${helpDice} ${rollModifiers}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, evalData, source) {

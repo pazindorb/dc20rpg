@@ -1,10 +1,10 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
 import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
 let preTriggerTurnedOffEvents = [];
@@ -60,13 +60,13 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
         break;
 
       case "checkRequest":
-        const checkDetails = prepareCheckDetailsFor(event.checkKey, event.against, event.statuses, event.label);
+        const checkDetails = DC20Roll.prepareCheckDetails(event.checkKey, {against: event.against, statuses: event.statuses, rollTitle: event.label});
         const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
         await _rollOutcomeCheck(checkRoll, event, actor);
         break;
 
       case "saveRequest": 
-        const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
+        const saveDetails = DC20Roll.prepareSaveDetails(event.checkKey, {against: event.against, statuses: event.statuses, rollTitle: event.label})
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
         await _rollOutcomeCheck(saveRoll, event, actor);
         break;
