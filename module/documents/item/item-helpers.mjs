@@ -185,8 +185,15 @@ function _collectUseCost(item, clean=false) {
   }
 
   // If this is held action we skip ap cost
-  if (actor && actor.flags.dc20rpg.actionHeld.isHeld) {
+  if (actor && actor.flags.dc20rpg.actionHeld.rollsHeldAction) {
     delete cost.resources.ap;
+  }
+
+  // Respect Outside of Combat rules if setting selected
+  if (game.settings.get("dc20rpg", "outsideOfCombatRule") && !actor.inCombat) {
+    delete cost.resources.ap;
+    delete cost.resources.stamina;
+    if (cost.resources.mana > 1) cost.resources.mana -= 1;
   }
 
   return cost;
@@ -244,10 +251,6 @@ async function _respectUseCost(cost, item) {
   // We want to make sure all fields are present even if empty
   cost = { resources: {}, charges: {}, quantity: {}, ...cost };
 
-  // Held action ignore AP cost as it was subtracted before
-  if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
-    cost.resources.ap = null;
-  }
   const skip = await runTemporaryItemMacro(item, "preItemCost", actor, {costs: cost});
   if (skip) return true;
 

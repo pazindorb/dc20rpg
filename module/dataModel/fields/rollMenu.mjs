@@ -33,31 +33,36 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
 }
 
 export function enrichRollMenuObject(object) {
-  object.system.rollMenu.clear = () => {
-    const clearRollMenu = {
-      dis: 0,
-      adv: 0,
-      apCost: 0,
-      gritCost: 0,
-      autoCrit: false,
-      autoFail: false,
-      help: [],
-      ignoreMCP: false,
-      free: false,
-      rangeType: "",
-      versatile: false,
-      halfCover: false,
-      tqCover: false
-    }
+  object.rollMenu = {
+    clear: async () => await _clearRollMenu(object),
+    helpDiceFormula: () => _helpDiceFormula(object)
+  }
+}
 
-    object.update({["system.rollMenu"]: clearRollMenu})
+async function _clearRollMenu(object) {
+  const clearRollMenu = {
+    dis: 0,
+    adv: 0,
+    apCost: 0,
+    gritCost: 0,
+    autoCrit: false,
+    autoFail: false,
+    help: [],
+    ignoreMCP: false,
+    free: false,
+    rangeType: "",
+    versatile: false,
+    halfCover: false,
+    tqCover: false
   }
 
-  object.system.rollMenu.helpDiceFormula = () => {
-    let formula = "";
-    object.system.rollMenu.help.forEach(dice => {
-      formula += ` + d${dice}`;
-    })
-    return formula;
-  }
+  await object.update({["system.rollMenu"]: clearRollMenu})
+}
+
+function _helpDiceFormula(object) {
+  let formula = "";
+  object.system.rollMenu.help.forEach(dice => {
+    formula += ` + d${dice}`;
+  })
+  return formula;
 }

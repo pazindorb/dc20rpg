@@ -191,7 +191,7 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
   const evalData = {
     rollData: rollData,
     rollLevel: rollLevel,
-    helpDice: item.system.rollMenu.helpDiceFormula()
+    helpDice: item.rollMenu.helpDiceFormula()
   }
 
   if (actionType === "attack") {
