@@ -45,8 +45,8 @@ async function _runMigration(lastMigration, currentVersion, skipLastMigrationVal
   for (let i = after + 1; i <= until; i++) {
     const migratingTo = versions[i];
     ui.notifications.info(`Running system migration for version: ${migratingTo}`, {permanent: true});
-    const dialog =  new SimplePopup("non-closable", {header: "Running Migration", message: `Running system migration for version: ${migratingTo}... Please wait it might take a while. This window will be closed once the migration is complete. Grab a coffee or something :D`}, {title: "Popup"});
-    await dialog._render(true);
+    const dialog =  new SimplePopup("info", {hideButtons: true, header: "Running Migration", information: [`Running system migration for version: ${migratingTo}... Please wait it might take a while. This window will be closed once the migration is complete. Grab a coffee or something :D`]});
+    await dialog.render(true);
     try {
       const migrationPath = testPath ? `../../migrations/${migratingTo}.mjs` : `../migrations/${migratingTo}.mjs`
       const migrationModule = await import(migrationPath);

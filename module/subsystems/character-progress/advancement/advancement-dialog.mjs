@@ -446,8 +446,8 @@ export class ActorAdvancement extends Dialog {
 
   async _onOpenSuggestions() {
     if (this.collectingSuggestedItems) {
-      const dialog =  new SimplePopup("non-closable", {header: "Collecting Suggestions", message: "Collecting Suggested Items... Please wait it might take a while"}, {title: "Popup"});
-      await dialog._render(true);
+      const dialog =  new SimplePopup("info", {hideButtons: true, header: "Collecting Suggestions", information: ["Collecting Suggested Items... Please wait it might take a while"]});
+      await dialog.render(true);
 
       await new Promise((resolve) => {
         let counter = 0;

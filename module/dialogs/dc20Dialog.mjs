@@ -137,6 +137,4 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const droppedObject = JSON.parse(droppedData);
     return droppedObject;
   }
-
-  // TODO: Move Simple Popup here?
 }

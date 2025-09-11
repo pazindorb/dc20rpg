@@ -1,62 +1,178 @@
-import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
 import { generateKey } from "../helpers/utils.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 
 
-export class SimplePopup extends Dialog {
+/**
+ * Possible type examples:
+ * 
+ * "popupType": "info"
+ * "data": {
+ *  "header": String,
+ *  "message": String,
+ *  "information": Array[String],
+ *  "hideButtons": Boolean
+ * }
+ * @return null
+ * 
+ * "popupType": "confirm"
+ * "data": {
+ *  "header": String,
+ *  "message": String,
+ *  "information": Array[String],
+ *  "confirmLabel": String,
+ *  "denyLabel": String
+ * }
+ * @return Boolean
+ * 
+ * "popupType": "input"
+ * "data": {
+ *  "header": String,
+ *  "message": String,
+ *  "information": Array[String],
+ *  "inputs": [
+ *    {
+ *      "type": select/input/checkbox,
+ *      "label": String,
+ *      "hint": String,
+ *      "options": Object[only for select type]
+ *    }
+ *  ]
+ * }
+ * @return Array[of output Strings]
+ * 
+ * "popupType": "drop"
+ * "data": {
+ *  "header": String,
+ *  "message": String,
+ *  "information": Array[String],
+ * }
+ * @return Object[dropped]
+ */
+export class SimplePopup extends DC20Dialog {
 
-  constructor(popupType, data, dialogData = {}, options = {}) {
-    super(dialogData, options);
+  static async input(message, options={}) {
+    const data = {
+      message: message,
+      inputs: [{type: "input"}]
+    }
+    const result = await SimplePopup.open("input", data, options);
+    return result ? result[0] : null;
+  }
+
+  static async select(message, selectOptions, options={}) {
+    const data = {
+      message: message,
+      inputs: [{type: "select", options: selectOptions}],
+    }
+    const result = await SimplePopup.open("input", data, options);
+    return result ? result[0] : null;
+  }
+
+  static async confirm(message, options={}) {
+    return await SimplePopup.open("confirm", {message: message}, options);
+  }
+
+  static async open(popupType, data, options={}) {
+    // Collect actor owners
+    if (options.actor && !options.users) {
+      const owners = getIdsOfActiveActorOwners(options.actor, false);
+      if (owners.length > 0 && !owners.find(ownerId => game.user.id === ownerId)) options.users = owners;
+    }
+
+    // Send to other users
+    if (options.users) {
+      const signature = generateKey();
+      const payload = {
+        popupType: popupType,
+        popupData: data,
+        popupOptions: options,
+        userIds: options.users,
+        signature: signature
+      };
+      const validationData = {emmiterId: game.user.id, signature: signature}
+      const simplePopupResult = responseListener("simplePopupResult", validationData);
+      emitSystemEvent("simplePopup", payload);
+      const response = await simplePopupResult;
+      return response;
+    }
+
+    // Open Simple Popup
+    else {
+      return await SimplePopup.create(popupType, data, options);
+    }
+  }
+
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg", "force-top"],
+      template: "systems/dc20rpg/templates/dialogs/simple-popup.hbs",
+    }
+  };
+
+  constructor(popupType, data, options = {}) {
+    super(options);
     this.popupType = popupType;
     this.data = data;
+    this._prepareInputs();
+    this._prepareButtonLabels();
   }
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/simple-popup.hbs",
-      classes: ["dc20rpg", "dialog", "force-top"]
-    });
-  }
-
-  getData() {
-    if (this.popupType === "info" || this.popupType === "drop") {
-      const information = this.data.information; 
-      if (information && information.constructor !== Array) {
-        this.data.information = [this.data.information];
-      }
+  _prepareInputs() {
+    if (this.popupType !== "input") return;
+    for (const input of this.data.inputs) {
+      if (input.type === "checkbox") input.value = false;
+      else input.value = "";
     }
+  }
+
+  _prepareButtonLabels() {
+    if (this.popupType === "confirm") {
+      this.data.confirmLabel = this.data.confirmLabel || game.i18n.localize("dc20rpg.dialog.popup.yes");
+      this.data.denyLabel = this.data.denyLabel || game.i18n.localize("dc20rpg.dialog.popup.no");
+    }
+    else {
+      this.data.confirmLabel = this.data.confirmLabel || game.i18n.localize("dc20rpg.dialog.popup.confirm");
+    }
+  }
+
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Popup";
+    initialized.window.icon = "fa-solid fa-comment-dots";
+    initialized.position.width = 450;
+
+    initialized.actions.confirm = this._onConfirm;
+    return initialized;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.popupType = this.popupType;
     return {
-      ...this.data,
-      popupType: this.popupType
+      ...context,
+      ...this.data
+    };
+  }
+
+  _onConfirm(event, target) {
+    event.preventDefault();
+    switch (this.popupType) {
+      case "input": 
+        const values = this.data.inputs.map(input => input.value);
+        this.promiseResolve(values);
+        break;
+
+      case "confirm": 
+        this.promiseResolve(target.dataset.option === "confirm"); 
+        break;
     }
-  }
-
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find('.confirm-input-all').click(ev => this._onConfirmAll(html.find(".input-popup-selector"), datasetOf(ev)));
-    html.find('.confirm-input').click(ev => this._onConfirm(html.find(".input-popup-selector").val(), datasetOf(ev)));
-    html.find('.confirm-select').click(ev => this._onConfirm(html.find(".select-popup-selector").val(), datasetOf(ev)));
-    html.find('.confirm-yes').click(ev => this._onConfirm(true, datasetOf(ev)));
-    html.find('.confirm-no').click(ev => this._onConfirm(false, datasetOf(ev)));
-    if(this.popupType === "drop") html[0].addEventListener('drop', async ev => await this._onDrop(ev));
-  }
-
-  async _onConfirmAll(element) {
-    const values = [];
-    element.each(function() {values.push($(this).val()); });
-    this.promiseResolve(values);
     this.close();
   }
 
-  async _onConfirm(outome) {
-    this.promiseResolve(outome);
-    this.close();
-  }
-
-  static async create(popupType, data={}, dialogData = {}, options = {}) {
-    const prompt = new SimplePopup(popupType, data, dialogData, options);
+  static async create(popupType, data={}, options={}) {
+    const prompt = new SimplePopup(popupType, data, options);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
       prompt.render(true);
@@ -70,54 +186,54 @@ export class SimplePopup extends Dialog {
   }
 
   async _onDrop(event) {
-    event.preventDefault();
-    const droppedData  = event.dataTransfer.getData('text/plain');
-    if (!droppedData) return;
-    
-    const droppedObject = JSON.parse(droppedData);
-    if (droppedObject.type !== "Item") return;
+    if (this.popupType !== "drop") return;
 
-    this.promiseResolve(droppedObject.uuid);
-    this.close();
+    const item = await super._onDrop(event);
+    if (item?.uuid) {
+      this.promiseResolve(item.uuid);
+      this.close();
+    }
   }
 }
 
-/**
- * Creates simple dialog for player that triggers it. Calling method can await for results of that dialog.
- * There are few popupType options to use when creating that dialog, deppending on the type data object might differ:
- * - "info" - data = {header: String, information: Array[String]} - display some information to the caller
- * - "select" - data = {header: String, selectOptions: Object} - caller can select one of the options that will be returned by dialog
- * - "input" - data = {header: String} - caller can provide text that will be returned by dialog
- * - "confirm" - data = {header: String} - caller can confirm or deny, result will be returned by dialog
- */
+/** @deprecated since v0.9.8 until 0.10.0 */
 export async function getSimplePopup(popupType, popupData={}) {
-  return await SimplePopup.create(popupType, popupData, {title: "Popup"});
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getSimplePopup' method is deprecated, and will be removed in the later system version. Use 'DC20.SimplePopup.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  return await _backwardCompatibleSimplePopup(popupType, popupData);
 }
 
-/**
- * Creates simple dialog for players with specific userIds[Array]. It will wait only for the first answer.
- * For more information take a look at getSimplePopup documentation
- */
+/** @deprecated since v0.9.8 until 0.10.0 */
 export async function sendSimplePopupToUsers(userIds, popupType, popupData={}) {
-  const signature = generateKey();
-  const payload = {
-    popupType: popupType,
-    popupData: popupData,
-    userIds: userIds,
-    signature: signature
-  };
-  const validationData = {emmiterId: game.user.id, signature: signature}
-  const simplePopupResult = responseListener("simplePopupResult", validationData);
-  emitSystemEvent("simplePopup", payload);
-  const response = await simplePopupResult;
-  return response;
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendSimplePopupToUsers' method is deprecated, and will be removed in the later system version. Use 'DC20.SimplePopup.open' with 'options.users' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  return await _backwardCompatibleSimplePopup(popupType, popupData, {users: userIds}); 
 }
 
+/** @deprecated since v0.9.8 until 0.10.0 */
 export async function sendSimplePopupToActorOwners(actor, popupType, popupData={}) {
-  const actorOwners = getIdsOfActiveActorOwners(actor, false);
-  if (actorOwners.length > 0) {
-    if (actorOwners.find(ownerId => game.user.id === ownerId)) return await getSimplePopup(popupType, popupData);
-    return await sendSimplePopupToUsers(actorOwners, popupType, popupData);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendSimplePopupToActorOwners' method is deprecated, and will be removed in the later system version. Use 'DC20.SimplePopup.open' with 'options.actor' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  return await _backwardCompatibleSimplePopup(popupType, popupData, {actor: actor});
+}
+
+async function _backwardCompatibleSimplePopup(popupType, popupData, options={}) {
+  switch (popupType) {
+    case "input": 
+      if (popupData.rows) {
+        return await SimplePopup.open("input", {message: popupData.header, inputs: _rowToInputs(popupData.rows)}, options);
+      }
+      else {
+        return await SimplePopup.input(popupData.header, options);
+      }
+    case "select": 
+      return await SimplePopup.select(popupData.header, popupData.selectOptions, options);
+    case "info": 
+      return await SimplePopup.open("info", popupData, options);
+    case "confirm": 
+      return await SimplePopup.confirm(popupData.header, options);
   }
-  return await getSimplePopup(popupType, popupData);
+}
+
+function _rowToInputs(rows) {
+  return rows.map(row => {
+    return {label: row, type: "input"};
+  })
 }

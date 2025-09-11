@@ -1,7 +1,7 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
+import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
@@ -26,13 +26,17 @@ import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
 
 export function prepareDC20tools() {
+  window.DC20 = {
+    SimplePopup,
+    DC20Roll
+  }
+
   game.dc20rpg = {
     DC20RpgActor,
     DC20RpgItem,
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     DC20RpgTokenDocument,
-    DC20Roll,
     ColorSetting,
     rollItemWithName,
     forceRunMigration,

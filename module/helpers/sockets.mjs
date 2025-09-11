@@ -1,6 +1,6 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { createToken, deleteToken } from "./actors/tokens.mjs";
 import { createEffectOn, deleteEffectFrom, toggleEffectOn, updateEffectOn } from "./effects.mjs";
@@ -10,9 +10,9 @@ export function registerSystemSockets() {
   // Simple Popup
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "simplePopup") {
-      const { popupType, popupData, userIds, signature } = data.payload;
+      const { popupType, popupData, popupOptions, userIds, signature } = data.payload;
       if (userIds.includes(game.user.id)) {
-        const result = await getSimplePopup(popupType, popupData);
+        const result = await SimplePopup.create(popupType, popupData, popupOptions);
         game.socket.emit('system.dc20rpg', {
           payload: result, 
           emmiterId: emmiterId,

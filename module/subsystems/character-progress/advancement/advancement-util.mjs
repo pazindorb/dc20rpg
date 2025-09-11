@@ -502,8 +502,8 @@ export async function refreshActor(actor) {
 }
 
 export async function collectSubclassesForClass(classKey) {
-  const dialog =  new SimplePopup("non-closable", {header: "Collecting Subclasses", message: "Collecting Subclasses... Please wait it might take a while"}, {title: "Collecting Subclasses"});
-  await dialog._render(true);
+  const dialog = new SimplePopup("info", {hideButtons: true, header: "Collecting Subclasses", information: ["Collecting Subclasses... Please wait it might take a while"]});
+  await dialog.render(true);
 
   const matching = [];
   for (const pack of game.packs) {

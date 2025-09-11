@@ -1,59 +1,54 @@
-<form id="simple-popup" class="dialog-v2">
-  <div class="header">
-    <span>{{header}}</span>
-  </div>
+<form id="simple-popup" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+
+  {{#if header}}<h4 class="divider">{{header}}</h4>{{/if}}
+  {{#if message}}<div class="message"><label>{{message}}</label></div>{{/if}}
 
   {{#if information}}
-  <div class="info-wrapper margin-top-5">
+  <fieldset class="info-wrapper">
     {{#each information}}
     <div class="information">
       <span>{{this}}</span>
     </div>
     {{/each}}
-  </div>
+  </fieldset>
   {{/if}}
 
-  {{#ifCond popupType '===' "non-closable"}}
-    <div class="info-wrapper margin-top-5">
-      <div class="information">
-        {{message}}
-      </div>
-    </div>
-  {{/ifCond}}
-  {{#ifCond popupType '===' "input"}}
-  {{#if rows}}
-    {{#each rows}}
-    <div class="row margin-top-5">
-      <span>{{this}}</span>
-      <input class="input-popup-selector" placeholder="{{localize "dc20rpg.dialog.popup.placeholder"}}"/>
+  {{#ifCond popupType '===' "input"}}{{#if inputs}}
+  <fieldset class="input-fields">
+    {{#each inputs as |input index|}}
+    <div class="form-group">
+      {{#if input.label}}<label>{{input.label}}</label>{{/if}}
+      {{!-- SELECT --}}
+      {{#ifCond input.type '===' "select"}}
+      <select data-cType="string" data-path="data.inputs.{{index}}.value">
+        {{selectOptions input.options selected=input.value blank=""}}
+      </select>
+      {{/ifCond}}
+
+      {{!-- INPUT --}}
+      {{#ifCond input.type '===' "input"}}
+      <input type="text" data-cType="string" data-path="data.inputs.{{index}}.value" value="{{input.value}}"/>
+      {{/ifCond}}
+
+      {{!-- CHECKBOX --}}
+      {{#ifCond input.type '===' "checkbox"}}
+      <input type="checkbox" data-cType="activable" data-path="data.inputs.{{index}}.value" {{checked input.value}}/>
+      {{/ifCond}}
+
+      {{#if input.hint}}<p class="hint">{{input.hint}}</p>{{/if}}
     </div>
     {{/each}}
-    <button class="button confirm-input-all margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
-  {{else}} 
-  <input class="labelless-row input-popup-selector margin-top-5" placeholder="{{localize "dc20rpg.dialog.popup.placeholder"}}"/>
-  <button class="button confirm-input margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
-  {{/if}}
-  {{/ifCond}}
+  </fieldset>
+  {{/if}}{{/ifCond}}
 
-  {{#ifCond popupType '===' "select"}}
-  <select class="labelless-row select-popup-selector margin-top-5">
-    {{selectOptions selectOptions selected=preselect blank=""}}
-  </select>
-  <button class="button confirm-select margin-top-5">{{localize "dc20rpg.dialog.popup.select"}}</button>
-  {{/ifCond}}
-
-  {{#ifCond popupType '===' "confirm"}}
-  <div class="button-wrapper">
-    <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.yes"}}</button>
-    <button class="button confirm-no margin-top-5">{{localize "dc20rpg.dialog.popup.no"}}</button>
-  </div>
-  {{/ifCond}}
-
-  {{#ifCond popupType '===' "info"}}
-  <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
-  {{/ifCond}}
-
-  {{#ifCond popupType '===' "drop"}}
-  <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
-  {{/ifCond}}
+  {{#unless hideButtons}}
+  <footer class="form-footer margin-top-5">
+    {{#ifCond popupType '===' "confirm"}}
+      <button data-action="confirm" data-option="confirm"><i class="fa-solid fa-solid fa-check fa-lg margin-right-5"></i>{{confirmLabel}}</button>
+      <button data-action="confirm" data-option="deny"><i class="fa-solid fa-solid fa-xmark fa-lg margin-right-5"></i>{{denyLabel}}</button>
+    {{else}}
+      <button data-action="confirm"><i class="fa-solid fa-solid fa-circle-check fa-lg margin-right-5"></i>{{confirmLabel}}</button>
+    {{/ifCond}}
+  </footer>
+  {{/unless}}
 </form>
