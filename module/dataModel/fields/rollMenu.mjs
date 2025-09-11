@@ -33,10 +33,8 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
 }
 
 export function enrichRollMenuObject(object) {
-  object.rollMenu = {
-    clear: async () => await _clearRollMenu(object),
-    helpDiceFormula: () => _helpDiceFormula(object)
-  }
+  object.system.rollMenu.clear = async () => await _clearRollMenu(object);
+  object.system.rollMenu.helpDiceFormula = () => _helpDiceFormula(object);
 }
 
 async function _clearRollMenu(object) {

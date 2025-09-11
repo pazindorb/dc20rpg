@@ -395,8 +395,8 @@ export class RollPromptDialog extends Dialog {
 
   /** @override */
   close(options) {
-    this.actor.rollMenu.clear();
-    if (this.item) this.item.rollMenu.clear();
+    this.actor.system.rollMenu.clear();
+    if (this.item) this.item.system.rollMenu.clear();
     
     if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);
