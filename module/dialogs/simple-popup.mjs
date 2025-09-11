@@ -74,6 +74,14 @@ export class SimplePopup extends DC20Dialog {
     return await SimplePopup.open("confirm", {message: message}, options);
   }
 
+  static async info(header, information, options={}) {
+    const data = {
+      header: header,
+      information: information
+    }
+    return await SimplePopup.open("info", data, options);
+  }
+
   static async open(popupType, data, options={}) {
     // Collect actor owners
     if (options.actor && !options.users) {
@@ -141,7 +149,7 @@ export class SimplePopup extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Popup";
     initialized.window.icon = "fa-solid fa-comment-dots";
-    initialized.position.width = 450;
+    initialized.position.width = 500;
 
     initialized.actions.confirm = this._onConfirm;
     return initialized;
@@ -226,7 +234,7 @@ async function _backwardCompatibleSimplePopup(popupType, popupData, options={}) 
     case "select": 
       return await SimplePopup.select(popupData.header, popupData.selectOptions, options);
     case "info": 
-      return await SimplePopup.open("info", popupData, options);
+      return await SimplePopup.info(popupData.header, popupData.information, options);
     case "confirm": 
       return await SimplePopup.confirm(popupData.header, options);
   }

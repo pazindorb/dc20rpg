@@ -1,5 +1,5 @@
 import { DC20Dialog } from "../dialogs/dc20Dialog.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 export function defaultSkillList() {
   return {
@@ -143,7 +143,7 @@ export class SkillConfiguration extends DC20Dialog {
     const dataset = event.target.dataset;
     const category = dataset.category;
 
-    const key = await getSimplePopup("input", {header: "Provide Key (4 characters)"});
+    const key = await SimplePopup.input("Provide Key (4 characters)");
     if (!key || key.length !== 4) {
       ui.notifications.error("Incorrect key!");
       return;
@@ -170,7 +170,7 @@ export class SkillConfiguration extends DC20Dialog {
 
   async _onSave(event) {
     event.preventDefault();
-    const proceed = await getSimplePopup("confirm", {header: "The update will take a moment and then the game will be refreshed. Proceed?"});
+    const proceed = await SimplePopup.confirm("The update will take a moment and then the game will be refreshed. Proceed?");
     if (!proceed) return;
 
     await game.settings.set("dc20rpg", "skillStore", this.skillStore);

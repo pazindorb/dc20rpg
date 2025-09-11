@@ -1,6 +1,6 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
@@ -205,7 +205,7 @@ async function _resourceManipulation(value, key, label, actor) {
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
   const label = event.label || event.effectName;
-  const confirmation = await getSimplePopup("confirm", {header: `Do you want to use "${label}" as a part of that action?`});
+  const confirmation = await SimplePopup.confirm(`Do you want to use "${label}" as a part of that action?`);
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {

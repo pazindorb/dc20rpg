@@ -2,7 +2,7 @@ import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { createNewAdvancement, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
 import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { generateKey } from "../../../helpers/utils.mjs";
-import { getSimplePopup, SimplePopup } from "../../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 import { runTemporaryMacro } from "../../../helpers/macros.mjs";
 
@@ -323,7 +323,7 @@ async function _findSelectedMulticlassOption(advancement, actor) {
   if (multiclassOptions.length > 1) {
     const options = {};
     multiclassOptions.forEach(multiclass => options[multiclass.source] = multiclass.name);
-    const selected = await getSimplePopup("select", {header: "What Class/Subclass is that Multiclass Talent from?", selectOptions: options});
+    const selected = await SimplePopup.select("What Class/Subclass is that Multiclass Talent from?", options);
     return multiclassOptions.find(multiclass => multiclass.source === selected);
   }
   return multiclassOptions[0];

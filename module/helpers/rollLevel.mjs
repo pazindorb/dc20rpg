@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -230,7 +230,7 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
 async function _shouldApply(modification, target, validationData) {
   if (_runValidationDataCheck(modification, validationData)) {
     if (modification.confirmation) {
-      return getSimplePopup("confirm", {header: `Should "${modification.label}" be applied for an Actor named "${target.name}"?`})
+      return await SimplePopup.confirm(`Should "${modification.label}" be applied for an Actor named "${target.name}"?`);
     }
     else return true;
   }

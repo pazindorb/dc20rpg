@@ -1,4 +1,4 @@
-<form id="simple-popup" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+<form id="simple-popup" class="dialog-v13 dialog-content standard-form force-top {{cssClass}}">
 
   {{#if header}}<h4 class="divider">{{header}}</h4>{{/if}}
   {{#if message}}<div class="message"><label>{{message}}</label></div>{{/if}}
@@ -44,10 +44,10 @@
   {{#unless hideButtons}}
   <footer class="form-footer margin-top-5">
     {{#ifCond popupType '===' "confirm"}}
-      <button data-action="confirm" data-option="confirm"><i class="fa-solid fa-solid fa-check fa-lg margin-right-5"></i>{{confirmLabel}}</button>
-      <button data-action="confirm" data-option="deny"><i class="fa-solid fa-solid fa-xmark fa-lg margin-right-5"></i>{{denyLabel}}</button>
+      <button data-action="confirm" data-option="confirm">{{confirmLabel}}</button>
+      <button data-action="confirm" data-option="deny">{{denyLabel}}</button>
     {{else}}
-      <button data-action="confirm"><i class="fa-solid fa-solid fa-circle-check fa-lg margin-right-5"></i>{{confirmLabel}}</button>
+      <button data-action="confirm">{{confirmLabel}}</button>
     {{/ifCond}}
   </footer>
   {{/unless}}

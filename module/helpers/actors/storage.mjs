@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { calculateItemsCost, currencyTransfer } from "../../dialogs/transfer.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { createItemOnActor, deleteItemFromActor, handleStackableItem } from "./itemsOnActor.mjs";
@@ -68,7 +68,7 @@ export async function itemTransfer(event, data, actor) {
     }
     let stacks = 1;
     if (quantity > 1) {
-      const provided = await getSimplePopup("input", {header: "How many stack you want to transfer?"});
+      const provided = await SimplePopup.input("How many stack you want to transfer?");
       stacks = parseInt(provided) > quantity ? quantity : parseInt(provided);
     }
 

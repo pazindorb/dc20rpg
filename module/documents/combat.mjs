@@ -1,7 +1,7 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { sendSimplePopupToActorOwners } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
@@ -573,7 +573,7 @@ export class DC20RpgCombat extends Combat {
   async _sustainCheck(actor) {
     for (const [key, sustain] of Object.entries(actor.system.sustain)) {
       const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
-      const confirmed = await sendSimplePopupToActorOwners(actor, "confirm", {header: message});
+      const confirmed = await SimplePopup.confirm(message, {actor: actor});
 
       if (confirmed) {
         const subtracted = actor.resources.ap.checkAndSpend(1);

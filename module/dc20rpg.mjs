@@ -29,7 +29,7 @@ import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
 import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
-import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
@@ -175,7 +175,7 @@ Hooks.on("createScene", async (scene, options, userId) => {
   if (userId !== game.userId) return;
 
   if (scene.grid.distance !== 1) {
-    const confirmed = await getSimplePopup("confirm", {header: "Incorrect grid distance", information: [`Looks like the '${scene.name}' scene is using a different than default grid distance. This may cause problems with distance calculations. Would you like to replace the distance with the default for this system?`]})
+    const confirmed = await SimplePopup.open("confirm", {header: "Incorrect grid distance", information: [`Looks like the '${scene.name}' scene is using a different than default grid distance. This may cause problems with distance calculations. Would you like to replace the distance with the default for this system?`]});
     if (confirmed) scene.update({
       ["grid.units"]: "Space",
       ["grid.distance"]: 1

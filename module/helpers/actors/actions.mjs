@@ -1,5 +1,5 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";
 import { resetEnhancements } from "./rollsFromActor.mjs";
@@ -118,7 +118,7 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
   let proceed = true;
-  if (spendExtraAP === "ask") proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
+  if (spendExtraAP === "ask") proceed = await SimplePopup.confirm(`You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`);
   if (proceed && actor.resources.ap.checkAndSpend(apSpend)) {
     await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;

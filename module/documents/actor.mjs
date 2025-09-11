@@ -1,6 +1,6 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { promptRoll } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
@@ -435,7 +435,7 @@ export class DC20RpgActor extends Actor {
         const spendMovePointsToStandFromProne = game.settings.get("dc20rpg","spendMovePointsToStandFromProne");
         if (spendMovePointsToStandFromProne !== "never") {
           let confirmed = true;
-          if (spendMovePointsToStandFromProne === "ask") confirmed = await getSimplePopup("confirm", {header: "Should spend 2 Move Points to stand up from Prone?"});
+          if (spendMovePointsToStandFromProne === "ask") confirmed = await SimplePopup.confirm("Should spend 2 Move Points to stand up from Prone?");
 
           if (confirmed) {
             let subtracted = await subtractMovePoints(this, 2);

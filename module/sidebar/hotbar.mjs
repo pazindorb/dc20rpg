@@ -1,6 +1,6 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
@@ -551,7 +551,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const sustain = owner.system.sustain[key];
     if (!sustain) return;
 
-    const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Sustain Action?"});
+    const confirmed = await SimplePopup.confirm("Do you want to remove that Sustain Action?");
     if (confirmed) {
       await owner.dropSustain(key);
     }
@@ -564,7 +564,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   async _onCheckRoll(event, target) {
     const options = this.actor.getCheckOptions(true, true, true, true);
-    const key = await getSimplePopup("select", {header: "Roll Skill Check", selectOptions: options});
+    const key = await SimplePopup.select("Roll Skill Check", options);
     if (!key) return;
     
     await promptRoll(this.actor, DC20Roll.prepareCheckDetails(key));
@@ -572,7 +572,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   async _onSaveRoll(event, target) {
     const options = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
-    const key = await getSimplePopup("select", {header: "Roll Save", selectOptions: options});
+    const key = await SimplePopup.select("Roll Save", options);
     if (!key) return;
 
     await promptRoll(this.actor, DC20Roll.prepareSaveDetails(key));
@@ -729,7 +729,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const dataset = event.target.dataset;
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
-        const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Effect?"});
+        const confirmed = await SimplePopup.confirm("Do you want to remove that Effect?");
         if (confirmed) deleteEffectFrom(dataset.effectId, owner);
       }
     }
@@ -738,7 +738,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       if (!key) key = event.target.parentElement.dataset?.key;
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
-        const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
+        const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
         if (confirmed) clearHelpDice(owner, key);
       }
     }

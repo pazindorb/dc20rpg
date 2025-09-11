@@ -13,7 +13,7 @@ import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
@@ -50,7 +50,7 @@ export function activateCommonLinsters(html, actor) {
     const key = ev.currentTarget.dataset?.key;
     const owner = getActorFromIds(actor.id, actor.token?.id);
     if (owner) {
-      const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
+      const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
       if (confirmed) clearHelpDice(owner, key);
     }
   });
@@ -143,7 +143,7 @@ export function activateCharacterLinsters(html, actor) {
   html.find(".rest").click(() => createRestDialog(actor));
   html.find(".level").click(async ev => {
     if (datasetOf(ev).up !== "true") {
-      const confirmed = await getSimplePopup("confirm", {header: "Do you want to level down?"});
+      const confirmed = await SimplePopup.confirm("Do you want to level down?");
       if (!confirmed) return;
     }
     changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor)
@@ -206,7 +206,7 @@ async function _onItemCreate(tab, actor) {
     case "spells":      selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes; break; 
   }
 
-  const itemType = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.dialog.create.itemType"), selectOptions});
+  const itemType = await SimplePopup.select(game.i18n.localize("dc20rpg.dialog.create.itemType"), selectOptions);
   if (!itemType) return;
 
   const itemData = {

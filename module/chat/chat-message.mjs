@@ -15,7 +15,7 @@ import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
@@ -805,7 +805,7 @@ export class DC20ChatMessage extends ChatMessage {
   } 
 
   async _onModifyCoreRoll() {
-    const formula = await getSimplePopup("input", {header: "Enter formula modification"});
+    const formula = await SimplePopup.input("Enter formula modification");
     if (formula) await this.modifyCoreRoll(formula);
   }
 

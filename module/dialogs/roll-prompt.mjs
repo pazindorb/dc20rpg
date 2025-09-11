@@ -11,7 +11,7 @@ import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, toggleUpOrDown } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
-import { getSimplePopup } from "./simple-popup.mjs";
+import { SimplePopup } from "./simple-popup.mjs";
 import { getTokenSelector } from "./token-selector.mjs";
 
 /**
@@ -297,9 +297,8 @@ export class RollPromptDialog extends Dialog {
     this._rollRollLevelCheck(true);
   }
 
-  _displayRollLevelCheckResult(result) {
-    if (result) return getSimplePopup("info", {information: result, header: "Expected Roll Level"});
-    if (this.rollLevelCheckResult) return getSimplePopup("info", {information: this.rollLevelCheckResult, header: "Expected Roll Level"})
+  _displayRollLevelCheckResult(result=this.rollLevelCheckResult) {
+    SimplePopup.info("Expected Roll Level", result);
   }
 
   async _rollRollLevelCheck(display, quickRoll) {

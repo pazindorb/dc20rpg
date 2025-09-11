@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../../documents/actor.mjs";
 import { emitEventToGM } from "../sockets.mjs";
 import { isPointInPolygon } from "../utils.mjs";
@@ -294,7 +294,7 @@ export function preConfigurePrototype(actor) {
 export async function canvasItemDrop(canvas, data, event) {
   if (data.type !== "Item") return;
 
-  const confirmed = await getSimplePopup("confirm", {header: "Do you want to drop that item?"});
+  const confirmed = await SimplePopup.confirm("Do you want to drop that item?");
   if (!confirmed) return;
 
   const item = await fromUuid(data.uuid);

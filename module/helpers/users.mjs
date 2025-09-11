@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 /**
  * Returns array of owners of specific Actor
@@ -40,7 +40,7 @@ export async function userSelector(skipGM) {
           .filter(user => !skipGM || !user.isGM)
           .filter(user => game.userId !== user.id)
           .forEach(user => users[user.id] = user.name);
-  const userId = await getSimplePopup("select", {header: "Select User", selectOptions: users});
+  const userId = await SimplePopup.select("Select User", users);
   return game.users.get(userId);
 }
 

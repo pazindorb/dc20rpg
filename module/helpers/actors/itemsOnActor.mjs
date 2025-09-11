@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
@@ -75,7 +75,7 @@ export async function splitItem(item) {
   if (!item.system.stackable) return;
 
   const currentQuantity = item.system.quantity;
-  const stackSize = await getSimplePopup("input", {header: `Provide New Stack Size`, information: [`Current Quantity: ${currentQuantity}`]});
+  const stackSize = await SimplePopup.input(`Provide new stack size. Current Quantity: ${currentQuantity}`);
   if (stackSize) {
     const newStack = parseInt(stackSize);
     const oldStack = currentQuantity - newStack;
@@ -369,7 +369,7 @@ export async function changeLevel(up, itemId, actor) {
 }
 
 export async function rerunAdvancement(actor, classId) {
-  const confirmed = await getSimplePopup("confirm", {header: "Do you want to repeat the last level up?"});
+  const confirmed = await SimplePopup.confirm("Do you want to repeat the last level up?");
   if (!confirmed) return;
   await changeLevel("false", classId, actor);
   await changeLevel("true", classId, actor);
@@ -521,7 +521,7 @@ export async function handleStackableItem(createdItem, actor, event, transfer, s
   if (!stacks) {
     stacks = 1;
     if (quantity > 1) {
-      const provided = await getSimplePopup("input", {header: "How many stack you want to transfer?"});
+      const provided = await SimplePopup.input("How many stack you want to transfer?");
       stacks = parseInt(provided) > quantity ? quantity : parseInt(provided);
     }
   }

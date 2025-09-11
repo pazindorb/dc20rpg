@@ -1,6 +1,6 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getValueFromPath, toSelectOptions } from "../../helpers/utils.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 
@@ -138,7 +138,7 @@ export class AdventurersRegister extends DC20Dialog {
   }
 
   async _onAddNewGroup(event, target) {
-    const name = await getSimplePopup("input", {header: "Group Name"});
+    const name = await SimplePopup.input("Group Name");
     if (!name) return;
 
     this.groups.push({
@@ -152,7 +152,7 @@ export class AdventurersRegister extends DC20Dialog {
     const actorId = target.dataset?.actorId;
     if (!actorId) return;
 
-    const groupName = await getSimplePopup("select", {header: "Select Group", selectOptions: toSelectOptions(this.groups, "name", "name")});
+    const groupName = await SimplePopup.select("Select Group", toSelectOptions(this.groups, "name", "name"));
     const group = this.groups.find(group => group.name === groupName);
     if (!group) return;
 
