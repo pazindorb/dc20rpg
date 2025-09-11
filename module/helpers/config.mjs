@@ -2,6 +2,7 @@ import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { createRestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
@@ -27,8 +28,11 @@ import { toSelectOptions } from "./utils.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
-    SimplePopup,
-    DC20Roll
+    dialog: {
+      SimplePopup,
+      TokenSelector
+    },
+    DC20Roll,
   }
 
   game.dc20rpg = {

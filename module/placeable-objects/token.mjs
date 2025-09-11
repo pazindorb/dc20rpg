@@ -1,4 +1,4 @@
-import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
@@ -205,7 +205,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
   async _onClickLeft2(event) {
     if (this.document.itemToken) {
       const tokens = getTokensForUser();
-      const selected = await getTokenSelector(tokens, "Select Actor to pick up");
+      const selected = await TokenSelector.open(tokens, "Select Actor to pick up");
       if (selected.length === 0) return;
 
       for (const token of selected) {

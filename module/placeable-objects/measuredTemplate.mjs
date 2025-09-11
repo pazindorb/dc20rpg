@@ -1,4 +1,4 @@
-import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
 import { getActorFromIds, getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { getPointsOnLine, isPointInPolygon } from "../helpers/utils.mjs";
@@ -208,7 +208,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
         }
       }
       else {
-        const selected = await getTokenSelector(canvas.tokens.placeables, "Apply Aura to Tokens");
+        const selected = await TokenSelector.open(canvas.tokens.placeables, "Apply Aura to Tokens");
         for (const token of selected) {
           await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
         }

@@ -12,7 +12,7 @@ import { changeActivableProperty, toggleUpOrDown } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 import { SimplePopup } from "./simple-popup.mjs";
-import { getTokenSelector } from "./token-selector.mjs";
+import { TokenSelector } from "./token-selector.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
@@ -346,7 +346,7 @@ export class RollPromptDialog extends Dialog {
       }
     }
     
-    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+    if (Object.keys(tokens).length > 0) tokens = await TokenSelector.open(tokens, "Select Targets");
     if (tokens.length > 0) {
       const user = game.user;
       if (!user) return;

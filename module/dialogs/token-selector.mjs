@@ -1,7 +1,13 @@
-import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 
-export class TokenSelector extends Dialog {
+export class TokenSelector extends DC20Dialog {
+
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
+      template: "systems/dc20rpg/templates/dialogs/token-selector.hbs",
+    }
+  };
 
   constructor(tokens, label, dialogData = {}, options = {}) {
     super(dialogData, options);
@@ -9,40 +15,31 @@ export class TokenSelector extends Dialog {
     this.label = label;
   }
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/token-selector.hbs",
-      classes: ["dc20rpg", "dialog"]
-    });
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Token Selector";
+    initialized.window.icon = "fa-solid fa-users-viewfinder";
+    initialized.position.width = 450;
+
+    initialized.actions.confirm = this._onConfirm;
+    initialized.actions.ping = this._onPingToken;
+    return initialized;
   }
 
-  getData() {
-    return {
-      tokens: this.tokens,
-      label: this.label
-    }
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.tokens = this.tokens;
+    context.label = this.label;
+    return context;
   }
 
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find('.confirm-selection').click(ev => this._onConfirm(datasetOf(ev)));
-    html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.ping-token').click(ev => this._onPingToken(datasetOf(ev).id));
-  }
-
-  _onActivable(path) {
-    let value = getValueFromPath(this, path);
-    setValueForPath(this, path, !value);
-    this.render(true);
-  }
-
-  _onPingToken(id) {
-    const token = this.tokens[id];
+  _onPingToken(event, target) {
+    const token = this.tokens[target.dataset.id];
     if (token) canvas.ping({x: token.center.x, y: token.center.y});
   }
 
-  async _onConfirm() {
+  _onConfirm(event) {
+    event.preventDefault();
     const selectedTokens = [];
     Object.values(this.tokens).forEach((token) => {
       if (token.selectedToken) selectedTokens.push(token);
@@ -51,8 +48,8 @@ export class TokenSelector extends Dialog {
     this.close();
   }
 
-  static async create(tokens, label, dialogData = {}, options = {}) {
-    const dialog = new TokenSelector(tokens, label, dialogData, options);
+  static async open(tokens, label, options={}) {
+    const dialog = new TokenSelector(tokens, label, options);
     return new Promise((resolve) => {
       dialog.promiseResolve = resolve;
       dialog.render(true);
@@ -64,8 +61,4 @@ export class TokenSelector extends Dialog {
     if (this.promiseResolve) this.promiseResolve([]);
     super.close(options);
   }
-}
-
-export async function getTokenSelector(tokens, label) {
-  return await TokenSelector.create(tokens, label, {title: "Token Selector"});
 }

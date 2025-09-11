@@ -206,19 +206,19 @@ export class SimplePopup extends DC20Dialog {
 
 /** @deprecated since v0.9.8 until 0.10.0 */
 export async function getSimplePopup(popupType, popupData={}) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getSimplePopup' method is deprecated, and will be removed in the later system version. Use 'DC20.SimplePopup.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getSimplePopup' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.SimplePopup.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
   return await _backwardCompatibleSimplePopup(popupType, popupData);
 }
 
 /** @deprecated since v0.9.8 until 0.10.0 */
 export async function sendSimplePopupToUsers(userIds, popupType, popupData={}) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendSimplePopupToUsers' method is deprecated, and will be removed in the later system version. Use 'DC20.SimplePopup.open' with 'options.users' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendSimplePopupToUsers' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.SimplePopup.open' with 'options.users' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
   return await _backwardCompatibleSimplePopup(popupType, popupData, {users: userIds}); 
 }
 
 /** @deprecated since v0.9.8 until 0.10.0 */
 export async function sendSimplePopupToActorOwners(actor, popupType, popupData={}) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendSimplePopupToActorOwners' method is deprecated, and will be removed in the later system version. Use 'DC20.SimplePopup.open' with 'options.actor' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendSimplePopupToActorOwners' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.SimplePopup.open' with 'options.actor' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
   return await _backwardCompatibleSimplePopup(popupType, popupData, {actor: actor});
 }
 

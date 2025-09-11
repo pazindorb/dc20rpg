@@ -7,7 +7,7 @@ import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
-import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
@@ -584,7 +584,7 @@ export class DC20ChatMessage extends ChatMessage {
       }
     }
     
-    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+    if (Object.keys(tokens).length > 0) tokens = await TokenSelector.open(tokens, "Select Targets");
     if (tokens.length > 0) {
       const newTargets = tokens.map(token => token.id);
       await this.update({

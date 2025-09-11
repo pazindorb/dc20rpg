@@ -1514,7 +1514,7 @@
   }
 }
 
-#token-selector, #dmg-calculator, #initiative-slot-selector {
+#dmg-calculator, #initiative-slot-selector {
 
   .selectable {
     width: auto;
@@ -1655,15 +1655,6 @@
   
   .remove-skill {
     flex: 0;
-  }
-}
-
-#simple-popup {
-
-  .message {
-    padding: 5px;
-    font-size: 16px;
-    font-weight: bold;
   }
 }
 
@@ -2439,6 +2430,12 @@
     flex-direction: column;
   }
 
+  .message {
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
   .activable-box {
     font-family: $font-header;
     padding: 5px;
@@ -2483,12 +2480,11 @@
     background-color: var(--backround-color);
     border: 2px solid var(--border-color);
     border-radius: 5px;
-    padding: 5px;
+    padding: 0;
     color: var(--text-color);
 
     .actor {
-      padding: 5px 8px;
-
+      padding: 10px 12px;
       font-family: $font-default;
       font-size: 14px;
 
@@ -2525,6 +2521,12 @@
 
       &:first-child {
         border-top: 0;
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: end;
       }
     }
   }
