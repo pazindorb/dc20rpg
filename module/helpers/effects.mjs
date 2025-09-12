@@ -31,8 +31,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   // Iterate over active effects, classifying them into categories
   for ( const effect of owner.allEffects ) {
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
-    if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
-    else {
+    if (!effect.fromStatus) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
@@ -78,7 +77,7 @@ function _connectEffectAndStatus(effect, statuses) {
         else if (status.stackable) status.stack += 1; 
 
         // If status comes from other active effects we want to give info about it with tooltip
-        if ((effect.statuses.size > 1 && effect.name !== status.name) || effect.sourceName !== "None") {
+        if ((effect.statuses.size > 1 && effect.name !== status.name) || !effect.fromStatus) {
           if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
           else status.tooltip += ` and ${effect.name}`
           status.fromOther = true

@@ -58,6 +58,8 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
 
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
+    context.disableRoundCounter = !this.document.system.duration.useCounter;
+    context.source.system.duration.useCounter = this.document.system.duration.useCounter;
     context.logicalExpressions = CONFIG.DC20RPG.DROPDOWN_DATA.logicalExpressions;
     context.effectKeys = this.effectKeys;
     context.itemEnhancements = this.itemEnhancements;
@@ -118,7 +120,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
 
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
-    if (event.target.name && event.target.name.startsWith("changes.")) {
+    if (event.target.name && (event.target.name.startsWith("changes.") || event.target.name === "system.duration.useCounter")) {
       this._updateChanges(event);
       this.render();
     }

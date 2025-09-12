@@ -177,16 +177,16 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
       if (effect.disabled) continue;
       for ( const statusId of effect.statuses ) {
         const status = choices[statusId];
-        if (effect.sourceName === "None") status.fromOther = false;
-        if ( !status ) continue;
-        if ( status._id ) {
+        if (effect.fromStatus) status.fromOther = false;
+        if (!status) continue;
+        if (status._id) {
           if ( status._id !== effect.id ) continue;
         } else {
           if ( effect.statuses.size !== 1 ) continue;
         }
-        if (effect.sourceName !== "None" && status.fromOther === undefined) status.fromOther = true;
+        if (!effect.fromStatus && status.fromOther === undefined) status.fromOther = true;
         status.isActive = true;
-        if ( effect.getFlag("core", "overlay") ) status.isOverlay = true;
+        if (effect.getFlag("core", "overlay")) status.isOverlay = true;
         break;
       }
     }

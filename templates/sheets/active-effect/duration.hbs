@@ -5,13 +5,17 @@
   </fieldset>
 
   <fieldset>
+    <div class="form-group"> {{log this}}
+      <label for="{{rootId}}-duration.useCounter">{{localize "dc20rpg.effect.sheet.useCounter"}}</label>
+      {{formGroup fields.system.fields.duration.fields.useCounter name="system.duration.useCounter" value=source.system.duration.useCounter rootId=rootId}} 
+    </div>
     <div class="form-group">
       <label>{{localize "EFFECT.DurationTurns"}}</label>
       <div class="form-fields">
         <label for="{{rootId}}-duration.rounds">{{localize "EFFECT.FIELDS.duration.rounds.label"}}</label>
-        {{formInput fields.duration.fields.rounds value=source.duration.rounds id=(concat rootId "-duration.rounds")}}
+        {{formInput fields.duration.fields.rounds value=source.duration.rounds id=(concat rootId "-duration.rounds") disabled=disableRoundCounter}}
         <label for="{{rootId}}-duration.turns">{{localize "EFFECT.FIELDS.duration.turns.label"}}</label>
-        {{formInput fields.duration.fields.turns value=source.duration.turns id=(concat rootId "-duration.turns")}}
+        {{formInput fields.duration.fields.turns value=source.duration.turns id=(concat rootId "-duration.turns") disabled=disableRoundCounter}}
       </div>
     </div>
     <div class="form-group">
@@ -22,10 +26,6 @@
         <label for="{{rootId}}-duration.startTurn">{{localize "EFFECT.FIELDS.duration.startTurn.label"}}</label>
         {{formInput fields.duration.fields.startTurn value=source.duration.startTurn id=(concat rootId "-duration.startTurn")}}
       </div>
-    </div>
-    <div class="form-group">
-      <label for="{{rootId}}-duration.useCounter">{{localize "dc20rpg.effect.sheet.useCounter"}}</label>
-      {{formGroup fields.system.fields.duration.fields.useCounter name="system.duration.useCounter" value=source.system.duration.useCounter rootId=rootId}} 
     </div>
     <div class="form-group">
       <label for="{{rootId}}-duration.resetWhenEnabled">{{localize "dc20rpg.effect.sheet.resetWhenEnabled"}}</label>

@@ -25,6 +25,8 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
           itemId: new fields.StringField({required: true}),
         }),
         statusId: new fields.StringField({required: true}),
+        condition: new fields.BooleanField({required: true, initial: false}),
+        fromStatus: new fields.BooleanField({required: true, initial: false}),
         duration: new fields.SchemaField({
           useCounter: new fields.BooleanField({required: true, initial: false}),
           resetWhenEnabled: new fields.BooleanField({required: true, initial: false}),
@@ -99,6 +101,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (toggleable && effectConfig.linkWithToggle && !effectConfig.toggleItem) return true;
     if (toggleable && effectConfig.linkWithToggle && effectConfig.toggleItem) return false;
     return effectConfig.mustEquip
+  }
+
+  get isCondition() {
+    return this.system.fromStatus && this.system.condition;
+  }
+
+  get fromStatus() {
+    return this.system.fromStatus;
   }
 
   async disable({ignoreStateChangeLock}={}) {
