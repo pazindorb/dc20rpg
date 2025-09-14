@@ -1,5 +1,5 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
+import { promptRollToOtherPlayer } from "../../roll/rollDialog.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getValueFromPath, toSelectOptions } from "../../helpers/utils.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";

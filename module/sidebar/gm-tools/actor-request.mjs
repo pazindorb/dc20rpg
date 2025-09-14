@@ -1,4 +1,4 @@
-import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
+import { promptRollToOtherPlayer } from "../../roll/rollDialog.mjs";
 import { getActivePlayers } from "../../helpers/users.mjs";
 import { openRestDialogForOtherPlayers } from "../../dialogs/rest.mjs";
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";

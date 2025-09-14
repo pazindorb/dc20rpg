@@ -1,5 +1,5 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { promptRoll } from "../dialogs/roll-prompt.mjs";
+import { promptRoll } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";

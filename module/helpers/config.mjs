@@ -1,6 +1,6 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../roll/rollDialog.mjs";
 import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";

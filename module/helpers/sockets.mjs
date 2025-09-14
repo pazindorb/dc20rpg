@@ -1,5 +1,5 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
+import { promptItemRoll, promptRoll, RollPromptDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { createToken, deleteToken } from "./actors/tokens.mjs";

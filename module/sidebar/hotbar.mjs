@@ -1,5 +1,5 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptRoll } from "../dialogs/roll-prompt.mjs";
+import { promptItemRoll, promptRoll } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";

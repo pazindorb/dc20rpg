@@ -1,5 +1,5 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
-import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
+import { promptRollToOtherPlayer } from "../../roll/rollDialog.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs";

@@ -112,6 +112,14 @@ export class SimplePopup extends DC20Dialog {
     }
   }
 
+  static async create(popupType, data={}, options={}) {
+    const prompt = new SimplePopup(popupType, data, options);
+    return new Promise((resolve) => {
+      prompt.promiseResolve = resolve;
+      prompt.render(true);
+    });
+  }
+
   static PARTS = {
     root: {
       classes: ["dc20rpg", "force-top"],
@@ -177,14 +185,6 @@ export class SimplePopup extends DC20Dialog {
         break;
     }
     this.close();
-  }
-
-  static async create(popupType, data={}, options={}) {
-    const prompt = new SimplePopup(popupType, data, options);
-    return new Promise((resolve) => {
-      prompt.promiseResolve = resolve;
-      prompt.render(true);
-    });
   }
 
   /** @override */

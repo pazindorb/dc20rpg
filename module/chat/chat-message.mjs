@@ -1,4 +1,4 @@
-import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { promptRoll, promptRollToOtherPlayer } from "../roll/rollDialog.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";

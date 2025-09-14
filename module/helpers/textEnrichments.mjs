@@ -1,4 +1,4 @@
-import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { promptRollToOtherPlayer } from "../roll/rollDialog.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";

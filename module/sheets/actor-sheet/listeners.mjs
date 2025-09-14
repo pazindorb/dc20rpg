@@ -10,7 +10,7 @@ import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { advForApChange  } from "../../helpers/rollLevel.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
-import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
+import { promptItemRoll, promptRoll } from "../../roll/rollDialog.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";

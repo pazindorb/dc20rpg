@@ -1,4 +1,4 @@
-import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
+import { promptItemRoll } from "../../roll/rollDialog.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";

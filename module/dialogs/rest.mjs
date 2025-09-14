@@ -2,7 +2,7 @@ import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
-import { promptRoll } from "./roll-prompt.mjs";
+import { promptRoll } from "../roll/rollDialog.mjs";
 
 /**
  * Dialog window for resting.

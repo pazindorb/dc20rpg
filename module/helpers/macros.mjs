@@ -1,4 +1,4 @@
-import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
+import { promptItemRoll } from "../roll/rollDialog.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
