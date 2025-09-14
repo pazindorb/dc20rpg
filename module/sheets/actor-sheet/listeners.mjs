@@ -7,7 +7,6 @@ import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
-import { advForApChange  } from "../../helpers/rollLevel.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { promptItemRoll, promptRoll } from "../../roll/rollDialog.mjs";
@@ -30,8 +29,6 @@ export function activateCommonLinsters(html, actor) {
   html.find('.roll-item').click(ev => promptItemRoll(actor, getItemFromActor(datasetOf(ev).itemId, actor), ev.shiftKey));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
-  html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
-  html.find('.ap-for-adv').mousedown(ev => advForApChange(actor, ev.which));
   html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
@@ -154,7 +151,7 @@ export function activateCharacterLinsters(html, actor) {
   html.find('.transfer').click(() => _onTransfer(actor));
   html.find('.open-item-creator').click(async ev => {
     const itemData = await openItemCreator(datasetOf(ev).itemType);
-    await createItemOnActor(actor, itemData);
+    if (itemData) await createItemOnActor(actor, itemData);
   });
 
   // Attributes

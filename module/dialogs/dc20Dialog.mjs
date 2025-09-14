@@ -49,7 +49,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     return frame;
   }
 
-  _onChange(event) {
+  async _onChange(event) {
     const target = event.target;
     const dataset = target.dataset;
     const cType = dataset.ctype;
@@ -57,24 +57,26 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const value = target.value;
 
     switch (cType) {
-      case "string": this._onChangeString(path, value, dataset); break;
-      case "numeric": this._onChangeNumeric(path, value, false, dataset); break;
-      case "numeric-nullable": this._onChangeNumeric(path, value, true, dataset); break;
-      case "boolean" : this._onChangeBoolean(path, dataset); break;
-      case "multi-select": this._onMultiSelectChange(path, value, dataset); break;
+      case "string": await this._onChangeString(path, value, dataset); break;
+      case "numeric": await this._onChangeNumeric(path, value, false, dataset); break;
+      case "numeric-nullable": await this._onChangeNumeric(path, value, true, dataset); break;
+      case "boolean" : await this._onChangeBoolean(path, dataset); break;
+      case "multi-select": await this._onMultiSelectChange(path, value, dataset); break;
     }
   }
 
-  _onClick(event) {
+  async _onClick(event) {
     const target = event.target;
     const dataset = target.dataset;
     const cType = dataset.ctype;
     const value = dataset.value;
     const path = dataset.path;
+    const limit = dataset.limit ? parseInt(dataset.limit) : 0;
 
     switch (cType) {
-      case "activable": this._onActivable(path, dataset); break;
-      case "remove-option": this._onRemoveOption(path, value, dataset); break;
+      case "activable": await this._onActivable(path, dataset); break;
+      case "remove-option": await this._onRemoveOption(path, value, dataset); break;
+      case "toggle": await this._onToggle(path, event.which, limit, dataset); break;
     }
   }
 
@@ -89,43 +91,58 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     }
   }
 
-  _onActivable(path, dataset) {
+  async _onActivable(path, dataset) {
     const value = getValueFromPath(this, path);
-    setValueForPath(this, path, !value);
+    await this._update(path, !value);
     this.render();
   }
 
-  _onChangeString(path, value, dataset) {
-    setValueForPath(this, path, value);
+  async _onToggle(path, which, limit, dataset) {
+    const value = getValueFromPath(this, path);
+    switch (which) {
+      case 1: 
+        await this._update(path, Math.min(value + 1, limit));
+        break;
+      case 3: 
+        await this._update(path, Math.max(value - 1, limit));
+        break;
+    }
     this.render();
   }
 
-  _onChangeNumeric(path, value, nullable, dataset) {
+  async _onChangeString(path, value, dataset) {
+    await this._update(path, value);
+    this.render();
+  }
+
+  async _onChangeNumeric(path, value, nullable, dataset) {
     let numericValue = parseInt(value);
     if (nullable && isNaN(numericValue)) numericValue = null;
-    setValueForPath(this, path, numericValue);
+    await this._update(path, numericValue);
     this.render();
   }
 
-  _onChangeBoolean(path, dataset) {
+  async _onChangeBoolean(path, dataset) {
     const value = getValueFromPath(this, path);
-    setValueForPath(this, path, !value);
+    await this._update(path, !value);
     this.render();
   }
 
-  _onMultiSelectChange(path, value, dataset) {
+  async _onMultiSelectChange(path, value, dataset) {
     if (!value) return;
     const array = getValueFromPath(this, path);
     if (array.indexOf(value) !== -1) return;
     array.push(value);
+    await this._update(path, array);
     this.render();
   }
 
-  _onRemoveOption(path, value, dataset) {
+  async _onRemoveOption(path, value, dataset) {
     const array = getValueFromPath(this, path);
     const index = array.indexOf(value);
     if (index === -1) return;
     array.splice(index, 1);
+    await this._update(path, array);
     this.render();
   }
 
@@ -136,5 +153,10 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
 
     const droppedObject = JSON.parse(droppedData);
     return droppedObject;
+  }
+
+  async _update(path, value) {
+    if (this.updateObject) await this.updateObject.update({[path]: value});
+    else setValueForPath(this, path, value);
   }
 }

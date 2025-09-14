@@ -170,9 +170,9 @@ export class ItemCreatorDialog extends DC20Dialog {
   // ==================== CONTEXT =====================
 
   // ==================== ACTIONS =====================
-  _onChangeString(path, value, dataset) {
+  async _onChangeString(path, value, dataset) {
     if (path === "blueprint.system.weaponType" || path === "blueprint.system.equipmentType") this._updateBlueprintOnTypeChange(value);
-    super._onChangeString(path, value, dataset);
+    await super._onChangeString(path, value, dataset);
   }
 
   _updateBlueprintOnTypeChange(itemSubtype) {

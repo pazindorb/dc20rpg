@@ -112,22 +112,22 @@ export class TransferDialog extends DC20Dialog {
   }
 
   /** @override */
-  _onChangeString(path, value, dataset) {
+  async _onChangeString(path, value, dataset) {
     if (path === "selectedActor") {
       delete this.flexibleTrader?.transfer; // Clear current transfer data
       this.flexibleTrader = game.actors.get(value);
       this._prepareTrader(this.flexibleTrader);
       this._prepareTrader(this.fixedTrader);
     }
-    super._onChangeString(path, value, dataset);
+    await super._onChangeString(path, value, dataset);
   }
   
   /** @override */
-  _onChangeNumeric(path, value, nullable, dataset) {
+  async _onChangeNumeric(path, value, nullable, dataset) {
     const limit = parseInt(dataset.limit);
     value = parseInt(value);
     if (value > limit) value = limit;
-    super._onChangeNumeric(path, value, nullable, dataset);
+    await super._onChangeNumeric(path, value, nullable, dataset);
   }
 
   async _onDrop(event) {
