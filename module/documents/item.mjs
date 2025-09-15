@@ -4,6 +4,7 @@ import { toggleCheck } from "../helpers/items/itemConfig.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { generateKey, translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, Macro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { enrichWithHelpers } from "./item/item-helpers.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -35,58 +36,11 @@ export class DC20RpgItem extends Item {
   }
 
   get allEnhancements() {
-    let enhancements = new Map();
-    if (!this.system.enhancements) return enhancements;
-
-    // Collect enhancements from that specific item
-    for (const [key, enh] of Object.entries(this.system.enhancements)) {
-      enh.sourceItemId = this.id;
-      enh.sourceItemName = this.name;
-      enh.sourceItemImg = this.img;
-      enhancements.set(key, enh);
-    }
-
-    const parent = this.actor;
-    if (!parent) return enhancements;
-
-    // We need to deal with case where items call each other in a infinite loop
-    // We expect 10 to be deep enough to collect all the coppied enhancements
-    let firstCall = false;
-    if (DC20RpgItem.enhLoopCounter === 0) firstCall = true;
-    if (DC20RpgItem.enhLoopCounter > 10) return enhancements;
-    DC20RpgItem.enhLoopCounter++;
-
-    // Collect copied enhancements
-    for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
-      if (itemWithCopyEnh.itemId === this.id) continue;
-      if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, this)) {
-        const item = parent.items.get(itemWithCopyEnh.itemId);
-        if (this.id === item.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
-        if (item && item.system.copyEnhancements?.copy && toggleCheck(item, item.system.copyEnhancements?.linkWithToggle)) {
-          enhancements = new Map([...enhancements, ...item.allEnhancements]);
-        }
-      }
-    }
-
-    // Collet from used weapon
-    const usesWeapon = this.system.usesWeapon;
-    if (usesWeapon?.weaponAttack) {
-      const weapon = parent.items.get(usesWeapon.weaponId);
-      if (weapon) {
-        enhancements = new Map([...enhancements, ...weapon.allEnhancements]);
-      }
-    }
-
-    if (firstCall) DC20RpgItem.enhLoopCounter = 0;
-    return enhancements;
+    return this.enhancements.all;
   }
 
   get activeEnhancements() {
-    const active = new Map();
-    for (const [key, enh] of this.allEnhancements.entries()) {
-      if (enh.number > 0) active.set(key, enh);
-    }
-    return active
+    return this.enhancements.active;
   }
 
   /**
@@ -169,274 +123,79 @@ export class DC20RpgItem extends Item {
   //=========================
   //        FORMULAS        =
   //=========================
-  /**
-   * Creates new non-core Formula object on this item.
-   * Both formula and formulaKey parameters are optional and if not provided will be generated automatically.
-   */
-  createFormula(formula={}, formulaKey) {
-    const newFormula = foundry.utils.mergeObject(this.getFormulaObjectExample(), formula);
-    const key = formulaKey ? formulaKey : generateKey();
-    this.update({[`system.formulas.${key}`]: newFormula});
+  async createFormula(formula={}, formulaKey) {
+    return await Formula.create(formula, this, formulaKey);
   }
-
-  removeFormula(key) {
-    this.update({ [`system.formulas.-=${key}`]: null });
+  async removeFormula(key) {
+    await this.update({[`system.formulas.-=${key}`]: null});
   }
-
-  /**
-   * Returns example Formula object that can be modified and used for creating new macros.
-   */
   getFormulaObjectExample() {
-    return {
-      formula: "",
-      type: "",
-      category: "damage",
-      fail: false,
-      failFormula: "",
-      each5: false,
-      each5Formula: "",
-      dontMerge: false,
-      overrideDefence: "",
-      perTarget: false,
-    }
+    return Formula.newObject();
   }
 
   //==========================
   //       ROLL REQUEST      =
   //==========================
-  /**
-   * Creates new Roll Request object on this item.
-   * Both rollRequest and rollRequestKey parameters are optional and if not provided will be generated automatically.
-   */
-  createRollRequest(rollRequest={}, rollRequestKey) {
-    const request = foundry.utils.mergeObject(this.getRollRequestObjectExample(), rollRequest);
-    const key = rollRequestKey ? rollRequestKey : generateKey();
-    this.update({[`system.rollRequests.${key}`]: request});
+  async createRollRequest(rollRequest={}, rollRequestKey) {
+    return await RollRequest.create(rollRequest, this, rollRequestKey);
   }
-
-  removeRollRequest(key) {
-    this.update({ [`system.rollRequests.-=${key}`]: null });
+  async removeRollRequest(key) {
+    await this.update({[`system.rollRequests.-=${key}`]: null});
   }
-
-  /**
-   * Returns example Roll Request object that can be modified and used for creating new macros.
-   */
   getRollRequestObjectExample() {
-    return {
-      category: "save",
-      saveKey: "",
-      contestedKey: "",
-      dcCalculation: "spell",
-      dc: 0,
-      addMasteryToDC: true,
-      respectSizeRules: false,
-    }
+    return RollRequest.newObject();
   }
 
   //============================
   //       AGAINST STATUS      =
   //============================
-  /**
-   * Creates new Against Status object on this item.
-   * Both againstStatus and againstStatusKey parameters are optional and if not provided will be generated automatically.
-   */
-  createAgainstStatus(againstStatus={}, againstStatusKey) {
-    const against = foundry.utils.mergeObject(this.getAgainstStatusObjectExample(), againstStatus);
-    const key = againstStatusKey ? againstStatusKey : generateKey();
-    this.update({[`system.againstStatuses.${key}`]: against});
+  async createAgainstStatus(againstStatus={}, againstStatusKey) {
+    return await AgainstStatus.create(againstStatus, this, againstStatusKey);
   }
-
-  removeAgainstStatus(key) {
-    this.update({ [`system.againstStatuses.-=${key}`]: null });
+  async removeAgainstStatus(key) {
+    await this.update({[`system.againstStatuses.-=${key}`]: null});
   }
-
-  /**
-   * Returns example Against Status object that can be modified and used for creating new macros.
-   */
   getAgainstStatusObjectExample() {
-    return {
-      id: "",
-      supressFromChatMessage: false,
-      untilYourNextTurnStart: false,
-      untilYourNextTurnEnd: false,
-      untilTargetNextTurnStart: false,
-      untilTargetNextTurnEnd: false,
-      untilFirstTimeTriggered: false,
-      forOneMinute: false,
-      repeatedSave: false,
-      repeatedSaveKey: "phy"
-    };
+    return AgainstStatus.newObject();
   }
 
   //==========================
   //       ENHANCEMENTS      =
   //==========================
-  /**
-   * Creates new Enhancement object on this item.
-   * Both enhancement and enhancementKey parameters are optional and if not provided will be generated automatically.
-   */
-  createNewEnhancement(enhancement={}, enhancementKey) {
-    const enh = foundry.utils.mergeObject(this.getEnhancementObjectExample(), enhancement);
-    const key = enhancementKey ? enhancementKey : generateKey();
-    this.update({[`system.enhancements.${key}`]: enh});
+  async createNewEnhancement(enhancement={}, enhancementKey) {
+    return await Enhancement.create(enhancement, this, enhancementKey);
   }
-
-  removeEnhancement(key) {
-    this.update({[`system.enhancements.-=${key}`]: null });
+  async removeEnhancement(key) {
+    await this.update({[`system.enhancements.-=${key}`]: null});
   }
-
-  /**
-   * Returns example enhancement object that can be modified and used for creating new enhancements.
-   */
   getEnhancementObjectExample() {
-    const customCosts = Object.fromEntries(
-      Object.entries(this.system.costs.resources.custom)
-        .map(([key, custom]) => { 
-          custom.value = null; 
-          return [key, custom];
-        })
-      );
-
-    const resources = {
-      actionPoint: null,
-      health: null,
-      mana: null,
-      stamina: null, 
-      grit: null,
-      custom: customCosts
-    };
-    const charges = {
-      subtract: null,
-      consume: false, // TODO backward compatibilty remove as part of 0.10.0 update
-      fromOriginal: false
-    };
-    const modifications = {
-      modifiesCoreFormula: false,
-      coreFormulaModification: "",
-      overrideTargetDefence: false,
-      targetDefenceType: "area",
-      hasAdditionalFormula: false,
-      additionalFormula: "",
-      overrideDamageType: false,
-      damageType: "",
-      addsNewFormula: false,
-      formula: this.getFormulaObjectExample(),
-      addsNewRollRequest: false,
-      rollRequest: {
-        category: "",
-        saveKey: "",
-        contestedKey: "",
-        dcCalculation: "",
-        dc: 0,
-        addMasteryToDC: true,
-        respectSizeRules: false,
-      },
-      addsAgainstStatus: false,
-      againstStatus: {
-        id: "",
-        supressFromChatMessage: false,
-        untilYourNextTurnStart: false,
-        untilYourNextTurnEnd: false,
-        untilTargetNextTurnStart: false,
-        untilTargetNextTurnEnd: false,
-        untilFirstTimeTriggered: false,
-        forOneMinute: false,
-        repeatedSave: false,
-        repeatedSaveKey: "phy"
-      },
-      addsEffect: null,
-      macro: "",
-      macros: {
-        preItemRoll: "",
-        postItemRoll: ""
-      },
-      rollLevelChange: false,
-      rollLevel: {
-        type: "adv",
-        value: 1
-      },
-      addsRange: false,
-      bonusRange: {
-        melee: null,
-        normal: null,
-        max: null
-      }
-    }
-
-    return {
-      name: "New Enhancement",
-      number: 0,
-      resources: resources,
-      charges: charges,
-      modifications: modifications,
-      description: "",
-      hide: false,
-    }
+    return Enhancement.newObject(this);
   }
 
   //============================
   //        CONDITIONALS       =
   //============================
-  /**
-   * Creates new conditional object on this item.
-   * Both conditional and conditionalKey parameters are optional and if not provided will be generated automatically.
-   */
-  createNewConditional(conditional={}, conditionalKey) {
-    const cond = foundry.utils.mergeObject(this.getConditionalObjectExample(), conditional);
-    const key = conditionalKey ? conditionalKey : generateKey();
-    this.update({[`system.conditionals.${key}`]: cond});
+  async createNewConditional(conditional={}, conditionalKey) {
+    return await Conditional.create(conditional, this, conditionalKey);
   }
-
-  removeConditional(key) {
-    this.update({[`system.conditionals.-=${key}`]: null});
+  async removeConditional(key) {
+    await this.update({[`system.conditionals.-=${key}`]: null});
   }
-
-  /**
-   * Returns example conditional object that can be modified and used for creating new conditionals.
-   */
   getConditionalObjectExample() {
-    return {
-      name: "New Conditional",
-      condition: "", 
-      useFor: "",
-      linkWithToggle: false,
-      bonus: "",
-      flags: {
-        ignorePdr: false,
-        ignoreEdr: false,
-        ignoreMdr: false,
-        ignoreResistance: {},
-        ignoreImmune: {},
-        reduceAd: "",
-        reducePd: ""
-      },
-      effect: null,
-      addsNewRollRequest: false,
-      rollRequest: {
-        category: "",
-        saveKey: "phy",
-        contestedKey: "",
-        dcCalculation: "",
-        dc: 0,
-        addMasteryToDC: true,
-        respectSizeRules: false,
-      },
-      addsNewFormula: false,
-      formula: this.getFormulaObjectExample(),
-    };
+    return Conditional.newObject();
   }
 
   //==========================
   //        ITEM MACRO       =
   //==========================
-  /**
-   * Creates new Item Macro object on this item.
-   * Both macroObject and macroKey parameters are optional and if not provided will be generated automatically.
-   */
-  createNewItemMacro(macroObject={}, macroKey) {
-    const macro = foundry.utils.mergeObject(this.getMacroObjectExample(), macroObject);
-    const key = macroKey ? macroKey : generateKey();
-    this.update({[`system.macros.${key}`]: macro});
+  async createNewItemMacro(macroObject={}, macroKey) {
+    return await Macro.create(macroObject, this, macroKey);
+  }
+  async removeItemMacro(key) {
+    await this.update({[`system.macros.-=${key}`]: null});
+  }
+  getMacroObjectExample() {
+    return Macro.newObject();
   }
 
   editItemMacro(key) {
@@ -445,24 +204,6 @@ export class DC20RpgItem extends Item {
     const macro = createTemporaryMacro(command, this, {item: this, key: key});
     macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
-  }
-
-  removeItemMacro(key) {
-    this.update({[`system.macros.-=${key}`]: null});
-  }
-
-  /**
-   * Returns example macro object that can be modified and used for creating new macros.
-   */
-  getMacroObjectExample() {
-    return {
-      command: "",
-      trigger: "",
-      disabled: false,
-      name: "New Macro",
-      title: "",
-      global: false,
-    };
   }
 
   async callMacro(trigger, additionalFields, preventGlobalCall) {

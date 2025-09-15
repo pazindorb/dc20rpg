@@ -25,12 +25,21 @@ import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTem
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, Macro, RollRequest } from "../documents/item/item-creators.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
     dialog: {
       SimplePopup,
       TokenSelector
+    },
+    creators: {
+      Conditional,
+      Enhancement,
+      Formula,
+      RollRequest,
+      AgainstStatus,
+      Macro,
     },
     DC20Roll,
   }

@@ -129,7 +129,7 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
 //===================================
 //            HELD ACTION           =
 //===================================
-export function heldAction(item, actor) {
+export function holdAction(item, actor) {
   const cost = item.use.collectUseCost();
   if (!actor.resources.ap.checkAndSpend(cost.resources.ap)) return;
 
