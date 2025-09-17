@@ -1,4 +1,4 @@
-import { promptItemRoll } from "../roll/rollDialog.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
@@ -152,6 +152,6 @@ export async function rollItemWithName(itemName) {
       continue;
     }
 
-    promptItemRoll(actor, item);
+    RollDialog.open(actor, item);
   }
 }

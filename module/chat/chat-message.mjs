@@ -1,4 +1,4 @@
-import { promptRoll, RollDialog } from "../roll/rollDialog.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
@@ -679,7 +679,7 @@ export class DC20ChatMessage extends ChatMessage {
   async _rollAndUpdate(target, actor, details) {
     let roll = null;
     if (game.user.isGM) roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
-    else roll = await promptRoll(actor, details);
+    else roll = await RollDialog.open(actor, details);
 
     if (!roll || !roll.hasOwnProperty("_total")) return;
     let rollOutcome = {

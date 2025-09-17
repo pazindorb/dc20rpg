@@ -92,7 +92,7 @@
           {{#each skills.languages as |lang key|}}
           {{#if mastery}}
             {{#ifCond mastery "===" 1}}
-            <a class="rollable" data-type="lang" data-check-key="lang" data-roll="d20 + max(@int, @cha)" data-label="{{lang.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}">
+            <a class="rollable" data-type="check" data-key="language" title="{{localize 'dc20rpg.sheet.skills.roll'}}">
               {{lang.label}}({{localize "dc20rpg.languageLevel.limited"}}){{#unless @last}}, {{/unless}}
             </a>
             {{else}}
@@ -116,11 +116,11 @@
     {{!-- Attributes --}}
     <div class="attributes-column margin-right-5">
       <div class="check-buttons">
-        <div class="roll-button rollable margin-right-2 save-button" data-check-key="phy" data-roll="d20 + @special.phySave" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save">
+        <div class="roll-button rollable margin-right-2 save-button" data-key="phy" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-type="save">
           <span class="original">{{localize 'dc20rpg.sheet.rollMenu.phySave'}}</span>
           <span class="hovered bigger">{{numberFormat system.special.phySave decimals=0 sign=true}}</span>
         </div>
-        <div class="roll-button rollable margin-left-2 save-button" data-check-key="men" data-roll="d20 + @special.menSave" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save">
+        <div class="roll-button rollable margin-left-2 save-button" data-key="men" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-type="save">
           <span class="original">{{localize 'dc20rpg.sheet.rollMenu.menSave'}}</span>
           <span class="hovered bigger">{{numberFormat system.special.menSave decimals=0 sign=true}}</span>
         </div>
@@ -138,14 +138,14 @@
               <input class="change-actor-numeric-value" type="text" data-path="system.attributes.{{key}}.current" value="{{attribute.value}}">
             </div>
             <div class="roll-buttons">
-              <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+              <div class="roll-button check rollable" data-key="{{key}}" data-type="check" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
                 <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
                 <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
               </div>
               <div class="save-mastery-container">
                 <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
               </div>
-              <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+              <div class="roll-button save rollable" data-key="{{key}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
                 <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
                 <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
               </div>
@@ -338,23 +338,23 @@
           <span>{{localize 'dc20rpg.sheet.checkSave.title'}}</span>
         </div>
         <div class="check-buttons">
-          <div class="roll-button rollable margin-right-2" data-check-key="att" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}" data-type="attackCheck">
+          <div class="roll-button rollable margin-right-2" data-key="att" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-type="check">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.attack'}}</span>
             <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          <div class="roll-button rollable margin-left-2" data-check-key="spe" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}" data-type="spellCheck">
+          <div class="roll-button rollable margin-left-2" data-key="spe" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-type="check">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.spell'}}</span>
             <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
           </div>
         </div>
         <div class="check-buttons">
           {{!-- Prime Check --}}
-          <div class="roll-button rollable margin-right-2" data-check-key="prime" data-roll="d20+@system.attributes.prime.check" title="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-type="">
+          <div class="roll-button rollable margin-right-2" data-key="prime" title="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-type="check">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.prime'}}</span>
             <span class="hovered bigger">{{numberFormat system.attributes.prime.check decimals=0 sign=true}}</span>
           </div>
           {{#ifCond skills.allSkills.acr '&&' skills.allSkills.ath}}
-          <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
+          <div class="roll-button rollable margin-left-2" data-key="mar" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-type="check">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
             <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
@@ -440,8 +440,7 @@
             {{#if skill.shouldShow}}
             <div class="margin-top-2">
               <i class="fa-solid fa-square"></i>
-              <a class="rollable" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
-                data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
+              <a class="rollable" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}">
                 {{skill.label}}({{skill.modifier}})
               </a>
             </div>
@@ -782,8 +781,7 @@
                   </div>
                   <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
                   <div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
-                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
-                      data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
+                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}">
                   </a>
                 </div>
                 {{/each}}
@@ -806,8 +804,7 @@
                   </div>
                   <input class="name" type="text" name="system.languages.{{key}}.label" value="{{lang.label}}" title="{{lang.label}}">
                   {{#ifCond mastery '===' 1}}
-                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" data-type="lang" data-check-key="lang" data-roll="d20 + max(@int, @cha)" 
-                      data-label="{{lang.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" data-type="check" data-key="language" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
                   {{/ifCond}}
                 </div>
                 {{/each}}

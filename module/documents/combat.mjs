@@ -1,6 +1,6 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
-import { promptRoll, RollDialog } from "../roll/rollDialog.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -129,7 +129,7 @@ export class DC20RpgCombat extends Combat {
     if (!actor) return;
 
     const details = DC20Roll.prepareCheckDetails("initiative", {rollTitle: "Initiative", customLabel: "Initiative Roll"});
-    const roll = await promptRoll(actor, details);
+    const roll = await RollDialog.open(actor, details);
     if (!roll) return null;
 
     combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};

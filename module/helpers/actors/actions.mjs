@@ -1,5 +1,5 @@
-import { promptItemRoll } from "../../roll/rollDialog.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";
 import { resetEnhancements } from "./rollsFromActor.mjs";
@@ -158,7 +158,7 @@ export async function triggerHeldAction(actor) {
   if (!item) return;
   
   await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: true});
-  const result = await promptItemRoll(actor, item);
+  const result = await RollDialog.open(actor, item); 
   await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: false});
   if (!result) return;
   clearHeldAction(actor);

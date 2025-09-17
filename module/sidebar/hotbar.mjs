@@ -1,5 +1,4 @@
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptRoll } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
@@ -7,7 +6,7 @@ import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
 import { changeActivableProperty, getValueFromPath } from "../helpers/utils.mjs";
-import { DC20Roll } from "../roll/rollApi.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
@@ -540,7 +539,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const dataset = event.target.dataset;
     const item = this._getItemFromSlot(dataset.index, dataset.section);
     if (!item) return;
-    promptItemRoll(this.actor, item);
+    RollDialog.open(this.actor, item);
   }
 
   async _onDropSustain(event, target) {
@@ -567,7 +566,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const key = await SimplePopup.select("Roll Skill Check", options);
     if (!key) return;
     
-    await promptRoll(this.actor, DC20Roll.prepareCheckDetails(key));
+    await this.actor.rollPopup(key, "check");
   }
 
   async _onSaveRoll(event, target) {
@@ -575,7 +574,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const key = await SimplePopup.select("Roll Save", options);
     if (!key) return;
 
-    await promptRoll(this.actor, DC20Roll.prepareSaveDetails(key));
+    await this.actor.rollPopup(key, "save");
   }
 
   async _onGrit(event, target) {

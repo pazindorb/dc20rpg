@@ -65,6 +65,7 @@ export class DC20Roll extends Roll {
     const formula = `${dice}${partial}`;
 
     const ROLL_KEYS = rollType === "save" ? CONFIG.DC20RPG.ROLL_KEYS.saveTypes : CONFIG.DC20RPG.ROLL_KEYS.allChecks;
+    ROLL_KEYS.language = "Language Check";
     let label = options.customLabel || getLabelFromKey(key, ROLL_KEYS);
     const rollTitle = options.rollTitle || getLabelFromKey(key, ROLL_KEYS);
     

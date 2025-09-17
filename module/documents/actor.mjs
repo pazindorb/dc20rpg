@@ -1,5 +1,4 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { promptRoll } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -12,6 +11,7 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
@@ -333,12 +333,12 @@ export class DC20RpgActor extends Actor {
     return await rollFromSheet(actor, details);
   }
 
-  async promptRoll(key, type, options={}, details) {
+  async rollPopup(key, type, options={}, details) {
     if (!details) {
       if (type === "save") details = DC20Roll.prepareSaveDetails(key, options);
       if (type === "check") details = DC20Roll.prepareCheckDetails(key, options);
     }
-    return await promptRoll(this, details, options.quickRoll, options.fromGmHelp);
+    return await RollDialog.open(this, details, options);
   }
 
   getCheckOptions(attack, attributes, skills, trades) {

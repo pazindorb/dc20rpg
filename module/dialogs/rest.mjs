@@ -1,8 +1,8 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
-import { promptRoll } from "../roll/rollDialog.mjs";
 
 /**
  * Dialog window for resting.
@@ -207,7 +207,7 @@ export class RestDialog extends DC20Dialog {
       type: "save",
       against: longRest.exhSaveDC
     }
-    const roll = await promptRoll(this.actor, details);
+    const roll = await RollDialog.open(this.actor, details);
     if (roll.total < longRest.exhSaveDC) {
       await this.actor.toggleStatusEffect("exhaustion", { active: true });
       await this.actor.update({["system.rest.longRest.exhSaveDC"]: longRest.exhSaveDC + 5});

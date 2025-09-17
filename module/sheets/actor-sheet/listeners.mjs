@@ -9,7 +9,6 @@ import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, te
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
-import { promptItemRoll, promptRoll } from "../../roll/rollDialog.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
@@ -20,13 +19,14 @@ import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
 import { clearHelpDice, prepareHelpAction } from "../../helpers/actors/actions.mjs";
 import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.rollable').click(ev => promptRoll(actor, datasetOf(ev), ev.shiftKey));
-  html.find('.roll-item').click(ev => promptItemRoll(actor, getItemFromActor(datasetOf(ev).itemId, actor), ev.shiftKey));
+  html.find('.rollable').click(ev => actor.rollPopup(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
+  html.find('.roll-item').click(ev => RollDialog.open(actor, getItemFromActor(datasetOf(ev).itemId, actor), {quickRoll: ev.shiftKey}));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
