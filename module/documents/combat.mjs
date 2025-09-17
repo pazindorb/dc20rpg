@@ -1,6 +1,6 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
-import { promptRoll, promptRollToOtherPlayer } from "../roll/rollDialog.mjs";
+import { promptRoll, RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -532,12 +532,13 @@ export class DC20RpgCombat extends Combat {
     const exhaustion = actor.exhaustion;
     const saveFormula = `d20 - ${exhaustion}`;
     if (deathsDoor.active && notDead) {
-      const roll = await promptRollToOtherPlayer(actor, {
+      const details = {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "deathSave",
         against: 10,
         roll: saveFormula
-      });
+      };
+      const roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
 
       // Critical Success: You are restored to 1 HP
       if (roll.crit) {

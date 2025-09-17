@@ -1,8 +1,8 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { promptRollToOtherPlayer } from "../../roll/rollDialog.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getValueFromPath, toSelectOptions } from "../../helpers/utils.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export class AdventurersRegister extends DC20Dialog {
 
@@ -127,7 +127,7 @@ export class AdventurersRegister extends DC20Dialog {
                         ? DC20Roll.prepareSaveDetails(dataset.key) 
                         : DC20Roll.prepareCheckDetails(dataset.key);
 
-    promptRollToOtherPlayer(actor, details);
+    RollDialog.open(actor, details, {sendToActorOwners: true});
   }
 
   _onSheetOpen(event, target) {

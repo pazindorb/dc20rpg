@@ -2,7 +2,7 @@ import { applyDamage } from "../../helpers/actors/resources.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
 import { activateDefaultListeners } from "../../helpers/listenerEvents.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
-import { promptRollToOtherPlayer } from "../../roll/rollDialog.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export class DmgCalculatorDialog extends Dialog {
 
@@ -122,7 +122,7 @@ export class DmgCalculatorDialog extends Dialog {
       type: "skillCheck",
       against: against
     };
-    const roll = await promptRollToOtherPlayer(actor, details, true);
+    const roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
     if (roll && (roll.total >= against || roll.crit)) this.fall.acrCheckSucceeded = true;
     else this.fall.acrCheckSucceeded = false;
     this.render();

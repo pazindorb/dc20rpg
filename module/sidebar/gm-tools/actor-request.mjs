@@ -1,8 +1,8 @@
-import { promptRollToOtherPlayer } from "../../roll/rollDialog.mjs";
 import { getActivePlayers } from "../../helpers/users.mjs";
 import { openRestDialogForOtherPlayers } from "../../dialogs/rest.mjs";
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export class ActorRequestDialog extends DC20Dialog {
 
@@ -83,7 +83,7 @@ export function rollRequest(selected, selectedActors) {
     rollDetails = DC20Roll.prepareSaveDetails(selected);
   }
   Object.values(selectedActors).forEach(actor => {
-    if (actor.selected) promptRollToOtherPlayer(actor.actor, rollDetails, false);
+    if (actor.selected) RollDialog.open(actor.actor, rollDetails, {sendToActorOwners: true});
   });
 }
 
