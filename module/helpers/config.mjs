@@ -1,6 +1,6 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../roll/rollDialog.mjs";
+import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer, RollDialog } from "../roll/rollDialog.mjs";
 import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
@@ -31,7 +31,8 @@ export function prepareDC20tools() {
   window.DC20 = {
     dialog: {
       SimplePopup,
-      TokenSelector
+      TokenSelector,
+      RollDialog,
     },
     creators: {
       Conditional,
@@ -854,6 +855,7 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.ammo",
     for: ["ranged"],
     cost: 0,
+    ammoId: "",
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh"
   },
   concealable: {

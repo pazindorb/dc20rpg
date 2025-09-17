@@ -16,6 +16,15 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
       text-shadow: -1px 0 var(--main-color), 0 1px var(--main-color), 1px 0 var(--main-color), 0 -1px var(--main-color);
       font-weight: bold;
     }
+
+    #context-menu {
+      background-color: $chat-background-dark;
+
+      li.context-item:hover  {
+        background-color: $chat-background-dark;
+        box-shadow: 0 0 15px 5px inset var(--target-bg);
+      }
+    }
   }
 
   &.themed.theme-light {
@@ -29,6 +38,15 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
 
     .revert-name {
       font-weight: bold;
+    }
+
+    #context-menu {
+      background-color: $chat-background-light;
+
+      li.context-item:hover {
+        background-color: $chat-background-light;
+        box-shadow: 0 0 15px 5px inset var(--target-bg);
+      }
     }
   }
 

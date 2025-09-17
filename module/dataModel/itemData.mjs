@@ -68,7 +68,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),
         untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
         untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
-      }), // Left for backward compatibility
+      }), // Left for backward compatibility remove as part of 0.10
       againstStatuses: new f.ObjectField({required: true}),
       rollRequests: new f.ObjectField({required: true}),
       formulas: new f.ObjectField({required: true}),
@@ -77,7 +77,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
         linkWithToggle: new f.BooleanField({required: true, initial: false}),
-        hideFromRollMenu: new f.BooleanField({required: true, initial: false}),
+        hideFromRollMenu: new f.BooleanField({required: true, initial: false}), // TODO: backward compatibility remove as part of 0.10
       }),
       range: new f.SchemaField({
         melee: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
@@ -103,7 +103,7 @@ class DC20UsableItemData extends DC20BaseItemData {
           }
         }})
       }),
-      conditional: new ConditionalFields(), // Left for backward compatibility
+      conditional: new ConditionalFields(), // Left for backward compatibility remove as part of 0.10
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       provideMartialExpansion: new f.BooleanField({required: true, initial: false}),

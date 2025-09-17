@@ -1,6 +1,10 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
+import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
+import { DC20RpgItem } from "../item.mjs";
+import { Enhancement } from "./item-creators.mjs";
 
 export function enrichWithHelpers(item) {
   enrichRollMenuObject(item);
@@ -11,6 +15,12 @@ export function enrichWithHelpers(item) {
   }
   if (item.system.properties) {
     _enrichPropertiesObject(item);
+  }
+  if (item.system.enhancements) {
+    _enrichEnhancementObject(item);
+  }
+  if (item.system.usesWeapon?.weaponAttack) {
+    _enrichUseWeaponObject(item);
   }
 }
 
@@ -161,13 +171,13 @@ function _collectUseCost(item, clean=false) {
 
   // Collect cost from Roll Menu
   _addToResources(cost, "ap", item.system.rollMenu.apCost, actor);
-  _addToResources(cost, "ap", item.system.rollMenu.gritCost, actor);
+  _addToResources(cost, "grit", item.system.rollMenu.gritCost, actor);
 
   // Collect cost from Enhancements
   for (const enhancement of item.activeEnhancements.values()) {
     // Collect resources
     for (let [key, value] of Object.entries(enhancement.resources)) {
-      _addToResources(cost, key, value * enhancement.number, actor);
+      _addToResources(cost, key, value, actor, enhancement.number);
     }
     // Collect charges
     // TODO backward compatibilty remove as part of 0.10.0 update
@@ -199,11 +209,11 @@ function _collectUseCost(item, clean=false) {
   return cost;
 }
 
-function _addToResources(cost, key, value, actor) {
+function _addToResources(cost, key, value, actor, multiplier=1) {
   if (key === "actionPoint") key = "ap"; //TODO backward compatibilty remove as part of 0.10.0 update
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
-      _addToResources(cost, customKey, customRes.value, actor);
+      _addToResources(cost, customKey, customRes.value, actor, multiplier);
     }
     return;
   }
@@ -213,10 +223,10 @@ function _addToResources(cost, key, value, actor) {
   if (value == null) return;
   
   if (cost.resources[key]) {
-    cost.resources[key] += value;
+    cost.resources[key] += (value * multiplier);
   }
   else {
-    cost.resources[key] = value;
+    cost.resources[key] = (value * multiplier);
   }
 }
 
@@ -520,7 +530,8 @@ function _collectEnhancementCost(item, enhKey) {
 //==================================//==================================
 function _enrichPropertiesObject(item) {
   _enhanceReload(item);
-  _enhanceMultiFacaded(item);
+  _enhanceMultiFaceted(item);
+  _enhanceAmmo(item);
 }
 
 //==================================
@@ -531,15 +542,15 @@ function _enhanceReload(item) {
   if (!reloadProperty || !reloadProperty.active) return;
 
   item.reloadable = {
-    isLoaded: () => _isLoaded(item),
+    isLoaded: (skipError) => _isLoaded(item, skipError),
     reload: (free) => _reloadItem(item, free),
     unload: () => _unloadItem(item)
   }
 }
 
-function _isLoaded(item) {
+function _isLoaded(item, skipError=false) {
   if (item.system.properties.reload.loaded) return true;
-  ui.notifications.error(`${item.name} is not loaded.`);
+  if (!skipError) ui.notifications.error(`${item.name} is not loaded.`);
   return false;
 }
 
@@ -558,11 +569,11 @@ async function _unloadItem(item) {
 //==================================
 //          MULTI FACETED          =
 //==================================
-function _enhanceMultiFacaded(item) {
+function _enhanceMultiFaceted(item) {
   const property = item.system?.properties?.multiFaceted;
   if (!property || !property.active) return;
 
-  item.multiFacaded = {
+  item.multiFaceted = {
     swap: () => _swapMultiFaceted(item)
   }
 }
@@ -595,4 +606,138 @@ async function _swapMultiFaceted(item) {
     }
   }
   await item.update(updateData);
+}
+
+//==================================
+//               AMMO              =
+//==================================
+function _enhanceAmmo(item) {
+  const property = item.system?.properties?.ammo;
+  if (!property || !property.active) return;
+
+  item.ammo = {
+    change: async (ammoId) => await _changeAmmo(ammoId, item),
+    options: () => _getAmmoOptions(item)
+  }
+}
+
+async function _changeAmmo(ammoId, item) {
+  await item.update({["system.properties.ammo.ammoId"]: ammoId});
+}
+
+function _getAmmoOptions(weapon) {
+  const actor = weapon.actor;
+  if (!actor) return {};
+  
+  const ammo = {};
+  actor.items.filter(item => item.system.consumableType === "ammunition")
+            .forEach(item => ammo[item.id] = item.name);
+  return ammo;
+}
+ 
+//==================================//==================================
+//                             ENHANCEMENTS                            =
+//==================================//==================================
+function _enrichEnhancementObject(item) {
+  const enhancements = {};
+  enhancements.maintained = new Map();
+  for (const [key, enhancement] of Object.entries(item.system.enhancements)) {
+    enhancement.key = key;
+    enhancement.sourceItemId = item.id;
+    enhancement.sourceItemName = item.name;
+    enhancement.sourceItemImg = item.img;
+    enhancement.active = enhancement.number > 0
+
+    enhancement.toggleUp = async () => await _enhancementToggle(enhancement, true, item);
+    enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, item);
+    enhancement.clear = async () => await item.update({[`system.enhancements.${key}.number`]: 0});
+    enhancement.delete = async () => await item.update({[`system.enhancements.-=${key}`]: null});
+    
+    enhancements.maintained.set(key, enhancement);
+  }
+
+  Object.defineProperty(enhancements, "all", {get: () => _allEnhancements(item, enhancements)});
+  Object.defineProperty(enhancements, "active", {get: () => _activeEnhancements(item, enhancements)});
+  enhancements.add = async (enhancementData, enhancementKey) => await Enhancement.create(enhancementData, item, enhancementKey);
+
+  item.enhancements = enhancements;
+}
+
+async function _enhancementToggle(enhancement, up, item) {
+  if (up) await item.update({[`system.enhancements.${enhancement.key}.number`]: Math.min(enhancement.number + 1, 9)});
+  else await item.update({[`system.enhancements.${enhancement.key}.number`]: Math.max(enhancement.number - 1, 0)});
+}
+
+function _allEnhancements(item) {
+  let enhancements = foundry.utils.deepClone(item.enhancements.maintained);
+  const parent = item.actor;
+  if (!parent) return enhancements;
+
+
+  //========== FROM USED WEAPON ==========//
+  const usesWeapon = item.system.usesWeapon;
+  if (usesWeapon?.weaponAttack) {
+    const weapon = parent.items.get(usesWeapon.weaponId);
+    if (weapon) {
+      enhancements = new Map([...enhancements, ...weapon.enhancements.all]);
+    }
+  }
+
+  //========== COPIED ENHANNCEMENTS ==========//
+  // We need to deal with case where items call each other in a infinite loop
+  // We expect 10 to be deep enough to collect all the coppied enhancements
+  let firstCall = false;
+  if (DC20RpgItem.enhLoopCounter === 0) firstCall = true;
+  if (DC20RpgItem.enhLoopCounter > 10) return enhancements;
+  DC20RpgItem.enhLoopCounter++;
+  
+  for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
+    if (itemWithCopyEnh.itemId === item.id) continue;
+    if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, item)) {
+      const itm = parent.items.get(itemWithCopyEnh.itemId);
+      if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
+      if (itm && itm.system.copyEnhancements?.copy && toggleCheck(itm, itm.system.copyEnhancements?.linkWithToggle)) {
+        enhancements = new Map([...enhancements, ...itm.enhancements.all]);
+      }
+    }
+  }
+
+  if (firstCall) DC20RpgItem.enhLoopCounter = 0;
+
+
+  return enhancements;
+}
+
+function _activeEnhancements(item) {
+  const active = new Map();
+  _allEnhancements(item).forEach((enhancement, key) => {
+    if (enhancement.active) active.set(key, enhancement);
+  });
+  return active;
+}
+
+//==================================//==================================
+//                              USE WEAPON                             =
+//==================================//==================================
+function _enrichUseWeaponObject(item) {
+  const owner = item.actor;
+  if (!owner) return;
+  const weapon = owner.items.get(item.system.usesWeapon.weaponId);
+  if (!weapon) return;
+  
+  // We want to copy weapon attack range, weaponStyle and weaponType so we can make 
+  // conditionals work for techniques and features that are using weapons
+  item.system.weaponStyle = weapon.system.weaponStyle;
+  item.system.weaponType = weapon.system.weaponType;
+  item.system.weaponStyleActive = weapon.system.weaponStyleActive;
+  item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
+  item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
+
+  // We also want to copy weapon range and properties
+  item.system.properties = weapon.system.properties;
+  item.system.range = weapon.system.range;
+
+  item.ammo = weapon.ammo || undefined;
+  item.reloadable = weapon.reloadable || undefined;
+  item.multiFaceted = weapon.multiFaceted || undefined; 
 }

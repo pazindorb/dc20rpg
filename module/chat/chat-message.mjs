@@ -977,7 +977,7 @@ export class DC20ChatMessage extends ChatMessage {
  * @param {DC20RpgActor} actor  - Speaker.
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
-export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
+export async function sendRollsToChat(rolls, actor, details, hasTargets, item, rollMode) {
   const token = getTokenForActor(actor);
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
@@ -1007,7 +1007,7 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
       movedRecently: token?.movedRecently || null
     }}
   }
-  chatData = DC20ChatMessage.applyRollMode(chatData, game.settings.get('core', 'rollMode'));
+  chatData = DC20ChatMessage.applyRollMode(chatData, rollMode || game.settings.get('core', 'rollMode'));
   const message = await DC20ChatMessage.create(chatData);
   if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});

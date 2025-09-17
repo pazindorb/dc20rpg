@@ -39,6 +39,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     this.window.content.addEventListener("change", this._onChange.bind(this));
     this.window.content.addEventListener("click", this._onClick.bind(this));
     this.window.content.addEventListener("drop", this._onDrop.bind(this));
+    this.window.content.addEventListener("mousedown", this._onMouseDown.bind(this));
     this.window.content.addEventListener("mouseover", this._onHover.bind(this));
     this.window.content.addEventListener("mouseout", this._onHover.bind(this));
   }
@@ -55,56 +56,91 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const cType = dataset.ctype;
     const path = dataset.path;
     const value = target.value;
+    const duplicates = dataset.duplicates;
 
     switch (cType) {
       case "string": await this._onChangeString(path, value, dataset); break;
       case "numeric": await this._onChangeNumeric(path, value, false, dataset); break;
       case "numeric-nullable": await this._onChangeNumeric(path, value, true, dataset); break;
       case "boolean" : await this._onChangeBoolean(path, dataset); break;
-      case "multi-select": await this._onMultiSelectChange(path, value, dataset); break;
+      case "multi-select": await this._onMultiSelectChange(path, value, duplicates === "allow", dataset); break;
     }
   }
 
   async _onClick(event) {
-    const target = event.target;
+    const target = this._getCtypeTarget(event.target);
     const dataset = target.dataset;
     const cType = dataset.ctype;
     const value = dataset.value;
     const path = dataset.path;
-    const limit = dataset.limit ? parseInt(dataset.limit) : 0;
 
     switch (cType) {
       case "activable": await this._onActivable(path, dataset); break;
       case "remove-option": await this._onRemoveOption(path, value, dataset); break;
-      case "toggle": await this._onToggle(path, event.which, limit, dataset); break;
+
+    }
+  }
+
+  async _onMouseDown(event) {
+    const target = this._getCtypeTarget(event.target);
+    const dataset = target.dataset;
+    const cType = dataset.ctype;
+    const path = dataset.path;
+    const max = dataset.max ? parseInt(dataset.max) : 0;
+    const min = dataset.min ? parseInt(dataset.min) : 0;
+
+    switch (cType) {
+      case "toggle": await this._onToggle(path, event.which, max, min, dataset); break;
     }
   }
 
   _onHover(event) {
-    const target = event.target;
+    const target = this._getHoverTarget(event.target);
     const dataset = target.dataset;
     const hover = dataset.hover;
     const isEntering = event.type === "mouseover";
 
+    const data = {dataset: dataset};
+    if (dataset.itemId) {
+      if (this.item?.id === dataset.itemId) {
+        data.item = this.item;
+      }
+      else {
+        data.item = this.actor.items.get(dataset.itemId);
+      }
+    }
+
     switch (hover) {
-      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, dataset, $(this.element)); break;
+      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element)); break;
     }
   }
 
+  _getHoverTarget(element) {
+    if (element.className === "window-content" || !element.parentElement) return element;
+    if (element.dataset.hover) return element;
+    return this._getHoverTarget(element.parentElement);
+  }
+
+  _getCtypeTarget(element) {
+    if (element.className === "window-content" || !element.parentElement) return element;
+    if (element.dataset.ctype) return element;
+    return this._getCtypeTarget(element.parentElement);
+  }
+
   async _onActivable(path, dataset) {
-    const value = getValueFromPath(this, path);
+    const value = this._getValue(path);
     await this._update(path, !value);
     this.render();
   }
 
-  async _onToggle(path, which, limit, dataset) {
-    const value = getValueFromPath(this, path);
+  async _onToggle(path, which, max, min, dataset) {
+    const value = this._getValue(path);
     switch (which) {
       case 1: 
-        await this._update(path, Math.min(value + 1, limit));
+        await this._update(path, Math.min(value + 1, max));
         break;
       case 3: 
-        await this._update(path, Math.max(value - 1, limit));
+        await this._update(path, Math.max(value - 1, min));
         break;
     }
     this.render();
@@ -123,22 +159,22 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
   }
 
   async _onChangeBoolean(path, dataset) {
-    const value = getValueFromPath(this, path);
+    const value = this._getValue(path);
     await this._update(path, !value);
     this.render();
   }
 
-  async _onMultiSelectChange(path, value, dataset) {
+  async _onMultiSelectChange(path, value, duplicates, dataset) {
     if (!value) return;
-    const array = getValueFromPath(this, path);
-    if (array.indexOf(value) !== -1) return;
+    const array = this._getValue(path);
+    if (!duplicates && array.indexOf(value) !== -1) return;
     array.push(value);
     await this._update(path, array);
     this.render();
   }
 
   async _onRemoveOption(path, value, dataset) {
-    const array = getValueFromPath(this, path);
+    const array = this._getValue(path);
     const index = array.indexOf(value);
     if (index === -1) return;
     array.splice(index, 1);
@@ -158,5 +194,10 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
   async _update(path, value) {
     if (this.updateObject) await this.updateObject.update({[path]: value});
     else setValueForPath(this, path, value);
+  }
+
+  _getValue(path) {
+    const object = this.updateObject || this;
+    return getValueFromPath(object, path);
   }
 }

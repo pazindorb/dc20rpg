@@ -20,14 +20,18 @@ export function tooltipElement() {
   return tooltip;
 }
 
-export function tooltipListeners(event, type, isEntering, dataset, html) {
+export function tooltipListeners(event, type, isEntering, data, html, options) {
     if (!isEntering) {
       hideTooltip(event, html);
       return;
     }
+    const dataset = data.dataset;
+    const item = data.item;
 
     switch (type) {
-      case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html); break;
+      case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html, options); break;
+      case "item": itemTooltip(item, event, html, options); break;
+      case "enhancement": enhTooltip(item, dataset.enhKey, event, html, options); break;
     }
 }
 

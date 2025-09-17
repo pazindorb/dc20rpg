@@ -800,7 +800,8 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  margin-right: 3px;
+  margin-right: 5px;
+  margin-bottom: 0px;
 }
 .cost-printer .cost:last-child {
   margin-right: 0;
@@ -2446,16 +2447,226 @@
   font-size: 14px;
 }
 .dc20rpg #roll-prompt {
-  width: 500px;
-  padding: 15px 7px 5px 7px;
-  font-family: "A Absolute Empire";
-  font-size: 12px;
+  font-family: "Signika", sans-serif;
 }
-.dc20rpg #roll-prompt .sub-title {
+.dc20rpg #roll-prompt .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--color-text-subtle);
   border-radius: 3px;
-  border-color: var(--primary-darker);
+  -webkit-box-shadow: 0 0 10px 2px var(--text-color-2) inset;
+  box-shadow: 0 0 10px 2px var(--text-color-2) inset;
+  border: 2px solid var(--border-color);
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg #roll-prompt .roll-button-wrapper {
+.dc20rpg #roll-prompt .header .name-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: calc(100% - 5px);
+  margin-right: 5px;
+}
+.dc20rpg #roll-prompt .header .name-wrapper img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 40px;
+  width: 40px;
+  border-radius: 3px 0 0 3px;
+  border: 0;
+  border-right: 2px solid var(--border-color);
+}
+.dc20rpg #roll-prompt .header .name-wrapper span {
+  font-family: "Humaroid";
+  font-size: 26px;
+  margin-left: 12px;
+}
+.dc20rpg #roll-prompt .header .action-outcome {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  margin-right: 5px;
+}
+.dc20rpg #roll-prompt .header .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .header .action-outcome .description-icon .letter-circle-icon span {
+  border-color: var(--activable-off);
+  font-size: 16px;
+  height: 30px;
+  width: 30px;
+}
+.dc20rpg #roll-prompt fieldset {
+  border: 2px solid var(--border-color);
+  -webkit-box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+  box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+}
+.dc20rpg #roll-prompt fieldset legend {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #roll-prompt .item-multi-faceted {
+  color: var(--activable-off);
+  padding: 3px;
+  border-radius: 3px;
+  max-width: 170px;
+  text-align: center;
+  font-family: "Humaroid";
+  font-size: 17px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  border: 2px solid var(--activable-off);
+  background-color: var(--color-text-subtle);
+}
+.dc20rpg #roll-prompt .item-multi-faceted:hover {
+  -webkit-box-shadow: 0 0 10px 3px var(--header-color) inset;
+  box-shadow: 0 0 10px 3px var(--header-color) inset;
+}
+.dc20rpg #roll-prompt .enhancements {
+  overflow-y: auto;
+  max-height: 250px;
+  gap: 0;
+  padding: 0.5em 0.7em;
+  --scroll-margin: 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row {
+  font-family: "Humaroid";
+  font-size: 18px;
+  height: 32px;
+  background-color: var(--color-text-subtle);
+  grid-template-columns: 1fr 100px 100px 32px;
+  display: grid;
+  border: 2px solid var(--activable-off);
+  border-top: 1px solid var(--activable-off);
+  border-bottom: 1px solid var(--activable-off);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(2) {
+  border-radius: 3px 3px 0 0;
+  border-top: 2px solid var(--activable-off);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:last-child {
+  border-radius: 0 0 3px 3px;
+  border-bottom: 2px solid var(--activable-off);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description {
+  position: relative;
+  bottom: 40px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description .description-wrapper {
+  border-radius: 5px 5px 5px 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .name {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .name img {
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-right: 1px solid var(--activable-off);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .name .cost-icon {
+  width: 30px;
+  height: 28px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-right: 1px solid var(--activable-off);
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 30px;
+  border-right: 1px solid var(--activable-off);
+  border-left: 1px solid var(--activable-off);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage.costs {
+  border-left: 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer {
+  color: var(--text-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-icon {
+  font-size: 13px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-img {
+  height: 15px;
+  width: 15px;
+  border-radius: 7px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer b {
+  font-size: 15px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .symbol {
+  font-size: 17px;
+  margin-left: -3px;
+  margin-top: -5px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #roll-prompt .measurement-templates {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #roll-prompt .measurement-templates .template {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2466,12 +2677,124 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.dc20rpg #roll-prompt .roll-button-wrapper .held-action {
-  width: 10%;
-  height: 34px;
+.dc20rpg #roll-prompt .measurement-templates .template .template-button, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 3px;
+  color: var(--text-color-2);
+  font-weight: bold;
+  background-color: var(--activable-off);
+  border: 1px solid var(--text-color-2);
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 8px var(--activable-on) inset;
+  box-shadow: 0 0 8px var(--activable-on) inset;
+  padding: 4px;
+  width: 100%;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled {
+  cursor: default;
+  -webkit-filter: saturate(0.5);
+  filter: saturate(0.5);
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled:hover, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled:hover {
+  text-shadow: none;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.selected, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.selected {
+  -webkit-box-shadow: 0 0 8px var(--activable-off) inset;
+  box-shadow: 0 0 8px var(--activable-off) inset;
+  color: var(--activable-off);
+  background-color: var(--activable-on);
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
+  width: 25px;
+}
+.dc20rpg #roll-prompt .expected-cost {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+}
+.dc20rpg #roll-prompt .expected-cost .extra-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer {
+  width: 100%;
+  height: 35px;
+  color: var(--text-color-2);
+  border-right: 2px solid var(--border-color);
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost {
+  margin-right: 10px;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-icon {
+  font-size: 20px;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-img {
+  height: 24px;
+  width: 24px;
+  border-radius: 7px;
   margin-left: 3px;
 }
+.dc20rpg #roll-prompt .expected-cost .cost-printer b {
+  font-size: 22px;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .symbol {
+  font-size: 34px;
+  margin-left: -3px;
+  margin-top: -5px;
+}
 .dc20rpg #roll-prompt .roll-menu {
+  display: grid;
+  grid-template-columns: 1fr 100px 1fr;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--color-text-subtle);
+  -webkit-box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+  box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+  border: 2px solid var(--border-color);
+  margin: 0;
+}
+.dc20rpg #roll-prompt .roll-menu legend {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #roll-prompt .roll-menu .column {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row {
+  width: 100%;
+  font-family: "Humaroid";
+  font-size: 18px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2480,42 +2803,8 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-top: 5px;
-  background-color: var(--secondary-color);
-  border-radius: 3px;
-  border: 2px solid var(--primary-darker);
-  padding: 10px 5px;
 }
-.dc20rpg #roll-prompt .roll-menu .sub-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-.dc20rpg #roll-prompt .roll-menu .last-roll-level-check {
-  color: var(--primary-dark);
-  margin-left: -20px;
-  margin-top: -10px;
-  position: absolute;
-  font-size: 1.65em !important;
-}
-.dc20rpg #roll-prompt .roll-menu .roll-level .toggle {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-top: 3px;
-}
-.dc20rpg #roll-prompt .roll-menu .roll-level .toggle .toggle-numeric {
+.dc20rpg #roll-prompt .roll-menu .column .row a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2525,137 +2814,42 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding: 4px 4px 2px 4px;
-  width: 25px;
-  background-color: var(--primary-light);
-  border: 2px solid var(--primary-color);
-  border-radius: 5px;
-  color: var(--secondary-lighter);
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .toggle span {
-  margin-top: 4px;
+.dc20rpg #roll-prompt .roll-menu .column .row a span {
+  font-size: 20px;
+  font-weight: bold;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet {
-  position: absolute;
-  left: 145px;
-  margin-top: -3px;
+.dc20rpg #roll-prompt .roll-menu .column .row a.crit {
+  color: #3b934a;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv-disabled .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv-disabled .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv .dice {
-  color: var(--primary-light);
-  font-size: 1.9em;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: var(--primary-color);
+.dc20rpg #roll-prompt .roll-menu .column .row a.fail {
+  color: #b54545;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv-disabled .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv-disabled .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv .value {
-  position: relative;
-  top: -16px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+.dc20rpg #roll-prompt .roll-menu .column .row a.fa-light {
+  text-shadow: none;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row .multi-select-wrapper {
+  width: 100%;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row .multi-select-wrapper .tag {
+  background-color: var(--backround-color);
+}
+.dc20rpg #roll-prompt .roll-menu .column .row.modifications {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+  height: 23px;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv-disabled .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv-disabled .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv .value span {
-  color: var(--secondary-lighter);
-  font-size: 12px;
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+.dc20rpg #roll-prompt .roll-menu .column .row.modifications a {
+  margin: 0 8px;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv {
-  position: absolute;
-  top: -20px;
-}
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet {
-  left: 160px;
-  margin-top: -10px;
-}
-.dc20rpg #roll-prompt .roll-menu .help {
-  margin-top: 8px;
-  margin-bottom: -8px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .value {
-  position: relative;
-  top: -23px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .value span {
-  color: var(--secondary-lighter);
+.dc20rpg #roll-prompt .roll-menu .column .select-row {
   font-size: 16px;
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg #roll-prompt .roll-menu .help-dices .dice {
-  color: var(--primary-light);
-  font-size: 2.5em;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: var(--primary-color);
+.dc20rpg #roll-prompt .roll-menu .column .select-row select {
+  width: auto;
 }
-.dc20rpg #roll-prompt .roll-menu .help-dices .triangle {
-  margin-top: 15px;
-  margin-left: -3px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .triangle .value {
-  top: -24px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .triangle .dice {
-  font-size: 3em;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .square {
-  margin-left: -2px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .diamond {
-  margin-top: 20px;
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options {
-  margin-top: 15px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options i {
-  color: var(--primary-color);
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options i.fail {
-  color: var(--fail);
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options i.crit {
-  color: var(--crit);
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .not-used {
+.dc20rpg #roll-prompt .roll-menu .column .not-used {
   color: #ff2e2e;
   -webkit-box-shadow: 0 0 0 0 #da0101;
   box-shadow: 0 0 0 0 #da0101;
@@ -2705,168 +2899,6 @@
     box-shadow: 0 0 0 0 rgba(218, 1, 1, 0);
   }
 }
-.dc20rpg #roll-prompt .item-name {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: var(--secondary-lighter);
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 7px var(--primary-darker) inset;
-  box-shadow: 0 0 7px var(--primary-darker) inset;
-  border: 2px solid var(--primary-darker);
-}
-.dc20rpg #roll-prompt .item-name .name-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: calc(100% - 5px);
-  margin-right: 5px;
-}
-.dc20rpg #roll-prompt .item-name .name-wrapper img {
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
-  height: 40px;
-  width: 40px;
-  border-radius: 3px 0 0 0;
-  border: 0;
-  border-right: 1px solid var(--primary-darker);
-}
-.dc20rpg #roll-prompt .item-name .name-wrapper span {
-  margin-top: 3px;
-  font-size: 22px;
-  margin-left: 7px;
-}
-.dc20rpg #roll-prompt .item-name .action-outcome {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: end;
-  margin-right: 5px;
-}
-.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon span {
-  font-size: 16px;
-  height: 30px;
-  width: 30px;
-}
-.dc20rpg #roll-prompt .row {
-  padding: 5px 0 5px 5px;
-  font-family: "Humaroid";
-  font-size: 18px;
-}
-.dc20rpg #roll-prompt .row span {
-  font-weight: normal;
-}
-.dc20rpg #roll-prompt .item-multi-faceted {
-  color: var(--primary-darker);
-  padding: 6px;
-  border-radius: 3px;
-  border: 2px solid var(--primary-darker);
-  background-color: var(--secondary-lighter);
-}
-.dc20rpg #roll-prompt .item-selector {
-  font-family: "Humaroid";
-  font-size: 16px;
-  padding: 7px;
-  border: 2px solid var(--primary-darker);
-  background-color: var(--secondary-color);
-  border-radius: 3px;
-  gap: 5px;
-}
-.dc20rpg #roll-prompt .item-selector .item {
-  border: 2px solid var(--secondary-darker);
-  background-color: var(--secondary-lighter);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 35px;
-}
-.dc20rpg #roll-prompt .item-selector .item img {
-  margin-right: 5px;
-  width: 31px;
-  height: 31px;
-  border: 0;
-  border-right: 2px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .item-selector .item:hover {
-  -webkit-box-shadow: 0 0 10px var(--primary-light) inset;
-  box-shadow: 0 0 10px var(--primary-light) inset;
-  cursor: pointer;
-}
-.dc20rpg #roll-prompt .item-selector .item.active {
-  color: var(--secondary-lighter);
-  background-color: var(--primary-dark);
-}
-.dc20rpg #roll-prompt .measurement-templates {
-  font-family: "Signika", sans-serif;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  padding: 10px 7px 7px 7px;
-  border: 2px solid var(--primary-darker);
-  border-top: 0;
-  background-color: var(--secondary-color);
-  border-radius: 0 0 3px 3px;
-}
-.dc20rpg #roll-prompt .measurement-templates .template {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
-  text-align: center;
-  font-size: 15px;
-  margin-top: 3px;
-  color: var(--primary-dark);
-  font-weight: bold;
-  background-color: var(--secondary-lighter);
-  border: 1px solid var(--secondary-darker);
-  border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px var(--secondary-dark) inset;
-  box-shadow: 0 0 10px var(--secondary-dark) inset;
-  padding: 4px;
-  width: 100%;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled {
-  cursor: default;
-  -webkit-filter: saturate(0.5);
-  filter: saturate(0.5);
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled:hover, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled:hover {
-  text-shadow: none;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.selected, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.selected {
-  color: var(--secondary-lighter);
-  background-color: var(--primary-light);
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
-  width: 25px;
-}
 .dc20rpg #roll-prompt .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .description-icon .letter-circle-icon span {
   font-size: 12px;
   height: 23px;
@@ -2881,178 +2913,6 @@
 }
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
-}
-.dc20rpg #roll-prompt .expected-cost {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-  padding: 10px 7px 7px 7px;
-  border: 2px solid var(--primary-darker);
-  border-top: 0;
-  background-color: var(--secondary-color);
-  border-radius: 0 0 3px 3px;
-}
-.dc20rpg #roll-prompt .expected-cost .cost-label {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  font-size: 14px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-right: 5px;
-}
-.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-icon {
-  font-size: 16px;
-}
-.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-img {
-  height: 18px;
-  width: 18px;
-  border-radius: 7px;
-}
-.dc20rpg #roll-prompt .expected-cost .cost-printer b {
-  font-size: 16px;
-}
-.dc20rpg #roll-prompt .expected-cost .cost-printer .symbol {
-  font-size: 24px;
-  margin-left: -4px;
-  margin-top: -7px;
-}
-.dc20rpg #roll-prompt .enhancements {
-  margin-top: 5px;
-  background-color: var(--secondary-color);
-  border: 2px solid var(--primary-dark);
-  border-bottom: 0;
-  padding: 5px;
-  border-radius: 3px 3px 0 0;
-  overflow-y: auto;
-  max-height: 250px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row {
-  height: 30px;
-  background-color: var(--secondary-lighter);
-  grid-template-columns: 1fr 100px 100px 30px;
-  display: grid;
-  border: 2px solid var(--secondary-darker);
-  border-top: 1px solid var(--secondary-darker);
-  border-bottom: 1px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:first-child {
-  border-radius: 3px 3px 0 0;
-  border-top: 2px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:last-child {
-  border-radius: 0 0 3px 3px;
-  border-bottom: 2px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:last-child .description {
-  position: relative;
-  bottom: 40px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:last-child .description .description-wrapper {
-  border-radius: 5px 5px 5px 0;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description {
-  position: relative;
-  bottom: 40px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description .description-wrapper {
-  border-radius: 5px 5px 5px 0;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .name {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .name img {
-  border-radius: 0;
-  width: 27px;
-  height: 27px;
-  border: 0;
-  border-right: 1px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 28px;
-  border-right: 1px solid var(--secondary-darker);
-  border-left: 1px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage.costs {
-  border-left: 0;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-icon {
-  font-size: 13px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-img {
-  height: 15px;
-  width: 15px;
-  border-radius: 7px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer b {
-  font-size: 13px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .symbol {
-  font-size: 17px;
-  margin-left: -3px;
-  margin-top: -5px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .enh-number {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 2px;
-  font-size: 16px;
-  font-weight: bold;
-  padding-right: 2px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
-  color: var(--primary-color);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a span {
-  margin-top: 2px;
-  margin-left: 2px;
 }
 .dc20rpg #dmg-calculator .selectable, .dc20rpg #initiative-slot-selector .selectable {
   width: auto;
@@ -11161,6 +11021,14 @@
   text-shadow: -1px 0 var(--main-color), 0 1px var(--main-color), 1px 0 var(--main-color), 0 -1px var(--main-color);
   font-weight: bold;
 }
+.chat-message.themed.theme-dark #context-menu {
+  background-color: var(--color-cool-5-90);
+}
+.chat-message.themed.theme-dark #context-menu li.context-item:hover {
+  background-color: var(--color-cool-5-90);
+  -webkit-box-shadow: 0 0 15px 5px inset var(--target-bg);
+  box-shadow: 0 0 15px 5px inset var(--target-bg);
+}
 .chat-message.themed.theme-light {
   --main-light: var(--color-dark-1);
   --main-color: var(--color-dark-3);
@@ -11172,6 +11040,14 @@
 }
 .chat-message.themed.theme-light .revert-name {
   font-weight: bold;
+}
+.chat-message.themed.theme-light #context-menu {
+  background-color: url(../images/sheet/parchment.jpg) repeat;
+}
+.chat-message.themed.theme-light #context-menu li.context-item:hover {
+  background-color: url(../images/sheet/parchment.jpg) repeat;
+  -webkit-box-shadow: 0 0 15px 5px inset var(--target-bg);
+  box-shadow: 0 0 15px 5px inset var(--target-bg);
 }
 .chat-message .default-roll-message {
   padding: 5px;

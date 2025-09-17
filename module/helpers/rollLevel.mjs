@@ -7,46 +7,6 @@ import { getTokenForActor} from "./actors/tokens.mjs";
 //=========================================
 //               ROLL LEVEL               =
 //=========================================
-export async function advForApChange(object, which) {
-  let adv = object.system.rollMenu.adv;
-  let apCost = object.system.rollMenu.apCost;
-
-  if (which === 1) {  // Add
-    if (adv >= 9) return;
-    apCost = apCost + 1;
-    adv = adv + 1;
-  }
-  if (which === 3) {  // Subtract
-    if (apCost === 0) return;
-    apCost = apCost - 1;
-    adv = Math.max(adv - 1, 0);
-  }
-  await object.update({
-    ['system.rollMenu.apCost']: apCost,
-    ['system.rollMenu.adv']: adv
-  });
-}
-
-export async function advForGritChange(object, which) {
-  let adv = object.system.rollMenu.adv;
-  let gritCost = object.system.rollMenu.gritCost;
-
-  if (which === 1) {  // Add
-    if (adv >= 9) return;
-    gritCost = gritCost + 1;
-    adv = adv + 1;
-  }
-  if (which === 3) {  // Subtract
-    if (gritCost === 0) return;
-    gritCost = gritCost - 1;
-    adv = Math.max(adv - 1, 0);
-  }
-  await object.update({
-    ['system.rollMenu.gritCost']: gritCost,
-    ['system.rollMenu.adv']: adv
-  });
-}
-
 let toRemove = [];
 export async function runItemRollLevelCheck(item, actor) {
   toRemove = [];

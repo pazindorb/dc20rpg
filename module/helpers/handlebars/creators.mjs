@@ -273,7 +273,7 @@ export function registerHandlebarsCreators() {
   function _toCost(key, icon, amount, title) {
     const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
     const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
-    return `<li class="cost ${key}" title="${title}">${number}${icon}${symbol}</li>`;
+    return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
   }
 
   Handlebars.registerHelper('item-config', (item, editMode, tab) => {

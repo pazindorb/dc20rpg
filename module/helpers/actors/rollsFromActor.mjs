@@ -13,8 +13,8 @@ import { DC20Roll } from "../../roll/rollApi.mjs";
 //==========================================
 //             Roll From Sheet             =
 //==========================================
-export async function rollFromSheet(actor, details) {
-  return await _rollFromFormula(details.roll, details, actor, true);
+export async function rollFromSheet(actor, details, rollMode) {
+  return await _rollFromFormula(details.roll, details, actor, true, rollMode);
 }
 
 /**
@@ -27,7 +27,7 @@ export async function rollFromSheet(actor, details) {
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO SHOULD WE MOVE ROLL MENU TO SYSTEM? I THINK WE SHOULD
+async function _rollFromFormula(formula, details, actor, sendToChat, rollMode) { // TODO SHOULD WE MOVE ROLL MENU TO SYSTEM? I THINK WE SHOULD
   const rollMenu = actor.system.rollMenu;
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
@@ -78,7 +78,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO S
       rollTitle: rollTitle,
       rollLevel: rollLevel
     };
-    sendRollsToChat({core: roll}, actor, messageDetails, false);
+    sendRollsToChat({core: roll}, actor, messageDetails, false, null, rollMode);
   }
 
   // 6. Cleanup
@@ -107,7 +107,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) { // TODO S
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-export async function rollFromItem(itemId, actor, sendToChat=true) {
+export async function rollFromItem(itemId, actor, sendToChat=true, rollMode) {
   if (!actor) return;
   const item = actor.items.get(itemId);
   if (!item) return;
@@ -169,7 +169,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
     }
     else {
       messageDetails.rollLevel = rollLevel;
-      sendRollsToChat(rolls, actor, messageDetails, true, item);
+      sendRollsToChat(rolls, actor, messageDetails, true, item, rollMode);
     }
   }
 

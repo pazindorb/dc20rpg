@@ -391,23 +391,12 @@ export async function createScrollFromSpell(spell) {
   spell.sheet.close();
 }
 
-export function collectAmmoForWeapon(item, actor) {
-  if (!actor) return {};
-  const useAmmo = item.system?.properties?.ammo?.active;
-  if (!useAmmo) return {};
-
-  const ammo = {};
-  actor.items.filter(item => item.system.consumableType === "ammunition")
-            .forEach(item => ammo[item.id] = item);
-  return ammo;
-}
-
 export function collectWeaponsFromActor(actor) {
   const weapons = {};
   actor.items.forEach(item => {
     const identified = item.system.statuses ? item.system.statuses.identified : true;
     if (item.type === "weapon" && identified) 
-      weapons[item.id] = item;
+      weapons[item.id] = item.name;
   });
   return weapons;
 }

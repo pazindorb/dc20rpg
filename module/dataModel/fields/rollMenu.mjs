@@ -11,7 +11,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
       gritCost: new f.NumberField(init0),
       autoCrit: new f.BooleanField({required: true, initial: false}),
       autoFail: new f.BooleanField({required: true, initial: false}),
-      help:new f.ArrayField(new f.NumberField(), {required: true}),
+      help:new f.ArrayField(new f.StringField(), {required: true}),
       ignoreMCP: new f.BooleanField({required: true, initial: false}),
       ...fields
     };
@@ -35,6 +35,10 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
 export function enrichRollMenuObject(object) {
   object.system.rollMenu.clear = async () => await _clearRollMenu(object);
   object.system.rollMenu.helpDiceFormula = () => _helpDiceFormula(object);
+  object.system.rollMenu.apForAdvUp = async () => await _resourceForAdv(object, "ap", true);
+  object.system.rollMenu.apForAdvDown = async () => await _resourceForAdv(object, "ap", false);
+  object.system.rollMenu.gritForAdvUp = async () => await _resourceForAdv(object, "grit", true);
+  object.system.rollMenu.gritForAdvDown = async () => await _resourceForAdv(object, "grit", false);
 }
 
 async function _clearRollMenu(object) {
@@ -60,7 +64,26 @@ async function _clearRollMenu(object) {
 function _helpDiceFormula(object) {
   let formula = "";
   object.system.rollMenu.help.forEach(dice => {
-    formula += ` + d${dice}`;
+    formula += ` ${dice}`;
   })
   return formula;
+}
+
+async function _resourceForAdv(object, key, up) {
+  const adv = object.system.rollMenu.adv;
+  const cost = object.system.rollMenu[`${key}Cost`];
+
+  if (up && adv < 9) {
+    await object.update({
+      [`system.rollMenu.${key}Cost`]: cost + 1,
+      ['system.rollMenu.adv']: adv + 1
+    });
+  }
+
+  if (!up && cost > 0) {
+    await object.update({
+      [`system.rollMenu.${key}Cost`]: cost - 1,
+      ['system.rollMenu.adv']: adv - 1
+    });
+  }
 }
