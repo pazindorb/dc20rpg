@@ -191,6 +191,14 @@ export class DC20RpgCombat extends Combat {
     const combatantId = this.current.combatantId;
     const combatant = this.combatants.get(combatantId);
     if (combatant) await clearMultipleCheckPenalty(combatant.actor);
+
+    this.combatants.forEach(combatant => {
+      const actor = combatant.actor;
+      clearHeldAction(combatant.actor);
+      clearHelpDice(combatant.actor);                 // Clear "round" duration
+      clearHelpDice(combatant.actor, null, "combat"); // Clear "combat" duration
+      this._refreshOnCombatEnd(actor);
+    })
   }
 
   /** @override **/
@@ -388,9 +396,15 @@ export class DC20RpgCombat extends Combat {
     await this._refreshItems(actor, ["round", "roundEnd"]);
   }
 
-  async _refreshOnCombatStart(actor) {
+  async _refreshOnCombatEnd(actor) {
     await this._refreshResources(actor, ["round", "roundEnd", "roundStart", "combat"]);
     await this._refreshItems(actor, ["round", "roundEnd", "roundStart", "combat"]);
+  }
+
+  // TODO: REMOVE "combat" in the future - replaced by "combatStart"
+  async _refreshOnCombatStart(actor) {
+    await this._refreshResources(actor, ["combat", "combatStart"]);
+    await this._refreshItems(actor, ["combat", "combatStart"]);
   }
 
   async _refreshResources(actor, resetTypes) {
@@ -449,7 +463,7 @@ export class DC20RpgCombat extends Combat {
         image: actor.img,
         description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
       });
-      prepareHelpAction(actor, {diceValue: 6, doNotExpire: true});
+      prepareHelpAction(actor, {diceValue: 6, duration: "combat"});
       return true;
     }
     return false;

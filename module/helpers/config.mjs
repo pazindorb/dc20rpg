@@ -743,9 +743,10 @@ DC20RPG.DROPDOWN_DATA.resetTypes = {
   ...DC20RPG.DROPDOWN_DATA.restTypes,
   halfOnShort: "Short Rest (Regain Half)",
   long4h: "Long Rest (First 4h)",
-  combat: "Combat Start",
-  roundEnd: "Round End",
+  combatStart: "Combat Start",
+  combatEnd: "Combat End",
   roundStart: "Round Start",
+  roundEnd: "Round End",
 }
 
 DC20RPG.DROPDOWN_DATA.chargesResets = {

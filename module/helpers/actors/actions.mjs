@@ -26,18 +26,20 @@ export function prepareHelpAction(actor, options={}) {
   const subtract = options.subtract ? "-" : "";
   activeDice[generateKey()] = {
     value: `${subtract}d${maxDice}`,
-    doNotExpire: options.doNotExpire
+    doNotExpire: options.doNotExpire,
+    duration: options.duration || "round"
   }
   actor.update({["system.help.active"]: activeDice});
 }
 
-export async function clearHelpDice(actor, key) {
+export async function clearHelpDice(actor, key, duration="round") {
   if (key) {
     await actor.update({[`system.help.active.-=${key}`]: null});
   }
   else {
     for (const [key, help] of Object.entries(actor.system.help.active)) {
-      if (!help.doNotExpire) await actor.update({[`system.help.active.-=${key}`]: null})
+      if (help.doNotExpire) continue;
+      if (help.duration === duration) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
 }
@@ -58,7 +60,8 @@ export function getActiveHelpDice(actor) {
       formula: help.value,
       icon: icon,
       subtraction: help.value.includes("-"),
-      doNotExpire: help.doNotExpire
+      doNotExpire: help.doNotExpire,
+      duration: help.duration
     }
   }
   return dice;
