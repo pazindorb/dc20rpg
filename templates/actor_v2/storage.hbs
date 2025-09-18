@@ -105,14 +105,19 @@
           <a class="margin-left-5 table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         </div>
       </div>
+      {{#if containers}}
       <div class="containers item-list">
+        <div class="container-icon" data-tooltip="{{localize "dc20rpg.sheet.containers"}}">
+          <i class="fa-solid fa-backpack fa-2x"></i>
+        </div>
         {{#each containers}}
-        <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{_id}}">
-          <a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>
+        <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
+          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
           <img src="{{img}}"/>
         </div>
         {{/each}}
       </div>
+      {{/if}}
     </div>
     <div class="item-storage">
       {{#each inventory as |table key|}}

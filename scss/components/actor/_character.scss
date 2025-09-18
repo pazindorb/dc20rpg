@@ -1913,23 +1913,39 @@
     }
 
     .containers {
-      padding: 0px 5px;
       display: flex;
       align-items: center;
+      background-color: $secondary-lighter;
+      border: 2px solid $primary-darker;
+      border-radius: 15px 5px 5px 15px;
+
+      .container-icon {
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        
+        color: $secondary-lighter;
+        border-right: 2px solid $primary-darker;
+        background-color: $primary-dark;
+        margin-right: 10px;
+        border-radius: 14px 0 0 14px;
+
+      }
 
       .container {
-        margin-bottom: 5px;
-        margin-right: 5px;
+        margin: 5px 8px;
 
         img {
           background-color: $secondary-dark;
           border: 2px solid $primary-color;
           border-radius: 3px;
 
-          min-height: 50px;
-          min-width: 50px;
-          height: 50px;
-          width: 50px;
+          min-height: 40px;
+          min-width: 40px;
+          height: 40px;
+          width: 40px;
 
           &:hover {
             box-shadow: 0 0 5px 1px $primary-darker;
