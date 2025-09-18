@@ -15,6 +15,22 @@
         <button data-action="rpSpend"><i class="fa-heart-circle-plus fa-solid"></i>{{localize "dc20rpg.dialog.rest.spend"}}</button>
       </div>
     </div>
+
+    {{!-- HP Bar --}}
+    <div class="resource" title="{{localize 'dc20rpg.resource.health'}}">      
+      <div class="resource-bar-wrapper">
+        <div class="resource-bar">
+          <div class="health-bar" style="width: {{health.percent}}%"></div>
+          <div class="resource-content">
+            <div class="resource-values">
+              <input disabled class="bar-input" data-cType="actor-numeric" type="number" value="{{health.current}}" data-dtype="Number">
+              <span class="separator"> / </span>
+              <input disabled class="bar-input" type="number" value="{{health.max}}" data-dtype="Number">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </fieldset>
 
   <fieldset>

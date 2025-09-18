@@ -1,5 +1,5 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { createRestDialog } from "../dialogs/rest.mjs";
+import { createRestDialog, RestDialog } from "../dialogs/rest.mjs";
 import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer, RollDialog } from "../roll/rollDialog.mjs";
 import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
@@ -33,6 +33,7 @@ export function prepareDC20tools() {
       SimplePopup,
       TokenSelector,
       RollDialog,
+      RestDialog,
     },
     creators: {
       Conditional,

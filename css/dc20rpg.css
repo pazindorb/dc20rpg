@@ -1724,6 +1724,72 @@
   font-family: "Humaroid";
   font-size: 24px;
 }
+.dc20rpg #rest-dialog .resource {
+  z-index: 2;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper {
+  color: var(--secondary-darker);
+  display: grid;
+  border: 1px solid var(--secondary-darker);
+  border-radius: 4px;
+  background-color: var(--secondary-lighter);
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar {
+  height: 20px;
+  min-height: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-darker);
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content .resource-values {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content .resource-values .separator {
+  font-weight: bold;
+  text-align: center;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content .resource-values .bar-input {
+  font-weight: bold;
+  background-color: transparent;
+  color: black;
+  font-size: 14px;
+  text-align: center;
+  border: 0px;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .health-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  background-color: var(--health-bar);
+}
 .dc20rpg #advancement-dialog {
   background-color: rgba(55, 55, 55, 0.568627451);
   padding: 0;

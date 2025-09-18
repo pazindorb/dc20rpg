@@ -1,6 +1,7 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
@@ -9,10 +10,34 @@ import { DC20Dialog } from "./dc20Dialog.mjs";
  */
 export class RestDialog extends DC20Dialog {
 
-  constructor(actor, preselected, options = {}) {
+  static async open(actor, options={}) {
+    if (options.sendToActorOwners) {
+      const owners = getIdsOfActiveActorOwners(actor, false);
+      if (owners.length > 0 && !owners.find(ownerId => game.user.id === ownerId)) options.users = owners;
+    }
+
+    // Send to other users
+    if (options.users) {
+      const payload = {
+        actorId: actor.id,
+        options: options
+      };
+      emitSystemEvent("startRest", payload);
+    }
+
+    else {
+      await RestDialog.create(actor, options);
+    }
+  }
+
+  static async create(actor, options={}) {
+    new RestDialog(actor, options).render(true);
+  }
+
+  constructor(actor, options = {}) {
     super(options);
     this.actor = actor;
-    this.selectedRestType = preselected || "long";
+    this.selectedRestType = options.preselected || "long";
     this.history = {
       resources: {},
       rpToHP: 0,
@@ -57,6 +82,12 @@ export class RestDialog extends DC20Dialog {
     context.rest = this.actor.system.rest;
     context.newDay = this.newDay;
     context.noActivity = this.noActivity;
+    context.health = this.actor.system.resources.health;
+
+    // Calculate health %
+    const hpPercent = Math.ceil(100 * context.health.current/context.health.max);
+    if (isNaN(hpPercent)) context.health.percent = 0;
+    else context.health.percent = hpPercent <= 100 ? hpPercent : 100;
 
     const halfLongRestDone = this.actor.system.rest.longRest.half;
     context.halfButton = this.selectedRestType === "long" && !halfLongRestDone;
@@ -244,16 +275,14 @@ export class RestDialog extends DC20Dialog {
   }
 }
 
-/**
- * Opens Rest Dialog popup for given actor.
- */
+/** @deprecated since v0.9.8 until 0.10.0 */
 export function createRestDialog(actor, preselected) {
-  new RestDialog(actor, preselected).render(true);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.createRestDialog' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.RestDialog.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  RestDialog.open(actor, {preselected: preselected});
 }
 
+/** @deprecated since v0.9.8 until 0.10.0 */
 export function openRestDialogForOtherPlayers(actor, preselected) {
-  emitSystemEvent("startRest", {
-    actorId: actor.id,
-    preselected: preselected
-  });
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.openRestDialogForOtherPlayers' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.RestDialog.open' with 'options.sendToActorOwners' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
+  RestDialog.open(actor, {preselected: preselected, sendToActorOwners: true});
 }

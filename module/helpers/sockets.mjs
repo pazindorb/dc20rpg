@@ -1,4 +1,4 @@
-import { createRestDialog } from "../dialogs/rest.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
@@ -45,11 +45,11 @@ export function registerSystemSockets() {
   // Open Rest Dialog
   game.socket.on('system.dc20rpg', async (data) => {
     if (data.type === "startRest") {
-      const {actorId, preselected} = data.payload;
+      const {actorId, options} = data.payload;
       const actor = game.actors.get(actorId);
 
       if (actor && actor.ownership[game.user.id] === 3) {
-        createRestDialog(actor, preselected);
+        RestDialog.create(actor, options);
       }
     }
   });

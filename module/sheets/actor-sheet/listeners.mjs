@@ -1,5 +1,5 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
-import { createRestDialog } from "../../dialogs/rest.mjs";
+import { RestDialog } from "../../dialogs/rest.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -137,7 +137,7 @@ export function activateCommonLinsters(html, actor) {
 
 export function activateCharacterLinsters(html, actor) {
   // Header - Top Buttons
-  html.find(".rest").click(() => createRestDialog(actor));
+  html.find(".rest").click(() => RestDialog.open(actor));
   html.find(".level").click(async ev => {
     if (datasetOf(ev).up !== "true") {
       const confirmed = await SimplePopup.confirm("Do you want to level down?");

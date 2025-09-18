@@ -1,4 +1,4 @@
-import { createRestDialog } from "../dialogs/rest.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
@@ -75,7 +75,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     initialized.actions.config = this._onConfigTokenHotbar;
     initialized.actions.dropSustain = this._onDropSustain;
     initialized.actions.heldAction = this._onHeldAction;
-    initialized.actions.rest = () => createRestDialog(this.actor);
+    initialized.actions.rest = () => RestDialog.open(this.actor);
     initialized.actions.check = this._onCheckRoll;
     initialized.actions.save = this._onSaveRoll;
     initialized.actions.grit = this._onGrit;
