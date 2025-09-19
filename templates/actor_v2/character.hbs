@@ -563,11 +563,15 @@
           </div>
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{item-table false basic "basic"}}
+            {{#each basic as |table key|}} 
+            {{item-table table key=key navTab="basic" editMode=@root.editMode columns="name action cost"}}
+            {{/each}}    
           </div>
           {{else}}
           <div class="favorites">
-            {{item-table @root.editMode favorites "favorites"}}
+            {{#each favorites as |table key|}} 
+            {{item-table table key=key navTab="favorites" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable status" editModeConfig="favorite"}}
+            {{/each}}
           </div>
           {{/if}}
         </div>
@@ -613,7 +617,18 @@
         {{/each}}
       </div>
       {{/if}}
-      {{item-table @root.editMode inventory "inventory"}}
+
+      {{#if showSlots}}
+      <div class="slot-selector">
+        
+      </div>
+      <div class="table-wrapper">
+
+      </div>
+      {{/if}}
+      {{#each inventory as |table key|}} 
+      {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
@@ -631,7 +646,9 @@
         </div>
         {{/if}}
       </div>
-      {{item-table @root.editMode features "features"}}
+      {{#each features as |table key|}} 
+      {{item-table table key=key navTab="features" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
@@ -654,7 +671,9 @@
       {{/if}}
       </div>
 
-      {{item-table @root.editMode techniques "techniques"}}
+      {{#each techniques as |table key|}} 
+      {{item-table table key=key navTab="techniques" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable favorite known" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
@@ -676,7 +695,9 @@
         </div>
       {{/if}}
       </div>
-      {{item-table @root.editMode spells "spells"}}
+      {{#each spells as |table key|}} 
+      {{item-table table key=key navTab="spells" editMode=@root.editMode columns="name components action charges cost config" itemConfig="macro activable favorite known" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
     
     <div class="tab effects-tab" data-group="primary" data-tab="effects">

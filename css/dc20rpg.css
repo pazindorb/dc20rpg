@@ -4533,13 +4533,13 @@
   -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
-  width: 120px;
+  width: 90px;
   padding: 2px 0;
   height: 33px;
 }
 .dc20rpg .item-list .item-row .action:hover, .dc20rpg .item-list .item-row .components:hover, .dc20rpg .item-list .enh-row .action:hover, .dc20rpg .item-list .enh-row .components:hover {
   overflow: visible;
-  min-width: 120px;
+  min-width: 90px;
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -4639,8 +4639,8 @@
   background-color: transparent;
   border: 0;
   border-radius: 0px;
-  width: 28px;
-  min-width: 28px;
+  width: 22px;
+  min-width: 22px;
 }
 .dc20rpg .item-list .item-row .charges .max-charges, .dc20rpg .item-list .enh-row .charges .max-charges {
   margin-left: 2px;
@@ -7780,17 +7780,6 @@
   border: 0;
   background-color: transparent;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .actions .item-row .action {
-  width: 90px !important;
-}
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .actions .item-row .action:hover {
-  min-width: 70px !important;
-}
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action.expandable:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action.expandable:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .actions .item-row .action.expandable:hover {
-  border-left: 1px solid var(--secondary-color);
-  margin-left: -40px;
-  min-width: 130px !important;
-}
 .dc20rpg .actor_v2 .char-sheet-body .tab .active-effects .letter-circle-icon {
   position: relative;
   width: 0px;
@@ -8317,29 +8306,29 @@
   background: -webkit-gradient(linear, left top, right top, from(var(--npc-table-1)), to(var(--npc-table-2))) !important;
   background: linear-gradient(to right, var(--npc-table-1), var(--npc-table-2)) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .enh-number a {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .enh-number a {
   border-color: var(--npc-main) !important;
   color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-item i {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-item i {
   color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .roll-level-check {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .roll-level-check {
   background-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .fa-solid {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .value-in-box .fa-solid {
   color: var(--npc-main-light) !important;
   -webkit-text-stroke-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .value::after {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .value-in-box .value::after {
   background-color: var(--npc-main-light) !important;
   border-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .help-dices .fa-solid {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .help-dices .fa-solid {
   color: var(--npc-main-light) !important;
   -webkit-text-stroke-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-options i {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-options i {
   color: var(--npc-main) !important;
 }
 .dc20rpg .actor_v2 .npc-body .core-tab .first-row .attributes-wrapper {
@@ -9530,29 +9519,29 @@
   background: -webkit-gradient(linear, left top, right top, from(var(--pc-table-1)), to(var(--pc-table-2))) !important;
   background: linear-gradient(to right, var(--pc-table-1), var(--pc-table-2)) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .enh-number a {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .enh-number a {
   border-color: var(--pc-main) !important;
   color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-item i {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-item i {
   color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .roll-level-check {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .roll-level-check {
   background-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .fa-solid {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .value-in-box .fa-solid {
   color: var(--pc-main-light) !important;
   -webkit-text-stroke-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .value::after {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .value-in-box .value::after {
   background-color: var(--pc-main-light) !important;
   border-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .help-dices .fa-solid {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .help-dices .fa-solid {
   color: var(--pc-main-light) !important;
   -webkit-text-stroke-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-options i {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-options i {
   color: var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row {

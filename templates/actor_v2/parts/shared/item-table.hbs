@@ -1,117 +1,140 @@
-{{#each items as |table key|}}
   <div class="item-list table-name {{key}}">
     {{!-- Header --}}
-    <div class="item-header" data-table-name='{{key}}' style="{{grid-template @root.navTab true false}}">
+    <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 35px {{gridTemplate}}">
       <div class="column reordering-buttons">
-        {{#ifCond @root.editMode '&&' table.siblings.before}}
-        <a class="reorder fa-solid fa-angle-up" title="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="{{@root.navTab}}" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
+        {{#ifCond editMode '&&' table.siblings.before}}
+        <a class="reorder fa-solid fa-angle-up" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="{{navTab}}" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
         {{/ifCond}}
-        {{#ifCond @root.editMode '&&' table.siblings.after}}
-        <a class="reorder fa-solid fa-angle-down" title="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="{{@root.navTab}}" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
+        {{#ifCond editMode '&&' table.siblings.after}}
+        <a class="reorder fa-solid fa-angle-down" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="{{navTab}}" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
         {{/ifCond}}
       </div>
+      {{#each columns}}
+
+      {{#ifCond this '===' "name"}}
       <div class="column name">
-        <input {{#ifCond @root.editMode '&&' table.custom}}{{else}}disabled{{/ifCond}} type="text" name="flags.dc20rpg.headersOrdering.{{@root.navTab}}.{{key}}.name" value="{{table.name}}"/>
+        <input {{#ifCond @root.editMode '&&' @root.table.custom}}{{else}}disabled{{/ifCond}} type="text" name="flags.dc20rpg.headersOrdering.{{@root.navTab}}.{{@root.key}}.name" value="{{@root.table.name}}"/>
       </div>
-      <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
-      {{!-- Inventory Only --}}
-      {{#ifCond @root.navTab '===' "inventory"}}
-      <div class="column weight"><i class="fa-solid fa-weight-hanging" title="{{localize 'dc20rpg.sheet.itemTable.weight'}}"></i></div>
-      <div class="column quantity"><i class="fa-solid fa-boxes-stacked" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"></i></div>
       {{/ifCond}}
-      {{!-- Spells Only --}}
-      {{#ifCond @root.navTab '===' "spells"}}
-      <div class="column components"><i class="fa-solid fa-sack" title="{{localize 'dc20rpg.sheet.itemTable.components'}}"></i></div>
+
+      {{#ifCond this '===' "action"}}
+      <div class="column action" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
       {{/ifCond}}
-      <div class="column charges" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"><i class="fa-solid fa-battery-three-quarters"></i></div>
-      {{#unless (arrayIncludes @root.navTab arrayString="favorites main basic")}}
-      <div class="column other-item" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}"><i class="fa-solid fa-cookie-bite"></i></div>
-      {{/unless}}
-      <div class="column cost" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
+
+      {{#ifCond this '===' "cost"}}
+      <div class="column cost" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
+      {{/ifCond}}
+
+      {{#ifCond this '===' "charges"}}
+      <div class="column charges" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.charges'}}"><i class="fa-solid fa-battery-three-quarters"></i></div>
+      {{/ifCond}}
+
+      {{#ifCond this '===' "weight"}}
+      <div class="column weight"><i class="fa-solid fa-weight-hanging" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.weight'}}"></i></div>
+      {{/ifCond}}
+
+      {{#ifCond this '===' "quantity"}}
+      <div class="column quantity"><i class="fa-solid fa-boxes-stacked" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"></i></div>
+      {{/ifCond}}
+
+      {{#ifCond this '===' "components"}}
+      <div class="column components"><i class="fa-solid fa-sack" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.components'}}"></i></div>
+      {{/ifCond}}
+
+      {{#ifCond this '===' "config"}}
       <div class="column config">
         <i class="fa-solid fa-gear"></i>
-        {{#ifCond @root.editMode '&&' table.custom}}
-          <a class="table-remove fa-lg fa-solid fa-xmark margin-left-3" title="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}" data-tab="{{@root.navTab}}" data-table="{{key}}"></a>
+        {{#ifCond @root.editMode '&&' @root.table.custom}}
+          <a class="table-remove fa-lg fa-solid fa-xmark margin-left-3" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}" data-tab="{{@root.navTab}}" data-table="{{@root.key}}"></a>
         {{/ifCond}}
       </div>
+      {{/ifCond}}
+
+      {{/each}}
+      
     </div>
     
     {{!-- Row --}}
-    {{#each table.items}}
-    <div class="expandable-row">
-      <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#ifCond system.toggle.toggleable '&&' system.toggle.toggledOn}} activated-effect{{/ifCond}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
-        {{!-- Name --}}
-        <div class="column name item-tooltip roll-item" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}} {{localize "dc20rpg.sheet.rollMenu.quickRoll"}}">
+    {{#each table.items as |item id|}} 
+    <div class="item item-row editable{{#if item.system.statuses.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" data-item-id="{{item._id}}" style="grid-template-columns: {{@root.gridTemplate}}">
+    {{#each @root.columns}}
+
+        {{#ifCond this '===' "name"}}
+        <div class="column name item-tooltip roll-item" data-item-id="{{item._id}}" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}} {{localize "dc20rpg.sheet.rollMenu.quickRoll"}}">
           <div class="item-img-wrapper">
-            <a class="original"><img src="{{img}}"/></a>
+            <a class="original"><img src="{{item.img}}"/></a>
             <a class="hovered">
               <i class="hover-icon fa-solid fa-dice-d20 fa-2x"></i>
             </a> 
           </div>
-          <div class="item-name" data-item-id="{{_id}}">{{name}}</div>
-          {{#if this.system.isReaction}}
-          <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
+          <div class="item-name" data-item-id="{{item._id}}">{{item.name}}</div>
+          {{#if item.system.isReaction}}
+          <div class="side-marker" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
             <i class="fa-solid fa-reply fa-lg"></i>
           </div>
           {{/if}}
-        </div>
 
-        {{!-- Action Type --}}
-        <div class="column action {{{should-expand this @root.navTab}}}" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}">
-          {{{action-type this}}}
-          {{{roll-requests this}}}
-          {{{formula-rolls this}}}
-        </div>
-
-        {{!-- Item Weight and Quantity (Inventory Only) --}}
-        {{#ifCond @root.navTab '===' "inventory"}}
-        <div class="column weight" title="{{localize 'dc20rpg.sheet.itemTable.weight'}}">
-          {{system.weight}}
-        </div>
-        <div class="column quantity" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}">
-          <input class="change-item-numeric-value" type="text" value="{{system.quantity}}" data-item-id="{{_id}}" data-path="system.quantity">
-        </div>
-        {{/ifCond}}
-
-        {{!-- Spell Components (Spells Only) --}}
-        {{#ifCond @root.navTab '===' "spells"}}
-        <div class="column components" title="{{localize 'dc20rpg.sheet.itemTable.components'}}">
-          {{{components this}}}
-        </div>
-        {{/ifCond}}
-
-        {{!-- Charges --}}
-        <div class="column charges" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}">
-          {{#if system.costs}}
-          {{#ifCond system.costs.charges.max '!==' null}}
-          <input class="current-charges update-charges" type="text" value="{{system.costs.charges.current}}" data-dtype="Number" data-item-id="{{_id}}" {{#ifCond system.costs.charges.reset "===" "charges"}}style="width:23px"{{/ifCond}}/>
-          <span class="separator">/</span>
-          <span class="max-charges">{{system.costs.charges.max}}</span>
-            {{!-- Recharge button --}}
-            {{#ifCond system.costs.charges.reset "===" "charges"}}
-            <a class="recharge-item fa-solid fa-bolt" title="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{_id}}" style="margin-left:2px;margin-top:-2px;"></a>
-            {{/ifCond}}
-          {{/ifCond}}
+          {{#if item.system.shortInfo}}
+            <div class="side-marker" data-tooltip="{{item.system.shortInfo}}">
+              <i class="fa-solid fa-square-info fa-lg" style="padding-right: 2px; padding-top: 7px;"></i>
+            </div>
           {{/if}}
         </div>
-
-        {{!-- Item use other item --}}
-        {{#unless (arrayIncludes @root.navTab arrayString="favorites main basic")}}
-        <div class="column item-use" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}">
+        {{/ifCond}}
+        
+        {{#ifCond this '===' "action"}}
+        <div class="column action expandable" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.roll'}}">
+          {{{action-type item}}}
+          {{{roll-requests item}}}
+          {{{formula-rolls item}}}
         </div>
-        {{/unless}}
+        {{/ifCond}}
 
-        {{!-- Resource Usage --}}
-        <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-          {{{cost-printer useCost true false false true}}}
+        {{#ifCond this '===' "cost"}}
+        <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+          {{{cost-printer item.useCost true false false true}}}
         </div>
+        {{/ifCond}}
 
-        {{!-- Config --}}
+        {{#ifCond this '===' "charges"}}
+        <div class="column charges" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.charges'}}">
+          {{#ifCond item.system.costs.charges.max '!==' null}}
+          <input class="current-charges update-charges" type="text" value="{{item.system.costs.charges.current}}" data-dtype="Number" data-item-id="{{item._id}}" {{#ifCond item.system.costs.charges.reset "===" "charges"}}style="width:23px"{{/ifCond}}/>
+          <span class="separator">/</span>
+          <span class="max-charges">{{item.system.costs.charges.max}}</span>
+            {{!-- Recharge button --}}
+            {{#ifCond system.costs.charges.reset "===" "charges"}}
+            <a class="recharge-item fa-solid fa-bolt" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{item._id}}" style="margin-left:2px;margin-top:-2px;"></a>
+            {{/ifCond}}
+          {{/ifCond}}
+        </div>
+        {{/ifCond}}
+
+        {{#ifCond this '===' "weight"}}
+        <div class="column weight" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.weight'}}">
+          {{item.system.weight}}
+        </div>
+        {{/ifCond}}
+
+        {{#ifCond this '===' "quantity"}}
+        <div class="column quantity" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.quantity'}}">
+          <input class="change-item-numeric-value" type="text" value="{{item.system.quantity}}" data-item-id="{{item._id}}" data-path="system.quantity">
+        </div>
+        {{/ifCond}}
+
+        {{#ifCond this '===' "components"}}
+        <div class="column components expandable" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.components'}}">
+          {{{components item}}}
+        </div>
+        {{/ifCond}}
+
+        {{#ifCond this '===' "config"}}
         <div class="column config">
-          {{{item-config this @root.editMode @root.navTab}}}
+          {{{item-config item config=@root.itemConfig editModeConfig=@root.editModeConfig editMode=@root.editMode navTab=@root.navTab}}}
         </div>
-      </div>
+        {{/ifCond}}
+
+    {{/each}}
     </div>
     {{/each}}
   </div>
-{{/each}}

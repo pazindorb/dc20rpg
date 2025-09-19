@@ -484,11 +484,15 @@
 
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{item-table false basic "basic"}}
+            {{#each basic as |table key|}} 
+            {{item-table table key=key navTab="basic" editMode=@root.editMode columns="name action cost"}}
+            {{/each}}    
           </div>
           {{else}}
           <div class="main">
-            {{item-table @root.editMode main "main"}} 
+            {{#each main as |table key|}} 
+            {{item-table table key=key navTab="main" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable status" editModeConfig="edit copy delete"}}
+            {{/each}}
           </div>
           {{/if}}
         </div>
