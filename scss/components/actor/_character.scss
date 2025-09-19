@@ -2146,6 +2146,20 @@
     }
   }
 
+  .inventory-tab {
+
+    .second-row {
+      display: grid;
+      grid-template-columns: 1fr;
+
+      &.slot-open { 
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+
+  }
+
   .journal-tab .description-box {
     font-family: $font-default;
     font-size: 14px;

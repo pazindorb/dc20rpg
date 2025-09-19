@@ -8,6 +8,9 @@ export function enrichWithHelpers(actor) {
   _enrichResourcesObject(actor);
   _enrichAttributesObject(actor);
   _enrichSkillsObject(actor);
+  if (actor.system.equipmentSlots) {
+    _enrichEquipmentSlots(actor);
+  }
 }
 
 //==================================//==================================
@@ -408,4 +411,108 @@ async function _onLanguageCheck(key, options, details, actor) {
   const rollTitle = `${CONFIG.DC20RPG.languages[key]} Check`;
   const customLabel = "Language Check";
   return await actor.rollPopup("language", "check", {rollTitle: rollTitle, customLabel: customLabel, ...options}, details);
+}
+
+//==================================//==================================
+//                            EQUIPMENT SLOTS                          =
+//==================================//==================================
+function _enrichEquipmentSlots(actor) {
+  const equipmentSlots = {};
+
+  for (const [category, slots] of Object.entries(actor.system.equipmentSlots)) {
+    equipmentSlots[category] = {
+      addSlot: async (key=generateKey(), data={}) => await _addNewSlot(category, data, key),
+      slots: {}
+    };
+    
+    for (const [key, original] of Object.entries(slots)) {
+      const slot = foundry.utils.deepClone(original);
+      slot.category = category;
+      slot.key = key;
+
+      _enrichSlot(actor, slot);
+      equipmentSlots[category].slots[key] = slot;
+    }
+  }
+
+  actor.equipmentSlots = equipmentSlots;
+}
+
+//==================================
+//     CATEGORY SPECIFIC METHODS   =
+//==================================
+async function _addNewSlot(category, data, key) {
+  await actor.update({[`system.equipmentSlots.${category}.${key}`]: {
+    slotName: data.name || _defaultNamePerCategory(category),
+    slotIcon: data.icon || _defaultIconPerCategory(category)
+  }});
+}
+
+function _defaultNamePerCategory(category) {
+  switch (category) {
+    case "weapon":    return "dc20rpg.sheet.equipmentSlot.weapon";
+    case "head":      return "dc20rpg.sheet.equipmentSlot.head";
+    case "neck":      return "dc20rpg.sheet.equipmentSlot.neck";
+    case "mantle":    return "dc20rpg.sheet.equipmentSlot.mantle";
+    case "body":      return "dc20rpg.sheet.equipmentSlot.body";
+    case "waist":     return "dc20rpg.sheet.equipmentSlot.waist";
+    case "hand":      return "dc20rpg.sheet.equipmentSlot.hand";
+    case "ring":      return "dc20rpg.sheet.equipmentSlot.ring";
+    case "feet":      return "dc20rpg.sheet.equipmentSlot.feet";
+    case "trinket":   return "dc20rpg.sheet.equipmentSlot.trinket";
+    default:          return "dc20rpg.sheet.equipmentSlot.eq";
+  }
+}
+
+function _defaultIconPerCategory(category) {
+  switch (category) {
+    case "weapon":    return "icons/weapons/bows/shortbow-white.webp";
+    case "head":      return "icons/weapons/bows/shortbow-white.webp";
+    case "neck":      return "icons/weapons/bows/shortbow-white.webp";
+    case "mantle":    return "icons/weapons/bows/shortbow-white.webp";
+    case "body":      return "icons/weapons/bows/shortbow-white.webp";
+    case "waist":     return "icons/weapons/bows/shortbow-white.webp";
+    case "hand":      return "icons/weapons/bows/shortbow-white.webp";
+    case "ring":      return "icons/weapons/bows/shortbow-white.webp";
+    case "feet":      return "icons/weapons/bows/shortbow-white.webp";
+    case "trinket":   return "icons/weapons/bows/shortbow-white.webp";
+    default:          return "icons/weapons/bows/shortbow-white.webp";
+  }
+}
+
+//==================================
+//      SLOT SPECIFIC METHODS      =
+//==================================
+function _enrichSlot(actor, slot) {
+  slot.isEquipped = !!slot.itemId;
+  slot.equip = async (item) => await _equipSlot(item, slot, actor);
+  slot.unequip = async () => await _unequipSlot(slot, actor);
+  slot.delete = async () => await _deleteSlot(slot, actor);
+}
+
+async function _equipSlot(item, slot, actor) {
+  const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
+  await actor.update({
+    [`${path}.itemId`]: item.id,
+    [`${path}.itemName`]: item.name,
+    [`${path}.itemImg`]: item.img,
+  });
+  await item.equip({forceEquip: true});
+}
+
+async function _unequipSlot(slot, actor) {
+  const item = actor.items.get(slot.itemId);
+  if (item) await item.equip({forceUnequip: true});
+
+  const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
+  await actor.update({
+    [`${path}.-=itemId`]: null,
+    [`${path}.-=itemName`]: null,
+    [`${path}.-=itemImg`]: null,
+  });
+}
+
+async function _deleteSlot(slot, actor) {
+  await _unequipSlot(slot, actor);
+  await actor.update({[`system.equipmentSlots.${slot.category}.-=${slot.key}`]: null});
 }

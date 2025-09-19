@@ -14,6 +14,7 @@ import SenseFields from "./fields/actor/senses.mjs";
 import SizeFields from "./fields/actor/size.mjs";
 import SkillFields from "./fields/actor/skills.mjs";
 import RollMenu from "./fields/rollMenu.mjs";
+import EquipmentSlotFields from "./fields/actor/equipmentSlots.mjs";
 
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -186,6 +187,7 @@ export class DC20CharacterData extends DC20BaseActorData {
       size: new SizeFields(true),
       movement: new MovementFields(false),
       rest: new RestFields(),
+      equipmentSlots: new EquipmentSlotFields(),
       tokenHotbar: new f.SchemaField({        
         sectionA: new f.ObjectField({required: true}),
         sectionB: new f.ObjectField({required: true}),

@@ -5,6 +5,7 @@ export function preInitializeFlags(actor) {
 		editMode: false,
 		hideNonessentialEffects: false,
 		showInactiveEffects: true,
+		showSlots: true,
 		showUnknownSkills: true,
 		showUnknownTrades: false,
 		showUnknownLanguages: false,

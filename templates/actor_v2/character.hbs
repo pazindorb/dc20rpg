@@ -578,7 +578,7 @@
       </div>
     </div>
 
-    <div class="tab inventory-tab" data-group="primary" data-tab="inventory">
+    <div class="tab inventory-tab {{#if flags.dc20rpg.showSlots}}slot-open{{/if}}" data-group="primary" data-tab="inventory">
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
@@ -618,17 +618,19 @@
       </div>
       {{/if}}
 
-      {{#if showSlots}}
-      <div class="slot-selector">
-        
+      <div class="second-row"> {{log flags}}
+        {{{show-hide-toggle flags.dc20rpg.showSlots "flags.dc20rpg.showSlots"}}}
+        {{#if flags.dc20rpg.showSlots}}
+        <div class="slot-selector" style="backround-image: {{actor.img}}">
+          
+        </div>
+        {{/if}}
+        <div class="table-wrapper">
+          {{#each inventory as |table key|}} 
+          {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
+          {{/each}}
+        </div>
       </div>
-      <div class="table-wrapper">
-
-      </div>
-      {{/if}}
-      {{#each inventory as |table key|}} 
-      {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
-      {{/each}}
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
