@@ -461,6 +461,19 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   trap: "Trap",
   trinket: "Trinket",
   other: "Other"
+},
+
+DC20RPG.DROPDOWN_DATA.equipmentSlots = {
+  head: "Head",
+  neck: "Neck",
+  mantle: "Mantle",
+  body: "Body",
+  waist: "Waist",
+  hand: "Hand",
+  ring: "Ring",
+  feet: "Feet",
+  trinket: "Trinket",
+  weapon: "Weapon",
 }
 
 DC20RPG.DROPDOWN_DATA.techniqueTypes = {

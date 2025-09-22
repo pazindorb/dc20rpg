@@ -249,6 +249,43 @@ export function registerHandlebarsCreators() {
     return itemDetailsToHtml(item);
   });
 
+  Handlebars.registerHelper('slot-printer', (slots, category, options) => {
+    let content = "";
+    if (!slots) return content;
+
+    const sectionIcon = options.hash.sectionIcon;
+    if (sectionIcon) {
+      const section = `
+      <div class="section-icon">
+        <i class="${sectionIcon} fa-lg"></i>
+      </div>`
+      content += section;
+    }
+
+    for (const [key, slot] of Object.entries(slots)) {
+      const img = slot.itemId ?
+        `<img class="full" src="${slot.itemImg}" data-tooltip="${slot.itemName}"/>` :
+        `<img class="empty" src="${slot.slotIcon}" data-tooltip="${game.i18n.localize(slot.slotName)}"/>`
+      
+      const deleteButton = !options.hash.editMode ? "" :
+        `<a class="delete-slot fas fa-trash " data-tooltip="${game.i18n.localize("dc20rpg.sheet.items.slotDelete")}" data-key="${key}" data-category="${category}"></a>`;
+      const defaultKeys = ["default", "mainHand", "offHand", "left", "right"]
+
+      content += ` 
+      ${defaultKeys.includes(key) ? "" : deleteButton}
+      <div class="slot" data-key="${key}" data-category="${category}">
+        ${img}
+      </div>`;
+    }
+
+    if (!content) return content;
+    return `
+      <div class="slot-section ${sectionIcon ? "slot-bar" : ""}">
+        ${content}
+      </div>
+    `;
+  })
+
   Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => {
     let component = '';
     if (resources) {
@@ -347,7 +384,7 @@ export function registerHandlebarsCreators() {
                           ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`)
                           : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
       
-      component += `<a class="item-activable ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
+      component += `<a class="item-equip ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
 
       if (item.system.properties.attunement.active) {
         const attuned = statuses.attuned ? 'fa-solid' : 'fa-regular';

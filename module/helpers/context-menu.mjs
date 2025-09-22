@@ -35,7 +35,7 @@ export function itemContextMenu(item, event, html, actorType) {
   const statuses = item.system.statuses;
   if (statuses) {
     const equippedTitle = statuses.equipped ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`) : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
-    content += `<a class="elem item-activable" data-path="system.statuses.equipped"><i class="fa-solid fa-suitcase-rolling"></i><span>${equippedTitle}</span></a>`;
+    content += `<a class="elem item-equip"><i class="fa-solid fa-suitcase-rolling"></i><span>${equippedTitle}</span></a>`;
 
     if (item.system.properties.attunement.active) {
       const attunedTitle = statuses.attuned ? game.i18n.localize(`dc20rpg.sheet.itemTable.unattuneItem`) : game.i18n.localize(`dc20rpg.sheet.itemTable.attuneItem`);
@@ -81,4 +81,5 @@ function _addEventListener(contextMenu, item) {
     let value = getValueFromPath(item, path);
     item.update({[path]: !value});
   });
+  contextMenu.find('.item-equip').click((ev) => item.equip());
 }

@@ -25,6 +25,7 @@ export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find(".item-equip").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).equip());
   html.find('.rollable').click(ev => actor.rollPopup(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
   html.find('.roll-item').click(ev => RollDialog.open(actor, getItemFromActor(datasetOf(ev).itemId, actor), {quickRoll: ev.shiftKey}));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
@@ -157,6 +158,10 @@ export function activateCharacterLinsters(html, actor) {
   // Attributes
   html.find('.subtract-attribute-point').click(ev => actor.attributes[datasetOf(ev).key].decrease());
   html.find('.add-attribute-point').click(ev => actor.attributes[datasetOf(ev).key].increase());
+
+  // Slots
+  html.find('.add-slot').click(ev => _onAddSlot(ev, actor));
+  html.find('.delete-slot').click(ev => _onDeleteSlot(datasetOf(ev), actor));
 }
 
 export function activateNpcLinsters(html, actor) {
@@ -223,4 +228,16 @@ function _onToggleMastery(key, type, which, actor) {
   const obj = actor.skillAndLanguage[type][key];
   if (which === 1) obj.masteryUp();
   if (which === 3) obj.masteryDown();
+}
+
+async function _onAddSlot(event, actor) {
+  event.preventDefault();
+  const category = await SimplePopup.select("Select Category", CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots);
+  if (!category) return;
+
+  await actor.equipmentSlots[category].addSlot();
+}
+
+async function _onDeleteSlot(dataset, actor) {
+  await actor.equipmentSlots[dataset.category].slots[dataset.key].delete();
 }

@@ -7458,9 +7458,9 @@
   justify-content: center;
   color: var(--secondary-lighter);
   border-right: 2px solid var(--primary-darker);
-  background-color: var(--primary-dark);
+  background-color: var(--primary-darker);
   margin-right: 10px;
-  border-radius: 14px 0 0 14px;
+  border-radius: 11px 0 0 11px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers .container {
   margin: 5px 8px;
@@ -7870,13 +7870,6 @@
   width: 28px;
   min-width: 28px;
   border: 0;
-}
-.dc20rpg .actor_v2 .char-sheet-body .inventory-tab .second-row {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-.dc20rpg .actor_v2 .char-sheet-body .inventory-tab .second-row.slot-open {
-  grid-template-columns: 1fr 2fr;
 }
 .dc20rpg .actor_v2 .char-sheet-body .journal-tab .description-box {
   font-family: "Signika", sans-serif;
@@ -9551,6 +9544,17 @@
 .dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-options i {
   color: var(--pc-main) !important;
 }
+.dc20rpg .actor_v2 .pc-body .tab .containers {
+  background-color: var(--pc-secondary-light);
+  border-color: var(--pc-main-dark);
+}
+.dc20rpg .actor_v2 .pc-body .tab .containers .container-icon {
+  border-color: var(--pc-main-dark);
+  background-color: var(--pc-main-dark);
+}
+.dc20rpg .actor_v2 .pc-body .tab .containers .container {
+  border-color: var(--pc-main-dark);
+}
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9993,6 +9997,104 @@
 }
 .dc20rpg .actor_v2 .pc-body .effects-tab .status-table .status {
   border-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .second-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .second-row.slot-open {
+  grid-template-columns: 1fr 2fr;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .characer-img {
+  margin-left: 35px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .characer-img img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 333px;
+  width: 100%;
+  border: 2px solid var(--pc-main-dark);
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  height: 0px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .section-icon {
+  width: 35px;
+  height: 45px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: var(--pc-secondary-light);
+  border-right: 1px solid var(--pc-main-dark);
+  background-color: var(--pc-main-dark);
+  border-radius: 10px 0 0 10px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot img {
+  width: 45px;
+  height: 45px;
+  border: 2px solid var(--pc-main-dark);
+  border-radius: 0;
+  border-right: 0;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot img.empty {
+  -webkit-filter: opacity(0.9);
+  filter: opacity(0.9);
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot:last-child {
+  border-right: 2px solid var(--pc-main-dark);
+  border-radius: 0 5px 5px 0;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .delete-slot {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+  left: 10px;
+  top: -10px;
+  color: var(--dark-red);
+  height: 0px;
+  width: 0px;
+  z-index: 1;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .delete-slot:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 3px var(--primary-light) inset;
+  box-shadow: 0 0 5px 3px var(--primary-light) inset;
 }
 .dc20rpg .actor_v2 .storage-header {
   height: 200px;

@@ -215,6 +215,17 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       }
     }
 
+    // Equipment Slots
+    if (this.actor.type === "character") {
+      let target = null;
+      if (event?.target?.className === "slot") target = event.target;
+      if (event?.target?.parentElement?.className === "slot") target = event.target.parentElement;
+      if (target) {
+        const dataset = target.dataset;
+        this.actor.equipmentSlots[dataset.category].slots[dataset.key].equip(item);
+      }
+    }
+
     const stackable = item.system.stackable;
     if (stackable && onSelf) await handleStackableItem(item, this.actor, event, false);
     else await super._onDropItem(event, data);

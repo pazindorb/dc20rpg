@@ -242,6 +242,34 @@ export class DC20RpgItem extends Item {
     let newState = !this.system?.statuses?.equipped;
     if (options.forceEquip) newState = true;
     else if (options.forceUneqip) newState = false;
+
+    // Update equipped stataus
     await this.update({["system.statuses.equipped"]: newState});
+
+    // If linked with slot, add or remove it
+    const actor = this.actor;
+    if (actor) {
+      const slot = options.slot || this.system.statuses.slotLink;
+      if (slot.category && slot.key) {
+        if (newState) {
+          const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
+          await actor.update({
+            [`${path}.itemId`]: this.id,
+            [`${path}.itemName`]: this.name,
+            [`${path}.itemImg`]: this.img,
+          });
+          await this.update({["system.statuses.slotLink"]: slot});
+        }
+        else {
+          const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
+          await actor.update({
+            [`${path}.-=itemId`]: null,
+            [`${path}.-=itemName`]: null,
+            [`${path}.-=itemImg`]: null,
+          });
+          await this.update({["system.statuses.slotLink"]: {key: "", category: ""}});
+        }
+      }
+    }
   }
 }

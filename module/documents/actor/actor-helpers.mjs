@@ -421,7 +421,7 @@ function _enrichEquipmentSlots(actor) {
 
   for (const [category, slots] of Object.entries(actor.system.equipmentSlots)) {
     equipmentSlots[category] = {
-      addSlot: async (key=generateKey(), data={}) => await _addNewSlot(category, data, key),
+      addSlot: async (key=generateKey(), data={}) => await _addNewSlot(category, data, key, actor),
       slots: {}
     };
     
@@ -441,7 +441,7 @@ function _enrichEquipmentSlots(actor) {
 //==================================
 //     CATEGORY SPECIFIC METHODS   =
 //==================================
-async function _addNewSlot(category, data, key) {
+async function _addNewSlot(category, data, key, actor) {
   await actor.update({[`system.equipmentSlots.${category}.${key}`]: {
     slotName: data.name || _defaultNamePerCategory(category),
     slotIcon: data.icon || _defaultIconPerCategory(category)
@@ -466,16 +466,16 @@ function _defaultNamePerCategory(category) {
 
 function _defaultIconPerCategory(category) {
   switch (category) {
-    case "weapon":    return "icons/weapons/bows/shortbow-white.webp";
-    case "head":      return "icons/weapons/bows/shortbow-white.webp";
-    case "neck":      return "icons/weapons/bows/shortbow-white.webp";
-    case "mantle":    return "icons/weapons/bows/shortbow-white.webp";
-    case "body":      return "icons/weapons/bows/shortbow-white.webp";
-    case "waist":     return "icons/weapons/bows/shortbow-white.webp";
-    case "hand":      return "icons/weapons/bows/shortbow-white.webp";
-    case "ring":      return "icons/weapons/bows/shortbow-white.webp";
-    case "feet":      return "icons/weapons/bows/shortbow-white.webp";
-    case "trinket":   return "icons/weapons/bows/shortbow-white.webp";
+    case "weapon":    return "icons/weapons/swords/sword-simple-white.webp";
+    case "head":      return "icons/equipment/head/helm-barbute-white.webp";
+    case "neck":      return "icons/equipment/neck/choker-simple-bone-fangs.webp";
+    case "mantle":    return "icons/equipment/back/mantle-collared-white.webp";
+    case "body":      return "icons/equipment/chest/breastplate-leather-brown-belted.webp";
+    case "waist":     return "icons/equipment/waist/belt-buckle-horned.webp";
+    case "hand":      return "icons/magic/perception/hand-eye-black.webp";
+    case "ring":      return "icons/equipment/finger/ring-faceted-white.webp";
+    case "feet":      return "icons/equipment/feet/boots-galosh-white.webp";
+    case "trinket":   return "icons/tools/instruments/horn-white-gray.webp";
     default:          return "icons/weapons/bows/shortbow-white.webp";
   }
 }
@@ -491,25 +491,13 @@ function _enrichSlot(actor, slot) {
 }
 
 async function _equipSlot(item, slot, actor) {
-  const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
-  await actor.update({
-    [`${path}.itemId`]: item.id,
-    [`${path}.itemName`]: item.name,
-    [`${path}.itemImg`]: item.img,
-  });
-  await item.equip({forceEquip: true});
+  await _unequipSlot(slot, actor);
+  await item.equip({forceEquip: true, slot: {category: slot.category, key: slot.key}});
 }
 
 async function _unequipSlot(slot, actor) {
   const item = actor.items.get(slot.itemId);
-  if (item) await item.equip({forceUnequip: true});
-
-  const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
-  await actor.update({
-    [`${path}.-=itemId`]: null,
-    [`${path}.-=itemName`]: null,
-    [`${path}.-=itemImg`]: null,
-  });
+  if (item) await item.equip({forceUnequip: true, slot: {category: slot.category, key: slot.key}});
 }
 
 async function _deleteSlot(slot, actor) {

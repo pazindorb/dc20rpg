@@ -132,6 +132,10 @@ class DC20ItemItemData extends DC20BaseItemData {
       statuses: new f.SchemaField({
         attuned: new f.BooleanField({required: true, initial: false}),
         equipped: new f.BooleanField({required: true, initial: false}),
+        slotLink: new f.SchemaField({
+          category: new f.StringField({required: true, initial: ""}),
+          key: new f.StringField({required: true, initial: ""}),
+        }),
         identified: new f.BooleanField({required: true, initial: true}),
       }),
       properties: new PropertyFields(),

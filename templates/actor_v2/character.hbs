@@ -593,6 +593,10 @@
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
         </div>
+        <div class="slot-manager">
+          <a class="add-slot fa-square-plus fa-lg fa-solid" title="{{localize 'dc20rpg.sheet.addSlot'}}"></a>
+          <a class="activable fa-image-user fa-lg {{#if flags.dc20rpg.showSlots}}fa-solid{{else}}fa-regular{{/if}}" title="{{localize 'dc20rpg.sheet.showSlots'}}" data-path="flags.dc20rpg.showSlots"></a>
+        </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
           {{#each system.currency as |value key|}}
@@ -611,25 +615,41 @@
         </div>
         {{#each containers}}
         <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
-          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
+          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}" data-item-id="{{_id}}"></a>{{/if}}
           <img src="{{img}}"/>
         </div>
         {{/each}}
       </div>
       {{/if}}
 
-      <div class="second-row"> {{log flags}}
-        {{{show-hide-toggle flags.dc20rpg.showSlots "flags.dc20rpg.showSlots"}}}
+      <div class="second-row {{#if flags.dc20rpg.showSlots}}slot-open{{/if}}">
         {{#if flags.dc20rpg.showSlots}}
-        <div class="slot-selector" style="backround-image: {{actor.img}}">
-          
+        <div class="slot-selector margin-right-5">
+          <div class="slot-wrapper">
+            {{{slot-printer system.equipmentSlots.head "head" sectionIcon="fa-solid fa-helmet-battle" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.neck "neck" sectionIcon="fa-solid fa-medal" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.mantle "mantle" sectionIcon="fa-solid fa-booth-curtain" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.body "body" sectionIcon="fa-solid fa-shirt-long-sleeve" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.waist "waist" sectionIcon="fa-solid fa-bacon" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.hand "hand" sectionIcon="fa-solid fa-hand" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.feet "feet" sectionIcon="fa-solid fa-boot-heeled" editMode=@root.editMode}}}
+
+            {{{slot-printer system.equipmentSlots.weapon "weapon" sectionIcon="fa-solid fa-sword" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.ring "ring" sectionIcon="fa-solid fa-ring-diamond" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.trinket "trinket" sectionIcon="fa-solid fa-book-sparkles" editMode=@root.editMode}}}
+          </div>
+          <div class="characer-img"><img src="{{actor.img}}"/></div>
         </div>
-        {{/if}}
         <div class="table-wrapper">
+          {{#each inventory as |table key|}} 
+          {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost"}}
+          {{/each}}
+        </div>
+        {{else}}
           {{#each inventory as |table key|}} 
           {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
           {{/each}}
-        </div>
+        {{/if}}
       </div>
     </div>
         
