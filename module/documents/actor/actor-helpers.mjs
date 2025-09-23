@@ -491,16 +491,39 @@ function _enrichSlot(actor, slot) {
 }
 
 async function _equipSlot(item, slot, actor) {
-  await _unequipSlot(slot, actor);
-  await item.equip({forceEquip: true, slot: {category: slot.category, key: slot.key}});
+  if (slot.isEquipped) await _unequipSlot(slot, actor);
+
+  const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
+  await actor.update({
+    [`${path}.itemId`]: item.id,
+    [`${path}.itemName`]: item.name,
+    [`${path}.itemImg`]: item.img,
+  });
+  await item.update({
+    ["system.statuses.equipped"]: true,
+    ["system.statuses.slotLink.category"]: slot.category,
+    ["system.statuses.slotLink.key"]: slot.key
+  });
 }
 
 async function _unequipSlot(slot, actor) {
   const item = actor.items.get(slot.itemId);
-  if (item) await item.equip({forceUnequip: true, slot: {category: slot.category, key: slot.key}});
+  if (!item) return;
+
+  const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
+  await actor.update({
+    [`${path}.-=itemId`]: null,
+    [`${path}.-=itemName`]: null,
+    [`${path}.-=itemImg`]: null,
+  });
+  await item.update({
+    ["system.statuses.equipped"]: false,
+    ["system.statuses.slotLink.category"]: "",
+    ["system.statuses.slotLink.key"]: ""
+  });
 }
 
 async function _deleteSlot(slot, actor) {
-  await _unequipSlot(slot, actor);
+  if (slot.isEquipped) await _unequipSlot(slot, actor);
   await actor.update({[`system.equipmentSlots.${slot.category}.-=${slot.key}`]: null});
 }

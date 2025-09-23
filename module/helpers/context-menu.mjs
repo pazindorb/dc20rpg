@@ -16,6 +16,7 @@ export function itemContextMenu(item, event, html, actorType) {
     else return;
   }
 
+  if (!item) return;
   if (item.type === "basicAction") return; // We dont want to open context menu for basic actions
 
   // Prepare content
@@ -34,8 +35,7 @@ export function itemContextMenu(item, event, html, actorType) {
   // Prepare Equip/Attune
   const statuses = item.system.statuses;
   if (statuses) {
-    const equippedTitle = statuses.equipped ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`) : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
-    content += `<a class="elem item-equip"><i class="fa-solid fa-suitcase-rolling"></i><span>${equippedTitle}</span></a>`;
+    content += _equipButton(item, actorType);
 
     if (item.system.properties.attunement.active) {
       const attunedTitle = statuses.attuned ? game.i18n.localize(`dc20rpg.sheet.itemTable.unattuneItem`) : game.i18n.localize(`dc20rpg.sheet.itemTable.attuneItem`);
@@ -49,6 +49,25 @@ export function itemContextMenu(item, event, html, actorType) {
     content += `<a class="elem item-activable" data-path="flags.dc20rpg.favorite"><i class="fa-solid fa-star"></i><span>${favoriteTitle}</span></a>`;
   }
   _showContextMenu(content, event, html, item);
+}
+
+function _equipButton(item, actorType) {
+  const statuses = item.system.statuses;
+  const equippedTitle = statuses.equipped ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`) : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
+  const defaultButton = `<a class="elem item-equip"><i class="fa-solid fa-suitcase-rolling"></i><span>${equippedTitle}</span></a>`;
+  
+  if (actorType !== "character") return defaultButton;
+  if (statuses.equipped) return defaultButton;
+  if (!item.actor) return defaultButton;
+
+  const category = item.system.statuses?.slotLink?.predefined;
+  if (!category) return defaultButton;
+
+  let content = ""
+  for (const [key, slot] of Object.entries(item.actor.equipmentSlots[category].slots)) {
+    content += `<a class="elem item-equip" data-key='${key}' data-category='${category}'><i class="fa-solid fa-suitcase-rolling"></i><span>${game.i18n.localize(`dc20rpg.sheet.itemTable.equip`)}: ${game.i18n.localize(slot.slotName)}</span></a>`;
+  }
+  return content;
 }
 
 function _showContextMenu(content, event, html, item) {
@@ -81,5 +100,12 @@ function _addEventListener(contextMenu, item) {
     let value = getValueFromPath(item, path);
     item.update({[path]: !value});
   });
-  contextMenu.find('.item-equip').click((ev) => item.equip());
+  contextMenu.find('.item-equip').click((ev) => {
+    const dataset = datasetOf(ev);
+    const options = {};
+    if (dataset.category && dataset.key) {
+      options.slot = {category: dataset.category, key: dataset.key}
+    }
+    item.equip(options);
+  });
 }

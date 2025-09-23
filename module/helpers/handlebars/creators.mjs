@@ -264,16 +264,19 @@ export function registerHandlebarsCreators() {
 
     for (const [key, slot] of Object.entries(slots)) {
       const img = slot.itemId ?
-        `<img class="full" src="${slot.itemImg}" data-tooltip="${slot.itemName}"/>` :
+        `<img class="full" src="${slot.itemImg}" data-tooltip="${game.i18n.localize(slot.slotName)}: ${slot.itemName}"/>` :
         `<img class="empty" src="${slot.slotIcon}" data-tooltip="${game.i18n.localize(slot.slotName)}"/>`
       
       const deleteButton = !options.hash.editMode ? "" :
-        `<a class="delete-slot fas fa-trash " data-tooltip="${game.i18n.localize("dc20rpg.sheet.items.slotDelete")}" data-key="${key}" data-category="${category}"></a>`;
+        `<a class="delete-slot fas fa-trash " data-tooltip="${game.i18n.localize("dc20rpg.sheet.slotDelete")}" data-key="${key}" data-category="${category}"></a>`;
       const defaultKeys = ["default", "mainHand", "offHand", "left", "right"]
+
+      const itemClass = slot.itemId ? "item-edit editable" : "";
+      const itemData = slot.itemId ? `data-item-id=${slot.itemId}` : "";
 
       content += ` 
       ${defaultKeys.includes(key) ? "" : deleteButton}
-      <div class="slot" data-key="${key}" data-category="${category}">
+      <div class="slot ${itemClass}" ${itemData} data-key="${key}" data-category="${category}">
         ${img}
       </div>`;
     }
@@ -288,6 +291,7 @@ export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => {
     let component = '';
+    if (!cost) return "";
     if (resources) {
       for (const [key, resource] of Object.entries(cost.resources)) {
         const isMinor = key === "ap" && resource.amount === 0 && showMinorAction;

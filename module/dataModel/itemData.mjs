@@ -135,6 +135,7 @@ class DC20ItemItemData extends DC20BaseItemData {
         slotLink: new f.SchemaField({
           category: new f.StringField({required: true, initial: ""}),
           key: new f.StringField({required: true, initial: ""}),
+          predefined: new f.StringField({required: true, initial: ""}),
         }),
         identified: new f.BooleanField({required: true, initial: true}),
       }),
