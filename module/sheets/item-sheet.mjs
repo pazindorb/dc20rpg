@@ -79,4 +79,14 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
     // Set data transfer
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
+
+  _canDragDrop(selector) {
+    if (this.item.type === "container") return true;
+    else return super._canDragDrop(selector);
+  }
+
+  _canDragStart(selector) {
+    if (this.item.type === "container") return true;
+    else return super._canDragStart(selector);
+  }
 }

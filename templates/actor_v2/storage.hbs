@@ -180,7 +180,9 @@
 
           {{!-- Loot Roll --}}
           {{#ifCond @root.system.storageType '===' "randomLootTable"}} {{#if @root.isGM}}
-          <div class="column" title="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}">
+          <div class="column loot-rool" title="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}">
+            <input disabled value="{{lowerLimit}}"/>
+            <span> - </span>
             <input class="change-item-numeric-value" type="text" value="{{system.lootRoll}}" data-item-id="{{_id}}" data-path="system.lootRoll">
           </div>
           {{/if}}{{/ifCond}}

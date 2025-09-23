@@ -7480,10 +7480,15 @@
   cursor: pointer;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers .container a {
-  position: absolute;
-  margin-top: 5px;
-  margin-left: -3px;
+  position: relative;
+  top: 11px;
+  left: 3px;
   color: var(--dark-red);
+  height: 0;
+  width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box {
@@ -10255,6 +10260,26 @@
   font-family: "Signika", sans-serif;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.dc20rpg .actor_v2 .storage-body .item-row .loot-rool {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .storage-body .item-row .loot-rool input {
+  width: 35px;
+}
+.dc20rpg .actor_v2 .storage-body .item-row .loot-rool span {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 5px;
 }
 .dc20rpg .actor_v2 .table-header {
   padding: 3px 3px 2px 3px;

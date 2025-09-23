@@ -134,7 +134,7 @@
           {{#ifCond key '!==' "prime"}}
           <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
             <div class="atr-name">
-              <label>{{key}}</label>
+              <label>{{localize (concat 'dc20rpg.attributes.short.' key '')}}</label>
             </div>
             {{#ifCond @root.system.attributePoints.left '||' @root.editMode}}
             <div class="buttons">
@@ -615,7 +615,7 @@
         </div>
         {{#each containers}}
         <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
-          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}" data-item-id="{{_id}}"></a>{{/if}}
+          {{#if @root.editMode}}<a class="item-delete" data-item-id="{{_id}}"><i class="fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"></i></a>{{/if}}
           <img src="{{img}}"/>
         </div>
         {{/each}}

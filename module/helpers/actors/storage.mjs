@@ -12,11 +12,24 @@ export async function generateRandomLootTable(storage) {
   const items = _prepareItems(storage.items, rollDice);
 
   const itemsToStay = new Set();
+  let loopLimit = 0;
   while(itemsToStay.size < numberOfItems) {
     const roll = await evaluateFormula(formula, {}, true);
     const index = roll.total;
     const item = items.get(index);
-    if (item) itemsToStay.add(item._id);
+
+    if (item && !itemsToStay.has(item._id)) {
+      itemsToStay.add(item._id);
+      loopLimit = 0;
+    }
+    else {
+      loopLimit++;
+    }
+    
+    if (loopLimit > 100) {
+      ui.notifications.warn("Roll Table loop limit was reached. Created actor might be corrupted. This might happen if table is configured incorrectly. Please validate your Roll Table actor.");
+      break;
+    }
   }
 
   const allItems = storage.items.map(item => item._id);

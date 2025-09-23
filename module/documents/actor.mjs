@@ -383,12 +383,12 @@ export class DC20RpgActor extends Actor {
   }
 
   hasStatus(statusId) {
-    return hasStatusWithId(this, statusId)
+    return this.statusIds.has(statusId);
   }
 
   hasAnyStatus(statuses) {
     for (const statusId of statuses) {
-      if (hasStatusWithId(this, statusId)) return true;
+      if (this.hasStatus(statusId)) return true;
     }
     return false;
   }

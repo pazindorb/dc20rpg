@@ -1,19 +1,31 @@
 export class DC20RpgTokenConfig extends foundry.applications.sheets.TokenConfig {
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.actions.overrideSize = async () => {
+      const notOverrideSize = this.token?.flags?.dc20rpg?.notOverrideSize || false;
+      await this.token.update({["flags.dc20rpg.notOverrideSize"]: !notOverrideSize});
+    };
+    return initialized;
+  }
 
-    const notOverrideSize = this.token?.flags?.dc20rpg?.notOverrideSize || false;
-    const notOverrideChecked = notOverrideSize ? "fa-solid fa-square-check" : "fa-regular fa-square";
-    const notOverrideSizeRow = `
-    <div class="form-group slim" title="${game.i18n.localize("dc20rpg.sheet.tokenConfig.notOverrideSizeTitle")}">
-      <label>${game.i18n.localize("dc20rpg.sheet.tokenConfig.notOverrideSize")}</label>
-      <a class="override-save-checkbox fa-lg ${notOverrideChecked}" style="font-size:1.75em;display:flex;align-items:center;justify-content:end;"></a>
-    </div>
-    `;
-    const formGroup = html.find('[data-tab="appearance"]').find(".form-group").first();
-    formGroup.after(notOverrideSizeRow);
+  async render(target, options={}) {
+    const rendered = await super.render(target, options);
 
-    html.find('.override-save-checkbox').click(() => this.token.update({["flags.dc20rpg.notOverrideSize"]: !notOverrideSize}));
+    const dimentions = this.element.querySelector('[data-application-part="appearance"]').querySelector('.slim');
+    if (dimentions) {
+      const notOverrideSize = this.token?.flags?.dc20rpg?.notOverrideSize || false;
+      const formGroup = document.createElement("div");
+      formGroup.innerHTML = `
+        <label>${game.i18n.localize("dc20rpg.sheet.tokenConfig.notOverrideSize")}</label>
+        <input type="checkbox" data-action="overrideSize" ${notOverrideSize ? "checked" : ""}>
+        <p class="hint">${game.i18n.localize("dc20rpg.sheet.tokenConfig.notOverrideSizeTitle")}</p>
+      `;
+      formGroup.classList.add("form-group");
+      formGroup.classList.add("slim");
+      dimentions.after(formGroup);
+    }
+
+    return rendered;
   }
 }
