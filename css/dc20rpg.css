@@ -3005,6 +3005,31 @@
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
 }
+.dc20rpg #roll-select-dialog .select-wrapper {
+  display: grid;
+  gap: 5px;
+}
+.dc20rpg #roll-select-dialog .select-wrapper .select-column {
+  max-height: 500px;
+  --scroll-margin: 0;
+}
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset {
+  margin: 5px 0;
+  -webkit-box-shadow: 0 0 8px var(--activable-on) inset;
+  box-shadow: 0 0 8px var(--activable-on) inset;
+  border-radius: 5px;
+  gap: 4px;
+}
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option {
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+}
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 5px var(--activable-on) inset;
+  box-shadow: 0 0 10px 5px var(--activable-on) inset;
+}
 .dc20rpg #dmg-calculator .selectable, .dc20rpg #initiative-slot-selector .selectable {
   width: auto;
   font-weight: 100;

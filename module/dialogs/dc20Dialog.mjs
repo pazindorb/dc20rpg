@@ -77,7 +77,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     switch (cType) {
       case "activable": await this._onActivable(path, dataset); break;
       case "remove-option": await this._onRemoveOption(path, value, dataset); break;
-
+      case "select": await this._onSelect(path, value, dataset); break;
     }
   }
 
@@ -130,6 +130,11 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
   async _onActivable(path, dataset) {
     const value = this._getValue(path);
     await this._update(path, !value);
+    this.render();
+  }
+
+  async _onSelect(path, value, dataset) {
+    await this._update(path, value);
     this.render();
   }
 

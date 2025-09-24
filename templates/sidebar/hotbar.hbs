@@ -137,7 +137,6 @@
     {{#if actor.img}}
     <div class="flexcol hotbar-controls" style="justify-content: end; height: 100%;">
       <button type="button" class="ui-control fa-solid fa-dice icon" data-action="check" data-tooltip aria-label="{{localize 'HOTBAR.CHECK'}}"></button>
-      <button type="button" class="ui-control fa-solid fa-shield icon" data-action="save" data-tooltip aria-label="{{localize 'HOTBAR.SAVE'}}"></button>
       {{#ifCond actor.type '===' 'character'}}
       <button type="button" class="ui-control fa-solid fa-clover icon" data-action="grit" data-tooltip aria-label="{{localize 'dc20rpg.sheet.resource.gritToDamageReduction'}}"></button>
       <button type="button" class="ui-control fa-solid fa-campground icon" data-action="rest" data-tooltip aria-label="{{localize 'HOTBAR.REST'}}"></button>

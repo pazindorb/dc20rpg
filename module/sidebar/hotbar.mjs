@@ -1,4 +1,5 @@
 import { RestDialog } from "../dialogs/rest.mjs";
+import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
@@ -77,7 +78,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     initialized.actions.heldAction = this._onHeldAction;
     initialized.actions.rest = () => RestDialog.open(this.actor);
     initialized.actions.check = this._onCheckRoll;
-    initialized.actions.save = this._onSaveRoll;
     initialized.actions.grit = this._onGrit;
     initialized.actions.filter = this._onFilterChange;
     initialized.actions.autofill = this._onAutofill;
@@ -562,19 +562,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   async _onCheckRoll(event, target) {
-    const options = this.actor.getCheckOptions(true, true, true, true);
-    const key = await SimplePopup.select("Roll Skill Check", options);
-    if (!key) return;
-    
-    await this.actor.rollPopup(key, "check");
-  }
-
-  async _onSaveRoll(event, target) {
-    const options = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
-    const key = await SimplePopup.select("Roll Save", options);
-    if (!key) return;
-
-    await this.actor.rollPopup(key, "save");
+    RollSelect.open(this.actor, {basic: true, save: true, attribute: true, skill: true, trade: true});
   }
 
   async _onGrit(event, target) {

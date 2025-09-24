@@ -1454,6 +1454,37 @@
   }
 }
 
+#roll-select-dialog {
+  
+  .select-wrapper {
+    display: grid;
+    gap: 5px;
+
+    .select-column {
+      max-height: 500px;
+      --scroll-margin: 0;
+
+      fieldset {
+        margin: 5px 0;
+        box-shadow:  0 0 8px var(--activable-on) inset;
+        border-radius: 5px;
+        gap: 4px;
+
+        .option {
+          text-align: center;
+          font-size: 16px;
+          padding: 5px;
+
+          &:hover {
+            cursor: pointer;
+            box-shadow:  0 0 10px 5px var(--activable-on) inset;
+          }
+        }
+      }
+    }
+  }
+}
+
 #dmg-calculator, #initiative-slot-selector {
 
   .selectable {

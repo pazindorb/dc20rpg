@@ -26,6 +26,7 @@ import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, Macro, RollRequest } from "../documents/item/item-creators.mjs";
+import { RollSelect } from "../dialogs/roll-select.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
@@ -33,6 +34,7 @@ export function prepareDC20tools() {
       SimplePopup,
       TokenSelector,
       RollDialog,
+      RollSelect,
       RestDialog,
     },
     creators: {
@@ -172,13 +174,15 @@ export function initDC20Config() {
     att: "Attack Check",
     spe: "Spell Check",
   }
-  // Martial Check requires acrobatic and athletics skills
-  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
-    CONFIG.DC20RPG.ROLL_KEYS.baseChecks.mar = "Martial Check";
-  }
 
   // Prepare Skill Checks
   const skillChecks = {};
+
+  // Martial Check requires acrobatic and athletics skills
+  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
+    skillChecks.mar = "Martial Check";
+  }
+  // Prepare Skills
   Object.entries(CONFIG.DC20RPG.skills).forEach(([key, label]) => {
     skillChecks[key] = `${label} Check`;
   });

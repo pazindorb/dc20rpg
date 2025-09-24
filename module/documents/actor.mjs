@@ -341,20 +341,24 @@ export class DC20RpgActor extends Actor {
     return await RollDialog.open(this, details, options);
   }
 
-  getCheckOptions(attack, attributes, skills, trades) {
-    let checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
-    if (attributes) {
-      checkOptions = {...checkOptions, ...CONFIG.DC20RPG.ROLL_KEYS.attributeChecks};
+  getRollOptions() {
+    const options = {};
+    options.basic = CONFIG.DC20RPG.ROLL_KEYS.baseChecks;
+    options.attribute = CONFIG.DC20RPG.ROLL_KEYS.attributeChecks;
+    options.save = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
+
+    const skills = {};
+    if (this.system.skills.acr && this.system.skills.ath) skills.mar = "Martial Check";
+    Object.entries(this.system.skills).forEach(([key, skill]) => skills[key] = `${skill.label} Check`);
+    options.skill = skills; 
+
+    if (this.system.trades) {
+      const trade = {};
+      Object.entries(this.system.trades).forEach(([key, skill]) => trade[key] = `${skill.label} Check`);
+      options.trade = trade; 
     }
-    if (skills) {
-      // Martial Check requires acrobatic and athletics skills
-      if (this.system.skills.acr && this.system.skills.ath) checkOptions.mar = "Martial Check";
-      Object.entries(this.system.skills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`);
-    }
-    if (trades && this.system.trades) {
-      Object.entries(this.system.trades).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`)
-    }
-    return checkOptions;
+
+    return options;
   }
 
   /**
