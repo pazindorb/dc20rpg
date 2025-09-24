@@ -17,6 +17,7 @@ export function makeCalculations(actor) {
 		_attributePoints(actor);
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
+		_manaSpendLimit(actor);
 	}
 	if (actor.type === "companion") {
 		_actionPoints(actor);
@@ -374,6 +375,12 @@ function _deathsDoor(actor) {
 	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;
+}
+
+function _manaSpendLimit(actor) {
+	const combatMastery = actor.system.details.combatMastery;
+	const msl = actor.system.details.manaSpendLimit;
+	msl.value = combatMastery + msl.bonus;
 }
 
 function _basicConditionals(actor) {

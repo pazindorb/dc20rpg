@@ -1257,7 +1257,30 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    height: 66px;
     padding: 5px;
+
+    .mana-spend-limit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .cost-printer {
+        width: fit-content;
+
+        b {
+          white-space: nowrap;
+          text-shadow: none;
+          color: var(--text-color);
+        }
+      }
+
+      &.exceeds {
+        .mana, .fa-gauge-max {
+          color: var(--dark-red);
+        }
+      }
+    }
     
     .extra-buttons {
       display: flex;

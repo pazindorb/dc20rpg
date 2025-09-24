@@ -264,7 +264,21 @@
   {{#if item}}
   <fieldset class="expected-cost">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
-    {{{cost-printer expectedCost true true false false}}}
+    {{#if expectedCost.resources.mana}}
+    <div class="mana-spend-limit margin-left-5 {{#if manaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.manaLimit'}}">
+      <i class="fa-solid fa-gauge-max fa-2x margin-right-10"></i>
+      <ul class="cost-printer">
+        <li class="cost mana" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.manaLimit"}}">
+          <b>{{manaSpendLimit.amount}}</b>
+          <i class="mp fa-star cost-icon fa-solid"></i>
+        </li>
+      </ul>
+    </div>
+    {{/if}}
+
+    <div style="width: 100%;">
+      {{{cost-printer expectedCost true true false false}}}
+    </div>
 
     <div class="extra-buttons margin-right-10">
       {{#if reloadable}}{{#unless reloaded}}

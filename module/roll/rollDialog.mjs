@@ -262,6 +262,7 @@ export class RollDialog extends DC20Dialog {
       }
 
       context.expectedCost = this.item.use.useCostDisplayData();
+      context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
       context.rollLabel = `Roll Item: ${this.item.name}`;
 
       context.canSpendGrit = false;
@@ -278,6 +279,31 @@ export class RollDialog extends DC20Dialog {
     return context;
   }
 
+  _getManaSpendLimit(expectedCost) {
+    const manaSpendLimit = this.actor.system.details.manaSpendLimit;
+    if (!manaSpendLimit) return {};
+
+    const mana = expectedCost?.resources?.mana?.amount;
+    const msl = manaSpendLimit.value + this._enhancementMslChanges();
+    const amount = msl === manaSpendLimit.value ? msl : `${manaSpendLimit.value} (${msl})`;
+    const exceeds = mana > 0 && mana > msl;
+
+    return {
+      amount: amount,
+      exceeds: exceeds
+    }
+  }
+
+  _enhancementMslChanges() {
+    let limitChange = 0;
+    const enhancements = this.item.enhancements.active;
+    enhancements.values().forEach(enh => {
+      const change = enh.modifications.changeManaSpendLimit || 0;
+      limitChange += change * enh.number;
+    });
+    return limitChange;
+  }
+ 
   _getDataForSheetRoll() {
     return {
       rollDetails: this.details,

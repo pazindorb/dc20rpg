@@ -175,6 +175,10 @@ export class DC20CharacterData extends DC20BaseActorData {
         }, {required: true}),
         subclass: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        manaSpendLimit: new f.SchemaField({
+          value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }), 
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         martialExpansionProvided: new f.BooleanField({required: true, initial: false}),

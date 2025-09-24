@@ -422,6 +422,7 @@ function _enrichEquipmentSlots(actor) {
   for (const [category, slots] of Object.entries(actor.system.equipmentSlots)) {
     equipmentSlots[category] = {
       addSlot: async (key=generateKey(), data={}) => await _addNewSlot(category, data, key, actor),
+      freeSlot: () => _getFreeSlot(category, actor),
       slots: {}
     };
     
@@ -478,6 +479,14 @@ function _defaultIconPerCategory(category) {
     case "trinket":   return "icons/tools/instruments/horn-white-gray.webp";
     default:          return "icons/weapons/bows/shortbow-white.webp";
   }
+}
+
+function _getFreeSlot(category, actor) {
+  const categorySlots = Object.values(actor.equipmentSlots[category].slots);
+  for (const slot of categorySlots) {
+    if (!slot.isEquipped) return slot;
+  }
+  return categorySlots[0];
 }
 
 //==================================

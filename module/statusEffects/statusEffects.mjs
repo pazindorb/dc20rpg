@@ -100,6 +100,11 @@ function _dead() {
     system: {
       statusId: "dead",
     },
+    flags: {
+      core: {
+        overlay: true
+      }
+    },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/dead.svg",
     description: "<p>You are dead.</p>",

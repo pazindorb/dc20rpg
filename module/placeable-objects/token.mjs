@@ -223,10 +223,12 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     if ( this.layer._draggedToken ) return false;
     if ( !this.layer.active || this.isPreview ) return false;
     if ( canvas.controls.ruler.active || (CONFIG.Canvas.rulerClass.canMeasure && (event?.type === "pointerdown")) ) return false;
+    //====== INJECTED ====== 
     if ( !this.actor ) {
       if (this.document.itemToken) return true;
       else ui.notifications.warn("TOKEN.WarningNoActor", {localize: true});
     }
+    //====== INJECTED ====== 
     return this.actor?.testUserPermission(user, "LIMITED");
   }
 
@@ -239,47 +241,39 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     // Clear Effects Container
     this.effects.removeChildren().forEach(c => c.destroy());
     this.effects.bg = this.effects.addChild(new PIXI.Graphics());
+    this.effects.bg.zIndex = -1;
     this.effects.overlay = null;
 
     // Categorize effects
     const activeEffects = this.actor?.temporaryEffects || [];
-    let hasOverlay = false;
-
-    // Collect from active statuses 
-    const statuses = this.actor?.statuses;
-    if (statuses) {
-      statuses.forEach(st => {
-        const status = CONFIG.statusEffects.find(e => e.id === st.id)
-        if (status) {
-          status.tint = new Number(16777215);
-          activeEffects.push(status);
-        }
-      })
-    }
+    const overlayEffect = activeEffects.findLast(e => e.img && e.getFlag("core", "overlay"));
 
     // Flatten the same active effect images
     const flattenedImages = [];
     const uniqueImages = [];
     activeEffects.forEach(effect => {
-      const flattened = {img: effect.img, tint: effect.tint};
       if (uniqueImages.indexOf(effect.img) === -1) {
-        flattenedImages.push(flattened);
+        flattenedImages.push(effect);
         uniqueImages.push(effect.img);
       }
     });
 
     // Draw effects
     const promises = [];
-    for ( const effect of flattenedImages ) {
+    for (let i = 0; i < flattenedImages.length; i++) {
+      const effect = flattenedImages[i];
+    // for ( const [i, effect] of activeEffects.entries() ) {
       if ( !effect.img ) continue;
-      if ( effect.flags && effect.getFlag("core", "overlay") && !hasOverlay ) {
-        promises.push(this._drawOverlay(effect.img, effect.tint));
-        hasOverlay = true;
-      }
-      else promises.push(this._drawEffect(effect.img, effect.tint));
+      const promise = effect === overlayEffect
+        ? this._drawOverlay(effect.img, effect.tint)
+        : this._drawEffect(effect.img, effect.tint);
+      promises.push(promise.then(e => {
+        if ( e ) e.zIndex = i;
+      }));
     }
     await Promise.allSettled(promises);
 
+    this.effects.sortChildren();
     this.effects.renderable = true;
     this.renderFlags.set({refreshEffects: true});
   }

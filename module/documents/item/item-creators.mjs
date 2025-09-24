@@ -72,7 +72,8 @@ export class Enhancement {
         melee: null,
         normal: null,
         max: null
-      }
+      },
+      changeManaSpendLimit: 0
     }
 
     return {
