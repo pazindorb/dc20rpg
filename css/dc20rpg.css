@@ -3005,30 +3005,59 @@
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
 }
-.dc20rpg #roll-select-dialog .select-wrapper {
+.dc20rpg #roll-select-dialog .select-wrapper, .dc20rpg #actor-request .select-wrapper {
   display: grid;
   gap: 5px;
 }
-.dc20rpg #roll-select-dialog .select-wrapper .select-column {
+.dc20rpg #roll-select-dialog .select-wrapper .select-column, .dc20rpg #actor-request .select-wrapper .select-column {
   max-height: 500px;
   --scroll-margin: 0;
 }
-.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset {
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset, .dc20rpg #actor-request .select-wrapper .select-column fieldset {
   margin: 5px 0;
   -webkit-box-shadow: 0 0 8px var(--activable-on) inset;
   box-shadow: 0 0 8px var(--activable-on) inset;
   border-radius: 5px;
   gap: 4px;
 }
-.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option {
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option, .dc20rpg #actor-request .select-wrapper .select-column fieldset .option {
   text-align: center;
   font-size: 16px;
   padding: 5px;
 }
-.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option:hover {
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option:hover, .dc20rpg #actor-request .select-wrapper .select-column fieldset .option:hover {
   cursor: pointer;
   -webkit-box-shadow: 0 0 10px 5px var(--activable-on) inset;
   box-shadow: 0 0 10px 5px var(--activable-on) inset;
+}
+.dc20rpg #roll-select-dialog .roll-result, .dc20rpg #actor-request .roll-result {
+  font-size: 18px;
+  font-family: "Signika", sans-serif;
+}
+.dc20rpg #roll-select-dialog .dice-roll, .dc20rpg #actor-request .dice-roll {
+  display: inline-block;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 .dc20rpg #dmg-calculator .selectable, .dc20rpg #initiative-slot-selector .selectable {
   width: auto;

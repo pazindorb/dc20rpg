@@ -1,4 +1,4 @@
-import { createActorRequestDialog, restRequest, rollRequest } from "./actor-request.mjs";
+import { ActorRequestDialog, createActorRequestDialog, restRequest, rollRequest } from "./actor-request.mjs";
 import { createConditionManager } from "./condition-manager.mjs";
 import { createDmgCalculatorDialog } from "./dmg-calculator.mjs";
 import { openAdventurersRegister } from "./adventurers-register.mjs";
@@ -32,7 +32,7 @@ function _restDialog() {
   const restDialogButton = _getButton("rest-request-button", "fa-bed", game.i18n.localize("dc20rpg.ui.sidebar.restRequest"));
   restDialogButton.addEventListener('click', ev => {
     ev.preventDefault();
-    createActorRequestDialog("rest", CONFIG.DC20RPG.DROPDOWN_DATA.restTypes, restRequest, true);
+    ActorRequestDialog.open("rest");
   });
   
   const wrapper = document.createElement('li');
@@ -44,7 +44,7 @@ function _rollRequest() {
   const rollRequestButton = _getButton("roll-request-button", "fa-dice", game.i18n.localize("dc20rpg.ui.sidebar.rollRequest"));
   rollRequestButton.addEventListener('click', ev => {
     ev.preventDefault();
-    createActorRequestDialog("roll", CONFIG.DC20RPG.ROLL_KEYS.contests, rollRequest, false);
+    ActorRequestDialog.open("roll", {basic: true, attribute: true, save: true, skill: true, trade: true});
   });
 
   const wrapper = document.createElement('li');

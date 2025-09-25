@@ -1,26 +1,24 @@
 <form id="actor-request" class="dialog-v13 dialog-content standard-form {{cssClass}}">
-  <h4 class="divider">{{header}}</h4>
+  <h4 class="divider">{{#if requestSent}}{{requestSent}}{{else}}{{localize "dc20rpg.dialog.actorRequest.selectActors"}}{{/if}}</h4>
   
-  {{!-- Select Roll --}}
-  <div class="form-group">
-    <label>{{localize 'dc20rpg.dialog.actorRequest.selected'}}</label>    
-    <div class="form-fields">
-      <select data-cType="string" data-path="selected">
-        {{selectOptions rollOptions selected=selected blank=""}}
-      </select>
-    </div>
-  </div>
-
   {{!-- Actor Select --}}
   {{#if hasActors}}
   <div class="box-content">
-    {{#each selectedActors as |actor actorId|}}
+    {{#each selectableActors as |wrapper actorId|}}
       <div class="actor">
         <div class="wrapper">
-          <img src="{{actor.actor.img}}"/>
-          <input disabled value="{{actor.actor.name}}"/>
+          <img src="{{wrapper.actor.img}}"/>
+          <input disabled value="{{wrapper.actor.name}}"/>
         </div>
-        {{{checkbox "selectedActors.${actorId}.selected" actor.selected checked="fa-2x fa-solid fa-square-check" unchecked="fa-2x fa-regular fa-square" actorId=actorId}}}
+        {{#if wrapper.request}}
+          {{#if wrapper.result}}
+          <span class="roll-result" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.rollResult"}}">{{wrapper.result}}</span>
+          {{else}}
+          <i class="fa-regular fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>
+          {{/if}}
+        {{else}}
+        {{{checkbox "selectableActors.${actorId}.selected" wrapper.selected checked="fa-2x fa-solid fa-square-check" unchecked="fa-2x fa-regular fa-square" actorId=actorId}}}
+        {{/if}}
       </div>
     {{/each}}
   </div>
@@ -35,5 +33,84 @@
   {{/if}}
   </div>
 
-  <button {{#unless hasActors}}disabled{{/unless}} class="button margin-top-5" data-action="confirm"><i class="fa-solid {{icon}}"></i>{{localize "dc20rpg.dialog.actorRequest.send"}} {{header}}</button>
+  {{#unless showCloseButton}}
+  <h4 class="divider">{{header}}</h4>
+  {{!-- Select Roll --}}
+  <div class="select-wrapper" style="grid-template-columns: {{grid}}">
+    {{#if showBasic}}
+    <div class="select-column scrollable">
+      {{!-- Rest --}}
+      {{#if selectOptions.rest}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.rollSelect.rest"}}</legend>
+        {{#each selectOptions.rest as |name key|}}
+        <button class="option" data-action="confirm" data-key="{{key}}" data-type="rest">{{name}}</button>
+        {{/each}}
+      </fieldset>
+      {{/if}}
+
+      {{!-- Basic --}}
+      {{#if selectOptions.basic}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.rollSelect.basic"}}</legend>
+        {{#each selectOptions.basic as |name key|}}
+        <button class="option" data-action="confirm" data-key="{{key}}" data-type="check">{{name}}</button>
+        {{/each}}
+      </fieldset>
+      {{/if}}
+
+      {{!-- Save --}}
+      {{#if selectOptions.save}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.rollSelect.save"}}</legend>
+        {{#each selectOptions.save as |name key|}}
+        <button class="option" data-action="confirm" data-key="{{key}}" data-type="save">{{name}}</button>
+        {{/each}}
+      </fieldset>
+      {{/if}}
+
+      {{!-- Attribute Check --}}
+      {{#if selectOptions.attribute}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.rollSelect.attribute"}}</legend>
+        {{#each selectOptions.attribute as |name key|}}
+        <button class="option" data-action="confirm" data-key="{{key}}" data-type="check">{{name}}</button>
+        {{/each}}
+      </fieldset>
+      {{/if}}
+    </div>
+    {{/if}}
+
+    {{!-- Skills --}}
+    {{#if showSkill}}
+    <div class="select-column scrollable">
+      
+      {{!-- Skill Check --}}
+      {{#if selectOptions.skill}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.rollSelect.skill"}}</legend>
+        {{#each selectOptions.skill as |name key|}}
+        <button class="option" data-action="confirm" data-key="{{key}}" data-type="check">{{name}}</button>
+        {{/each}}
+      </fieldset>
+      {{/if}}
+
+      {{!-- Trade Check --}}
+      {{#if selectOptions.trade}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.rollSelect.trade"}}</legend>
+        {{#each selectOptions.trade as |name key|}}
+        <button class="option" data-action="confirm" data-key="{{key}}" data-type="check">{{name}}</button>
+        {{/each}}
+      </fieldset>
+      {{/if}}
+
+    </div>
+    {{/if}}
+  </div>
+  {{/unless}}
+
+  {{#if showCloseButton}}
+  <button class="button margin-top-5" data-action="close"><i class="fa-solid"></i>{{localize "dc20rpg.dialog.actorRequest.close"}}</button>
+  {{/if}}
 </form>

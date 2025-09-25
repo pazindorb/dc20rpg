@@ -1454,7 +1454,7 @@
   }
 }
 
-#roll-select-dialog {
+#roll-select-dialog, #actor-request {
   
   .select-wrapper {
     display: grid;
@@ -1482,6 +1482,21 @@
         }
       }
     }
+  }
+
+  .roll-result {
+    font-size: 18px;
+    font-family: $font-default;
+  }
+
+  .dice-roll {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
 }
 
