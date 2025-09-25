@@ -1485,8 +1485,24 @@
   }
 
   .roll-result {
-    font-size: 18px;
+    font-size: 16px;
     font-family: $font-default;
+    font-weight: bold;
+    width: 40px;
+    text-align: center;
+
+    padding: 5px;
+    border: 1px solid var(--activable-on);
+    border-radius: 3px;
+    box-shadow:  0 0 5px 2px var(--activable-on) inset;
+
+    &.success {
+      background-color: $crit;
+    }
+
+    &.fail {
+      background-color: $fail;
+    }
   }
 
   .dice-roll {

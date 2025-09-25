@@ -8,10 +8,10 @@ import { getTokenForActor} from "./actors/tokens.mjs";
 //               ROLL LEVEL               =
 //=========================================
 let toRemove = [];
-export async function runItemRollLevelCheck(item, actor) {
+export async function runItemRollLevelCheck(item, actor, startingValues=[{adv: 0, dis: 0}, [], false, false]) {
   toRemove = [];
-  let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
-  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = [{adv: 0, dis: 0}, []];
+  let [actorRollLevel, actorGenesis, actorCrit, actorFail] = startingValues;
+  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = [{adv: 0, dis: 0}, [], false, false, false, false, false];
 
   const actionType = item.system.actionType;
   const specificCheckOptions = {
@@ -57,20 +57,21 @@ export async function runItemRollLevelCheck(item, actor) {
   return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked, targetTqCover, targetHalfCover);
 }
 
-export async function runSheetRollLevelCheck(details, actor) {
+export async function runSheetRollLevelCheck(details, actor, startingValues=[{adv: 0, dis: 0}, [], false, false]) {
   toRemove = [];
+  const [startingRollLevel, startingGenesis, startingAutoCrit, startingAutoFail] = startingValues;
   const [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(details, actor, "onYou", "You");
   const [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", details, actor);
   const [statusRollLevel, statusGenesis, statusCrit] = _getRollLevelAgainsStatuses(actor, details.statuses);
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.system.rollMenu);
 
   const rollLevel = {
-    adv: (actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
-    dis: (actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
+    adv: (startingRollLevel.adv + actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
+    dis: (startingRollLevel.dis + actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
   };
-  const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
-  const autoCrit = actorCrit || targetCrit || statusCrit;
-  const autoFail = actorFail || targetFail;
+  const genesis = [...startingGenesis, ...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
+  const autoCrit = startingAutoCrit || actorCrit || targetCrit || statusCrit;
+  const autoFail = startingAutoFail || actorFail || targetFail;
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
   return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }

@@ -11,11 +11,11 @@
           <input disabled value="{{wrapper.actor.name}}"/>
         </div>
         {{#if wrapper.request}}
-          {{#if wrapper.result}}
-          <span class="roll-result" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.rollResult"}}">{{wrapper.result}}</span>
+          {{#ifCond wrapper.result '!==' null}}
+          <span class="roll-result {{wrapper.outcome}}" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.rollResult"}}">{{wrapper.result}}</span>
           {{else}}
           <i class="fa-regular fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>
-          {{/if}}
+          {{/ifCond}}
         {{else}}
         {{{checkbox "selectableActors.${actorId}.selected" wrapper.selected checked="fa-2x fa-solid fa-square-check" unchecked="fa-2x fa-regular fa-square" actorId=actorId}}}
         {{/if}}
@@ -32,6 +32,34 @@
   </div>
   {{/if}}
   </div>
+
+  {{#if showRollModification}}
+  <fieldset>
+    <legend>{{localize "dc20rpg.dialog.actorRequest.rollModification"}}</legend>
+    
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.actorRequest.rollLevel'}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.dialog.actorRequest.advantage"}}</label>
+        <input type="number" data-path="rollOptions.rollLevel.adv" value="{{rollOptions.rollLevel.adv}}" data-max="9" data-cType="numeric"/>
+        <label>{{localize "dc20rpg.dialog.actorRequest.disadvantage"}}</label>
+        <input type="number" data-path="rollOptions.rollLevel.dis" value="{{rollOptions.rollLevel.dis}}" data-max="9" data-cType="numeric"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.actorRequest.rollDC'}}</label>
+      <input type="number" data-path="rollOptions.rollDC" value="{{rollOptions.rollDC}}" data-cType="numeric-nullable"/>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.actorRequest.rollMode'}}</label>
+      <select data-cType="string" data-path="rollOptions.rollMode">
+        {{selectOptions rollModes selected=rollOptions.rollMode blank=""}}
+      </select>
+    </div>
+  </fieldset>
+  {{/if}}
 
   {{#unless showCloseButton}}
   <h4 class="divider">{{header}}</h4>

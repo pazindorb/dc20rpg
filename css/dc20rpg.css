@@ -3031,8 +3031,22 @@
   box-shadow: 0 0 10px 5px var(--activable-on) inset;
 }
 .dc20rpg #roll-select-dialog .roll-result, .dc20rpg #actor-request .roll-result {
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Signika", sans-serif;
+  font-weight: bold;
+  width: 40px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid var(--activable-on);
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 5px 2px var(--activable-on) inset;
+  box-shadow: 0 0 5px 2px var(--activable-on) inset;
+}
+.dc20rpg #roll-select-dialog .roll-result.success, .dc20rpg #actor-request .roll-result.success {
+  background-color: var(--crit);
+}
+.dc20rpg #roll-select-dialog .roll-result.fail, .dc20rpg #actor-request .roll-result.fail {
+  background-color: var(--fail);
 }
 .dc20rpg #roll-select-dialog .dice-roll, .dc20rpg #actor-request .dice-roll {
   display: inline-block;

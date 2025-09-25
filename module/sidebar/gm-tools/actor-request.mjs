@@ -24,6 +24,12 @@ export class ActorRequestDialog extends DC20Dialog {
 
     if (requestType === "roll") {
       this.icon = "fa-solid fa-dice-d20";
+      this.rollOptions = {
+        rollLevel: {adv: 0, dis: 0},
+        rollDC: null,
+        rollMode: ""
+      }
+
       const selectOptions = {};
       if (options.basic) selectOptions.basic = CONFIG.DC20RPG.ROLL_KEYS.baseChecks;
       if (options.attribute) selectOptions.attribute = CONFIG.DC20RPG.ROLL_KEYS.attributeChecks;
@@ -46,7 +52,7 @@ export class ActorRequestDialog extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Actor Request";
     initialized.window.icon = "fa-solid fa-users-viewfinder";
-    initialized.position.width = 600;
+    initialized.position.width = 500;
 
     initialized.actions.confirm = this._onConfirmRequest;
     return initialized;
@@ -85,8 +91,17 @@ export class ActorRequestDialog extends DC20Dialog {
     context.selectableActors = this.selectableActors;
     context.selectOptions = this.selectOptions;
 
-    context.showBasic = this.selectOptions?.basic || this.selectOptions?.attribute || this.selectOptions?.save || this.selectOptions?.rest;
-    context.showSkill = this.selectOptions?.skill || this.selectOptions?.trade;
+    context.showBasic = this.selectOptions.basic || this.selectOptions.attribute || this.selectOptions.save || this.selectOptions.rest;
+    context.showSkill = this.selectOptions.skill || this.selectOptions.trade;
+    context.showRollModification = !(!!this.selectOptions.rest) && !context.showCloseButton;
+    
+    context.rollOptions = this.rollOptions;
+    context.rollModes = {
+      publicroll: "Public Roll",
+      gmroll: "GM Roll",
+      blindroll: "Blind Roll",
+      selfroll: "Self Roll"
+    };
 
     let grid = "1fr";
     if (context.showSkill && context.showBasic) grid += " 1fr";
@@ -122,12 +137,53 @@ export class ActorRequestDialog extends DC20Dialog {
     this.requestSent = `Rolling: ${name}`;
     this.render();
 
+    const rOpt = this.rollOptions;
+    const options = {
+      sendToActorOwners: true, 
+      startingRollMenuValues: this._startingRollLevel()
+    }
+    if (rOpt.rollMode) options.rollMode = rOpt.rollMode;
+    if (rOpt.rollDC) options.against = rOpt.rollDC;
+
     for (const wrapper of Object.values(this.selectableActors)) {
-      wrapper.actor.rollPopup(key, type, {sendToActorOwners: true}).then(result => {
+      wrapper.actor.rollPopup(key, type, options).then(result => {
         wrapper.result = result._total;
+
+        if (rOpt.rollDC) {
+          if (rOpt.rollDC <= wrapper.result) wrapper.outcome = "success";
+          else wrapper.outcome = "fail";
+        }
         this.render();
       })
     }
+  }
+
+  _startingRollLevel() {
+    const rollLevel = this.rollOptions.rollLevel;
+    const genesis = [];
+    if (rollLevel.adv > 0) {
+      genesis.push({
+        autoCrit: false,
+        autoFail: false,
+        label: "GM Modification",
+        sourceName: "GM",
+        type: "adv",
+        value: rollLevel.adv
+      });
+    }
+
+    if (rollLevel.dis > 0) {
+      genesis.push({
+        autoCrit: false,
+        autoFail: false,
+        label: "GM Modification",
+        sourceName: "GM",
+        type: "dis",
+        value: rollLevel.dis
+      });
+    }
+    return [rollLevel, genesis];
+
   }
 
   async _onRest(key) {

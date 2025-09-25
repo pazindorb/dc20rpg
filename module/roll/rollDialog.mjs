@@ -129,6 +129,7 @@ export class RollDialog extends DC20Dialog {
       this.updateObject = this.actor;
     }
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
+    this.startingRollMenuValues = options.startingRollMenuValues;
     this.promiseResolve = null;
     this._autoRollLevelCheck(options);
   }
@@ -388,8 +389,8 @@ export class RollDialog extends DC20Dialog {
   async _rollLevelCheck(display, quickRoll) {
     this.rollLevelChecked = true;
     let result = [];
-    if (this.itemRoll) result = await runItemRollLevelCheck(this.item, this.actor);
-    else result = await runSheetRollLevelCheck(this.details, this.actor);
+    if (this.itemRoll) result = await runItemRollLevelCheck(this.item, this.actor, this.startingRollMenuValues);
+    else result = await runSheetRollLevelCheck(this.details, this.actor, this.startingRollMenuValues);
 
     if (quickRoll) return this._onRoll();
     
