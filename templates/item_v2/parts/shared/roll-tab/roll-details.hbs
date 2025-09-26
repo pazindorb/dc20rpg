@@ -129,9 +129,11 @@
       <span>{{localize "dc20rpg.item.sheet.help.subtract"}}</span>
       <a class="activable fa-lg {{#if system.help.subtract}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.subtract"></a>
     </div>
-    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.help.doNotExpireTitle"}}">
-      <span>{{localize "dc20rpg.item.sheet.help.doNotExpire"}}</span>
-      <a class="activable fa-lg {{#if system.help.doNotExpire}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.doNotExpire"></a>
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.help.durationTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.help.duration"}}</span>
+      <select name="system.help.duration">
+        {{selectOptions @root.config.DROPDOWN_DATA.helpDiceDuration selected=system.help.duration}}
+      </select>
     </div>
   {{/ifCond}}
 

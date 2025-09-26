@@ -1,7 +1,10 @@
-import { ActorRequestDialog, createActorRequestDialog, restRequest, rollRequest } from "./actor-request.mjs";
+import { ActorRequestDialog } from "./actor-request.mjs";
 import { createConditionManager } from "./condition-manager.mjs";
 import { createDmgCalculatorDialog } from "./dmg-calculator.mjs";
 import { openAdventurersRegister } from "./adventurers-register.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
+import { prepareHelpAction } from "../../helpers/actors/actions.mjs";
 
 export async function createGmToolsMenu() {
   const gmToolsWrapper = document.createElement('aside');
@@ -15,6 +18,7 @@ export async function createGmToolsMenu() {
   gmToolsMenu.style.gap= "8px";
 
   gmToolsMenu.appendChild(_conditionManager());
+  gmToolsMenu.appendChild(_helpManager());
   gmToolsMenu.appendChild(_restDialog());
   gmToolsMenu.appendChild(_rollRequest());
   gmToolsMenu.appendChild(_adventurersRegister());
@@ -61,6 +65,51 @@ function _conditionManager() {
   
   const wrapper = document.createElement('li');
   wrapper.appendChild(conditionManagerButton);
+  return wrapper;
+}
+
+function _helpManager() {
+  const helpManager = _getButton("help-manager", "fa-dice-d8", game.i18n.localize("dc20rpg.ui.sidebar.helpManager"));
+  helpManager.addEventListener('click', async ev => {
+    ev.preventDefault();
+    const tokens = getSelectedTokens();
+    if (tokens.lenght === 0) return;
+    
+    const data = {
+      header: "Help Manager",
+      message: game.i18n.localize("dc20rpg.sheet.help.helpHint"),
+      inputs: [
+        {
+          label: game.i18n.localize("dc20rpg.sheet.help.helpDice"),
+          type: "select",
+          options: {
+            8: "d8", 6: "d6", 4: "d4", 10: "d10", 12: "d12",
+            [-8]: "-d8", [-6]: "-d6", [-4]: "-d4", [-10]: "-d10", [-12]: "-d12",
+          }
+        },
+        {
+          label: game.i18n.localize("dc20rpg.sheet.help.duration"),
+          type: "select",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.helpDiceDuration,
+        }
+      ]
+    }
+    const selected = await SimplePopup.open("input", data);
+    const value = parseInt(selected[0]);
+    if (isNaN(value)) return;
+
+    const duration = selected[1];
+    for (const token of tokens) {
+      if (token.actor) prepareHelpAction(token.actor, {
+        diceValue: Math.abs(value), 
+        subtract: value < 0,
+        duration: duration
+      });
+    }
+  });
+
+  const wrapper = document.createElement('li');
+  wrapper.appendChild(helpManager);
   return wrapper;
 }
 

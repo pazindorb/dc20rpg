@@ -13,7 +13,7 @@ import { resetEnhancements } from "./rollsFromActor.mjs";
  *  "diceValue": Number - value on a dice (ex 8). If provided MHP will also be skipped.
  *  "ignoreMHP": Boolean - If provided MHP will be skipped.
  *  "subtract": Boolean - If provided help dice will be subtracted from the roll instead.
- *  "doNotExpire": Boolean - If provided help dice wont expire at the start of actor's next turn.
+ *  "duration": String - When should this dice expire.
  * }
  */
 export function prepareHelpAction(actor, options={}) {
@@ -26,7 +26,6 @@ export function prepareHelpAction(actor, options={}) {
   const subtract = options.subtract ? "-" : "";
   activeDice[generateKey()] = {
     value: `${subtract}d${maxDice}`,
-    doNotExpire: options.doNotExpire,
     duration: options.duration || "round"
   }
   actor.update({["system.help.active"]: activeDice});
@@ -38,7 +37,6 @@ export async function clearHelpDice(actor, key, duration="round") {
   }
   else {
     for (const [key, help] of Object.entries(actor.system.help.active)) {
-      if (help.doNotExpire) continue;
       if (help.duration === duration) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
@@ -60,12 +58,19 @@ export function getActiveHelpDice(actor) {
       formula: help.value,
       icon: icon,
       subtraction: help.value.includes("-"),
-      doNotExpire: help.doNotExpire,
-      duration: help.duration
+      duration: help.duration,
+      tooltip: _helpDiceTooltip(help)
     }
   }
   return dice;
 }
+
+function _helpDiceTooltip(help) {
+  const header = `${game.i18n.localize("dc20rpg.sheet.help.helpDice")} (${help.value})`
+  const duration = `${game.i18n.localize("dc20rpg.sheet.help.duration")}: ${game.i18n.localize(`dc20rpg.help.${help.duration}`)}`;
+  const icon = "<i class='fa-solid fa-stopwatch margin-right'></i>";
+  return `<h4 class='margin-top-5'>${header}</h4> <div class='middle-section'><p>${icon} ${duration}</p></div><hr/>${game.i18n.localize("dc20rpg.sheet.help.dropOnChat")}`;
+}        
 
 //===================================
 //            MOVE ACTION           =

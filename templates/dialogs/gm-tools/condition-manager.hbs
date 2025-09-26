@@ -1,10 +1,33 @@
 <form id="condition-manager" class="dialog-v13 dialog-content standard-form {{cssClass}}">
   <h4 class="divider">{{localize "dc20rpg.dialog.conditionManager.title"}}</h4>
 
+
   {{!-- Configuration --}}
   <fieldset>
     <legend>{{localize "dc20rpg.dialog.conditionManager.configure"}}</legend>
 
+    {{!-- Ask For Save --}}
+    <div class="form-group">
+      <label>{{localize 'dc20rpg.dialog.conditionManager.askForSave'}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="saveBefore.askForSave" {{checked saveBefore.askForSave}}/>
+      </div>
+      <p class="hint">{{localize "dc20rpg.dialog.conditionManager.askForSaveHint"}}</p>
+    </div>
+    {{#if saveBefore.askForSave}}
+    <div class="form-group">
+      <div class="form-fields">
+        <label>{{localize 'dc20rpg.dialog.conditionManager.repeatedSaveKey'}}</label>
+        <select data-cType="string" data-path="saveBefore.saveKey">
+          {{selectOptions saveKeys selected=saveBefore.saveKey blank=""}}
+        </select>
+        <label>{{localize 'dc20rpg.dialog.conditionManager.against'}}</label>
+        <input type="number" data-path="saveBefore.against" value="{{saveBefore.against}}" data-cType="numeric"/>
+      </div>
+    </div>
+    {{/if}}
+
+    <hr/>
     {{!-- Remove Conditions --}}
     <div class="form-group">
       <label>{{localize 'dc20rpg.dialog.conditionManager.trigger'}}</label>
@@ -29,6 +52,7 @@
       <div class="form-fields">
         <input type="checkbox" data-cType="boolean" data-path="extras.repeatedSave" {{checked extras.repeatedSave}}/>
       </div>
+      <p class="hint">{{localize "dc20rpg.dialog.conditionManager.repeatedSaveHint"}}</p>
     </div>
     {{#if extras.repeatedSave}} 
     <div class="form-group">

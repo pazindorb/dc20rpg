@@ -49,6 +49,10 @@
 
   "dc20rpg.saveMastery": "Save Mastery",
 
+  "dc20rpg.help.round": "Round",
+  "dc20rpg.help.combat": "Combat",
+  "dc20rpg.help.infinity": "Infinity",
+
   "dc20rpg.resources.ap": "Action Points",
   "dc20rpg.resources.stamina": "Stamina",
   "dc20rpg.resources.mana": "Mana",
@@ -660,11 +664,13 @@
   "dc20rpg.sheet.effects.showAllEffects": "Show all effects (nonessential included)",
   "dc20rpg.sheet.effects.stateChangeLocked": "The effect is linked to the item, its state cannot be changed here. You need to change the state of the connected item",
 
-  "dc20rpg.sheet.help.dropOnChat": "<h4>Help Dice ($0)</h4><p>Drop it on the chat message to add/subtract it.</p><p>Right Click to remove it from Tracker</p>",
+  "dc20rpg.sheet.help.dropOnChat": "<p>Drop it on the chat message to add/subtract it.</p><p>Right Click to remove it from Tracker</p>",
+  "dc20rpg.sheet.help.helpDice": "Help Dice",
+  "dc20rpg.sheet.help.duration": "Duration",
   "dc20rpg.sheet.help.help": "Help Action",
+  "dc20rpg.sheet.help.helpHint": "Select Help Dice You want to apply",
   "dc20rpg.sheet.help.with": "with",
   "dc20rpg.sheet.heldAction.roll": "Trigger Held Action",
-  "dc20rpg.sheet.help.doNotExpire": "<p>[This dice will not expire at the start of your turn]</p>",
   "dc20rpg.sheet.sustainAction.title": " - Click to remove it from sustained actions",
 
   "dc20rpg.sheet.traits.unique.active": "Active Unique",
@@ -1165,12 +1171,15 @@
 
   "dc20rpg.dialog.conditionManager.title": "Condition Manager",
   "dc20rpg.dialog.conditionManager.conditions": "Apply Condition",
-  "dc20rpg.dialog.conditionManager.configure": "Configure Removal Condition",
-  "dc20rpg.dialog.conditionManager.trigger": "Trigger",
+  "dc20rpg.dialog.conditionManager.configure": "Configure Application & Removal Condition",
+  "dc20rpg.dialog.conditionManager.trigger": "Remove Trigger",
   "dc20rpg.dialog.conditionManager.duration": "Duration (Rounds)",
   "dc20rpg.dialog.conditionManager.repeatedSave": "Repeated Save",
+  "dc20rpg.dialog.conditionManager.repeatedSaveHint": "The condition will end when the actor succeeds on this save.", 
   "dc20rpg.dialog.conditionManager.repeatedSaveKey": "Save",
   "dc20rpg.dialog.conditionManager.against": "DC",
+  "dc20rpg.dialog.conditionManager.askForSave": "Ask for Save",
+  "dc20rpg.dialog.conditionManager.askForSaveHint": "Ask for Save before applying condition",
 
   "dc20rpg.dialog.actorRequest.rest.title": "Select Rest Request",
   "dc20rpg.dialog.actorRequest.roll.title": "Select Roll Request",
@@ -1349,8 +1358,8 @@
   
   "dc20rpg.item.sheet.help.ignoreMHP": "Ignore Multiple Help Penalty",
   "dc20rpg.item.sheet.help.subtract": "Subtract from the Roll instead",
-  "dc20rpg.item.sheet.help.doNotExpireTitle": "If selected help dice will be only removed after you use it or manually delete it.\nIt will not be removed at the start of your next turn.",
-  "dc20rpg.item.sheet.help.doNotExpire": "Do not expire",
+  "dc20rpg.item.sheet.help.duration": "Duration",
+  "dc20rpg.item.sheet.help.durationTitle": "When should Help Dice expire",
 
   "dc20rpg.item.sheet.rollRequests.add": "Add Roll Request",
   "dc20rpg.item.sheet.rollRequests.remove": "Remove Roll Request",
@@ -1675,6 +1684,7 @@
   "dc20rpg.ui.sidebar.rollRequest": "Open Roll Request",
   "dc20rpg.ui.sidebar.dmgCalculator": "Open Damage Calculator",
   "dc20rpg.ui.sidebar.conditionManager": "Open Condition Manager",
+  "dc20rpg.ui.sidebar.helpManager": "Open Help Manager",
   "dc20rpg.ui.sidebar.adventurersRegister": "Open Adventurer's Register",
 
   "dc20rpg.combatTracker.initiativeDC": "Encounter DC",

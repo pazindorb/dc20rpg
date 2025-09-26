@@ -48,7 +48,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       help: new f.SchemaField({
         ignoreMHP: new f.BooleanField({required: true, initial: false}),
         subtract: new f.BooleanField({required: true, initial: false}),
-        doNotExpire: new f.BooleanField({required: true, initial: false}),
         duration: new f.StringField({required: true, initial: "round"}),
       }),
       toggle: new f.SchemaField({

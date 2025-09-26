@@ -860,6 +860,12 @@ DC20RPG.DROPDOWN_DATA.difficultTerrainTypes = {
   hostile: "Hostile Disposition Tokens"
 }
 
+DC20RPG.DROPDOWN_DATA.helpDiceDuration = {
+  round: "Round",
+  combat: "Combat",
+  infinity: "Infinity"
+}
+
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================

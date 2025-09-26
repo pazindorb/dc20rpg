@@ -149,7 +149,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true, rollMode) {
   if (actionType === "help") {
     let ignoreMHP = item.system.help?.ignoreMHP;
     if (!ignoreMHP) ignoreMHP = rollMenu.ignoreMCP;
-    prepareHelpAction(actor, {ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, doNotExpire: item.system.help?.doNotExpire});
+    prepareHelpAction(actor, {ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, duration: item.system.help?.duration});
   }
 
   // 4. Post Item Roll

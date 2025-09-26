@@ -122,7 +122,6 @@ export class SimplePopup extends DC20Dialog {
 
   static PARTS = {
     root: {
-      classes: ["dc20rpg", "force-top"],
       template: "systems/dc20rpg/templates/dialogs/simple-popup.hbs",
     }
   };
@@ -158,6 +157,7 @@ export class SimplePopup extends DC20Dialog {
     initialized.window.title = "Popup";
     initialized.window.icon = "fa-solid fa-comment-dots";
     initialized.position.width = 500;
+    initialized.classes.push("force-top");
 
     initialized.actions.confirm = this._onConfirm;
     return initialized;
