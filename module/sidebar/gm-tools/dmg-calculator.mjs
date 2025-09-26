@@ -1,135 +1,136 @@
+import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { applyDamage } from "../../helpers/actors/resources.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
-import { activateDefaultListeners } from "../../helpers/listenerEvents.mjs";
-import { getLabelFromKey } from "../../helpers/utils.mjs";
-import { RollDialog } from "../../roll/rollDialog.mjs";
+import { calculateForTarget } from "../../helpers/targets.mjs";
+export class DamageCalculator extends DC20Dialog {
 
-export class DmgCalculatorDialog extends Dialog {
+  static open() {
+    new DamageCalculator().render(true);
+  }
 
-  constructor(dialogData = {}, options = {}) {
-    super(dialogData, options);
+  constructor(options={}) {
+    super(options);
     this.calculationType = "";
-    this.fall = {
-      spaces: 1,
-      acrCheckSucceeded: false,
-      fallingAttack: false,
+    this.distance = 0;
+    this._prepareTokens();
+  }
+
+  _prepareTokens() {
+    const tokens = {} 
+    getSelectedTokens()
+      .filter(token => token.actor)
+      .forEach(token => {
+        tokens[token.id] = {
+          token: token,
+          shareDamage: false,
+          uncontrolled: false,
+          outcome: null,
+          rollDC: 10,
+          result: null,
+          damage: null,
+          damageTitle: null,
+          awaiting: false
+        }
+      });
+    this.tokens = tokens;
+  }
+
+  /** @override */
+  static PARTS = {
+    root: {
+      template: "systems/dc20rpg/templates/dialogs/gm-tools/dmg-calculator.hbs",
     }
-    this.collision = {
-      spaces: 1,
-      shareDamage: false,
-    }
-    this.dmg = 0;
-    this.token = getSelectedTokens()[0];
+  };
+
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Damage Calculator";
+    initialized.window.icon = "fa-solid fa-calculator-simple";
+    initialized.position.width = 500;
+
+    initialized.actions.apply = this._onApply;
+    initialized.actions.askForRoll = this._onRoll;
+    initialized.actions.refresh = this._onRefresh;
+    return initialized;
   }
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/dmg-calculator-dialog.hbs",
-      classes: ["dc20rpg", "dialog", "flex-dialog"],
-      width: 450
-    });
-  }
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
 
-  getData() {
-    this._calculateDamage();
-    return {
-      calculationTypes: {"fall": "Falling Damage", "collision": "Collision Damage"},
-      calculationType: this.calculationType,
-      token: this.token,
-      fall: this.fall,
-      collision: this.collision,
-      dmg: this.dmg,
-      dmgType: getLabelFromKey(this.dmgType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)
-    };
-  }
-
-  _calculateDamage() {
-    this.dmg = 0;
-    const actor = this.token?.actor;
-
-    if (this.calculationType === "fall") {
-      const fall = this.fall;
-      let agi = 0;
-      if (actor) agi = Math.max(actor.system.attributes.agi.value, 0);
-      if (fall.spaces <= agi) {
-        this.dmgType = "true";
-        return;
-      }
-
-      let fallDmg = fall.spaces;
-      if (fall.fallingAttack) fallDmg = Math.ceil(fallDmg/2);
-      if (fall.acrCheckSucceeded) fallDmg = fallDmg - agi;
-      this.dmg = fallDmg;
-      this.dmgType = "true";
-    }
-
-    if (this.calculationType === "collision") {
-      const collision = this.collision;
-      let collisionDamage = collision.spaces;
-      if (actor) {
-        const bludge = actor.system.damageReduction.damageTypes.bludgeoning;
-
-        let multiplier = 1;
-        if (bludge.vulnerability) multiplier = multiplier * 2;
-        if (bludge.resistance) multiplier = multiplier * 0.5;
-        if (collision.shareDamage) multiplier = multiplier * 0.5;
-        if (bludge.immune) multiplier = 0;
-
-        const valueX = bludge.vulnerable - bludge.resist;
-        collisionDamage = (collisionDamage + valueX) * multiplier;
-      }
-      else if (collision.shareDamage) collisionDamage = Math.ceil(collisionDamage/2);
-      this.dmg = collisionDamage;
-      this.dmgType = "bludgeoning";
-    }
-  }
-
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    activateDefaultListeners(this, html);
-    html.find('.ask-for-acr-check').click(ev => this._onAcrobaticsCheck());
-    html.find('.apply-damage').click(ev => this._onDmgApply(ev));
-    html.find('.close-dialog').click(ev => {ev.preventDefault(); this.close()});
-  }
-
-  _onDmgApply(ev) {
-    ev.preventDefault();
-    if (!this.calculationType) {this.close(); return}
-    const actor = this.token?.actor;
-    if (!actor) {this.close(); return}
-
-    const source = this.calculationType === "fall" ? "Falling Damage" : "Collision Damage";
-    applyDamage(actor, {value: this.dmg, source: source, type: this.dmgType});
-    this.close();
-  }
-
-  async _onAcrobaticsCheck() {
-    const actor = this.token?.actor;
-    if (!actor) return;
+    const dmgType = this.calculationType === "fall" ? "true" : "bludgeoning";
+    this._calculate(dmgType, this.calculationType === "fall");
+    context.tokens = this.tokens;
     
-    const acr = CONFIG.DC20RPG.ROLL_KEYS.checks.acr;
-    if (!acr) {
-      ui.notifications.warn("Acrobatics is not a skill in your world, you cannot roll it.");
-      return;
+    context.calculationType = this.calculationType;
+    context.calculationTypes = {
+      fall: "Falling Damage",
+      collision: "Collision Damage"
     }
+    if (this.calculationType) context.showConfig = true;
 
-    const against = 10 + this.fall.spaces;
-    const details = {
-      checkKey: "acr",
-      label: getLabelFromKey("acr", CONFIG.DC20RPG.ROLL_KEYS.checks),
-      roll: "d20+@skills.acr.modifier",
-      type: "skillCheck",
-      against: against
+    context.distance = this.distance;
+    context.dmgType = dmgType;
+    
+    return context;
+  }
+
+  _calculate(dmgType, fall) {
+    Object.values(this.tokens).forEach(token => {
+      token.rollDC = 10 + this.distance + (token.uncontrolled ? 5 : 0);
+
+      const system = token.token.actor.system
+      let fallKey = system.jump.key || "agi";
+      if (fallKey === "flat") fallKey = "agi";
+      const attribute = Math.max(system.attributes[fallKey].value, 0);
+
+      let dmg = this.distance;
+      if (fall && !token.uncontrolled && attribute >= dmg) dmg = 0;
+      if (token.outcome === "success") dmg = Math.max(dmg - attribute, 0);
+      if (token.shareDamage) dmg = Math.ceil(dmg/2);
+
+      const dmgWrapper = { value: dmg, source: "", type: dmgType };
+      const formulaRoll = { clear: {...dmgWrapper}, modified: {...dmgWrapper} }
+      const damage = calculateForTarget(token.token.document.toTarget(), formulaRoll, {isDamage: true});
+      
+      token.damage = damage.clear.value;
+      token.damageTitle = `Apply ${token.damage} ${game.i18n.localize(`dc20rpg.reductions.${dmgType}`)} Damage`;
+    })
+  }
+
+  async _onRoll(event, target) {
+    event.preventDefault();
+    const dataset = target.dataset;
+    const tokenId = dataset.tokenId;
+    const wrapper = this.tokens[tokenId];
+    wrapper.awaiting = true;
+    this.render();
+
+    const actor = wrapper.token.actor;
+    actor.rollPopup("acr", "check", { sendToActorOwners: true }).then(result => {
+        wrapper.result = result._total;
+        if (wrapper.rollDC <= wrapper.result) wrapper.outcome = "success";
+        else wrapper.outcome = "fail";
+        this.render();
+      })
+  }
+
+  async _onApply(event, target) {
+    event.preventDefault();
+    const dataset = target.dataset;
+    const tokenId = dataset.tokenId;
+    
+    const wrapper = this.tokens[tokenId];
+    const damage = {
+      value: wrapper.damage,
+      source: game.i18n.localize(`dc20rpg.dialog.dmgCalculator.${this.calculationType}`)
     };
-    const roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
-    if (roll && (roll.total >= against || roll.crit)) this.fall.acrCheckSucceeded = true;
-    else this.fall.acrCheckSucceeded = false;
+    const actor = wrapper.token.actor;
+    applyDamage(actor, damage);
+  }
+
+  _onRefresh() {
+    event.preventDefault();
+    this._prepareTokens();
     this.render();
   }
-}
-
-export function createDmgCalculatorDialog() {
-  const dialog = new DmgCalculatorDialog({title: "Damage Calculator"});
-  dialog.render(true);
 }

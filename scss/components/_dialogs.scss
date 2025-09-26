@@ -1454,7 +1454,7 @@
   }
 }
 
-#roll-select-dialog, #actor-request {
+#roll-select-dialog, #actor-request, #dmg-calculator {
   
   .select-wrapper {
     display: grid;
@@ -1514,9 +1514,20 @@
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
   }
+  
+  .check-big {
+    --checkbox-size: 24px;
+    display: flex;
+    text-indent: 0px;
+
+    &::before {
+      color: (var(--text-color));
+    }
+    
+  }
 }
 
-#dmg-calculator, #initiative-slot-selector {
+#initiative-slot-selector {
 
   .selectable {
     width: auto;

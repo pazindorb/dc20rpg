@@ -1,10 +1,10 @@
 import { ActorRequestDialog } from "./actor-request.mjs";
 import { createConditionManager } from "./condition-manager.mjs";
-import { createDmgCalculatorDialog } from "./dmg-calculator.mjs";
 import { openAdventurersRegister } from "./adventurers-register.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
 import { prepareHelpAction } from "../../helpers/actors/actions.mjs";
+import { DamageCalculator } from "./dmg-calculator.mjs";
 
 export async function createGmToolsMenu() {
   const gmToolsWrapper = document.createElement('aside');
@@ -17,12 +17,12 @@ export async function createGmToolsMenu() {
   gmToolsMenu.setAttribute('data-application-part', 'layers');
   gmToolsMenu.style.gap= "8px";
 
+  gmToolsMenu.appendChild(_dmgCalculator());
   gmToolsMenu.appendChild(_conditionManager());
   gmToolsMenu.appendChild(_helpManager());
   gmToolsMenu.appendChild(_restDialog());
   gmToolsMenu.appendChild(_rollRequest());
   gmToolsMenu.appendChild(_adventurersRegister());
-  // gmToolsMenu.appendChild(_dmgCalculator()); TODO: Improve calculator
 
   const ulLeftColumn = document.querySelector('#ui-left').querySelector('#ui-left-column-1');
   const players = ulLeftColumn.querySelector("#players");
@@ -130,7 +130,7 @@ function _dmgCalculator() {
   const dmgCalculator = _getButton("dmg-calculator", "fa-calculator", game.i18n.localize("dc20rpg.ui.sidebar.dmgCalculator"));
   dmgCalculator.addEventListener('click', ev => {
     ev.preventDefault();
-    createDmgCalculatorDialog();
+    DamageCalculator.open();
   });
 
   const wrapper = document.createElement('li');

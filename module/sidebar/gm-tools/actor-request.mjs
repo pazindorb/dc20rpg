@@ -130,7 +130,7 @@ export class ActorRequestDialog extends DC20Dialog {
     const type = target.dataset.type;
 
     if (type === "rest") this._onRest(key);
-    else await this._onRoll(key, type, target.textContent);
+    else this._onRoll(key, type, target.textContent);
   }
 
   async _onRoll(key, type, name) {
