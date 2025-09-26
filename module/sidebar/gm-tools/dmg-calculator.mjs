@@ -70,6 +70,7 @@ export class DamageCalculator extends DC20Dialog {
 
     context.distance = this.distance;
     context.dmgType = dmgType;
+    context.hasTokens = Object.keys(this.tokens).length > 0;
     
     return context;
   }

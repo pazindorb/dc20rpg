@@ -127,6 +127,13 @@ export class RollDialog extends DC20Dialog {
       this.itemRoll = false;
       this.details = {...data};
       this.updateObject = this.actor;
+
+      if (this.details.checkKey.length > 4) {
+        const skill = actor.skillAndLanguage.skills[this.details.checkKey];
+        const label = skill?.label ? `${skill?.label} Check` : "Check";
+        this.details.label = label;
+        this.details.rollTitle = label;
+      }
     }
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
     this.startingRollMenuValues = options.startingRollMenuValues;

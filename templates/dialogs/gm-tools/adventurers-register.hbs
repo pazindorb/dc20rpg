@@ -28,12 +28,13 @@
   {{!-- CORE --}}
   <section class="tab changes{{#ifCond activeTab '===' "core"}} active{{/ifCond}}" data-group="sheet" data-tab="core">
     <div class="item-list">
-      <div class="item-header" style="grid-template-columns: 1fr 50px 50px 50px 50px 35px 35px 35px 35px 35px !important;">
+      <div class="item-header" style="grid-template-columns: 1fr 50px 50px 50px 50px 50px 35px 35px 35px 35px 35px !important;">
         <div class="column" data-tooltip=""><i class="fa-solid fa-signature"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.health"}}"><i class="fa-solid fa-heart"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.stamina"}}"><i class="fa-solid fa-hand-fist"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.mana"}}"><i class="fa-solid fa-star"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.grit"}}"><i class="fa-solid fa-clover"></i></div>
+        <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.restPoints"}}"><i class="fa-solid fa-campground"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.pd"}}"><i class="fa-solid fa-shield"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.ad"}}"><i class="fa-solid fa-globe"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.movement"}}"><i class="fa-solid fa-person-walking"></i></div>
@@ -45,22 +46,35 @@
         {{/if}}
       </div>
       {{#each adventurers}}
-      <div class="item-row" style="grid-template-columns: 1fr 50px 50px 50px 50px 35px 35px 35px 35px 35px !important;">
+      <div class="item-row" style="grid-template-columns: 1fr 50px 50px 50px 50px 50px 35px 35px 35px 35px 35px !important;">
         <div class="column name" data-action="sheet" data-actor-id="{{id}}">
           <img class="item-img margin-right-5" src="{{img}}"/>
           <label>{{name}}</label>
         </div>
         <div class="column centered">
-          <span>{{system.resources.health.current}}/{{system.resources.health.max}}</span>
+          <input type="text" data-cType="numeric" data-actor-id="{{id}}" data-path="system.resources.health.current" value="{{system.resources.health.current}}"/>
+          <span>/</span>
+          <input disabled type="text" data-cType="numeric" value="{{system.resources.health.max}}"/>
         </div>
         <div class="column centered">
-          <span>{{system.resources.stamina.value}}/{{system.resources.stamina.max}}</span>
+          <input type="text" data-cType="numeric" data-actor-id="{{id}}" data-path="system.resources.stamina.value" value="{{system.resources.stamina.value}}"/>
+          <span>/</span>
+          <input disabled type="text" data-cType="numeric" value="{{system.resources.stamina.max}}"/>
         </div>
         <div class="column centered">
-          <span>{{system.resources.mana.value}}/{{system.resources.mana.max}}</span>
+          <input type="text" data-cType="numeric" data-actor-id="{{id}}" data-path="system.resources.mana.value" value="{{system.resources.mana.value}}"/>
+          <span>/</span>
+          <input disabled type="text" data-cType="numeric" value="{{system.resources.mana.max}}"/>
         </div>
         <div class="column centered">
-          <span>{{system.resources.grit.value}}/{{system.resources.grit.max}}</span>
+          <input type="text" data-cType="numeric" data-actor-id="{{id}}" data-path="system.resources.grit.value" value="{{system.resources.grit.value}}"/>
+          <span>/</span>
+          <input disabled type="text" data-cType="numeric" value="{{system.resources.grit.max}}"/>
+        </div>
+        <div class="column centered">
+          <input type="text" data-cType="numeric" data-actor-id="{{id}}" data-path="system.resources.restPoints.value" value="{{system.resources.restPoints.value}}"/>
+          <span>/</span>
+          <input disabled type="text" data-cType="numeric" value="{{system.resources.restPoints.max}}"/>
         </div>
         <div class="column centered">
           <span>{{system.defences.precision.value}}</span>
@@ -92,7 +106,7 @@
   {{!-- COMBAT --}}
   <section class="tab changes{{#ifCond activeTab '===' "combat"}} active{{/ifCond}}" data-group="sheet" data-tab="combat">
     <div class="item-list">
-      <div class="item-header" style="grid-template-columns: 1fr 50px 35px 35px 35px 35px 35px 50px 50px !important;">
+      <div class="item-header" style="grid-template-columns: 1fr 60px 35px 35px 35px 35px 35px 50px 50px !important;">
         <div class="column" data-tooltip=""><i class="fa-solid fa-signature"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.health"}}"><i class="fa-solid fa-heart"></i></div>
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.pd"}}"><i class="fa-solid fa-shield"></i></div>
@@ -104,13 +118,15 @@
         <div class="column" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.saveDC"}}"><i class="fa-solid fa-share"></i></div>
       </div>
       {{#each adventurers}}
-      <div class="item-row" style="grid-template-columns: 1fr 50px 35px 35px 35px 35px 35px 50px 50px !important;">
+      <div class="item-row" style="grid-template-columns: 1fr 60px 35px 35px 35px 35px 35px 50px 50px !important;">
         <div class="column name" data-action="sheet" data-actor-id="{{id}}">
           <img class="item-img margin-right-5" src="{{img}}"/>
           <label>{{name}}</label>
         </div>
         <div class="column centered">
-          <span>{{system.resources.health.current}}/{{system.resources.health.max}}</span>
+          <input type="text" data-cType="numeric" data-actor-id="{{id}}" data-path="system.resources.health.value" value="{{system.resources.health.value}}"/>
+          <span>/</span>
+          <input disabled type="text" data-cType="numeric" value="{{system.resources.health.max}}"/>
         </div>
         <div class="column centered">
           <span>{{system.defences.precision.value}}</span>
@@ -201,32 +217,32 @@
 
   {{!-- SKILLS --}}
   <section class="tab changes{{#ifCond activeTab '===' "skills"}} active{{/ifCond}}" data-group="sheet" data-tab="skills">
-    <div class="form-group">
-      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectCharacter'}}</label>
-      <div class="form-fields">
-        <select data-cType="string" data-path="selectedActorId">
-          {{selectOptions actors selected=selectedActorId blank=""}}
-        </select>
-      </div>
-    </div>
-    
+
     <div class="item-list">
-      <div class="item-header" style="grid-template-columns: 1fr 50px 50px !important;">
+      <div class="item-header" style="grid-template-columns: {{skillGrid.header}} !important; padding:1px">
         <div class="column"></div>
-        <div class="column"><i class="fa-solid fa-book"></i></div>
-        <div class="column"><i class="fa-solid fa-dice-d20"></i></div>
+        {{#each header}}
+        <div class="column"><img class="actor-img" src="{{img}}" data-tooltip="{{name}}"></div>
+        {{/each}}
       </div>
-      {{#each selectedActor.system.skills as |skill key|}}
-      <div class="item-row" style="grid-template-columns: 1fr 50px 50px !important;">
+      {{#each skills as |skill key|}}
+      <div class="item-row" style="grid-template-columns: {{@root.skillGrid.row}} !important;">
         <div class="column" style="padding-left: 10px;">
           <label>{{localize skill.label}}</label>
         </div>
-        <div class="column centered" data-tooltip="{{localize 'dc20rpg.dialog.adventurersRegister.passive'}}">
-          <span>{{add skill.modifier 10}}</span>
-        </div>
-        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="{{key}}" data-type="check" data-actor-id="{{@root.selectedActor.id}}">
-          <span>{{numberFormat skill.modifier decimals=0 sign=true}}</span>
+        {{#each skill.value}}
+        {{#ifCond modifier "!==" null}}
+        <a class="column centered" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.check"}}" data-action="roll" data-key="{{../key}}" data-type="check" data-actor-id="{{actorId}}">
+          <span>{{numberFormat modifier decimals=0 sign=true}}</span>
         </a>
+        {{else}}
+        <div class="column centered">
+        </div>
+        {{/ifCond}}
+        <div class="column centered" data-tooltip="{{localize 'dc20rpg.dialog.adventurersRegister.passive'}}">
+          <span>{{passive}}</span>
+        </div>
+        {{/each}}
       </div>
       {{/each}}
     </div>
@@ -235,33 +251,29 @@
 
   {{!-- LANGUAGES --}}
   <section class="tab changes{{#ifCond activeTab '===' "languages"}} active{{/ifCond}}" data-group="sheet" data-tab="languages">
-    <div class="form-group">
-      <label>{{localize 'dc20rpg.dialog.adventurersRegister.selectCharacter'}}</label>
-      <div class="form-fields">
-        <select data-cType="string" data-path="selectedActorId">
-          {{selectOptions actors selected=selectedActorId blank=""}}
-        </select>
-      </div>
-    </div>
 
     <div class="item-list">
-      <div class="item-header" style="grid-template-columns: 1fr 50px !important;">
+      <div class="item-header" style="grid-template-columns: {{languageGrid}} !important; padding:1px">
         <div class="column"></div>
-        <div class="column"><i class="fa-solid fa-comments"></i></div>
+        {{#each header}}
+        <div class="column"><img class="actor-img" src="{{img}}" data-tooltip="{{name}}"></div>
+        {{/each}}
       </div>
-      {{#each selectedActor.system.languages as |lang key|}}
-      <div class="item-row" style="grid-template-columns: 1fr 50px !important;">
+      {{#each languages as |lang key|}}
+      <div class="item-row" style="grid-template-columns: {{@root.languageGrid}} !important;">
         <div class="column" style="padding-left: 10px;">
           <label>{{localize lang.label}}</label>
         </div>
+        {{#each lang.mastery}}
         <div class="column centered">
-          {{#ifCond lang.mastery '===' 2}}
+          {{#ifCond this '===' 2}}
             <i class="fa-solid fa-check" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.fluent"}}"></i>
           {{/ifCond}}
-          {{#ifCond lang.mastery '===' 1}}
+          {{#ifCond this '===' 1}}
             <i class="fa-solid fa-l" data-tooltip="{{localize "dc20rpg.dialog.adventurersRegister.table.limited"}}"></i>
           {{/ifCond}}
         </div>
+        {{/each}}
       </div>
       {{/each}}
     </div>

@@ -2768,8 +2768,21 @@
   .item-list {
     color: $secondary-darker;
 
+    .actor-img {
+      height: 27px;
+    }
+
     .column {
       font-weight: bold;
+
+      input {
+        color: black;
+        padding: 0px;
+        
+        &:disabled {
+          color: black;
+        }
+      }
     }
 
     .name:hover {

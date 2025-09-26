@@ -15,6 +15,7 @@
   </div>
   {{/if}}
 
+  {{#if hasTokens}}
   <div class="box-content">
     {{#each tokens as |wrapper tokenId|}}
       <div class="actor">
@@ -44,6 +45,7 @@
       </div>
     {{/each}}
   </div>
+  {{/if}}
 
   <footer class="form-footer margin-top-5">
     <button class="button" data-action="refresh"><i class="fa-solid fa-rotate-right"></i>{{localize "dc20rpg.dialog.dmgCalculator.refresh"}}</button>
