@@ -57,10 +57,9 @@ export class DC20Roll extends Roll {
   static #prepareRollDetails(partial, key, rollType, options) {
     let dice = "d20";
     if (options.rollLevel) {
-      const value = Math.abs(rollLevel) + 1;
-      const type = rollLevel > 0 ? "kh" : "kl";
+      const value = Math.abs(options.rollLevel) + 1;
+      const type = options.rollLevel > 0 ? "kh" : "kl";
       dice = `${value}d20${type}`;
-      return "d20";
     }
     const formula = `${dice}${partial}`;
 

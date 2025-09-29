@@ -26,7 +26,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find(".item-equip").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).equip());
-  html.find('.rollable').click(ev => actor.rollPopup(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
+  html.find('.rollable').click(ev => actor.roll(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
   html.find('.roll-item').click(ev => RollDialog.open(actor, getItemFromActor(datasetOf(ev).itemId, actor), {quickRoll: ev.shiftKey}));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));

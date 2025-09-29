@@ -146,7 +146,7 @@ export class ActorRequestDialog extends DC20Dialog {
     if (rOpt.rollDC) options.against = rOpt.rollDC;
 
     for (const wrapper of Object.values(this.selectableActors)) {
-      wrapper.actor.rollPopup(key, type, options).then(result => {
+      wrapper.actor.roll(key, type, options).then(result => {
         wrapper.result = result._total;
 
         if (rOpt.rollDC) {

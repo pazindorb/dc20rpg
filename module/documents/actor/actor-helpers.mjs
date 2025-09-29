@@ -180,8 +180,8 @@ function _enrichAttributesObject(actor) {
     const attribute = foundry.utils.deepClone(original);
     attribute.key = key;
 
-    attribute.rollCheck = async (options, details) => await actor.rollPopup(key, "check", options, details);
-    attribute.rollSave = async (options, details) => await actor.rollPopup(key, "save", options, details);
+    attribute.rollCheck = async (options, details) => await actor.roll(key, "check", options, details);
+    attribute.rollSave = async (options, details) => await actor.roll(key, "save", options, details);
     
     attribute.increase = async () => await _increaseAttribute(key, actor);
     attribute.decrease = async () => await _decreaseAttribute(key, actor);
@@ -336,7 +336,7 @@ function _enhanceSkill(original, key, type, actor) {
   skill.key = key;
   skill.type = type;
 
-  skill.rollCheck = async (options, details) => await actor.rollPopup(skill.key, "check", options, details);
+  skill.rollCheck = async (options, details) => await actor.roll(skill.key, "check", options, details);
   skill.masteryUp = async () => await _toggleSkillMastery(skill, true, actor);
   skill.masteryDown = async () => await _toggleSkillMastery(skill, false, actor);
   skill.expertiseToggle = async () => await _toggleExpertise(skill, actor);
@@ -410,7 +410,7 @@ function _masterySwitch(current, up, limit) {
 async function _onLanguageCheck(key, options, details, actor) {
   const rollTitle = `${CONFIG.DC20RPG.languages[key]} Check`;
   const customLabel = "Language Check";
-  return await actor.rollPopup("language", "check", {rollTitle: rollTitle, customLabel: customLabel, ...options}, details);
+  return await actor.roll("language", "check", {rollTitle: rollTitle, customLabel: customLabel, ...options}, details);
 }
 
 //==================================//==================================

@@ -202,7 +202,7 @@ export class AdventurersRegister extends DC20Dialog {
   _onCallRoll(event, target) {
     const dataset = target.dataset;
     const actor = this.allAdventurers.find(actor => dataset.actorId === actor.id);
-    if (actor) actor.rollPopup(dataset.key, dataset.type, {sendToActorOwners: true});
+    if (actor) actor.roll(dataset.key, dataset.type, {sendToActorOwners: true});
   }
 
   _onSheetOpen(event, target) {

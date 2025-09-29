@@ -62,7 +62,7 @@ export class RollSelect extends DC20Dialog {
     event.preventDefault();
     const key = target.dataset.key;
     const type = target.dataset.type;
-    if (key && type) this.actor.rollPopup(key, type);
+    if (key && type) this.actor.roll(key, type, {quickRoll: event.shiftKey});
     this.close();
   }
 }

@@ -79,7 +79,7 @@ export class ConditionManager extends DC20Dialog {
     const save = this.saveBefore;
 
     if (save.askForSave && save.saveKey && save.against) {
-      const result = await actor.rollPopup(save.saveKey, "save", {sendToActorOwners: true, against: save.against, statuses: [statusId]});
+      const result = await actor.roll(save.saveKey, "save", {sendToActorOwners: true, against: save.against, statuses: [statusId]});
       if (result._total >= save.against) return false;
     }
     return true;

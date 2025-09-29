@@ -107,7 +107,7 @@ export class DamageCalculator extends DC20Dialog {
     this.render();
 
     const actor = wrapper.token.actor;
-    actor.rollPopup("acr", "check", { sendToActorOwners: true }).then(result => {
+    actor.roll("acr", "check", { sendToActorOwners: true }).then(result => {
         wrapper.result = result._total;
         if (wrapper.rollDC <= wrapper.result) wrapper.outcome = "success";
         else wrapper.outcome = "fail";

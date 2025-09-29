@@ -1,0 +1,53 @@
+<form id="roll-select-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.actionSelect.header"}}</h4>
+
+  <div class="select-wrapper grid grid-no-margin">
+    <div class="select-column scrollable">
+
+      {{!-- Offensive --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.actionSelect.offensive"}}</legend>
+        {{#each selectOptions.offensive as |item itemId|}}
+        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        {{/each}}
+      </fieldset>
+
+      {{!-- Defensive --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.actionSelect.defensive"}}</legend>
+        {{#each selectOptions.defensive as |item itemId|}}
+        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        {{/each}}
+      </fieldset>
+
+      {{!-- Utility --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.actionSelect.utility"}}</legend>
+        {{#each selectOptions.utility as |item itemId|}}
+        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        {{/each}}
+      </fieldset>
+
+    </div>
+
+    <div class="select-column scrollable">
+      
+      {{!-- Reaction --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.actionSelect.reaction"}}</legend>
+        {{#each selectOptions.reaction as |item itemId|}}
+        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        {{/each}}
+      </fieldset>
+
+      {{!-- Skill Based --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.actionSelect.skillBased"}}</legend>
+        {{#each selectOptions.skillBased as |item itemId|}}
+        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        {{/each}}
+      </fieldset>
+
+    </div>
+  </div>
+</form>

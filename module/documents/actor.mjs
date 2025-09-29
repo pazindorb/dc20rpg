@@ -26,11 +26,6 @@ import {prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-roll
  */
 export class DC20RpgActor extends Actor {
 
-  get sceneKey() {
-    if (this.isToken) return `${this.id}#${this.token.id}`;
-    else return this.id;
-  }
-
   get class() {
     return this.items.get(this.system.details.class.id);
   }
@@ -41,6 +36,10 @@ export class DC20RpgActor extends Actor {
 
   get slowed() {
     return this.system.moveCost - 1 || 0;
+  }
+
+  get dead() {
+    return this.hasStatus("dead");
   }
 
   get allEffects() {
@@ -326,14 +325,6 @@ export class DC20RpgActor extends Actor {
   }
 
   async roll(key, type, options={}, details) {
-    if (!details) {
-      if (type === "save") details = DC20Roll.prepareSaveDetails(key, options);
-      if (type === "check") details = DC20Roll.prepareCheckDetails(key, options);
-    }
-    return await rollFromSheet(actor, details);
-  }
-
-  async rollPopup(key, type, options={}, details) {
     if (!details) {
       if (type === "save") details = DC20Roll.prepareSaveDetails(key, options);
       if (type === "check") details = DC20Roll.prepareCheckDetails(key, options);
