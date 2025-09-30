@@ -205,7 +205,11 @@ export class DC20CharacterData extends DC20BaseActorData {
           key: "mana",
           label: "Mana",
         }}),
-        resource3: new f.ObjectField({required: true}),
+        resource3: new f.ObjectField({required: true, initial: {
+          color: "#991a1aff",
+          key: "grit",
+          label: "Grit",
+        }}),
       })
     });
   } 

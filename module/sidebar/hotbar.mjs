@@ -1,12 +1,13 @@
+import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHelpDice, getActiveHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { clearHelpDice, getActiveHelpDice, makeMoveAction, prepareHelpAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
-import { changeActivableProperty, getValueFromPath } from "../helpers/utils.mjs";
+import { changeActivableProperty, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
@@ -15,6 +16,7 @@ import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
 export default class DC20Hotbar extends foundry.applications.ui.Hotbar { 
   constructor(options = {}) {
     super(options);
+    this.original = false;
     this.tokenHotbar = game.settings.get("dc20rpg", "tokenHotbar");
     this.skipTypes = [
       "basicAction",
@@ -71,6 +73,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const initialized = super._initializeApplicationOptions(options);
     initialized.actions.swap = this._onSwap;
     initialized.actions.roll = this._onRoll;
+    initialized.actions.move = this._onMove;
+    initialized.actions.help = this._onHelp;
+    initialized.actions.endTurn = this._onEndTurn;
+    initialized.actions.basicAction = () => ActionSelect.open(this.actor);
     initialized.actions.spendResource = this._spendResource;
     initialized.actions.regainResource = this._regainResource;
     initialized.actions.config = this._onConfigTokenHotbar;
@@ -81,7 +87,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     initialized.actions.grit = this._onGrit;
     initialized.actions.filter = this._onFilterChange;
     initialized.actions.autofill = this._onAutofill;
-    initialized.actions.original = this._onOriginalSwap;
+    initialized.actions.activable = this._onActivable;
     return initialized;
   }
 
@@ -96,7 +102,13 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const options = super._getContextMenuOptions();
     options[1].condition = li => !this.tokenHotbar;
 
-    // Item Slot
+    this._filterContextMenu(options);
+    this._itemSlotContextMenu(options);
+    
+    return options;
+  }
+
+  _itemSlotContextMenu(options) {
     options.push({
           name: "dc20rpg.contextMenu.equip",
           icon: '<i class="fa-solid fa-suitcase-rolling"></i>',
@@ -155,8 +167,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
             this.actor.update({[`system.tokenHotbar.${dataset.section}.${dataset.index}`]: ""});
           }
     });
-    
-    return options;
   }
 
   #isItemSlot(li) {
@@ -165,6 +175,19 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const dataset = li.dataset;
     const item = this._getItemFromSlot(dataset.index, dataset.section);
     return item ?? false;
+  }
+
+  _filterContextMenu(options) {
+    const filters = this.filter.options;
+    for (let i = 0; i < filters.length; i++) {
+      const filter = filters[i];
+      options.push({
+            name: filter.label,
+            icon: `<i class="fa-solid ${filter.icon}"></i>`,
+            condition: button => button.classList.contains("filter-button"),
+            callback: () => this._onFilterChange(i)
+      });
+    }
   }
 
   // ==================== CONTEXT =====================
@@ -213,6 +236,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
     context.sectionAWidth = tokenHotbarSettings["sectionA"].rows;
     context.sectionBWidth = tokenHotbarSettings["sectionB"].rows;
+    context.img = tokenHotbarSettings["displayToken"] ? token.document.texture.src : this.actor.img;
 
     context.resources = this._prepareResources();
     context.effects = await this._prepareEffects(tokenHotbarSettings.effects);
@@ -539,7 +563,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const dataset = event.target.dataset;
     const item = this._getItemFromSlot(dataset.index, dataset.section);
     if (!item) return;
-    RollDialog.open(this.actor, item);
+    RollDialog.open(this.actor, item, {quickRoll: event.shiftKey});
   }
 
   async _onDropSustain(event, target) {
@@ -554,6 +578,26 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (confirmed) {
       await owner.dropSustain(key);
     }
+  }
+
+  async _onHelp(evnet, target) {
+    const subtracted = this.actor.resources.ap.checkAndSpend(1);
+    if (!subtracted) return;
+    await prepareHelpAction(this.actor);
+    this.render();
+  }
+
+  async _onMove(event, target) {
+    const subtracted = this.actor.resources.ap.checkAndSpend(1);
+    if (!subtracted) return;
+
+    await makeMoveAction(this.actor);
+    this.render();
+  }
+
+  async _onEndTurn() {
+    await game.combat.nextTurn();
+    this.render();
   }
 
   _onHeldAction(event, target) {
@@ -571,8 +615,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     }
   }
 
-  _onFilterChange(event, target) {
-    let index = this.filter.index + 1;
+  _onFilterChange(indx) {
+    let index = isNaN(indx) ? this.filter.index + 1 : indx;
     let newFilter = this.filter.options[index];
     if (!newFilter) {
       newFilter = this.filter.options[0];
@@ -645,8 +689,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     await this.actor.update(updateData);
   }
 
-  _onOriginalSwap(event, target) {
-    this.original = !this.original;
+  _onActivable(event, target) {
+    const path = target.dataset.path;
+    const value = getValueFromPath(this, path);
+    setValueForPath(this, path, !value);
     this.render();
   }
 

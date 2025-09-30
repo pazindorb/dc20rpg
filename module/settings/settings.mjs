@@ -225,6 +225,7 @@ export function registerGameSettings(settings) {
       borderColor: true,
       markers: true,
       showCharges: true,
+      displayToken: false,
     },
     type: Object
   });

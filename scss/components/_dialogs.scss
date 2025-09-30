@@ -1454,7 +1454,7 @@
   }
 }
 
-#roll-select-dialog, #actor-request, #dmg-calculator {
+#roll-select-dialog, #actor-request, #dmg-calculator, #roll-select-dialog {
   
   .select-wrapper {
     display: grid;
@@ -1474,6 +1474,24 @@
           text-align: center;
           font-size: 16px;
           padding: 5px;
+
+          &:hover {
+            cursor: pointer;
+            box-shadow:  0 0 10px 5px var(--activable-on) inset;
+          }
+        }
+
+        .img-option {
+          font-size: 16px;
+          padding: 5px;
+          height: 30px;
+          justify-content: space-between;
+
+          img {
+            width: 28px;
+            height: 28px;
+            border: 0;
+          }
 
           &:hover {
             cursor: pointer;

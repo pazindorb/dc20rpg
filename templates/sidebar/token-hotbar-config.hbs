@@ -4,6 +4,13 @@
   <fieldset>
     <legend>{{localize "dc20rpg.config.tokenHotbar.sectionConfig"}}</legend>
 
+    <div class="form-group" data-tooltip="{{localize 'dc20rpg.config.tokenHotbar.displayTokenTooltip'}}">
+      <label>{{localize "dc20rpg.config.tokenHotbar.displayToken"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" data-cType="boolean" data-path="settings.displayToken" {{checked settings.displayToken}}/>
+      </div>
+    </div>
+
     <div class="form-group" data-tooltip="{{localize 'dc20rpg.config.tokenHotbar.borderColorTooltip'}}">
       <label>{{localize "dc20rpg.config.tokenHotbar.borderColor"}}</label>
       <div class="form-fields">

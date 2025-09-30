@@ -103,8 +103,10 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   async _updateSize(size) {
+    // TODO: Czy my to musimy updatować tutaj?
     if (this.width !== size && this.height !== size) {
       await this.update({
+        _id: this._id,
         width: size,
         height: size
       })
