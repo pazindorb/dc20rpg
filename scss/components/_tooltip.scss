@@ -1,17 +1,19 @@
 #tooltip-container {
 	--border-color: var(--primary-dark);
 	--text-color: var(--color-dark-1);
+	--text-shadow: none;
+	--highlight-color: var(--primary-color);
 
+	pointer-events: all;
 	background-image: url(../images/sheet/parchment.jpg);
 	box-shadow: 0 0 15px $secondary-darker inset;
 
 	position: fixed;
 	min-height: 200px;
 	width: min-content;
-	z-index: 100;
+	z-index: var(--z-index-tooltip);
 
-	border-radius: 3px;
-	border: 3px solid var(--border-color);
+	border-radius: 5px;
 	padding: 12px;
 
 	transition: opacity 0.5s ease-in-out;
@@ -21,16 +23,20 @@
 	overflow-x: hidden;
 	
   &.theme-dark {
-    --border-color: var(--color-light-5);
+    --border-color: var(--color-light-3);
     --text-color: var(--color-light-2);
+		--text-shadow: white;
+		--highlight-color: var(--color-shadow-highlight);
 
-		background: var(--background);
+		background: var(--color-cool-5-90);
 		box-shadow: none;
   }
 
   &.theme-light {
     --border-color: var(--primary-dark);
     --text-color: var(--color-dark-1);
+		--text-shadow: none;
+		--highlight-color: var(--primary-color);
 
 		background-image: url(../images/sheet/parchment.jpg);
 		box-shadow: 0 0 15px $secondary-darker inset;
@@ -38,37 +44,63 @@
 
 	.tooltip-info {
 		font-size: 10px;
-		border-bottom: 2px solid var(--border-color);
-		padding-bottom: 5px;
 		font-family: $font-default;
+		color: var(--text-color);
 	}
 
 	.tooltip-header {
 		display: flex;
 		align-items: center;
-		height: 45px;
-		border-bottom: 2px solid var(--border-color);
-		padding-top: 15px;
-		padding-bottom: 15px;
+		height: auto;
+		width: max-content;
 
 		input {
-			font-family: $font-header;
-			font-size: 24px;
+			font-family: var(--font-h4);
+			font-weight: bold;
+			font-size: 22px;
 			overflow-x: hidden;
 			background-color: transparent;
 			border: 0;
+			flex: 1 1 auto;
+			min-width: 0; 
+			height: 40px;
 
 			&:disabled {
 				color: var(--text-color);
 			}
 		}
 
-		img {
+		.image {
+			margin: 3px 5px 3px 0;
 			height: 40px;
 			width: 40px;
 			border: 1px solid var(--border-color);
 			border-radius: 3px;
-			margin-right: 5px;
+		}
+
+		.cost-printer {
+			color: black;
+			padding-left: 3px;
+			margin-left: 10px;
+			flex: 0 0 auto;
+			height: 100%;
+			gap: 3.5px;
+			font-size: 15px;
+			height: 40px;
+
+			.cost-img {
+				height: 16px;
+				width: 16px;
+				border-radius: 5px;
+				border: 1px solid var(--text-shadow);
+			}
+
+			.cost {
+				.cost-icon, b {
+					text-shadow: -1px 0 var(--text-shadow), 0 1px var(--text-shadow), 1px 0 var(--text-shadow), 0 -1px var(--text-shadow);
+				}
+			}
+			
 		}
 
 		&.invisible {
@@ -81,8 +113,6 @@
 		flex-wrap: wrap;
 		font-family: $font-default;
 		font-size: 12px;
-		border-bottom: 2px solid $primary-color;
-		padding-bottom: 5px;
 
 		.detail {
 			width: fit-content;
@@ -121,6 +151,7 @@
 		font-size: 14px;
     font-family: $font-default;
 		color: var(--text-color);
+		padding: 0 6px;
 
 		&.invisible {
 			display: none;
@@ -136,45 +167,61 @@
 	}
 
 	.hyperlink-style {
-		color: $primary-color;
+		color: var(--highlight-color);
 		cursor: pointer;
 		
 		&:hover {
 			text-shadow: 2px 2px 5px #ca0000;
 		}
 	}
-}
 
-#context-menu {
-	position: fixed;
-	display: flex;
-	flex-direction: column;
-	visibility: hidden;
-	width: 80px;
+	.underline {
+		clear: both;
+    border: 0;
+    height: 2px;
+    margin: 7px 0;
+    color: var(--border-color);
+    background-image: linear-gradient(90deg, transparent 0%, var(--border-color) 33%, var(--border-color) 66%, transparent 100%);
 
-	border: 2px solid $primary-color;
-	background-color: $secondary-lighter;
-	border-radius: 2px;
-
-	.elem {
-		color: $secondary-darker;
-		border-top: 1px solid $primary-color;
-		font-size: 14px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 4px 6px;
-		font-weight: bold;
-
-		&:hover {
-			background-color: $primary-color;
-			box-shadow: 0 0 10px 5px $primary-darker inset;
-			text-shadow: none;
-			color: $secondary-lighter;
+		&.invisible {
+			display: none;
 		}
 	}
 
-	.elem:first-child {
-		border-top: 0;
+}
+
+.dc20rpg {
+	#context-menu {
+		position: fixed;
+		display: flex;
+		flex-direction: column;
+		visibility: hidden;
+		width: 80px;
+
+		border: 2px solid $primary-color;
+		background-color: $secondary-lighter;
+		border-radius: 2px;
+
+		.elem {
+			color: $secondary-darker;
+			border-top: 1px solid $primary-color;
+			font-size: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 4px 6px;
+			font-weight: bold;
+
+			&:hover {
+				background-color: $primary-color;
+				box-shadow: 0 0 10px 5px $primary-darker inset;
+				text-shadow: none;
+				color: $secondary-lighter;
+			}
+		}
+
+		.elem:first-child {
+			border-top: 0;
+		}
 	}
 }

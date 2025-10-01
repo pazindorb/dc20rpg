@@ -838,6 +838,9 @@
 .cost-printer .cost.restPoints {
   color: #00887d;
 }
+.cost-printer .cost.charge {
+  color: #858308;
+}
 
 #token-hud .ap-wrapper {
   display: -webkit-box;
@@ -1794,6 +1797,10 @@
 .dc20rpg #advancement-dialog {
   background-color: rgba(55, 55, 55, 0.568627451);
   padding: 0;
+}
+.dc20rpg #advancement-dialog #tooltip-container {
+  border-radius: 3px;
+  border: 3px solid var(--border-color);
 }
 .dc20rpg #advancement-dialog header {
   font-family: "Humaroid";
@@ -3985,6 +3992,8 @@
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column #tooltip-container {
   margin-top: -8px;
   margin-left: -8px;
+  border-radius: 3px;
+  border: 3px solid var(--border-color);
 }
 .dc20rpg #initiative-slot-selector .selectable {
   width: 50px;
@@ -5015,185 +5024,6 @@
 .dc20rpg .item-list .roll-menu .roll-options .toggle .fa-2x {
   font-size: 1.7em;
   color: var(--primary-color);
-}
-.dc20rpg #tooltip-container {
-  --border-color: var(--primary-dark);
-  --text-color: var(--color-dark-1);
-  background-image: url(../images/sheet/parchment.jpg);
-  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
-  box-shadow: 0 0 15px var(--secondary-darker) inset;
-  position: fixed;
-  min-height: 200px;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  z-index: 100;
-  border-radius: 3px;
-  border: 3px solid var(--border-color);
-  padding: 12px;
-  -webkit-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out;
-  opacity: 0;
-  visibility: hidden;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.dc20rpg #tooltip-container.theme-dark {
-  --border-color: var(--color-light-5);
-  --text-color: var(--color-light-2);
-  background: var(--background);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.dc20rpg #tooltip-container.theme-light {
-  --border-color: var(--primary-dark);
-  --text-color: var(--color-dark-1);
-  background-image: url(../images/sheet/parchment.jpg);
-  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
-  box-shadow: 0 0 15px var(--secondary-darker) inset;
-}
-.dc20rpg #tooltip-container .tooltip-info {
-  font-size: 10px;
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 5px;
-  font-family: "Signika", sans-serif;
-}
-.dc20rpg #tooltip-container .tooltip-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 45px;
-  border-bottom: 2px solid var(--border-color);
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-.dc20rpg #tooltip-container .tooltip-header input {
-  font-family: "Humaroid";
-  font-size: 24px;
-  overflow-x: hidden;
-  background-color: transparent;
-  border: 0;
-}
-.dc20rpg #tooltip-container .tooltip-header input:disabled {
-  color: var(--text-color);
-}
-.dc20rpg #tooltip-container .tooltip-header img {
-  height: 40px;
-  width: 40px;
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  margin-right: 5px;
-}
-.dc20rpg #tooltip-container .tooltip-header.invisible {
-  display: none;
-}
-.dc20rpg #tooltip-container .tooltip-details {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  font-family: "Signika", sans-serif;
-  font-size: 12px;
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 5px;
-}
-.dc20rpg #tooltip-container .tooltip-details .detail {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-top: 3px;
-  margin-left: 3px;
-  padding: 3px;
-  border: 1px solid black;
-  border-radius: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  background-color: var(--primary-light);
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-.dc20rpg #tooltip-container .tooltip-details .box {
-  border: 1px solid black;
-  background-color: var(--primary-color);
-}
-.dc20rpg #tooltip-container .tooltip-details .green-box {
-  background-color: var(--crit-background);
-}
-.dc20rpg #tooltip-container .tooltip-details .red-box {
-  background-color: var(--fail-background);
-}
-.dc20rpg #tooltip-container .tooltip-details.invisible {
-  display: none;
-}
-.dc20rpg #tooltip-container .tooltip-description {
-  font-size: 14px;
-  font-family: "Signika", sans-serif;
-  color: var(--text-color);
-}
-.dc20rpg #tooltip-container .tooltip-description.invisible {
-  display: none;
-}
-.dc20rpg #tooltip-container .box-style {
-  cursor: pointer;
-}
-.dc20rpg #tooltip-container .box-style:hover {
-  text-shadow: 2px 2px 5px #ca0000;
-}
-.dc20rpg #tooltip-container .hyperlink-style {
-  color: var(--primary-color);
-  cursor: pointer;
-}
-.dc20rpg #tooltip-container .hyperlink-style:hover {
-  text-shadow: 2px 2px 5px #ca0000;
-}
-.dc20rpg #context-menu {
-  position: fixed;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  visibility: hidden;
-  width: 80px;
-  border: 2px solid var(--primary-color);
-  background-color: var(--secondary-lighter);
-  border-radius: 2px;
-}
-.dc20rpg #context-menu .elem {
-  color: var(--secondary-darker);
-  border-top: 1px solid var(--primary-color);
-  font-size: 14px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 4px 6px;
-  font-weight: bold;
-}
-.dc20rpg #context-menu .elem:hover {
-  background-color: var(--primary-color);
-  -webkit-box-shadow: 0 0 10px 5px var(--primary-darker) inset;
-  box-shadow: 0 0 10px 5px var(--primary-darker) inset;
-  text-shadow: none;
-  color: var(--secondary-lighter);
-}
-.dc20rpg #context-menu .elem:first-child {
-  border-top: 0;
 }
 .dc20rpg .actor_v2 {
   display: -webkit-box;
@@ -13085,4 +12915,228 @@
 #ui-bottom #hotbar.token-hotbar #action-bar .special-action-wrapper .held-action:hover {
   -webkit-box-shadow: 0 0 6px 2px var(--dark-red);
   box-shadow: 0 0 6px 2px var(--dark-red);
+}
+
+#tooltip-container {
+  --border-color: var(--primary-dark);
+  --text-color: var(--color-dark-1);
+  --text-shadow: none;
+  --highlight-color: var(--primary-color);
+  pointer-events: all;
+  background-image: url(../images/sheet/parchment.jpg);
+  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
+  box-shadow: 0 0 15px var(--secondary-darker) inset;
+  position: fixed;
+  min-height: 200px;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  z-index: var(--z-index-tooltip);
+  border-radius: 5px;
+  padding: 12px;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#tooltip-container.theme-dark {
+  --border-color: var(--color-light-3);
+  --text-color: var(--color-light-2);
+  --text-shadow: white;
+  --highlight-color: var(--color-shadow-highlight);
+  background: var(--color-cool-5-90);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#tooltip-container.theme-light {
+  --border-color: var(--primary-dark);
+  --text-color: var(--color-dark-1);
+  --text-shadow: none;
+  --highlight-color: var(--primary-color);
+  background-image: url(../images/sheet/parchment.jpg);
+  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
+  box-shadow: 0 0 15px var(--secondary-darker) inset;
+}
+#tooltip-container .tooltip-info {
+  font-size: 10px;
+  font-family: "Signika", sans-serif;
+  color: var(--text-color);
+}
+#tooltip-container .tooltip-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+#tooltip-container .tooltip-header input {
+  font-family: var(--font-h4);
+  font-weight: bold;
+  font-size: 22px;
+  overflow-x: hidden;
+  background-color: transparent;
+  border: 0;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+}
+#tooltip-container .tooltip-header input:disabled {
+  color: var(--text-color);
+}
+#tooltip-container .tooltip-header .image {
+  margin: 3px 5px 3px 0;
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+}
+#tooltip-container .tooltip-header .cost-printer {
+  color: black;
+  padding-left: 3px;
+  margin-left: 10px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  height: 100%;
+  gap: 3.5px;
+  font-size: 15px;
+  height: 40px;
+}
+#tooltip-container .tooltip-header .cost-printer .cost-img {
+  height: 16px;
+  width: 16px;
+  border-radius: 5px;
+  border: 1px solid var(--text-shadow);
+}
+#tooltip-container .tooltip-header .cost-printer .cost .cost-icon, #tooltip-container .tooltip-header .cost-printer .cost b {
+  text-shadow: -1px 0 var(--text-shadow), 0 1px var(--text-shadow), 1px 0 var(--text-shadow), 0 -1px var(--text-shadow);
+}
+#tooltip-container .tooltip-header.invisible {
+  display: none;
+}
+#tooltip-container .tooltip-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-family: "Signika", sans-serif;
+  font-size: 12px;
+}
+#tooltip-container .tooltip-details .detail {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 3px;
+  margin-left: 3px;
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: var(--primary-light);
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#tooltip-container .tooltip-details .box {
+  border: 1px solid black;
+  background-color: var(--primary-color);
+}
+#tooltip-container .tooltip-details .green-box {
+  background-color: var(--crit-background);
+}
+#tooltip-container .tooltip-details .red-box {
+  background-color: var(--fail-background);
+}
+#tooltip-container .tooltip-details.invisible {
+  display: none;
+}
+#tooltip-container .tooltip-description {
+  font-size: 14px;
+  font-family: "Signika", sans-serif;
+  color: var(--text-color);
+  padding: 0 6px;
+}
+#tooltip-container .tooltip-description.invisible {
+  display: none;
+}
+#tooltip-container .box-style {
+  cursor: pointer;
+}
+#tooltip-container .box-style:hover {
+  text-shadow: 2px 2px 5px #ca0000;
+}
+#tooltip-container .hyperlink-style {
+  color: var(--highlight-color);
+  cursor: pointer;
+}
+#tooltip-container .hyperlink-style:hover {
+  text-shadow: 2px 2px 5px #ca0000;
+}
+#tooltip-container .underline {
+  clear: both;
+  border: 0;
+  height: 2px;
+  margin: 7px 0;
+  color: var(--border-color);
+  background-image: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(33%, var(--border-color)), color-stop(66%, var(--border-color)), to(transparent));
+  background-image: linear-gradient(90deg, transparent 0%, var(--border-color) 33%, var(--border-color) 66%, transparent 100%);
+}
+#tooltip-container .underline.invisible {
+  display: none;
+}
+
+.dc20rpg #context-menu {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  visibility: hidden;
+  width: 80px;
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-lighter);
+  border-radius: 2px;
+}
+.dc20rpg #context-menu .elem {
+  color: var(--secondary-darker);
+  border-top: 1px solid var(--primary-color);
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 4px 6px;
+  font-weight: bold;
+}
+.dc20rpg #context-menu .elem:hover {
+  background-color: var(--primary-color);
+  -webkit-box-shadow: 0 0 10px 5px var(--primary-darker) inset;
+  box-shadow: 0 0 10px 5px var(--primary-darker) inset;
+  text-shadow: none;
+  color: var(--secondary-lighter);
+}
+.dc20rpg #context-menu .elem:first-child {
+  border-top: 0;
 }

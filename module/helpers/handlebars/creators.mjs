@@ -289,46 +289,7 @@ export function registerHandlebarsCreators() {
     `;
   })
 
-  Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => {
-    let component = '';
-    if (!cost) return "";
-    if (resources) {
-      for (const [key, resource] of Object.entries(cost.resources)) {
-        const isMinor = key === "ap" && resource.amount === 0 && showMinorAction;
-        if (resource.amount === 0 && !isMinor) continue;
-        
-        const weight = isMinor ? "fa-light" : "fa-solid";
-        const icon = resource.custom ? `<img src=${resource.img} class="cost-img">` : `<i class="${resource.icon} ${weight}"></i>`;
-        component += _toCost(key, icon, resource.amount, resource.label);
-      }
-    }
-
-    if (charges) {
-      for (const charge of Object.values(cost.charges)) {
-        if (charge.amount === 0) continue;
-        const icon = `<i class="${charge.icon} fa-solid"></i>`;
-        const title = `Charges from: '${charge.itemName}'`;
-        component += _toCost("charge", icon, charge.amount, title);
-      }
-    }
-
-    if (quantity) {
-      for (const quantity of Object.values(cost.quantity)) {
-        if (quantity.amount === 0) continue;
-        const icon = `<i class="${quantity.icon} fa-solid"></i>`;
-        const title = `Quantity from: '${quantity.itemName}'`;
-        component += _toCost("quantity", icon, quantity.amount, title);
-      }
-    }
-
-    return component ? `<ul class="cost-printer">${component}</ul>` : "";
-  });
-
-  function _toCost(key, icon, amount, title) {
-    const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
-    const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
-    return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
-  }
+  Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => costPrinter(cost, resources, charges, quantity, showMinorAction));
 
   Handlebars.registerHelper('item-config', (item, options) => {
     if (!item) return '';
@@ -622,4 +583,45 @@ function _descriptionChar(description, char) {
     </div>
   </div>
   `
+}
+
+export function costPrinter(cost, resources=false, charges=false, quantity=false, showMinorAction=false) {
+  let component = '';
+  if (!cost) return "";
+  if (resources) {
+    for (const [key, resource] of Object.entries(cost.resources)) {
+      const isMinor = key === "ap" && resource.amount === 0 && showMinorAction;
+      if (resource.amount === 0 && !isMinor) continue;
+      
+      const weight = isMinor ? "fa-light" : "fa-solid";
+      const icon = resource.custom ? `<img src=${resource.img} class="cost-img">` : `<i class="${resource.icon} ${weight}"></i>`;
+      component += _toCost(key, icon, resource.amount, resource.label);
+    }
+  }
+
+  if (charges) {
+    for (const charge of Object.values(cost.charges)) {
+      if (charge.amount === 0) continue;
+      const icon = `<i class="${charge.icon} fa-solid"></i>`;
+      const title = `Charges from: '${charge.itemName}'`;
+      component += _toCost("charge", icon, charge.amount, title);
+    }
+  }
+
+  if (quantity) {
+    for (const quantity of Object.values(cost.quantity)) {
+      if (quantity.amount === 0) continue;
+      const icon = `<i class="${quantity.icon} fa-solid"></i>`;
+      const title = `Quantity from: '${quantity.itemName}'`;
+      component += _toCost("quantity", icon, quantity.amount, title);
+    }
+  }
+
+  return component ? `<ul class="cost-printer">${component}</ul>` : "";
+}
+
+function _toCost(key, icon, amount, title) {
+  const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
+  const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
+  return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
 }

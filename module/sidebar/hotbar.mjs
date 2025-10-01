@@ -6,10 +6,9 @@ import { clearHelpDice, getActiveHelpDice, makeMoveAction, prepareHelpAction, tr
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
-import { getItemActionDetails, getItemUseCost } from "../helpers/items/itemDetails.mjs";
+import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { preprareSheetData } from "../sheets/item-sheet/is-data.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
 
@@ -95,6 +94,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     super._attachFrameListeners();
     this.element.addEventListener("dblclick", this._onDoubleClick.bind(this));
     this.element.addEventListener("mousedown", this._onMouseDown.bind(this));
+    this.element.addEventListener("mouseover", this._onHover.bind(this));
+    this.element.addEventListener("mouseout", this._onHover.bind(this));
     this.element.addEventListener("change", this._onChange.bind(this));
   }
 
@@ -263,7 +264,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const original = items.get(itemId);
       const item = original ? {...original} : null;
       if (item) {
-        item.description = await this._prepareDescription(item);
         if (borderColor) this._borderColor(item);
         if (markers) this._markers(item);
         if (showCharges) this._charges(item);
@@ -274,41 +274,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     return slots;
   }
 
-  async _prepareDescription(item) {
-    const TextEditor = foundry.applications.ux.TextEditor.implementation;
-    const useCost = getItemUseCost(item);
-    const itemAction = getItemActionDetails(item);
-    const data = {system: item.system};
-    preprareSheetData(data, item);
-    const active = item.system?.toggle?.toggledOn ? " [Active]" : "";
-
-    const reaction = item.system.isReaction ? `<i class='margin-left-3 margin-right-8 fa-solid fa-reply reaction'></i>` : "";
-    const cost = useCost ? `<div class='cost-wrapper'>${reaction}${useCost}</div>` : "";
-    const action = itemAction ? `<p><b>Action:</b> ${itemAction}</p>` : "";
-    const saves = data.sheetData.saves ? `<p><b>Save:</b> ${data.sheetData.saves}</p>` : "";
-    const contest = data.sheetData.contests ? `<p><b>Contest:</b> ${data.sheetData.contests}</p>` : "";
-
-    let formulas = "";
-    formulas += data.sheetData.damageFormula ? `<li class='margin-top-5'>Damage: ${data.sheetData.damageFormula}</li>` : "";
-    formulas += data.sheetData.healingFormula ? `<li class='margin-top-5'>Healing: ${data.sheetData.healingFormula}</li>` : "";
-    formulas += data.sheetData.otherFormula ? `<li class='margin-top-5'>Other: ${data.sheetData.otherFormula}</li>` : "";
-    if (formulas) formulas = `<p><b>Outcome:</b> ${formulas}</p>`;
-
-    let middleColumn = `${action} ${saves} ${contest} ${formulas}`;
-    if (middleColumn.trim()) middleColumn = "<hr/>" + middleColumn;
-
-    let descriptionColumn = item.system.description;
-    if (descriptionColumn.trim()) {
-      descriptionColumn = "<hr/>" + await TextEditor.enrichHTML(descriptionColumn, {secrets:true});
-      descriptionColumn = descriptionColumn.replaceAll('"', "'");
-    }
-
-    return `
-      <div class='header-section'><h4>${item.name}${active}</h4> ${cost}</div>
-      <div class='middle-section'>${middleColumn}</div>
-      ${descriptionColumn}
-    `
-  }
 
   _borderColor(item) {
     const actionType = item.system?.actionType;
@@ -538,6 +503,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       this.element.classList.add("token-hotbar");
     }
     await super._onRender(context, options);
+    const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
+    this.element.firstChild.classList.add(`theme-${colorTheme}`);
 
     // Override drop behavior
     if (context.tokenHotbar) {
@@ -550,6 +517,47 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
         }
       }).bind(this.element);
     }
+  }
+
+  _onHover(event) {
+    const target = this._getHoverTarget(event.target);
+    const dataset = target.dataset;
+    const hover = dataset.hover;
+    const isEntering = event.type === "mouseover";
+
+    const data = {dataset: dataset};
+    data.item = this._getItemFromSlot(dataset.index, dataset.section);
+
+    switch (hover) {
+      case "tooltip": 
+        const position = {
+          maxHeight: "500px",
+          minWidth: "300px",
+          left: `${target.offsetLeft - 130}px`, 
+          bottom: `${target.parentElement.offsetHeight + 30}px`,
+          top: ""
+        }
+        tooltipListeners(event, "item", isEntering, data, $(this.element), {position: position});
+        break;
+    }
+  }
+
+  _getHoverTarget(element) {
+    if (element.id === "hotbar" || !element.parentElement) return element;
+    if (element.dataset.hover) return element;
+    return this._getHoverTarget(element.parentElement);
+  }
+
+  _getTooltipPosition(html) {
+    let position = null;
+    const left = html.find(".left-column");
+    if (left[0]) {
+      position = {
+        width: left.width() - 25,
+        height: left.height() - 20,
+      };
+    }
+    return position;
   }
 
   // ==================== ACTIONS =====================
