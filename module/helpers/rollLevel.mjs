@@ -15,6 +15,7 @@ export async function runItemRollLevelCheck(item, actor, startingValues=[{adv: 0
 
   const actionType = item.system.actionType;
   const specificCheckOptions = {
+    hasArea: !!item.system?.target?.areas?.default?.area,
     range: item.system.range,
     properties: item.system.properties,
     allEnhancements: item.allEnhancements
@@ -710,11 +711,14 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (!game.settings.get("dc20rpg", "enableRangeCheck")) return false;
   if (!specifics) return false;
 
+  // Skip range check if use area targeting 
+  if (specifics.hasArea) return false;
+
   const range = specifics?.range;
   const properties = specifics?.properties 
   let meleeRange = range.melee || 1;
   let normalRange = properties ? 1 : null;
-  let maxRange = properties ? 5 : null; // If has properties it means it is a weapon
+  let maxRange = properties ? 5 : null; // Has properties = weapon
 
   meleeRange += _bonusRangeFromEnhancements(specifics?.allEnhancements, "melee") + _bonusFromGlobalModifier(actorToken, "melee");
   if (properties?.reach?.active) meleeRange += properties.reach.value;

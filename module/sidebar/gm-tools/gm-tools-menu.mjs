@@ -95,7 +95,7 @@ function _helpManager() {
       ]
     }
     const selected = await SimplePopup.open("input", data);
-    const value = parseInt(selected[0]);
+    const value = parseInt(selected?.[0]);
     if (isNaN(value)) return;
 
     const duration = selected[1];
