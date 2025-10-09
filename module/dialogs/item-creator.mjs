@@ -203,7 +203,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     // Prepare item before creation
     const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "";
     if (["melee", "ranged", "lshield", "hshield"].includes(subType)) {
-      this.blueprint.system.costs.resources.actionPoint = 1;
+      this.blueprint.system.costs.resources.ap = 1;
     }
     if (["lshield", "hshield"].includes(subType)) {
       this.blueprint.system.actionType = "attack";
