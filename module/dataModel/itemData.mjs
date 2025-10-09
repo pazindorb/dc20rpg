@@ -127,6 +127,7 @@ class DC20ItemItemData extends DC20BaseItemData {
         value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         currency: new f.StringField({required: true, initial: "gp"})
       }),
+      infusions: new f.ObjectField({required:true, initial: {}}),
       rarity: new f.StringField({required: true, initial: ""}),
       statuses: new f.SchemaField({
         attuned: new f.BooleanField({required: true, initial: false}),
@@ -297,6 +298,36 @@ export class DC20TechniqueData extends DC20UsableItemData {
       knownLimit: new f.BooleanField({required: true, initial: true}),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()
+    })
+  }
+}
+
+export class DC20InfusionData extends DC20UsableItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      knownLimit: new f.BooleanField({required: true, initial: true}),
+      effectsConfig: new EffectsConfigFields(),
+      infusion: new f.SchemaField({
+        power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        tags: new f.SchemaField({
+          attunement: new f.BooleanField({required: true, initial: false}),
+          consumable: new f.BooleanField({required: true, initial: false}),
+          toggle: new f.BooleanField({required: true, initial: false}),
+          charges: new f.BooleanField({required: true, initial: false}),
+          limited: new f.BooleanField({required: true, initial: false}),
+        }),
+        copy: new f.SchemaField({
+          effects: new f.BooleanField({required: true, initial: false}),
+          enhancements: new f.BooleanField({required: true, initial: false}),
+          macros: new f.BooleanField({required: true, initial: false}),
+          conditionals: new f.BooleanField({required: true, initial: false}),
+          formulas: new f.BooleanField({required: true, initial: false}),
+          rollRequests: new f.BooleanField({required: true, initial: false}),
+          againstStatuses: new f.BooleanField({required: true, initial: false}),
+        }),
+      })
     })
   }
 }

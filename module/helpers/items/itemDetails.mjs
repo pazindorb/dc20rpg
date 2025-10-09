@@ -10,6 +10,9 @@ export function itemDetailsToHtml(item) {
   content += _magicSchool(item);
   content += _props(item);
   content += _components(item);
+  if (item.type === "infusion") {
+    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${item.system.infusion.power} </div>`;
+  }
   return content;
 }
 

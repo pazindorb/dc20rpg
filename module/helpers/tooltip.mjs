@@ -316,14 +316,16 @@ function _itemAction(item) {
   // SAVES & CONTESTS
   let contests = "";
   let saves = "";
-  for (const request of Object.values(item.system.rollRequests)) {
-    if (request?.category === "save") {
-      if (saves) saves += " / ";
-      saves += getLabelFromKey(request.saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
-    }
-    if (request?.category === "contest") {
-      if (contests) contests += " / ";
-      contests += getLabelFromKey(request.contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+  if (item.system.rollRequests) {
+    for (const request of Object.values(item.system.rollRequests)) {
+      if (request?.category === "save") {
+        if (saves) saves += " / ";
+        saves += getLabelFromKey(request.saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
+      }
+      if (request?.category === "contest") {
+        if (contests) contests += " / ";
+        contests += getLabelFromKey(request.contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+      }
     }
   }
   if (saves) content += `<li><b>Save:</b> ${saves}</li>`;

@@ -90,6 +90,7 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
+  CONFIG.Item.dataModels.infusion = itemDM.DC20InfusionData;
   CONFIG.Item.dataModels.class = itemDM.DC20ClassData;
   CONFIG.Item.dataModels.subclass = itemDM.DC20SubclassData;
   CONFIG.Item.dataModels.ancestry = itemDM.DC20AncestryData;

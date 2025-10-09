@@ -25,7 +25,7 @@ import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTem
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, Macro, RollRequest } from "../documents/item/item-creators.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 
 export function prepareDC20tools() {
@@ -37,14 +37,12 @@ export function prepareDC20tools() {
       RollSelect,
       RestDialog,
     },
-    creators: {
-      Conditional,
-      Enhancement,
-      Formula,
-      RollRequest,
-      AgainstStatus,
-      Macro,
-    },
+    Conditional,
+    Enhancement,
+    Formula,
+    RollRequest,
+    AgainstStatus,
+    ItemMacro,
     DC20Roll,
   }
 
@@ -291,7 +289,9 @@ DC20RPG.macroTriggers = {
   postItemRoll: "After Item Roll",
   postChatMessageCreated: "After Chat Message Created",
   enhancementReset: "On Enhancement Reset",
-  onKeywordUpdate: "On Keyword Update"
+  onKeywordUpdate: "On Keyword Update",
+  infusion: "Infuse Item",
+  removeInfusion: "Remove Item Infusion"
 }
 
 DC20RPG.skills = {

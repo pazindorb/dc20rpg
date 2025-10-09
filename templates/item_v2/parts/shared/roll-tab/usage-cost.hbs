@@ -48,7 +48,8 @@
     <div class="left-part-row">
       <span>{{localize "dc20rpg.item.sheet.usage.charges"}}</span>
       <div>
-        <a class="activable {{#if system.costs.charges.overriden}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg" data-path="system.costs.charges.overriden" title="{{localize "dc20rpg.item.sheet.usage.useCustomRecovery"}}"></a>
+        <a class="activable {{#if system.costs.charges.deleteOnZero}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg" data-path="system.costs.charges.deleteOnZero" title="{{localize "dc20rpg.item.sheet.usage.deleteOnZero"}}"></a>
+        <a class="activable margin-right-5 {{#if system.costs.charges.overriden}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg" data-path="system.costs.charges.overriden" title="{{localize "dc20rpg.item.sheet.usage.useCustomRecovery"}}"></a>
         <a class="activable margin-right-5 {{#if system.costs.charges.showAsResource}}fa-solid fa-square-minus{{else}}fa-regular fa-square-plus{{/if}} fa-lg" data-path="system.costs.charges.showAsResource" title="{{localize "dc20rpg.item.sheet.usage.showAsResource"}}"></a>
       </div>
     </div>

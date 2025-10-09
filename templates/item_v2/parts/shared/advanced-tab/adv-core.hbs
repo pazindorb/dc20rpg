@@ -1,6 +1,21 @@
 <div class="tab adv-core-tab padding-7" data-group="advanced" data-tab="adv-core">
+  {{!-- Infusions --}}
+  {{#if system.infusions}}
+  <div class="sub-header">
+    <span>{{localize "dc20rpg.item.sheet.infusions.title"}}</span>
+  </div> 
+  {{#each system.infusions as |infusion key|}} 
+  <div class="content-wrapper">
+    <div class="row">
+      <span>{{infusion.name}}</span>
+      <a class="fa-lg remove-infusion fa-trash fa-solid" data-key="{{key}}" title="{{localize 'dc20rpg.item.sheet.infusions.remove'}}"></a>
+    </div>
+  </div>
+  {{/each}}
+  {{/if}}
+
   {{!-- Effects --}}
-  <div class="sub-header margin-bottom-5">
+  <div class="sub-header margin-bottom-5 {{#if system.infusions}}margin-top-5{{/if}}">
     <span>{{localize "dc20rpg.item.sheet.effects.title"}}</span>
     <div>
       <a class="effect-create margin-right-5" data-type="temporary" title="{{localize 'dc20rpg.item.sheet.effects.temporary'}}"><i class="fa-solid fa-hourglass-half"></i></a>

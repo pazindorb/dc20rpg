@@ -1,0 +1,104 @@
+<form class="{{cssClass}} {{item.type}} item_v2" autocomplete="off">
+  <header class="item-sheet-header">
+
+    {{PARTIAL "Header"}}
+  </header>
+
+  {{!-- Tooltip --}}
+  {{PARTIAL "Tooltip"}}
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description"><span>{{localize 'dc20rpg.item.sheet.description'}}</span></a>
+    <a class="item" data-tab="config"><span>{{localize 'dc20rpg.item.sheet.config.tab'}}</span></a>
+    <a class="item" data-tab="infusion"><span>{{localize 'dc20rpg.item.sheet.infusion.tab'}}</span></a>
+    <a class="item" data-tab="roll"><span>{{localize 'dc20rpg.item.sheet.roll'}}</span></a>
+    <a class="item" data-tab="advanced"><span>{{localize 'dc20rpg.item.sheet.advanced'}}</span></a>
+  </nav>
+
+  <section class="item-sheet-body">
+    <div class="tab description-tab content padding-7" data-group="primary" data-tab="description">
+      <div class="description-box">
+        {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
+      </div>
+    </div>
+
+    <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
+      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.spell.countToLimitTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.countToLimit"}}</span>
+        <a class="fa-lg activable {{#if system.knownLimit}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.knownLimit"></a>
+      </div>
+
+      {{PARTIAL "Basic Config"}}
+    </div>
+
+    <div class="tab infusion-tab content padding-7" data-group="primary" data-tab="infusion">
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.infusion.power"}}</span>
+        <input type="text" name="system.infusion.power" value="{{system.infusion.power}}" data-dtype="Number" placeholder="-">
+      </div>
+
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.infusion.attunement"}}</span>
+        <a class="fa-lg activable {{#if system.infusion.tags.attunement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.attunement"></a>
+      </div>
+
+      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.toggleTitle"}}'>
+        <span>{{localize "dc20rpg.item.sheet.infusion.toggle"}}</span>
+        <a class="fa-lg activable {{#if system.infusion.tags.toggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.toggle"></a>
+      </div>
+
+      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.chargesTitle"}}'>
+        <span>{{localize "dc20rpg.item.sheet.infusion.charges"}}</span>
+        <a class="fa-lg activable {{#if system.infusion.tags.charges}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.charges"></a>
+      </div>
+
+      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.consumableTitle"}}'>
+        <span>{{localize "dc20rpg.item.sheet.infusion.consumable"}}</span>
+        <a class="fa-lg activable {{#if system.infusion.tags.consumable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.consumable"></a>
+      </div>
+
+      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.limitedTitle"}}'>
+        <span>{{localize "dc20rpg.item.sheet.infusion.limited"}}</span>
+        <a class="fa-lg activable {{#if system.infusion.tags.limited}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.limited"></a>
+      </div>
+
+      <div class="sub-header margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.infusion.infuse"}}</span>
+      </div>
+      <div class="content-wrapper">
+        <div class="row">
+          <span>{{localize "dc20rpg.item.sheet.infusion.effects"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.effects}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.effects"></a>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.item.sheet.infusion.enhancements"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.enhancements}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.enhancements"></a>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.item.sheet.infusion.macros"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.macros}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.macros"></a>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.item.sheet.infusion.conditionals"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.conditionals}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.conditionals"></a>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.item.sheet.infusion.formulas"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.formulas}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.formulas"></a>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.item.sheet.infusion.rollRequests"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.rollRequests}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.rollRequests"></a>
+        </div>
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.item.sheet.infusion.againstStatuses"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.againstStatuses}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.againstStatuses"></a>
+        </div>
+      </div>
+
+    </div>
+
+    {{PARTIAL "Roll"}}
+    {{PARTIAL "Advanced"}}
+  </section>
+</form>

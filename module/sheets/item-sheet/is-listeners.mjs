@@ -24,6 +24,9 @@ export function activateCommonLinsters(html, item) {
   });
   html.find('.scroll-creator').click(() => createScrollFromSpell(item));
 
+  // Remove Infusion
+  html.find('.remove-infusion').click(ev => item.infusions.active[datasetOf(ev).key].remove());
+
   // Roll Templates
   html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
 
@@ -134,6 +137,10 @@ async function _onDrop(event, parentItem) {
 
 async function _onDropItem(droppedObject, parentItem) {
   const item = await Item.fromDropData(droppedObject);
+
+  if (item.type === "infusion" && parentItem.infusions) {
+    return await parentItem.infusions.apply(item);
+  }
 
   // Handle container
   if (parentItem.type === "container") {

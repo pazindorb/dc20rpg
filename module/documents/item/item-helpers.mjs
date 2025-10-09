@@ -1,10 +1,11 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
 import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
-import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
+import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
+import { generateKey } from "../../helpers/utils.mjs";
 import { DC20RpgItem } from "../item.mjs";
-import { Enhancement } from "./item-creators.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
 
 export function enrichWithHelpers(item) {
   enrichRollMenuObject(item);
@@ -22,6 +23,9 @@ export function enrichWithHelpers(item) {
   if (item.system.usesWeapon?.weaponAttack) {
     _enrichUseWeaponObject(item);
   }
+  if (item.system.infusions) {
+    _enrichItemInfusions(item);
+  }
 }
 
 //==================================//==================================
@@ -30,7 +34,7 @@ export function enrichWithHelpers(item) {
 export function _enrichUseCostObject(item) {
   item.use.hasCharges = !!item.system.costs.charges.max;
   item.use.canRemoveCharge = (amount) => _canRemoveCharge(amount, item);
-  item.use.removeCharge = async (amount) => await _removeCharge(amount, item);
+  item.use.removeCharge = async (amount, delayDeletion=false) => await _removeCharge(amount, delayDeletion, item);
   item.use.useCharges = async () => await _useCharges(item);
   item.use.addCharge = async (amount) => await _addCharge(amount, item);
   item.use.regainCharges = async (half=false) => await _regainCharges(half, item);
@@ -63,13 +67,25 @@ function _canRemoveCharge(amount, item) {
   return true;
 }
 
-async function _removeCharge(amount, item) {
+async function _removeCharge(amount, delayDeletion, item) {
   if (!amount) return;
   amount = parseInt(amount);
 
   const charges = item.system.costs.charges;
-  let changed =  Math.max(charges.current - amount, 0);
-  await item.update({["system.costs.charges.current"] : changed});
+  const newAmount = charges.current - amount;
+  if (newAmount <= 0) {
+    if (charges.limitedInfusion) {
+      await item.infusions.active[charges.limitedInfusion].remove();
+      return;
+    }
+    if (charges.deleteOnZero) {
+      if (delayDeletion) item.deleteAfter = true; // Item will be removed after the operation
+      else await item.delete();
+      return;
+    }
+
+  }
+  await item.update({["system.costs.charges.current"] : Math.max(newAmount, 0)});
 }
 
 async function _addCharge(amount, item) {
@@ -323,14 +339,14 @@ async function _spendResources(cost, actor) {
 async function _subtractCharges(cost, parentItem, actor) {
   for (const [itemId, amount] of Object.entries(cost.charges)) {
     const item = parentItem.id === itemId ? parentItem : actor.items.get(itemId);
-    await item.use.removeCharge(amount);
+    await item.use.removeCharge(amount, true);
   }
 }
 
 async function _consumeQuantities(cost, parentItem, actor) {
   for (const [itemId, amount] of Object.entries(cost.quantity)) {
     const item = parentItem.id === itemId ? parentItem : actor.items.get(itemId);
-    await item.use.consumeQuantity(amount);
+    await item.use.consumeQuantity(amount, true);
   }
 }
 
@@ -662,7 +678,7 @@ function _enrichEnhancementObject(item) {
 
   Object.defineProperty(enhancements, "all", {get: () => _allEnhancements(item, enhancements)});
   Object.defineProperty(enhancements, "active", {get: () => _activeEnhancements(item, enhancements)});
-  enhancements.add = async (enhancementData, enhancementKey) => await Enhancement.create(enhancementData, item, enhancementKey);
+  enhancements.add = async (enhancementData, enhancementKey) => await Enhancement.create(enhancementData, {parent: item, key: enhancementKey});
 
   item.enhancements = enhancements;
 }
@@ -744,4 +760,253 @@ function _enrichUseWeaponObject(item) {
   item.ammo = weapon.ammo || undefined;
   item.reloadable = weapon.reloadable || undefined;
   item.multiFaceted = weapon.multiFaceted || undefined; 
+}
+
+//==================================//==================================
+//                               INFUSIONS                             =
+//==================================//==================================
+function _enrichItemInfusions(item) {
+  item.infusions = {
+    apply: async (infusion) => await _applyInfusion(infusion, item),
+  }
+
+  let hasToggle = false;
+  let hasCharges = false;
+  let hasAttunement = false;
+  const active = {};
+  for (const [key, original] of Object.entries(item.system.infusions)) {
+    const infusion = foundry.utils.deepClone(original);
+    infusion.key = key;
+    infusion.remove = async () => await _removeInfusion(infusion, item);
+    active[key] = infusion;
+
+    if (infusion.tags.attunement) hasAttunement = true;
+    if (infusion.tags.charges || infusion.tags.limited) hasCharges = true;
+    if (infusion.tags.toggle) hasToggle = true;
+  }
+
+  item.infusions.active = active;
+  item.infusions.hasToggle = hasToggle;
+  item.infusions.hasCharges = hasCharges;
+  item.infusions.hasAttunement = hasAttunement;
+}
+
+//==================================
+//              INFUSE             =
+//==================================
+async function _applyInfusion(infusionItem, item) {
+  if (!infusionItem) return;
+  if (!["weapon", "equipment", "consumable"].includes(item.type)) {
+    ui.notifications.warn("Only inventory items can be infused.");
+    return;
+  }
+  if (infusionItem.system.infusion.tags.consumable && item.type !== "consumable") {
+    ui.notifications.warn("Only consumable item can be infused with that infusion.");
+    return;
+  }
+
+  const infusionKey = generateKey();
+  const removeInfusionMacro = await _runInfusionMacro(infusionItem, item);
+  const infusion = infusionItem.system.infusion;
+  const data = {
+    name: infusionItem.name,
+    power: infusion.power,
+    tags: infusion.tags,
+    modifications: {
+      effects: [],
+      enhancements: [],
+      macros: [],
+      conditionals: [],
+      formulas: [],
+      rollRequests: [],
+      againstStatuses: [],
+      toggle: false,
+    },
+    removeInfusionMacro: removeInfusionMacro
+  }
+  
+  const updateData = {system: {infusions: {}}};
+
+  // Copy from infusion
+  if (infusion.copy.effects) {
+    for (const effect of infusionItem.effects) {
+      const created = await ActiveEffect.create(effect.toObject(), {parent: item});
+      data.modifications.effects.push(created.id);
+    }
+  }
+  if (infusion.copy.enhancements) {
+    for (const enhancement of Object.values(infusionItem.system.enhancements)) {
+      const key = await Enhancement.create(enhancement, {parent: item});
+      data.modifications.enhancements.push(key);
+    }
+  }
+  if (infusion.copy.macros) {
+    for (const macro of Object.values(infusionItem.system.macros)) {
+      const key = await ItemMacro.create(macro, {parent: item});
+      data.modifications.macros.push(key);
+    }
+  }
+  if (infusion.copy.conditionals) {
+    for (const conditional of Object.values(infusionItem.system.conditionals)) {
+      const key = await Conditional.create(conditional, {parent: item});
+      data.modifications.conditionals.push(key);
+    }
+  }
+  if (infusion.copy.formulas) {
+    for (const formula of Object.values(infusionItem.system.formulas)) {
+      const key = await Formula.create(formula, {parent: item});
+      data.modifications.formulas.push(key);
+    }
+  }
+  if (infusion.copy.rollRequests) {
+    for (const rollRequest of Object.values(infusionItem.system.rollRequests)) {
+      const key = await RollRequest.create(rollRequest, {parent: item});
+      data.modifications.rollRequests.push(key);
+    }
+  }
+  if (infusion.copy.againstStatuses) {
+    for (const againstStatus of Object.values(infusionItem.system.againstStatuses)) {
+      const key = await AgainstStatus.create(againstStatus, {parent: item});
+      data.modifications.againstStatuses.push(key);
+    }
+  }
+
+  // Tags
+  if (infusion.tags.attunement) {
+    updateData.system.properties = {
+      attunement: {active: true}
+    }
+  }
+  if (infusion.tags.toggle) {
+    updateData.system.toggle = infusionItem.system.toggle;
+    updateData.system.effectsConfig = {
+      linkWithToggle: infusionItem.system.effectsConfig.linkWithToggle
+    }
+  }
+  if (infusion.tags.limited && !infusion.tags.charges) {
+    infusion.tags.charges = true;
+  }
+  if (infusion.tags.charges) {
+    updateData.system.costs = {
+      charges: infusionItem.system.costs.charges
+    };
+  }
+  if (infusion.tags.limited) {
+    updateData.system.costs.charges.limitedInfusion = infusionKey;
+  }
+  if (infusion.tags.consumable && infusion.tags.charges) {
+    updateData.system.costs.charges.deleteOnZero = true;
+    updateData.system.deleteOnZero = false;
+  }
+
+  updateData.system.infusions[infusionKey] = data;
+  await item.update(updateData);
+  infusionItem.reset(); // We need to clear infusion item if macro did some changes to it
+}
+
+async function _runInfusionMacro(infusionItem, infusionTarget) {
+  const macros = infusionItem.system?.macros;
+  if (!macros) return [];
+
+  const onRemove = [];
+  for (const macro of Object.values(macros)) {
+    if (macro.disabled) continue;
+    const command = macro.command;
+    if (!command) continue;
+
+    if (macro.trigger === "infusion") {
+      await runTemporaryMacro(command, infusionItem, {infusion: infusionItem, target: infusionTarget});
+    }
+
+    if (macro.trigger === "removeInfusion") {
+      onRemove.push(command);
+    }
+  }
+  return onRemove;
+}
+
+//==================================
+//              REMOVE             =
+//==================================
+async function _removeInfusion(infusion, item) {
+  const updateData = {system: {infusions: {}}};
+  updateData.system.infusions[`-=${infusion.key}`] = null;
+
+  await _runRemoveInfusionMacro(infusion.removeInfusionMacro, item);
+
+  // Remove item modifications
+  for (const effectId of infusion.modifications.effects) {
+    const effect = item.effects.get(effectId);
+    if (effect) effect.delete();
+  }
+  for (const key of infusion.modifications.enhancements) {
+    await item.update({[`system.enhancements.-=${key}`]: null});
+  }
+  for (const key of infusion.modifications.macros) {
+    await item.update({[`system.macros.-=${key}`]: null});
+  }
+  for (const key of infusion.modifications.conditionals) {
+    await item.update({[`system.conditionals.-=${key}`]: null});
+  }
+  for (const key of infusion.modifications.formulas) {
+    await item.update({[`system.formulas.-=${key}`]: null});
+  }
+  for (const key of infusion.modifications.rollRequests) {
+    await item.update({[`system.rollRequests.-=${key}`]: null});
+  }
+  for (const key of infusion.modifications.againstStatuses) {
+    await item.update({[`system.againstStatuses.-=${key}`]: null});
+  }
+
+  await item.update(updateData);
+  await _clearTags(infusion, item);
+}
+
+async function _runRemoveInfusionMacro(macros, item) {
+  for (const command of macros) {
+    await runTemporaryMacro(command, item, {target: item});
+  }
+}
+
+async function _clearTags(infusion, item) {
+  const updateData = {system: {}}
+  
+  const tags = infusion.tags;
+  const allInfusions = item.infusions;
+  if (tags.attunement && !allInfusions.hasAttunement) {
+    updateData.system.properties = {
+      attunement: {active: false}
+    }
+  }
+
+  if (tags.toggle && !allInfusions.hasToggle) {
+    updateData.system.toggle = {
+      toggleable: false,
+      toggledOn: false,
+      toggleOnRoll: false
+    };
+    updateData.system.effectsConfig = {
+      linkWithToggle: false
+    }
+  }
+  
+  if ((tags.charges || tags.limited) && !allInfusions.hasCharges) {
+    updateData.system.costs = {
+      charges: {
+        current: null,
+        max: null,
+        maxChargesFormula: null,
+        overriden: false,
+        rechargeFormula: "",
+        rechargeDice: "",
+        requiredTotalMinimum: null,
+        reset: "",
+        showAsResource: false,
+        subtract: 1,
+        deleteOnZero: false,
+      }
+    };
+  }
+
+  await item.update(updateData);
 }
