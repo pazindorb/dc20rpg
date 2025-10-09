@@ -384,7 +384,7 @@ export async function createScrollFromSpell(spell) {
   scroll.type = 'consumable';
   scroll.system.consumableType = "scroll";
   scroll.system.enhancements = {};
-  scroll.system.costs.resources = { actionPoint: 2 };
+  scroll.system.costs.resources = { ap: 2 };
 
   if (spell.actor) createItemOnActor(spell.actor, scroll);
   else Item.create(scroll);

@@ -1,10 +1,8 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
-import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
-import { toggleCheck } from "../helpers/items/itemConfig.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { generateKey, translateLabels } from "../helpers/utils.mjs";
+import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, Macro, RollRequest } from "./item/item-creators.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { enrichWithHelpers } from "./item/item-helpers.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -124,78 +122,78 @@ export class DC20RpgItem extends Item {
   //        FORMULAS        =
   //=========================
   async createFormula(formula={}, formulaKey) {
-    return await Formula.create(formula, this, formulaKey);
+    return await Formula.create(formula, {parent: this, key: formulaKey});
   }
   async removeFormula(key) {
     await this.update({[`system.formulas.-=${key}`]: null});
   }
   getFormulaObjectExample() {
-    return Formula.newObject();
+    return new Formula();
   }
 
   //==========================
   //       ROLL REQUEST      =
   //==========================
   async createRollRequest(rollRequest={}, rollRequestKey) {
-    return await RollRequest.create(rollRequest, this, rollRequestKey);
+    return await RollRequest.create(rollRequest, {parent: this, key: rollRequestKey});
   }
   async removeRollRequest(key) {
     await this.update({[`system.rollRequests.-=${key}`]: null});
   }
   getRollRequestObjectExample() {
-    return RollRequest.newObject();
+    return new RollRequest();
   }
 
   //============================
   //       AGAINST STATUS      =
   //============================
   async createAgainstStatus(againstStatus={}, againstStatusKey) {
-    return await AgainstStatus.create(againstStatus, this, againstStatusKey);
+    return await AgainstStatus.create(againstStatus, {parent: this, key: againstStatusKey});
   }
   async removeAgainstStatus(key) {
     await this.update({[`system.againstStatuses.-=${key}`]: null});
   }
   getAgainstStatusObjectExample() {
-    return AgainstStatus.newObject();
+    return new AgainstStatus();
   }
 
   //==========================
   //       ENHANCEMENTS      =
   //==========================
   async createNewEnhancement(enhancement={}, enhancementKey) {
-    return await Enhancement.create(enhancement, this, enhancementKey);
+    return await Enhancement.create(enhancement, {parent: this, key: enhancementKey});
   }
   async removeEnhancement(key) {
     await this.update({[`system.enhancements.-=${key}`]: null});
   }
   getEnhancementObjectExample() {
-    return Enhancement.newObject(this);
+    return new Enhancement(this);
   }
 
   //============================
   //        CONDITIONALS       =
   //============================
   async createNewConditional(conditional={}, conditionalKey) {
-    return await Conditional.create(conditional, this, conditionalKey);
+    return await Conditional.create(conditional, {parent: this, key: conditionalKey});
   }
   async removeConditional(key) {
     await this.update({[`system.conditionals.-=${key}`]: null});
   }
   getConditionalObjectExample() {
-    return Conditional.newObject();
+    return new Conditional();
   }
 
   //==========================
   //        ITEM MACRO       =
   //==========================
   async createNewItemMacro(macroObject={}, macroKey) {
-    return await Macro.create(macroObject, this, macroKey);
+    return await ItemMacro.create(macroObject, {parent: this, key: macroKey});
   }
   async removeItemMacro(key) {
     await this.update({[`system.macros.-=${key}`]: null});
   }
   getMacroObjectExample() {
-    return Macro.newObject();
+    return new ItemMacro();
   }
 
   editItemMacro(key) {

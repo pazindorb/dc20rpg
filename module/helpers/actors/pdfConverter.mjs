@@ -508,7 +508,7 @@ function _itemUseCost(item, actor) {
   let text = "";
   const cost =  item.use.collectUseCost(true).resources;
 
-  if (cost.actionPoint > 0) text += `${cost.actionPoint} AP, `;
+  if (cost.ap > 0) text += `${cost.ap} AP, `;
   if (cost.stamina > 0) text += `${cost.stamina} SP, `;
   if (cost.mana > 0) text += `${cost.mana} MP, `;
   if (cost.health > 0) text += `${cost.health} HP, `;

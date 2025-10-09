@@ -137,7 +137,7 @@ export function prepareItemsForNpc(context, actor) {
 
     if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
       const itemCosts = item.system.costs;
-      if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
+      if (itemCosts && itemCosts.resources.ap !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
     }
     else if (item.type === "container") {
