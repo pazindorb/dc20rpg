@@ -278,10 +278,20 @@ async function _canInfuse(infusionItem, actor) {
     infusion.power = mpCost; // We need to save provided value so we can revert it in the future
   }
 
-  const maxMana = actor.system.resources.mana.max;
-  if (maxMana - mpCost < 0) {
-    ui.notifications.warn("Not enough mana");
+  // Can spend max mana
+  const mana = actor.resources.mana;
+  if (mana.max - mpCost < 0) {
+    ui.notifications.warn("Cannot infuse, not enough max mana");
     return false;
   }
+
+  // Can spend current ap
+  if (actor.resources.ap.canSpend(1)) actor.resources.ap.spend(1);
+  else return false;
+
+  // Can spend current mana
+  if (mana.canSpend(mpCost)) mana.spend(mpCost);
+  else return false;
+
   return true;
 }
