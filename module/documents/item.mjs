@@ -103,6 +103,11 @@ export class DC20RpgItem extends Item {
   }
 
   async _preDelete(options, user) {
+    if (this.infusions?.active) {
+      for (const infusion of Object.values(this.infusions.active)) {
+        await infusion.remove();
+      }
+    }
     if (this.actor) {
       await runTemporaryItemMacro(this, "preDelete", this.actor);
       removeItemFromActorInterceptor(this, this.actor);

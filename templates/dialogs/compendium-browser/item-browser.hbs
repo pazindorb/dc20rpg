@@ -31,6 +31,21 @@
         <input class="input" type="text" value="{{value}}" data-path="filters.{{updatePath}}.value"/>
         {{/ifCond}}
 
+        {{!-- Number --}}
+        {{#ifCond filterType '===' "number"}} 
+        <input class="numeric-input-nullable" type="text" value="{{value}}" data-path="filters.{{updatePath}}.value"/>
+        {{/ifCond}}
+
+        {{!-- Boolean --}}
+        {{#ifCond filterType '===' "boolean"}}
+        <div class="multi-select-wrapper">
+          <div class="multi-select">
+            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' updatePath ''}}</span>
+            <a class="fa-lg activable {{#if value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{updatePath}}.value"></a>
+          </div>
+        </div>
+        {{/ifCond}}
+
         {{!-- Select --}}
         {{#ifCond filterType '===' "select"}} 
         <select class="selectable" data-path="filters.{{updatePath}}.value">

@@ -236,8 +236,9 @@ function _prepareTypesAndSubtypes(context, item) {
       break;
     }
     case "infusion": {
+      const infusion = item.system.infusion;
       context.sheetData.type = getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
-      context.sheetData.subtype = `${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${item.system.infusion.power}`;
+      context.sheetData.subtype = `${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power}`;
       break;
     }
     case "basicAction": {

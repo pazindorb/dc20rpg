@@ -96,6 +96,10 @@ export function prepareItemsForCharacter(context, actor) {
         _addItemToTable(item, spells, item.system.spellType); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
+      case 'infusion': 
+        _addItemToTable(item, spells, "infusion"); 
+        if (isFavorite) _addItemToTable(item, favorites, "spell");
+        break;
       case 'basicAction': 
         _addItemToTable(item, basic, item.system.category);
         if (isFavorite) _addItemToTable(item, favorites, "basic");

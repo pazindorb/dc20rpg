@@ -175,6 +175,10 @@ export async function rollFromItem(itemId, actor, sendToChat=true, rollMode) {
 
   // 6. Cleanup
   _finishRoll(actor, item, rollMenu, rolls.core);
+  if (item.removeInfusionAfter) {
+    item.infusions.active[item.removeInfusionAfter].remove();
+    item.reset();
+  }
   if (item.deleteAfter) item.delete();
 
   // 7. Return Core Roll

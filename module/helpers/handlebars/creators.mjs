@@ -387,7 +387,8 @@ export function registerHandlebarsCreators() {
     let component = '';
 
     // Components
-    Object.entries(item.system.components).forEach(([key, cmp]) => {
+    const components = item.system.components || {};
+    Object.entries(components).forEach(([key, cmp]) => {
       if (cmp.active) {
         let description = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components);
         const letter = cmp.char;

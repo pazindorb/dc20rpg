@@ -121,6 +121,11 @@ function _initializeFlagsForCharacter(flags) {
 					order: 1,
 					custom: false
 				},
+				infusion: {
+					name: "Infusions",
+					order: 2,
+					custom: false
+				}
 			},
 			basic: {
 				offensive: {

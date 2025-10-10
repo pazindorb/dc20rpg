@@ -149,6 +149,10 @@ export class DC20CharacterData extends DC20BaseActorData {
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
+        infusions: new f.SchemaField({
+          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
         spells: new f.SchemaField({
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

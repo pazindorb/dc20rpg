@@ -149,7 +149,7 @@ function _maxHp(actor) {
 
 function _maxMana(actor) {
 	const mana = actor.system.resources.mana;
-	mana.max = evaluateDicelessFormula(mana.maxFormula, actor.getRollData()).total
+	mana.max = evaluateDicelessFormula(mana.maxFormula, actor.getRollData()).total - mana.infusions;
 }
 
 function _maxStamina(actor) {
@@ -196,8 +196,10 @@ function _spellsAndTechniquesKnown(actor) {
 
 	const known = actor.system.known;
 	const maxCantrips = known.cantrips.max;
+	const maxInfusions = known.infusions.max;
 	let spells = 0;
 	let cantrips = 0;
+	let infusions = 0;
 	let maneuvers = 0;
 	let techniques = 0;
 	actor.items
@@ -211,10 +213,15 @@ function _spellsAndTechniquesKnown(actor) {
 				if (item.system.spellType === "cantrip" && cantrips < maxCantrips) cantrips++;
 				else spells++;
 			}
+			else if (item.type === "infusion") {
+				if (infusions < maxInfusions) infusions++;
+				else spells++;
+			}
 		});
 
 	known.spells.current = spells;
 	known.cantrips.current = cantrips;
+	known.infusions.current = infusions;
 	known.maneuvers.current = maneuvers;
 	known.techniques.current = techniques;
 }

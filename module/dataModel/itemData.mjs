@@ -311,8 +311,10 @@ export class DC20InfusionData extends DC20UsableItemData {
       effectsConfig: new EffectsConfigFields(),
       infusion: new f.SchemaField({
         power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        variablePower: new f.BooleanField({required: true, initial: false}),
         tags: new f.SchemaField({
           attunement: new f.BooleanField({required: true, initial: false}),
+          artifact: new f.BooleanField({required: true, initial: false}),
           consumable: new f.BooleanField({required: true, initial: false}),
           toggle: new f.BooleanField({required: true, initial: false}),
           charges: new f.BooleanField({required: true, initial: false}),

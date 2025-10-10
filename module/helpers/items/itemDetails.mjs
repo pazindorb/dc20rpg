@@ -11,7 +11,9 @@ export function itemDetailsToHtml(item) {
   content += _props(item);
   content += _components(item);
   if (item.type === "infusion") {
-    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${item.system.infusion.power} </div>`;
+    const infusion = item.system.infusion;
+    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
+    if (item.system.infusion.tags.artifact) content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.artifact")}</div>`;
   }
   return content;
 }

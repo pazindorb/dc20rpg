@@ -713,6 +713,7 @@
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>
+          {{#if system.known.infusions.max}}<span class="margin-left-5">{{localize "dc20rpg.sheet.infusions.known"}} ({{system.known.infusions.current}}/{{system.known.infusions.max}})</span>{{/if}}
           <span class="margin-left-5">{{localize "dc20rpg.sheet.spells.known"}} ({{system.known.spells.current}}/{{system.known.spells.max}})</span>
         </div>
       {{/if}}

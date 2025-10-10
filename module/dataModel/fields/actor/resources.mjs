@@ -33,6 +33,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           label: new f.StringField({initial: "dc20rpg.resource.mana"}),
           maxFormula: new f.StringField({ required: true, initial: "@resources.mana.bonus + @details.class.bonusMana"}),
           reset: new f.StringField({initial: "long"}),
+          infusions: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
         grit: new f.SchemaField({ 
           ...resource(),

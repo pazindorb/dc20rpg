@@ -272,6 +272,10 @@ function _prepareCompendiumFilters(advancement, key) {
       advancement.addItemsOptions.itemType = "spell";
       advancement.addItemsOptions.preFilters = '{"spellType": "cantrip"}'
       break;
+    case "infusions":
+      advancement.addItemsOptions.itemType = "infusion";
+      advancement.addItemsOptions.preFilters = '{"artifact": false}'
+      break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";
       advancement.addItemsOptions.preFilters = '{"spellType": "spell"}'

@@ -34,12 +34,20 @@
     <div class="tab infusion-tab content padding-7" data-group="primary" data-tab="infusion">
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.infusion.power"}}</span>
-        <input type="text" name="system.infusion.power" value="{{system.infusion.power}}" data-dtype="Number" placeholder="-">
+        <div class="left-part-row">
+          <a class="fa-lg activable {{#if system.infusion.variablePower}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.variablePower" title="{{localize "dc20rpg.item.sheet.infusion.variablePower"}}" style="margin-right: 5px; margin-left: auto;"></a>
+        </div>
+        <input type="text" {{#if system.infusion.variablePower}}disabled value="?"{{else}}name="system.infusion.power" value="{{system.infusion.power}}"{{/if}} data-dtype="Number" placeholder="-">
       </div>
 
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.infusion.attunement"}}</span>
         <a class="fa-lg activable {{#if system.infusion.tags.attunement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.attunement"></a>
+      </div>
+
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.infusion.artifact"}}</span>
+        <a class="fa-lg activable {{#if system.infusion.tags.artifact}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.artifact"></a>
       </div>
 
       <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.toggleTitle"}}'>

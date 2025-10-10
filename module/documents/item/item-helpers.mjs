@@ -75,7 +75,8 @@ async function _removeCharge(amount, delayDeletion, item) {
   const newAmount = charges.current - amount;
   if (newAmount <= 0) {
     if (charges.limitedInfusion) {
-      await item.infusions.active[charges.limitedInfusion].remove();
+      if (delayDeletion) item.removeInfusionAfter = charges.limitedInfusion;
+      else await item.infusions.active[charges.limitedInfusion].remove();
       return;
     }
     if (charges.deleteOnZero) {
@@ -83,7 +84,6 @@ async function _removeCharge(amount, delayDeletion, item) {
       else await item.delete();
       return;
     }
-
   }
   await item.update({["system.costs.charges.current"] : Math.max(newAmount, 0)});
 }
@@ -256,14 +256,14 @@ function _collectCharges(cost, itemId, value) {
 }
 
 function _collectQuantity(cost, item) {
-  if (item.type === "consumable" && item.use.canConsumeQuantity(1)) {
+  if (item.type === "consumable") {
     cost.quantity[item.id] = 1;
   }
 
   const actor = item.actor;
   if (!actor) return;
   const ammo = actor.items.get(item.ammoId);
-  if (ammo && ammo.use.canConsumeQuantity(1)) {
+  if (ammo) {
     cost.quantity[ammo.id] = 1;
   }
 }
@@ -767,7 +767,7 @@ function _enrichUseWeaponObject(item) {
 //==================================//==================================
 function _enrichItemInfusions(item) {
   item.infusions = {
-    apply: async (infusion) => await _applyInfusion(infusion, item),
+    apply: async (infusion, infuserUuid) => await _applyInfusion(infusion, item, infuserUuid),
   }
 
   let hasToggle = false;
@@ -794,15 +794,15 @@ function _enrichItemInfusions(item) {
 //==================================
 //              INFUSE             =
 //==================================
-async function _applyInfusion(infusionItem, item) {
+async function _applyInfusion(infusionItem, item, infuserUuid) {
   if (!infusionItem) return;
   if (!["weapon", "equipment", "consumable"].includes(item.type)) {
     ui.notifications.warn("Only inventory items can be infused.");
-    return;
+    return false;
   }
   if (infusionItem.system.infusion.tags.consumable && item.type !== "consumable") {
     ui.notifications.warn("Only consumable item can be infused with that infusion.");
-    return;
+    return false;
   }
 
   const infusionKey = generateKey();
@@ -822,7 +822,8 @@ async function _applyInfusion(infusionItem, item) {
       againstStatuses: [],
       toggle: false,
     },
-    removeInfusionMacro: removeInfusionMacro
+    removeInfusionMacro: removeInfusionMacro,
+    infuserUuid: infuserUuid,
   }
   
   const updateData = {system: {infusions: {}}};
@@ -891,17 +892,19 @@ async function _applyInfusion(infusionItem, item) {
       charges: infusionItem.system.costs.charges
     };
   }
-  if (infusion.tags.limited) {
-    updateData.system.costs.charges.limitedInfusion = infusionKey;
-  }
   if (infusion.tags.consumable && infusion.tags.charges) {
     updateData.system.costs.charges.deleteOnZero = true;
     updateData.system.deleteOnZero = false;
+    updateData.system.consume = false;
   }
+    
+  if (infusion.tags.limited) updateData.system.costs.charges.limitedInfusion = infusionKey;
+  else updateData.system.costs.charges.limitedInfusion = "";
 
   updateData.system.infusions[infusionKey] = data;
   await item.update(updateData);
   infusionItem.reset(); // We need to clear infusion item if macro did some changes to it
+  return true;
 }
 
 async function _runInfusionMacro(infusionItem, infusionTarget) {
@@ -960,6 +963,7 @@ async function _removeInfusion(infusion, item) {
 
   await item.update(updateData);
   await _clearTags(infusion, item);
+  await _clearInfuserPenalties(infusion);
 }
 
 async function _runRemoveInfusionMacro(macros, item) {
@@ -1009,4 +1013,13 @@ async function _clearTags(infusion, item) {
   }
 
   await item.update(updateData);
+}
+
+async function _clearInfuserPenalties(infusion) {
+  if (!infusion.infuserUuid) return;
+
+  const actor = await fromUuid(infusion.infuserUuid);
+  if (!actor) return;
+  const infusionManaPentalty = actor.system.resources.mana.infusions;
+  await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.power});
 }

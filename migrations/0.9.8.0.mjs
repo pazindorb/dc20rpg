@@ -13,6 +13,7 @@ async function _migrateActors(migrateModules) {
   
   // Iterate over actors
   for (const actor of game.actors) {
+    await _addInfusionTable(actor);
     await _updateActorItems(actor);
   }
 
@@ -25,6 +26,7 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
     
+    await _addInfusionTable(actor);
     await _updateActorItems(actor);
   }
 
@@ -36,10 +38,19 @@ async function _migrateActors(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
+        await _addInfusionTable(actor);
         await _updateActorItems(actor);
       }
     }
   }
+}
+
+async function _addInfusionTable(actor) {
+  await actor.update({["flags.headersOrdering.spells.infusion"]: {
+    name: "Infusions",
+    order: 6,
+    custom: true
+  }});
 }
 
 async function _updateActorItems(actor) {

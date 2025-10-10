@@ -616,7 +616,8 @@ DC20RPG.DROPDOWN_DATA.inventoryTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.spellsTypes = {
-  spell: "Spell"
+  spell: "Spell",
+  infusion: "Infusion",
 }
 
 DC20RPG.DROPDOWN_DATA.techniquesTypes = {

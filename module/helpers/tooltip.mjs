@@ -249,7 +249,7 @@ function _setPosition(event, tooltip, options) {
 
 function _itemHeader(item) {
   let cost = "";
-  if (item.system.usable) {
+  if (item.system.usable && item.id) {
     const data = item.use.useCostDisplayData(true)
     cost = costPrinter(data, true, true, true, true);
   }

@@ -4,7 +4,7 @@ import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactiva
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
-import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown, toSelectOptions } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
@@ -27,7 +27,11 @@ export function activateCommonLinsters(html, actor) {
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find(".item-equip").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).equip());
   html.find('.rollable').click(ev => actor.roll(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
-  html.find('.roll-item').click(ev => RollDialog.open(actor, getItemFromActor(datasetOf(ev).itemId, actor), {quickRoll: ev.shiftKey}));
+  html.find('.roll-item').click(ev => {
+    const item = getItemFromActor(datasetOf(ev).itemId, actor);
+    if (item.type === "infusion") _onInfusionRoll(actor, item);
+    else RollDialog.open(actor, item, {quickRoll: ev.shiftKey});
+  });
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
@@ -240,4 +244,44 @@ async function _onAddSlot(event, actor) {
 
 async function _onDeleteSlot(dataset, actor) {
   await actor.equipmentSlots[dataset.category].slots[dataset.key].delete();
+}
+
+async function _onInfusionRoll(actor, infusion) {
+  if (actor.type !== "character") {
+    ui.notifications.warn("Only player characters can use infusion items");
+    return;
+  }
+
+  const items = actor.getAllItemsWithType(["weapon", "consumable", "equipment"]);
+  const itemId = await SimplePopup.select("Select Item to Infuse", toSelectOptions(items, "id", "name"));
+  const item = actor.items.get(itemId);
+  if (!item) return;
+
+  const canInfuse = await _canInfuse(infusion, actor);
+  if (!canInfuse) return;
+
+  const infused = await item.infusions.apply(infusion, actor.uuid);
+  if (!infused) return;
+
+  const infusionManaPentalty = actor.system.resources.mana.infusions;
+  const mpCost = infusion.system.infusion.power;
+  await actor.update({["system.resources.mana.infusions"]: infusionManaPentalty + mpCost});
+}
+
+async function _canInfuse(infusionItem, actor) {
+  const infusion = infusionItem.system.infusion;
+  let mpCost = infusion.power;
+  if (infusion.variablePower) {
+    const cost = await SimplePopup.input("How many Magic Points it cost?");
+    mpCost = parseInt(cost);
+    if (isNaN(mpCost)) return false;
+    infusion.power = mpCost; // We need to save provided value so we can revert it in the future
+  }
+
+  const maxMana = actor.system.resources.mana.max;
+  if (maxMana - mpCost < 0) {
+    ui.notifications.warn("Not enough mana");
+    return false;
+  }
+  return true;
 }

@@ -132,6 +132,10 @@ export function getDefaultItemFilters(preSelectedFilters) {
         primal: true
       }) 
     },
+    infusion: {
+      power: _filter("system.infusion.power", "infusion.power", "number", parsedFilters["power"]),
+      artifact: _filter("system.infusion.tags.artifact", "infusion.artifact", "boolean", parsedFilters["artifact"]),
+    },
     weapon: {
       weaponType: _filter("system.weaponType", "weapon.weaponType", "select", parsedFilters["weaponType"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes),
       weaponStyle: _filter("system.weaponStyle", "weapon.weaponStyle", "select", parsedFilters["weaponStyle"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles),
@@ -175,13 +179,21 @@ export function getDefaultActorFilters() {
 }
 
 function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, options) {
-  const value = defaultValue || "";
+  let value = defaultValue;
   
   // Prepare check method
   let method = (document, value) => {
     if (!value) return true;
     return getValueFromPath(document, pathToCheck) === value;
   };
+  if (filterType === "boolean") method = (document, value) => {
+    if (value === undefined || value === null) return true;
+    return getValueFromPath(document, pathToCheck) === value;
+  }
+  if (filterType === "number") method = (document, value) => {
+    if (value === undefined || value === null) return true;
+    return getValueFromPath(document, pathToCheck) == value;
+  }
   if (filterType === "text") method = (document, value) => {
     if (!value) return true;
     const documentValue = getValueFromPath(document, pathToCheck);
