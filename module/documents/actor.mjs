@@ -118,6 +118,15 @@ export class DC20RpgActor extends Actor {
     return false;
   }
 
+  /** @override */
+  *allApplicableEffects() {
+    for (const effect of super.allApplicableEffects()) {
+      const parent = effect.parent;
+      if (parent.type === "infusion") continue;
+      yield effect;
+    }
+  }
+
   companionShareFor(key) {
     if (this.shouldShareWithOwner(key)) return this.companionOwner;
     return this;
