@@ -20,6 +20,7 @@ import { openItemCreator } from "../../dialogs/item-creator.mjs";
 import { clearHelpDice, prepareHelpAction } from "../../helpers/actors/actions.mjs";
 import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
+import { ActionSelect } from "../../dialogs/action-select.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -72,6 +73,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
   html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
+  html.find('.base-action').click(() => ActionSelect.open(actor));
 
   // Resources
   html.find(".use-ap").click(() => actor.resources.ap.checkAndSpend(1));

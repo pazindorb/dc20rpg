@@ -550,30 +550,18 @@
           <div class="top-menu">
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              {{#if @root.flags.dc20rpg.showBasicActions}}
-              <input type="text" name="flags.dc20rpg.headerFilters.basic" value="{{flags.dc20rpg.headerFilters.basic}}"/>
-              {{else}}
               <input type="text" name="flags.dc20rpg.headerFilters.favorites" value="{{flags.dc20rpg.headerFilters.favorites}}"/>
-              {{/if}}
-              
             </div>
-            <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
-              <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
+            <a class="base-action">
+              <span>{{localize "dc20rpg.sheet.showsActions"}}</span>
+              <i class="fa-solid fa-dice-d6 margin-left-5"></i>
             </a>
           </div>
-          {{#if @root.flags.dc20rpg.showBasicActions}}
-          <div class="actions">
-            {{#each basic as |table key|}} 
-            {{item-table table key=key navTab="basic" editMode=@root.editMode columns="name action cost"}}
-            {{/each}}    
-          </div>
-          {{else}}
           <div class="favorites">
             {{#each favorites as |table key|}} 
             {{item-table table key=key navTab="favorites" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable status" editModeConfig="favorite"}}
             {{/each}}
           </div>
-          {{/if}}
         </div>
       </div>
     </div>

@@ -13,7 +13,6 @@ export function preInitializeFlags(actor) {
 		showEmptyConditions: false,
 		onelinerModeDMR: true,
 		onelinerModeCI: true,
-		showBasicActions: false,
 		advancementCounter: 0,
 		effectsToRemoveAfterRoll: [],
 		actionHeld: {

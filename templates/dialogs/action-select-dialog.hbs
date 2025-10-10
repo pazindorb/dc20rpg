@@ -8,7 +8,12 @@
       <fieldset>
         <legend>{{localize "dc20rpg.dialog.actionSelect.offensive"}}</legend>
         {{#each selectOptions.offensive as |item itemId|}}
-        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        <div class="button-wrapper">
+          <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item">
+            <img src="{{item.img}}"/><span>{{item.name}}</span>
+          </button>
+          <a class="{{#if item.flags.dc20rpg.favorite}}fa-solid{{else}}fa-regular{{/if}} fa-star margin-left-5" data-action="markFavorite" data-tooltip="{{localize "dc20rpg.dialog.actionSelect.favorite"}}" data-item-id="{{itemId}}"></a>
+        </div>
         {{/each}}
       </fieldset>
 
@@ -16,7 +21,12 @@
       <fieldset>
         <legend>{{localize "dc20rpg.dialog.actionSelect.defensive"}}</legend>
         {{#each selectOptions.defensive as |item itemId|}}
-        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        <div class="button-wrapper">
+          <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item">
+            <img src="{{item.img}}"/><span>{{item.name}}</span>
+          </button>
+          <a class="{{#if item.flags.dc20rpg.favorite}}fa-solid{{else}}fa-regular{{/if}} fa-star margin-left-5" data-action="markFavorite" data-tooltip="{{localize "dc20rpg.dialog.actionSelect.favorite"}}" data-item-id="{{itemId}}"></a>
+        </div>
         {{/each}}
       </fieldset>
 
@@ -24,7 +34,12 @@
       <fieldset>
         <legend>{{localize "dc20rpg.dialog.actionSelect.utility"}}</legend>
         {{#each selectOptions.utility as |item itemId|}}
-        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        <div class="button-wrapper">
+          <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item">
+            <img src="{{item.img}}"/><span>{{item.name}}</span>
+          </button>
+          <a class="{{#if item.flags.dc20rpg.favorite}}fa-solid{{else}}fa-regular{{/if}} fa-star margin-left-5" data-action="markFavorite" data-tooltip="{{localize "dc20rpg.dialog.actionSelect.favorite"}}" data-item-id="{{itemId}}"></a>
+        </div>
         {{/each}}
       </fieldset>
 
@@ -36,7 +51,12 @@
       <fieldset>
         <legend>{{localize "dc20rpg.dialog.actionSelect.reaction"}}</legend>
         {{#each selectOptions.reaction as |item itemId|}}
-        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        <div class="button-wrapper">
+          <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item">
+            <img src="{{item.img}}"/><span>{{item.name}}</span>
+          </button>
+          <a class="{{#if item.flags.dc20rpg.favorite}}fa-solid{{else}}fa-regular{{/if}} fa-star margin-left-5" data-action="markFavorite" data-tooltip="{{localize "dc20rpg.dialog.actionSelect.favorite"}}" data-item-id="{{itemId}}"></a>
+        </div>
         {{/each}}
       </fieldset>
 
@@ -44,7 +64,12 @@
       <fieldset>
         <legend>{{localize "dc20rpg.dialog.actionSelect.skillBased"}}</legend>
         {{#each selectOptions.skillBased as |item itemId|}}
-        <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item"><img src="{{item.img}}"/>{{item.name}}</button>
+        <div class="button-wrapper">
+          <button class="img-option" data-action="confirmRoll" data-item-id="{{itemId}}" data-hover="tooltip" data-tooltip-type="item">
+            <img src="{{item.img}}"/><span>{{item.name}}</span>
+          </button>
+          <a class="{{#if item.flags.dc20rpg.favorite}}fa-solid{{else}}fa-regular{{/if}} fa-star margin-left-5" data-action="markFavorite" data-tooltip="{{localize "dc20rpg.dialog.actionSelect.favorite"}}" data-item-id="{{itemId}}"></a>
+        </div>
         {{/each}}
       </fieldset>
 

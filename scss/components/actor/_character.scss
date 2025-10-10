@@ -1898,10 +1898,17 @@
         }
       }
 
-      .base-action-switch {
-        width: 30px;
+      .base-action {
+        width: auto;
         border-left: 2px solid $primary-color;
         background-color: $secondary-dark;
+        font-family: $font-header;
+        padding: 0 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        font-size: 16px;
   
         i {
           display: flex;

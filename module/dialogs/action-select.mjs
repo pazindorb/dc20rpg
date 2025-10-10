@@ -42,6 +42,7 @@ export class ActionSelect extends DC20Dialog {
     initialized.position.width = 600;
 
     initialized.actions.confirmRoll = this._onConfirmRoll;
+    initialized.actions.markFavorite = this._onFavorite;
     return initialized;
   }
 
@@ -57,5 +58,14 @@ export class ActionSelect extends DC20Dialog {
     const item = this.actor.items.get(itemId);
     RollDialog.open(this.actor, item, {quickRoll: event.shiftKey});
     this.close();
+  }
+
+  async _onFavorite(event, target) {
+    event.preventDefault();
+    const itemId = target.dataset.itemId;
+    const item = this.actor.items.get(itemId);
+    const favorite = item.flags.dc20rpg.favorite;
+    await item.update({["flags.dc20rpg.favorite"]: !favorite});
+    this.render();
   }
 }
