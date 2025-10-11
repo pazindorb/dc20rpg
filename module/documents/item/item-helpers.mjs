@@ -780,9 +780,9 @@ function _enrichItemInfusions(item) {
     infusion.remove = async () => await _removeInfusion(infusion, item);
     active[key] = infusion;
 
-    if (infusion.tags.attunement) hasAttunement = true;
-    if (infusion.tags.charges || infusion.tags.limited) hasCharges = true;
-    if (infusion.tags.toggle) hasToggle = true;
+    if (infusion.tags.attunement.active) hasAttunement = true;
+    if (infusion.tags.charges.active || infusion.tags.limited.active) hasCharges = true;
+    if (infusion.modifications.toggle) hasToggle = true;
   }
 
   item.infusions.active = active;
@@ -800,7 +800,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     ui.notifications.warn("Only inventory items can be infused.");
     return false;
   }
-  if (infusionItem.system.infusion.tags.consumable && item.type !== "consumable") {
+  if (infusionItem.system.infusion.tags.consumable.active && item.type !== "consumable") {
     ui.notifications.warn("Only consumable item can be infused with that infusion.");
     return false;
   }
@@ -871,35 +871,51 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
       data.modifications.againstStatuses.push(key);
     }
   }
-
-  // Tags
-  if (infusion.tags.attunement) {
-    updateData.system.properties = {
-      attunement: {active: true}
-    }
-  }
-  if (infusion.tags.toggle) {
+  if (infusion.copy.toggle) {
     updateData.system.toggle = infusionItem.system.toggle;
     updateData.system.effectsConfig = {
       linkWithToggle: infusionItem.system.effectsConfig.linkWithToggle
     }
+    data.modifications.toggle = true;
   }
-  if (infusion.tags.limited && !infusion.tags.charges) {
-    infusion.tags.charges = true;
+
+  // Tags
+  if (infusion.tags.attunement.active) {
+    updateData.system.properties = {
+      attunement: {active: true}
+    }
   }
-  if (infusion.tags.charges) {
+
+  if (infusion.tags.limited.active && !infusion.tags.charges.active) {
+    infusion.tags.charges.active = true;
+  }
+  if (infusion.tags.charges.active) {
     updateData.system.costs = {
       charges: infusionItem.system.costs.charges
     };
   }
-  if (infusion.tags.consumable && infusion.tags.charges) {
-    updateData.system.costs.charges.deleteOnZero = true;
-    updateData.system.deleteOnZero = false;
-    updateData.system.consume = false;
+  if (infusion.tags.consumable.active) {
+    if (infusion.tags.charges.active) {
+      updateData.system.costs.charges.deleteOnZero = true;
+      updateData.system.deleteOnZero = false;
+      updateData.system.consume = false;
+    }
+    else {
+      updateData.system.deleteOnZero = true;
+      updateData.system.consume = true;
+    }
   }
     
-  if (infusion.tags.limited) updateData.system.costs.charges.limitedInfusion = infusionKey;
-  else updateData.system.costs.charges.limitedInfusion = "";
+  if (infusion.tags.limited.active) {
+    updateData.system.costs.charges.limitedInfusion = infusionKey;
+  }
+  else {
+    if (!updateData.system.costs) updateData.system.costs = {charges: {limitedInfusion: ""}};
+    else updateData.system.costs.charges.limitedInfusion = "";
+  }
+
+  updateData.system.description = item.system.description;
+  updateData.system.description += `<div class="infusion-description" key="${infusionKey}"><br/><h3>${infusionItem.name}</h3>${infusionItem.system.description}</div>`;
 
   updateData.system.infusions[infusionKey] = data;
   await item.update(updateData);
@@ -961,6 +977,12 @@ async function _removeInfusion(infusion, item) {
     await item.update({[`system.againstStatuses.-=${key}`]: null});
   }
 
+  // Remove description changes
+  let description = item.system.description;
+  const regex = new RegExp(`<div[^>]*class="infusion-description"[^>]*key="${infusion.key}"[^>]*>[\\s\\S]*?<\\/div>`,"g");
+  description = description.replace(regex, "");
+  updateData.system.description = description;
+
   await item.update(updateData);
   await _clearTags(infusion, item);
   await _clearInfuserPenalties(infusion);
@@ -977,13 +999,13 @@ async function _clearTags(infusion, item) {
   
   const tags = infusion.tags;
   const allInfusions = item.infusions;
-  if (tags.attunement && !allInfusions.hasAttunement) {
+  if (tags.attunement.active && !allInfusions.hasAttunement) {
     updateData.system.properties = {
       attunement: {active: false}
     }
   }
 
-  if (tags.toggle && !allInfusions.hasToggle) {
+  if (infusion.modifications.toggle && !allInfusions.hasToggle) {
     updateData.system.toggle = {
       toggleable: false,
       toggledOn: false,
@@ -994,7 +1016,7 @@ async function _clearTags(infusion, item) {
     }
   }
   
-  if ((tags.charges || tags.limited) && !allInfusions.hasCharges) {
+  if ((tags.charges.active || tags.limited.active) && !allInfusions.hasCharges) {
     updateData.system.costs = {
       charges: {
         current: null,

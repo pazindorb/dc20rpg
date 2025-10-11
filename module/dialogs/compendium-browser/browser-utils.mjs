@@ -133,8 +133,20 @@ export function getDefaultItemFilters(preSelectedFilters) {
       }) 
     },
     infusion: {
-      power: _filter("system.infusion.power", "infusion.power", "number", parsedFilters["power"]),
-      artifact: _filter("system.infusion.tags.artifact", "infusion.artifact", "boolean", parsedFilters["artifact"]),
+      power: {
+        over: _filter("system.infusion.power", "infusion.power.over", "over"),
+        under: _filter("system.infusion.power", "infusion.power.under", "under"),
+        filterType: "over-under",
+        updatePath: "power",
+        nestedFilters: ["over", "under"]
+      },
+      tags: _filter("system.infusion.tags", "infusion.tags", "multi-select-3-states", parsedFilters["tags"] || {
+        artifact: null,
+        attunement: null,
+        consumable: null,
+        charges: null,
+        limited: null
+      }),
     },
     weapon: {
       weaponType: _filter("system.weaponType", "weapon.weaponType", "select", parsedFilters["weaponType"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes),
@@ -212,6 +224,23 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
     let mathing = false;
     for (const [key, value] of Object.entries(expected)) {
       if (value && selected[key] && selected[key].active) mathing = true;
+    }
+    return mathing;
+  }
+  if (filterType === "multi-select-3-states") method = (document, expected) => {
+    if (!expected) return true;
+    // We need to check if string value is one of the selected filter value
+    if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];
+
+    const selected = getValueFromPath(document, pathToCheck);
+    if (!selected) return false;
+
+    let mathing = true;
+    for (const [key, expectedState] of Object.entries(expected)) {
+      if (expectedState === undefined || expectedState === null) continue;
+
+      const realState = selected[key]?.active;
+      if (realState !== expectedState) mathing = false;
     }
     return mathing;
   }

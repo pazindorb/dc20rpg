@@ -95,6 +95,7 @@ export class CompendiumBrowser extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     activateDefaultListeners(this, html);
+    html.find(".state-change").click(ev => this._onStateChange(datasetOf(ev).path));
     html.find(".show-item").click(ev => this._onItemShow(ev));
     html.find(".add-item").click(ev => this._onAddItem(ev));
     html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
@@ -115,6 +116,15 @@ export class CompendiumBrowser extends Dialog {
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
+  }
+
+  _onStateChange(path) {
+    const states = [null, true, false];
+    const value = getValueFromPath(this, path);
+    let index = states.indexOf(value);
+    index = index === 2 || index === -1 ? 0 : index + 1;
+    setValueForPath(this, path, states[index]);
+    this.render();
   }
 
   _onSelectType(value) {

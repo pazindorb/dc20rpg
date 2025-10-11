@@ -10,11 +10,7 @@ export function itemDetailsToHtml(item) {
   content += _magicSchool(item);
   content += _props(item);
   content += _components(item);
-  if (item.type === "infusion") {
-    const infusion = item.system.infusion;
-    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
-    if (item.system.infusion.tags.artifact) content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.artifact")}</div>`;
-  }
+  content += _infusionDetails(item);
   return content;
 }
 
@@ -170,6 +166,26 @@ function _components(item) {
       }
     });
   }
+  return content;
+}
+
+function _infusionDetails(item) {
+  if (item.type !== "infusion") return "";
+
+  let content = "";
+  const infusion = item.system.infusion;
+  content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
+
+  Object.entries(infusion.tags).forEach(([key, tag]) => {
+    if (tag.active) {
+        content += `<div class='detail box journal-tooltip box-style'
+        data-uuid="${tag.journalUuid}"
+        data-header="${tag.label}"
+        > 
+        ${tag.label}`;
+        content += "</div>";
+    }
+  });
   return content;
 }
 

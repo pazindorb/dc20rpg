@@ -65,6 +65,22 @@
         </div>
         {{/ifCond}}
 
+        {{!-- Multi Select 3 states --}}
+        {{#ifCond filterType '===' "multi-select-3-states"}} 
+        <div class="multi-select-wrapper">
+          {{#each value as |option optionKey|}}
+          <div class="multi-select">
+            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
+            <a data-path="filters.{{../updatePath}}.value.{{optionKey}}" class="fa-lg state-change 
+              {{#ifCond option '===' null}}fa-regular fa-square{{/ifCond}} 
+              {{#ifCond option '===' true}}fa-solid fa-square-plus{{/ifCond}}
+              {{#ifCond option '===' false}}fa-solid fa-square-minus{{/ifCond}}
+            "></a>
+          </div>
+          {{/each}}
+        </div>
+        {{/ifCond}}
+
         {{!-- Over-under --}}
         {{#ifCond filterType '===' "over-under"}} 
         <div class="over-under-wrapper">

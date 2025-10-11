@@ -1054,7 +1054,8 @@ DC20RPG.ICONS = {
   spells: "icons/skills/trades/academics-book-study-runes.webp",
   maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
   techniques: "icons/skills/melee/spear-tips-quintuple-orange.webp",
-  attributes: "icons/skills/trades/academics-investigation-puzzles.webp"
+  attributes: "icons/skills/trades/academics-investigation-puzzles.webp",
+  infusions: "icons/commodities/tech/tube-chamber-lightning.webp"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {

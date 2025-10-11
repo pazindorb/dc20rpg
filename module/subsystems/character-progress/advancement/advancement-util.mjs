@@ -274,7 +274,7 @@ function _prepareCompendiumFilters(advancement, key) {
       break;
     case "infusions":
       advancement.addItemsOptions.itemType = "infusion";
-      advancement.addItemsOptions.preFilters = '{"artifact": false}'
+      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "attunement": null, "consumable": null, "charges": null, "limited": null}}'
       break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";

@@ -40,34 +40,17 @@
         <input type="text" {{#if system.infusion.variablePower}}disabled value="?"{{else}}name="system.infusion.power" value="{{system.infusion.power}}"{{/if}} data-dtype="Number" placeholder="-">
       </div>
 
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.infusion.attunement"}}</span>
-        <a class="fa-lg activable {{#if system.infusion.tags.attunement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.attunement"></a>
+      <div class="sub-header margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.infusion.tags"}}</span>
       </div>
-
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.infusion.artifact"}}</span>
-        <a class="fa-lg activable {{#if system.infusion.tags.artifact}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.artifact"></a>
-      </div>
-
-      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.toggleTitle"}}'>
-        <span>{{localize "dc20rpg.item.sheet.infusion.toggle"}}</span>
-        <a class="fa-lg activable {{#if system.infusion.tags.toggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.toggle"></a>
-      </div>
-
-      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.chargesTitle"}}'>
-        <span>{{localize "dc20rpg.item.sheet.infusion.charges"}}</span>
-        <a class="fa-lg activable {{#if system.infusion.tags.charges}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.charges"></a>
-      </div>
-
-      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.consumableTitle"}}'>
-        <span>{{localize "dc20rpg.item.sheet.infusion.consumable"}}</span>
-        <a class="fa-lg activable {{#if system.infusion.tags.consumable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.consumable"></a>
-      </div>
-
-      <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.limitedTitle"}}'>
-        <span>{{localize "dc20rpg.item.sheet.infusion.limited"}}</span>
-        <a class="fa-lg activable {{#if system.infusion.tags.limited}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.tags.limited"></a>
+      <div class="properties">
+        <div class="grid grid-5col grid-gap-5 margin-top-3">
+          {{#each system.infusion.tags as |tag key|}}
+            <a class="activable-box activable {{#if tag.active}}active{{/if}}" data-path="system.infusion.tags.{{key}}.active">
+              {{tag.label}}
+            </a>
+          {{/each}}
+        </div>
       </div>
 
       <div class="sub-header margin-top-5">
@@ -101,6 +84,10 @@
         <div class="row margin-top-5">
           <span>{{localize "dc20rpg.item.sheet.infusion.againstStatuses"}}</span>
           <a class="fa-lg activable {{#if system.infusion.copy.againstStatuses}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.againstStatuses"></a>
+        </div>
+        <div class="row margin-top-5" title='{{localize "dc20rpg.item.sheet.infusion.toggleTitle"}}'>
+          <span>{{localize "dc20rpg.item.sheet.infusion.toggle"}}</span>
+          <a class="fa-lg activable {{#if system.infusion.copy.toggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.infusion.copy.toggle"></a>
         </div>
       </div>
 

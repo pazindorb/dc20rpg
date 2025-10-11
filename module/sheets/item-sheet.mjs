@@ -1,6 +1,8 @@
-import { prepareActiveEffects } from "../helpers/effects.mjs";
+import { createEffectOn, prepareActiveEffects } from "../helpers/effects.mjs";
 import { activateCommonLinsters } from "./item-sheet/is-listeners.mjs";
 import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
+import { deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { generateKey } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -88,5 +90,86 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
   _canDragStart(selector) {
     if (this.item.type === "container") return true;
     else return super._canDragStart(selector);
+  }
+
+  async _onDrop(event) {
+    event.preventDefault();
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    const droppedObject = JSON.parse(droppedData);
+
+    switch (droppedObject.type) {
+      case "Item":
+        await this._onDropItem(droppedObject);
+        break;
+
+      case "ActiveEffect": 
+        await this._onDropEffect(droppedObject);
+        break;
+
+      case "Resource": 
+        await this._onDropResource(droppedObject);
+        break;
+    }
+  }
+
+  async _onDropItem(droppedObject) {
+    const item = await Item.fromDropData(droppedObject);
+
+    if (item.type === "infusion" && this.item.infusions) {
+      return await this.item.infusions.apply(item);
+    }
+
+    // Handle container
+    if (this.item.type === "container") {
+      const originalItem = await fromUuid(droppedObject.uuid);
+      let canAddToContainer = true
+      const inventoryOnly = this.item.system.inventoryOnly;
+      const isFromInventory = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type];
+      if (inventoryOnly && !isFromInventory) canAddToContainer = false;
+      if (canAddToContainer) {
+        await this.item.update({[`system.contents.${generateKey()}`]: item.toObject()});
+        if (originalItem.actor) await deleteItemFromActor(originalItem.id, originalItem.actor);
+      }
+    }
+
+    // Handle custom resource
+    const itemResource = item.system.resource;
+    if (itemResource) {
+      const customResource = {
+        label: itemResource.name,
+        img: item.img,
+        key: itemResource.resourceKey
+      };
+      if (item.system.isResource) this._onDropResource(customResource);
+    }
+  }
+
+  async _onDropResource(droppedObject) {
+    this._addCustomResource(droppedObject, droppedObject.key);
+  }
+
+  async _onDropEffect(droppedObject) {
+    const effect = await ActiveEffect.fromDropData(droppedObject);
+    createEffectOn(effect, this.item);
+  }
+
+  _addCustomResource(customResource, key) {
+    if (!this.item.system.costs.resources.custom) return;
+    customResource.value = null;
+
+    // Enhancements 
+    const enhancements = this.item.system.enhancements;
+    if (enhancements) {
+      Object.keys(enhancements).forEach(enhKey=> enhancements[enhKey].resources.custom[key] = customResource); 
+    }
+
+    const updateData = {
+      system: {
+        [`costs.resources.custom.${key}`]: customResource,
+        enhancements: enhancements
+      }
+    }
+    this.item.update(updateData);
   }
 }

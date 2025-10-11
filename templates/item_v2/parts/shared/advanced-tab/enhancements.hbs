@@ -63,7 +63,7 @@
 
         {{!-- Custom Resources --}}
         {{#each enhancement.resources.custom as |cost key|}}
-        <div class="resource" title="{{cost.name}}">
+        <div class="resource" title="{{cost.label}}">
           <img class="resource-img" src="{{cost.img}}"/>
           <input type="text" name="system.enhancements.{{enhancementKey}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
         </div>

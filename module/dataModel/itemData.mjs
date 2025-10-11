@@ -313,12 +313,26 @@ export class DC20InfusionData extends DC20UsableItemData {
         power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         variablePower: new f.BooleanField({required: true, initial: false}),
         tags: new f.SchemaField({
-          attunement: new f.BooleanField({required: true, initial: false}),
-          artifact: new f.BooleanField({required: true, initial: false}),
-          consumable: new f.BooleanField({required: true, initial: false}),
-          toggle: new f.BooleanField({required: true, initial: false}),
-          charges: new f.BooleanField({required: true, initial: false}),
-          limited: new f.BooleanField({required: true, initial: false}),
+          attunement: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.attunement"}),
+          }),
+          artifact: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.artifact"}),
+          }),
+          consumable: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.consumable"}),
+          }),
+          charges: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.charges"}),
+          }),
+          limited: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.limited"}),
+          }),
         }),
         copy: new f.SchemaField({
           effects: new f.BooleanField({required: true, initial: false}),
@@ -328,6 +342,7 @@ export class DC20InfusionData extends DC20UsableItemData {
           formulas: new f.BooleanField({required: true, initial: false}),
           rollRequests: new f.BooleanField({required: true, initial: false}),
           againstStatuses: new f.BooleanField({required: true, initial: false}),
+          toggle: new f.BooleanField({required: true, initial: false}),
         }),
       })
     })
