@@ -36,12 +36,14 @@ import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
 import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
+import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
   registerGameSettings(game.settings); // Register game settings
+  registerSystemKeybindings();
   prepareColorPalette(); // Prepare Color Palette
   
   CONFIG.DC20RPG = DC20RPG;
@@ -142,6 +144,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   registerUniqueSystemItems();
+  overrideCoreKeybindActions();
 
   if(game.user.isGM) await createGmToolsMenu();
 

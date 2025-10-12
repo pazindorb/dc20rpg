@@ -194,14 +194,22 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   // ==================== CONTEXT =====================
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    if (this.tokenHotbar) await this._prepareTokenContext(context);
+    const tokens = getSelectedTokens();
+    let token = null;
+    if (tokens && tokens.length === 1) token = tokens[0];
+
+    if (this.tokenHotbar && token) {
+      await this._prepareTokenContext(context, token);
+    }
     else {
       this.actorId = ""; 
       this.tokenId = "";
       this.helpDice = null;
+      this.showTokenHotbar = false;
     };
     context.filter = this.filter;
     context.tokenHotbar = this.tokenHotbar;
+    context.showTokenHotbar = this.showTokenHotbar;
     return context;
   }
 
@@ -211,12 +219,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     return token.actor;
   }
 
-  async _prepareTokenContext(context) {
-    this.actor = null;
-    const tokens = getSelectedTokens();
-    if (!tokens || tokens.length !== 1) return;
-
-    const token = tokens[0];
+  async _prepareTokenContext(context, token) {
+    this.showTokenHotbar = true;
     this.actor = this._getActorFrom(token);
     if (!this.actor) return;
 
@@ -235,8 +239,8 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     context.sectionA = await this._prepareSectionSlots("sectionA");
     context.sectionB = await this._prepareSectionSlots("sectionB");
     const tokenHotbarSettings = game.settings.get("dc20rpg", "tokenHotbarSettings");
-    context.sectionAWidth = tokenHotbarSettings["sectionA"].rows;
-    context.sectionBWidth = tokenHotbarSettings["sectionB"].rows;
+    context.sectionAWidth = tokenHotbarSettings["sectionA"].columns;
+    context.sectionBWidth = tokenHotbarSettings["sectionB"].columns;
     context.img = tokenHotbarSettings["displayToken"] ? token.document.texture.src : this.actor.img;
 
     context.resources = this._prepareResources();
@@ -266,10 +270,11 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       if (item) {
         if (borderColor) this._borderColor(item);
         if (markers) this._markers(item);
-        if (showCharges) this._charges(item);
+        if (showCharges) this._charges(item);   
         this._runFilter(item);
       }
       slots[i] = item || {filterOut: this.filter.type !== "none"}
+      slots[i].slotKeybind = this._slotKeybind(i, sectionKey);
     }
     return slots;
   }
@@ -310,6 +315,16 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (!charges) return;
     if (!charges.maxChargesFormula) return;
     item.showCharges = charges.current;
+  }
+
+  _slotKeybind(index, sectionKey) {
+    const section = sectionKey === "sectionA" ? "A" : "B";
+    const keybind = game.keybindings.get("dc20rpg", `tokenHotbar${section}${index}`)[0];
+    if (!keybind) return null;
+
+    let humanized = foundry.applications.sidebar.apps.ControlsConfig.humanizeBinding(keybind);
+    humanized = humanized.replace("Control", "Ctrl");
+    return humanized;
   }
 
   _runFilter(item) {
@@ -569,9 +584,13 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   _onRoll(event, target) {
     const dataset = event.target.dataset;
-    const item = this._getItemFromSlot(dataset.index, dataset.section);
+    this.rollItemSlot(dataset.index, dataset.section, event.shiftKey)
+  }
+
+  rollItemSlot(index, section, quickRoll) {
+    const item = this._getItemFromSlot(index, section);
     if (!item) return;
-    RollDialog.open(this.actor, item, {quickRoll: event.shiftKey});
+    RollDialog.open(this.actor, item, {quickRoll: quickRoll});
   }
 
   async _onDropSustain(event, target) {
@@ -604,6 +623,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   async _onEndTurn() {
+    if (!this.actor.myTurnActive) return;
     await game.combat.nextTurn();
     this.render();
   }
@@ -868,7 +888,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   _getItemIdFromSlot(index, sectionKey) {
-    if (!index || !sectionKey) return;
+    if (index == undefined || !sectionKey) return;
     const section = this.actor.system.tokenHotbar[sectionKey];
     const itemId = section[index];
     return itemId;

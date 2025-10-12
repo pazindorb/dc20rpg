@@ -7,7 +7,7 @@
     <div class="left-column">
       {{PARTIAL "Tooltip"}}
       <div class="header margin-bottom-5"><span>{{localize "dc20rpg.dialog.acr.name"}}</span></div>
-      <input class="input-text" type="text" value="{{actorData.name}}" data-path="actorData.name"/>
+      <input class="input-text" type="text" value="{{actorData.name}}" data-path="actorData.name" {{#unless actorData.name}}style="border: 2px solid #820415; box-shadow: 0 0 8px #d60404 inset;"{{/unless}}/>
       <img class="actor-img image-picker margin-top-10" src="{{actorData.img}}" data-path="{{actorData.img}}" title="If you can't open the File Browser window, you may not have the appropriate permissions. Ask your GM to grant it to you."/>
 
       {{#if actorData.ancestry._id}}

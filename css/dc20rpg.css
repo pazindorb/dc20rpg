@@ -12531,14 +12531,24 @@
   outline-color: rgba(255, 255, 255, 0.8);
   outline-style: dashed;
 }
-#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .equipped {
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot-keybind, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .equipped {
   position: absolute;
   background-color: rgba(59, 59, 59, 0.7607843137);
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type {
   font-size: 11px;
-  border-radius: 4px 0 10px 0;
-  padding: 3px 5px 3px 3px;
+  margin-top: 29px;
+  border-radius: 0 10px 0 4px;
+  padding: 3px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot-keybind {
+  text-align: center;
+  height: 15px;
+  min-width: 15px;
+  font-size: 13px;
+  font-family: "Humaroid";
+  border-radius: 4px 0 5px 0;
+  padding-right: 2px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction {
   font-size: 10px;
@@ -12561,7 +12571,8 @@
   font-size: 14px;
   font-family: "Humaroid";
   margin-top: -15px;
-  border-radius: 0 10px 0 4px;
+  margin-left: 15px;
+  border-radius: 10px 10px 0 0;
   padding-bottom: 2px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper {

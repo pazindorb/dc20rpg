@@ -12,13 +12,12 @@ export async function collectItemsForType(itemType) {
       const items = await pack.getDocuments();
       for(const item of items) {
         if (item.type === itemType) {
-          const packageType = pack.metadata.packageType;
-          // If system item is overriden by some other module we want to hide it from browser
-          if (packageType === "system" && hiddenItems.has(item.id)) continue;
+          // If item is overriden by some other module we want to hide it from browser
+          if (hiddenItems.has(item.uuid)) continue;
 
           // For DC20 Players Handbook module we want to keep it as a system instead of module pack
           const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
-          item.fromPack = isDC20Handbook ? "system" : packageType;
+          item.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
           item.sourceName = _getSourceName(pack)
           collectedItems.push(item);
         }
@@ -29,6 +28,7 @@ export async function collectItemsForType(itemType) {
   return collectedItems;
 }
 export async function collectActors() {
+  const hiddenActors = game.dc20rpg.compendiumBrowser.hideActors; 
   const collectedActors = [];
 
   for (const pack of game.packs) {
@@ -37,7 +37,10 @@ export async function collectActors() {
     if (pack.documentName === "Actor") {
       if (pack.isOwner) continue;
       const actors = await pack.getDocuments();
-      for(const actor of actors) {
+    for(const actor of actors) {
+        // If item is overriden by some other module we want to hide it from browser
+        if (hiddenActors.has(actor.uuid)) continue;
+
         // For DC20 Players Handbook module we want to keep it as a system instead of module pack
         const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
         actor.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;

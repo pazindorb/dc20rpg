@@ -395,15 +395,26 @@
             }
           }
 
-          .action-type, .is-reaction, .show-charges, .equipped {
+          .action-type, .is-reaction, .show-charges, .slot-keybind, .equipped {
             position: absolute;
             background-color: #3b3b3bc2;
           }
 
           .action-type {
             font-size: 11px;
-            border-radius: 4px 0 10px 0;
-            padding: 3px 5px 3px 3px;
+            margin-top: 29px;
+            border-radius: 0 10px 0 4px;
+            padding: 3px;
+          }
+
+          .slot-keybind {
+            text-align: center;
+            height: 15px;
+            min-width: 15px;
+            font-size: 13px;
+            font-family: "Humaroid";
+            border-radius: 4px 0 5px 0;
+            padding-right: 2px;
           }
 
           .is-reaction {
@@ -429,7 +440,8 @@
             font-size: 14px;
             font-family: "Humaroid";
             margin-top: -15px;
-            border-radius: 0 10px 0 4px;
+            margin-left: 15px;
+            border-radius: 10px 10px 0 0;
             padding-bottom: 2px;
           }
         }

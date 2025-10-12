@@ -7,7 +7,7 @@
       <button type="button" class="button-small margin-top-5 ui-control fa-solid fa-bars icon" data-action="menu" data-tooltip aria-label="{{localize 'HOTBAR.MENU'}}"></button>
     </nav>
 
-    {{#ifCond tokenHotbar '&&' actor}}
+    {{#if showTokenHotbar}}
     <nav id="hotbar-controls" class=" margin-left-5">
       <button type="button" class="button-wide ui-control fa-solid {{filter.icon}} icon filter-button slot full" data-action="filter" data-tooltip aria-label="{{localize 'HOTBAR.FILTER'}}{{filter.label}}"></button>
       {{#ifCond actor.type '===' 'character'}}
@@ -16,11 +16,11 @@
       <button type="button" class="button-wide margin-top-5 ui-control fa-solid fa-fill-drip icon" data-action="autofill" data-tooltip aria-label="{{localize 'HOTBAR.FILL'}}"></button>
       <button type="button" class="button-wide margin-top-5 ui-control fa-solid fa-gears icon" data-action="config" data-tooltip aria-label="{{localize 'HOTBAR.CONFIG'}}"></button>
     </nav>
-    {{/ifCond}}
+    {{/if}}
   </div>
     
   </div>
-  {{#if tokenHotbar}}
+  {{#if showTokenHotbar}}
   {{!-- Token Hotbar --}}
   {{!-- Token Effects Tracker --}}
   <menu id="action-bar" data-tooltip-direction="UP">
@@ -31,9 +31,10 @@
         {{#ifCond help.position '===' "sectionB"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
       </div>
       
-      <div class="section-wrapper grid grid-{{sectionBWidth}}row">
+      <div class="section-wrapper grid grid-{{sectionBWidth}}col">
       {{#each sectionB as |item index|}}
       <li class="slot {{item.borderColor}} {{#if item.system.toggle.toggledOn}}outline{{/if}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" {{#if item.name}}data-hover="tooltip"{{/if}} data-section="sectionB">
+        {{#if item.slotKeybind}}<span class="slot-keybind">{{item.slotKeybind}}</span>{{/if}}
         {{#if item.actionMarker}}<i class="action-type fa-solid {{item.actionMarker}}"></i>{{/if}}
         {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
@@ -107,9 +108,10 @@
         {{#ifCond effects.position '===' "sectionA"}}{{PARTIAL "Effects Tracker"}}{{else}}<div></div>{{/ifCond}}
         {{#ifCond help.position '===' "sectionA"}}{{PARTIAL "Help Tracker"}}{{else}}<div></div>{{/ifCond}}
       </div>
-      <div class="section-wrapper grid grid-{{sectionAWidth}}row">
+      <div class="section-wrapper grid grid-{{sectionAWidth}}col">
       {{#each sectionA as |item index|}}
       <li class="slot {{item.borderColor}} {{#if item.system.toggle.toggledOn}}outline{{/if}} {{#if item.name}}full{{/if}} {{#if item.filterOut}}filter-out{{/if}} item-slot" role="button" data-action="roll" data-index="{{index}}" {{#if item.name}}data-hover="tooltip"{{/if}} data-section="sectionA">
+        {{#if item.slotKeybind}}<span class="slot-keybind">{{item.slotKeybind}}</span>{{/if}}
         {{#if item.actionMarker}}<i class="action-type fa-solid {{item.actionMarker}}"></i>{{/if}}
         {{#if item.reactionMarker}}<i class="is-reaction fa-solid {{item.reactionMarker}}"></i>{{/if}}
         {{#if item.img}}<img class="slot-icon" src="{{item.img}}">{{/if}}
@@ -136,7 +138,7 @@
   {{/if}}
 
   <div id="hotbar-controls-right" class="hotbar-controls flexrow" data-tooltip-direction="RIGHT">
-    {{#unless tokenHotbar}}
+    {{#unless showTokenHotbar}}
     <nav id="hotbar-page-controls" class="flexcol">
       <button type="button" class="plain hotbar-page-control page-next fa-solid fa-triangle icon" data-action="page"
         data-direction="1" data-tooltip aria-label="{{localize 'HOTBAR.PAGE_NEXT'}}">
@@ -177,9 +179,9 @@
     {{/unless}}
     <div class="flexcol">
       <button type="button" class="ui-control fa-solid fa-unlock icon" data-action="lock" data-tooltip
-        aria-label="{{localize 'HOTBAR.LOCK'}}" {{#if tokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
+        aria-label="{{localize 'HOTBAR.LOCK'}}" {{#if showTokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
       <button type="button" class="ui-control fa-solid fa-trash icon" data-action="clear" data-tooltip
-        aria-label="{{localize 'HOTBAR.CLEAR'}}" {{#if tokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
+        aria-label="{{localize 'HOTBAR.CLEAR'}}" {{#if showTokenHotbar}}style="visibility: hidden; height: 0px; width: 0px;"{{/if}}></button>
     </div>
   </div>
 </aside>
