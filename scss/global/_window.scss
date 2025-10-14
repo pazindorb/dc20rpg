@@ -218,3 +218,23 @@
   border-radius: 2px;
   color: black;
 }
+
+.theme-light {
+  hr {
+    background-image: linear-gradient(90deg, transparent 0%, #741a89 50%, transparent 100%);
+  }
+
+  h1.divider::before, h2.divider::before, h3.divider::before, h4.divider::before {
+    border-top: 2px ridge #530e63;
+  }
+
+  h1.divider::after, h2.divider::after, h3.divider::after, h4.divider::after {
+    border-top: 2px ridge #530e63;
+  }
+}
+
+.theme-dark {
+  hr {
+    background-image: linear-gradient(90deg, transparent 0%, #dbba88 50%, transparent 100%);
+  }
+}

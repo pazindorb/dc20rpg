@@ -194,9 +194,15 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       await itemTransfer(event, data, this.actor);
       return;
     }
+    const item = await Item.implementation.fromDropData(data);
+    if (this.actor.type === "storage" && data.actorType === undefined) {
+      if (!CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type]) {
+        ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables' and 'loot'");
+        return;
+      }
+    }
 
     const onSelf = data.uuid.includes(this.actor.uuid);
-    const item = await Item.implementation.fromDropData(data);
     if (data.actorType !== undefined && CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type] && !onSelf) {
       const selected = await SimplePopup.open("confirm", {confirmLabel: "Transfer", denyLabel: "Duplicate", message: "Do you want to transfer or duplicate this item?"});
       if (selected) {

@@ -103,8 +103,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   async _updateSize(size) {
-    // TODO: Czy my to musimy updatować tutaj?
-    if (this.width !== size && this.height !== size) {
+    if (this.width !== size && this.height !== size && this._id) {
       await this.update({
         _id: this._id,
         width: size,
@@ -205,14 +204,17 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
   }
 
-  async _onCreate(data, options, userId) {
+  _onCreate(data, options, userId) {
     if (userId === game.user.id && this.actor) {
-      if (this.actor?.type === "storage") {
-        if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
-        if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
-      }
+      this._onStorageCreation();
     }
     super._onCreate(data, options, userId);
+  }
+
+  _onStorageCreation() {
+    if (this.actor?.type !== "storage") return;
+    if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
+    if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
   }
 
   //=====================================

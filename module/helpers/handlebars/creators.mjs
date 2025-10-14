@@ -338,7 +338,7 @@ export function registerHandlebarsCreators() {
                   ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateItem`)
                   : game.i18n.localize(`dc20rpg.sheet.itemTable.activateItem`);
 
-      component += `<a class="item-activable fa-lg fa-solid ${active}" data-tooltip="${title}" data-item-id="${item._id}" data-path="system.toggle.toggledOn" style="margin-top: 2px;"></a>`
+      component += `<a class="item-toggle fa-lg fa-solid ${active}" data-tooltip="${title}" data-item-id="${item._id}" style="margin-top: 2px;"></a>`
     }
 
     // Can be equipped/attuned

@@ -25,7 +25,7 @@ import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
-import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
+import { DC20PrototypeTokenConfig, DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
 import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
@@ -67,6 +67,7 @@ Hooks.once('init', async function() {
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
   CONFIG.ActiveEffect.legacyTransferral = false;
+  CONFIG.Token.prototypeSheetClass = DC20PrototypeTokenConfig;
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
@@ -124,7 +125,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.9.5.2", "0.9.7.0", new Set(["dc20-core-rulebook"]));
+  // await testMigration("0.9.7.3", "0.9.8.0", new Set(["dc20-core-rulebook"]));
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

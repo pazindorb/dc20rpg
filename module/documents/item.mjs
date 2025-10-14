@@ -1,6 +1,9 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
+import { getTokenForActor } from "../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
@@ -39,6 +42,10 @@ export class DC20RpgItem extends Item {
 
   get activeEnhancements() {
     return this.enhancements.active;
+  }
+
+  get toggledOn() {
+    return this.system.toggle?.toggleable && this.system.toggle?.toggledOn;
   }
 
   /**
@@ -237,6 +244,45 @@ export class DC20RpgItem extends Item {
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
     await this.update({["system.toggle.toggledOn"]: newState});
+    this.#createLinkedAura(newState);
+  }
+
+  #createLinkedAura(newState) {
+    if (!this.actor) return;
+    const token = getTokenForActor(this.actor);
+    if (!token) return;
+
+    if (newState) {
+      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(this.system?.target?.areas);
+      for (const template of Object.values(templates)) {
+        if (this.#getLinkedTemplate(token)) continue;
+        if (template.passiveAura || (template.linkWithToggle && this.toggledOn)) {
+          const applyEffects = getMesuredTemplateEffects(this);
+          const itemData = {
+            itemId: this.id, 
+            actorId: this.actor.id, 
+            tokenId: token.id, 
+            applyEffects: applyEffects, 
+            itemImg: this.img, 
+            itemName: this.name
+          };
+          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
+        }
+      }
+    }
+    else {
+      const template = this.#getLinkedTemplate(token);
+      if (template) template.delete();
+    }
+  }
+
+  #getLinkedTemplate(token) {
+    const linkedTemplates = token.document.flags?.dc20rpg?.linkedTemplates || [];
+    for (const templateId of linkedTemplates) {
+      const template = canvas.templates.documentCollection.get(templateId);
+      if (template?.flags?.dc20rpg?.itemData?.itemId === this.id) return template
+    }
+    return null;
   }
 
   async equip(options={forceEquip: false, forceUneqip: false}) {

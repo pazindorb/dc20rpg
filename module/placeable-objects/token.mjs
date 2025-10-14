@@ -1,6 +1,7 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
@@ -559,5 +560,33 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         ??= segment.actionConfig.getCostFunction(this.document, options);
       return calculateActionCost(finalCost, from, to, distance, segment);
     };
+  }
+
+  /** @override */
+  _onCreate(data, options, userId) {
+    if (userId === game.user.id && this.actor) {
+      this._passiveAuraCheck();
+    }
+    super._onCreate(data, options, userId);
+  }
+
+  _passiveAuraCheck() {
+    for (const item of this.actor.items) {
+      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(item.system?.target?.areas);
+      for (const template of Object.values(templates)) {
+        if (template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
+          const applyEffects = getMesuredTemplateEffects(item);
+          const itemData = {
+            itemId: item.id, 
+            actorId: this.actor.id, 
+            tokenId: this.id, 
+            applyEffects: applyEffects, 
+            itemImg: item.img, 
+            itemName: item.name
+          };
+          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
+        }
+      }
+    }
   }
 }

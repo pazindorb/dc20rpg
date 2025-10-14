@@ -120,7 +120,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       }
       else {
         const parentItem = this.getSourceItem();
-        await parentItem.update({["system.toggle.toggledOn"]: false});
+        await parentItem.toggle({forceOff: true});
       }
     }
     await this.update({disabled: true});
@@ -140,7 +140,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       }
       else {
         const parentItem = this.getSourceItem();
-        await parentItem.update({["system.toggle.toggledOn"]: true});
+        await parentItem.toggle({forceOn: true});
       }
     }
 

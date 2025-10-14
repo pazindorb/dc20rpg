@@ -78,27 +78,4 @@
       <input type="text" name="system.costs.charges.requiredTotalMinimum" value="{{system.costs.charges.requiredTotalMinimum}}" data-dtype="Number">
     </div>
   </div>
-
-  {{!-- Other Items --}}
-  <div class="row margin-top-10">
-    <div class="left-part-row">
-      <span>{{localize "dc20rpg.item.sheet.usage.otherItem"}}</span>
-      <div>
-        <a class="activable fa-solid {{#if system.costs.otherItem.consumeCharge}}fa-bolt{{else}}fa-boxes-stacked{{/if}} fa-lg" data-path="system.costs.otherItem.consumeCharge" 
-            title={{#if system.costs.otherItem.consumeCharge}}"{{localize "dc20rpg.item.sheet.usage.consumeCharge"}}"{{else}}"{{localize "dc20rpg.item.sheet.usage.consumeQuantity"}}"{{/if}}></a>
-      </div>
-    </div>
-
-    <div class="right-part-row">
-      <select class="long-select margin-right-3 select-other-item cost-selector" data-path="system.costs.otherItem.itemId" data-selector="cost-selector">
-        {{#if system.costs.otherItem.consumeCharge}} 
-        {{selectOptions itemsWithChargesIds selected=system.costs.otherItem.itemId blank=""}}
-        {{else}}
-        {{selectOptions consumableItemsIds selected=system.costs.otherItem.itemId blank=""}}
-        {{/if}}
-      </select>
-      <input class="small-input" type="text" name="system.costs.otherItem.amountConsumed" value="{{system.costs.otherItem.amountConsumed}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.usage.consumedAmount"}}">
-    </div>
-    
-  </div>
 </div>

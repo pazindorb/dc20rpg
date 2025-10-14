@@ -282,7 +282,7 @@ DC20RPG.macroTriggers = {
   onCreate: "After Creation",
   preDelete: "Before Deletion",
   onItemToggle: "On Item Toggle/Equip",
-  onRollPrompt: "On Roll Prompt",
+  onRollPrompt: "On Roll Dialog Open",
   rollLevelCheck: "On Roll Level Check",
   preItemCost: "Before Item Cost Check",
   preItemRoll: "Before Item Roll",
@@ -731,6 +731,12 @@ DC20RPG.DROPDOWN_DATA.areaTypes = {
   radius: "Radius",
   wall: "Wall",
   area: "Custom Area"
+}
+
+DC20RPG.DROPDOWN_DATA.auraTypes = {
+  "": "Target Selector",
+  "self": "Self Apply",
+  "passive": "Passive Self Apply"
 }
 
 DC20RPG.DROPDOWN_DATA.durations = {

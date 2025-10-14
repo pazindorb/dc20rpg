@@ -213,6 +213,22 @@
   color: black;
 }
 
+.theme-light hr {
+  background-image: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(50%, #741a89), to(transparent));
+  background-image: linear-gradient(90deg, transparent 0%, #741a89 50%, transparent 100%);
+}
+.theme-light h1.divider::before, .theme-light h2.divider::before, .theme-light h3.divider::before, .theme-light h4.divider::before {
+  border-top: 2px ridge #530e63;
+}
+.theme-light h1.divider::after, .theme-light h2.divider::after, .theme-light h3.divider::after, .theme-light h4.divider::after {
+  border-top: 2px ridge #530e63;
+}
+
+.theme-dark hr {
+  background-image: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(50%, #dbba88), to(transparent));
+  background-image: linear-gradient(90deg, transparent 0%, #dbba88 50%, transparent 100%);
+}
+
 .grid-2row {
   display: grid;
   grid-template-rows: repeat(2, minmax(0, 1fr));
@@ -1793,6 +1809,7 @@
   height: 100%;
   border-radius: 4px;
   background-color: var(--health-bar);
+  border: 1px solid var(--secondary-darker);
 }
 .dc20rpg #advancement-dialog {
   background-color: rgba(55, 55, 55, 0.568627451);
@@ -2530,14 +2547,15 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: var(--color-text-subtle);
+  background-color: var(--bar-color);
   border-radius: 3px;
   -webkit-box-shadow: 0 0 10px 2px var(--text-color-2) inset;
   box-shadow: 0 0 10px 2px var(--text-color-2) inset;
   border: 2px solid var(--border-color);
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  text-shadow: -2px 0 var(--shadow), 0 2px var(--shadow), 2px 0 var(--shadow), 0 -2px var(--shadow);
 }
 .dc20rpg #roll-prompt .header .name-wrapper {
+  color: var(--text-color-3);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2587,7 +2605,8 @@
   box-shadow: 0 0 12px 4px var(--text-color-2) inset;
 }
 .dc20rpg #roll-prompt fieldset legend {
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: var(--text-color-3);
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
 }
 .dc20rpg #roll-prompt .item-multi-faceted {
   color: var(--activable-off);
@@ -2598,8 +2617,8 @@
   font-family: "Humaroid";
   font-size: 17px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  border: 2px solid var(--activable-off);
-  background-color: var(--color-text-subtle);
+  border: 2px solid black;
+  background-color: var(--bar-color);
 }
 .dc20rpg #roll-prompt .item-multi-faceted:hover {
   -webkit-box-shadow: 0 0 10px 3px var(--header-color) inset;
@@ -2611,25 +2630,26 @@
   gap: 0;
   padding: 0.5em 0.7em;
   --scroll-margin: 0;
+  color: var(--text-color-3);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row {
   font-family: "Humaroid";
   font-size: 18px;
   height: 32px;
-  background-color: var(--color-text-subtle);
+  background-color: var(--bar-color);
   grid-template-columns: 1fr 100px 100px 32px;
   display: grid;
-  border: 2px solid var(--activable-off);
-  border-top: 1px solid var(--activable-off);
-  border-bottom: 1px solid var(--activable-off);
+  border: 2px solid var(--border-color-2);
+  border-top: 1px solid var(--border-color-2);
+  border-bottom: 1px solid var(--border-color-2);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row:nth-child(2) {
   border-radius: 3px 3px 0 0;
-  border-top: 2px solid var(--activable-off);
+  border-top: 2px solid var(--border-color-2);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row:last-child {
   border-radius: 0 0 3px 3px;
-  border-bottom: 2px solid var(--activable-off);
+  border-bottom: 2px solid var(--border-color-2);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description {
   position: relative;
@@ -2645,14 +2665,14 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .name img {
   border-radius: 0;
   width: 30px;
   height: 30px;
   border: 0;
-  border-right: 1px solid var(--activable-off);
+  border-right: 1px solid var(--border-color-2);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .name .cost-icon {
   width: 30px;
@@ -2666,7 +2686,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  border-right: 1px solid var(--activable-off);
+  border-right: 1px solid var(--border-color-2);
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .usage {
@@ -2680,8 +2700,8 @@
   -ms-flex-pack: center;
   justify-content: center;
   height: 30px;
-  border-right: 1px solid var(--activable-off);
-  border-left: 1px solid var(--activable-off);
+  border-right: 1px solid var(--border-color-2);
+  border-left: 1px solid var(--border-color-2);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .usage.costs {
   border-left: 0;
@@ -2729,7 +2749,7 @@
   justify-content: center;
   height: 28px;
   width: 28px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
 }
 .dc20rpg #roll-prompt .measurement-templates {
   display: -webkit-box;
@@ -2761,8 +2781,6 @@
   background-color: var(--activable-off);
   border: 1px solid var(--text-color-2);
   border-radius: 3px;
-  -webkit-box-shadow: 0 0 8px var(--activable-on) inset;
-  box-shadow: 0 0 8px var(--activable-on) inset;
   padding: 4px;
   width: 100%;
 }
@@ -2800,6 +2818,7 @@
   width: 100%;
   height: 66px;
   padding: 5px;
+  color: var(--text-color-3);
 }
 .dc20rpg #roll-prompt .expected-cost .mana-spend-limit {
   display: -webkit-box;
@@ -2868,14 +2887,11 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: var(--color-text-subtle);
+  background-color: var(--bar-color);
   -webkit-box-shadow: 0 0 12px 4px var(--text-color-2) inset;
   box-shadow: 0 0 12px 4px var(--text-color-2) inset;
   border: 2px solid var(--border-color);
   margin: 0;
-}
-.dc20rpg #roll-prompt .roll-menu legend {
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .dc20rpg #roll-prompt .roll-menu .column {
   height: 100%;
@@ -2894,7 +2910,8 @@
   width: 100%;
   font-family: "Humaroid";
   font-size: 18px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+  color: var(--text-color-3);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2922,8 +2939,14 @@
 .dc20rpg #roll-prompt .roll-menu .column .row a.crit {
   color: #3b934a;
 }
+.dc20rpg #roll-prompt .roll-menu .column .row a.crit:not(:hover) {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 .dc20rpg #roll-prompt .roll-menu .column .row a.fail {
   color: #b54545;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row a.fail:not(:hover) {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .dc20rpg #roll-prompt .roll-menu .column .row a.fa-light {
   text-shadow: none;
@@ -3024,8 +3047,6 @@
 }
 .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset, .dc20rpg #actor-request .select-wrapper .select-column fieldset, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset {
   margin: 5px 0;
-  -webkit-box-shadow: 0 0 8px var(--activable-on) inset;
-  box-shadow: 0 0 8px var(--activable-on) inset;
   border-radius: 5px;
   gap: 4px;
 }
@@ -4036,21 +4057,29 @@
 }
 .dc20rpg .dialog-v13.theme-dark {
   --border-color: var(--color-light-4);
+  --border-color-2: var(--color-light-2);
   --text-color: var(--color-light-3);
   --text-color-2: var(--color-light-6);
+  --text-color-3: var(--color-text-primary);
   --backround-color: var(--color-cool-4);
   --header-color: var(--color-warm-1);
   --activable-off: var(--color-light-2);
   --activable-on: var(--color-light-5);
+  --bar-color: var(--color-text-subtle);
+  --shadow: black;
 }
 .dc20rpg .dialog-v13.theme-light {
   --border-color: var(--color-dark-1);
+  --border-color-2: var(--color-dark-2);
   --text-color: var(--color-dark-1);
   --text-color-2: var(--color-dark-4);
+  --text-color-3: var(--primary-color);
   --backround-color: rgba(0, 0, 0, 0.1);
   --header-color: var(--color-warm-2);
   --activable-off: var(--secondary-lighter);
   --activable-on: var(--primary-dark);
+  --bar-color: var(--content-link-background);
+  --shadow: white;
 }
 .dc20rpg .dialog-v13 .form-group.symetry label {
   -webkit-box-flex: 2;
@@ -12179,6 +12208,7 @@
   text-align: right;
 }
 #sidebar .combat-sidebar .encounter-dc span, #combat-popout .combat-sidebar .encounter-dc span {
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: bold;
 }
@@ -12330,6 +12360,8 @@
   height: 36px;
   font-size: 20px;
   background-color: var(--primary-dark);
+  color: var(--color-light-2);
+  border-color: var(--color-cool-4);
 }
 #ui-bottom #hotbar #hotbar-controls-left .move-points button, #ui-bottom #hotbar #hotbar-controls-right .move-points button {
   border: 1px solid var(--color-cool-4);
@@ -12342,6 +12374,7 @@
   border: 1px solid var(--color-cool-4);
   border-radius: 4px 4px 0 0;
   background-color: var(--primary-darker);
+  color: var(--color-light-2);
   text-align: center;
   font-size: 22px;
   width: 36px;
@@ -13000,6 +13033,9 @@
 #tooltip-container .tooltip-info {
   font-size: 10px;
   font-family: "Signika", sans-serif;
+  color: var(--text-color);
+}
+#tooltip-container .tooltip-action {
   color: var(--text-color);
 }
 #tooltip-container .tooltip-header {

@@ -783,7 +783,7 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
 
 function _toggleItem(item) {
   if (item.system.toggle?.toggleable && item.system.toggle.toggleOnRoll) {
-    item.update({["system.toggle.toggledOn"]: true});
+    item.toggle({forceOn: true});
   }
 }
 

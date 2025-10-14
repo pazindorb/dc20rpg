@@ -128,8 +128,7 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
     if (!actor) return;
 
-    const details = DC20Roll.prepareCheckDetails("initiative", {rollTitle: "Initiative", customLabel: "Initiative Roll"});
-    const roll = await RollDialog.open(actor, details);
+    const roll = await actor.roll("initiative", "check", {rollTitle: "Initiative", customLabel: "Initiative Roll"});
     if (!roll) return null;
 
     combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};

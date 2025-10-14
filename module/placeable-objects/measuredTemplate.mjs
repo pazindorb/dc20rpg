@@ -61,7 +61,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
     }
     return false;
   }
-
+  
   static getAllTemplatesOnCord(i, j) {
     const templates = new Set();
     canvas.templates.documentCollection.forEach(templateDoc => {
@@ -166,6 +166,8 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
           label: _createLabelForTemplate(type, distance, width),
           difficult: area.difficult,
           hideHighlight: area.hideHighlight,
+          selfApply: area.passiveAura,
+          linkWithToggle: area.linkWithToggle
         }
       }
     }
@@ -201,7 +203,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
       let item = null;
       const actor = getActorFromIds(itemData.actorId, itemData.tokenId);
       if (actor) item = actor.items.get(itemData.itemId);
-      if (item.system?.target?.type === "self") {
+      if (item.system?.target?.type === "self" || template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
         const token = getTokenForActor(actor);
         if (token) {
           await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);

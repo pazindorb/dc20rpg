@@ -128,7 +128,7 @@ export class RollDialog extends DC20Dialog {
       this.details = {...data};
       this.updateObject = this.actor;
 
-      if (this.details.checkKey.length > 4) {
+      if (this.details.checkKey.length > 4 && this.details.checkKey !== "initiative") {
         const skill = actor.skillAndLanguage.skills[this.details.checkKey];
         const label = skill?.label ? `${skill?.label} Check` : "Check";
         this.details.label = label;

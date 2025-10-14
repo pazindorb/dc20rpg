@@ -27,6 +27,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find(".item-equip").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).equip());
+  html.find(".item-toggle").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).toggle());
   html.find('.rollable').click(ev => actor.roll(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
   html.find('.roll-item').click(ev => {
     const item = getItemFromActor(datasetOf(ev).itemId, actor);
