@@ -74,7 +74,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -99,9 +100,13 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the damage dealt by 2.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the damage dealt by 2.</span></p>",
+        "charges": {
+          "subtract": null
+        }
       },
       "bxlCrndZCQcUvbjH": {
         "name": "Duration",
@@ -113,7 +118,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -138,9 +144,13 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Change the duration to 1 minute.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Change the duration to 1 minute.</span></p>",
+        "charges": {
+          "subtract": null
+        }
       },
       "VEjTHUY31xjzXKd5": {
         "name": "Lightning Blade",
@@ -152,11 +162,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -285,7 +297,8 @@
           "macros": {
             "postItemRoll": "console.log(this)",
             "preItemRoll": ""
-          }
+          },
+          "changeManaSpendLimit": null
         },
         "description": "<p>Attack You make with this weapon will apply <strong>Lightning</strong> <strong>Blade</strong> effect.</p>",
         "hide": true
@@ -405,11 +418,11 @@
   "_stats": {
     "compendiumSource": "Item.660LFP5yxhqUlbZa",
     "duplicateSource": "Item.01uJvSZpWhNPN3lD",
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1752579087636,
+    "modifiedTime": 1760449257358,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,8 +1,7 @@
 {
-  "folder": "TLOwkSMrDkOYuEiD",
+  "folder": null,
   "name": "Natural Weapon",
   "type": "weapon",
-  "_id": "dKbustTYVPy53Jnf",
   "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
   "system": {
     "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p>",
@@ -11,10 +10,36 @@
     "conditional": {
       "hasConditional": false,
       "condition": "",
-      "bonus": 0,
+      "bonus": "0",
       "useFor": "",
       "name": "",
-      "connectedToEffects": false
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
     },
     "quantity": 1,
     "weight": 0,
@@ -26,7 +51,12 @@
     "statuses": {
       "attuned": false,
       "equipped": false,
-      "identified": true
+      "identified": true,
+      "slotLink": {
+        "category": "",
+        "key": "",
+        "predefined": ""
+      }
     },
     "properties": {
       "attunement": {
@@ -223,7 +253,14 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": "melee",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      }
     },
     "duration": {
       "value": null,
@@ -233,18 +270,19 @@
     "range": {
       "normal": null,
       "max": null,
-      "unit": ""
+      "unit": "",
+      "melee": 1
     },
     "target": {
       "count": null,
-      "invidual": true,
       "type": "",
       "areas": {
         "default": {
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -252,7 +290,14 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
     },
     "formulas": {
       "SaJkGgLYTVwarjUP": {
@@ -262,19 +307,23 @@
         "fail": false,
         "failFormula": "",
         "each5": false,
-        "each5Formula": ""
+        "each5Formula": "",
+        "overrideDefence": ""
       }
     },
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
-      "copyFor": ""
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
     },
     "save": {
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -282,7 +331,10 @@
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": null,
+        "grit": null,
+        "restPoints": null
       },
       "charges": {
         "current": null,
@@ -291,12 +343,12 @@
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
-        "showAsResource": false
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false,
+        "limitedInfusion": ""
       }
     },
     "weaponStyle": "",
@@ -317,25 +369,137 @@
         "title": ""
       }
     },
-    "itemKey": "naturalWeapon"
+    "itemKey": "naturalWeapon",
+    "hideFromCompendiumBrowser": true,
+    "shortInfo": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
+    },
+    "quickRoll": false,
+    "inventory": true,
+    "lootRoll": 1,
+    "stackable": false,
+    "infusions": {},
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": "",
+      "mustEquip": true
+    },
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "conditionals": {},
+    "hasAdvancement": false,
+    "provideMartialExpansion": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "pointAmount": 1,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "talentFilter": false,
+          "ancestryFilter": false,
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "weaponStyleActive": false
   },
   "effects": [],
-  "sort": 0,
-  "ownership": {
-    "default": 0,
-    "dOcXwrUs2VunZl0y": 3
-  },
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
-    "createdTime": 1720110035246,
-    "modifiedTime": 1751010526638,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "systemVersion": "0.9.8.0",
+    "createdTime": 1760367104859,
+    "modifiedTime": 1760367113870,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_key": "!items!dKbustTYVPy53Jnf"
+  "_id": "aRIuPJVPARYLUJSf",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!aRIuPJVPARYLUJSf"
 }

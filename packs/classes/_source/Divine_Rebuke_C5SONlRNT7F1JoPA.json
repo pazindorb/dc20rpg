@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/magical/construct-golem-stone-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>MD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes Divine Damage equal to your Prime Modifier.</p><p><strong>Save Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f]{Intimidated}</strong> of you for 1 minute or until it takes damage.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>AD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes Divine Damage equal to your Prime Modifier.</p><p><strong>Save Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f]{Intimidated}</strong> of you for 1 minute or until it takes damage.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "radius",
           "distance": 5,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -102,7 +103,14 @@
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {},
+        "custom": {
+          "channel-divinity": {
+            "label": "Channel Divinity",
+            "img": "icons/magic/light/orb-hands-humanoid-yellow.webp",
+            "key": "channel-divinity",
+            "value": 1
+          }
+        },
         "grit": null,
         "restPoints": null
       },
@@ -120,7 +128,7 @@
       },
       "otherItem": {
         "itemId": "",
-        "amountConsumed": 1,
+        "amountConsumed": null,
         "consumeCharge": true
       }
     },
@@ -431,11 +439,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034037,
-    "modifiedTime": 1745570063424,
+    "modifiedTime": 1760293224706,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

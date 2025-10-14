@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -233,17 +234,88 @@
     },
     "featureSourceItem": "monk"
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Ki Regenation",
+      "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.KzFTB80UezpHFVat",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "startRound": 1,
+        "startTurn": 0,
+        "seconds": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "WGYHWlRo62dlEX4e",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "if (extras.resourceKey === \"stamina\") {\n  const value = Math.abs(extras.change); \n  const ki = actor.resources[\"ki-point\"];\n  if (ki) ki.regain(value);\n}",
+        "addToChat": false,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"resourceChange\", \"label\": \"Ki Regeneration\", \"changedResource\": \"stamina\", \"operation\": \"subtraction\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p><strong>Regaining Ki:</strong> When you spend a Stamina Point on your turn, you regain a Ki Point. While out of Combat, any Ki Points you spend replenish immediately.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.347",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.8.0",
+        "createdTime": 1760443512960,
+        "modifiedTime": 1760447424664,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!KzFTB80UezpHFVat.WGYHWlRo62dlEX4e"
+    }
+  ],
   "folder": "l4W07DqdVqLGBU4S",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034644,
-    "modifiedTime": 1750931884103,
+    "modifiedTime": 1760447155069,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

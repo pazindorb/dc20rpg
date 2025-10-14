@@ -97,43 +97,74 @@
     },
     "formulas": {},
     "enhancements": {
-      "eDVblONGLEIQcywM": {
+      "Qon7mAFHtBgLPE6e": {
         "name": "Psionic Magic",
         "number": 0,
+        "description": "<p><span style=\"font-family: &#x27;Trebuchet MS&#x27;, &#x27;Lucida Sans Unicode&#x27;, &#x27;Lucida Grande&#x27;, &#x27;Lucida Sans&#x27;, Arial, sans-serif\">Once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">LR</strong>, you can cast the chosen Spell spending 1 less<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> MP</strong> than normal (minimum of<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> 0</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP</strong>).</span></p><p><span style=\"font-family: &#x27;Trebuchet MS&#x27;, &#x27;Lucida Sans Unicode&#x27;, &#x27;Lucida Grande&#x27;, &#x27;Lucida Sans&#x27;, Arial, sans-serif\">The Spells total <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP </strong>cost (before all reductions) still cannot exceed your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Mana Spend Limit</strong>.</span></p>",
+        "hide": false,
         "resources": {
-          "actionPoint": null,
+          "ap": null,
           "health": null,
           "mana": -1,
           "stamina": null,
-          "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "custom": {}
         },
         "charges": {
-          "consume": true,
+          "subtract": 1,
           "fromOriginal": true,
-          "originalId": "NKuUuUyr0TkwO37A"
+          "consume": true
         },
         "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
           "hasAdditionalFormula": false,
           "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
           "addsNewFormula": false,
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
-          "overrideDamageType": false,
-          "damageType": "",
           "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
             "saveKey": "",
             "contestedKey": "",
-            "dcCalculation": "martial",
+            "dcCalculation": "spell",
             "dc": 0,
-            "addMasteryToDC": false,
+            "addMasteryToDC": true,
             "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -145,9 +176,9 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">LR</strong>, you can cast the chosen Spell spending 1 less<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> MP</strong> than normal (minimum of<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> 0</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP</strong>).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Spells total <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP </strong>cost (before all reductions) still cannot exceed your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Mana Spend Limit</strong>.</span></p>"
+          },
+          "changeManaSpendLimit": -1
+        }
       }
     },
     "copyEnhancements": {
@@ -248,14 +279,14 @@
           "itemType": "spell",
           "helpText": "Add Psionic Magic Spell"
         },
-        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Psionic/ Magic Spell not found - Add it manually by running Macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Psionic Magic Spell not found - Add it manually by running Macro\");\n}\nelse {\n  const psionicMagic = actor.items.find(item => item.system.itemKey === \"psionicMagic\");\n  if (psionicMagic) psionicMagic.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spell.createdItemId}\"`});\n}"
+        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Psionic/ Magic Spell not found - Add it manually by running Macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Psionic Magic Spell not found - Add it manually by running Macro\");\n}\nelse {\n  const psionicMagic = actor.items.find(item => item.system.itemKey === \"psionicMagic\");\n  if (psionicMagic) {\n    psionicMagic.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spell.createdItemId}\"`});\n    psionicMagic.updateShortInfo(`Selected Spell: ${spell.name}`);\n  }\n}"
       }
     },
     "macros": {
       "ukFADETbm8f6MXP1": {
         "name": "Change Psionic Magic Spell",
         "trigger": "onDemand",
-        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Psionic Magic Spell\", selectOptions: options});\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n}",
+        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Psionic Magic Spell\", selectOptions: options});\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
         "disabled": false,
         "title": "Change Psionic Magic Spell"
       }
@@ -366,11 +397,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1745524031161,
-    "modifiedTime": 1751135829723,
+    "modifiedTime": 1760372324790,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",

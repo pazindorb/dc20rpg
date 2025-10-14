@@ -254,7 +254,7 @@
           "mode": "=="
         },
         "effectKey": "secondWind",
-        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()"
+        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await DC20.dialog.SimplePopup.confirm(\"Do you want to use Second Wind to regain 1 SP and 2 HP?\", {actor: actor});\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()"
       },
       "changes": [
         {
@@ -289,11 +289,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1751009350602,
+        "modifiedTime": 1760452983750,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

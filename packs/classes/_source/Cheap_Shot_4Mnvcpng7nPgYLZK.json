@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/strike-dagger-blood-red.webp",
   "system": {
-    "description": "<p>You deal +1 damage on <strong>Martial</strong> <strong>Attacks</strong> against a creature that fulfills at least one of the following:</p><ul><li><p>It’s <strong>Flanked</strong> or <strong>Prone</strong></p></li><li><p>It has any Condition other than <strong>Invisibile</strong></p></li><li><p>You’re Hidden from it</p></li></ul>",
+    "description": "<p>You deal +1 damage on <strong>Martial</strong> <strong>Attacks</strong> against a creature that fulfills at least one of the following:</p><ul><li><p>It’s <strong>Flanked</strong> or <strong>Prone</strong></p></li><li><p>It has any Condition other than <strong>Invisibile</strong></p></li><li><p>You’re Hidden from it</p></li></ul><p><em><strong>System Tip:</strong> This is not automated for you being hidden.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -227,7 +228,7 @@
     "conditionals": {
       "WJR25zK69YpTHw2g": {
         "name": "Cheap Shot",
-        "condition": "target.isFlanked || target.hasAnyCondition([], true)",
+        "condition": "target.isFlanked || target.hasAnyCondition([], true) || target.hasAnyCondition([\"prone\"]) || target.hasAnyCondition([\"grappled\"])",
         "useFor": "type=[\"weapon\"]",
         "linkWithToggle": false,
         "bonus": "1",
@@ -235,7 +236,9 @@
           "ignorePdr": false,
           "ignoreMdr": false,
           "ignoreResistance": {},
-          "ignoreImmune": {}
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
         },
         "effect": null,
         "addsNewRollRequest": false,
@@ -264,11 +267,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034048,
-    "modifiedTime": 1745434681379,
+    "modifiedTime": 1760459946232,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

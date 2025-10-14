@@ -166,7 +166,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
           label: _createLabelForTemplate(type, distance, width),
           difficult: area.difficult,
           hideHighlight: area.hideHighlight,
-          selfApply: area.passiveAura,
+          passiveAura: area.passiveAura,
           linkWithToggle: area.linkWithToggle
         }
       }

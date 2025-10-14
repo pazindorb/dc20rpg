@@ -4,15 +4,10 @@ export async function runMigration(migrateModules) {
 }
 
 // ACTOR
-async function _migrateActors(migrateModules) {
-  // TODO migracja przenosząca mastery z tradeSkills do trades 
-  // + effekty trzeba zupdatować takie co zwiększały coś z tradeSkills bo teraz jest tradees
-  //  - system.rollLevel.onYou.trades
-  //  - system.rollLevel.againstYou.trades
-  //  - skills[`system.trades.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
-  
+async function _migrateActors(migrateModules) {  
   // Iterate over actors
   for (const actor of game.actors) {
+    await _moveTradeSkills(actor);
     await _addInfusionTable(actor);
     await _updateActorItems(actor);
   }
@@ -26,6 +21,7 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
     
+    await _moveTradeSkills(actor);
     await _addInfusionTable(actor);
     await _updateActorItems(actor);
   }
@@ -38,10 +34,30 @@ async function _migrateActors(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
+        await _moveTradeSkills(actor);
         await _addInfusionTable(actor);
         await _updateActorItems(actor);
       }
     }
+  }
+}
+
+async function _moveTradeSkills(actor) {
+  if (!actor.system.tradeSkills) return;
+
+  const updateData = {system: {trades: actor.system.trades}};
+  for (const [key, trade] of Object.entries(actor.system.tradeSkills)) {
+    if (updateData.system.trades[key]) {
+      updateData.system.trades[key].mastery = trade.mastery;
+    }
+    else {
+      updateData.system.trades[key] = trade;
+    }
+  }
+  await actor.update(updateData);
+
+  for (const effect of actor.allEffects) {
+    await _updateTradeSkillEffect(effect);
   }
 }
 
@@ -62,15 +78,13 @@ async function _updateActorItems(actor) {
 
 // ITEM
 async function _migrateItems(migrateModules) {
-  // TODO:
-  // przeszukaj "preItemCost" i zobacz czy macro sie nie jebie 
-  // przeszukaj na wykorzystaie "use other item", pozamieniaj na custom resource
-
-
   // Iterate over world items
   for (const item of game.items) {
     await _migrateUseCost(item);
     await _updateEnhancements(item);
+    for (const effect of item.effects) {
+      await _updateTradeSkillEffect(effect);
+    }
   }
 
   // Iterate over compendium items
@@ -83,6 +97,9 @@ async function _migrateItems(migrateModules) {
       for (const item of content) {
         await _migrateUseCost(item);
         await _updateEnhancements(item);
+        for (const effect of item.effects) {
+          await _updateTradeSkillEffect(effect);
+        }
       }
     }
   }
@@ -91,10 +108,10 @@ async function _migrateItems(migrateModules) {
 async function _migrateUseCost(item) {
   const actionPoint = item.system.costs?.resources?.actionPoint;
   if (actionPoint != null) {
-    // await item.update({
-    //   ["system.costs.resources.ap"]: actionPoint,
-    //   ["system.costs.resources.actionPoint"]: null,
-    // });
+    await item.update({
+      ["system.costs.resources.ap"]: actionPoint,
+      ["system.costs.resources.actionPoint"]: null,
+    });
   }
 }
 
@@ -104,101 +121,26 @@ async function _updateEnhancements(item) {
 
   const updateData = {};
   for (const [key, enh] of Object.entries(enhs)) {
-    const upadtedEnh = {..._enhancementObject(), ...enh}
-    if (upadtedEnh.charges.consume) {
+    const upadtedEnh = foundry.utils.mergeObject(new DC20.Enhancement(item), enh);
+    if (upadtedEnh.charges.consume && upadtedEnh.charges.subtract == null) {
       delete upadtedEnh.charges.consume;
       upadtedEnh.charges.subtract = 1;
     }
     updateData[key] = upadtedEnh;
   }
-  console.log(updateData);
-  // await item.update({["system.enhancements"]: updateData});
+  await item.update({["system.enhancements"]: updateData});
 }
 
-function _enhancementObject() {
-  const resources = {
-    actionPoint: null,
-    health: null,
-    mana: null,
-    stamina: null, 
-    grit: null,
-    custom: {}
-  };
-  const charges = {
-    subtract: null,
-    fromOriginal: false
-  };
-  const modifications = {
-    modifiesCoreFormula: false,
-    coreFormulaModification: "",
-    overrideTargetDefence: false,
-    targetDefenceType: "area",
-    hasAdditionalFormula: false,
-    additionalFormula: "",
-    overrideDamageType: false,
-    damageType: "",
-    addsNewFormula: false,
-    formula: {
-      formula: "",
-      type: "",
-      category: "damage",
-      fail: false,
-      failFormula: "",
-      each5: false,
-      each5Formula: "",
-      dontMerge: false,
-      overrideDefence: "",
-      perTarget: false,
-    },
-    addsNewRollRequest: false,
-    rollRequest: {
-      category: "",
-      saveKey: "",
-      contestedKey: "",
-      dcCalculation: "",
-      dc: 0,
-      addMasteryToDC: true,
-      respectSizeRules: false,
-    },
-    addsAgainstStatus: false,
-    againstStatus: {
-      id: "",
-      supressFromChatMessage: false,
-      untilYourNextTurnStart: false,
-      untilYourNextTurnEnd: false,
-      untilTargetNextTurnStart: false,
-      untilTargetNextTurnEnd: false,
-      untilFirstTimeTriggered: false,
-      forOneMinute: false,
-      repeatedSave: false,
-      repeatedSaveKey: "phy"
-    },
-    addsEffect: null,
-    macro: "",
-    macros: {
-      preItemRoll: "",
-      postItemRoll: ""
-    },
-    rollLevelChange: false,
-    rollLevel: {
-      type: "adv",
-      value: 1
-    },
-    addsRange: false,
-    bonusRange: {
-      melee: null,
-      normal: null,
-      max: null
+// EFFECTS
+async function _updateTradeSkillEffect(effect) {
+  const changes = effect.changes;
+  let hasChanges = false;
+
+  for (let i = 0; i < changes.length; i++) {
+    if (changes[i].key.includes(".tradeSkills")) {
+      changes[i].key = changes[i].key.replace(".tradeSkills", ".trades")
+      hasChanges = true;
     }
   }
-
-  return {
-    name: "New Enhancement",
-    number: 0,
-    resources: resources,
-    charges: charges,
-    modifications: modifications,
-    description: "",
-    hide: false,
-  }
+  if (hasChanges) await effect.update({changes: effect.changes});
 }

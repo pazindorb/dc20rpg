@@ -92,7 +92,7 @@
     {{!-- Resource Change Trigger --}}
     {{#ifCond fields.trigger.value '===' "resourceChange"}}
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceKey"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.changedResourceKey"}}</span>
       <input class="input" data-path="fields.changedResource.value" value="{{fields.changedResource.value}}"/>
     </div>
     <div class="row margin-top-5">
@@ -150,7 +150,7 @@
       <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
     </div>
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceKey"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.manipulatedResourceKey"}}</span>
       <input class="input" data-path="fields.resourceKey.value" value="{{fields.resourceKey.value}}"/>
     </div>
     {{/ifCond}}

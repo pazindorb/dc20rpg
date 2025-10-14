@@ -1,25 +1,43 @@
 {
-  "name": "Shrouded Mind",
+  "name": "Natural Weapon",
   "type": "feature",
-  "img": "icons/magic/control/control-influence-rally-purple.webp",
+  "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
   "system": {
-    "itemKey": "strongMinded",
-    "description": "<p>Y<span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\">our surface thoug</span>hts can’t be read against your will, and y<span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"3\" class=\"notion-enable-hover\">ou have </span>ADV on Checks or Saves to resist attempts to read deeper into your mind.</p>",
+    "itemKey": "naturalWeaponFeature",
+    "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p>",
+    "shortInfo": "",
     "tableName": "",
     "source": "",
-    "choicePointCost": 0,
+    "choicePointCost": 1,
     "requirements": {
-      "level": 0,
+      "level": null,
       "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
+    "usable": true,
     "isReaction": false,
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
@@ -58,7 +76,7 @@
     },
     "save": {
       "type": "phy",
-      "dc": null,
+      "dc": 0,
       "calculationKey": "spell",
       "addMastery": false,
       "failEffect": ""
@@ -66,6 +84,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
+        "ap": null,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -83,12 +102,9 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false,
+        "limitedInfusion": ""
       }
     },
     "againstEffect": {
@@ -169,16 +185,16 @@
       }
     },
     "conditionals": {},
-    "hasAdvancement": false,
+    "hasAdvancement": true,
     "provideMartialExpansion": false,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
-        "mustChoose": false,
-        "pointAmount": 1,
-        "level": 0,
+        "name": "Natural Weapon",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
         "applied": false,
-        "talent": false,
+        "additionalAdvancement": false,
         "repeatable": false,
         "repeatAt": [
           0,
@@ -203,16 +219,38 @@
           0,
           0
         ],
+        "progressPath": false,
+        "mustChoose": false,
+        "pointAmount": 1,
         "allowToAddItems": false,
-        "additionalAdvancement": true,
-        "compendium": "",
-        "preFilters": "",
-        "items": {}
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "talentFilter": false,
+          "ancestryFilter": false,
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {
+          "aRIuPJVPARYLUJSf": {
+            "uuid": "Compendium.dc20rpg.system-items.Item.aRIuPJVPARYLUJSf",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
+            "name": "Natural Weapon"
+          }
+        }
       }
     },
+    "tip": "",
     "featureType": "ancestry",
-    "featureOrigin": "Psyborn",
-    "featureSourceItem": "",
+    "featureOrigin": "Beastborn",
+    "featureSourceItem": "beastborn",
     "staminaFeature": false,
     "flavorFeature": false,
     "isResource": false,
@@ -258,30 +296,24 @@
     }
   },
   "effects": [],
-  "folder": "wJcCIYPuqUeQd5AC",
+  "folder": "TLOwkSMrDkOYuEiD",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.347",
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
-    "createdTime": 1745523593793,
-    "modifiedTime": 1760370520413,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": {
-      "worldId": "dc20",
-      "uuid": null,
-      "coreVersion": "12.331",
-      "systemId": "dc20rpg",
-      "systemVersion": "0.9.0"
-    }
+    "createdTime": 1760367285458,
+    "modifiedTime": 1760367420951,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "3EJFnB4pbOP6WlOr",
-  "sort": 200000,
+  "_id": "6pJ1SUK6kRRqu5C4",
+  "sort": 300000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!3EJFnB4pbOP6WlOr"
+  "_key": "!items!6pJ1SUK6kRRqu5C4"
 }
