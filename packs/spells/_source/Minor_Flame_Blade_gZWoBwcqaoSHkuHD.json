@@ -103,7 +103,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -125,7 +132,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "addsEffect": null,
           "rollLevelChange": false,
@@ -143,10 +151,17 @@
             "postItemRoll": "",
             "preItemRoll": ""
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Add an additional +2 Fire damage to your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Attack Check </strong>(must be done before the Attack is made).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Miss:</strong> Deal 1 Fire damage to the target.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "ICaMwfDrWmiVl2ss",
+        "sourceItemId": "gZWoBwcqaoSHkuHD",
+        "sourceItemName": "Minor Flame Blade",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-red.webp",
+        "active": false
       },
       "yoyL77349nwfkg9y": {
         "name": "Flame Bound",
@@ -177,7 +192,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -199,7 +221,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "addsEffect": null,
           "rollLevelChange": false,
@@ -217,9 +240,17 @@
             "postItemRoll": "",
             "preItemRoll": ""
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Add +1 Fire damage to the target and secondary target.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Add +1 Fire damage to the target and secondary target.</span></p>",
+        "hide": false,
+        "key": "yoyL77349nwfkg9y",
+        "sourceItemId": "gZWoBwcqaoSHkuHD",
+        "sourceItemName": "Minor Flame Blade",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-red.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -237,13 +268,14 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -492,7 +524,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739403766421,
-    "modifiedTime": 1760449257022,
+    "modifiedTime": 1760521815972,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

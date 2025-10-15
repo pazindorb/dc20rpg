@@ -77,13 +77,13 @@
         "name": "Quick Heal",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": 1,
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -108,9 +108,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Reduce the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">AP </strong>cost of this spell by 1.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Reduce the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">AP </strong>cost of this spell by 1.</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "xvFunqqIOHVroaey",
+        "sourceItemId": "LeCzf0kQ3nxlhnq9",
+        "sourceItemName": "Heal",
+        "sourceItemImg": "icons/magic/life/heart-hand-gold-green-light.webp",
+        "active": false
       },
       "JcOGaeZmsyIngNQK": {
         "name": "Bolster",
@@ -122,7 +170,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -147,9 +196,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the HP gained by 3 HP per 1 <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">MP </strong>spent</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the HP gained by 3 HP per 1 <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">MP </strong>spent</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "JcOGaeZmsyIngNQK",
+        "sourceItemId": "LeCzf0kQ3nxlhnq9",
+        "sourceItemName": "Heal",
+        "sourceItemImg": "icons/magic/life/heart-hand-gold-green-light.webp",
+        "active": false
       },
       "dSixpdyDciTcZtEy": {
         "name": "You are touching a creature",
@@ -161,7 +258,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -186,9 +284,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If you are touching a creature when you cast this spell they heal for an additional 1 HP.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If you are touching a creature when you cast this spell they heal for an additional 1 HP.</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "dSixpdyDciTcZtEy",
+        "sourceItemId": "LeCzf0kQ3nxlhnq9",
+        "sourceItemName": "Heal",
+        "sourceItemImg": "icons/magic/life/heart-hand-gold-green-light.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -204,11 +350,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 2,
+        "actionPoint": null,
         "stamina": null,
         "mana": 1,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 2
       },
       "charges": {
         "current": null,
@@ -285,11 +432,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.tzugMgYBxdzogtR9",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719875142244,
-    "modifiedTime": 1747998783768,
+    "modifiedTime": 1760521815668,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

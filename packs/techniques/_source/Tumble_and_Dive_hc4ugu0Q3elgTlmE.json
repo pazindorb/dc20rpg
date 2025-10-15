@@ -62,7 +62,8 @@
           "stamina": 2,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -87,9 +88,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can bring 1 additional willing creature along with you as part of Tumble and Dive. They move the same amount of Spaces as you and must also end their movement within 1 Space of you.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can bring 1 additional willing creature along with you as part of Tumble and Dive. They move the same amount of Spaces as you and must also end their movement within 1 Space of you.</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "MyBeYSshUVtpVRFy",
+        "sourceItemId": "hc4ugu0Q3elgTlmE",
+        "sourceItemName": "Tumble and Dive",
+        "sourceItemImg": "icons/magic/control/debuff-energy-snare-purple-blue.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -104,11 +153,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 2,
+        "actionPoint": null,
         "stamina": 1,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 2
       },
       "charges": {
         "current": null,
@@ -149,11 +199,11 @@
   "_stats": {
     "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
     "duplicateSource": "Item.Q3lU8A2j8riuvMYz",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719849211604,
-    "modifiedTime": 1747998783876,
+    "modifiedTime": 1760521816373,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

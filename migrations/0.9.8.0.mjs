@@ -62,6 +62,7 @@ async function _moveTradeSkills(actor) {
 }
 
 async function _addInfusionTable(actor) {
+  if (actor !== "character") return;
   await actor.update({["flags.headersOrdering.spells.infusion"]: {
     name: "Infusions",
     order: 6,
@@ -123,8 +124,12 @@ async function _updateEnhancements(item) {
   for (const [key, enh] of Object.entries(enhs)) {
     const upadtedEnh = foundry.utils.mergeObject(new DC20.Enhancement(item), enh);
     if (upadtedEnh.charges.consume && upadtedEnh.charges.subtract == null) {
-      delete upadtedEnh.charges.consume;
+      upadtedEnh.charges['-=consume'] = null;
       upadtedEnh.charges.subtract = 1;
+    }
+    if (upadtedEnh.resources.actionPoint != null && upadtedEnh.resources.ap == null) {
+      upadtedEnh.resources.ap = upadtedEnh.resources.actionPoint;
+      upadtedEnh.resources['-=actionPoint'] = null;
     }
     updateData[key] = upadtedEnh;
   }

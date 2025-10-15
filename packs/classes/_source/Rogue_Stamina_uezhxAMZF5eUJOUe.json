@@ -76,13 +76,13 @@
         "name": "Spend Stamina instead of AP",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -107,9 +107,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>"
+        "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "ZNyQPlISpJwaPXtb",
+        "sourceItemId": "uezhxAMZF5eUJOUe",
+        "sourceItemName": "Rogue Stamina",
+        "sourceItemImg": "icons/magic/symbols/symbol-lightning-bolt.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -277,11 +325,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034980,
-    "modifiedTime": 1745434493083,
+    "modifiedTime": 1760521814673,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

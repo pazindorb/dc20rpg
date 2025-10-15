@@ -92,11 +92,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -107,7 +109,14 @@
           "formula": {
             "formula": "1",
             "type": "heal",
-            "category": "healing"
+            "category": "healing",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -129,7 +138,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -141,9 +151,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>When you produce an <strong>MP</strong> Effect that restores <strong>HP</strong> to at least 1 creature, you can restore <strong>1 HP</strong> to 1 creature of your choice within 1 Space of you (including yourself).</p>"
+        "description": "<p>When you produce an <strong>MP</strong> Effect that restores <strong>HP</strong> to at least 1 creature, you can restore <strong>1 HP</strong> to 1 creature of your choice within 1 Space of you (including yourself).</p>",
+        "hide": false,
+        "key": "R9JqTcTKX1a4AVji",
+        "sourceItemId": "iIsIecGFn4eP7t3F",
+        "sourceItemName": "Life Domain",
+        "sourceItemImg": "icons/magic/life/ankh-shadow-green.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -301,11 +327,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034883,
-    "modifiedTime": 1745412709537,
+    "modifiedTime": 1760521814318,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

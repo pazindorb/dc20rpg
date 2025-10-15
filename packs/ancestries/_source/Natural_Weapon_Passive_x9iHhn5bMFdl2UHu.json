@@ -87,7 +87,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -109,7 +116,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -122,9 +132,24 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": ""
+        "description": "",
+        "hide": false,
+        "key": "QdpythsgPdfhdqKN",
+        "sourceItemId": "x9iHhn5bMFdl2UHu",
+        "sourceItemName": "Natural Weapon Passive",
+        "sourceItemImg": "icons/creatures/abilities/paw-glowing-yellow.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -267,7 +292,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1720112470033,
-    "modifiedTime": 1760449251399,
+    "modifiedTime": 1760521817791,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

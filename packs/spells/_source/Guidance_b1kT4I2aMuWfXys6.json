@@ -101,12 +101,56 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the duration to 1 minute but it requires Concentration.</span></p>",
         "charges": {
-          "subtract": null
-        }
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "TWnLyOazIDdWmcWz",
+        "sourceItemId": "b1kT4I2aMuWfXys6",
+        "sourceItemName": "Guidance",
+        "sourceItemImg": "icons/magic/holy/barrier-shield-winged-cross.webp",
+        "active": false
       },
       "UQZuOPOULLgWdHPU": {
         "name": "Expand",
@@ -145,12 +189,56 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Grant an additional @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help} Die (of the same size you grant with the casting of the Spell).</span></p>",
         "charges": {
-          "subtract": null
-        }
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "UQZuOPOULLgWdHPU",
+        "sourceItemId": "b1kT4I2aMuWfXys6",
+        "sourceItemName": "Guidance",
+        "sourceItemImg": "icons/magic/holy/barrier-shield-winged-cross.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -166,11 +254,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -274,7 +363,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1760449256685,
+    "modifiedTime": 1760521815853,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

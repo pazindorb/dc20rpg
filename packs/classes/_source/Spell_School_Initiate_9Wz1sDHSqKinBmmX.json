@@ -87,9 +87,8 @@
           "ap": null
         },
         "charges": {
-          "consume": true,
           "fromOriginal": true,
-          "subtract": null
+          "subtract": 1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -100,7 +99,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -122,7 +128,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -135,9 +142,24 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": -1
+          "changeManaSpendLimit": -1,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast a Spell from the chosen School, you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">MP</strong> cost by 1.<br style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Its total <strong>MP</strong> cost before the reduction still can’t exceed your Mana Spend Limit. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast a Spell from the chosen School, you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">MP</strong> cost by 1.<br style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Its total <strong>MP</strong> cost before the reduction still can’t exceed your Mana Spend Limit. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</span></p>",
+        "hide": false,
+        "key": "13HW6SCfr6PM61tu",
+        "sourceItemId": "9Wz1sDHSqKinBmmX",
+        "sourceItemName": "Spell School Initiate",
+        "sourceItemImg": "icons/sundries/books/book-open-purple.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -385,7 +407,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350035521,
-    "modifiedTime": 1760448823633,
+    "modifiedTime": 1760521813546,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

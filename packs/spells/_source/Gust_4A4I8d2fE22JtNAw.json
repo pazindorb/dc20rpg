@@ -73,7 +73,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -90,7 +91,16 @@
           },
           "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "slowed"
+            "id": "slowed",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -102,9 +112,44 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">(1 MP)</strong> Spend 1 MP to create a 10 Space long and 2 Space wide Line that lasts 1 minute and requires the Sustain Action. The start of the Wind Tunnel must be within 5 Spaces of you, you choose the direction the Line goes in and what direction the wind is blowing.Creatures in the Wind Tunnel are Slowed 1 (spend 1 additional Move Speed to move 1 Space) moving against the wind, but can move 2 Spaces for every 1 Space spent moving the same direction as the wind. Any creature that starts their turn in the Wind Tunnel must make a Might Save or be pushed 4 Spaces in the direction of the wind. You can spend 1 AP to reverse the direction of the wind in the tunnel.</span></p>"
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">(1 MP)</strong> Spend 1 MP to create a 10 Space long and 2 Space wide Line that lasts 1 minute and requires the Sustain Action. The start of the Wind Tunnel must be within 5 Spaces of you, you choose the direction the Line goes in and what direction the wind is blowing.Creatures in the Wind Tunnel are Slowed 1 (spend 1 additional Move Speed to move 1 Space) moving against the wind, but can move 2 Spaces for every 1 Space spent moving the same direction as the wind. Any creature that starts their turn in the Wind Tunnel must make a Might Save or be pushed 4 Spaces in the direction of the wind. You can spend 1 AP to reverse the direction of the wind in the tunnel.</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "zTwXfocQkovMeuph",
+        "sourceItemId": "4A4I8d2fE22JtNAw",
+        "sourceItemName": "Gust",
+        "sourceItemImg": "icons/magic/air/wind-swirl-gray-blue.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -120,11 +165,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -212,11 +258,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.YR1cOnTZ1VbxFJWa",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1747998783755,
+    "modifiedTime": 1760521815478,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

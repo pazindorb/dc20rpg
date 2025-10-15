@@ -84,17 +84,18 @@
         "name": "Spend 1 Minute",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -157,10 +158,16 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": 0
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">You can spend 1 minute observing or interacting with a creature out of Combat</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "p7JZnx9C2LrUnomX",
+        "sourceItemId": "Ye0XBnNhAcNaUmZ7",
+        "sourceItemName": "Know Your Enemy (Flavor Feature)",
+        "sourceItemImg": "icons/sundries/gaming/chess-knight-white.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -178,13 +185,14 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -320,11 +328,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034270,
-    "modifiedTime": 1750867029934,
+    "modifiedTime": 1760521814132,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

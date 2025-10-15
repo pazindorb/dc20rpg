@@ -78,17 +78,18 @@
         "name": "Slam",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -106,7 +107,9 @@
             "each5": true,
             "fail": true,
             "each5Formula": "1",
-            "failFormula": "0"
+            "failFormula": "0",
+            "dontMerge": false,
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -146,10 +149,18 @@
           "macros": {
             "postItemRoll": "",
             "preItemRoll": ""
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "changeManaSpendLimit": 0
         },
         "description": "<p>The target takes <span style=\"font-weight:600\" data-token-index=\"3\" class=\"notion-enable-hover\"><strong>1</strong></span> Bludgeoning damage.</p><p><span style=\"font-weight:600\" data-token-index=\"5\" class=\"notion-enable-hover\"><strong>Success (each 5): +1</strong></span> damage.</p><p></p><p><em><strong>System Tip:</strong> Each 5 is not automated for contests.</em></p>",
-        "hide": false
+        "hide": false,
+        "key": "e3WzVBJa3TTkD1pi",
+        "sourceItemId": "sYLkRBHa0ZkMnLuL",
+        "sourceItemName": "Slam",
+        "sourceItemImg": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -165,11 +176,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -222,11 +234,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.xKO60hmXBUDawg6y",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1751014445935,
+    "modifiedTime": 1760521816430,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

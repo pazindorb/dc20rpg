@@ -101,7 +101,6 @@
         "name": "Use Legendary AP",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": null,
@@ -118,11 +117,13 @@
               "key": "legendary-ap"
             }
           },
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -185,14 +186,17 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": 0
         },
         "description": "<p><strong>Legendary Action:</strong> At the end of a turn, the monster can spend any number of Legendary Action points to take a number of Actions equal to the number of PCs occupying that turn.</p><p>Legendary Action Points are regained at start of the round.</p>",
         "hide": false,
-        "sourceItemId": "KPoL0ErrJF70D7DL",
+        "sourceItemId": "MkMHHqxidosHeZJD",
         "sourceItemName": "Legendary Action Points",
         "sourceItemImg": "icons/magic/light/explosion-star-glow-yellow.webp",
-        "enhCosts": 0
+        "enhCosts": 0,
+        "key": "rF7NpC1SmkKu49xz",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -385,9 +389,9 @@
     "exportSource": null,
     "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1751527276015,
-    "modifiedTime": 1760367104882,
+    "modifiedTime": 1760521818033,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MkMHHqxidosHeZJD",

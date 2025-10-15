@@ -98,11 +98,13 @@
               "value": null
             }
           },
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -113,7 +115,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -135,7 +144,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -147,9 +157,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>Use when <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">projectile deals more damage.</span></p>"
+        "description": "<p>Use when <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">projectile deals more damage.</span></p>",
+        "hide": false,
+        "key": "IVxAG81tY77czZgK",
+        "sourceItemId": "96kFQIA7P0dh5Nys",
+        "sourceItemName": "Deflect Attack",
+        "sourceItemImg": "icons/weapons/ammunition/arrow-broadhead-glowing-orange.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -313,11 +339,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034910,
-    "modifiedTime": 1744984753253,
+    "modifiedTime": 1760521813531,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

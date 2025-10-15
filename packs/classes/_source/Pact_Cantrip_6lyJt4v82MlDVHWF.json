@@ -87,9 +87,8 @@
           "ap": null
         },
         "charges": {
-          "consume": true,
           "fromOriginal": true,
-          "subtract": null
+          "subtract": 1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -99,7 +98,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -121,7 +127,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": true,
           "rollLevel": {
@@ -134,9 +143,24 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong>.</span></p>"
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong>.</span></p>",
+        "hide": false,
+        "key": "epEeEWmilTgEKeFZ",
+        "sourceItemId": "6lyJt4v82MlDVHWF",
+        "sourceItemName": "Pact Cantrip",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+        "active": false
       },
       "vSuLLqUruNVQ7jQl": {
         "name": "Pact Cantrip - Range",
@@ -166,7 +190,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -186,7 +217,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -199,9 +233,24 @@
             "normal": 5,
             "max": 5
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</span></p>"
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</span></p>",
+        "hide": false,
+        "key": "vSuLLqUruNVQ7jQl",
+        "sourceItemId": "6lyJt4v82MlDVHWF",
+        "sourceItemName": "Pact Cantrip",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -413,7 +462,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1760449259045,
+    "modifiedTime": 1760521813450,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

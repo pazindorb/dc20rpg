@@ -77,13 +77,13 @@
         "name": "Sweep Attack",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -94,7 +94,12 @@
             "formula": "1",
             "type": "slashing",
             "overrideDefence": "",
-            "dontMerge": true
+            "dontMerge": true,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -116,9 +121,44 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p><p>You can use this Maneuver multiple times.</p>"
+        "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p><p>You can use this Maneuver multiple times.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "hefBlhRCldpMVgEC",
+        "sourceItemId": "2iRK0FdWRvCPH44g",
+        "sourceItemName": "Sweep Attack",
+        "sourceItemImg": "icons/skills/melee/strikes-sword-scimitar.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -134,11 +174,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -181,11 +222,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.qrkBxXBYqdsd7rUt",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1750931412478,
+    "modifiedTime": 1760521816176,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

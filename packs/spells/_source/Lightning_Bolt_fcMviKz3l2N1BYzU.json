@@ -78,13 +78,13 @@
         "name": "Damage",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -109,21 +109,69 @@
             "melee": null,
             "normal": 5,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Lightning </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">damage.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Lightning </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">damage.</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "bRYTobXDiaItUZkD",
+        "sourceItemId": "fcMviKz3l2N1BYzU",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false
       },
       "rmbSlTSTHtLfosvl": {
         "name": "Range",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -148,21 +196,69 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>You increase the range by +5 Spaces.</p>"
+        "description": "<p>You increase the range by +5 Spaces.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "rmbSlTSTHtLfosvl",
+        "sourceItemId": "fcMviKz3l2N1BYzU",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false
       },
       "dmdxQuDaGVxgyqZx": {
         "name": "Chain",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -172,7 +268,13 @@
             "category": "damage",
             "formula": "2",
             "type": "lightning",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -194,9 +296,44 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Choose 1 additional target within 2 Spaces of the original target. Compare you Spell Check against the new target.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Hit:</strong> The additional target takes 2 Lightning damage, and is unaffected by features that allow you to deal more damage, including Heavy Hits and higher (except the Cantrip Passive). You can use this Enhancement multiple times, choosing an additional target within 2 Spaces of the previously chosen target.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Choose 1 additional target within 2 Spaces of the original target. Compare you Spell Check against the new target.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Hit:</strong> The additional target takes 2 Lightning damage, and is unaffected by features that allow you to deal more damage, including Heavy Hits and higher (except the Cantrip Passive). You can use this Enhancement multiple times, choosing an additional target within 2 Spaces of the previously chosen target.</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "dmdxQuDaGVxgyqZx",
+        "sourceItemId": "fcMviKz3l2N1BYzU",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false
       },
       "ky8X7EPj7hHbsYiG": {
         "name": "Cantrip Passive",
@@ -208,11 +345,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -225,7 +364,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -247,7 +393,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "addsEffect": null,
           "rollLevelChange": false,
@@ -264,10 +411,18 @@
           "macros": {
             "postItemRoll": "",
             "preItemRoll": ""
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "changeManaSpendLimit": 0
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 damage against creatures that are wearing metal armor.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "ky8X7EPj7hHbsYiG",
+        "sourceItemId": "fcMviKz3l2N1BYzU",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -283,11 +438,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -364,11 +520,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.EdDIiMT9fxsHZgTZ",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1747998783909,
+    "modifiedTime": 1760521815938,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

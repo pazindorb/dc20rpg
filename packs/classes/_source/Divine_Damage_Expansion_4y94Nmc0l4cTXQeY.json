@@ -100,7 +100,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -122,7 +129,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -135,9 +143,24 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": "<p>When you deal damage with a Spell you can convert the damage to your Divine Damage type.</p>"
+        "description": "<p>When you deal damage with a Spell you can convert the damage to your Divine Damage type.</p>",
+        "hide": false,
+        "key": "EWh2FAW0A2NT8OCQ",
+        "sourceItemId": "4y94Nmc0l4cTXQeY",
+        "sourceItemName": "Divine Damage Expansion",
+        "sourceItemImg": "icons/magic/light/explosion-glow-spiral-teal.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -392,7 +415,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350035840,
-    "modifiedTime": 1760449263024,
+    "modifiedTime": 1760521810654,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -73,7 +73,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -96,7 +97,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -108,9 +112,44 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>When you Hit a creature with your <strong>Natural</strong> <strong>Weapon</strong>, they make a <strong>Physical</strong> <strong>Save</strong> against your Save DC.</p><p><strong>Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired} </strong>until the start of your next turn.</p>"
+        "description": "<p>When you Hit a creature with your <strong>Natural</strong> <strong>Weapon</strong>, they make a <strong>Physical</strong> <strong>Save</strong> against your Save DC.</p><p><strong>Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired} </strong>until the start of your next turn.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "XnNcrjUMVUcBxpnO",
+        "sourceItemId": "xNIuY70IAwnsIkIu",
+        "sourceItemName": "Venomous Natural Weapon",
+        "sourceItemImg": "icons/creatures/abilities/stinger-poison-scorpion-brown.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -226,9 +265,9 @@
     "duplicateSource": null,
     "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720112465204,
-    "modifiedTime": 1760367285476,
+    "modifiedTime": 1760521817828,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

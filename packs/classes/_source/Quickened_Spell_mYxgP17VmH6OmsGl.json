@@ -77,14 +77,13 @@
         "name": "Quickened Spell",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": 1,
           "stamina": null,
           "custom": {},
           "grit": null,
           "restPoints": null,
-          "ap": null
+          "ap": -1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -110,12 +109,56 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": 1
+          "changeManaSpendLimit": 1,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
         "description": "<p>You can spend <strong>1 MP</strong> to reduce the <strong>AP</strong> cost of a Spell by 1 (minimum of <strong>1 AP</strong>).</p><p><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>You can only use 1 Meta Magic Enhancement per Spell</strong></span></p>",
         "charges": {
-          "subtract": null
-        }
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "pREoVdhyAjYrJpxv",
+        "sourceItemId": "mYxgP17VmH6OmsGl",
+        "sourceItemName": "Quickened Spell",
+        "sourceItemImg": "icons/magic/time/hourglass-brown-orange.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -277,7 +320,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350035427,
-    "modifiedTime": 1760448979711,
+    "modifiedTime": 1760521814427,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

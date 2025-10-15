@@ -102,7 +102,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -124,7 +131,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "addsEffect": null,
           "rollLevelChange": false,
@@ -142,9 +150,17 @@
             "postItemRoll": "",
             "preItemRoll": ""
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While a creature is within the area of your Arcane Sigil, it has ADV on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While a creature is within the area of your Arcane Sigil, it has ADV on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</span></p>",
+        "hide": false,
+        "key": "n99AxQuH1fRMU0c5",
+        "sourceItemId": "rEg3QZXicTth7ktd",
+        "sourceItemName": "Arcane Sigil",
+        "sourceItemImg": "icons/magic/symbols/runes-star-magenta.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -162,13 +178,14 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": 1,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -315,7 +332,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034142,
-    "modifiedTime": 1760449259371,
+    "modifiedTime": 1760521814543,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -94,12 +94,14 @@
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw"
+          "originalId": "ajgSH5FPoJZvtCcw",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -109,7 +111,13 @@
             "formula": "2",
             "type": "piercing",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -131,7 +139,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -143,9 +154,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>2 Piercing damage and Physical Save against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>"
+        "description": "<p>2 Piercing damage and Physical Save against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>",
+        "hide": false,
+        "key": "psqqOomUdYYJBJcW",
+        "sourceItemId": "eu0sQyynPGSuLRiy",
+        "sourceItemName": "Hunter’s Strike",
+        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+        "active": false
       },
       "ERBAQakGUNtmoPaB": {
         "name": "Hunter’s Strike: Snare",
@@ -157,12 +184,14 @@
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw"
+          "originalId": "ajgSH5FPoJZvtCcw",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -172,7 +201,13 @@
             "formula": "2",
             "type": "bludgeoning",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -194,7 +229,10 @@
             "untilYourNextTurnEnd": true,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -206,9 +244,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>2 Bludgeoning damage and <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong></span>against <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk]{Immobilized}.</strong></span></p>"
+        "description": "<p>2 Bludgeoning damage and <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong></span>against <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk]{Immobilized}.</strong></span></p>",
+        "hide": false,
+        "key": "ERBAQakGUNtmoPaB",
+        "sourceItemId": "eu0sQyynPGSuLRiy",
+        "sourceItemName": "Hunter’s Strike",
+        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+        "active": false
       },
       "rPJYtKxrsWusovHy": {
         "name": "Hunter’s Strike: Acid",
@@ -220,12 +274,14 @@
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw"
+          "originalId": "ajgSH5FPoJZvtCcw",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -235,7 +291,13 @@
             "formula": "2",
             "type": "corrosion",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -257,7 +319,10 @@
             "untilYourNextTurnEnd": true,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -269,9 +334,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1} </strong>until the end of your next turn.</p>"
+        "description": "<p>2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1} </strong>until the end of your next turn.</p>",
+        "hide": false,
+        "key": "rPJYtKxrsWusovHy",
+        "sourceItemId": "eu0sQyynPGSuLRiy",
+        "sourceItemName": "Hunter’s Strike",
+        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+        "active": false
       },
       "ZMPKdkjBYxvAnNze": {
         "name": "Hunter’s Strike: Poison",
@@ -283,12 +364,14 @@
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw"
+          "originalId": "ajgSH5FPoJZvtCcw",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -298,7 +381,13 @@
             "formula": "2",
             "type": "poison",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -320,7 +409,10 @@
             "untilYourNextTurnEnd": true,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -332,9 +424,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>2 <strong>Poison</strong> damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> until the end of your next turn.</p>"
+        "description": "<p>2 <strong>Poison</strong> damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> until the end of your next turn.</p>",
+        "hide": false,
+        "key": "ZMPKdkjBYxvAnNze",
+        "sourceItemId": "eu0sQyynPGSuLRiy",
+        "sourceItemName": "Hunter’s Strike",
+        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+        "active": false
       },
       "drXXPuAOCsJLHLOg": {
         "name": "Hunter’s Strike: Flash Bang",
@@ -346,12 +454,14 @@
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw"
+          "originalId": "ajgSH5FPoJZvtCcw",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -361,7 +471,13 @@
             "formula": "2",
             "type": "sonic",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -383,7 +499,10 @@
             "untilYourNextTurnEnd": true,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -395,9 +514,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Sonic damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Mental Save </strong>against <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>until the end of your next turn.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Sonic damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Mental Save </strong>against <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>until the end of your next turn.</span></p>",
+        "hide": false,
+        "key": "drXXPuAOCsJLHLOg",
+        "sourceItemId": "eu0sQyynPGSuLRiy",
+        "sourceItemName": "Hunter’s Strike",
+        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+        "active": false
       },
       "DybnWJrobFrEojsK": {
         "name": "Hunter’s Strike: Fire Oil",
@@ -409,12 +544,14 @@
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw"
+          "originalId": "ajgSH5FPoJZvtCcw",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -424,7 +561,13 @@
             "formula": "2",
             "type": "fire",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -446,7 +589,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -458,9 +604,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Fire damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5]{Burning}</strong>.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Fire damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5]{Burning}</strong>.</span></p>",
+        "hide": false,
+        "key": "DybnWJrobFrEojsK",
+        "sourceItemId": "eu0sQyynPGSuLRiy",
+        "sourceItemName": "Hunter’s Strike",
+        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -478,13 +640,14 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": 1,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -622,11 +785,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350035174,
-    "modifiedTime": 1752244949213,
+    "modifiedTime": 1760521814279,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

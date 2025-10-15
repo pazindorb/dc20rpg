@@ -100,7 +100,13 @@
             "formula": "2",
             "type": "radiant",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -122,7 +128,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -135,22 +144,36 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": "<p>When you make a <strong>Martial Attack</strong> with the Weapon, you can spend 1 or more SP to deal +2 Bound Damage per SP spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p>"
+        "description": "<p>When you make a <strong>Martial Attack</strong> with the Weapon, you can spend 1 or more SP to deal +2 Bound Damage per SP spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p>",
+        "hide": false,
+        "key": "tXOWadltDwewJwss",
+        "sourceItemId": "7AqGDryoGdOJ81j5",
+        "sourceItemName": "Bound Weapon",
+        "sourceItemImg": "icons/magic/light/swords-light-glowing-white.webp",
+        "active": false
       },
       "AF8IpxNcnblXbdyh": {
         "name": "Free Attack Maneuver",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
           "restPoints": null,
-          "ap": null
+          "ap": -1
         },
         "charges": {
           "consume": false,
@@ -166,7 +189,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -188,7 +218,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -201,9 +232,24 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          }
         },
-        "description": "<p>When you use your Smite you gain benefits of 1 Attack Maneuver of your choice for free.</p><p></p><p><em><strong>System Tip:</strong> Just use the maneuver and this enhancement to remove its AP cost.</em></p>"
+        "description": "<p>When you use your Smite you gain benefits of 1 Attack Maneuver of your choice for free.</p><p></p><p><em><strong>System Tip:</strong> Just use the maneuver and this enhancement to remove its AP cost.</em></p>",
+        "hide": false,
+        "key": "AF8IpxNcnblXbdyh",
+        "sourceItemId": "7AqGDryoGdOJ81j5",
+        "sourceItemName": "Bound Weapon",
+        "sourceItemImg": "icons/magic/light/swords-light-glowing-white.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -362,7 +408,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034896,
-    "modifiedTime": 1760449262649,
+    "modifiedTime": 1760521813471,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
