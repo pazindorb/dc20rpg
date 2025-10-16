@@ -188,7 +188,7 @@ export class ActorRequestDialog extends DC20Dialog {
 
   async _onRest(key) {
     for (const wrapper of Object.values(this.selectableActors)) {
-      RestDialog.open(wrapper.actor, {preselected: key, sendToActorOwners: true});
+      wrapper.actor.rest({preselected: key, sendToActorOwners: true})
     }
     this.close();
   }

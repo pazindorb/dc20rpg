@@ -1,4 +1,5 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
@@ -765,5 +766,9 @@ export class DC20RpgActor extends Actor {
         description: `You are no longer sustaining '${sustain.name}' - ${message}`,
       });
     }
+  }
+
+  rest(options) {
+    RestDialog.open(this, options);
   }
 }
