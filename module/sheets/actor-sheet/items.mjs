@@ -1,5 +1,3 @@
-import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
-
 export function sortMapOfItems(context, mapOfItems) {  
   const sortedEntries = [...mapOfItems.entries()].sort(([, a], [, b]) => a.sort - b.sort);
 
@@ -72,7 +70,7 @@ export function prepareItemsForCharacter(context, actor) {
 
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
-    _prepareItemUsageCosts(item, actor);
+    _prepareItemUsageCosts(item);
     prepareItemFormulas(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     _checkIfItemIsIdentified(item);
@@ -96,6 +94,10 @@ export function prepareItemsForCharacter(context, actor) {
         break;
       case 'spell': 
         _addItemToTable(item, spells, item.system.spellType); 
+        if (isFavorite) _addItemToTable(item, favorites, "spell");
+        break;
+      case 'infusion': 
+        _addItemToTable(item, spells, "infusion"); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
       case 'basicAction': 
@@ -132,14 +134,14 @@ export function prepareItemsForNpc(context, actor) {
   const containers = [];
 
   for (const item of context.items) {
-    _prepareItemUsageCosts(item, actor);
+    _prepareItemUsageCosts(item);
     prepareItemFormulas(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
     if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
       const itemCosts = item.system.costs;
-      if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
+      if (itemCosts && itemCosts.resources.ap !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
     }
     else if (item.type === "container") {
@@ -170,7 +172,7 @@ export function prepareItemsForStorage(context, actor) {
   const containers = [];
 
    for (const item of context.items) {
-    _prepareItemUsageCosts(item, actor);
+    _prepareItemUsageCosts(item);
     prepareItemFormulas(item, actor);
     _checkIfItemIsIdentified(item);
     item.img = item.img || DEFAULT_TOKEN;
@@ -285,23 +287,9 @@ function _sortAndPrepareTables(tables) {
   return headers;
 }
 
-function _prepareItemUsageCosts(item, actor) {
-  item.usageCosts = getItemUsageCosts(item, actor);
-  _prepareEnhUsageCosts(item);
-}
-
-function _prepareEnhUsageCosts(item) {
-  const enhancements = item.allEnhancements;
-  if (!enhancements) return;
-
-  enhancements.values().forEach(enh => {
-    let counter = 0;
-    counter += enh.resources.actionPoint || 0;
-    counter += enh.resources.stamina || 0;
-    counter += enh.resources.mana || 0;
-    counter += enh.resources.health || 0;
-    enh.enhCosts = counter;
-  });
+function _prepareItemUsageCosts(item) {
+  if (!item.use) return;
+  item.useCost = item.use.useCostDisplayData(true);
 }
 
 export function prepareItemFormulas(item, actor) {

@@ -104,12 +104,12 @@ async function _updateActorBasicActions(actor) {
 
 async function _restoreMissingSkillLabels(actor) {
   const skills = actor.system.skills;
-  const trades = actor.system.tradeSkills;
+  const trades = actor.system.trades;
   const langs = actor.system.languages;
   
   const updateData = {
     skills: {},
-    tradeSkills: {},
+    trades: {},
     languages: {},
   }
 
@@ -125,7 +125,7 @@ async function _restoreMissingSkillLabels(actor) {
     if (!skill.label) {
       const updated = skill;
       updated.label = game.i18n.localize(`dc20rpg.trades.${key}`);
-      updateData.tradeSkills[key] = updated;
+      updateData.trades[key] = updated;
     }
   });
 

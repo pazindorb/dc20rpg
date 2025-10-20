@@ -8,6 +8,7 @@ import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
 import CombatTraining from "./fields/combatTraining.mjs";
 import { createNewAdvancement } from "../subsystems/character-progress/advancement/advancements.mjs";
+import RollMenu from "./fields/rollMenu.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -24,6 +25,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         items: new f.StringField({required: true, initial: ""}),
       }),
+      rollMenu: new RollMenu(true),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
       quickRoll: new f.BooleanField({required: true, initial: false}),
       macros: new f.ObjectField({required: true})
@@ -41,11 +43,12 @@ class DC20UsableItemData extends DC20BaseItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      usable: new f.BooleanField({required: true, initial: true, readonly: true}),
       isReaction: new f.BooleanField({required: true, initial: false}),
       help: new f.SchemaField({
         ignoreMHP: new f.BooleanField({required: true, initial: false}),
         subtract: new f.BooleanField({required: true, initial: false}),
-        doNotExpire: new f.BooleanField({required: true, initial: false}),
+        duration: new f.StringField({required: true, initial: "round"}),
       }),
       toggle: new f.SchemaField({
         toggleable: new f.BooleanField({required: true, initial: false}),
@@ -65,7 +68,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),
         untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
         untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
-      }), // Left for backward compatibility
+      }), // Left for backward compatibility remove as part of 0.10
       againstStatuses: new f.ObjectField({required: true}),
       rollRequests: new f.ObjectField({required: true}),
       formulas: new f.ObjectField({required: true}),
@@ -74,7 +77,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
         linkWithToggle: new f.BooleanField({required: true, initial: false}),
-        hideFromRollMenu: new f.BooleanField({required: true, initial: false}),
+        hideFromRollMenu: new f.BooleanField({required: true, initial: false}), // TODO: backward compatibility remove as part of 0.10
       }),
       range: new f.SchemaField({
         melee: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
@@ -100,7 +103,7 @@ class DC20UsableItemData extends DC20BaseItemData {
           }
         }})
       }),
-      conditional: new ConditionalFields(), // Left for backward compatibility
+      conditional: new ConditionalFields(), // Left for backward compatibility remove as part of 0.10
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
@@ -115,6 +118,7 @@ class DC20ItemItemData extends DC20BaseItemData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      inventory: new f.BooleanField({required: true, initial: true, readonly: true}),
       quantity: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       lootRoll: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       stackable: new f.BooleanField({required: true, initial: false}),
@@ -123,10 +127,16 @@ class DC20ItemItemData extends DC20BaseItemData {
         value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         currency: new f.StringField({required: true, initial: "gp"})
       }),
+      infusions: new f.ObjectField({required:true, initial: {}}),
       rarity: new f.StringField({required: true, initial: ""}),
       statuses: new f.SchemaField({
         attuned: new f.BooleanField({required: true, initial: false}),
         equipped: new f.BooleanField({required: true, initial: false}),
+        slotLink: new f.SchemaField({
+          category: new f.StringField({required: true, initial: ""}),
+          key: new f.StringField({required: true, initial: ""}),
+          predefined: new f.StringField({required: true, initial: ""}),
+        }),
         identified: new f.BooleanField({required: true, initial: true}),
       }),
       properties: new PropertyFields(),
@@ -152,6 +162,7 @@ class DC20UniqueItemData extends DC20BaseItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      unique: new f.BooleanField({required: true, initial: true, readonly: true}),
       scaling: new f.ObjectField({required: true}),
       advancements: new f.ObjectField({required: true}),
     })
@@ -287,6 +298,53 @@ export class DC20TechniqueData extends DC20UsableItemData {
       knownLimit: new f.BooleanField({required: true, initial: true}),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()
+    })
+  }
+}
+
+export class DC20InfusionData extends DC20UsableItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      knownLimit: new f.BooleanField({required: true, initial: true}),
+      effectsConfig: new EffectsConfigFields(),
+      infusion: new f.SchemaField({
+        power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        variablePower: new f.BooleanField({required: true, initial: false}),
+        tags: new f.SchemaField({
+          attunement: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.attunement"}),
+          }),
+          artifact: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.artifact"}),
+          }),
+          consumable: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.consumable"}),
+          }),
+          charges: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.charges"}),
+          }),
+          limited: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.limited"}),
+          }),
+        }),
+        copy: new f.SchemaField({
+          effects: new f.BooleanField({required: true, initial: false}),
+          enhancements: new f.BooleanField({required: true, initial: false}),
+          macros: new f.BooleanField({required: true, initial: false}),
+          conditionals: new f.BooleanField({required: true, initial: false}),
+          formulas: new f.BooleanField({required: true, initial: false}),
+          rollRequests: new f.BooleanField({required: true, initial: false}),
+          againstStatuses: new f.BooleanField({required: true, initial: false}),
+          toggle: new f.BooleanField({required: true, initial: false}),
+        }),
+      })
     })
   }
 }

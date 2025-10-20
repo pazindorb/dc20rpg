@@ -4,11 +4,12 @@ import { getLabelFromKey } from "../../helpers/utils.mjs";
 export function duplicateData(context, actor) {
   context.config = CONFIG.DC20RPG;
   context.type = actor.type;
-  context.system = actor.system;
-  context.flags = actor.flags;
+  context.system = foundry.utils.deepClone(actor.system);
+  context.flags = foundry.utils.deepClone(actor.flags);
   context.editMode = context.flags.dc20rpg?.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.help = _help(actor);
+  context.items = actor.items.contents;
 }
 
 function _help(actor) {
@@ -29,7 +30,7 @@ export function prepareCommonData(context) {
 
 export function prepareCharacterData(context) {
   _skills(context);
-  _tradeSkills(context);
+  _trades(context);
   _languages(context);
 }
 
@@ -41,6 +42,24 @@ export function prepareNpcData(context) {
 export function prepareStorageData(context) {
   context.isGM = game.user.isGM;
   context.gridTemplate = _getGridTemplate(context.system.storageType);
+
+  if (context.system.storageType === "randomLootTable") {
+    const items = context.items.values().toArray().sort((a, b) => {
+      return a.system.lootRoll - b.system.lootRoll
+    })
+
+    let lowerLimit = 1; 
+    for (const item of items) {
+      const upperLimit = item.system.lootRoll;
+      if (lowerLimit > upperLimit) {
+        item.lowerLimit = upperLimit;
+      }
+      else {
+        item.lowerLimit = lowerLimit;
+        lowerLimit = upperLimit + 1;
+      }
+    }
+  }
 }
 
 export function prepareCompanionData(context) {
@@ -71,7 +90,7 @@ function _getGridTemplate(type) {
   if (type === "vendor" && !isGM) return "1fr 100px 50px";
   if (type === "partyInventory" && !isGM) return "1fr 50px";
   if (type === "partyInventory" && isGM) return "1fr 50px 50px";
-  if (type === "randomLootTable" && isGM) return "1fr 50px 50px 50px";
+  if (type === "randomLootTable" && isGM) return "1fr 75px 50px 50px";
   if (type === "randomLootTable" && !isGM) return "1fr 50px";
   return "1fr 50px";
 }
@@ -192,10 +211,10 @@ function _skills(context) {
   }
 }
 
-function _tradeSkills(context) {
-  const trade = Object.entries(context.system.tradeSkills)
+function _trades(context) {
+  const trades = Object.entries(context.system.trades)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
-  context.skills.trade = Object.fromEntries(trade);
+  context.skills.trades = Object.fromEntries(trades);
 }
 
 function _languages(context) {

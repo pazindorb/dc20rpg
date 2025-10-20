@@ -38,7 +38,7 @@
         {{!-- Core Resources --}}
         <div class="resource ap-cost" title="{{localize "dc20rpg.item.sheet.usage.ap"}}">
           <div class="wrapper"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
-          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.actionPoint" value="{{enhancement.resources.actionPoint}}" placeholder="-" data-dtype="Number">
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.ap" value="{{enhancement.resources.ap}}" placeholder="-" data-dtype="Number">
         </div>
         <div class="resource stamina-cost" title="{{localize "dc20rpg.item.sheet.usage.sp"}}">
           <div class="wrapper"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
@@ -63,7 +63,7 @@
 
         {{!-- Custom Resources --}}
         {{#each enhancement.resources.custom as |cost key|}}
-        <div class="resource" title="{{cost.name}}">
+        <div class="resource" title="{{cost.label}}">
           <img class="resource-img" src="{{cost.img}}"/>
           <input type="text" name="system.enhancements.{{enhancementKey}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
         </div>
@@ -72,9 +72,9 @@
 
       {{!-- Consume Charges --}}
       <div class="charges grid grid-2col">
-        <div class="row ignore-symetry">
+        <div class="row">
           <span>{{localize "dc20rpg.item.sheet.enh.additionalConsumed"}}</span>
-          <a class="activable fa-lg {{#if enhancement.charges.consume}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.charges.consume"></a>
+          <input type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.charges.subtract" value="{{enhancement.charges.subtract}}" placeholder="-">
         </div>
         <div class="row ignore-symetry" title="{{localize "dc20rpg.item.sheet.enh.fromOriginalTitle"}}">
           <span>{{localize "dc20rpg.item.sheet.enh.fromOriginal"}}</span>
@@ -115,6 +115,13 @@
         </div>
       </div>
       {{/if}}
+
+      {{!-- Changes Mana Spend Limit --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.changeManaSpendLimit"}}</span>
+        <input type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.changeManaSpendLimit" value="{{enhancement.modifications.changeManaSpendLimit}}" placeholder="-">
+      </div>
 
       {{!-- Modifies Core Formula --}}
       <hr class="margin-top-5" />

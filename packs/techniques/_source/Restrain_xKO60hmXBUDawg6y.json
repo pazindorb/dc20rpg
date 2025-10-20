@@ -68,17 +68,18 @@
         "name": "Restrain",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -91,7 +92,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -131,10 +139,18 @@
           "macros": {
             "postItemRoll": "",
             "preItemRoll": ""
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "changeManaSpendLimit": 0
         },
         "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p>",
-        "hide": false
+        "hide": false,
+        "key": "kfFtFNG0VlwQHgy3",
+        "sourceItemId": "xKO60hmXBUDawg6y",
+        "sourceItemName": "Restrain",
+        "sourceItemImg": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -150,11 +166,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -221,11 +238,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.I43SgvhCmvjLQb5v",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1751014521148,
+    "modifiedTime": 1760521816450,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

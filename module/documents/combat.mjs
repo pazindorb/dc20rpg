@@ -1,17 +1,15 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
-import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
-import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { sendSimplePopupToActorOwners } from "../dialogs/simple-popup.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
-import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -130,16 +128,7 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
     if (!actor) return;
 
-    // TODO: Is initiative choice still an option?
-    // const options = {"flat": "Flat d20 Roll", "initiative": "Initiative (Agi + CM)", ...actor.getCheckOptions(true, true, true, true)};
-    // const preselected = game.settings.get("dc20rpg", "defaultInitiativeKey");
-    // const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: (preselected || "initiative")});
-    // if (!checkKey) return null;
-    // const details = prepareCheckDetailsFor(checkKey, null, null, "Initiative Roll", options[checkKey]);
-    // details.type = "initiative" // For Roll Level Check
-
-    const details = prepareCheckDetailsFor("initiative", null, null, "Initiative Roll");
-    const roll = await promptRoll(actor, details);
+    const roll = await actor.roll("initiative", "check", {rollTitle: "Initiative", customLabel: "Initiative Roll"});
     if (!roll) return null;
 
     combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};
@@ -178,7 +167,7 @@ export class DC20RpgCombat extends Combat {
         numberOfPCs++;
         successPCs += this._checkInvidualOutcomes(combatant);
       }
-      refreshOnCombatStart(actor);
+      this._refreshOnCombatStart(actor);
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
     });
@@ -200,7 +189,15 @@ export class DC20RpgCombat extends Combat {
     await super.endCombat();
     const combatantId = this.current.combatantId;
     const combatant = this.combatants.get(combatantId);
-    if (combatant) clearMultipleCheckPenalty(combatant.actor);
+    if (combatant) await clearMultipleCheckPenalty(combatant.actor);
+
+    this.combatants.forEach(combatant => {
+      const actor = combatant.actor;
+      clearHeldAction(combatant.actor);
+      clearHelpDice(combatant.actor);                 // Clear "round" duration
+      clearHelpDice(combatant.actor, null, "combat"); // Clear "combat" duration
+      this._refreshOnCombatEnd(actor);
+    })
   }
 
   /** @override **/
@@ -325,6 +322,7 @@ export class DC20RpgCombat extends Combat {
       await this._respectRoundCounterForEffects();
       this._deathsDoorCheck(actor);
       this._sustainCheck(actor);
+      this._refreshOnRoundStart(actor);
       runEventsFor("turnStart", actor);
       reenableEventsOn("turnStart", actor);
       this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
@@ -349,13 +347,13 @@ export class DC20RpgCombat extends Combat {
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
 
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
-    refreshOnRoundEnd(actor);
+    this._refreshOnRoundEnd(actor);
     runEventsFor("turnEnd", actor);
     runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
     this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id));
     this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id), currentRound);
-    clearMultipleCheckPenalty(actor);
+    await clearMultipleCheckPenalty(actor);
     clearMovePoints(actor);
     await super._onEndTurn(combatant, context);
 
@@ -384,6 +382,51 @@ export class DC20RpgCombat extends Combat {
       runEventsFor(trigger, actor, filters);
       reenableEventsOn(trigger, actor, filters);
     });
+  }
+
+  async _refreshOnRoundStart(actor) {
+    await this._refreshResources(actor, ["roundStart"]);
+    await this._refreshItems(actor, ["roundStart"]);
+  }
+
+  // TODO: REMOVE "round" in the future - replaced by "roundEnd"
+  async _refreshOnRoundEnd(actor) {
+    await this._refreshResources(actor, ["round", "roundEnd"]);
+    await this._refreshItems(actor, ["round", "roundEnd"]);
+  }
+
+  async _refreshOnCombatEnd(actor) {
+    await this._refreshResources(actor, ["round", "roundEnd", "roundStart", "combat"]);
+    await this._refreshItems(actor, ["round", "roundEnd", "roundStart", "combat"]);
+  }
+
+  // TODO: REMOVE "combat" in the future - replaced by "combatStart"
+  async _refreshOnCombatStart(actor) {
+    await this._refreshResources(actor, ["combat", "combatStart"]);
+    await this._refreshItems(actor, ["combat", "combatStart"]);
+  }
+
+  async _refreshResources(actor, resetTypes) {
+    if (!actor) return;
+    for (const resource of actor.resources.iterate()) {
+      if (resetTypes.includes(resource.reset)) {
+        await resource.regain("max");
+      }
+    }
+  }
+
+  async _refreshItems(actor, resetTypes) {
+    if (!actor) return;
+
+    for (const item of actor.items) {
+      if (!item.system.usable) continue;
+      if (!item.use.hasCharges) continue;
+      
+      const charges = item.system.costs.charges;
+      if (resetTypes.includes(charges.reset)) {
+        await item.use.regainCharges();
+      }
+    }
   }
 
   // =================================
@@ -419,7 +462,7 @@ export class DC20RpgCombat extends Combat {
         image: actor.img,
         description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
       });
-      prepareHelpAction(actor, {diceValue: 6, doNotExpire: true});
+      prepareHelpAction(actor, {diceValue: 6, duration: "combat"});
       return true;
     }
     return false;
@@ -502,12 +545,13 @@ export class DC20RpgCombat extends Combat {
     const exhaustion = actor.exhaustion;
     const saveFormula = `d20 - ${exhaustion}`;
     if (deathsDoor.active && notDead) {
-      const roll = await promptRollToOtherPlayer(actor, {
+      const details = {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "deathSave",
         against: 10,
         roll: saveFormula
-      });
+      };
+      const roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
 
       // Critical Success: You are restored to 1 HP
       if (roll.crit) {
@@ -541,34 +585,17 @@ export class DC20RpgCombat extends Combat {
   }
 
   async _sustainCheck(actor) {
-    const currentSustain = actor.system.sustain;
-    let sustained = [];
-    for (const sustain of currentSustain) {
+    for (const [key, sustain] of Object.entries(actor.system.sustain)) {
       const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
-      const confirmed = await sendSimplePopupToActorOwners(actor, "confirm", {header: message});
+      const confirmed = await SimplePopup.confirm(message, {actor: actor});
 
       if (confirmed) {
-        const subtracted = await subtractAP(actor, 1);
-        if (subtracted) sustained.push(sustain);
-        else {
-          sendDescriptionToChat(actor, {
-            rollTitle: `${sustain.name} - Sustain dropped`,
-            image: sustain.img,
-            description: `You are no longer sustaining '${sustain.name}' - Not enough AP to sustain`,
-          });
-        }
+        const subtracted = actor.resources.ap.checkAndSpend(1);
+        if (!subtracted) actor.dropSustain(key, "Not enough AP to sustain.");
       }
       else {
-        sendDescriptionToChat(actor, {
-          rollTitle: `${sustain.name} - Sustain dropped`,
-          image: sustain.img,
-          description: `You are no longer sustaining '${sustain.name}'`,
-        });
+        actor.dropSustain(key, "You decided not to sustain it anymore.");
       }
-    }
-
-    if (sustained.length !== currentSustain.length) {
-      await actor.update({[`system.sustain`]: sustained});
     }
   }
 }

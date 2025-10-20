@@ -2,7 +2,7 @@ import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { createNewAdvancement, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
 import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { generateKey } from "../../../helpers/utils.mjs";
-import { getSimplePopup, SimplePopup } from "../../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 import { runTemporaryMacro } from "../../../helpers/macros.mjs";
 
@@ -73,9 +73,9 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
   return addedAdvancements;
 }
 
-export async function shouldLearnNewSpellsOrTechniques(actor) {
+export async function shouldLearnNewSpellsOrTechniques(actor, skipRefresh) {
   const shouldLearn = [];
-  actor = await refreshActor(actor);
+  if (!skipRefresh) actor = await refreshActor(actor); // TODO do we even need to do that? Test
   for (const [key, known] of Object.entries(actor.system.known)) {
     if (known.max - known.current > 0) shouldLearn.push(key);
   }
@@ -272,6 +272,10 @@ function _prepareCompendiumFilters(advancement, key) {
       advancement.addItemsOptions.itemType = "spell";
       advancement.addItemsOptions.preFilters = '{"spellType": "cantrip"}'
       break;
+    case "infusions":
+      advancement.addItemsOptions.itemType = "infusion";
+      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "attunement": null, "consumable": null, "charges": null, "limited": null}}'
+      break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";
       advancement.addItemsOptions.preFilters = '{"spellType": "spell"}'
@@ -323,7 +327,7 @@ async function _findSelectedMulticlassOption(advancement, actor) {
   if (multiclassOptions.length > 1) {
     const options = {};
     multiclassOptions.forEach(multiclass => options[multiclass.source] = multiclass.name);
-    const selected = await getSimplePopup("select", {header: "What Class/Subclass is that Multiclass Talent from?", selectOptions: options});
+    const selected = await SimplePopup.select("What Class/Subclass is that Multiclass Talent from?", options);
     return multiclassOptions.find(multiclass => multiclass.source === selected);
   }
   return multiclassOptions[0];
@@ -487,7 +491,7 @@ export async function collectScalingValues(actor, oldSystemData) {
       scalingValues.push({
         resourceKey: key,
         custom: true,
-        label: custom.name,
+        label: custom.label,
         previous: oldResources.custom[key]?.max || 0,
         current: custom.max
       });
@@ -502,8 +506,8 @@ export async function refreshActor(actor) {
 }
 
 export async function collectSubclassesForClass(classKey) {
-  const dialog =  new SimplePopup("non-closable", {header: "Collecting Subclasses", message: "Collecting Subclasses... Please wait it might take a while"}, {title: "Collecting Subclasses"});
-  await dialog._render(true);
+  const dialog = new SimplePopup("info", {hideButtons: true, header: "Collecting Subclasses", information: ["Collecting Subclasses... Please wait it might take a while"]});
+  await dialog.render(true);
 
   const matching = [];
   for (const pack of game.packs) {

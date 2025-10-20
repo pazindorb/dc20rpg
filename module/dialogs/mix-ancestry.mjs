@@ -16,12 +16,6 @@ export class MixAncestryDialog extends DC20Dialog {
     }
   };
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dc20rpg", "dialog"]
-    });
-  }
-
   _initializeApplicationOptions(options) {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Ancestry Mixer";

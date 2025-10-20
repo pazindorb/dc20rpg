@@ -83,7 +83,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -108,9 +109,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>You gain Fire Resistance(Half) and add 10 more Temp HP.</p>"
+        "description": "<p>You gain Fire Resistance(Half) and add 10 more Temp HP.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "IYkjvryUOsXEVNPQ",
+        "sourceItemId": "5cjBdI0h8qY8F1vG",
+        "sourceItemName": "Fire Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-diamond-red.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -126,11 +175,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 2,
+        "actionPoint": null,
         "stamina": null,
         "mana": 1,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 2
       },
       "charges": {
         "current": null,
@@ -267,11 +317,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.wJTtj6wIEZODDU8T",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719875142244,
-    "modifiedTime": 1747998865780,
+    "modifiedTime": 1760521815507,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

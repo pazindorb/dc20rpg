@@ -38,7 +38,7 @@
         {{!-- Roll Level --}}
         {{#if (includes change.key "system.rollLevel")}}
         <a data-action="systemBuilder" data-index="{{i}}" data-type="rollLevel" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"
-          {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}} {{#if (includes change.key ".tradeSkills")}} data-is-skill="true" {{/if}}
+          {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}} {{#if (includes change.key ".trades")}} data-is-skill="true" {{/if}}
         ><i class="fa-solid fa-gear"></i></a>
         {{/if}}
         {{!-- Events --}}

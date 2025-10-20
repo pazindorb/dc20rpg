@@ -1,6 +1,6 @@
-import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { createItemOnActor, deleteItemFromActor, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { createToken, deleteToken } from "./actors/tokens.mjs";
 import { createEffectOn, deleteEffectFrom, toggleEffectOn, updateEffectOn } from "./effects.mjs";
@@ -10,9 +10,9 @@ export function registerSystemSockets() {
   // Simple Popup
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "simplePopup") {
-      const { popupType, popupData, userIds, signature } = data.payload;
+      const { popupType, popupData, popupOptions, userIds, signature } = data.payload;
       if (userIds.includes(game.user.id)) {
-        const result = await getSimplePopup(popupType, popupData);
+        const result = await SimplePopup.create(popupType, popupData, popupOptions);
         game.socket.emit('system.dc20rpg', {
           payload: result, 
           emmiterId: emmiterId,
@@ -37,26 +37,19 @@ export function registerSystemSockets() {
 
   // Roll Prompt
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
-    if (data.type === "rollPrompt") {
+    if (data.type === "rollDialog") {
       await rollPrompt(data.payload, emmiterId);
-    }
-  });
-
-  // Roll Item Prompt 
-  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
-    if (data.type === "itemRollPrompt") {
-      await itemRollPrompt(data.payload, emmiterId);
     }
   });
 
   // Open Rest Dialog
   game.socket.on('system.dc20rpg', async (data) => {
     if (data.type === "startRest") {
-      const {actorId, preselected} = data.payload;
+      const {actorId, options} = data.payload;
       const actor = game.actors.get(actorId);
 
       if (actor && actor.ownership[game.user.id] === 3) {
-        createRestDialog(actor, preselected);
+        RestDialog.create(actor, options);
       }
     }
   });
@@ -144,7 +137,7 @@ export function registerSystemSockets() {
   game.socket.on("system.dc20rpg", (data) => {
     if (data.type === "rollPromptRerendered") {
       Object.values(ui.windows)
-        .filter(window => window instanceof RollPromptDialog)
+        .filter(window => window instanceof RollDialog)
         .forEach(window => {
           if (window.itemRoll) {
             if (window.item.id === data.payload.itemId) {
@@ -160,6 +153,7 @@ export function registerSystemSockets() {
     }
   });
 
+  // FOR NOW REMOVED - Maybe I will bring it back
   game.socket.on("system.dc20rpg", (data) => {
     if (data.type === "askGmForHelp") {
       const p = data.payload;
@@ -169,43 +163,28 @@ export function registerSystemSockets() {
 
         const item = actor.items.get(p.itemId);
         if (!item) return;
-        promptItemRoll(actor, item, false, true);
+        RollDialog.open(actor, item);
       }
     }
   })
 }
 
 async function rollPrompt(payload, emmiterId) {
-  const {actorId, details, isToken, tokenId} = payload;
-  let actor = game.actors.get(actorId);
+  let actor = game.actors.get(payload.actorId);
+  let data = payload.data;
+  const options = payload.options;
+  
   // If we are rolling with unlinked actor we need to use token version
-  if (isToken) actor = game.actors.tokens[tokenId]; 
+  if (payload.isToken) actor = game.actors.tokens[payload.tokenId]; 
+  if (payload.isItem) data = actor.items.get(payload.itemId);
   
   if (actor && actor.ownership[game.user.id] === 3) {
-    const roll = await promptRoll(actor, details);
+    const roll = await RollDialog.create(actor, data, options);
     game.socket.emit('system.dc20rpg', {
       payload: {...roll}, 
       emmiterId: emmiterId,
-      actorId: actorId,
-      type: "rollPromptResult"
-    });
-  }
-}
-
-async function itemRollPrompt(payload, emmiterId) {
-  const {actorId, itemId, isToken, tokenId} = payload;
-  let actor = game.actors.get(actorId);
-  // If we are rolling with unlinked actor we need to use token version
-  if (isToken) actor = game.actors.tokens[tokenId]; 
-  const item = actor.items.get(itemId);
-  
-  if (actor && actor.ownership[game.user.id] === 3 && item) {
-    const roll = await promptItemRoll(actor, item);
-    game.socket.emit('system.dc20rpg', {
-      payload: {...roll}, 
-      emmiterId: emmiterId,
-      actorId: actorId,
-      type: "itemRollPromptResult"
+      actorId: payload.actorId,
+      type: "rollDialogResult"
     });
   }
 }

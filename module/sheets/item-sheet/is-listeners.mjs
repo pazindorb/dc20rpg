@@ -5,11 +5,12 @@ import { changeActivableProperty, changeNumericValue, changeValue, generateKey, 
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
-import { createScrollFromSpell, deleteItemFromActor } from "../../helpers/actors/itemsOnActor.mjs";
+import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
 import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
+import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -23,6 +24,10 @@ export function activateCommonLinsters(html, item) {
     if (itemData) await item.update(itemData);
   });
   html.find('.scroll-creator').click(() => createScrollFromSpell(item));
+
+  // Infusion
+  html.find('.add-magic-property').click(ev => createItemBrowser("infusion", true, item.sheet));
+  html.find('.remove-infusion').click(ev => item.infusions.active[datasetOf(ev).key].remove());
 
   // Roll Templates
   html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
@@ -63,7 +68,6 @@ export function activateCommonLinsters(html, item) {
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
-  html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item, html));
   html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.allChecks)));
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
@@ -104,93 +108,8 @@ export function activateCommonLinsters(html, item) {
   })
   html.find('.remove-starting-equipment').click(ev => item.update({[`system.startingEquipment.-=${datasetOf(ev).key}`]: null}));
 
-  // Drag and drop events
-  html[0].addEventListener('dragover', ev => ev.preventDefault());
-  html[0].addEventListener('drop', async ev => await _onDrop(ev, item));
   html.find('.remove-resource').click(ev => _removeResourceFromItem(item, datasetOf(ev).key));
   html.find('.remove-item').click(ev => item.update({[`system.contents.-=${datasetOf(ev).itemKey}`]: null}));
-}
-
-async function _onDrop(event, parentItem) {
-  event.preventDefault();
-  const droppedData  = event.dataTransfer.getData('text/plain');
-  if (!droppedData) return;
-  const droppedObject = JSON.parse(droppedData);
-
-  switch (droppedObject.type) {
-    case "Item":
-      await _onDropItem(droppedObject, parentItem);
-      break;
-
-    case "ActiveEffect": 
-      await _onDropEffect(droppedObject, parentItem);
-      break;
-
-    case "Resource": 
-      await _onDropResource(droppedObject, parentItem);
-      break;
-  }
-}
-
-async function _onDropItem(droppedObject, parentItem) {
-  const item = await Item.fromDropData(droppedObject);
-
-  // Handle container
-  if (parentItem.type === "container") {
-    const originalItem = await fromUuid(droppedObject.uuid);
-    let canAddToContainer = true
-    const inventoryOnly = parentItem.system.inventoryOnly;
-    const isFromInventory = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type];
-    if (inventoryOnly && !isFromInventory) canAddToContainer = false;
-    if (canAddToContainer) {
-      await parentItem.update({[`system.contents.${generateKey()}`]: item.toObject()});
-      if (originalItem.actor) await deleteItemFromActor(originalItem.id, originalItem.actor);
-    }
-  }
-
-  // Handle custom resource
-  const itemResource = item.system.resource;
-  if (itemResource) {
-    const customResource = {
-      name: itemResource.name,
-      img: item.img,
-      key: itemResource.resourceKey
-    };
-    if (item.system.isResource) _onDropResource(customResource, parentItem);
-  }
-}
-
-async function _onDropResource(droppedObject, parentItem) {
-  _addCustomResource(droppedObject, droppedObject.key, parentItem);
-}
-
-async function _onDropEffect(droppedObject, parentItem) {
-  const effect = await ActiveEffect.fromDropData(droppedObject);
-  createEffectOn(effect, parentItem);
-}
-
-function _onSelection(path, selector, item, html) {
-  const itemId = html.find(`.${selector} option:selected`).val();
-  item.update({[path]: itemId});
-}
-
-function _addCustomResource(customResource, key, item) {
-  if (!item.system.costs.resources.custom) return;
-  customResource.value = null;
-
-  // Enhancements 
-  const enhancements = item.system.enhancements;
-  if (enhancements) {
-    Object.keys(enhancements).forEach(enhKey=> enhancements[enhKey].resources.custom[key] = customResource); 
-  }
-
-  const updateData = {
-    system: {
-      [`costs.resources.custom.${key}`]: customResource,
-      enhancements: enhancements
-    }
-  }
-  item.update(updateData);
 }
 
 function _removeResourceFromItem(item, key) {

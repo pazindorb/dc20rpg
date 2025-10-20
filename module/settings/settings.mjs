@@ -40,17 +40,6 @@ export function registerGameSettings(settings) {
     type: Boolean,
     default: false
   });
-
-  // TODO: No longer required?
-  // settings.register("dc20rpg", "defaultInitiativeKey", {
-  //   name: "Default Initiative Check",
-  //   scope: "user",
-  //   hint: "What check should be a default choice when you roll for initiative.",
-  //   config: true,
-  //   default: "att",
-  //   type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitiativeSkills()})
-  // });
-
   
   // ======================================
   // ==            MOVEMENT              ==
@@ -79,13 +68,17 @@ export function registerGameSettings(settings) {
   //   type: Boolean
   // });
 
-  settings.register("dc20rpg", "askToSpendMoreAP", {
-    name: "Allow for Move Action popup",
-    hint: "If selected, Not enough Move Points will cause a popup to appear asking to spend more AP for the movement.",
+  settings.register("dc20rpg", "spendMoreApOnMovePoints", {
+    name: "Spend AP on Move Points automatically",
+    hint: "If selected, Not enough Move Points will cause AP to be spent automatically on Move Points.",
     scope: "world",
     config: true,
-    default: true,
-    type: Boolean
+    default: "ask",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "ask", choices: {
+      ask: "Show popup",
+      always: "Always",
+      never: "Never"
+    }}),
   });
 
   settings.register("dc20rpg", "disableDifficultTerrain", {
@@ -96,6 +89,19 @@ export function registerGameSettings(settings) {
     default: false,
     type: Boolean
 	});
+
+  settings.register("dc20rpg", "spendMovePointsToStandFromProne", {
+    name: "Spend Move Points to stand up",
+    hint: "Spend Move Points to stand up from prone.",
+    scope: "world",
+    config: true,
+    default: "ask",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "ask", choices: {
+      ask: "Show popup",
+      always: "Always",
+      never: "Never"
+    }}),
+  });
 
   // ======================================
   // ==              COMBAT              ==
@@ -219,6 +225,7 @@ export function registerGameSettings(settings) {
       borderColor: true,
       markers: true,
       showCharges: true,
+      displayToken: false,
     },
     type: Object
   });
@@ -292,23 +299,4 @@ export function registerGameSettings(settings) {
     default: "",
     type: String
   });
-}
-
-function _getInitiativeSkills() {
-  const skillStore = game.settings.get("dc20rpg", "skillStore");
-  const skills = {}
-  for (const [key, skill] of Object.entries(skillStore.skills)) {
-    skills[key] = skill.label
-  }
-  return {
-    "flat": "Flat",
-    "att": "Attack",
-    "spe": "Spell",
-    "prime": "Prime",
-    "mig": "Might",
-    "agi": "Agility",
-    "cha": "Charisma",
-    "int": "Inteligence",
-    ...skills
-  }
 }

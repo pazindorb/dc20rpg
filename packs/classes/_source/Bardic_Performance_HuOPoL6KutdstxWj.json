@@ -84,11 +84,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -98,7 +100,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -120,7 +129,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -132,9 +144,25 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p>Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p>"
+        "description": "<p>Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p>",
+        "hide": false,
+        "key": "PHShLqVqmiOnHqHv",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       },
       "GL3MZ5TT0EA8vcbf": {
         "name": "Battle Ballad",
@@ -146,11 +174,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -164,7 +194,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -204,10 +240,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">Once on each of their turns, the chosen creatures deal <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">+1 damage</strong> against 1 target of their choice on an Attack they make.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "GL3MZ5TT0EA8vcbf",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       },
       "v0YjX5gvDi9OPeLq": {
         "name": "Fast Tempo",
@@ -219,11 +263,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -237,7 +283,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -277,10 +329,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures gain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">+1 Speed</strong>.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "v0YjX5gvDi9OPeLq",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       },
       "YmRa89r1AW92xlms": {
         "name": "Inspiring",
@@ -292,11 +352,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -310,7 +372,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -350,10 +418,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures gain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 Temp HP</strong> at the start of each of their turns</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "YmRa89r1AW92xlms",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       },
       "Ouwdlwkqsy5xFbj7": {
         "name": "Emotional - Charmed",
@@ -365,11 +441,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -383,7 +461,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -423,10 +507,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Saves</strong> to resist and end Charmed Condition.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "Ouwdlwkqsy5xFbj7",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       },
       "i6A1A28SNF80D9ec": {
         "name": "Emotional - Frightened",
@@ -438,11 +530,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -456,7 +550,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -496,10 +596,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Saves</strong> to resist and end Frightened Condition.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "i6A1A28SNF80D9ec",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       },
       "TyLSlDlYCdNUIXVT": {
         "name": "Emotional - Taunted",
@@ -511,11 +619,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -529,7 +639,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -569,10 +685,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Saves</strong> to resist and end Taunted Condition.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "TyLSlDlYCdNUIXVT",
+        "sourceItemId": "HuOPoL6KutdstxWj",
+        "sourceItemName": "Bardic Performance",
+        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -590,13 +714,14 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": 1,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -1162,11 +1287,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350035250,
-    "modifiedTime": 1750943629594,
+    "modifiedTime": 1760521813716,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

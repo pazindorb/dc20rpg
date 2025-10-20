@@ -73,7 +73,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -98,12 +99,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
         "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
         "charges": {
-          "consume": true
-        }
+          "subtract": 1,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "SraEQcdPJEctWkzl",
+        "sourceItemId": "p0DQXDC70PZb82yP",
+        "sourceItemName": "Second Breath",
+        "sourceItemImg": "icons/creatures/abilities/dragon-ice-breath-blue.webp",
+        "active": false
       },
       "gkZe8B11zPzNI40B": {
         "name": "Second Breath - Focused",
@@ -115,11 +161,12 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
-          "consume": true,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": 1
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -133,7 +180,13 @@
             "formula": "",
             "type": "",
             "category": "damage",
-            "dontMerge": false
+            "dontMerge": false,
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -173,10 +226,18 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "changeManaSpendLimit": 0
         },
         "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
-        "hide": false
+        "hide": false,
+        "key": "gkZe8B11zPzNI40B",
+        "sourceItemId": "p0DQXDC70PZb82yP",
+        "sourceItemName": "Second Breath",
+        "sourceItemImg": "icons/creatures/abilities/dragon-ice-breath-blue.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -285,11 +346,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1745440766068,
+    "modifiedTime": 1760521817658,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

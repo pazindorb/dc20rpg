@@ -68,7 +68,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -93,9 +94,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage with <strong>Melee Attacks</strong> against creatures that are farther than 1 Space from you.</p>"
+        "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage with <strong>Melee Attacks</strong> against creatures that are farther than 1 Space from you.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "YcnNZWdLVmIdteyC",
+        "sourceItemId": "RaLHWY6CsDzghUNt",
+        "sourceItemName": "Whip Style",
+        "sourceItemImg": "icons/weapons/misc/whip-red-yellow.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -202,11 +251,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1732728873907,
-    "modifiedTime": 1745412762257,
+    "modifiedTime": 1760521818052,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

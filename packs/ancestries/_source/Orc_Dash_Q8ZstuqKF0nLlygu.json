@@ -44,7 +44,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -72,11 +73,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 0,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 0
       },
       "charges": {
         "current": 1,
@@ -84,7 +86,7 @@
         "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "combat",
+        "reset": "",
         "showAsResource": false
       },
       "otherItem": {
@@ -136,7 +138,7 @@
       "waRSZjEEUi6t3gT0": {
         "name": "preItemRoll",
         "trigger": "preItemRoll",
-        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
+        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
         "disabled": false,
         "title": ""
       }
@@ -145,7 +147,8 @@
     "featureSourceItem": "orc",
     "requirements": {
       "level": 0
-    }
+    },
+    "quickRoll": true
   },
   "effects": [],
   "sort": 300000,
@@ -157,11 +160,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1745525618183,
+    "modifiedTime": 1760617010343,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,7 +1,8 @@
 import { recognizeAndAddLinks } from "./textEnrichments.mjs";
 import { itemDetailsToHtml } from "./items/itemDetails.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
-import { clearStyles } from "./utils.mjs";
+import { clearStyles, getLabelFromKey } from "./utils.mjs";
+import { costPrinter } from "./handlebars/creators.mjs";
 
 export function tooltipElement() {
   const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
@@ -13,21 +14,33 @@ export function tooltipElement() {
       <div>${game.i18n.localize("dc20rpg.tooltip.holdAlt")}</div>
       <div class="margin-top-1">${game.i18n.localize("dc20rpg.tooltip.goBack")}</div>
     </div>
+    <div id="info-underline" class="underline"></div>
     <div class="tooltip-header"></div>
-    <div class="tooltip-details"></div> 
+
+    <div id="header-underline" class="underline"></div>
+    <div class="tooltip-action"></div>
+
+    <div id="action-underline" class="underline"></div>
+    <div class="tooltip-details"></div>
+
+    <div id="details-underline" class="underline"></div>
     <div class="tooltip-description"></div>
   `;
   return tooltip;
 }
 
-export function tooltipListeners(event, type, isEntering, dataset, html) {
+export function tooltipListeners(event, type, isEntering, data, html, options) {
     if (!isEntering) {
       hideTooltip(event, html);
       return;
     }
+    const dataset = data.dataset;
+    const item = data.item;
 
     switch (type) {
-      case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html); break;
+      case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html, options); break;
+      case "item": itemTooltip(item, event, html, options); break;
+      case "enhancement": enhTooltip(item, dataset.enhKey, event, html, options); break;
     }
 }
 
@@ -44,7 +57,8 @@ export function itemTooltip(item, event, html, options={}) {
   const header = _itemHeader(item);
   const description = _itemDescription(item);
   const details = _itemDetails(item);
-  _showTooltip(html, event, header, description, details, options);
+  const action = _itemAction(item);
+  _showTooltip(html, event, header, description, details, options, action);
 }
 
 export function traitTooltip(trait, event, html, options={}) {
@@ -61,7 +75,7 @@ export function enhTooltip(item, enhKey, event, html, options={}) {
   const enhancement = item.allEnhancements.get(enhKey);
   if(!enhancement) return _showTooltip(html, event, "-", "Enhancement not found", "");
 
-  const header = `<input disabled value="${enhancement.name}"/>`;
+  const header = `<input disabled value="${enhancement.name}" data-tooltip="${enhancement.img}"/>`;
   const description = `<div class='description'> ${_enhanceDescription(enhancement.description)} </div>`;
   _showTooltip(html, event, header, description, null, options);
 }
@@ -70,7 +84,7 @@ export function textTooltip(text, title, img, event, html, options={}) {
   const description = `<div class='description'> ${text} </div>`
   let tooltipHeader = ''
   if (title) {
-    if (img) tooltipHeader += `<img src="${img}"/>`;
+    if (img) tooltipHeader += `<img class="image" src="${img}"/>`;
     tooltipHeader += `<input disabled value="${title}"/>`
   }
   _showTooltip(html, event, tooltipHeader, description, null, options);
@@ -82,8 +96,8 @@ export async function journalTooltip(uuid, header, img, event, html, options={})
 
   const description = clearStyles(page.text.content);
   let imgHeader = ""
-  if (img !== undefined) imgHeader = `<img src="${img}" style="background-color:black;"/>`
-  const tooltipHeader = `${imgHeader}<input disabled value="${header}"/>`;
+  if (img !== undefined) imgHeader = `<img class="image" src="${img}" style="background-color:black;"/>`
+  const tooltipHeader = `${imgHeader}<input disabled value="${header}" data-tooltip="${header}"/>`;
   _showTooltip(html, event, tooltipHeader, description, null, options);
 }
 
@@ -96,22 +110,23 @@ export function hideTooltip(event, html) {
   tooltip[0].style.visibility = "hidden";
 }
 
-function _showTooltip(html, event, header, description, details, options) {
+function _showTooltip(html, event, header, description, details, options, action) {
   const tooltip = html.find("#tooltip-container");
 
   // If tooltip is already visible we dont want other tooltips to appear
   if(tooltip[0].style.visibility === "visible") return;
 
-  _showHidePartial(header, tooltip.find(".tooltip-header"));
+  _showHidePartial(header, tooltip.find(".tooltip-header"), tooltip.find("#header-underline"));
   _showHidePartial(description, tooltip.find(".tooltip-description"));
-  _showHidePartial(details, tooltip.find(".tooltip-details"));
+  _showHidePartial(details, tooltip.find(".tooltip-details"), tooltip.find("#details-underline"));
+  _showHidePartial(action, tooltip.find(".tooltip-action"), tooltip.find("#action-underline"));
   _setPosition(event, tooltip, options);
   _addEventListener(tooltip);
 
   tooltip.contextmenu(() => {
     if (tooltip.oldContent && tooltip.oldContent.length > 0) {
       const oldContent = tooltip.oldContent.pop();
-      _swapTooltipContent(tooltip, oldContent.header, oldContent.description, oldContent.details);
+      _swapTooltipContent(tooltip, oldContent.header, oldContent.description, oldContent.details, oldContent.action);
     }
   })
 
@@ -133,14 +148,15 @@ function _addEventListener(tooltip) {
     tooltip.oldContent.push({
       header: tooltip.find(".tooltip-header").html(),
       description: tooltip.find(".tooltip-description").html(),
-      details: tooltip.find(".tooltip-details").html()
+      details: tooltip.find(".tooltip-details").html(),
+      action: tooltip.find(".tooltip-action").html(),
     });
 
     const description = page.text.content;
     let imgHeader = ""
-    if (data.img !== undefined) imgHeader = `<img src="${data.img}" style="background-color:black;"/>`
-    const tooltipHeader = `${imgHeader}<input disabled value="${data.header}"/>`;
-    _swapTooltipContent(tooltip, tooltipHeader, description, null);
+    if (data.img !== undefined) imgHeader = `<img class="image" src="${data.img}" style="background-color:black;"/>`
+    const tooltipHeader = `${imgHeader}<input disabled value="${data.header}" data-tooltip="${data.header}"/>`;
+    _swapTooltipContent(tooltip, tooltipHeader, description, null, null);
   });
 
   tooltip.find('.item-tooltip').click(async ev => {
@@ -154,31 +170,36 @@ function _addEventListener(tooltip) {
     tooltip.oldContent.push({
       header: tooltip.find(".tooltip-header").html(),
       description: tooltip.find(".tooltip-description").html(),
-      details: tooltip.find(".tooltip-details").html()
+      details: tooltip.find(".tooltip-details").html(),
+      action: tooltip.find(".tooltip-action").html(),
     });
 
     const header = _itemHeader(item);
     const description = _itemDescription(item);
     const details = _itemDetails(item);
-    _swapTooltipContent(tooltip, header, description, details);
+    const action = _itemAction(item);
+    _swapTooltipContent(tooltip, header, description, details, action);
   });
 }
 
-function _swapTooltipContent(tooltip, header, description, details) {
-  _showHidePartial(header, tooltip.find(".tooltip-header"));
+function _swapTooltipContent(tooltip, header, description, details, action) {
+  _showHidePartial(header, tooltip.find(".tooltip-header"), tooltip.find("#header-underline"));
   _showHidePartial(description, tooltip.find(".tooltip-description"));
-  _showHidePartial(details, tooltip.find(".tooltip-details"));
+  _showHidePartial(details, tooltip.find(".tooltip-details"), tooltip.find("#details-underline"));
+  _showHidePartial(action, tooltip.find(".tooltip-action"), tooltip.find("#action-underline"));
   _addEventListener(tooltip);
 }
 
-function _showHidePartial(value, partial) {
+function _showHidePartial(value, partial, underline) {
   if (value) {
     partial.html(value);
     partial.removeClass("invisible");
+    if (underline) underline.removeClass("invisible");
   }
   else {
     partial.html(null);
     partial.addClass("invisible");
+    if (underline) underline.addClass("invisible");
   }
 }
 
@@ -189,6 +210,13 @@ function _setPosition(event, tooltip, options) {
 
       if (pos.height) tooltip.height(pos.height);
       if (pos.width) tooltip.width(pos.width);
+
+      if (pos.left) tooltip[0].style.left = pos.left;
+      if (pos.top) tooltip[0].style.top = pos.top;
+      if (pos.bottom) tooltip[0].style.bottom = pos.bottom;
+
+      if (pos.maxHeight) tooltip[0].style.maxHeight = "500px";
+      if (pos.minWidth) tooltip[0].style.minWidth = "300px";
     }
     else {
       tooltip[0].style.maxHeight = "500px";
@@ -220,9 +248,16 @@ function _setPosition(event, tooltip, options) {
 }
 
 function _itemHeader(item) {
+  let cost = "";
+  if (item.system.usable && item.id) {
+    const data = item.use.useCostDisplayData(true)
+    cost = costPrinter(data, true, true, true, true);
+  }
+
   return `
-    <img src="${item.img}"/>
-    <input disabled value="${item.name}"/>
+    <img class="image" src="${item.img}"/>
+    <input disabled value="${item.name}" data-tooltip="${item.name}"/>
+    ${cost}
   `
 }
 
@@ -258,6 +293,46 @@ function _enhanceDescription(description) {
 
 function _itemDetails(item) {
   const identified = item?.system?.statuses ? item.system.statuses.identified : true;
-  if (identified) return itemDetailsToHtml(item, true);
+  if (identified) return itemDetailsToHtml(item);
   else return null;
+}
+
+function _itemAction(item) {
+  let content = "";
+
+  // ACTION
+  let action = "";
+  if (item.system.actionType === "attack") {
+    const attack = item.system.attackFormula;
+    action = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)} vs ${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`
+  }
+  if (item.system.actionType === "check") {
+    const check = item.system.check;
+    const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
+    action = `${checkDC} ${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}`;
+  }
+  if (action) content += `<li><b>Action:</b> ${action}</li>`;
+
+  // SAVES & CONTESTS
+  let contests = "";
+  let saves = "";
+  if (item.system.rollRequests) {
+    for (const request of Object.values(item.system.rollRequests)) {
+      if (request?.category === "save") {
+        if (saves) saves += " / ";
+        saves += getLabelFromKey(request.saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
+      }
+      if (request?.category === "contest") {
+        if (contests) contests += " / ";
+        contests += getLabelFromKey(request.contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+      }
+    }
+  }
+  if (saves) content += `<li><b>Save:</b> ${saves}</li>`;
+  if (contests) content += `<li><b>Save:</b> ${contests}</li>`;
+
+  // FORMULAS & STATUSES
+
+  if (content) content = `<ul>${content}</ul>`
+  return content;
 }

@@ -4,7 +4,7 @@ import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanio
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
 import { createTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { itemTransfer } from "../helpers/actors/storage.mjs";
 
 /**
@@ -194,11 +194,17 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       await itemTransfer(event, data, this.actor);
       return;
     }
+    const item = await Item.implementation.fromDropData(data);
+    if (this.actor.type === "storage" && data.actorType === undefined) {
+      if (!CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type]) {
+        ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables' and 'loot'");
+        return;
+      }
+    }
 
     const onSelf = data.uuid.includes(this.actor.uuid);
-    const item = await Item.implementation.fromDropData(data);
     if (data.actorType !== undefined && CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type] && !onSelf) {
-      const selected = await getSimplePopup("confirm", {header: "Transfer or Duplicate Item?", information: ["Do you want to transfer or duplicate this item?", "Yes: Transfer", "No: Duplicate"]});
+      const selected = await SimplePopup.open("confirm", {confirmLabel: "Transfer", denyLabel: "Duplicate", message: "Do you want to transfer or duplicate this item?"});
       if (selected) {
         await itemTransfer(event, data, this.actor);
         return;
@@ -207,11 +213,22 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     // Create companion trait instead of an item
     if (this.actor.type === "companion") {
-      const selected = await getSimplePopup("confirm", {header: "Add as Companion Trait?", information: ["Do you want to add this item as Companion Trait?", "Yes: Add as Companion Trait", "No: Add as Standard Item"]});
+      const selected = await SimplePopup.open("confirm", {confirmLabel: "Companion Trait", denyLabel: "Standard Item", message: "Do you want to add this item as Companion Trait or Standard Item?"});
       if (selected) {
         const itemData = item.toObject();
         createTrait(itemData, this.actor);
         return;
+      }
+    }
+
+    // Equipment Slots
+    if (this.actor.type === "character") {
+      let target = null;
+      if (event?.target?.classList.contains("slot")) target = event.target;
+      if (event?.target?.parentElement?.classList.contains("slot")) target = event.target.parentElement;
+      if (target) {
+        const dataset = target.dataset;
+        this.actor.equipmentSlots[dataset.category].slots[dataset.key].equip(item);
       }
     }
 

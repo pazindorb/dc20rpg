@@ -190,8 +190,9 @@
   padding: 0;
   min-width: 400px;
 }
-.dc20rpg.dialog.force-top {
-  z-index: 999 !important;
+
+.dc20rpg.force-top {
+  z-index: 999999 !important;
 }
 
 .block-color-purple_background {
@@ -210,6 +211,22 @@
   background-color: #a0afd1;
   border-radius: 2px;
   color: black;
+}
+
+.theme-light hr {
+  background-image: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(50%, #741a89), to(transparent));
+  background-image: linear-gradient(90deg, transparent 0%, #741a89 50%, transparent 100%);
+}
+.theme-light h1.divider::before, .theme-light h2.divider::before, .theme-light h3.divider::before, .theme-light h4.divider::before {
+  border-top: 2px ridge #530e63;
+}
+.theme-light h1.divider::after, .theme-light h2.divider::after, .theme-light h3.divider::after, .theme-light h4.divider::after {
+  border-top: 2px ridge #530e63;
+}
+
+.theme-dark hr {
+  background-image: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(50%, #dbba88), to(transparent));
+  background-image: linear-gradient(90deg, transparent 0%, #dbba88 50%, transparent 100%);
 }
 
 .grid-2row {
@@ -774,6 +791,71 @@
 .description-icon:hover .letter-circle-icon i, .description-icon:hover .letter-circle-icon span {
   -webkit-box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
   box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
+}
+
+.cost-printer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+.cost-printer .cost {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-right: 5px;
+  margin-bottom: 0px;
+}
+.cost-printer .cost:last-child {
+  margin-right: 0;
+}
+.cost-printer .cost b {
+  font-family: "Humaroid";
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.cost-printer .cost .cost-icon, .cost-printer .cost .cost-img {
+  margin-left: 2px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.cost-printer .cost .cost-img {
+  border: 1px solid white;
+  margin: 0;
+}
+.cost-printer .cost.ap {
+  color: var(--action-point);
+}
+.cost-printer .cost.stamina {
+  color: var(--stamina);
+  margin-right: 5px;
+}
+.cost-printer .cost.mana {
+  color: var(--mana);
+}
+.cost-printer .cost.health {
+  color: var(--health);
+}
+.cost-printer .cost.grit {
+  color: var(--grit);
+}
+.cost-printer .cost.restPoints {
+  color: #00887d;
+}
+.cost-printer .cost.charge {
+  color: #858308;
 }
 
 #token-hud .ap-wrapper {
@@ -1652,92 +1734,90 @@
   -webkit-box-shadow: 0 0 10px 3px var(--primary-light) inset;
   box-shadow: 0 0 10px 3px var(--primary-light) inset;
 }
-.dc20rpg #rest-dialog .separated-values {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  justify-items: center;
-  font-size: 32px;
-  font-weight: bold;
-  text-shadow: -2px 0 var(--primary-darker), 0 2px var(--primary-darker), 2px 0 var(--primary-darker), 0 -2px var(--primary-darker);
-  color: var(--secondary-lighter);
-}
-.dc20rpg #rest-dialog .separated-values .value {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  text-align: center;
-  white-space: nowrap;
-}
-.dc20rpg #rest-dialog .separated-values .separator {
-  margin: 0 5px;
-}
-.dc20rpg #rest-dialog .exhaustion-wrapper {
-  margin: 0 5px;
-  margin-top: 8px;
-}
-.dc20rpg #rest-dialog .exhaustion-wrapper span {
-  font-size: 14px;
-  font-weight: bold;
-}
-.dc20rpg #rest-dialog .exhaustion-wrapper .save-dc {
-  padding: 6px 10px;
-  border-radius: 3px;
-  border: 2px solid var(--primary-darker);
-  background-color: var(--secondary-lighter);
-  font-size: 16px;
-  color: var(--primary-darker);
-}
-.dc20rpg #rest-dialog .activity-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 0 5px;
-  margin-top: 5px;
-}
-.dc20rpg #rest-dialog .activity-wrapper .activity-switch {
-  cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #rest-dialog .activity-wrapper .activity-switch .activity {
-  width: 45px;
-  height: 40px;
-  padding: 4px;
+.dc20rpg #rest-dialog .spend-rest-points span {
+  font-size: 20px;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+}
+.dc20rpg #rest-dialog .save-dc {
+  font-family: "Humaroid";
+  font-size: 24px;
+}
+.dc20rpg #rest-dialog .resource {
+  z-index: 2;
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border: 2px solid var(--secondary-lighter);
-  border-radius: 3px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
-.dc20rpg #rest-dialog .activity-wrapper .activity-switch .activity.selected {
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper {
+  color: var(--secondary-darker);
+  display: grid;
+  border: 1px solid var(--secondary-darker);
+  border-radius: 4px;
   background-color: var(--secondary-lighter);
-  border: 2px solid var(--primary-darker);
-  color: var(--secondary-color);
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-.dc20rpg #rest-dialog .activity-wrapper span {
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar {
+  height: 20px;
+  min-height: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-darker);
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content .resource-values {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content .resource-values .separator {
+  font-weight: bold;
+  text-align: center;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .resource-content .resource-values .bar-input {
+  font-weight: bold;
+  background-color: transparent;
+  color: black;
   font-size: 14px;
+  text-align: center;
+  border: 0px;
+}
+.dc20rpg #rest-dialog .resource .resource-bar-wrapper .resource-bar .health-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  background-color: var(--health-bar);
+  border: 1px solid var(--secondary-darker);
 }
 .dc20rpg #advancement-dialog {
   background-color: rgba(55, 55, 55, 0.568627451);
   padding: 0;
+}
+.dc20rpg #advancement-dialog #tooltip-container {
+  border-radius: 3px;
+  border: 3px solid var(--border-color);
 }
 .dc20rpg #advancement-dialog header {
   font-family: "Humaroid";
@@ -2109,10 +2189,10 @@
 .dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .small-value {
   font-size: 22px;
 }
-.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .expertise-toggle, .dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .skill-mastery-toggle {
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .expertise-toggle, .dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .mastery-toggle {
   font-family: "A Absolute Empire";
 }
-.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .expertise-toggle.expert, .dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .skill-mastery-toggle.expert {
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .expertise-toggle.expert, .dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-box-wrapper .spender .mastery-toggle.expert {
   background-color: var(--primary-dark) !important;
   color: var(--secondary-lighter) !important;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -2458,16 +2538,230 @@
   font-size: 14px;
 }
 .dc20rpg #roll-prompt {
-  width: 500px;
-  padding: 15px 7px 5px 7px;
-  font-family: "A Absolute Empire";
-  font-size: 12px;
+  font-family: "Signika", sans-serif;
 }
-.dc20rpg #roll-prompt .sub-title {
+.dc20rpg #roll-prompt .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--bar-color);
   border-radius: 3px;
-  border-color: var(--primary-darker);
+  -webkit-box-shadow: 0 0 10px 2px var(--text-color-2) inset;
+  box-shadow: 0 0 10px 2px var(--text-color-2) inset;
+  border: 2px solid var(--border-color);
+  text-shadow: -2px 0 var(--shadow), 0 2px var(--shadow), 2px 0 var(--shadow), 0 -2px var(--shadow);
 }
-.dc20rpg #roll-prompt .roll-button-wrapper {
+.dc20rpg #roll-prompt .header .name-wrapper {
+  color: var(--text-color-3);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: calc(100% - 5px);
+  margin-right: 5px;
+}
+.dc20rpg #roll-prompt .header .name-wrapper img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 40px;
+  width: 40px;
+  border-radius: 3px 0 0 3px;
+  border: 0;
+  border-right: 2px solid var(--border-color);
+}
+.dc20rpg #roll-prompt .header .name-wrapper span {
+  font-family: "Humaroid";
+  font-size: 26px;
+  margin-left: 12px;
+}
+.dc20rpg #roll-prompt .header .action-outcome {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  margin-right: 5px;
+}
+.dc20rpg #roll-prompt .header .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .header .action-outcome .description-icon .letter-circle-icon span {
+  border-color: var(--activable-off);
+  font-size: 16px;
+  height: 30px;
+  width: 30px;
+}
+.dc20rpg #roll-prompt fieldset {
+  border: 2px solid var(--border-color);
+  -webkit-box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+  box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+}
+.dc20rpg #roll-prompt fieldset legend {
+  color: var(--text-color-3);
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+}
+.dc20rpg #roll-prompt .item-multi-faceted {
+  color: var(--activable-off);
+  padding: 3px;
+  border-radius: 3px;
+  max-width: 170px;
+  text-align: center;
+  font-family: "Humaroid";
+  font-size: 17px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  border: 2px solid black;
+  background-color: var(--bar-color);
+}
+.dc20rpg #roll-prompt .item-multi-faceted:hover {
+  -webkit-box-shadow: 0 0 10px 3px var(--header-color) inset;
+  box-shadow: 0 0 10px 3px var(--header-color) inset;
+}
+.dc20rpg #roll-prompt .enhancements {
+  overflow-y: auto;
+  max-height: 250px;
+  gap: 0;
+  padding: 0.5em 0.7em;
+  --scroll-margin: 0;
+  color: var(--text-color-3);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row {
+  font-family: "Humaroid";
+  font-size: 18px;
+  height: 32px;
+  background-color: var(--bar-color);
+  grid-template-columns: 1fr 100px 100px 32px;
+  display: grid;
+  border: 2px solid var(--border-color-2);
+  border-top: 1px solid var(--border-color-2);
+  border-bottom: 1px solid var(--border-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(2) {
+  border-radius: 3px 3px 0 0;
+  border-top: 2px solid var(--border-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:last-child {
+  border-radius: 0 0 3px 3px;
+  border-bottom: 2px solid var(--border-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description {
+  position: relative;
+  bottom: 40px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description .description-wrapper {
+  border-radius: 5px 5px 5px 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .name {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .name img {
+  border-radius: 0;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-right: 1px solid var(--border-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .name .cost-icon {
+  width: 30px;
+  height: 28px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-right: 1px solid var(--border-color-2);
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 30px;
+  border-right: 1px solid var(--border-color-2);
+  border-left: 1px solid var(--border-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage.costs {
+  border-left: 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer {
+  color: var(--text-color-2);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-icon {
+  font-size: 13px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .cost-img {
+  height: 15px;
+  width: 15px;
+  border-radius: 7px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer b {
+  font-size: 15px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage .cost-printer .symbol {
+  font-size: 17px;
+  margin-left: -3px;
+  margin-top: -5px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+}
+.dc20rpg #roll-prompt .measurement-templates {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 0;
+}
+.dc20rpg #roll-prompt .measurement-templates .template {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2478,12 +2772,146 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.dc20rpg #roll-prompt .roll-button-wrapper .held-action {
-  width: 10%;
-  height: 34px;
+.dc20rpg #roll-prompt .measurement-templates .template .template-button, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 3px;
+  color: var(--text-color-2);
+  font-weight: bold;
+  background-color: var(--activable-off);
+  border: 1px solid var(--text-color-2);
+  border-radius: 3px;
+  padding: 4px;
+  width: 100%;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled {
+  cursor: default;
+  -webkit-filter: saturate(0.5);
+  filter: saturate(0.5);
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled:hover, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled:hover {
+  text-shadow: none;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.selected, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.selected {
+  -webkit-box-shadow: 0 0 8px var(--activable-off) inset;
+  box-shadow: 0 0 8px var(--activable-off) inset;
+  color: var(--activable-off);
+  background-color: var(--activable-on);
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
+  width: 25px;
+}
+.dc20rpg #roll-prompt .expected-cost {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: 66px;
+  padding: 5px;
+  color: var(--text-color-3);
+}
+.dc20rpg #roll-prompt .expected-cost .mana-spend-limit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #roll-prompt .expected-cost .mana-spend-limit .cost-printer {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.dc20rpg #roll-prompt .expected-cost .mana-spend-limit .cost-printer b {
+  white-space: nowrap;
+  text-shadow: none;
+  color: var(--text-color);
+}
+.dc20rpg #roll-prompt .expected-cost .mana-spend-limit.exceeds .mana, .dc20rpg #roll-prompt .expected-cost .mana-spend-limit.exceeds .fa-gauge-max {
+  color: var(--dark-red);
+}
+.dc20rpg #roll-prompt .expected-cost .extra-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer {
+  width: 100%;
+  height: 35px;
+  color: var(--text-color-2);
+  border-right: 2px solid var(--border-color);
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost {
+  margin-right: 10px;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-icon {
+  font-size: 20px;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .cost-img {
+  height: 24px;
+  width: 24px;
+  border-radius: 7px;
   margin-left: 3px;
 }
+.dc20rpg #roll-prompt .expected-cost .cost-printer b {
+  font-size: 22px;
+}
+.dc20rpg #roll-prompt .expected-cost .cost-printer .symbol {
+  font-size: 34px;
+  margin-left: -3px;
+  margin-top: -5px;
+}
 .dc20rpg #roll-prompt .roll-menu {
+  display: grid;
+  grid-template-columns: 1fr 100px 1fr;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--bar-color);
+  -webkit-box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+  box-shadow: 0 0 12px 4px var(--text-color-2) inset;
+  border: 2px solid var(--border-color);
+  margin: 0;
+}
+.dc20rpg #roll-prompt .roll-menu .column {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row {
+  width: 100%;
+  font-family: "Humaroid";
+  font-size: 18px;
+  text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+  color: var(--text-color-3);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2492,42 +2920,8 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-top: 5px;
-  background-color: var(--secondary-color);
-  border-radius: 3px;
-  border: 2px solid var(--primary-darker);
-  padding: 10px 5px;
 }
-.dc20rpg #roll-prompt .roll-menu .sub-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-.dc20rpg #roll-prompt .roll-menu .last-roll-level-check {
-  color: var(--primary-dark);
-  margin-left: -20px;
-  margin-top: -10px;
-  position: absolute;
-  font-size: 1.65em !important;
-}
-.dc20rpg #roll-prompt .roll-menu .roll-level .toggle {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-top: 3px;
-}
-.dc20rpg #roll-prompt .roll-menu .roll-level .toggle .toggle-numeric {
+.dc20rpg #roll-prompt .roll-menu .column .row a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2537,137 +2931,48 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding: 4px 4px 2px 4px;
-  width: 25px;
-  background-color: var(--primary-light);
-  border: 2px solid var(--primary-color);
-  border-radius: 5px;
-  color: var(--secondary-lighter);
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .toggle span {
-  margin-top: 4px;
+.dc20rpg #roll-prompt .roll-menu .column .row a span {
+  font-size: 20px;
+  font-weight: bold;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet {
-  position: absolute;
-  left: 145px;
-  margin-top: -3px;
+.dc20rpg #roll-prompt .roll-menu .column .row a.crit {
+  color: #3b934a;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv-disabled .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv-disabled .dice, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv .dice {
-  color: var(--primary-light);
-  font-size: 1.9em;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: var(--primary-color);
+.dc20rpg #roll-prompt .roll-menu .column .row a.crit:not(:hover) {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv-disabled .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv-disabled .value, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv .value {
-  position: relative;
-  top: -16px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+.dc20rpg #roll-prompt .roll-menu .column .row a.fail {
+  color: #b54545;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row a.fail:not(:hover) {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row a.fa-light {
+  text-shadow: none;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row .multi-select-wrapper {
+  width: 100%;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row .multi-select-wrapper .tag {
+  background-color: var(--backround-color);
+}
+.dc20rpg #roll-prompt .roll-menu .column .row.modifications {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+  height: 23px;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .ap-for-adv-disabled .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .ap-for-adv-disabled .value span, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv .value span {
-  color: var(--secondary-lighter);
-  font-size: 12px;
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+.dc20rpg #roll-prompt .roll-menu .column .row.modifications a {
+  margin: 0 8px;
 }
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button .grit-for-adv, .dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet .grit-for-adv {
-  position: absolute;
-  top: -20px;
-}
-.dc20rpg #roll-prompt .roll-menu .roll-level .absolute-button-sheet {
-  left: 160px;
-  margin-top: -10px;
-}
-.dc20rpg #roll-prompt .roll-menu .help {
-  margin-top: 8px;
-  margin-bottom: -8px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .value {
-  position: relative;
-  top: -23px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .value span {
-  color: var(--secondary-lighter);
+.dc20rpg #roll-prompt .roll-menu .column .select-row {
   font-size: 16px;
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg #roll-prompt .roll-menu .help-dices .dice {
-  color: var(--primary-light);
-  font-size: 2.5em;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: var(--primary-color);
+.dc20rpg #roll-prompt .roll-menu .column .select-row select {
+  width: auto;
 }
-.dc20rpg #roll-prompt .roll-menu .help-dices .triangle {
-  margin-top: 15px;
-  margin-left: -3px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .triangle .value {
-  top: -24px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .triangle .dice {
-  font-size: 3em;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .square {
-  margin-left: -2px;
-}
-.dc20rpg #roll-prompt .roll-menu .help-dices .diamond {
-  margin-top: 20px;
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options {
-  margin-top: 15px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options i {
-  color: var(--primary-color);
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options i.fail {
-  color: var(--fail);
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .item-roll-options i.crit {
-  color: var(--crit);
-}
-.dc20rpg #roll-prompt .roll-menu .mid-column .not-used {
+.dc20rpg #roll-prompt .roll-menu .column .not-used {
   color: #ff2e2e;
   -webkit-box-shadow: 0 0 0 0 #da0101;
   box-shadow: 0 0 0 0 #da0101;
@@ -2717,168 +3022,6 @@
     box-shadow: 0 0 0 0 rgba(218, 1, 1, 0);
   }
 }
-.dc20rpg #roll-prompt .item-name {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: var(--secondary-lighter);
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 7px var(--primary-darker) inset;
-  box-shadow: 0 0 7px var(--primary-darker) inset;
-  border: 2px solid var(--primary-darker);
-}
-.dc20rpg #roll-prompt .item-name .name-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: calc(100% - 5px);
-  margin-right: 5px;
-}
-.dc20rpg #roll-prompt .item-name .name-wrapper img {
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
-  height: 40px;
-  width: 40px;
-  border-radius: 3px 0 0 0;
-  border: 0;
-  border-right: 1px solid var(--primary-darker);
-}
-.dc20rpg #roll-prompt .item-name .name-wrapper span {
-  margin-top: 3px;
-  font-size: 22px;
-  margin-left: 7px;
-}
-.dc20rpg #roll-prompt .item-name .action-outcome {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: end;
-  margin-right: 5px;
-}
-.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon span {
-  font-size: 16px;
-  height: 30px;
-  width: 30px;
-}
-.dc20rpg #roll-prompt .row {
-  padding: 5px 0 5px 5px;
-  font-family: "Humaroid";
-  font-size: 18px;
-}
-.dc20rpg #roll-prompt .row span {
-  font-weight: normal;
-}
-.dc20rpg #roll-prompt .item-multi-faceted {
-  color: var(--primary-darker);
-  padding: 6px;
-  border-radius: 3px;
-  border: 2px solid var(--primary-darker);
-  background-color: var(--secondary-lighter);
-}
-.dc20rpg #roll-prompt .item-selector {
-  font-family: "Humaroid";
-  font-size: 16px;
-  padding: 7px;
-  border: 2px solid var(--primary-darker);
-  background-color: var(--secondary-color);
-  border-radius: 3px;
-  gap: 5px;
-}
-.dc20rpg #roll-prompt .item-selector .item {
-  border: 2px solid var(--secondary-darker);
-  background-color: var(--secondary-lighter);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 35px;
-}
-.dc20rpg #roll-prompt .item-selector .item img {
-  margin-right: 5px;
-  width: 31px;
-  height: 31px;
-  border: 0;
-  border-right: 2px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .item-selector .item:hover {
-  -webkit-box-shadow: 0 0 10px var(--primary-light) inset;
-  box-shadow: 0 0 10px var(--primary-light) inset;
-  cursor: pointer;
-}
-.dc20rpg #roll-prompt .item-selector .item.active {
-  color: var(--secondary-lighter);
-  background-color: var(--primary-dark);
-}
-.dc20rpg #roll-prompt .measurement-templates {
-  font-family: "Signika", sans-serif;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  padding: 10px 7px 7px 7px;
-  border: 2px solid var(--primary-darker);
-  border-top: 0;
-  background-color: var(--secondary-color);
-  border-radius: 0 0 3px 3px;
-}
-.dc20rpg #roll-prompt .measurement-templates .template {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
-  text-align: center;
-  font-size: 15px;
-  margin-top: 3px;
-  color: var(--primary-dark);
-  font-weight: bold;
-  background-color: var(--secondary-lighter);
-  border: 1px solid var(--secondary-darker);
-  border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px var(--secondary-dark) inset;
-  box-shadow: 0 0 10px var(--secondary-dark) inset;
-  padding: 4px;
-  width: 100%;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled {
-  cursor: default;
-  -webkit-filter: saturate(0.5);
-  filter: saturate(0.5);
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled:hover, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled:hover {
-  text-shadow: none;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.selected, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.selected {
-  color: var(--secondary-lighter);
-  background-color: var(--primary-light);
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
-  width: 25px;
-}
 .dc20rpg #roll-prompt .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .description-icon .letter-circle-icon span {
   font-size: 12px;
   height: 23px;
@@ -2894,193 +3037,48 @@
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
 }
-.dc20rpg #roll-prompt .costs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+.dc20rpg #roll-select-dialog .select-wrapper, .dc20rpg #actor-request .select-wrapper, .dc20rpg #dmg-calculator .select-wrapper, .dc20rpg #roll-select-dialog .select-wrapper {
+  display: grid;
+  gap: 5px;
 }
-.dc20rpg #roll-prompt .costs .cost-icon, .dc20rpg #roll-prompt .costs .cost-img {
-  margin: 0 2px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+.dc20rpg #roll-select-dialog .select-wrapper .select-column, .dc20rpg #actor-request .select-wrapper .select-column, .dc20rpg #dmg-calculator .select-wrapper .select-column, .dc20rpg #roll-select-dialog .select-wrapper .select-column {
+  max-height: 500px;
+  --scroll-margin: 0;
 }
-.dc20rpg #roll-prompt .costs b {
-  margin: 3px -2px 0 2px;
-  font-size: 10px;
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset, .dc20rpg #actor-request .select-wrapper .select-column fieldset, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset {
+  margin: 5px 0;
+  border-radius: 5px;
+  gap: 4px;
 }
-.dc20rpg #roll-prompt .costs .cost-img {
-  height: 15px;
-  width: 15px;
-  border: 0;
-  border-radius: 7px;
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option, .dc20rpg #actor-request .select-wrapper .select-column fieldset .option, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset .option, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option {
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
 }
-.dc20rpg #roll-prompt .costs .ap {
-  color: var(--action-point);
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option:hover, .dc20rpg #actor-request .select-wrapper .select-column fieldset .option:hover, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset .option:hover, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .option:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 5px var(--activable-on) inset;
+  box-shadow: 0 0 10px 5px var(--activable-on) inset;
 }
-.dc20rpg #roll-prompt .costs .sp {
-  color: var(--stamina);
-}
-.dc20rpg #roll-prompt .costs .mp {
-  color: var(--mana);
-}
-.dc20rpg #roll-prompt .costs .hp {
-  color: var(--health);
-}
-.dc20rpg #roll-prompt .costs .grit {
-  color: var(--grit);
-}
-.dc20rpg #roll-prompt .costs .rest {
-  color: #00887d;
-}
-.dc20rpg #roll-prompt .expected-cost {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .img-option, .dc20rpg #actor-request .select-wrapper .select-column fieldset .img-option, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset .img-option, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .img-option {
+  font-size: 16px;
+  padding: 5px;
+  height: 30px;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-  padding: 10px 7px 7px 7px;
-  border: 2px solid var(--primary-darker);
-  border-top: 0;
-  background-color: var(--secondary-color);
-  border-radius: 0 0 3px 3px;
 }
-.dc20rpg #roll-prompt .expected-cost .cost-label {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  font-size: 14px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-right: 5px;
-}
-.dc20rpg #roll-prompt .expected-cost .costs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  overflow-x: auto;
-}
-.dc20rpg #roll-prompt .expected-cost .costs .cost-img {
-  height: 18px;
-  width: 18px;
-  border: 1px solid var(--primary-darker);
-}
-.dc20rpg #roll-prompt .expected-cost .costs .cost-icon {
-  font-size: 19px;
-}
-.dc20rpg #roll-prompt .expected-cost .other-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  border: 1px solid var(--primary-darker);
-  border-radius: 2px;
-  padding: 1px;
-  background-color: var(--secondary-lighter);
-}
-.dc20rpg #roll-prompt .expected-cost .other-item span {
-  font-family: "Signika", sans-serif;
-  font-size: 14px;
-}
-.dc20rpg #roll-prompt .enhancements {
-  margin-top: 5px;
-  background-color: var(--secondary-color);
-  border: 2px solid var(--primary-dark);
-  border-bottom: 0;
-  padding: 5px;
-  border-radius: 3px 3px 0 0;
-  overflow-y: auto;
-  max-height: 250px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row {
-  height: 30px;
-  background-color: var(--secondary-lighter);
-  grid-template-columns: 1fr 100px 100px 30px;
-  display: grid;
-  border: 2px solid var(--secondary-darker);
-  border-top: 1px solid var(--secondary-darker);
-  border-bottom: 1px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:first-child {
-  border-radius: 3px 3px 0 0;
-  border-top: 2px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:last-child {
-  border-radius: 0 0 3px 3px;
-  border-bottom: 2px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:last-child .description {
-  position: relative;
-  bottom: 40px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:last-child .description .description-wrapper {
-  border-radius: 5px 5px 5px 0;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description {
-  position: relative;
-  bottom: 40px;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description .description-wrapper {
-  border-radius: 5px 5px 5px 0;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .name {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .name img {
-  border-radius: 0;
-  width: 27px;
-  height: 27px;
-  border: 0;
-  border-right: 1px solid var(--secondary-darker);
-}
-.dc20rpg #roll-prompt .enhancements .enh-row .usage {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .img-option img, .dc20rpg #actor-request .select-wrapper .select-column fieldset .img-option img, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset .img-option img, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .img-option img {
+  width: 28px;
   height: 28px;
-  border-right: 1px solid var(--secondary-darker);
-  border-left: 1px solid var(--secondary-darker);
+  border: 0;
 }
-.dc20rpg #roll-prompt .enhancements .enh-row .usage.costs {
-  border-left: 0;
+.dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .img-option:hover, .dc20rpg #actor-request .select-wrapper .select-column fieldset .img-option:hover, .dc20rpg #dmg-calculator .select-wrapper .select-column fieldset .img-option:hover, .dc20rpg #roll-select-dialog .select-wrapper .select-column fieldset .img-option:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 5px var(--activable-on) inset;
+  box-shadow: 0 0 10px 5px var(--activable-on) inset;
 }
-.dc20rpg #roll-prompt .enhancements .enh-row .enh-number {
+.dc20rpg #roll-select-dialog .select-wrapper .button-wrapper, .dc20rpg #actor-request .select-wrapper .button-wrapper, .dc20rpg #dmg-calculator .select-wrapper .button-wrapper, .dc20rpg #roll-select-dialog .select-wrapper .button-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3090,35 +3088,69 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  margin: 2px;
+}
+.dc20rpg #roll-select-dialog .select-wrapper .button-wrapper button, .dc20rpg #actor-request .select-wrapper .button-wrapper button, .dc20rpg #dmg-calculator .select-wrapper .button-wrapper button, .dc20rpg #roll-select-dialog .select-wrapper .button-wrapper button {
+  width: 100%;
+}
+.dc20rpg #roll-select-dialog .roll-result, .dc20rpg #actor-request .roll-result, .dc20rpg #dmg-calculator .roll-result, .dc20rpg #roll-select-dialog .roll-result {
   font-size: 16px;
+  font-family: "Signika", sans-serif;
   font-weight: bold;
-  padding-right: 2px;
+  width: 40px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid var(--activable-on);
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 5px 2px var(--activable-on) inset;
+  box-shadow: 0 0 5px 2px var(--activable-on) inset;
 }
-.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a {
+.dc20rpg #roll-select-dialog .roll-result.success, .dc20rpg #actor-request .roll-result.success, .dc20rpg #dmg-calculator .roll-result.success, .dc20rpg #roll-select-dialog .roll-result.success {
+  background-color: var(--crit);
+}
+.dc20rpg #roll-select-dialog .roll-result.fail, .dc20rpg #actor-request .roll-result.fail, .dc20rpg #dmg-calculator .roll-result.fail, .dc20rpg #roll-select-dialog .roll-result.fail {
+  background-color: var(--fail);
+}
+.dc20rpg #roll-select-dialog .dice-roll, .dc20rpg #actor-request .dice-roll, .dc20rpg #dmg-calculator .dice-roll, .dc20rpg #roll-select-dialog .dice-roll {
+  display: inline-block;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.dc20rpg #roll-select-dialog .check-big, .dc20rpg #actor-request .check-big, .dc20rpg #dmg-calculator .check-big, .dc20rpg #roll-select-dialog .check-big {
+  --checkbox-size: 24px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
-  color: var(--primary-color);
+  text-indent: 0px;
 }
-.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a span {
-  margin-top: 2px;
-  margin-left: 2px;
+.dc20rpg #roll-select-dialog .check-big::before, .dc20rpg #actor-request .check-big::before, .dc20rpg #dmg-calculator .check-big::before, .dc20rpg #roll-select-dialog .check-big::before {
+  color: var(--text-color);
 }
-.dc20rpg #token-selector .selectable, .dc20rpg #dmg-calculator .selectable, .dc20rpg #initiative-slot-selector .selectable {
+.dc20rpg #initiative-slot-selector .selectable {
   width: auto;
   font-weight: 100;
   font-size: 14px;
 }
-.dc20rpg #token-selector .long-select, .dc20rpg #dmg-calculator .long-select, .dc20rpg #initiative-slot-selector .long-select {
+.dc20rpg #initiative-slot-selector .long-select {
   color: var(--input-text-color);
   border: 2px solid var(--primary-darker);
   background-color: var(--secondary-lighter);
@@ -3130,13 +3162,13 @@
   margin: 5px 0;
   height: auto;
 }
-.dc20rpg #token-selector .box-content, .dc20rpg #dmg-calculator .box-content, .dc20rpg #initiative-slot-selector .box-content {
+.dc20rpg #initiative-slot-selector .box-content {
   margin: 5px 0;
   background-color: var(--secondary-color);
   border: 2px solid var(--primary-darker);
   border-radius: 2px;
 }
-.dc20rpg #token-selector .box-content .actor, .dc20rpg #dmg-calculator .box-content .actor, .dc20rpg #initiative-slot-selector .box-content .actor {
+.dc20rpg #initiative-slot-selector .box-content .actor {
   padding: 5px 8px;
   font-family: "Signika", sans-serif;
   font-size: 14px;
@@ -3152,7 +3184,7 @@
   align-items: center;
   border-top: 2px solid var(--primary-darker);
 }
-.dc20rpg #token-selector .box-content .actor .wrapper, .dc20rpg #dmg-calculator .box-content .actor .wrapper, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper {
+.dc20rpg #initiative-slot-selector .box-content .actor .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3163,7 +3195,7 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.dc20rpg #token-selector .box-content .actor .wrapper img, .dc20rpg #dmg-calculator .box-content .actor .wrapper img, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper img {
+.dc20rpg #initiative-slot-selector .box-content .actor .wrapper img {
   height: 30px;
   width: 30px;
   -o-object-position: 50% 0;
@@ -3172,7 +3204,7 @@
   object-fit: cover;
   border: 2px solid var(--primary-darker);
 }
-.dc20rpg #token-selector .box-content .actor .wrapper input, .dc20rpg #dmg-calculator .box-content .actor .wrapper input, .dc20rpg #initiative-slot-selector .box-content .actor .wrapper input {
+.dc20rpg #initiative-slot-selector .box-content .actor .wrapper input {
   background-color: transparent;
   font-family: "Humaroid";
   font-size: 20px;
@@ -3181,7 +3213,7 @@
   margin: 0 5px 0 5px;
   text-indent: 5px;
 }
-.dc20rpg #token-selector .box-content .actor:first-child, .dc20rpg #dmg-calculator .box-content .actor:first-child, .dc20rpg #initiative-slot-selector .box-content .actor:first-child {
+.dc20rpg #initiative-slot-selector .box-content .actor:first-child {
   border-top: 0;
 }
 .dc20rpg #color-settings {
@@ -3247,29 +3279,12 @@
   width: -webkit-fill-available;
 }
 .dc20rpg #skill-config {
-  max-height: 650px;
+  max-height: 750px;
 }
-.dc20rpg #skill-config .box-header {
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  font-weight: bold;
-}
-.dc20rpg #simple-popup .info-wrapper {
-  font-size: 14px;
-  padding: 4px;
-  border: 2px solid var(--primary-darker);
-  background-color: var(--secondary-lighter);
-  border-radius: 3px;
-  color: black;
-}
-.dc20rpg #simple-popup .info-wrapper .information {
-  margin: 8px 2px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--primary-darker);
-}
-.dc20rpg #simple-popup .info-wrapper .information:last-child {
-  border: 0;
+.dc20rpg #skill-config .remove-skill {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
 }
 .dc20rpg #character-creation-wizard {
   background-color: rgba(55, 55, 55, 0.568627451);
@@ -4013,6 +4028,8 @@
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column #tooltip-container {
   margin-top: -8px;
   margin-left: -8px;
+  border-radius: 3px;
+  border: 3px solid var(--border-color);
 }
 .dc20rpg #initiative-slot-selector .selectable {
   width: 50px;
@@ -4040,21 +4057,29 @@
 }
 .dc20rpg .dialog-v13.theme-dark {
   --border-color: var(--color-light-4);
+  --border-color-2: var(--color-light-2);
   --text-color: var(--color-light-3);
   --text-color-2: var(--color-light-6);
+  --text-color-3: var(--color-text-primary);
   --backround-color: var(--color-cool-4);
   --header-color: var(--color-warm-1);
   --activable-off: var(--color-light-2);
   --activable-on: var(--color-light-5);
+  --bar-color: var(--color-text-subtle);
+  --shadow: black;
 }
 .dc20rpg .dialog-v13.theme-light {
   --border-color: var(--color-dark-1);
+  --border-color-2: var(--color-dark-2);
   --text-color: var(--color-dark-1);
   --text-color-2: var(--color-dark-4);
+  --text-color-3: var(--primary-color);
   --backround-color: rgba(0, 0, 0, 0.1);
   --header-color: var(--color-warm-2);
   --activable-off: var(--secondary-lighter);
   --activable-on: var(--primary-dark);
+  --bar-color: var(--content-link-background);
+  --shadow: white;
 }
 .dc20rpg .dialog-v13 .form-group.symetry label {
   -webkit-box-flex: 2;
@@ -4084,6 +4109,20 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+.dc20rpg .dialog-v13 .multi-select-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg .dialog-v13 .message {
+  padding: 5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 .dc20rpg .dialog-v13 .activable-box {
   font-family: "Humaroid";
@@ -4132,11 +4171,11 @@
   background-color: var(--backround-color);
   border: 2px solid var(--border-color);
   border-radius: 5px;
-  padding: 5px;
+  padding: 0;
   color: var(--text-color);
 }
 .dc20rpg .dialog-v13 .box-content .actor {
-  padding: 5px 8px;
+  padding: 10px 12px;
   font-family: "Signika", sans-serif;
   font-size: 14px;
   display: -webkit-box;
@@ -4182,6 +4221,17 @@
 }
 .dc20rpg .dialog-v13 .box-content .actor:first-child {
   border-top: 0;
+}
+.dc20rpg .dialog-v13 .box-content .actor .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
 }
 .dc20rpg .dialog-v13 button {
   display: -webkit-box;
@@ -4412,8 +4462,18 @@
 .dc20rpg #adventurers-register .item-list {
   color: var(--secondary-darker);
 }
+.dc20rpg #adventurers-register .item-list .actor-img {
+  height: 27px;
+}
 .dc20rpg #adventurers-register .item-list .column {
   font-weight: bold;
+}
+.dc20rpg #adventurers-register .item-list .column input {
+  color: black;
+  padding: 0px;
+}
+.dc20rpg #adventurers-register .item-list .column input:disabled {
+  color: black;
 }
 .dc20rpg #adventurers-register .item-list .name:hover {
   cursor: pointer;
@@ -4658,13 +4718,13 @@
   -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
-  width: 120px;
+  width: 90px;
   padding: 2px 0;
   height: 33px;
 }
 .dc20rpg .item-list .item-row .action:hover, .dc20rpg .item-list .item-row .components:hover, .dc20rpg .item-list .enh-row .action:hover, .dc20rpg .item-list .enh-row .components:hover {
   overflow: visible;
-  min-width: 120px;
+  min-width: 90px;
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -4711,37 +4771,18 @@
   height: 33px;
   background-color: var(--secondary-color);
 }
-.dc20rpg .item-list .item-row .usage .cost-icon, .dc20rpg .item-list .item-row .usage .cost-img, .dc20rpg .item-list .enh-row .usage .cost-icon, .dc20rpg .item-list .enh-row .usage .cost-img {
-  margin: 0 2px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg .item-list .item-row .usage b, .dc20rpg .item-list .enh-row .usage b {
-  margin: 3px -2px 0 2px;
-  font-size: 10px;
-}
-.dc20rpg .item-list .item-row .usage .cost-img, .dc20rpg .item-list .enh-row .usage .cost-img {
+.dc20rpg .item-list .item-row .usage .cost-printer .cost-img, .dc20rpg .item-list .enh-row .usage .cost-printer .cost-img {
   height: 15px;
   width: 15px;
-  border: 0;
   border-radius: 7px;
 }
-.dc20rpg .item-list .item-row .usage .ap, .dc20rpg .item-list .enh-row .usage .ap {
-  color: var(--action-point);
+.dc20rpg .item-list .item-row .usage .cost-printer b, .dc20rpg .item-list .enh-row .usage .cost-printer b {
+  font-size: 14px;
 }
-.dc20rpg .item-list .item-row .usage .sp, .dc20rpg .item-list .enh-row .usage .sp {
-  color: var(--stamina);
-}
-.dc20rpg .item-list .item-row .usage .mp, .dc20rpg .item-list .enh-row .usage .mp {
-  color: var(--mana);
-}
-.dc20rpg .item-list .item-row .usage .hp, .dc20rpg .item-list .enh-row .usage .hp {
-  color: var(--health);
-}
-.dc20rpg .item-list .item-row .usage .grit, .dc20rpg .item-list .enh-row .usage .grit {
-  color: var(--grit);
-}
-.dc20rpg .item-list .item-row .usage .rest, .dc20rpg .item-list .enh-row .usage .rest {
-  color: #00887d;
+.dc20rpg .item-list .item-row .usage .cost-printer .symbol, .dc20rpg .item-list .enh-row .usage .cost-printer .symbol {
+  font-size: 17px;
+  margin-left: -3px;
+  margin-top: -5px;
 }
 .dc20rpg .item-list .item-row .item-use, .dc20rpg .item-list .enh-row .item-use {
   display: -webkit-box;
@@ -4783,8 +4824,8 @@
   background-color: transparent;
   border: 0;
   border-radius: 0px;
-  width: 28px;
-  min-width: 28px;
+  width: 22px;
+  min-width: 22px;
 }
 .dc20rpg .item-list .item-row .charges .max-charges, .dc20rpg .item-list .enh-row .charges .max-charges {
   margin-left: 2px;
@@ -5027,185 +5068,6 @@
 .dc20rpg .item-list .roll-menu .roll-options .toggle .fa-2x {
   font-size: 1.7em;
   color: var(--primary-color);
-}
-.dc20rpg #tooltip-container {
-  --border-color: var(--primary-dark);
-  --text-color: var(--color-dark-1);
-  background-image: url(../images/sheet/parchment.jpg);
-  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
-  box-shadow: 0 0 15px var(--secondary-darker) inset;
-  position: fixed;
-  min-height: 200px;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  z-index: 100;
-  border-radius: 3px;
-  border: 3px solid var(--border-color);
-  padding: 12px;
-  -webkit-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out;
-  opacity: 0;
-  visibility: hidden;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.dc20rpg #tooltip-container.theme-dark {
-  --border-color: var(--color-light-5);
-  --text-color: var(--color-light-2);
-  background: var(--background);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.dc20rpg #tooltip-container.theme-light {
-  --border-color: var(--primary-dark);
-  --text-color: var(--color-dark-1);
-  background-image: url(../images/sheet/parchment.jpg);
-  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
-  box-shadow: 0 0 15px var(--secondary-darker) inset;
-}
-.dc20rpg #tooltip-container .tooltip-info {
-  font-size: 10px;
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 5px;
-  font-family: "Signika", sans-serif;
-}
-.dc20rpg #tooltip-container .tooltip-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 45px;
-  border-bottom: 2px solid var(--border-color);
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-.dc20rpg #tooltip-container .tooltip-header input {
-  font-family: "Humaroid";
-  font-size: 24px;
-  overflow-x: hidden;
-  background-color: transparent;
-  border: 0;
-}
-.dc20rpg #tooltip-container .tooltip-header input:disabled {
-  color: var(--text-color);
-}
-.dc20rpg #tooltip-container .tooltip-header img {
-  height: 40px;
-  width: 40px;
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  margin-right: 5px;
-}
-.dc20rpg #tooltip-container .tooltip-header.invisible {
-  display: none;
-}
-.dc20rpg #tooltip-container .tooltip-details {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  font-family: "Signika", sans-serif;
-  font-size: 12px;
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 5px;
-}
-.dc20rpg #tooltip-container .tooltip-details .detail {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-top: 3px;
-  margin-left: 3px;
-  padding: 3px;
-  border: 1px solid black;
-  border-radius: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  background-color: var(--primary-light);
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-.dc20rpg #tooltip-container .tooltip-details .box {
-  border: 1px solid black;
-  background-color: var(--primary-color);
-}
-.dc20rpg #tooltip-container .tooltip-details .green-box {
-  background-color: var(--crit-background);
-}
-.dc20rpg #tooltip-container .tooltip-details .red-box {
-  background-color: var(--fail-background);
-}
-.dc20rpg #tooltip-container .tooltip-details.invisible {
-  display: none;
-}
-.dc20rpg #tooltip-container .tooltip-description {
-  font-size: 14px;
-  font-family: "Signika", sans-serif;
-  color: var(--text-color);
-}
-.dc20rpg #tooltip-container .tooltip-description.invisible {
-  display: none;
-}
-.dc20rpg #tooltip-container .box-style {
-  cursor: pointer;
-}
-.dc20rpg #tooltip-container .box-style:hover {
-  text-shadow: 2px 2px 5px #ca0000;
-}
-.dc20rpg #tooltip-container .hyperlink-style {
-  color: var(--primary-color);
-  cursor: pointer;
-}
-.dc20rpg #tooltip-container .hyperlink-style:hover {
-  text-shadow: 2px 2px 5px #ca0000;
-}
-.dc20rpg #context-menu {
-  position: fixed;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  visibility: hidden;
-  width: 80px;
-  border: 2px solid var(--primary-color);
-  background-color: var(--secondary-lighter);
-  border-radius: 2px;
-}
-.dc20rpg #context-menu .elem {
-  color: var(--secondary-darker);
-  border-top: 1px solid var(--primary-color);
-  font-size: 14px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 4px 6px;
-  font-weight: bold;
-}
-.dc20rpg #context-menu .elem:hover {
-  background-color: var(--primary-color);
-  -webkit-box-shadow: 0 0 10px 5px var(--primary-darker) inset;
-  box-shadow: 0 0 10px 5px var(--primary-darker) inset;
-  text-shadow: none;
-  color: var(--secondary-lighter);
-}
-.dc20rpg #context-menu .elem:first-child {
-  border-top: 0;
 }
 .dc20rpg .actor_v2 {
   display: -webkit-box;
@@ -7560,12 +7422,24 @@
 .dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .filter i {
   color: var(--primary-color);
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .base-action-switch {
-  width: 30px;
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .base-action {
+  width: auto;
   border-left: 2px solid var(--primary-color);
   background-color: var(--secondary-dark);
+  font-family: "Humaroid";
+  padding: 0 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  font-size: 16px;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .base-action-switch i {
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .base-action i {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -7578,26 +7452,45 @@
   height: 31px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers {
-  padding: 0px 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  background-color: var(--secondary-lighter);
+  border: 2px solid var(--primary-darker);
+  border-radius: 15px 5px 5px 15px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .containers .container-icon {
+  width: 50px;
+  height: 50px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: var(--secondary-lighter);
+  border-right: 2px solid var(--primary-darker);
+  background-color: var(--primary-darker);
+  margin-right: 10px;
+  border-radius: 11px 0 0 11px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers .container {
-  margin-bottom: 5px;
-  margin-right: 5px;
+  margin: 5px 8px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers .container img {
   background-color: var(--secondary-dark);
   border: 2px solid var(--primary-color);
   border-radius: 3px;
-  min-height: 50px;
-  min-width: 50px;
-  height: 50px;
-  width: 50px;
+  min-height: 40px;
+  min-width: 40px;
+  height: 40px;
+  width: 40px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers .container img:hover {
   -webkit-box-shadow: 0 0 5px 1px var(--primary-darker);
@@ -7605,10 +7498,15 @@
   cursor: pointer;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .containers .container a {
-  position: absolute;
-  margin-top: 5px;
-  margin-left: -3px;
+  position: relative;
+  top: 11px;
+  left: 3px;
   color: var(--dark-red);
+  height: 0;
+  width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box {
@@ -7627,7 +7525,7 @@
   padding: 2px 3px;
   border-bottom: 0;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .box-inner .table-row .skill-mastery-toggle, .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .box-inner .table-row .language-mastery-toggle {
+.dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .box-inner .table-row .mastery-toggle {
   border-radius: 7px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .box-inner .table-header {
@@ -7658,7 +7556,7 @@
   color: var(--dark-red);
   border-radius: 7px;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .skill-mastery .skill-mastery-toggle, .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .skill-mastery .language-mastery-toggle {
+.dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .skill-mastery .mastery-toggle {
   border: 2px solid var(--primary-color);
   background-color: var(--primary-light);
 }
@@ -7904,17 +7802,6 @@
   font-family: "Signika", sans-serif;
   border: 0;
   background-color: transparent;
-}
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .actions .item-row .action {
-  width: 90px !important;
-}
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .actions .item-row .action:hover {
-  min-width: 70px !important;
-}
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action.expandable:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action.expandable:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .actions .item-row .action.expandable:hover {
-  border-left: 1px solid var(--secondary-color);
-  margin-left: -40px;
-  min-width: 130px !important;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .active-effects .letter-circle-icon {
   position: relative;
@@ -8429,7 +8316,7 @@
 .dc20rpg .actor_v2 .npc-body .tab .top-menu {
   border: 2px solid var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .top-menu .base-action-switch {
+.dc20rpg .actor_v2 .npc-body .tab .top-menu .base-action {
   border-left: 2px solid var(--npc-main) !important;
 }
 .dc20rpg .actor_v2 .npc-body .tab .top-menu .filter {
@@ -8442,29 +8329,29 @@
   background: -webkit-gradient(linear, left top, right top, from(var(--npc-table-1)), to(var(--npc-table-2))) !important;
   background: linear-gradient(to right, var(--npc-table-1), var(--npc-table-2)) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .enh-number a {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .enh-number a {
   border-color: var(--npc-main) !important;
   color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-item i {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-item i {
   color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .roll-level-check {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .roll-level-check {
   background-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .fa-solid {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .value-in-box .fa-solid {
   color: var(--npc-main-light) !important;
   -webkit-text-stroke-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .value::after {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-level .value-in-box .value::after {
   background-color: var(--npc-main-light) !important;
   border-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .help-dices .fa-solid {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .help-dices .fa-solid {
   color: var(--npc-main-light) !important;
   -webkit-text-stroke-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .expandable-row .roll-menu .roll-options i {
+.dc20rpg .actor_v2 .npc-body .tab .item-row .roll-menu .roll-options i {
   color: var(--npc-main) !important;
 }
 .dc20rpg .actor_v2 .npc-body .core-tab .first-row .attributes-wrapper {
@@ -9028,7 +8915,7 @@
   color: var(--dark-red);
   border-radius: 7px;
 }
-.dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .skill-mastery .skill-mastery-toggle, .dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .skill-mastery .language-mastery-toggle {
+.dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .skill-mastery .mastery-toggle {
   border: 2px solid var(--primary-color);
   background-color: var(--primary-light);
 }
@@ -9256,7 +9143,7 @@
 .dc20rpg .actor_v2 .npc-body .config-tab .conditions img, .dc20rpg .actor_v2 .npc-body .config-tab .dmg-reduction img {
   border-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-mastery-toggle, .dc20rpg .actor_v2 .npc-body .config-tab .skills .language-mastery-toggle {
+.dc20rpg .actor_v2 .npc-body .config-tab .skills .mastery-toggle {
   border-color: var(--npc-main) !important;
   background-color: var(--npc-main-lighter) !important;
   color: var(--npc-text-color-1) !important;
@@ -9594,7 +9481,7 @@
 .dc20rpg .actor_v2 .pc-body .tab .top-menu {
   border: 2px solid var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .top-menu .base-action-switch {
+.dc20rpg .actor_v2 .pc-body .tab .top-menu .base-action {
   border-left: 2px solid var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-body .tab .top-menu .filter {
@@ -9655,30 +9542,41 @@
   background: -webkit-gradient(linear, left top, right top, from(var(--pc-table-1)), to(var(--pc-table-2))) !important;
   background: linear-gradient(to right, var(--pc-table-1), var(--pc-table-2)) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .enh-number a {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .enh-number a {
   border-color: var(--pc-main) !important;
   color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-item i {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-item i {
   color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .roll-level-check {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .roll-item, .dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .roll-level-check {
   background-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .fa-solid {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .value-in-box .fa-solid {
   color: var(--pc-main-light) !important;
   -webkit-text-stroke-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-level .value-in-box .value::after {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-level .value-in-box .value::after {
   background-color: var(--pc-main-light) !important;
   border-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .help-dices .fa-solid {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .help-dices .fa-solid {
   color: var(--pc-main-light) !important;
   -webkit-text-stroke-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-body .tab .expandable-row .roll-menu .roll-options i {
+.dc20rpg .actor_v2 .pc-body .tab .item-row .roll-menu .roll-options i {
   color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-body .tab .containers {
+  background-color: var(--pc-secondary-light);
+  border-color: var(--pc-main-dark);
+}
+.dc20rpg .actor_v2 .pc-body .tab .containers .container-icon {
+  border-color: var(--pc-main-dark);
+  background-color: var(--pc-main-dark);
+}
+.dc20rpg .actor_v2 .pc-body .tab .containers .container {
+  border-color: var(--pc-main-dark);
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row {
   display: -webkit-box;
@@ -10022,7 +9920,7 @@
 .dc20rpg .actor_v2 .pc-body .core-tab .second-row .content-box .box-inner {
   border-color: var(--pc-main);
 }
-.dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .skill-mastery-toggle, .dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .language-mastery-toggle {
+.dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .mastery-toggle {
   border-color: var(--pc-main) !important;
   background-color: var(--pc-main-light) !important;
   color: var(--pc-text-color-1) !important;
@@ -10122,6 +10020,104 @@
 }
 .dc20rpg .actor_v2 .pc-body .effects-tab .status-table .status {
   border-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .second-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .second-row.slot-open {
+  grid-template-columns: 1fr 2fr;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .characer-img {
+  margin-left: 35px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .characer-img img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 333px;
+  width: 100%;
+  border: 2px solid var(--pc-main-dark);
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  height: 0px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .section-icon {
+  width: 35px;
+  height: 45px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: var(--pc-secondary-light);
+  border-right: 1px solid var(--pc-main-dark);
+  background-color: var(--pc-main-dark);
+  border-radius: 10px 0 0 10px;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot img {
+  width: 45px;
+  height: 45px;
+  border: 2px solid var(--pc-main-dark);
+  border-radius: 0;
+  border-right: 0;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot img.empty {
+  -webkit-filter: opacity(0.9);
+  filter: opacity(0.9);
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot:last-child {
+  border-right: 2px solid var(--pc-main-dark);
+  border-radius: 0 5px 5px 0;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .delete-slot {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+  left: 10px;
+  top: -10px;
+  color: var(--dark-red);
+  height: 0px;
+  width: 0px;
+  z-index: 1;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .delete-slot:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 3px var(--primary-light) inset;
+  box-shadow: 0 0 5px 3px var(--primary-light) inset;
 }
 .dc20rpg .actor_v2 .storage-header {
   height: 200px;
@@ -10247,7 +10243,7 @@
 .dc20rpg .actor_v2 .storage-body .top-menu {
   border: 2px solid var(--storage-main-dark) !important;
 }
-.dc20rpg .actor_v2 .storage-body .top-menu .base-action-switch {
+.dc20rpg .actor_v2 .storage-body .top-menu .base-action {
   border-left: 2px solid var(--storage-main-dark) !important;
 }
 .dc20rpg .actor_v2 .storage-body .top-menu .filter {
@@ -10282,6 +10278,26 @@
   font-family: "Signika", sans-serif;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.dc20rpg .actor_v2 .storage-body .item-row .loot-rool {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .storage-body .item-row .loot-rool input {
+  width: 35px;
+}
+.dc20rpg .actor_v2 .storage-body .item-row .loot-rool span {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 5px;
 }
 .dc20rpg .actor_v2 .table-header {
   padding: 3px 3px 2px 3px;
@@ -10467,7 +10483,7 @@
   height: 0;
   width: 0;
 }
-.dc20rpg .item_v2 .item-sheet-header .item-cost {
+.dc20rpg .item_v2 .item-sheet-header .cost-printer {
   position: absolute;
   border-radius: 5px;
   padding: 4px;
@@ -10486,33 +10502,18 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.dc20rpg .item_v2 .item-sheet-header .item-cost .cost-icon, .dc20rpg .item_v2 .item-sheet-header .item-cost .cost-img {
-  margin: 0 2px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .cost-img {
-  height: 15px;
-  width: 15px;
-  border: 0;
+.dc20rpg .item_v2 .item-sheet-header .cost-printer .cost-img {
+  min-height: 18px;
+  min-width: 18px;
+  height: 18px;
+  width: 18px;
   border-radius: 7px;
+  border: 1px solid white;
 }
-.dc20rpg .item_v2 .item-sheet-header .item-cost .ap {
-  color: var(--action-point);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .sp {
-  color: var(--stamina);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .mp {
-  color: var(--mana);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .grit {
-  color: var(--grit);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .hp {
-  color: var(--health);
-}
-.dc20rpg .item_v2 .item-sheet-header .item-cost .rest {
-  color: #00887d;
+.dc20rpg .item_v2 .item-sheet-header .cost-printer .symbol {
+  font-size: 22px;
+  margin-left: -3px;
+  margin-top: -8px;
 }
 .dc20rpg .item_v2 .item-sheet-header .header-content {
   width: 100%;
@@ -11246,6 +11247,14 @@
   text-shadow: -1px 0 var(--main-color), 0 1px var(--main-color), 1px 0 var(--main-color), 0 -1px var(--main-color);
   font-weight: bold;
 }
+.chat-message.themed.theme-dark #context-menu {
+  background-color: var(--color-cool-5-90);
+}
+.chat-message.themed.theme-dark #context-menu li.context-item:hover {
+  background-color: var(--color-cool-5-90);
+  -webkit-box-shadow: 0 0 15px 5px inset var(--target-bg);
+  box-shadow: 0 0 15px 5px inset var(--target-bg);
+}
 .chat-message.themed.theme-light {
   --main-light: var(--color-dark-1);
   --main-color: var(--color-dark-3);
@@ -11257,6 +11266,14 @@
 }
 .chat-message.themed.theme-light .revert-name {
   font-weight: bold;
+}
+.chat-message.themed.theme-light #context-menu {
+  background-color: url(../images/sheet/parchment.jpg) repeat;
+}
+.chat-message.themed.theme-light #context-menu li.context-item:hover {
+  background-color: url(../images/sheet/parchment.jpg) repeat;
+  -webkit-box-shadow: 0 0 15px 5px inset var(--target-bg);
+  box-shadow: 0 0 15px 5px inset var(--target-bg);
 }
 .chat-message .default-roll-message {
   padding: 5px;
@@ -12191,6 +12208,7 @@
   text-align: right;
 }
 #sidebar .combat-sidebar .encounter-dc span, #combat-popout .combat-sidebar .encounter-dc span {
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: bold;
 }
@@ -12326,10 +12344,40 @@
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: end;
+  gap: 0px;
 }
-#ui-bottom #hotbar #hotbar-controls-left .hotbar-controls button, #ui-bottom #hotbar #hotbar-controls-right .hotbar-controls button {
-  width: 35px;
+#ui-bottom #hotbar #hotbar-controls-left .button-small, #ui-bottom #hotbar #hotbar-controls-right .button-small {
+  font-size: 12px;
+  max-width: 22px;
+  max-height: 22px;
+}
+#ui-bottom #hotbar #hotbar-controls-left .button-wide, #ui-bottom #hotbar #hotbar-controls-right .button-wide {
+  width: 36px;
   height: 26px;
+}
+#ui-bottom #hotbar #hotbar-controls-left .button-large, #ui-bottom #hotbar #hotbar-controls-right .button-large {
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  background-color: var(--primary-dark);
+  color: var(--color-light-2);
+  border-color: var(--color-cool-4);
+}
+#ui-bottom #hotbar #hotbar-controls-left .move-points button, #ui-bottom #hotbar #hotbar-controls-right .move-points button {
+  border: 1px solid var(--color-cool-4);
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+}
+#ui-bottom #hotbar #hotbar-controls-left .move-points input, #ui-bottom #hotbar #hotbar-controls-right .move-points input {
+  height: 40px;
+  font-family: "Humaroid";
+  border: 1px solid var(--color-cool-4);
+  border-radius: 4px 4px 0 0;
+  background-color: var(--primary-darker);
+  color: var(--color-light-2);
+  text-align: center;
+  font-size: 22px;
+  width: 36px;
 }
 #ui-bottom #hotbar.token-hotbar {
   height: auto;
@@ -12516,14 +12564,24 @@
   outline-color: rgba(255, 255, 255, 0.8);
   outline-style: dashed;
 }
-#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .equipped {
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .show-charges, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot-keybind, #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .equipped {
   position: absolute;
   background-color: rgba(59, 59, 59, 0.7607843137);
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .action-type {
   font-size: 11px;
-  border-radius: 4px 0 10px 0;
-  padding: 3px 5px 3px 3px;
+  margin-top: 29px;
+  border-radius: 0 10px 0 4px;
+  padding: 3px;
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .slot-keybind {
+  text-align: center;
+  height: 15px;
+  min-width: 15px;
+  font-size: 13px;
+  font-family: "Humaroid";
+  border-radius: 4px 0 5px 0;
+  padding-right: 2px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .section-wrapper .is-reaction {
   font-size: 10px;
@@ -12546,7 +12604,8 @@
   font-size: 14px;
   font-family: "Humaroid";
   margin-top: -15px;
-  border-radius: 0 10px 0 4px;
+  margin-left: 15px;
+  border-radius: 10px 10px 0 0;
   padding-bottom: 2px;
 }
 #ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper {
@@ -12560,7 +12619,18 @@
   align-items: center;
   margin-bottom: 15px;
 }
-#ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper img {
+#ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper .portrait-overlay {
+  z-index: 2;
+  border: 0;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  margin-left: 20px;
+  margin-top: -25px;
+  -webkit-filter: opacity(0.6);
+  filter: opacity(0.6);
+}
+#ui-bottom #hotbar.token-hotbar #action-bar .portrait-wrapper .portrait {
   z-index: 1;
   border: 2px solid var(--secondary-darker);
   -o-object-position: 50% 0;
@@ -12916,4 +12986,231 @@
 #ui-bottom #hotbar.token-hotbar #action-bar .special-action-wrapper .held-action:hover {
   -webkit-box-shadow: 0 0 6px 2px var(--dark-red);
   box-shadow: 0 0 6px 2px var(--dark-red);
+}
+
+#tooltip-container {
+  --border-color: var(--primary-dark);
+  --text-color: var(--color-dark-1);
+  --text-shadow: none;
+  --highlight-color: var(--primary-color);
+  pointer-events: all;
+  background-image: url(../images/sheet/parchment.jpg);
+  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
+  box-shadow: 0 0 15px var(--secondary-darker) inset;
+  position: fixed;
+  min-height: 200px;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  z-index: var(--z-index-tooltip);
+  border-radius: 5px;
+  padding: 12px;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#tooltip-container.theme-dark {
+  --border-color: var(--color-light-3);
+  --text-color: var(--color-light-2);
+  --text-shadow: white;
+  --highlight-color: var(--color-shadow-highlight);
+  background: var(--color-cool-5-90);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#tooltip-container.theme-light {
+  --border-color: var(--primary-dark);
+  --text-color: var(--color-dark-1);
+  --text-shadow: none;
+  --highlight-color: var(--primary-color);
+  background-image: url(../images/sheet/parchment.jpg);
+  -webkit-box-shadow: 0 0 15px var(--secondary-darker) inset;
+  box-shadow: 0 0 15px var(--secondary-darker) inset;
+}
+#tooltip-container .tooltip-info {
+  font-size: 10px;
+  font-family: "Signika", sans-serif;
+  color: var(--text-color);
+}
+#tooltip-container .tooltip-action {
+  color: var(--text-color);
+}
+#tooltip-container .tooltip-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+#tooltip-container .tooltip-header input {
+  font-family: var(--font-h4);
+  font-weight: bold;
+  font-size: 22px;
+  overflow-x: hidden;
+  background-color: transparent;
+  border: 0;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+}
+#tooltip-container .tooltip-header input:disabled {
+  color: var(--text-color);
+}
+#tooltip-container .tooltip-header .image {
+  margin: 3px 5px 3px 0;
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+}
+#tooltip-container .tooltip-header .cost-printer {
+  color: black;
+  padding-left: 3px;
+  margin-left: 10px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  height: 100%;
+  gap: 3.5px;
+  font-size: 15px;
+  height: 40px;
+}
+#tooltip-container .tooltip-header .cost-printer .cost-img {
+  height: 16px;
+  width: 16px;
+  border-radius: 5px;
+  border: 1px solid var(--text-shadow);
+}
+#tooltip-container .tooltip-header .cost-printer .cost .cost-icon, #tooltip-container .tooltip-header .cost-printer .cost b {
+  text-shadow: -1px 0 var(--text-shadow), 0 1px var(--text-shadow), 1px 0 var(--text-shadow), 0 -1px var(--text-shadow);
+}
+#tooltip-container .tooltip-header.invisible {
+  display: none;
+}
+#tooltip-container .tooltip-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-family: "Signika", sans-serif;
+  font-size: 12px;
+}
+#tooltip-container .tooltip-details .detail {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 3px;
+  margin-left: 3px;
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: var(--primary-light);
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#tooltip-container .tooltip-details .box {
+  border: 1px solid black;
+  background-color: var(--primary-color);
+}
+#tooltip-container .tooltip-details .green-box {
+  background-color: var(--crit-background);
+}
+#tooltip-container .tooltip-details .red-box {
+  background-color: var(--fail-background);
+}
+#tooltip-container .tooltip-details.invisible {
+  display: none;
+}
+#tooltip-container .tooltip-description {
+  font-size: 14px;
+  font-family: "Signika", sans-serif;
+  color: var(--text-color);
+  padding: 0 6px;
+}
+#tooltip-container .tooltip-description.invisible {
+  display: none;
+}
+#tooltip-container .box-style {
+  cursor: pointer;
+}
+#tooltip-container .box-style:hover {
+  text-shadow: 2px 2px 5px #ca0000;
+}
+#tooltip-container .hyperlink-style {
+  color: var(--highlight-color);
+  cursor: pointer;
+}
+#tooltip-container .hyperlink-style:hover {
+  text-shadow: 2px 2px 5px #ca0000;
+}
+#tooltip-container .underline {
+  clear: both;
+  border: 0;
+  height: 2px;
+  margin: 7px 0;
+  color: var(--border-color);
+  background-image: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(33%, var(--border-color)), color-stop(66%, var(--border-color)), to(transparent));
+  background-image: linear-gradient(90deg, transparent 0%, var(--border-color) 33%, var(--border-color) 66%, transparent 100%);
+}
+#tooltip-container .underline.invisible {
+  display: none;
+}
+
+.dc20rpg #context-menu {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  visibility: hidden;
+  width: 80px;
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-lighter);
+  border-radius: 2px;
+}
+.dc20rpg #context-menu .elem {
+  color: var(--secondary-darker);
+  border-top: 1px solid var(--primary-color);
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 4px 6px;
+  font-weight: bold;
+}
+.dc20rpg #context-menu .elem:hover {
+  background-color: var(--primary-color);
+  -webkit-box-shadow: 0 0 10px 5px var(--primary-darker) inset;
+  box-shadow: 0 0 10px 5px var(--primary-darker) inset;
+  text-shadow: none;
+  color: var(--secondary-lighter);
+}
+.dc20rpg #context-menu .elem:first-child {
+  border-top: 0;
 }

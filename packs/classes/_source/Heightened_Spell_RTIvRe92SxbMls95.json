@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -82,7 +83,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -107,9 +109,57 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": 1,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p>When you cast a Spell that forces a creature to make a <strong>Save</strong> to resist its effects, you can spend <strong>1 MP</strong> to give 1 target DisADV on its first <strong>Save</strong> against the Spell.</p><p><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>You can only use 1 Meta Magic Enhancement per Spell</strong></span></p>"
+        "description": "<p>When you cast a Spell that forces a creature to make a <strong>Save</strong> to resist its effects, you can spend <strong>1 MP</strong> to give 1 target DisADV on its first <strong>Save</strong> against the Spell.</p><p><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>You can only use 1 Meta Magic Enhancement per Spell</strong></span></p>",
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "TyQUTkzUlSTCvVxg",
+        "sourceItemId": "RTIvRe92SxbMls95",
+        "sourceItemName": "Heightened Spell",
+        "sourceItemImg": "icons/magic/time/arrows-circling-pink.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -267,11 +317,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034811,
-    "modifiedTime": 1745412688204,
+    "modifiedTime": 1760521813951,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -70,7 +70,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -95,9 +96,57 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>If you move at least 2 Spaces in a straight line before making a <strong>Melee</strong> <strong>Attack</strong>, the damage of the <strong>Attack</strong> increases by 1.</p>"
+        "description": "<p>If you move at least 2 Spaces in a straight line before making a <strong>Melee</strong> <strong>Attack</strong>, the damage of the <strong>Attack</strong> increases by 1.</p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "qHZkJSbXXmqOJgyn",
+        "sourceItemId": "H40dF5hYMxP9LJDP",
+        "sourceItemName": "Charge",
+        "sourceItemImg": "icons/creatures/mammals/ox-bull-horned-glowing-orange.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -189,11 +238,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.WWCGEMvgnLdPB8BJ",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1745412760085,
+    "modifiedTime": 1760521817058,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

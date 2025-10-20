@@ -3,7 +3,7 @@
   <div class="row ap-cost margin-top-5">
     <div class="wrapper"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
     <span>{{localize "dc20rpg.item.sheet.usage.ap"}}</span>
-    <input type="text" name="system.costs.resources.actionPoint" value="{{system.costs.resources.actionPoint}}" placeholder="-" data-dtype="Number">
+    <input type="text" name="system.costs.resources.ap" value="{{system.costs.resources.ap}}" placeholder="-" data-dtype="Number">
   </div>
   <div class="row margin-top-5 stamina-cost">
     <div class="wrapper"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
@@ -36,7 +36,7 @@
   <div class="row margin-top-5 custom-resource">
     <img class="resource-img" src="{{cost.img}}"/>
     <div class="left-part-row">
-      <span>{{cost.name}} </span>
+      <span>{{cost.label}} </span>
       <a class="remove-resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"><i class="fa-solid fa-square-minus fa-lg margin-right-3"></i></a>
     </div>
     <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
@@ -48,7 +48,8 @@
     <div class="left-part-row">
       <span>{{localize "dc20rpg.item.sheet.usage.charges"}}</span>
       <div>
-        <a class="activable {{#if system.costs.charges.overriden}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg" data-path="system.costs.charges.overriden" title="{{localize "dc20rpg.item.sheet.usage.useCustomRecovery"}}"></a>
+        <a class="activable {{#if system.costs.charges.deleteOnZero}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg" data-path="system.costs.charges.deleteOnZero" title="{{localize "dc20rpg.item.sheet.usage.deleteOnZero"}}"></a>
+        <a class="activable margin-right-5 {{#if system.costs.charges.overriden}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg" data-path="system.costs.charges.overriden" title="{{localize "dc20rpg.item.sheet.usage.useCustomRecovery"}}"></a>
         <a class="activable margin-right-5 {{#if system.costs.charges.showAsResource}}fa-solid fa-square-minus{{else}}fa-regular fa-square-plus{{/if}} fa-lg" data-path="system.costs.charges.showAsResource" title="{{localize "dc20rpg.item.sheet.usage.showAsResource"}}"></a>
       </div>
     </div>
@@ -76,28 +77,5 @@
       <span class="separator">{{localize "dc20rpg.item.sheet.usage.rechargeAt"}}</span>
       <input type="text" name="system.costs.charges.requiredTotalMinimum" value="{{system.costs.charges.requiredTotalMinimum}}" data-dtype="Number">
     </div>
-  </div>
-
-  {{!-- Other Items --}}
-  <div class="row margin-top-10">
-    <div class="left-part-row">
-      <span>{{localize "dc20rpg.item.sheet.usage.otherItem"}}</span>
-      <div>
-        <a class="activable fa-solid {{#if system.costs.otherItem.consumeCharge}}fa-bolt{{else}}fa-boxes-stacked{{/if}} fa-lg" data-path="system.costs.otherItem.consumeCharge" 
-            title={{#if system.costs.otherItem.consumeCharge}}"{{localize "dc20rpg.item.sheet.usage.consumeCharge"}}"{{else}}"{{localize "dc20rpg.item.sheet.usage.consumeQuantity"}}"{{/if}}></a>
-      </div>
-    </div>
-
-    <div class="right-part-row">
-      <select class="long-select margin-right-3 select-other-item cost-selector" data-path="system.costs.otherItem.itemId" data-selector="cost-selector">
-        {{#if system.costs.otherItem.consumeCharge}} 
-        {{selectOptions itemsWithChargesIds selected=system.costs.otherItem.itemId blank=""}}
-        {{else}}
-        {{selectOptions consumableItemsIds selected=system.costs.otherItem.itemId blank=""}}
-        {{/if}}
-      </select>
-      <input class="small-input" type="text" name="system.costs.otherItem.amountConsumed" value="{{system.costs.otherItem.amountConsumed}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.usage.consumedAmount"}}">
-    </div>
-    
   </div>
 </div>

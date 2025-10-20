@@ -302,6 +302,7 @@ function _customResources(items, actor) {
 
 function _conditionals(items, actor) {
 	for (const item of items) {
+		if (item.type === "infusion") continue; // We want to skip conditionals from infusons
 		for (const cond of Object.values(item.system.conditionals)) {
 			if (toggleCheck(item, cond.linkWithToggle)) {
 				actor.system.conditionals.push(cond);

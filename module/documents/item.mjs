@@ -1,10 +1,13 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
-import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
-import { toggleCheck } from "../helpers/items/itemConfig.mjs";
-import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { generateKey, translateLabels } from "../helpers/utils.mjs";
+import { getTokenForActor } from "../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
+import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
+import { translateLabels } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
+import { enrichWithHelpers } from "./item/item-helpers.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
 
 /**
@@ -34,58 +37,15 @@ export class DC20RpgItem extends Item {
   }
 
   get allEnhancements() {
-    let enhancements = new Map();
-    if (!this.system.enhancements) return enhancements;
-
-    // Collect enhancements from that specific item
-    for (const [key, enh] of Object.entries(this.system.enhancements)) {
-      enh.sourceItemId = this.id;
-      enh.sourceItemName = this.name;
-      enh.sourceItemImg = this.img;
-      enhancements.set(key, enh);
-    }
-
-    const parent = this.actor;
-    if (!parent) return enhancements;
-
-    // We need to deal with case where items call each other in a infinite loop
-    // We expect 10 to be deep enough to collect all the coppied enhancements
-    let firstCall = false;
-    if (DC20RpgItem.enhLoopCounter === 0) firstCall = true;
-    if (DC20RpgItem.enhLoopCounter > 10) return enhancements;
-    DC20RpgItem.enhLoopCounter++;
-
-    // Collect copied enhancements
-    for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
-      if (itemWithCopyEnh.itemId === this.id) continue;
-      if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, this)) {
-        const item = parent.items.get(itemWithCopyEnh.itemId);
-        if (this.id === item.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
-        if (item && item.system.copyEnhancements?.copy && toggleCheck(item, item.system.copyEnhancements?.linkWithToggle)) {
-          enhancements = new Map([...enhancements, ...item.allEnhancements]);
-        }
-      }
-    }
-
-    // Collet from used weapon
-    const usesWeapon = this.system.usesWeapon;
-    if (usesWeapon?.weaponAttack) {
-      const weapon = parent.items.get(usesWeapon.weaponId);
-      if (weapon) {
-        enhancements = new Map([...enhancements, ...weapon.allEnhancements]);
-      }
-    }
-
-    if (firstCall) DC20RpgItem.enhLoopCounter = 0;
-    return enhancements;
+    return this.enhancements.all;
   }
 
   get activeEnhancements() {
-    const active = new Map();
-    for (const [key, enh] of this.allEnhancements.entries()) {
-      if (enh.number > 0) active.set(key, enh);
-    }
-    return active
+    return this.enhancements.active;
+  }
+
+  get toggledOn() {
+    return this.system.toggle?.toggleable && this.system.toggle?.toggledOn;
   }
 
   /**
@@ -105,6 +65,7 @@ export class DC20RpgItem extends Item {
   prepareDerivedData() {
     makeCalculations(this);
     translateLabels(this);
+    enrichWithHelpers(this);
     this.prepared = true; // Mark item as prepared
   }
 
@@ -115,38 +76,6 @@ export class DC20RpgItem extends Item {
   getRollData() {
     const data = {...super.getRollData()}
     return prepareRollData(this, data);
-  }
-
-  async swapMultiFaceted() {
-    const multiFaceted = this.system.properties?.multiFaceted;
-    if (!multiFaceted || !multiFaceted.active) return;
-
-    const damageFormula = this.system.formulas.weaponDamage;
-    if (!damageFormula) {
-      ui.notifications.error("Original damage formula cannot be found. You have to recreate this item to fix that problem");
-      return;
-    }
-
-    if (multiFaceted.selected === "first") multiFaceted.selected = "second";
-    else multiFaceted.selected = "first";
-    const selected = multiFaceted.selected;
-
-    multiFaceted.labelKey = multiFaceted.weaponStyle[selected];
-    const weaponStyle = multiFaceted.weaponStyle[selected];
-    damageFormula.type = multiFaceted.damageType[selected];
-
-    const updateData = {
-      system: {
-        weaponStyle: weaponStyle,
-        properties: {
-          multiFaceted: multiFaceted
-        },
-        formulas: {
-          weaponDamage: damageFormula
-        }
-      }
-    }
-    await this.update(updateData);
   }
 
   async update(data={}, operation={}) {
@@ -162,6 +91,10 @@ export class DC20RpgItem extends Item {
 
   getEffectWithName(effectName) {
     return this.effects.getName(effectName);
+  }
+
+  getEffectByKey(effectKey) {
+    return this.effects.find(effect => effect.system.effectKey === effectKey);
   }
 
   async _onCreate(data, options, userId) {
@@ -181,6 +114,11 @@ export class DC20RpgItem extends Item {
   }
 
   async _preDelete(options, user) {
+    if (this.infusions?.active) {
+      for (const infusion of Object.values(this.infusions.active)) {
+        await infusion.remove();
+      }
+    }
     if (this.actor) {
       await runTemporaryItemMacro(this, "preDelete", this.actor);
       removeItemFromActorInterceptor(this, this.actor);
@@ -199,273 +137,79 @@ export class DC20RpgItem extends Item {
   //=========================
   //        FORMULAS        =
   //=========================
-  /**
-   * Creates new non-core Formula object on this item.
-   * Both formula and formulaKey parameters are optional and if not provided will be generated automatically.
-   */
-  createFormula(formula={}, formulaKey) {
-    const newFormula = foundry.utils.mergeObject(this.getFormulaObjectExample(), formula);
-    const key = formulaKey ? formulaKey : generateKey();
-    this.update({[`system.formulas.${key}`]: newFormula});
+  async createFormula(formula={}, formulaKey) {
+    return await Formula.create(formula, {parent: this, key: formulaKey});
   }
-
-  removeFormula(key) {
-    this.update({ [`system.formulas.-=${key}`]: null });
+  async removeFormula(key) {
+    await this.update({[`system.formulas.-=${key}`]: null});
   }
-
-  /**
-   * Returns example Formula object that can be modified and used for creating new macros.
-   */
   getFormulaObjectExample() {
-    return {
-      formula: "",
-      type: "",
-      category: "damage",
-      fail: false,
-      failFormula: "",
-      each5: false,
-      each5Formula: "",
-      dontMerge: false,
-      overrideDefence: "",
-      perTarget: false,
-    }
+    return new Formula();
   }
 
   //==========================
   //       ROLL REQUEST      =
   //==========================
-  /**
-   * Creates new Roll Request object on this item.
-   * Both rollRequest and rollRequestKey parameters are optional and if not provided will be generated automatically.
-   */
-  createRollRequest(rollRequest={}, rollRequestKey) {
-    const request = foundry.utils.mergeObject(this.getRollRequestObjectExample(), rollRequest);
-    const key = rollRequestKey ? rollRequestKey : generateKey();
-    this.update({[`system.rollRequests.${key}`]: request});
+  async createRollRequest(rollRequest={}, rollRequestKey) {
+    return await RollRequest.create(rollRequest, {parent: this, key: rollRequestKey});
   }
-
-  removeRollRequest(key) {
-    this.update({ [`system.rollRequests.-=${key}`]: null });
+  async removeRollRequest(key) {
+    await this.update({[`system.rollRequests.-=${key}`]: null});
   }
-
-  /**
-   * Returns example Roll Request object that can be modified and used for creating new macros.
-   */
   getRollRequestObjectExample() {
-    return {
-      category: "save",
-      saveKey: "",
-      contestedKey: "",
-      dcCalculation: "spell",
-      dc: 0,
-      addMasteryToDC: true,
-      respectSizeRules: false,
-    }
+    return new RollRequest();
   }
 
   //============================
   //       AGAINST STATUS      =
   //============================
-  /**
-   * Creates new Against Status object on this item.
-   * Both againstStatus and againstStatusKey parameters are optional and if not provided will be generated automatically.
-   */
-  createAgainstStatus(againstStatus={}, againstStatusKey) {
-    const against = foundry.utils.mergeObject(this.getAgainstStatusObjectExample(), againstStatus);
-    const key = againstStatusKey ? againstStatusKey : generateKey();
-    this.update({[`system.againstStatuses.${key}`]: against});
+  async createAgainstStatus(againstStatus={}, againstStatusKey) {
+    return await AgainstStatus.create(againstStatus, {parent: this, key: againstStatusKey});
   }
-
-  removeAgainstStatus(key) {
-    this.update({ [`system.againstStatuses.-=${key}`]: null });
+  async removeAgainstStatus(key) {
+    await this.update({[`system.againstStatuses.-=${key}`]: null});
   }
-
-  /**
-   * Returns example Against Status object that can be modified and used for creating new macros.
-   */
   getAgainstStatusObjectExample() {
-    return {
-      id: "",
-      supressFromChatMessage: false,
-      untilYourNextTurnStart: false,
-      untilYourNextTurnEnd: false,
-      untilTargetNextTurnStart: false,
-      untilTargetNextTurnEnd: false,
-      untilFirstTimeTriggered: false,
-      forOneMinute: false,
-      repeatedSave: false,
-      repeatedSaveKey: "phy"
-    };
+    return new AgainstStatus();
   }
 
   //==========================
   //       ENHANCEMENTS      =
   //==========================
-  /**
-   * Creates new Enhancement object on this item.
-   * Both enhancement and enhancementKey parameters are optional and if not provided will be generated automatically.
-   */
-  createNewEnhancement(enhancement={}, enhancementKey) {
-    const enh = foundry.utils.mergeObject(this.getEnhancementObjectExample(), enhancement);
-    const key = enhancementKey ? enhancementKey : generateKey();
-    this.update({[`system.enhancements.${key}`]: enh});
+  async createNewEnhancement(enhancement={}, enhancementKey) {
+    return await Enhancement.create(enhancement, {parent: this, key: enhancementKey});
   }
-
-  removeEnhancement(key) {
-    this.update({[`system.enhancements.-=${key}`]: null });
+  async removeEnhancement(key) {
+    await this.update({[`system.enhancements.-=${key}`]: null});
   }
-
-  /**
-   * Returns example enhancement object that can be modified and used for creating new enhancements.
-   */
   getEnhancementObjectExample() {
-    const customCosts = Object.fromEntries(
-      Object.entries(this.system.costs.resources.custom)
-        .map(([key, custom]) => { 
-          custom.value = null; 
-          return [key, custom];
-        })
-      );
-
-    const resources = {
-      actionPoint: null,
-      health: null,
-      mana: null,
-      stamina: null, 
-      grit: null,
-      custom: customCosts
-    };
-    const charges = {
-      consume: false,
-      fromOriginal: false
-    };
-    const modifications = {
-      modifiesCoreFormula: false,
-      coreFormulaModification: "",
-      overrideTargetDefence: false,
-      targetDefenceType: "area",
-      hasAdditionalFormula: false,
-      additionalFormula: "",
-      overrideDamageType: false,
-      damageType: "",
-      addsNewFormula: false,
-      formula: this.getFormulaObjectExample(),
-      addsNewRollRequest: false,
-      rollRequest: {
-        category: "",
-        saveKey: "",
-        contestedKey: "",
-        dcCalculation: "",
-        dc: 0,
-        addMasteryToDC: true,
-        respectSizeRules: false,
-      },
-      addsAgainstStatus: false,
-      againstStatus: {
-        id: "",
-        supressFromChatMessage: false,
-        untilYourNextTurnStart: false,
-        untilYourNextTurnEnd: false,
-        untilTargetNextTurnStart: false,
-        untilTargetNextTurnEnd: false,
-        untilFirstTimeTriggered: false,
-        forOneMinute: false,
-        repeatedSave: false,
-        repeatedSaveKey: "phy"
-      },
-      addsEffect: null,
-      macro: "",
-      macros: {
-        preItemRoll: "",
-        postItemRoll: ""
-      },
-      rollLevelChange: false,
-      rollLevel: {
-        type: "adv",
-        value: 1
-      },
-      addsRange: false,
-      bonusRange: {
-        melee: null,
-        normal: null,
-        max: null
-      }
-    }
-
-    return {
-      name: "New Enhancement",
-      number: 0,
-      resources: resources,
-      charges: charges,
-      modifications: modifications,
-      description: "",
-      hide: false,
-    }
+    return new Enhancement(this);
   }
 
   //============================
   //        CONDITIONALS       =
   //============================
-  /**
-   * Creates new conditional object on this item.
-   * Both conditional and conditionalKey parameters are optional and if not provided will be generated automatically.
-   */
-  createNewConditional(conditional={}, conditionalKey) {
-    const cond = foundry.utils.mergeObject(this.getConditionalObjectExample(), conditional);
-    const key = conditionalKey ? conditionalKey : generateKey();
-    this.update({[`system.conditionals.${key}`]: cond});
+  async createNewConditional(conditional={}, conditionalKey) {
+    return await Conditional.create(conditional, {parent: this, key: conditionalKey});
   }
-
-  removeConditional(key) {
-    this.update({[`system.conditionals.-=${key}`]: null});
+  async removeConditional(key) {
+    await this.update({[`system.conditionals.-=${key}`]: null});
   }
-
-  /**
-   * Returns example conditional object that can be modified and used for creating new conditionals.
-   */
   getConditionalObjectExample() {
-    return {
-      name: "New Conditional",
-      condition: "", 
-      useFor: "",
-      linkWithToggle: false,
-      bonus: "",
-      flags: {
-        ignorePdr: false,
-        ignoreEdr: false,
-        ignoreMdr: false,
-        ignoreResistance: {},
-        ignoreImmune: {},
-        reduceAd: "",
-        reducePd: ""
-      },
-      effect: null,
-      addsNewRollRequest: false,
-      rollRequest: {
-        category: "",
-        saveKey: "phy",
-        contestedKey: "",
-        dcCalculation: "",
-        dc: 0,
-        addMasteryToDC: true,
-        respectSizeRules: false,
-      },
-      addsNewFormula: false,
-      formula: this.getFormulaObjectExample(),
-    };
+    return new Conditional();
   }
 
   //==========================
   //        ITEM MACRO       =
   //==========================
-  /**
-   * Creates new Item Macro object on this item.
-   * Both macroObject and macroKey parameters are optional and if not provided will be generated automatically.
-   */
-  createNewItemMacro(macroObject={}, macroKey) {
-    const macro = foundry.utils.mergeObject(this.getMacroObjectExample(), macroObject);
-    const key = macroKey ? macroKey : generateKey();
-    this.update({[`system.macros.${key}`]: macro});
+  async createNewItemMacro(macroObject={}, macroKey) {
+    return await ItemMacro.create(macroObject, {parent: this, key: macroKey});
+  }
+  async removeItemMacro(key) {
+    await this.update({[`system.macros.-=${key}`]: null});
+  }
+  getMacroObjectExample() {
+    return new ItemMacro();
   }
 
   editItemMacro(key) {
@@ -476,26 +220,17 @@ export class DC20RpgItem extends Item {
     macro.sheet.render(true);
   }
 
-  removeItemMacro(key) {
-    this.update({[`system.macros.-=${key}`]: null});
-  }
-
-  /**
-   * Returns example macro object that can be modified and used for creating new macros.
-   */
-  getMacroObjectExample() {
-    return {
-      command: "",
-      trigger: "",
-      disabled: false,
-      name: "New Macro",
-      title: "",
-      global: false,
-    };
-  }
-
   async callMacro(trigger, additionalFields, preventGlobalCall) {
     await runTemporaryItemMacro(this, trigger, this.actor, additionalFields, preventGlobalCall);
+  }
+
+  async callMacroWithKey(key, additionalFields={}) {
+    const macro = this.system.macros[key];
+    if (!macro || !macro.command) {
+      ui.notifications.error(`Macro with '${key}' doesn't exist.`)
+      return;
+    }
+    return await runTemporaryMacro(macro.command, this, {item: this, actor: this.parent, ...additionalFields});
   }
 
   hasMacroForTrigger(trigger) {
@@ -522,6 +257,45 @@ export class DC20RpgItem extends Item {
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
     await this.update({["system.toggle.toggledOn"]: newState});
+    this.#createLinkedAura(newState);
+  }
+
+  #createLinkedAura(newState) {
+    if (!this.actor) return;
+    const token = getTokenForActor(this.actor);
+    if (!token) return;
+
+    if (newState) {
+      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(this.system?.target?.areas);
+      for (const template of Object.values(templates)) {
+        if (this.#getLinkedTemplate(token)) continue;
+        if (template.passiveAura || (template.linkWithToggle && this.toggledOn)) {
+          const applyEffects = getMesuredTemplateEffects(this);
+          const itemData = {
+            itemId: this.id, 
+            actorId: this.actor.id, 
+            tokenId: token.id, 
+            applyEffects: applyEffects, 
+            itemImg: this.img, 
+            itemName: this.name
+          };
+          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
+        }
+      }
+    }
+    else {
+      const template = this.#getLinkedTemplate(token);
+      if (template) template.delete();
+    }
+  }
+
+  #getLinkedTemplate(token) {
+    const linkedTemplates = token.document.flags?.dc20rpg?.linkedTemplates || [];
+    for (const templateId of linkedTemplates) {
+      const template = canvas.templates.documentCollection.get(templateId);
+      if (template?.flags?.dc20rpg?.itemData?.itemId === this.id) return template
+    }
+    return null;
   }
 
   async equip(options={forceEquip: false, forceUneqip: false}) {
@@ -530,6 +304,24 @@ export class DC20RpgItem extends Item {
     let newState = !this.system?.statuses?.equipped;
     if (options.forceEquip) newState = true;
     else if (options.forceUneqip) newState = false;
-    await this.update({["system.statuses.equipped"]: newState});
+
+    // If linked with slot use actor method instead
+    const slotLink = options.slot || this.system.statuses.slotLink;
+    const slotLinkProvided = slotLink?.category && slotLink?.key;
+
+    // If slot link was not provided we want to identify where this item could go
+    if (this.actor && slotLink?.predefined && !slotLinkProvided) {
+      const slot = this.actor.equipmentSlots[slotLink.predefined].freeSlot();
+      await slot.equip(this);
+    }
+    else if (this.actor && slotLinkProvided) {
+      const slot = this.actor.equipmentSlots[slotLink.category].slots[slotLink.key];
+      if (newState) await slot.equip(this);
+      else await slot.unequip();
+    }
+    else {
+      // Update equipped stataus
+      await this.update({["system.statuses.equipped"]: newState});
+    }
   }
 }

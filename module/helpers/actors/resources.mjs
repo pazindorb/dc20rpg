@@ -1,72 +1,9 @@
 import { sendHealthChangeMessage } from "../../chat/chat-message.mjs";
-import { generateKey } from "../utils.mjs";
 
 //=============================================
 //              CUSTOM RESOURCES              =
 //=============================================
-export function createCustomResourceFromScalingValue(key, scalingValue, actor) {
-  const maxFormula = `@scaling.${key}`;
-  const newResource = {
-    name: scalingValue.label,
-    img: "icons/svg/item-bag.svg",
-    value: 0,
-    maxFormula: maxFormula,
-    max: 0,
-    reset: scalingValue.reset
-  }
-  actor.update({[`system.resources.custom.${key}`] : newResource});
-}
-
-export function createNewCustomResource(name, actor) {
-  const customResources = actor.system.resources.custom;
-  const newResource = {
-    name: name,
-    img: "icons/svg/item-bag.svg",
-    value: 0,
-    maxFormula: null,
-    max: 0,
-    reset: ""
-  }
-
-  // Generate key (make sure that key does not exist already)
-  let resourceKey = "";
-  do {
-    resourceKey = generateKey();
-  } while (customResources[resourceKey]);
-
-  actor.update({[`system.resources.custom.${resourceKey}`] : newResource});
-}
-
-export function createNewCustomResourceFromItem(resource, img, actor) {
-  const key = resource.resourceKey;
-  const maxFormula = resource.useStandardTable ?  `@scaling.${key}` : resource.customMaxFormula 
-  const newResource = {
-    name: resource.name,
-    img: img,
-    value: 0,
-    maxFormula: maxFormula,
-    max: 0,
-    reset: resource.reset
-  }
-  actor.update({[`system.resources.custom.${key}`] : newResource});
-}
-
-export function removeResource(resourceKey, actor) {
-  actor.update({[`system.resources.custom.-=${resourceKey}`]: null });
-}
-
-export function changeResourceIcon(key, actor) {
-  new FilePicker({
-    type: "image",
-    displayMode: "tiles",
-    callback: (path) => {
-      if (!path) return;
-      // Update the actor's custom resource icon with the selected image path
-      actor.update({[`system.resources.custom.${key}.img`] : path});
-    }
-  }).render();
-}
-
+// TODO: Should we somehow mark monster as legendary and call this method there?
 export function createLegenedaryResources(actor) {
   const lap = {
     name: "Legendary Action Points",
@@ -74,7 +11,7 @@ export function createLegenedaryResources(actor) {
     value: 3,
     maxFormula: "3",
     max: 0,
-    reset: "round"
+    reset: "roundEnd"
   }
 
   const bossPoints = {

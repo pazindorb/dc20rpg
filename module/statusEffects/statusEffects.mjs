@@ -46,6 +46,12 @@ export function registerDC20Statues() {
 
     _partiallyConcealed(),
     _fullyConcealed(),
+    _unseen(),
+    _unheard(),
+
+    _hidden(),
+    _halfCover(),
+    _tqCover(),
     _fullyStunned(),
   ]
 }
@@ -94,6 +100,11 @@ function _dead() {
     system: {
       statusId: "dead",
     },
+    flags: {
+      core: {
+        overlay: true
+      }
+    },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/dead.svg",
     description: "<p>You are dead.</p>",
@@ -108,7 +119,8 @@ function _deathsDoor() {
     stackable: false,
     system: {
       statusId: "deathsDoor",
-      hide: true
+      hide: true,
+      enableStatusOnCreation: ["exhaustion"]
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/deathsDoor.svg",
@@ -162,7 +174,9 @@ function _fullyConcealed() {
     label: "Fully Concealed",
     stackable: false,
     system: {
-      statusId: "fullyConcealed"
+      statusId: "fullyConcealed",
+      enableStatusOnCreation: ["unseen"],
+      disableStatusOnRemoval: ["unseen"]
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/fullyConcealed.svg",
@@ -171,58 +185,226 @@ function _fullyConcealed() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.skills",
+        key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"label": "Fully Concealed", "autoFail": true, "skill": "awa"'
       },
-      {
-        key: "system.rollLevel.againstYou.martial.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.againstYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.againstYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.againstYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
-      },
+    ]
+  }
+}
+function _unheard() {
+    return {
+    id: "unheard",
+    name: "Unheard",
+    label: "Unheard",
+    stackable: false,
+    system: {
+      statusId: "unheard"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/unheard.svg",
+    description: `
+    <p>
+      You are Unheard while you remain silent, talk no louder than a whisper, or are within an area effected by the Silence Spell or a similar effect. While Unheard, you're subjected to the following effects.
+      <ul>
+        <li>
+          You have ADV on Attacks against creatures you're Flanking that can't hear you.
+        </li>
+      </ul>
+    </p>
+    `,
+    changes: [
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Fully Concealed (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
+      }
+    ]
+  }
+}
+function _unseen() {
+  return {
+    id: "unseen",
+    name: "Unseen",
+    label: "Unseen",
+    stackable: false,
+    system: {
+      statusId: "unseen"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/unseen.svg",
+    description: `
+    <p>
+      You are Unseen by a creature while you're imperceivable to its visual senses, such as when you're Fully Concealed, you're Invisible, or it's <strong>Blinded</strong>. While Unseen, you're subjected to the following effects.
+      <ul>
+        <li>
+          You have ADV on Attacks against creatures that can't see you.
+        </li>
+        <li>
+          Creatures that can't see you have DisADV on Attacks against you
+        </li>
+      </ul>
+    </p>
+    `,
+    changes: [
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      }
+    ]
+  }
+}
+function _hidden() {
+  return {
+    id: "hidden",
+    _id: "z2xmhm7ggruUq7i4",
+    name: "Hidden",
+    label: "Hidden",
+    stackable: false,
+    system: {
+      statusId: "hidden"
+    },
+    statuses: ["unseen", "unheard"],
+    img: "systems/dc20rpg/images/statuses/hidden.svg",
+    description: `
+    <p>You are Hidden from a creature while you are both <strong>Unseen</strong> and <strong>Unheard</strong> by it. Your location is unknown to creatures you're Hidden from.</p>
+    `,
+    changes: [
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       }
     ]
   }
@@ -303,6 +485,54 @@ function _fullyStunned() {
         mode: 5,
         priority: undefined,
         value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
+      }
+    ]
+  }
+}
+function _halfCover() {
+  return {
+    id: "halfCover",
+    name: "Half Cover",
+    label: "Half Cover",
+    stackable: false,
+    system: {
+      statusId: "halfCover"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/halfCover.svg",
+    description: `
+    <p>All Attacks and Spell Checks against you have a -2 penalty.</p>
+    `,
+    changes: [
+      {
+        key: "system.globalModifier.provide.halfCover",
+        mode: 5,
+        priority: undefined,
+        value: "true"
+      }
+    ]
+  }
+}
+function _tqCover() {
+  return {
+    id: "tqCover",
+    name: "3/4 Cover",
+    label: "3/4 Cover",
+    stackable: false,
+    system: {
+      statusId: "tqCover"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/tqCover.svg",
+    description: `
+    <p>All Attacks and Spell Checks against you have a -5 penalty.</p>
+    `,
+    changes: [
+      {
+        key: "system.globalModifier.provide.tqCover",
+        mode: 5,
+        priority: undefined,
+        value: "true"
       }
     ]
   }
@@ -1359,49 +1589,49 @@ function _invisible() {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy cant see you)", "confirmation": true'
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       }
     ]
   }
@@ -1695,7 +1925,8 @@ function _unconscious() {
     statuses: ["incapacitated"],
     system: {
       statusId: "unconscious",
-      condition: true
+      condition: true,
+      enableStatusOnCreation: ["prone"]
     },
     img: "systems/dc20rpg/images/statuses/unconscious.svg",
     description: `

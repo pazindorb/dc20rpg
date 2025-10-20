@@ -46,7 +46,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -88,7 +89,7 @@
         "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "combat",
+        "reset": "",
         "showAsResource": false
       },
       "otherItem": {
@@ -140,7 +141,7 @@
       "0YSNq5ENauInFQZ0": {
         "name": "preItemRoll",
         "trigger": "preItemRoll",
-        "command": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  game.dc20rpg.tools.promptItemRoll(actor, breath);\n}",
+        "command": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  DC20.dialog.RollDialog.open(actor, breath);\n}",
         "disabled": false,
         "title": ""
       }
@@ -162,11 +163,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1745412762447,
+    "modifiedTime": 1760990945004,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

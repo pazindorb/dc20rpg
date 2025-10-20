@@ -1,4 +1,4 @@
-import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { createEffectOn, deleteEffectFrom, getEffectByKey, getEffectByName } from "../helpers/effects.mjs";
 
@@ -89,7 +89,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
     
     // Confirm effect application
     if (tokensToConfirm.length > 0) {
-      const confirmedTokens = applyEffects.applyFor === "selector" ? await getTokenSelector(tokensToConfirm, "Apply Effect to tokens?") : tokensToConfirm;
+      const confirmedTokens = applyEffects.applyFor === "selector" ? await TokenSelector.open(tokensToConfirm, "Apply Effect to tokens?") : tokensToConfirm;
       for (const token of confirmedTokens) {
         const actor = token.actor;
         for (const effectData of applyEffects.effects) {

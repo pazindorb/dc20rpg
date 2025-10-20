@@ -1898,10 +1898,17 @@
         }
       }
 
-      .base-action-switch {
-        width: 30px;
+      .base-action {
+        width: auto;
         border-left: 2px solid $primary-color;
         background-color: $secondary-dark;
+        font-family: $font-header;
+        padding: 0 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        font-size: 16px;
   
         i {
           display: flex;
@@ -1913,23 +1920,39 @@
     }
 
     .containers {
-      padding: 0px 5px;
       display: flex;
       align-items: center;
+      background-color: $secondary-lighter;
+      border: 2px solid $primary-darker;
+      border-radius: 15px 5px 5px 15px;
+
+      .container-icon {
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        
+        color: $secondary-lighter;
+        border-right: 2px solid $primary-darker;
+        background-color: $primary-darker;
+        margin-right: 10px;
+        border-radius: 11px 0 0 11px;
+
+      }
 
       .container {
-        margin-bottom: 5px;
-        margin-right: 5px;
+        margin: 5px 8px;
 
         img {
           background-color: $secondary-dark;
           border: 2px solid $primary-color;
           border-radius: 3px;
 
-          min-height: 50px;
-          min-width: 50px;
-          height: 50px;
-          width: 50px;
+          min-height: 40px;
+          min-width: 40px;
+          height: 40px;
+          width: 40px;
 
           &:hover {
             box-shadow: 0 0 5px 1px $primary-darker;
@@ -1938,10 +1961,13 @@
         }
 
         a {
-          position: absolute;
-          margin-top: 5px;
-          margin-left: -3px;
+          position: relative;
+          top: 11px;
+          left: 3px;
           color: $dark-red;
+          height: 0;
+          width: 0;
+          display: flex;
           text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
         }
  
@@ -1962,7 +1988,7 @@
           padding: 2px 3px;
           border-bottom: 0;
 
-          .skill-mastery-toggle, .language-mastery-toggle {
+          .mastery-toggle {
             border-radius: 7px;
           }
         }
@@ -2030,25 +2056,6 @@
       }
 
       @import 'shared/conditions';
-    }
-
-    .favorites, .main, .actions {
-      .item-row .action {
-        width: 90px !important; 
-
-        &:hover {
-          min-width: 70px !important;  
-        }
-
-        &.expandable {
-            
-          &:hover {
-            border-left: 1px solid $secondary-color;
-            margin-left: -40px;
-            min-width: 130px !important; 
-          }
-        }
-      }
     }
 
     .active-effects {

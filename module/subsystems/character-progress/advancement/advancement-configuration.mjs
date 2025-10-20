@@ -8,13 +8,11 @@ import { createNewAdvancement } from "./advancements.mjs";
  */
 export class AdvancementConfiguration extends Dialog {
 
-  constructor(item, key, newAdv, dialogData = {}, options = {}) {
+  constructor(item, key, dialogData={}, options={}) {
     super(dialogData, options);
     this.item = item;
     this.key = key;
-
-    if(newAdv) this.advancement = createNewAdvancement();
-    else this.advancement = foundry.utils.deepClone(item.system.advancements[this.key]);
+    this.advancement = foundry.utils.deepClone(item.system.advancements[this.key]);
   }
 
   static get defaultOptions() {
@@ -154,15 +152,15 @@ export class AdvancementConfiguration extends Dialog {
 /**
  * Creates AdvancementConfiguration dialog for given item. 
  */
-export function configureAdvancementDialog(item, advancementKey) {
-  let newAdv = false;
-  if (!advancementKey) {
-    newAdv = true;
-    const advancements = item.system.advancements;
-    do {
-      advancementKey = generateKey();
-    } while (advancements[advancementKey]);
+export async function configureAdvancementDialog(item, advancementKey) {
+  let advancement = {};
+  if (advancementKey) {
+    advancement = item.system.advancements[advancementKey];
   }
-  const dialog = new AdvancementConfiguration(item, advancementKey, newAdv, {title: `Configure Advancement`});
+  else {
+    advancementKey = generateKey();
+    await item.update({[`system.advancements.${advancementKey}`]: createNewAdvancement()});
+  }
+  const dialog = new AdvancementConfiguration(item, advancementKey, {title: `Configure Advancement`});
   dialog.render(true);
 }

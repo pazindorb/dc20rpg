@@ -69,17 +69,17 @@
         "name": "Intimidator",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "charges": {
-          "consume": true,
-          "fromOriginal": true
+          "fromOriginal": true,
+          "subtract": 1
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -142,10 +142,16 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "changeManaSpendLimit": 0
         },
         "description": "<p>Once per Combat you can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.4dbd80cbe7f919cb]{Intimidate}</strong> Action as a Minor Action.</p>",
-        "hide": false
+        "hide": false,
+        "key": "YvFfkbIrk9PeFF8p",
+        "sourceItemId": "UiN2edQjHzsqM0o9",
+        "sourceItemName": "Intimidator",
+        "sourceItemImg": "icons/creatures/unholy/demon-fire-horned-mask.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -161,11 +167,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 0,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 0
       },
       "charges": {
         "current": 1,
@@ -243,11 +250,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1750930681681,
+    "modifiedTime": 1760521817296,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

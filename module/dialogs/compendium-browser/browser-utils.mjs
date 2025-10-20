@@ -12,13 +12,12 @@ export async function collectItemsForType(itemType) {
       const items = await pack.getDocuments();
       for(const item of items) {
         if (item.type === itemType) {
-          const packageType = pack.metadata.packageType;
-          // If system item is overriden by some other module we want to hide it from browser
-          if (packageType === "system" && hiddenItems.has(item.id)) continue;
+          // If item is overriden by some other module we want to hide it from browser
+          if (hiddenItems.has(item.uuid)) continue;
 
           // For DC20 Players Handbook module we want to keep it as a system instead of module pack
           const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
-          item.fromPack = isDC20Handbook ? "system" : packageType;
+          item.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
           item.sourceName = _getSourceName(pack)
           collectedItems.push(item);
         }
@@ -29,6 +28,7 @@ export async function collectItemsForType(itemType) {
   return collectedItems;
 }
 export async function collectActors() {
+  const hiddenActors = game.dc20rpg.compendiumBrowser.hideActors; 
   const collectedActors = [];
 
   for (const pack of game.packs) {
@@ -37,7 +37,10 @@ export async function collectActors() {
     if (pack.documentName === "Actor") {
       if (pack.isOwner) continue;
       const actors = await pack.getDocuments();
-      for(const actor of actors) {
+    for(const actor of actors) {
+        // If item is overriden by some other module we want to hide it from browser
+        if (hiddenActors.has(actor.uuid)) continue;
+
         // For DC20 Players Handbook module we want to keep it as a system instead of module pack
         const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
         actor.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
@@ -132,6 +135,22 @@ export function getDefaultItemFilters(preSelectedFilters) {
         primal: true
       }) 
     },
+    infusion: {
+      power: {
+        over: _filter("system.infusion.power", "infusion.power.over", "over"),
+        under: _filter("system.infusion.power", "infusion.power.under", "under"),
+        filterType: "over-under",
+        updatePath: "power",
+        nestedFilters: ["over", "under"]
+      },
+      tags: _filter("system.infusion.tags", "infusion.tags", "multi-select-3-states", parsedFilters["tags"] || {
+        artifact: null,
+        attunement: null,
+        consumable: null,
+        charges: null,
+        limited: null
+      }),
+    },
     weapon: {
       weaponType: _filter("system.weaponType", "weapon.weaponType", "select", parsedFilters["weaponType"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes),
       weaponStyle: _filter("system.weaponStyle", "weapon.weaponStyle", "select", parsedFilters["weaponStyle"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles),
@@ -175,13 +194,21 @@ export function getDefaultActorFilters() {
 }
 
 function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, options) {
-  const value = defaultValue || "";
+  let value = defaultValue;
   
   // Prepare check method
   let method = (document, value) => {
     if (!value) return true;
     return getValueFromPath(document, pathToCheck) === value;
   };
+  if (filterType === "boolean") method = (document, value) => {
+    if (value === undefined || value === null) return true;
+    return getValueFromPath(document, pathToCheck) === value;
+  }
+  if (filterType === "number") method = (document, value) => {
+    if (value === undefined || value === null) return true;
+    return getValueFromPath(document, pathToCheck) == value;
+  }
   if (filterType === "text") method = (document, value) => {
     if (!value) return true;
     const documentValue = getValueFromPath(document, pathToCheck);
@@ -200,6 +227,23 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
     let mathing = false;
     for (const [key, value] of Object.entries(expected)) {
       if (value && selected[key] && selected[key].active) mathing = true;
+    }
+    return mathing;
+  }
+  if (filterType === "multi-select-3-states") method = (document, expected) => {
+    if (!expected) return true;
+    // We need to check if string value is one of the selected filter value
+    if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];
+
+    const selected = getValueFromPath(document, pathToCheck);
+    if (!selected) return false;
+
+    let mathing = true;
+    for (const [key, expectedState] of Object.entries(expected)) {
+      if (expectedState === undefined || expectedState === null) continue;
+
+      const realState = selected[key]?.active;
+      if (realState !== expectedState) mathing = false;
     }
     return mathing;
   }

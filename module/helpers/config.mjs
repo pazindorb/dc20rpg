@@ -1,12 +1,14 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { createRestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
+import { createRestDialog, RestDialog } from "../dialogs/rest.mjs";
+import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer, RollDialog } from "../roll/rollDialog.mjs";
+import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import { DC20RpgTokenDocument } from "../documents/tokenDoc.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 import { ColorSetting } from "../settings/colors.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
@@ -23,8 +25,30 @@ import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTem
 import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
+import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
+import { RollSelect } from "../dialogs/roll-select.mjs";
 
 export function prepareDC20tools() {
+  window.DC20 = {
+    tools: {
+      toSelectOptions
+    },
+    dialog: {
+      SimplePopup,
+      TokenSelector,
+      RollDialog,
+      RollSelect,
+      RestDialog,
+    },
+    Conditional,
+    Enhancement,
+    Formula,
+    RollRequest,
+    AgainstStatus,
+    ItemMacro,
+    DC20Roll,
+  }
+
   game.dc20rpg = {
     DC20RpgActor,
     DC20RpgItem,
@@ -126,9 +150,9 @@ export function initDC20Config() {
   const skills = {};
   Object.entries(skillStore.skills).forEach(([key, skill]) => skills[key] = CONFIG.DC20RPG.skills[key] || skill.label);
   CONFIG.DC20RPG.skills = skills;
-  const tradeSkills = {};
-  Object.entries(skillStore.trades).forEach(([key, skill]) => tradeSkills[key] = CONFIG.DC20RPG.tradeSkills[key] || skill.label);
-  CONFIG.DC20RPG.tradeSkills = tradeSkills;
+  const trades = {};
+  Object.entries(skillStore.trades).forEach(([key, skill]) => trades[key] = CONFIG.DC20RPG.trades[key] || skill.label);
+  CONFIG.DC20RPG.trades = trades;
   const languages = {};
   Object.entries(skillStore.languages).forEach(([key, skill]) => languages[key] = CONFIG.DC20RPG.languages[key] || skill.label);
   CONFIG.DC20RPG.languages = languages;
@@ -151,13 +175,15 @@ export function initDC20Config() {
     att: "Attack Check",
     spe: "Spell Check",
   }
-  // Martial Check requires acrobatic and athletics skills
-  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
-    CONFIG.DC20RPG.ROLL_KEYS.baseChecks.mar = "Martial Check";
-  }
 
   // Prepare Skill Checks
   const skillChecks = {};
+
+  // Martial Check requires acrobatic and athletics skills
+  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
+    skillChecks.mar = "Martial Check";
+  }
+  // Prepare Skills
   Object.entries(CONFIG.DC20RPG.skills).forEach(([key, label]) => {
     skillChecks[key] = `${label} Check`;
   });
@@ -165,7 +191,7 @@ export function initDC20Config() {
 
   // Prepare Trade Skill Checks
   const tradeChecks = {};
-  Object.entries(CONFIG.DC20RPG.tradeSkills).forEach(([key, label]) => {
+  Object.entries(CONFIG.DC20RPG.trades).forEach(([key, label]) => {
     tradeChecks[key] = `${label} Check`;
   });
   CONFIG.DC20RPG.ROLL_KEYS.tradeChecks = tradeChecks;
@@ -259,14 +285,16 @@ DC20RPG.macroTriggers = {
   onCreate: "After Creation",
   preDelete: "Before Deletion",
   onItemToggle: "On Item Toggle/Equip",
-  onRollPrompt: "On Roll Prompt",
+  onRollPrompt: "On Roll Dialog Open",
   rollLevelCheck: "On Roll Level Check",
   preItemCost: "Before Item Cost Check",
   preItemRoll: "Before Item Roll",
   postItemRoll: "After Item Roll",
   postChatMessageCreated: "After Chat Message Created",
   enhancementReset: "On Enhancement Reset",
-  onKeywordUpdate: "On Keyword Update"
+  onKeywordUpdate: "On Keyword Update",
+  infusion: "Infuse Item",
+  removeInfusion: "Remove Item Infusion"
 }
 
 DC20RPG.skills = {
@@ -284,7 +312,7 @@ DC20RPG.skills = {
   inf: "Influence",
 }
 
-DC20RPG.tradeSkills = {
+DC20RPG.trades = {
   alc: "Alchemy",
   arc: "Arcana",
   bla: "Blacksmithing",
@@ -387,7 +415,8 @@ DC20RPG.DROPDOWN_DATA.shortAttributes = {
   agi: "AGI",
   int: "INT",
   cha: "CHA",
-  prime: "PRI"
+  prime: "PRI",
+  max: "MAX"
 }
 
 DC20RPG.DROPDOWN_DATA.dcCalculationTypes = {
@@ -439,6 +468,19 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   trap: "Trap",
   trinket: "Trinket",
   other: "Other"
+},
+
+DC20RPG.DROPDOWN_DATA.equipmentSlots = {
+  head: "Head",
+  neck: "Neck",
+  mantle: "Mantle",
+  body: "Body",
+  waist: "Waist",
+  hand: "Hand",
+  ring: "Ring",
+  feet: "Feet",
+  trinket: "Trinket",
+  weapon: "Weapon",
 }
 
 DC20RPG.DROPDOWN_DATA.techniqueTypes = {
@@ -577,7 +619,8 @@ DC20RPG.DROPDOWN_DATA.inventoryTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.spellsTypes = {
-  spell: "Spell"
+  spell: "Spell",
+  infusion: "Infusion",
 }
 
 DC20RPG.DROPDOWN_DATA.techniquesTypes = {
@@ -693,6 +736,12 @@ DC20RPG.DROPDOWN_DATA.areaTypes = {
   area: "Custom Area"
 }
 
+DC20RPG.DROPDOWN_DATA.auraTypes = {
+  "": "Target Selector",
+  "self": "Self Apply",
+  "passive": "Passive Self Apply"
+}
+
 DC20RPG.DROPDOWN_DATA.durations = {
   instantaneous: "Instantaneous",
   continuous: "Continuous",
@@ -720,9 +769,12 @@ DC20RPG.DROPDOWN_DATA.restTypes = {
 
 DC20RPG.DROPDOWN_DATA.resetTypes = {
   ...DC20RPG.DROPDOWN_DATA.restTypes,
-  halfOnShort: "Half on Short Rest",
-  combat: "Combat Start",
-  round: "Round End",
+  halfOnShort: "Short Rest (Regain Half)",
+  long4h: "Long Rest (First 4h)",
+  combatStart: "Combat Start",
+  combatEnd: "Combat End",
+  roundStart: "Round Start",
+  roundEnd: "Round End",
 }
 
 DC20RPG.DROPDOWN_DATA.chargesResets = {
@@ -818,6 +870,12 @@ DC20RPG.DROPDOWN_DATA.difficultTerrainTypes = {
   hostile: "Hostile Disposition Tokens"
 }
 
+DC20RPG.DROPDOWN_DATA.helpDiceDuration = {
+  round: "Round",
+  combat: "Combat",
+  infinity: "Infinity"
+}
+
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================
@@ -832,6 +890,7 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.ammo",
     for: ["ranged"],
     cost: 0,
+    ammoId: "",
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh"
   },
   concealable: {
@@ -1004,7 +1063,8 @@ DC20RPG.ICONS = {
   spells: "icons/skills/trades/academics-book-study-runes.webp",
   maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
   techniques: "icons/skills/melee/spear-tips-quintuple-orange.webp",
-  attributes: "icons/skills/trades/academics-investigation-puzzles.webp"
+  attributes: "icons/skills/trades/academics-investigation-puzzles.webp",
+  infusions: "icons/commodities/tech/tube-chamber-lightning.webp"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
@@ -1072,7 +1132,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal = {
   inf: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2988a8b8837f8347",
 }
 
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradeSkillsJournal = {
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradesJournal = {
   ill: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.44af238d059dc591",
   mus: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2c03a393671adfab",
   the: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.80d0246ffad3fc76",

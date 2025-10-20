@@ -1,6 +1,7 @@
-import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
@@ -205,7 +206,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
   async _onClickLeft2(event) {
     if (this.document.itemToken) {
       const tokens = getTokensForUser();
-      const selected = await getTokenSelector(tokens, "Select Actor to pick up");
+      const selected = await TokenSelector.open(tokens, "Select Actor to pick up");
       if (selected.length === 0) return;
 
       for (const token of selected) {
@@ -223,10 +224,12 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     if ( this.layer._draggedToken ) return false;
     if ( !this.layer.active || this.isPreview ) return false;
     if ( canvas.controls.ruler.active || (CONFIG.Canvas.rulerClass.canMeasure && (event?.type === "pointerdown")) ) return false;
+    //====== INJECTED ====== 
     if ( !this.actor ) {
       if (this.document.itemToken) return true;
       else ui.notifications.warn("TOKEN.WarningNoActor", {localize: true});
     }
+    //====== INJECTED ====== 
     return this.actor?.testUserPermission(user, "LIMITED");
   }
 
@@ -239,47 +242,39 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     // Clear Effects Container
     this.effects.removeChildren().forEach(c => c.destroy());
     this.effects.bg = this.effects.addChild(new PIXI.Graphics());
+    this.effects.bg.zIndex = -1;
     this.effects.overlay = null;
 
     // Categorize effects
     const activeEffects = this.actor?.temporaryEffects || [];
-    let hasOverlay = false;
-
-    // Collect from active statuses 
-    const statuses = this.actor?.statuses;
-    if (statuses) {
-      statuses.forEach(st => {
-        const status = CONFIG.statusEffects.find(e => e.id === st.id)
-        if (status) {
-          status.tint = new Number(16777215);
-          activeEffects.push(status);
-        }
-      })
-    }
+    const overlayEffect = activeEffects.findLast(e => e.img && e.getFlag("core", "overlay"));
 
     // Flatten the same active effect images
     const flattenedImages = [];
     const uniqueImages = [];
     activeEffects.forEach(effect => {
-      const flattened = {img: effect.img, tint: effect.tint};
       if (uniqueImages.indexOf(effect.img) === -1) {
-        flattenedImages.push(flattened);
+        flattenedImages.push(effect);
         uniqueImages.push(effect.img);
       }
     });
 
     // Draw effects
     const promises = [];
-    for ( const effect of flattenedImages ) {
+    for (let i = 0; i < flattenedImages.length; i++) {
+      const effect = flattenedImages[i];
+    // for ( const [i, effect] of activeEffects.entries() ) {
       if ( !effect.img ) continue;
-      if ( effect.flags && effect.getFlag("core", "overlay") && !hasOverlay ) {
-        promises.push(this._drawOverlay(effect.img, effect.tint));
-        hasOverlay = true;
-      }
-      else promises.push(this._drawEffect(effect.img, effect.tint));
+      const promise = effect === overlayEffect
+        ? this._drawOverlay(effect.img, effect.tint)
+        : this._drawEffect(effect.img, effect.tint);
+      promises.push(promise.then(e => {
+        if ( e ) e.zIndex = i;
+      }));
     }
     await Promise.allSettled(promises);
 
+    this.effects.sortChildren();
     this.effects.renderable = true;
     this.renderFlags.set({refreshEffects: true});
   }
@@ -565,5 +560,33 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         ??= segment.actionConfig.getCostFunction(this.document, options);
       return calculateActionCost(finalCost, from, to, distance, segment);
     };
+  }
+
+  /** @override */
+  _onCreate(data, options, userId) {
+    if (userId === game.user.id && this.actor) {
+      this._passiveAuraCheck();
+    }
+    super._onCreate(data, options, userId);
+  }
+
+  _passiveAuraCheck() {
+    for (const item of this.actor.items) {
+      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(item.system?.target?.areas);
+      for (const template of Object.values(templates)) {
+        if (template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
+          const applyEffects = getMesuredTemplateEffects(item);
+          const itemData = {
+            itemId: item.id, 
+            actorId: this.actor.id, 
+            tokenId: this.id, 
+            applyEffects: applyEffects, 
+            itemImg: item.img, 
+            itemName: item.name
+          };
+          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
+        }
+      }
+    }
   }
 }

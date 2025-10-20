@@ -44,7 +44,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -137,14 +138,14 @@
       "6cnjDrsI5jX8gNyE": {
         "name": "Change Draconic Origin",
         "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
+        "command": "const selected = await item.callMacroWithKey(\"lMfyQ7jOMm9hKet8\");\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
         "disabled": false,
         "title": "Change Draconic Origin"
       },
       "uo0JLBXMor8Gqc18": {
         "name": "Add To Keyword",
         "trigger": "onCreate",
-        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
+        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) newValue = await item.callMacroWithKey(\"lMfyQ7jOMm9hKet8\");\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
         "disabled": false,
         "title": ""
       },
@@ -161,6 +162,14 @@
         "disabled": false,
         "name": "Remove From Keyword",
         "title": ""
+      },
+      "lMfyQ7jOMm9hKet8": {
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Draconic Origin damage type\", damageTypes);\nreturn selected;",
+        "trigger": "",
+        "disabled": false,
+        "name": "Change Draconic Origin Dialog",
+        "title": "",
+        "global": false
       }
     },
     "itemKey": "draconicResistance",
@@ -238,11 +247,11 @@
   "_stats": {
     "compendiumSource": "Item.3YH1b9nvHlw31AgA",
     "duplicateSource": "Item.3YH1b9nvHlw31AgA",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1745412760087,
+    "modifiedTime": 1760955376165,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

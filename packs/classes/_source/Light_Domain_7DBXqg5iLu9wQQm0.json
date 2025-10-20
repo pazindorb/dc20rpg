@@ -82,11 +82,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -97,7 +99,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": true,
           "rollRequest": {
@@ -119,7 +128,8 @@
             "untilTargetNextTurnEnd": true,
             "untilFirstTimeTriggered": true,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -131,9 +141,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>When you produce an <strong>MP</strong> Effect that targets at least 1 creature, you can force 1 target of your choice to make a Might or Charisma Save (their choice).</p><p><strong>Failure:</strong> Until the end of their next turn, they shed a 1 Space Aura of Bright Light and are <strong>Hindered</strong> on their next Attack.</p>"
+        "description": "<p>When you produce an <strong>MP</strong> Effect that targets at least 1 creature, you can force 1 target of your choice to make a Might or Charisma Save (their choice).</p><p><strong>Failure:</strong> Until the end of their next turn, they shed a 1 Space Aura of Bright Light and are <strong>Hindered</strong> on their next Attack.</p>",
+        "hide": false,
+        "key": "zmZQh8oVd3L4QSqo",
+        "sourceItemId": "7DBXqg5iLu9wQQm0",
+        "sourceItemName": "Light Domain",
+        "sourceItemImg": "icons/magic/light/explosion-star-large-blue-yellow.webp",
+        "active": false
       },
       "oAZY6U6u2En53VZS": {
         "name": "Light Domain - Charisma Save",
@@ -145,11 +171,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -160,7 +188,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": true,
           "rollRequest": {
@@ -182,7 +217,8 @@
             "untilTargetNextTurnEnd": true,
             "untilFirstTimeTriggered": true,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -194,9 +230,25 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p>When you produce an <strong>MP</strong> Effect that targets at least 1 creature, you can force 1 target of your choice to make a Might or Charisma Save (their choice).</p><p><strong>Failure:</strong> Until the end of their next turn, they shed a 1 Space Aura of Bright Light and are <strong>Hindered</strong> on their next Attack.</p>"
+        "description": "<p>When you produce an <strong>MP</strong> Effect that targets at least 1 creature, you can force 1 target of your choice to make a Might or Charisma Save (their choice).</p><p><strong>Failure:</strong> Until the end of their next turn, they shed a 1 Space Aura of Bright Light and are <strong>Hindered</strong> on their next Attack.</p>",
+        "hide": false,
+        "key": "oAZY6U6u2En53VZS",
+        "sourceItemId": "7DBXqg5iLu9wQQm0",
+        "sourceItemName": "Light Domain",
+        "sourceItemImg": "icons/magic/light/explosion-star-large-blue-yellow.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -385,11 +437,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350035737,
-    "modifiedTime": 1745412688174,
+    "modifiedTime": 1760521813485,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,9 +1,8 @@
 import { getLabelFromKey } from "../utils.mjs";
 
-export function itemDetailsToHtml(item, includeCosts) {
+export function itemDetailsToHtml(item) {
   if (!item) return "";
   let content = "";
-  if(includeCosts) content += getItemUseCost(item, true);
   content += _range(item);
   content += _target(item);
   content += _duration(item);
@@ -11,50 +10,10 @@ export function itemDetailsToHtml(item, includeCosts) {
   content += _magicSchool(item);
   content += _props(item);
   content += _components(item);
+  content += _infusionDetails(item);
   return content;
 }
 
-export function getItemActionDetails(item) {
-  if (item.system.actionType === "attack") {
-    const attack = item.system.attackFormula;
-    return `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)} vs ${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`
-  }
-  if (item.system.actionType === "check") {
-    const check = item.system.check;
-    const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-    return `${checkDC} <b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
-  }
-  return "";
-}
-
-export function getItemUseCost(item, wrapInBox) {
-  let content = "";
-  const cost = item.system?.costs?.resources;
-  if (!cost) return "";
-  
-  if (cost.actionPoint > 0)   content += wrapInBox ? _wrapInBox(`${cost.actionPoint} AP`) : _iconVersion(cost.actionPoint, "ap fa-dice-d6");
-  if (cost.stamina > 0)       content += wrapInBox ? _wrapInBox(`${cost.stamina} SP`) : _iconVersion(cost.stamina, "sp fa-hand-fist");
-  if (cost.mana > 0)          content += wrapInBox ? _wrapInBox(`${cost.mana} MP`) : _iconVersion(cost.mana, "mp fa-star");
-  if (cost.health > 0)        content += wrapInBox ? _wrapInBox(`${cost.health} HP`) : _iconVersion(cost.health, "hp fa-heart");
-  if (cost.grit > 0)          content += wrapInBox ? _wrapInBox(`${cost.grit} GP`) : _iconVersion(cost.grit, "grit fa-clover");
-  if (cost.restPoints > 0)    content += wrapInBox ? _wrapInBox(`${cost.restPoints} RP`) : _iconVersion(cost.restPoints, "rest fa-campground");
-
-  // Prepare Custom resource cost
-  if (cost.custom) {
-    for (const custom of Object.values(cost.custom)) {
-      if (custom.value > 0)   content += wrapInBox ? _wrapInBox(`${custom.value} ${custom.name}`) : ` ${custom.value} <i class='margin-right-8 custom-resource'><img src='${custom.img}'/> </i>`;
-    }
-  }
-  return content;  
-}
-
-function _wrapInBox(text) {
-  return  `<div class='detail red-box'>${text}</div>`
-}
-
-function _iconVersion(text, icon) {
-  return `<div> ${text} <i class='margin-left-3 margin-right-8 fa-solid ${icon}'></i></div>`
-}
 
 function _range(item) {
   const range = item.system?.range;
@@ -207,6 +166,26 @@ function _components(item) {
       }
     });
   }
+  return content;
+}
+
+function _infusionDetails(item) {
+  if (item.type !== "infusion") return "";
+
+  let content = "";
+  const infusion = item.system.infusion;
+  content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
+
+  Object.entries(infusion.tags).forEach(([key, tag]) => {
+    if (tag.active) {
+        content += `<div class='detail box journal-tooltip box-style'
+        data-uuid="${tag.journalUuid}"
+        data-header="${tag.label}"
+        > 
+        ${tag.label}`;
+        content += "</div>";
+    }
+  });
   return content;
 }
 

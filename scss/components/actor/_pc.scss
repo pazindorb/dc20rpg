@@ -438,7 +438,7 @@
     .top-menu {
       border: 2px solid $pc-main !important;
 
-      .base-action-switch {
+      .base-action {
         border-left: 2px solid $pc-main !important;
       }
 
@@ -502,7 +502,7 @@
       background: linear-gradient(to right, $pc-table-1, $pc-table-2) !important;
     }
 
-    .expandable-row {
+    .item-row {
 
       .enh-number a {
         border-color: $pc-main !important;
@@ -548,6 +548,20 @@
             color: $pc-main !important;
           }
         }
+      }
+    }
+
+    .containers {
+      background-color: $pc-secondary-light;
+      border-color: $pc-main-dark;
+
+      .container-icon {
+        border-color: $pc-main-dark;
+        background-color: $pc-main-dark;
+      }
+
+      .container {
+        border-color: $pc-main-dark;
       }
     }
   }
@@ -706,7 +720,7 @@
       }
 
       .skills {
-        .skill-mastery-toggle, .language-mastery-toggle {
+        .mastery-toggle {
           border-color: $pc-main !important;
           background-color: $pc-main-light !important;
           color: $pc-text-color-1 !important;
@@ -788,5 +802,102 @@
         border-color: $pc-main !important;
       }
     }
+  }
+
+  .inventory-tab {
+
+    .second-row {
+      display: grid;
+      grid-template-columns: 1fr;
+
+      &.slot-open { 
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+    .slot-selector {
+
+      .characer-img {
+        margin-left: 35px;
+
+        img {
+          object-position: 50% 0;
+          object-fit: cover;
+          height: 333px;
+          width: 100%;
+          border: 2px solid $pc-main-dark;
+        }
+      }
+
+      .slot-wrapper {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        height: 0px;
+
+        .slot-section {
+          display: flex;
+          justify-content: start;
+          align-items: center;
+          margin-bottom: 3px;
+
+          .section-icon {
+            width: 35px;
+            height: 45px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            
+            color: $pc-secondary-light;
+            border-right: 1px solid $pc-main-dark;
+            background-color: $pc-main-dark;
+            border-radius: 10px 0 0 10px;
+          }
+
+          .slot {
+       
+            img {
+              width: 45px;
+              height: 45px;
+              border: 2px solid $pc-main-dark;
+              border-radius: 0;
+              border-right: 0;
+
+              &.empty {
+                filter: opacity(0.9);
+              }
+            }
+
+            &:last-child {
+              border-right: 2px solid $pc-main-dark;
+              border-radius: 0 5px 5px 0;
+            }
+          }
+
+          .delete-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            left: 10px;
+            top: -10px;
+
+            color: var(--dark-red);
+            height: 0px;
+            width: 0px;
+            z-index: 1;
+
+            text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 5px 3px $primary-light inset;
+            }
+          }
+        }
+      }
+    }
+
+
   }
 }

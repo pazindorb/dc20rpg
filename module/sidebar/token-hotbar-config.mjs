@@ -55,7 +55,7 @@ export class TokenHotbarConfig extends DC20Dialog {
     return resources;
   }
 
-  _onChangeString(path, value, dataset) {
+  async _onChangeString(path, value, dataset) {
     if (path.includes(".key")) {
       const labelPath = path.replace(".key", ".label");
       let label = '';
@@ -67,14 +67,14 @@ export class TokenHotbarConfig extends DC20Dialog {
       }
       setValueForPath(this, labelPath, label);
     }
-    super._onChangeString(path, value, dataset);
+    await super._onChangeString(path, value, dataset);
   }
 
-  _onChangeNumeric(path, value, nullable, dataset) {
+  async _onChangeNumeric(path, value, nullable, dataset) {
     const limit = parseInt(dataset.limit);
     value = parseInt(value);
     if (value > limit) value = limit;
-    super._onChangeNumeric(path, value, nullable, dataset);
+    await super._onChangeNumeric(path, value, nullable, dataset);
   }
 
   async _onSave(event, target) {

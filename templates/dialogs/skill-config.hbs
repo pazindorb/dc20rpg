@@ -1,71 +1,99 @@
-<form id="skill-config" class="dialog-v2" autocomplete="off">
+<form id="skill-config" class="dialog-v13 dialog-content standard-form {{cssClass}}">
 
-  {{!-- Skills --}}
-  <div class="box-header">
-    <span>{{localize 'dc20rpg.dialog.settings.skills'}}</span>
-    <a class="add-skill fa-solid fa-square-plus fa-lg" data-category="skills" title="{{localize 'dc20rpg.dialog.settings.addSkill'}}"></a>
-  </div>
-  <div class="content">
-    {{#each skillStore.skills as |skill key|}}
-      <div class="row margin-top-5 ignore-symetry">
-        <div class="left-part-row">
-          <input class="change-value" data-field="label" type="text" value="{{localize skill.label}}" data-category="skills" data-key="{{key}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
-          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.removeSkill'}}"></a>
+  <div class="content scrollable">
+    {{!-- Skills --}}
+    <h4 class="divider">{{localize 'dc20rpg.dialog.settings.skills'}}</h4>
+    <fieldset>
+      <legend><a class="add" data-action="add" data-category="skills"><i class="fa-solid fa-plus-square margin-right-5"></i>{{localize "dc20rpg.dialog.settings.addSkill"}}</a></legend>
+
+      {{#each skillStore.skills as |skill key|}}
+      <div class="form-group margin-top-5">
+        <div class="form-fields">
+          <input type="text" data-cType="string" data-path="skillStore.skills.{{key}}.label" value="{{localize skill.label}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
+          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-action="remove" data-category="skills" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.dialog.settings.removeSkill'}}"></a>
         </div>
-        <div class="right-part-row">
-          <select class="change-value" data-field="baseAttribute" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.baseAttribute'}}">
-            {{selectOptions @root.attributes selected=skill.baseAttribute}}
+        <div class="form-fields">
+          <select data-cType="string" data-path="skillStore.skills.{{key}}.baseAttribute">
+            {{selectOptions @root.baseAttributeOptions selected=skill.baseAttribute}}
           </select>
+          {{#ifCond skill.baseAttribute '===' "max"}}
+          <div class="multi-select-wrapper">
+            <div class="tags input-element-tags">
+              {{#each skill.attributes}} 
+              <div class="tag" data-key="{{this}}">
+                <span>{{localize (concat 'dc20rpg.attributes.' this)}}</span>
+                <a class="remove fa-solid fa-xmark" data-cType="remove-option" data-path="skillStore.skills.{{key}}.attributes" data-value="{{this}}" data-tooltip="{{localize "dc20rpg.dialog.settings.removeAttribute"}}"></a>
+              </div>
+              {{/each}}
+            </div>
+            <select class="margin-top-2" data-cType="multi-select" data-path="skillStore.skills.{{key}}.attributes">
+              {{selectOptions @root.attributes selected="" blank=""}}
+            </select>
+          </div>
+          {{/ifCond}}
         </div>
       </div>
-    {{/each}}
-  </div>
+      {{/each}}
+    </fieldset>
 
-  {{!-- Trades --}}
-  <div class="box-header margin-top-10">
-    <span>{{localize 'dc20rpg.dialog.settings.trades'}}</span>
-    <a class="add-skill fa-solid fa-square-plus fa-lg" data-category="trades" title="{{localize 'dc20rpg.dialog.settings.addTrade'}}"></a>
-  </div>
-  <div class="content">
-    {{#each skillStore.trades as |skill key|}}
-      <div class="row margin-top-5 ignore-symetry">
-        <div class="left-part-row">
-          <input class="change-value" data-field="label" type="text" value="{{localize skill.label}}" data-category="trades" data-key="{{key}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
-          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-category="trades" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.removeTrade'}}"></a>
+    {{!-- Trades --}}
+    <h4 class="divider">{{localize 'dc20rpg.dialog.settings.trades'}}</h4>
+    <fieldset>
+      <legend><a class="add" data-action="add" data-category="trades"><i class="fa-solid fa-plus-square margin-right-5"></i>{{localize "dc20rpg.dialog.settings.addSkill"}}</a></legend>
+
+      {{#each skillStore.trades as |trade key|}}
+      <div class="form-group margin-top-5">
+        <div class="form-fields">
+          <input type="text" data-cType="string" data-path="skillStore.trades.{{key}}.label" value="{{localize trade.label}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
+          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-action="remove" data-category="trades" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.dialog.settings.removeSkill'}}"></a>
         </div>
-        <div class="right-part-row">
-          <select class="change-value" data-field="baseAttribute" data-category="trades" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.baseAttribute'}}">
-            {{selectOptions @root.attributes selected=skill.baseAttribute}}
+        <div class="form-fields">
+          <select data-cType="string" data-path="skillStore.trades.{{key}}.baseAttribute">
+            {{selectOptions @root.baseAttributeOptions selected=trade.baseAttribute}}
           </select>
+          {{#ifCond trade.baseAttribute '===' "max"}}
+          <div class="multi-select-wrapper">
+            <div class="tags input-element-tags">
+              {{#each trade.attributes}} 
+              <div class="tag" data-key="{{this}}">
+                <span>{{localize (concat 'dc20rpg.attributes.' this)}}</span>
+                <a class="remove fa-solid fa-xmark" data-cType="remove-option" data-path="skillStore.trades.{{key}}.attributes" data-value="{{this}}" data-tooltip="{{localize "dc20rpg.dialog.settings.removeAttribute"}}"></a>
+              </div>
+              {{/each}}
+            </div>
+            <select class="margin-top-2" data-cType="multi-select" data-path="skillStore.trades.{{key}}.attributes">
+              {{selectOptions @root.attributes selected="" blank=""}}
+            </select>
+          </div>
+          {{/ifCond}}
         </div>
       </div>
-    {{/each}}
-  </div>
+      {{/each}}
+    </fieldset>
 
-  {{!-- Languages --}}
-  <div class="box-header margin-top-10">
-    <span>{{localize 'dc20rpg.dialog.settings.langs'}}</span>
-    <a class="add-skill fa-solid fa-square-plus fa-lg" data-category="languages" title="{{localize 'dc20rpg.dialog.settings.addLang'}}"></a>
-  </div>
-  <div class="content">
-    {{#each skillStore.languages as |skill key|}}
-      <div class="row margin-top-5 ignore-symetry">
-        <div class="left-part-row">
-          <input class="change-value" data-field="label" value="{{localize skill.label}}" data-category="languages" data-key="{{key}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
-          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-category="languages" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.removeLang'}}"></a>
+    {{!-- Languages --}}
+    <h4 class="divider">{{localize 'dc20rpg.dialog.settings.langs'}}</h4>
+    <fieldset>
+      <legend><a class="add" data-action="add" data-category="languages"><i class="fa-solid fa-plus-square margin-right-5"></i>{{localize "dc20rpg.dialog.settings.addLang"}}</a></legend>
+
+      {{#each skillStore.languages as |language key|}}
+      <div class="form-group margin-top-5">
+        <div class="form-fields">
+          <input type="text" data-cType="string" data-path="skillStore.languages.{{key}}.label" value="{{localize language.label}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
+          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-action="remove" data-category="languages" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.dialog.settings.removeSkill'}}"></a>
         </div>
-        <div class="right-part-row">
-          <select class="change-value" data-field="category" data-category="languages" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.langCategory'}}">
+        <div class="form-fields">
+          <select data-cType="string" data-path="skillStore.languages.{{key}}.category">
             {{selectOptions @root.langCategories selected=skill.category}}
           </select>
         </div>
       </div>
-    {{/each}}
+      {{/each}}
+    </fieldset>
   </div>
 
-  {{!-- Save --}}
-  <div class="button-wrapper margin-top-10">
-    <button class="close save-and-update margin-bottom-10" title="It might take a moment">{{localize "dc20rpg.dialog.settings.updateSkills"}}</button>
-    <button class="close restore-default margin-bottom-10">{{localize "dc20rpg.dialog.settings.restoreDefault"}}</button>
-  </div>
+  <footer class="form-footer">
+    <button data-action="save"><i class="fa-solid fa-floppy-disk fa-lg margin-right-5"></i>{{localize "dc20rpg.dialog.settings.updateSkills"}}</button>
+    <button data-action="default"><i class="fa-solid fa-arrow-rotate-left fa-lg margin-right-5"></i>{{localize "dc20rpg.dialog.settings.restoreDefault"}}</button>
+  </footer>
 </form>

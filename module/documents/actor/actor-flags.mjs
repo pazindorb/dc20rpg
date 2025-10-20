@@ -5,14 +5,14 @@ export function preInitializeFlags(actor) {
 		editMode: false,
 		hideNonessentialEffects: false,
 		showInactiveEffects: true,
+		showSlots: true,
 		showUnknownSkills: true,
-		showUnknownTradeSkills: false,
+		showUnknownTrades: false,
 		showUnknownLanguages: false,
 		showEmptyReductions: false,
 		showEmptyConditions: false,
 		onelinerModeDMR: true,
 		onelinerModeCI: true,
-		showBasicActions: false,
 		advancementCounter: 0,
 		effectsToRemoveAfterRoll: [],
 		actionHeld: {
@@ -26,26 +26,11 @@ export function preInitializeFlags(actor) {
 		}
 	}
 
-	_initializeRollMenu(flags);
 	if (actor.type === 'character') _initializeFlagsForCharacter(flags);
 	else if (actor.type === 'storage') _initializeFlagsForStorage(flags)
 	else _initializeFlagsForNpc(flags);
 
 	actor.update({[`flags.dc20rpg`]: flags});
-}
-
-function _initializeRollMenu(flags) {
-	flags.rollMenu = {
-		autoCrit: false,
-		autoFail: false,
-		dis: 0,
-		adv: 0,
-		apCost: 0,
-		gritCost: 0,
-		d8: 0,
-		d6: 0,
-		d4: 0,
-	}
 }
 
 function _initializeFlagsForCharacter(flags) {
@@ -135,6 +120,11 @@ function _initializeFlagsForCharacter(flags) {
 					order: 1,
 					custom: false
 				},
+				infusion: {
+					name: "Infusions",
+					order: 2,
+					custom: false
+				}
 			},
 			basic: {
 				offensive: {

@@ -1,6 +1,5 @@
-import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
@@ -8,7 +7,7 @@ import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
-import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
@@ -16,7 +15,8 @@ import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -355,6 +355,7 @@ export class DC20ChatMessage extends ChatMessage {
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
     effectData.flags.dc20rpg.applierId = this.speaker.actor;
+    if (this.system.sustain) this._linkWithSustain(effectData, rollingActor);
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
@@ -379,6 +380,7 @@ export class DC20ChatMessage extends ChatMessage {
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
         injectFormula(effectData, rollingActor);
         effectData.flags.dc20rpg.applierId = this.speaker.actor;
+        if (this.system.sustain) this._linkWithSustain(effectData, rollingActor);
         createEffectOn(effectData, actor);
       }
     });
@@ -412,6 +414,14 @@ export class DC20ChatMessage extends ChatMessage {
       if (changeValue.includes("#SPEAKER_ID#")) {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
+    }
+  }
+
+  _linkWithSustain(effect, rollingActor) {
+    effect.system.sustained = {
+      itemId: this.system.itemId,
+      actorUuid: rollingActor.uuid,
+      isSustained: true
     }
   }
 
@@ -574,7 +584,7 @@ export class DC20ChatMessage extends ChatMessage {
       }
     }
     
-    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+    if (Object.keys(tokens).length > 0) tokens = await TokenSelector.open(tokens, "Select Targets");
     if (tokens.length > 0) {
       const newTargets = tokens.map(token => token.id);
       await this.update({
@@ -637,7 +647,6 @@ export class DC20ChatMessage extends ChatMessage {
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     heal.allowOverheal = rollingActor.system.globalModifier.allow.overheal;
     await applyHealing(actor, heal, {messageId: this.id});
-    runEventsFor("targetConfirm", actor, triggerOnlyForIdFilter(this.speaker.actor));
   }
 
   async _onSaveRoll(targetKey, key, dc, againstStatuses) {
@@ -647,7 +656,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (!actor) return;
 
     if (!againstStatuses) againstStatuses = this.system.againstStatuses;
-    const details = prepareSaveDetailsFor(key, dc, againstStatuses);
+    const details = DC20Roll.prepareSaveDetails(key, {against: dc, statuses: againstStatuses});
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -662,14 +671,14 @@ export class DC20ChatMessage extends ChatMessage {
       this._onSaveRoll(targetKey, key, against, againstStatuses);
       return;
     }
-    const details = prepareCheckDetailsFor(key, against, againstStatuses);
+    const details = DC20Roll.prepareCheckDetails(key, {against: against, statuses: againstStatuses});
     this._rollAndUpdate(target, actor, details);
   }
 
   async _rollAndUpdate(target, actor, details) {
     let roll = null;
-    if (game.user.isGM) roll = await promptRollToOtherPlayer(actor, details);
-    else roll = await promptRoll(actor, details);
+    if (game.user.isGM) roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
+    else roll = await RollDialog.open(actor, details);
 
     if (!roll || !roll.hasOwnProperty("_total")) return;
     let rollOutcome = {
@@ -795,7 +804,7 @@ export class DC20ChatMessage extends ChatMessage {
   } 
 
   async _onModifyCoreRoll() {
-    const formula = await getSimplePopup("input", {header: "Enter formula modification"});
+    const formula = await SimplePopup.input("Enter formula modification");
     if (formula) await this.modifyCoreRoll(formula);
   }
 
@@ -967,7 +976,7 @@ export class DC20ChatMessage extends ChatMessage {
  * @param {DC20RpgActor} actor  - Speaker.
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
-export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
+export async function sendRollsToChat(rolls, actor, details, hasTargets, item, rollMode) {
   const token = getTokenForActor(actor);
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
@@ -997,7 +1006,7 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
       movedRecently: token?.movedRecently || null
     }}
   }
-  chatData = DC20ChatMessage.applyRollMode(chatData, game.settings.get('core', 'rollMode'));
+  chatData = DC20ChatMessage.applyRollMode(chatData, rollMode || game.settings.get('core', 'rollMode'));
   const message = await DC20ChatMessage.create(chatData);
   if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});

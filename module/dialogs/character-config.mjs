@@ -71,6 +71,9 @@ class CharacterConfigDialog extends Dialog {
       grit: {
         maxFormula: system.resources.grit.maxFormula
       },
+      restPoints: {
+        regenerationFormula: system.resources.restPoints.regenerationFormula
+      }
     }
 
     // Movements

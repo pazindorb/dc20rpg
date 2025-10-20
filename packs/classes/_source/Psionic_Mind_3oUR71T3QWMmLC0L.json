@@ -108,13 +108,13 @@
         "name": "Psionic Mind",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": 1,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -139,25 +139,74 @@
             "melee": null,
             "normal": null,
             "max": null
-          }
+          },
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "changeManaSpendLimit": 0
         },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong>SP</strong> on <strong>AP</strong> Enhancements</span></p>"
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong>SP</strong> on <strong>AP</strong> Enhancements</span></p>",
+        "hide": false,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "key": "ZNyQPlISpJwaPXtb",
+        "sourceItemId": "3oUR71T3QWMmLC0L",
+        "sourceItemName": "Psionic Mind",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
+        "active": false
       },
       "60sqcqNtYvXypTV9": {
         "name": "Daze",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -170,7 +219,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": true,
           "rollRequest": {
@@ -210,10 +266,18 @@
           "macros": {
             "postItemRoll": "",
             "preItemRoll": ""
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "changeManaSpendLimit": 0
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Mental Save.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The target becomes Dazed (DisADV on Mental Checks) on the next Mental Check it makes before the end of your next turn.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "60sqcqNtYvXypTV9",
+        "sourceItemId": "3oUR71T3QWMmLC0L",
+        "sourceItemName": "Psionic Mind",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
+        "active": false
       },
       "9JBlzeV4IK64Dzof": {
         "name": "Psionic",
@@ -225,11 +289,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -242,7 +308,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -282,10 +355,18 @@
           "macros": {
             "postItemRoll": "",
             "preItemRoll": ""
-          }
+          },
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "changeManaSpendLimit": 0
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Spell doesn’t require Verbal or Somatic Components.</span></p>",
-        "hide": false
+        "hide": false,
+        "key": "9JBlzeV4IK64Dzof",
+        "sourceItemId": "3oUR71T3QWMmLC0L",
+        "sourceItemName": "Psionic Mind",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -459,11 +540,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1745507817724,
-    "modifiedTime": 1745570617033,
+    "modifiedTime": 1760521810635,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",

@@ -71,8 +71,8 @@ export function collectAdvancementsFromItem(level, item) {
 }
 
 export async function removeAdvancements(actor, level, clazz, subclass, ancestry, background, itemDeleted) {
-	const dialog =  new SimplePopup("non-closable", {header: "Removing advancements", message: "Removing advancements - it might take a moment, please wait."}, {title: "Popup"});
-	await dialog._render(true);
+	const dialog = new SimplePopup("info", {hideButtons: true, header: "Removing advancements", information: ["Removing advancements - it might take a moment, please wait."]});
+	await dialog.render(true);
 	if (clazz) await _removeAdvancementsFrom(actor, level, clazz, itemDeleted);
 	if (subclass) await _removeAdvancementsFrom(actor, level, subclass, itemDeleted);
 	if (ancestry) await _removeAdvancementsFrom(actor, level, ancestry, itemDeleted);

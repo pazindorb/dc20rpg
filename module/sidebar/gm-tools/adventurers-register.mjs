@@ -1,16 +1,14 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../../helpers/actors/attrAndSkills.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getValueFromPath, toSelectOptions } from "../../helpers/utils.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export class AdventurersRegister extends DC20Dialog {
 
   constructor(options = {}) {
     super(options);
     this.selectedGroup = "";
-    this.activeTab = ""
-    this.selectedAttribute = "";
     this._prepareAdventurers();
   }
 
@@ -50,7 +48,7 @@ export class AdventurersRegister extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Adventurer's Register";
     initialized.window.icon = "fa-solid fa-book-open-cover";
-    initialized.position.width = 560;
+    initialized.position.width = 600;
     initialized.actions.roll = this._onCallRoll;
     initialized.actions.sheet = this._onSheetOpen;
     initialized.actions.addToGroup = this._onAddToGroup;
@@ -65,6 +63,8 @@ export class AdventurersRegister extends DC20Dialog {
 
     const adventurers = this._prepareGroup();
     const selectedActor = adventurers.find(actor => actor.id === this.selectedActorId);
+
+    this._prepareSkillsAndLanguages(context, adventurers);
 
     context.groups = toSelectOptions(this.groups, "name", "name");
     context.selectedGroup = this.selectedGroup;
@@ -88,6 +88,87 @@ export class AdventurersRegister extends DC20Dialog {
     if (!group) return [];
 
     return this.allAdventurers.filter(actor => group.adventurers[actor.id]);
+  }
+
+  _prepareSkillsAndLanguages(context, adventurers) {
+    let skillHeaderGrid = "1fr";
+    let skillRowGrid = "1fr";
+    let languageGrid = "1fr";
+
+    const header = [];
+    const allSkills = {};
+    const allLanguages = {};
+    for (let i = 0; i < adventurers.length; i++) {
+      skillHeaderGrid += " 80px";
+      skillRowGrid += " 40px 40px";
+      languageGrid += " 60px";
+      
+      const actor = adventurers[i];
+      header.push({name: actor.name, img: actor.img});
+
+      // Skills 
+      for (const skill of Object.values(actor.skillAndLanguage.skills)) {
+        if (!allSkills[skill.key]) {
+          allSkills[skill.key] = {
+            label: skill.label,
+            key: skill.key,
+            value: new Array(adventurers.length).fill({modifier: null, passive: null, actorId: null})
+          }
+        }
+        allSkills[skill.key].value[i] = {
+          modifier: skill.modifier, 
+          passive: 10 + skill.modifier, 
+          actorId: actor.id
+        };
+      }
+
+      // Languages
+      for (const language of Object.values(actor.skillAndLanguage.languages)) {
+        if (!allLanguages[language.key]) {
+          allLanguages[language.key] = {
+            label: language.label,
+            mastery: new Array(adventurers.length).fill(null)
+          }
+        }
+        allLanguages[language.key].mastery[i] = language.mastery;
+      }
+    }
+
+    context.skillGrid = {
+      header: skillHeaderGrid,
+      row: skillRowGrid,
+    };
+    context.header = header;
+    context.skills = allSkills;
+    context.languageGrid = languageGrid;
+    context.languages = allLanguages;
+  }
+
+  _prepareLanguages(context, adventurers) {
+    let languageGrid = "1fr";
+
+    const header = [];
+    const allLanguages = {};
+    for (let i = 0; i < adventurers.length; i++) {
+      languageGrid += " 60px";
+      
+      const actor = adventurers[i];
+      header.push({name: actor.name, img: actor.img});
+
+      for (const language of Object.values(actor.skillAndLanguage.languages)) {
+        if (!allLanguages[language.key]) {
+          allLanguages[language.key] = {
+            label: language.label,
+            mastery: new Array(adventurers.length).fill(null)
+          }
+        }
+        allLanguages[language.key].mastery[i] = language.mastery;
+      }
+    }
+
+    context.languageGrid = languageGrid;
+    context.languageHeader = header;
+    context.languages = allLanguages;
   }
 
   _prepareActorsToSelect(adventurers) {
@@ -121,13 +202,7 @@ export class AdventurersRegister extends DC20Dialog {
   _onCallRoll(event, target) {
     const dataset = target.dataset;
     const actor = this.allAdventurers.find(actor => dataset.actorId === actor.id);
-    if (!actor) return;
-
-    const details = dataset.type === "save" 
-                        ? prepareSaveDetailsFor(dataset.key) 
-                        : prepareCheckDetailsFor(dataset.key);
-
-    promptRollToOtherPlayer(actor, details);
+    if (actor) actor.roll(dataset.key, dataset.type, {sendToActorOwners: true});
   }
 
   _onSheetOpen(event, target) {
@@ -138,7 +213,7 @@ export class AdventurersRegister extends DC20Dialog {
   }
 
   async _onAddNewGroup(event, target) {
-    const name = await getSimplePopup("input", {header: "Group Name"});
+    const name = await SimplePopup.input("Group Name");
     if (!name) return;
 
     this.groups.push({
@@ -152,7 +227,7 @@ export class AdventurersRegister extends DC20Dialog {
     const actorId = target.dataset?.actorId;
     if (!actorId) return;
 
-    const groupName = await getSimplePopup("select", {header: "Select Group", selectOptions: toSelectOptions(this.groups, "name", "name")});
+    const groupName = await SimplePopup.select("Select Group", toSelectOptions(this.groups, "name", "name"));
     const group = this.groups.find(group => group.name === groupName);
     if (!group) return;
 
@@ -175,6 +250,17 @@ export class AdventurersRegister extends DC20Dialog {
     const index = this.groups.findIndex(group => group.name === this.selectedGroup);
     if (index !== -1) this.groups.splice(index, 1);
     this.selectedGroup = "";
+    this.render();
+  }
+
+  async _onChangeNumeric(path, value, nullable, dataset) {
+    const actorId = dataset.actorId;
+    if (!actorId) super._onChangeNumeric(path, value, nullable, dataset);
+
+    const actor = this.allAdventurers.find(actor => actorId === actor.id);
+    if (!actor) return;
+
+    await actor.update({[path]: parseInt(value)});
     this.render();
   }
 

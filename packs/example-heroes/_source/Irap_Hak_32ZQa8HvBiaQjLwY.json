@@ -1247,7 +1247,99 @@
         ]
       }
     },
-    "sustain": []
+    "sustain": [],
+    "trades": {
+      "arc": {
+        "modifier": -1
+      },
+      "his": {
+        "modifier": -1
+      },
+      "nat": {
+        "modifier": -1
+      },
+      "occ": {
+        "modifier": -1
+      },
+      "rel": {
+        "modifier": -1
+      },
+      "eng": {
+        "modifier": -1
+      },
+      "alc": {
+        "modifier": -1
+      },
+      "bla": {
+        "modifier": 3,
+        "mastery": 0
+      },
+      "bre": {
+        "modifier": -1
+      },
+      "cap": {
+        "modifier": 0
+      },
+      "car": {
+        "modifier": -1,
+        "mastery": 0
+      },
+      "coo": {
+        "modifier": -1,
+        "mastery": 1
+      },
+      "cry": {
+        "modifier": -1
+      },
+      "dis": {
+        "modifier": 2
+      },
+      "gam": {
+        "modifier": 2,
+        "mastery": 0
+      },
+      "gla": {
+        "modifier": 3,
+        "mastery": 1
+      },
+      "her": {
+        "modifier": -1
+      },
+      "ill": {
+        "modifier": 0
+      },
+      "jew": {
+        "modifier": 0
+      },
+      "lea": {
+        "modifier": 0,
+        "mastery": 1
+      },
+      "loc": {
+        "modifier": 0
+      },
+      "mas": {
+        "modifier": 3
+      },
+      "mus": {
+        "modifier": 2
+      },
+      "scu": {
+        "modifier": 0
+      },
+      "the": {
+        "modifier": 2
+      },
+      "tin": {
+        "modifier": -1
+      },
+      "wea": {
+        "modifier": 0
+      },
+      "veh": {
+        "modifier": 0
+      }
+    }
   },
   "prototypeToken": {
     "name": "Irap'Hak",
@@ -2483,13 +2575,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -2607,11 +2700,11 @@
       "_stats": {
         "compendiumSource": "Item.Dtcerphyw5mqINjq",
         "duplicateSource": "Item.CsmaMkiy6vPtEXNY",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1751010741951,
+        "modifiedTime": 1760521835024,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -3395,7 +3488,8 @@
               "stamina": 1,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -3420,9 +3514,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong></span>, you can spend <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 SP </strong></span>to increase the damage by 1.</p>"
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong></span>, you can spend <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 SP </strong></span>to increase the damage by 1.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "nwFznURecEffIIve",
+            "sourceItemId": "Ma93noOssIJQKCjL",
+            "sourceItemName": "Draconic Breath Weapon",
+            "sourceItemImg": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
+            "active": false
           },
           "maxdUGPkaTfPMixb": {
             "name": "Spend Mana",
@@ -3434,7 +3576,8 @@
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -3459,9 +3602,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong>, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 MP</strong> to increase it by 2.</span></p>"
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong>, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 MP</strong> to increase it by 2.</span></p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "maxdUGPkaTfPMixb",
+            "sourceItemId": "Ma93noOssIJQKCjL",
+            "sourceItemName": "Draconic Breath Weapon",
+            "sourceItemImg": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -3479,13 +3670,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 2,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 2
           },
           "charges": {
             "current": 1,
@@ -3694,11 +3886,11 @@
       "_stats": {
         "compendiumSource": "Item.7nOCHb3llandPzQJ",
         "duplicateSource": "Item.7nOCHb3llandPzQJ",
-        "coreVersion": "13.346",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.7.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1751580548724,
+        "modifiedTime": 1760521835083,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -4261,13 +4453,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "grit": null,
             "restPoints": null,
-            "custom": {}
+            "custom": {},
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -4426,11 +4619,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.inventory.Item.beXUIEmOdAL8Kg0l",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1751010742002,
+        "modifiedTime": 1760521835113,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -5658,13 +5851,13 @@
             "name": "Spend Stamina instead of AP",
             "number": 0,
             "resources": {
-              "actionPoint": -1,
               "health": null,
               "mana": null,
               "stamina": 1,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": -1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -5689,9 +5882,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>"
+            "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "ZNyQPlISpJwaPXtb",
+            "sourceItemId": "MeJvWQRX2rBDNJ7c",
+            "sourceItemName": "Champion Stamina",
+            "sourceItemImg": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -5868,11 +6109,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571538801,
-        "modifiedTime": 1745571538801,
+        "modifiedTime": 1760521835140,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -6615,12 +6856,13 @@
               "stamina": -1,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "charges": {
-              "consume": true,
               "fromOriginal": true,
-              "originalId": "m93omhwkloggInnL"
+              "originalId": "m93omhwkloggInnL",
+              "subtract": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -6629,7 +6871,14 @@
               "formula": {
                 "formula": "",
                 "type": "",
-                "category": "damage"
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
               },
               "overrideDamageType": false,
               "damageType": "",
@@ -6653,9 +6902,38 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Once per</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Combat</strong>, when you perform a Technique you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">SP</strong> cost by 1.</span></p>"
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Once per</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Combat</strong>, when you perform a Technique you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">SP</strong> cost by 1.</span></p>",
+            "hide": false,
+            "key": "MqAOGocRZKDahFJA",
+            "sourceItemId": "I035Rhfd8TNhhxxx",
+            "sourceItemName": "Master-at-Arms",
+            "sourceItemImg": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -6894,11 +7172,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571538895,
-        "modifiedTime": 1745571538895,
+        "modifiedTime": 1760521835171,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -7030,13 +7308,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -7181,11 +7460,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571538936,
-        "modifiedTime": 1745571538936,
+        "modifiedTime": 1760521835200,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -7299,13 +7578,13 @@
             "name": "Extend Attack",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -7330,9 +7609,57 @@
                 "melee": 1,
                 "normal": 5,
                 "max": 5
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Melee Attack Range is increased by 1 Space (or your Ranged Attack Range is increased by 5 Spaces) for the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack Check</strong>.</span></p>"
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Melee Attack Range is increased by 1 Space (or your Ranged Attack Range is increased by 5 Spaces) for the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack Check</strong>.</span></p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "DniRroDDquppaVpi",
+            "sourceItemId": "jOxeqlOMPEZ7DEVi",
+            "sourceItemName": "Extend Attack",
+            "sourceItemImg": "icons/skills/melee/strike-polearm-glowing-white.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -7350,13 +7677,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -7475,11 +7803,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.UZMUmBv5E3RQGFlx",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571539866,
-        "modifiedTime": 1745571539866,
+        "modifiedTime": 1760521835263,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -7590,13 +7918,13 @@
             "name": "Power Attack",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -7621,9 +7949,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p>You deal +1 damage with the Attack. </p><p>You can use this Maneuver multiple times.</p>"
+            "description": "<p>You deal +1 damage with the Attack. </p><p>You can use this Maneuver multiple times.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "VRugNNjfDkkfbROn",
+            "sourceItemId": "2tZQ97Pan386Qgtt",
+            "sourceItemName": "Power Attack",
+            "sourceItemImg": "icons/skills/melee/strike-axe-energy-pink.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -7641,13 +8017,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -7766,11 +8143,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571539910,
-        "modifiedTime": 1745571539910,
+        "modifiedTime": 1760521835320,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -7888,13 +8265,13 @@
             "name": "Sweep Attack",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -7905,7 +8282,12 @@
                 "formula": "1",
                 "type": "slashing",
                 "overrideDefence": "",
-                "dontMerge": true
+                "dontMerge": true,
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "perTarget": false
               },
               "addsNewRollRequest": false,
               "rollRequest": {
@@ -7927,9 +8309,44 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p><p>You can use this Maneuver multiple times.</p>"
+            "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p><p>You can use this Maneuver multiple times.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "hefBlhRCldpMVgEC",
+            "sourceItemId": "sSTktAfB33J9G7YN",
+            "sourceItemName": "Sweep Attack",
+            "sourceItemImg": "icons/skills/melee/strikes-sword-scimitar.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -7947,13 +8364,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -8072,11 +8490,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.qrkBxXBYqdsd7rUt",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571539953,
-        "modifiedTime": 1745571539953,
+        "modifiedTime": 1760521835373,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -8191,7 +8609,8 @@
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -8216,9 +8635,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</span></p>"
+            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</span></p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "TQBMiKuaVUAszWYo",
+            "sourceItemId": "gfFWEb7C2OofDsgZ",
+            "sourceItemName": "Chained Style",
+            "sourceItemImg": "icons/skills/melee/strike-flail-spiked-red.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -8354,11 +8821,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571539999,
-        "modifiedTime": 1745571539999,
+        "modifiedTime": 1760521835401,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -8478,7 +8945,8 @@
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -8503,9 +8971,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>"
+            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "jOYJQdgpDGiggRpc",
+            "sourceItemId": "XiLH2R1htaJH61BE",
+            "sourceItemName": "Crossbow Style",
+            "sourceItemImg": "icons/skills/ranged/target-bullseye-arrow-green.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -8641,11 +9157,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571540048,
-        "modifiedTime": 1745571540048,
+        "modifiedTime": 1760521835429,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -8765,7 +9281,8 @@
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -8790,9 +9307,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>"
+            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "FWqbcPWLkUlgyLet",
+            "sourceItemId": "oU6YuJinPthfXK04",
+            "sourceItemName": "Spear Style",
+            "sourceItemImg": "icons/skills/ranged/projectile-strike-impale-gray.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -8928,11 +9493,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571540107,
-        "modifiedTime": 1745571540107,
+        "modifiedTime": 1760521835457,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -9052,7 +9617,8 @@
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
@@ -9077,9 +9643,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage with <strong>Melee Attacks</strong> against creatures that are farther than 1 Space from you.</p>"
+            "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage with <strong>Melee Attacks</strong> against creatures that are farther than 1 Space from you.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "YcnNZWdLVmIdteyC",
+            "sourceItemId": "jR15EijNuAl8fdIi",
+            "sourceItemName": "Whip Style",
+            "sourceItemImg": "icons/weapons/misc/whip-red-yellow.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -9215,11 +9829,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571540164,
-        "modifiedTime": 1745571540164,
+        "modifiedTime": 1760521835487,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -9333,13 +9947,13 @@
             "name": "Bleed",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -9350,7 +9964,7 @@
                 "saveKey": "phy",
                 "contestedKey": "",
                 "dcCalculation": "martial",
-                "dc": 0,
+                "dc": 14,
                 "addMasteryToDC": false,
                 "respectSizeRules": false
               },
@@ -9362,7 +9976,10 @@
                 "untilYourNextTurnEnd": false,
                 "untilTargetNextTurnStart": false,
                 "untilTargetNextTurnEnd": false,
-                "supressFromChatMessage": false
+                "supressFromChatMessage": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
               },
               "rollLevelChange": false,
               "rollLevel": {
@@ -9374,9 +9991,44 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target begins <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>"
+            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target begins <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "EQkHecVsCDvMsEhZ",
+            "sourceItemId": "3q8cjqRqoxSGMVtA",
+            "sourceItemName": "Bleed",
+            "sourceItemImg": "icons/skills/melee/blade-tip-chipped-blood-red.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -9394,13 +10046,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -9539,11 +10192,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.2iRK0FdWRvCPH44g",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571545692,
-        "modifiedTime": 1745571545692,
+        "modifiedTime": 1760521835540,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -9652,17 +10305,18 @@
             "name": "Body Block",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "grit": null,
               "custom": {},
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "charges": {
               "consume": false,
-              "fromOriginal": false
+              "fromOriginal": false,
+              "subtract": null
             },
             "modifications": {
               "modifiesCoreFormula": false,
@@ -9675,7 +10329,14 @@
               "formula": {
                 "formula": "",
                 "type": "",
-                "category": "damage"
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
               },
               "addsNewRollRequest": false,
               "rollRequest": {
@@ -9715,10 +10376,18 @@
               "macros": {
                 "postItemRoll": "",
                 "preItemRoll": ""
-              }
+              },
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "changeManaSpendLimit": 0
             },
             "description": "<p><strong>Trigger:</strong> You are targeted by an <strong>Attack</strong>.</p><p><strong>Reaction:</strong> You reposition a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} by you to shield yourself from damage.</p><p>You and the Grappled creature take half the damage dealt by the attack and you can move the Grappled creature to any space adjacent to you immediately afterwards.</p>",
-            "hide": false
+            "hide": false,
+            "key": "vh6cWYVlc9CycruF",
+            "sourceItemId": "NuazJISEt8z1KOVS",
+            "sourceItemName": "Body Block",
+            "sourceItemImg": "icons/environment/creatures/gargoyle-grey-blue.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -9736,13 +10405,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -9871,11 +10541,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.6JGmfeR778ZnMQox",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571545745,
-        "modifiedTime": 1745571545745,
+        "modifiedTime": 1760521835591,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -9984,13 +10654,13 @@
             "name": "Daze",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -10001,7 +10671,7 @@
                 "saveKey": "phy",
                 "contestedKey": "",
                 "dcCalculation": "martial",
-                "dc": 0,
+                "dc": 14,
                 "addMasteryToDC": false,
                 "respectSizeRules": false
               },
@@ -10013,7 +10683,10 @@
                 "untilTargetNextTurnStart": false,
                 "id": "dazed",
                 "supressFromChatMessage": false,
-                "untilTargetNextTurnEnd": false
+                "untilTargetNextTurnEnd": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
               },
               "rollLevelChange": false,
               "rollLevel": {
@@ -10025,9 +10698,44 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed}</strong> on the next Mental Check it makes before the end of your next turn.</p>"
+            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed}</strong> on the next Mental Check it makes before the end of your next turn.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "ARTUfMyMehtuwRqW",
+            "sourceItemId": "vkUY6I64jIrGfVLN",
+            "sourceItemName": "Daze",
+            "sourceItemImg": "icons/skills/melee/hand-grip-staff-yellow-brown.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -10045,13 +10753,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -10190,11 +10899,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.6JGmfeR778ZnMQox",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571545799,
-        "modifiedTime": 1745571545799,
+        "modifiedTime": 1760521835643,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -10303,13 +11012,13 @@
             "name": "Expose",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -10320,7 +11029,7 @@
                 "saveKey": "phy",
                 "contestedKey": "",
                 "dcCalculation": "martial",
-                "dc": 0,
+                "dc": 14,
                 "addMasteryToDC": false,
                 "respectSizeRules": false
               },
@@ -10332,7 +11041,10 @@
                 "untilYourNextTurnEnd": true,
                 "untilTargetNextTurnStart": false,
                 "untilTargetNextTurnEnd": false,
-                "untilFirstTimeTriggered": true
+                "untilFirstTimeTriggered": true,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
               },
               "rollLevelChange": false,
               "rollLevel": {
@@ -10344,9 +11056,44 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73d26b54fce004a0]{Exposed X}</strong> against the next Attack Check made against it before the end of your next turn.</p>"
+            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73d26b54fce004a0]{Exposed X}</strong> against the next Attack Check made against it before the end of your next turn.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "dXqmphpnKuqJTZoy",
+            "sourceItemId": "Asv6rOLgnr4x0S6B",
+            "sourceItemName": "Expose",
+            "sourceItemImg": "icons/skills/wounds/injury-pain-body-orange.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -10364,13 +11111,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -10509,11 +11257,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.1dDDAMaCCYzWlN8Z",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571545854,
-        "modifiedTime": 1745571545854,
+        "modifiedTime": 1760521835696,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -10622,13 +11370,13 @@
             "name": "Hamstring",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -10639,7 +11387,7 @@
                 "saveKey": "phy",
                 "contestedKey": "",
                 "dcCalculation": "martial",
-                "dc": 0,
+                "dc": 14,
                 "addMasteryToDC": false,
                 "respectSizeRules": false
               },
@@ -10651,7 +11399,10 @@
                 "supressFromChatMessage": false,
                 "untilYourNextTurnEnd": true,
                 "untilTargetNextTurnStart": false,
-                "untilTargetNextTurnEnd": false
+                "untilTargetNextTurnEnd": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
               },
               "rollLevelChange": false,
               "rollLevel": {
@@ -10663,9 +11414,44 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1}</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>"
+            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1}</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "mEhFpYhuDcVNWqYs",
+            "sourceItemId": "OBCJKIjc2AWnCPem",
+            "sourceItemName": "Hamstring",
+            "sourceItemImg": "icons/skills/movement/feet-bladed-boots-fire.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -10683,13 +11469,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -10828,11 +11615,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.2q82GqvMW0gQGV8b",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571545911,
-        "modifiedTime": 1745571545911,
+        "modifiedTime": 1760521835749,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -10941,13 +11728,13 @@
             "name": "Hinder",
             "number": 0,
             "resources": {
-              "actionPoint": 1,
               "health": null,
               "mana": null,
               "stamina": null,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": 1
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -10958,7 +11745,7 @@
                 "saveKey": "phy",
                 "contestedKey": "",
                 "dcCalculation": "martial",
-                "dc": 0,
+                "dc": 14,
                 "addMasteryToDC": false,
                 "respectSizeRules": false
               },
@@ -10970,7 +11757,10 @@
                 "untilYourNextTurnEnd": true,
                 "untilTargetNextTurnStart": false,
                 "untilTargetNextTurnEnd": false,
-                "untilFirstTimeTriggered": true
+                "untilFirstTimeTriggered": true,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
               },
               "rollLevelChange": false,
               "rollLevel": {
@@ -10982,9 +11772,44 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks) on the next <strong>Attack Check</strong> it makes before the end of your next turn.</p>"
+            "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks) on the next <strong>Attack Check</strong> it makes before the end of your next turn.</p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "pZGluoelxvuxUUPI",
+            "sourceItemId": "OpAyKsTFIYIsEM84",
+            "sourceItemName": "Hinder",
+            "sourceItemImg": "icons/creatures/webs/web-spider-caught-hand-purple.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -11002,13 +11827,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -11147,11 +11973,11 @@
       "_stats": {
         "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
         "duplicateSource": "Item.fRbmA5K5nq7WsDUm",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571545973,
-        "modifiedTime": 1745571545973,
+        "modifiedTime": 1760521835801,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -11269,7 +12095,8 @@
               "stamina": 1,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -11294,9 +12121,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If multiple creatures within 1 Space of you (after switching places if you choose to do so) and are targeted by the same Check, you can attempt to protect them as well. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"> 1 SP</strong> per additional target to become the new target of its Check as well. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You take the collective damage of all protected creatures against the Check.</span></p>"
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If multiple creatures within 1 Space of you (after switching places if you choose to do so) and are targeted by the same Check, you can attempt to protect them as well. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"> 1 SP</strong> per additional target to become the new target of its Check as well. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You take the collective damage of all protected creatures against the Check.</span></p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "keCbSEeQkGpHyCVm",
+            "sourceItemId": "ivLRwKGFYbnQjx23",
+            "sourceItemName": "Forbearance",
+            "sourceItemImg": "icons/magic/defensive/armor-shield-barrier-steel.webp",
+            "active": false
           },
           "GgLBFuMWupAyzhGn": {
             "name": "Immense Defense",
@@ -11308,7 +12183,8 @@
               "stamina": 2,
               "custom": {},
               "grit": null,
-              "restPoints": null
+              "restPoints": null,
+              "ap": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -11333,9 +12209,57 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "modifiesCoreFormula": false,
+              "coreFormulaModification": "",
+              "overrideTargetDefence": false,
+              "targetDefenceType": "area",
+              "overrideDamageType": false,
+              "damageType": "",
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": "",
+                "dontMerge": false,
+                "overrideDefence": "",
+                "perTarget": false
+              },
+              "addsAgainstStatus": false,
+              "againstStatus": {
+                "id": "",
+                "supressFromChatMessage": false,
+                "untilYourNextTurnStart": false,
+                "untilYourNextTurnEnd": false,
+                "untilTargetNextTurnStart": false,
+                "untilTargetNextTurnEnd": false,
+                "untilFirstTimeTriggered": false,
+                "forOneMinute": false,
+                "repeatedSave": false,
+                "repeatedSaveKey": "phy"
+              },
+              "addsEffect": null,
+              "macros": {
+                "preItemRoll": "",
+                "postItemRoll": ""
+              },
+              "changeManaSpendLimit": 0
             },
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain Resistance against all damage taken using this Technique.</span></p>"
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain Resistance against all damage taken using this Technique.</span></p>",
+            "hide": false,
+            "charges": {
+              "subtract": null,
+              "fromOriginal": false
+            },
+            "key": "GgLBFuMWupAyzhGn",
+            "sourceItemId": "ivLRwKGFYbnQjx23",
+            "sourceItemName": "Forbearance",
+            "sourceItemImg": "icons/magic/defensive/armor-shield-barrier-steel.webp",
+            "active": false
           }
         },
         "copyEnhancements": {
@@ -11353,13 +12277,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": 1,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -11615,11 +12540,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745571549367,
-        "modifiedTime": 1745571549367,
+        "modifiedTime": 1760521835854,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -11682,13 +12607,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -11859,11 +12785,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521835880,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -11933,13 +12859,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -12129,11 +13056,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521835906,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -12196,13 +13123,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -12393,11 +13321,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521835933,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -12460,13 +13388,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -12666,11 +13595,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521835959,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -12733,13 +13662,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -12930,11 +13860,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521835985,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -12997,13 +13927,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -13257,11 +14188,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836011,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -13324,13 +14255,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 2,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 2
           },
           "charges": {
             "current": null,
@@ -13584,11 +14516,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836036,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -13651,13 +14583,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -13922,11 +14855,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836064,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -13989,13 +14922,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 2,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 2
           },
           "charges": {
             "current": null,
@@ -14260,11 +15194,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.Y6oevdLqA31GPcbt",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836091,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -14327,13 +15261,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -14614,11 +15549,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836119,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -14689,13 +15624,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -14866,11 +15802,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.N5w8JDg9ddpC8nkm",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836145,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -14933,13 +15869,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -15110,11 +16047,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836171,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -15177,13 +16114,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -15354,11 +16292,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836198,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -15671,13 +16609,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -15848,11 +16787,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.b4GqFH5BSPAssSPq",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836224,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -15915,13 +16854,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -16434,11 +17374,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836250,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -16501,13 +17441,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -16697,11 +17638,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836277,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -16764,13 +17705,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -16941,11 +17883,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836303,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -17008,13 +17950,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -17318,11 +18261,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836329,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -17385,13 +18328,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -17582,11 +18526,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.g41WHLdM8uNaSCWG",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836357,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -17649,13 +18593,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -17836,11 +18781,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836383,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -17903,13 +18848,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -18080,11 +19026,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836410,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -18147,13 +19093,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -18334,11 +19281,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836436,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -18401,13 +19348,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -18771,11 +19719,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.Z9UxQK1yb6Ht05Xr",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836467,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -18838,13 +19786,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -19025,11 +19974,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836496,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -19092,13 +20041,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -19279,11 +20229,11 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.5",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1745825604666,
+        "modifiedTime": 1760521836524,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -20132,13 +21082,14 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": null,
             "stamina": null,
             "mana": null,
             "health": null,
             "custom": {},
             "grit": null,
-            "restPoints": null
+            "restPoints": null,
+            "ap": 1
           },
           "charges": {
             "current": null,
@@ -20251,11 +21202,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": 1745825604666,
-        "modifiedTime": 1751010742027,
+        "modifiedTime": 1760521836552,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -20458,11 +21409,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1745571281238,
-    "modifiedTime": 1751580548795,
+    "modifiedTime": 1760521834980,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

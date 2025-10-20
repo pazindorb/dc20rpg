@@ -1,17 +1,16 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
-import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
-import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./costManipulator.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
 let preTriggerTurnedOffEvents = [];
 /**
  * EVENT EXAMPLES:
- * "eventType": "damage", "label": "Rozpierdol", "trigger": "turnStart", "value": 1, "type": "fire", "continuous": "true"
+ * "eventType": "damage", "label": "Rozpierdol", "trigger": "turnStart", "value": 1, "type": "fire"
  * "eventType": "healing", "label": "Rozpierdol", "trigger": "turnEnd", "value": 2, "type": "heal"
  * "eventType": "saveRequest", "label": "Fear Me", "trigger": "turnEnd", "checkKey": "mig", "statuses": ["rattled", "charmed"]
  * "eventType": "saveRequest/checkRequest", "label": "Exposee", "trigger": "turnStart", "checkKey": "mig", "statuses": ["exposed"], "against": "14"
@@ -61,19 +60,19 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
         break;
 
       case "checkRequest":
-        const checkDetails = prepareCheckDetailsFor(event.checkKey, event.against, event.statuses, event.label);
-        const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
+        const checkDetails = DC20Roll.prepareCheckDetails(event.checkKey, {against: event.against, statuses: event.statuses, rollTitle: event.label});
+        const checkRoll = await RollDialog.open(actor, checkDetails, {sendToActorOwners: true});
         await _rollOutcomeCheck(checkRoll, event, actor);
         break;
 
       case "saveRequest": 
-        const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
-        const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
+        const saveDetails = DC20Roll.prepareSaveDetails(event.checkKey, {against: event.against, statuses: event.statuses, rollTitle: event.label})
+        const saveRoll = await RollDialog.open(actor, saveDetails, {sendToActorOwners: true});
         await _rollOutcomeCheck(saveRoll, event, actor);
         break;
 
       case "resource":
-        await _resourceManipulation(event.value, event.resourceKey, event.custom, event.label, actor);
+        await _resourceManipulation(event.value, event.resourceKey, event.label, actor);
         break;
 
       case "macro": 
@@ -186,33 +185,27 @@ async function _rollOutcomeCheck(roll, event, actor) {
   }
 }
 
-async function _resourceManipulation(value, key, custom, label, actor) {
-  const canSubtract = custom ? canSubtractCustomResource : canSubtractBasicResource;
-  const regain = custom ? regainCustomResource : regainBasicResource;
-  const subtract = custom ? subtractCustomResource : subtractCustomResource;
-
-  const cost = {
-    value: value,
-    name: label
-  }
+async function _resourceManipulation(value, key, label, actor) {
+  const resource = actor.resources[key];
+  if (!resource) return;
   // Subtract
   if (value > 0) {
-    if (canSubtract(key, actor, cost)) {
-      await subtract(key, actor, value, true);
-      ui.notifications.info(`"${label}" - subtracted ${value} from ${key}`);
+    if (resource.canSpend(value)) {
+      await resource.spend(value);
+      ui.notifications.info(`"${label}" - Subtracted ${value} from ${resource.label}`);
     }
   }
   // Regain
   if (value < 0) {
-    await regain(key, actor, Math.abs(value), true);
-    ui.notifications.info(`"${label}" - regained ${Math.abs(value)} ${key}`);
+    await resource.regain(Math.abs(value));
+    ui.notifications.info(`"${label}" - Regained ${Math.abs(value)} ${resource.label}`);
   }
 }
 
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
   const label = event.label || event.effectName;
-  const confirmation = await getSimplePopup("confirm", {header: `Do you want to use "${label}" as a part of that action?`});
+  const confirmation = await SimplePopup.confirm(`Do you want to use "${label}" as a part of that action?`);
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {

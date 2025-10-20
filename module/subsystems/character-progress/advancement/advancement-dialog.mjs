@@ -2,12 +2,10 @@
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
-import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, manualSkillExpertiseToggle, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
-import { regainBasicResource, regainCustomResource } from "../../../helpers/actors/costManipulator.mjs";
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { collectAdvancementsFromItem } from "./advancements.mjs";
 
@@ -93,6 +91,7 @@ export class ActorAdvancement extends Dialog {
   //=====================================
   async getData() {
     const scalingValues = await collectScalingValues(this.actor, this.oldSystemData);
+    const advancementProgress = await this._getAdvancementProgress();
     const skillPoints = {
       attributePoints: this.actor.system.attributePoints,
       skillPoints: this.actor.system.skillPoints,
@@ -111,7 +110,6 @@ export class ActorAdvancement extends Dialog {
     const showItemSuggestions = this._shouldShowItemSuggestions(advancementData);
     if (!showItemSuggestions) this.suggestionsOpen = false;
 
-    const advancementProgress = await this._getAdvancementProgress()
     return {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
@@ -211,33 +209,16 @@ export class ActorAdvancement extends Dialog {
   }
 
   _prepareSkills() {
-    // Go over skills and mark ones that reach max mastery level
-    const skills = this.actor.system.skills;
-    const trades = this.actor.system.tradeSkills;
-    const languages = this.actor.system.languages;
     const attributes = this.actor.system.attributes;
-
-    for (const [key, skill] of Object.entries(skills)) {
-      skill.masteryLimit = getSkillMasteryLimit(this.actor, key);
-      skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
-    }
-    for (const [key, trade] of Object.entries(trades)) {
-      trade.masteryLimit = getSkillMasteryLimit(this.actor, key);
-      trade.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[trade.mastery];
-    }
-    for (const [key, lang] of Object.entries(languages)) {
-      lang.masteryLimit = 2;
-      lang.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[lang.mastery];
-    }
     const maxPrime = 3 + Math.floor(this.actor.system.details.level/5);
     for (const [key, attr] of Object.entries(attributes)) {
       attr.maxPrime = maxPrime === attr.value;
     }
 
     return {
-      skills: skills,
-      tradeSkills: trades,
-      languages: languages,
+      skills: this.actor.system.skills,
+      trades: this.actor.system.trades,
+      languages: this.actor.system.languages,
       attributes: attributes,
     }
   }
@@ -258,7 +239,7 @@ export class ActorAdvancement extends Dialog {
 
     // Add spell/techniques selector (before those were added already)
     if (!this.knownApplied) {
-      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor);
+      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor, true);
       for (const known of shouldLearn) {
         progress.push({
           img: CONFIG.DC20RPG.ICONS[known],
@@ -431,10 +412,9 @@ export class ActorAdvancement extends Dialog {
     // Spend Points
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
-    html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
-    html.find(".skill-mastery-toggle").mousedown(async ev => {await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor); this.render();});
-    html.find(".expertise-toggle").click(async ev => {await manualSkillExpertiseToggle(datasetOf(ev).key, this.actor, datasetOf(ev).type); this.render();});
-    html.find(".language-mastery-toggle").mousedown(async ev => {await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor); this.render();});
+    html.find(".skill-point-converter").click(ev => {this._onConvertPoints(datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate)});
+    html.find(".mastery-toggle").mousedown(ev => this._onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which));
+    html.find(".expertise-toggle").click(ev => this._onToggleExpertise(datasetOf(ev).key, datasetOf(ev).type));
 
     // Tooltips
     html.find('.item-tooltip').hover(async ev => {
@@ -466,8 +446,8 @@ export class ActorAdvancement extends Dialog {
 
   async _onOpenSuggestions() {
     if (this.collectingSuggestedItems) {
-      const dialog =  new SimplePopup("non-closable", {header: "Collecting Suggestions", message: "Collecting Suggested Items... Please wait it might take a while"}, {title: "Popup"});
-      await dialog._render(true);
+      const dialog =  new SimplePopup("info", {hideButtons: true, header: "Collecting Suggestions", information: ["Collecting Suggested Items... Please wait it might take a while"]});
+      await dialog.render(true);
 
       await new Promise((resolve) => {
         let counter = 0;
@@ -492,7 +472,8 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _onAttrChange(key, add) {
-    await manipulateAttribute(key, this.actor, !add);
+    if (add) this.actor.attributes[key].increase();
+    else this.actor.attributes[key].decrease();
     this.render();
   }
 
@@ -501,12 +482,12 @@ export class ActorAdvancement extends Dialog {
     // Add new resource values
     const scalingValues = await collectScalingValues(this.actor, this.oldSystemData);
     for (const scaling of scalingValues) {
-      if (!scaling.resourceKey) continue;
+      const resourceKey = scaling.resourceKey;
+      if (!resourceKey) continue;
       if (scaling.previous === scaling.current) continue;
 
       const toAdd = scaling.current - scaling.previous;
-      if (scaling.custom) regainCustomResource(scaling.resourceKey, this.actor, toAdd, true);
-      else regainBasicResource(scaling.resourceKey, this.actor, toAdd, true);
+      this.actor.resources[resourceKey].regain(toAdd);
     }
     
     this.close();
@@ -647,10 +628,10 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     const item = await fromUuid(itemUuid);
-    if (!["feature", "technique", "spell", "weapon", "equipment", "consumable"].includes(item.type)) return;
+    if (!["feature", "technique", "spell", "infusion", "weapon", "equipment", "consumable"].includes(item.type)) return;
 
     // Can be countent towards known spell/techniques
-    const canBeCounted = ["technique", "spell"].includes(item.type);
+    const canBeCounted = ["technique", "spell", "infusion"].includes(item.type);
 
     // Get item
     advancement.items[item.id] = {
@@ -670,6 +651,24 @@ export class ActorAdvancement extends Dialog {
     const advancement = this.currentAdvancement;
     delete advancement.items[itemKey];
     this.currentItem.update({[`system.advancements.${advancement.key}.items.-=${itemKey}`] : null});
+    this.render();
+  }
+
+  async _onConvertPoints(from, to, operation, rate) {
+    await this.actor.skillAndLanguage.convertPoints(from, to, operation, rate);
+    this.render();
+  }
+
+  async _onToggleMastery(key, type, which) {
+    const obj = this.actor.skillAndLanguage[type][key];
+    if (which === 1) await obj.masteryUp();
+    if (which === 3) await obj.masteryDown();
+    this.render();
+  }
+  
+  async _onToggleExpertise(key, type) {
+    const obj = this.actor.skillAndLanguage[type][key];
+    await obj.expertiseToggle();
     this.render();
   }
 

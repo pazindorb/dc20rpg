@@ -1,4 +1,3 @@
-import { subtractAP } from "../actors/costManipulator.mjs";
 import { generateKey } from "../utils.mjs"
 
 export function addNewAreaToItem(item) {
@@ -9,7 +8,9 @@ export function addNewAreaToItem(item) {
     width: null,
     unit: "",
     difficult: "",
-    hideHighlight: false
+    hideHighlight: false,
+    passiveAura: false,
+    linkWithToggle: false
   }});
 }
 
@@ -17,43 +18,8 @@ export function removeAreaFromItem(item, key) {
   item.update({[`system.target.areas.-=${key}`]: null});
 }
 
-export function runWeaponLoadedCheck(item) {
-  const reloadProperty = item.system?.properties?.reload;
-  if (reloadProperty && reloadProperty.active) {
-    if (reloadProperty.loaded) return true;
-    else {
-      let errorMessage = `You need to reload that weapon first!`;
-      ui.notifications.error(errorMessage);
-      return false;
-    }
-  }
-  return true;
-}
-
-export async function reloadWeapon(item, actor) {
-  const reloadProperty = item.system?.properties?.reload;
-  if (reloadProperty && reloadProperty.active) {
-    if (!reloadProperty.loaded) {
-      if (subtractAP(actor, 1)) {
-        await item.update({[`system.properties.reload.loaded`]: true});
-      }
-    }
-  }
-}
-
-export function unloadWeapon(item, actor) {
-  const usesWeapon = item.system?.usesWeapon;
-  if (usesWeapon && usesWeapon.weaponAttack) {
-    const weapon = actor.items.get(usesWeapon.weaponId);
-    if (weapon) weapon.update({[`system.properties.reload.loaded`]: false});
-  }
-  else {
-    item.update({[`system.properties.reload.loaded`]: false});
-  }
-}
-
 /**
- * This functions check if item has toggleable property set to true if so it checks item specific condition
+ * This function check if item has toggleable property set to true if so it checks item specific condition
  * ex. linkWithToggle property is set to true. 
  * 
  * If both conditions are met it returns value of toggledOn field.

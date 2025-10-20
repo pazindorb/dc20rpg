@@ -1,0 +1,302 @@
+<form id="roll-prompt" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+
+  <div class="header">
+    <div class="name-wrapper" {{#if item}}data-hover="tooltip" data-tooltip-type="item" data-item-id="{{item._id}}"{{/if}}>
+      <img src="{{header.img}}"/>
+      <span>{{header.name}}</span>
+    </div>
+
+    {{#if item}}
+    <div class="action-outcome">
+      {{{action-type item}}}
+      {{{roll-requests item}}}
+      {{{formula-rolls item}}}
+    </div>
+    {{/if}}
+  </div>
+
+  {{!-- Select Check, Weapon, Ammo --}}
+  {{#if hasDetails}}
+  <fieldset>
+    <legend>{{localize "dc20rpg.dialog.rollDialog.details"}}</legend>
+
+    {{#if multiCheck}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.dialog.rollDialog.check"}}</label>
+      <select data-cType="string" data-path="system.check.checkKey">
+        {{selectOptions item.system.check.multiCheck.options selected=item.system.check.checkKey blank=""}}
+      </select>
+    </div>
+    {{/if}}
+
+    {{#if usesWeapon}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.dialog.rollDialog.weapon"}}</label>
+      <select data-cType="string" data-path="system.usesWeapon.weaponId">
+        {{selectOptions weaponSelection selected=item.system.usesWeapon.weaponId blank=""}}
+      </select>
+    </div>
+    {{/if}}
+
+    {{#if multiFaceted}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.dialog.rollDialog.multiFaceted"}}</label>
+      <a class="item-multi-faceted" data-action="multiFaceted" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.multiFacetedTooltip"}}">
+        {{localize (concat "dc20rpg.weaponStyles." item.system.properties.multiFaceted.labelKey '')}}
+      </a>
+    </div>
+    {{/if}}
+
+    {{#if usesAmmo}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.dialog.rollDialog.ammo"}}</label>
+      <select data-cType="ammo-select">
+        {{selectOptions ammoSelection selected=item.system.properties.ammo.ammoId blank=""}}
+      </select>
+    </div>
+    {{/if}}
+  </fieldset>
+  {{/if}}
+
+  {{!-- Measured Templates --}}
+  {{#if hasTemplates}}
+  <fieldset class="measurement-templates">
+    <legend>{{localize "dc20rpg.dialog.rollDialog.templates"}}</legend>
+
+    {{#each measurementTemplates as |template key|}}
+    <div class="template">
+      {{#unless template.selected}}
+      <a class="template-side-button fa-solid fa-minus margin-right-2" data-key="{{key}}" data-action="changeSpace" data-direction="down"></a>
+      {{/unless}}
+      <a class="template-button {{#if template.selected}}selected{{/if}}" data-action="template" data-key="{{key}}">
+        {{template.label}}
+      </a>
+      {{#unless template.selected}}
+      <a class="template-side-button fa-solid fa-plus margin-left-2" data-key="{{key}}" data-action="changeSpace" data-direction="up"></a>
+      {{/unless}}
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+
+  {{!-- Enhancements & Modifications --}}
+  <fieldset class="enhancements scrollable">
+    <legend>{{localize "dc20rpg.dialog.rollDialog.enhancement"}}</legend>
+    {{!-- Spend AP on Advantage --}}
+    <div class="enh-row">
+      <div class="column name">
+        <i class="cost-icon fa-solid fa-dice-d6" style="color:var(--action-point); background: linear-gradient(60deg, #49494d 35%, #9860e3)"></i>
+        <div class="name margin-left-5">{{localize 'dc20rpg.dialog.rollDialog.apForAdv'}}</div>
+      </div> 
+      <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}"></div>
+      <div class="column usage costs" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+        <ul class="cost-printer">
+          <li class="cost ap" data-tooltip="{{localize "dc20rpg.resources.ap"}}"><i class="ap fa-dice-d6 cost-icon fa-solid"></i></li>
+        </ul>
+      </div>
+      <div class="column enh-number">
+        {{#if rollsHeldAction}}
+          <i>{{rollMenu.apCost}}</i>
+        {{else}}
+          <a class="toggle" data-cType="toggle" data-path="apForAdv" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.apForAdv'}}">{{rollMenu.apCost}}</a>
+        {{/if}}
+      </div>
+    </div>
+
+    {{!-- Spend Grit on Advantage --}}
+    {{#if canSpendGrit}}
+    <div class="enh-row">
+      <div class="column name">
+        <i class="cost-icon fa-clover cost-icon fa-solid" style="color:var(--grit); background: linear-gradient(60deg, #49494d 35%, #d65252)"></i>
+        <div class="name margin-left-5">{{localize 'dc20rpg.dialog.rollDialog.gritForAdv'}}</div>
+      </div> 
+      <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}"></div>
+      <div class="column usage costs" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+        <ul class="cost-printer">
+          <li class="cost grit" data-tooltip="{{localize "dc20rpg.resources.grit"}}"><i class="grit fa-clover cost-icon fa-solid"></i></li>
+        </ul>
+      </div>
+      <div class="column enh-number">
+        {{#if rollsHeldAction}}
+          <i>{{rollMenu.gritCost}}</i>
+        {{else}}
+          <a class="toggle" data-cType="toggle" data-path="gritForAdv" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.gritForAdv'}}">{{rollMenu.gritCost}}</a>
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+
+    {{!-- Enhancements --}}
+    {{#each enhancements as |enhancement key|}}
+      <div class="enh-row">
+        <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceItemName}}">
+          <img class="img" src="{{enhancement.sourceItemImg}}"/>
+          <div class="name margin-left-5">{{enhancement.name}}</div>
+        </div> 
+        <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
+          {{{enhancement-mods enhancement}}}
+        </div>
+        <div class="column usage costs" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+          {{{cost-printer enhancement.useCost true true false false}}}
+        </div>
+        <div class="column enh-number">
+          {{#if @root.rollsHeldAction}}
+          <i>{{enhancement.number}}</i>
+          {{else}}
+          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-check={{#ifCond enhancement.modifications.rollLevelChange '||' enhancement.modifications.addsRange}}"true"{{else}}"false"{{/ifCond}} data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+            {{enhancement.number}}
+          </a>
+          {{/if}}
+        </div>
+      </div>
+    {{/each}}
+  </fieldset>
+
+  {{!-- Roll Menu --}}
+  <fieldset class="roll-menu">
+    <legend>{{localize "dc20rpg.dialog.rollDialog.rollMenu"}}</legend>
+
+    {{!-- Roll Level --}}
+    <div class="column">
+      <div class="row row-header">
+        <label>{{localize "dc20rpg.dialog.rollDialog.rolllevel"}}</label>
+      </div>
+      <div class="row margin-top-10"> 
+        {{#unless disableRollLevel}}
+        <a class="toggle {{#if rollMenu.autoCrit}}crit fa-solid{{else}}fa-light{{/if}} fa-hexagon-check" data-cType="activable" data-path="system.rollMenu.autoCrit" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.autoCrit'}}"></a>
+        <a class="toggle crit" data-cType="toggle" data-max="9" data-min="0" data-path="system.rollMenu.adv" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
+          <span>{{rollMenu.adv}}</span>
+          <i class="fa-solid fa-dice margin-left-3"></i>
+        </a>
+
+        <a class="toggle fail" data-cType="toggle" data-max="9" data-min="0" data-path="system.rollMenu.dis" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
+          <span>{{rollMenu.dis}}</span>
+          <i class="fa-solid fa-dice margin-left-3"></i>
+        </a>
+        <a class="toggle {{#if rollMenu.autoFail}}fail fa-solid{{else}}fa-light{{/if}} fa-hexagon-xmark" data-cType="activable" data-path="system.rollMenu.autoFail" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.autoFail'}}"></a>
+        {{/unless}}
+
+        {{!-- Auto Crit --}}
+        {{#if rollMenu.autoCrit}}
+        <a class="crit" data-cType="activable" data-path="system.rollMenu.autoCrit" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.autoCrit'}} - {{localize 'dc20rpg.dialog.rollDialog.clickToRemove'}}">
+          <i class="fa-solid fa-dice margin-right-5"></i>
+          <span>{{localize 'dc20rpg.dialog.rollDialog.autoCrit'}}</span>
+        </a>
+        {{/if}}
+
+        {{!-- Auto Fail --}}
+        {{#if rollMenu.autoFail}}
+        <a class="fail" data-cType="activable" data-path="system.rollMenu.autoFail" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.autoFail'}} - {{localize 'dc20rpg.dialog.rollDialog.clickToRemove'}}">
+          <i class="fa-solid fa-dice margin-right-5"></i>
+          <span>{{localize 'dc20rpg.dialog.rollDialog.autoFail'}}</span>
+        </a>
+        {{/if}}
+      </div>
+
+      {{!-- Roll Mode --}}
+      <div class="row select-row margin-top-10">
+        <label>{{localize "dc20rpg.dialog.rollDialog.rollMode"}}</label>
+        <select data-cType="roll-mode">
+          {{selectOptions rollModes selected=rollMode}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Middle Column --}}
+    <div class="column">
+      <div class="row">
+        <a class="toggle fa-lg {{#if rollMenu.ignoreMCP}}fa-solid{{else}}fa-light{{/if}} fa-check-to-slot" data-cType="activable" style="height:30px" data-path="system.rollMenu.ignoreMCP" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.ignoreMCP'}}"></a>
+      </div>
+
+      <div class="row margin-top-5">
+        <div class="letter-circle-icon small clickable" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}" data-action="rollLevel">
+          <a class="fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
+        </div>
+      </div>
+
+      {{#if rollMenu.rangeType}}
+      <div class="row margin-top-5">
+        <div class="row">
+          <a class="toggle fa-solid fa-lg {{#ifCond rollMenu.rangeType '===' "melee"}}fa-gavel{{else}}fa-crosshairs{{/ifCond}}" style="height:30px" data-action="rangeChange" data-path="system.rollMenu.halfCover" data-tooltip="{{localize (concat 'dc20rpg.sheet.rollMenu.rangeType.' item.system.rollMenu.rangeType '')}}"></a>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Roll Modifications --}}
+    <div class="column">
+      <div class="row row-header">
+        <label>{{localize "dc20rpg.dialog.rollDialog.rollModification"}}</label>
+      </div>
+
+      {{#if hasModifications}}
+      <div class="row margin-top-10 modifications">
+        {{#if item.system.properties.versatile.active}}
+        <a class="toggle {{#if rollMenu.versatile}}fa-solid{{else}}fa-light{{/if}} fa-hand" data-cType="activable" data-path="system.rollMenu.versatile" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}"></a>
+        {{/if}}
+        <a class="toggle {{#if rollMenu.flanks}}fa-solid{{else}}fa-light{{/if}} fa-maximize" data-cType="activable" data-path="system.rollMenu.flanks" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}"></a>
+        <a class="toggle {{#if rollMenu.halfCover}}fa-solid{{else}}fa-light{{/if}} fa-shield-halved" data-cType="activable" data-path="system.rollMenu.halfCover" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.halfCover'}}"></a>
+        <a class="toggle {{#if rollMenu.tqCover}}fa-solid{{else}}fa-light{{/if}} fa-shield" data-cType="activable" data-path="system.rollMenu.tqCover" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.tqCover'}}"></a>
+      </div>
+      {{/if}}
+
+      <div class="row select-row margin-top-10">
+        <label class="margin-right-10">{{localize "dc20rpg.dialog.rollDialog.helpDice"}}</label>
+        <div class="multi-select-wrapper">
+          <div class="tags input-element-tags">
+            {{#each rollMenu.help}} 
+            <div class="tag" data-key="{{this}}">
+              <span>{{this}}</span>
+              <a class="remove fa-solid fa-xmark" data-cType="remove-option" data-path="system.rollMenu.help" data-value="{{this}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.removeHelpDice"}}"></a>
+            </div>
+            {{/each}}
+          </div>
+          <select class="margin-top-2" data-cType="multi-select" data-path="system.rollMenu.help" data-duplicates="allow">
+            {{selectOptions helpDiceOptions selected="" blank=""}}
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </fieldset>
+
+  {{!-- Cost --}}
+  {{#if item}}
+  <fieldset class="expected-cost">
+    <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
+    {{#if expectedCost.resources.mana}}
+    <div class="mana-spend-limit margin-left-5 {{#if manaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.manaLimit'}}">
+      <i class="fa-solid fa-gauge-max fa-2x margin-right-10"></i>
+      <ul class="cost-printer">
+        <li class="cost mana" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.manaLimit"}}">
+          <b>{{manaSpendLimit.amount}}</b>
+          <i class="mp fa-star cost-icon fa-solid"></i>
+        </li>
+      </ul>
+    </div>
+    {{/if}}
+
+    <div style="width: 100%;">
+      {{{cost-printer expectedCost true true false false}}}
+    </div>
+
+    <div class="extra-buttons margin-right-10">
+      {{#if reloadable}}{{#unless reloaded}}
+      <a class="toggle fa-solid fa-2x fa-registered margin-right-10" style="color:#a80a0a; text-shadow:white" data-action="reloadWeapon" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.needToReload'}}"></a>
+      {{/unless}}{{/if}}
+
+      {{#if hasModifications}}
+      <a class="toggle fa-2x {{#if rollMenu.free}}fa-solid{{else}}fa-light{{/if}} fa-piggy-bank" data-cType="activable" data-path="system.rollMenu.free" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.free'}}"></a>
+      {{/if}}
+    </div>
+  </fieldset>
+  {{/if}}
+
+  {{!-- Roll --}}
+  <footer class="form-footer margin-top-5">
+    <button data-action="roll"><i class="fa-light fa-dice-d20 fa-lg margin-right-5"></i>{{rollLabel}}</button>
+    {{#if item}} {{#unless rollsHeldAction}}
+    <button data-action="holdAction" style="max-width: 100px;" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.holdActionTooltip"}}"><i class="fa-light fa-arrow-up-right-from-square fa-lg margin-right-5"></i>{{localize "dc20rpg.dialog.rollDialog.holdAction"}}</button>
+    {{/unless}} {{/if}}
+  </footer>
+</form>

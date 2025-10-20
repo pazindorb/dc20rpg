@@ -15,7 +15,7 @@
       "name": "",
       "connectedToEffects": false
     },
-    "isReaction": false,
+    "isReaction": true,
     "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
@@ -46,7 +46,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -148,22 +149,22 @@
     },
     "macros": {
       "4ZlTfSDZkWCbnRw4": {
-        "name": "onCreate",
+        "name": "Select Hazardous Hide damage type",
         "trigger": "onCreate",
-        "command": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Hazardous Hide damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}",
+        "command": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Hazardous Hide damage type\", damageTypes); \n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}",
         "disabled": false,
         "title": ""
       },
       "JgYMnLq6FUN9QzUu": {
-        "name": "onDemand",
+        "name": "Change Hazardous Hide damage type",
         "trigger": "onDemand",
-        "command": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Hazardous Hide damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}",
+        "command": "item.callMacro(\"onCreate\", {}, true)",
         "disabled": false,
-        "title": ""
+        "title": "Change Hazardous Hide damage type"
       }
     },
     "itemKey": "hazardousHide",
-    "featureSourceItem": "beastborn",
+    "featureSourceItem": "",
     "requirements": {
       "level": 0
     }
@@ -178,11 +179,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1745570066144,
+    "modifiedTime": 1760620048246,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

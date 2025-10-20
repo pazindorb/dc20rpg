@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -7,54 +7,15 @@ import { getTokenForActor} from "./actors/tokens.mjs";
 //=========================================
 //               ROLL LEVEL               =
 //=========================================
-export async function advForApChange(object, which) {
-  let adv = object.flags.dc20rpg.rollMenu.adv;
-  let apCost = object.flags.dc20rpg.rollMenu.apCost;
-
-  if (which === 1) {  // Add
-    if (adv >= 9) return;
-    apCost = apCost + 1;
-    adv = adv + 1;
-  }
-  if (which === 3) {  // Subtract
-    if (apCost === 0) return;
-    apCost = apCost - 1;
-    adv = Math.max(adv - 1, 0);
-  }
-  await object.update({
-    ['flags.dc20rpg.rollMenu.apCost']: apCost,
-    ['flags.dc20rpg.rollMenu.adv']: adv
-  });
-}
-
-export async function advForGritChange(object, which) {
-  let adv = object.flags.dc20rpg.rollMenu.adv;
-  let gritCost = object.flags.dc20rpg.rollMenu.gritCost;
-
-  if (which === 1) {  // Add
-    if (adv >= 9) return;
-    gritCost = gritCost + 1;
-    adv = adv + 1;
-  }
-  if (which === 3) {  // Subtract
-    if (gritCost === 0) return;
-    gritCost = gritCost - 1;
-    adv = Math.max(adv - 1, 0);
-  }
-  await object.update({
-    ['flags.dc20rpg.rollMenu.gritCost']: gritCost,
-    ['flags.dc20rpg.rollMenu.adv']: adv
-  });
-}
-
 let toRemove = [];
-export async function runItemRollLevelCheck(item, actor) {
+export async function runItemRollLevelCheck(item, actor, startingValues=[{adv: 0, dis: 0}, [], false, false]) {
   toRemove = [];
-  let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
-  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = [{adv: 0, dis: 0}, []];
+  let [actorRollLevel, actorGenesis, actorCrit, actorFail] = startingValues;
+  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = [{adv: 0, dis: 0}, [], false, false, false, false, false];
 
   const actionType = item.system.actionType;
   const specificCheckOptions = {
+    hasArea: !!item.system?.target?.areas?.default?.area,
     range: item.system.range,
     properties: item.system.properties,
     allEnhancements: item.allEnhancements
@@ -64,7 +25,7 @@ export async function runItemRollLevelCheck(item, actor) {
     case "attack":
       const attackFormula = item.system.attackFormula;
       const oldRange = attackFormula.rangeType;
-      attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
+      attackFormula.rangeType = item.system.rollMenu.rangeType || oldRange;
       attackFormula.range = item.system.range.normal;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
@@ -82,7 +43,7 @@ export async function runItemRollLevelCheck(item, actor) {
       [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules, specificCheckOptions);
       break;
   }
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.system.rollMenu);
 
   const rollLevel = {
     adv: (actorRollLevel.adv + targetRollLevel.adv + mcpRollLevel.adv),
@@ -97,20 +58,21 @@ export async function runItemRollLevelCheck(item, actor) {
   return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked, targetTqCover, targetHalfCover);
 }
 
-export async function runSheetRollLevelCheck(details, actor) {
+export async function runSheetRollLevelCheck(details, actor, startingValues=[{adv: 0, dis: 0}, [], false, false]) {
   toRemove = [];
+  const [startingRollLevel, startingGenesis, startingAutoCrit, startingAutoFail] = startingValues;
   const [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(details, actor, "onYou", "You");
   const [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", details, actor);
   const [statusRollLevel, statusGenesis, statusCrit] = _getRollLevelAgainsStatuses(actor, details.statuses);
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.flags.dc20rpg.rollMenu);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.system.rollMenu);
 
   const rollLevel = {
-    adv: (actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
-    dis: (actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
+    adv: (startingRollLevel.adv + actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
+    dis: (startingRollLevel.dis + actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
   };
-  const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
-  const autoCrit = actorCrit || targetCrit || statusCrit;
-  const autoFail = actorFail || targetFail;
+  const genesis = [...startingGenesis, ...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
+  const autoCrit = startingAutoCrit || actorCrit || targetCrit || statusCrit;
+  const autoFail = startingAutoFail || actorFail || targetFail;
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
   return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }
@@ -142,7 +104,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
     case "skillCheck":
       let category = "";
       if (actor.system.skills[check.checkKey]) category = "skills";
-      if (actor.type === "character" && actor.system.tradeSkills[check.checkKey]) category = "tradeSkills";
+      if (actor.type === "character" && actor.system.trades[check.checkKey]) category = "trades";
       rollLevelPath = _getCheckPath(check.checkKey, actor, category, actorAskingForCheck);
       
       // Run check for specific skill not just attribute
@@ -230,7 +192,7 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
 async function _shouldApply(modification, target, validationData) {
   if (_runValidationDataCheck(modification, validationData)) {
     if (modification.confirmation) {
-      return getSimplePopup("confirm", {header: `Should "${modification.label}" be applied for an Actor named "${target.name}"?`})
+      return await SimplePopup.confirm(`Should "${modification.label}" be applied for an Actor named "${target.name}"?`);
     }
     else return true;
   }
@@ -397,18 +359,18 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   }
 
   // Check roll level from ap and grit for adv
-  const apCost = owner.flags.dc20rpg.rollMenu.apCost;
-  const gritCost = owner.flags.dc20rpg.rollMenu.gritCost;
+  const apCost = owner.system.rollMenu.apCost;
+  const gritCost = owner.system.rollMenu.gritCost;
   if (apCost > 0) levelsToUpdate.adv += apCost;
   if (gritCost > 0) levelsToUpdate.adv += gritCost;
 
   const updateData = {
-    ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
-    ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
-    ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
-    ["flags.dc20rpg.rollMenu.flanks"]: flanked,
-    ["flags.dc20rpg.rollMenu.halfCover"]: halfCover,
-    ["flags.dc20rpg.rollMenu.tqCover"]: tqCover,
+    ["system.rollMenu"]: levelsToUpdate,
+    ["system.rollMenu.autoCrit"]: autoCrit,
+    ["system.rollMenu.autoFail"]: autoFail,
+    ["system.rollMenu.flanks"]: flanked,
+    ["system.rollMenu.halfCover"]: halfCover,
+    ["system.rollMenu.tqCover"]: tqCover,
   }
   await owner.update(updateData);
 
@@ -662,13 +624,13 @@ export function applyMultipleHelpPenalty(actor, maxDice) {
   return maxDice - (2 * penalty.length);
 }
 
-export function clearMultipleCheckPenalty(actor) {
+export async function clearMultipleCheckPenalty(actor) {
   if (actor.flags.dc20rpg.actionHeld?.isHeld) {
     let mcp = actor.system.mcp;
     if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
-    actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
+    await actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
   }
-  actor.update({["system.mcp"]: []});
+  await actor.update({["system.mcp"]: []});
 }
 
 function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
@@ -731,7 +693,7 @@ function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   if (!actorToken) return;
   if (actorToken.enemyNeighbours.size > 0) {
     let closeQuarters = false;
-    actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasAnyStatus("incapacitated", "dead")) closeQuarters = true;});
+    actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasAnyStatus(["incapacitated", "dead"])) closeQuarters = true;});
 
     if (closeQuarters) {
       rollLevel.dis++;
@@ -749,11 +711,14 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (!game.settings.get("dc20rpg", "enableRangeCheck")) return false;
   if (!specifics) return false;
 
+  // Skip range check if use area targeting 
+  if (specifics.hasArea) return false;
+
   const range = specifics?.range;
   const properties = specifics?.properties 
   let meleeRange = range.melee || 1;
   let normalRange = properties ? 1 : null;
-  let maxRange = properties ? 5 : null; // If has properties it means it is a weapon
+  let maxRange = properties ? 5 : null; // Has properties = weapon
 
   meleeRange += _bonusRangeFromEnhancements(specifics?.allEnhancements, "melee") + _bonusFromGlobalModifier(actorToken, "melee");
   if (properties?.reach?.active) meleeRange += properties.reach.value;

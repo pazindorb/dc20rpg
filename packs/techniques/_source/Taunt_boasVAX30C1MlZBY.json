@@ -45,7 +45,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -75,18 +76,19 @@
         "name": "Full Taunt",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
           "health": null,
           "mana": null,
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": 1
         },
         "charges": {
           "consume": false,
           "fromOriginal": false,
-          "originalId": "boasVAX30C1MlZBY"
+          "originalId": "boasVAX30C1MlZBY",
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -95,7 +97,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -113,7 +122,14 @@
           "againstStatus": {
             "id": "taunted",
             "untilFirstTimeTriggered": false,
-            "untilYourNextTurnEnd": true
+            "untilYourNextTurnEnd": true,
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -125,9 +141,25 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p>You can spend an additional <strong>1 AP</strong> to have the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5b8703add31783de]{Taunted} </strong>Condition last until the end of your next turn.</p>"
+        "description": "<p>You can spend an additional <strong>1 AP</strong> to have the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5b8703add31783de]{Taunted} </strong>Condition last until the end of your next turn.</p>",
+        "hide": false,
+        "key": "alzLxSdDUbdYlYGb",
+        "sourceItemId": "boasVAX30C1MlZBY",
+        "sourceItemName": "Taunt",
+        "sourceItemImg": "icons/skills/wounds/injury-face-impact-orange.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -143,11 +175,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -225,11 +258,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.2nr63iF95S3bdAtR",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1747998783874,
+    "modifiedTime": 1760521816345,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

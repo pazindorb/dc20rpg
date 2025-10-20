@@ -1,4 +1,3 @@
-import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
 import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../../helpers/items/itemDetails.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
@@ -30,7 +29,7 @@ export function preprareSheetData(context, item) {
   context.sheetData = {};
   _prepareTypesAndSubtypes(context, item);
   _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "consumable", "feature", "technique", "spell", "basicAction"].includes(item.type)) {
+  if (["weapon", "equipment", "consumable", "feature", "technique", "spell", "infusion", "basicAction"].includes(item.type)) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
@@ -197,7 +196,8 @@ function _prepareAdvancements(context) {
 }
 
 function _prepareItemUsageCosts(context, item) {
-  context.usageCosts = getItemUsageCosts(item);
+  if (!item.use) return;
+  context.useCost = item.use.useCostDisplayData(true);
 } 
 
 function _prepareTypesAndSubtypes(context, item) {
@@ -233,6 +233,12 @@ function _prepareTypesAndSubtypes(context, item) {
     case "spell": {
       context.sheetData.type = getLabelFromKey(item.system.spellType, CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes);
       context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools);
+      break;
+    }
+    case "infusion": {
+      const infusion = item.system.infusion;
+      context.sheetData.type = getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
+      context.sheetData.subtype = `${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power}`;
       break;
     }
     case "basicAction": {

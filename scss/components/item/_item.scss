@@ -44,7 +44,7 @@
     width: 0;
   }
 
-  .item-cost {
+  .cost-printer {
     position: absolute;
     border-radius: 5px;
     padding: 4px;
@@ -57,40 +57,19 @@
     align-items: center;
     justify-content: center;
 
-    .cost-icon, .cost-img {
-      margin: 0 2px;
-      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-    }
-
     .cost-img {
-      height: 15px;
-      width: 15px;
-      border: 0;
-      border-radius: 7px
+      min-height: 18px;
+      min-width: 18px;
+      height: 18px;
+      width: 18px;
+      border-radius: 7px;
+      border: 1px solid white;
     }
 
-    .ap {
-      color: $action-point;
-    }
-
-    .sp {
-      color: $stamina;
-    }
-
-    .mp {
-      color: $mana;
-    }
-
-    .grit {
-      color: $grit;
-    }
-
-    .hp {
-      color: $health;
-    }
-
-    .rest {
-      color: #00887d;
+    .symbol {
+      font-size: 22px;
+      margin-left: -3px;
+      margin-top: -8px;
     }
   }
 

@@ -31,6 +31,21 @@
         <input class="input" type="text" value="{{value}}" data-path="filters.{{updatePath}}.value"/>
         {{/ifCond}}
 
+        {{!-- Number --}}
+        {{#ifCond filterType '===' "number"}} 
+        <input class="numeric-input-nullable" type="text" value="{{value}}" data-path="filters.{{updatePath}}.value"/>
+        {{/ifCond}}
+
+        {{!-- Boolean --}}
+        {{#ifCond filterType '===' "boolean"}}
+        <div class="multi-select-wrapper">
+          <div class="multi-select">
+            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' updatePath ''}}</span>
+            <a class="fa-lg activable {{#if value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{updatePath}}.value"></a>
+          </div>
+        </div>
+        {{/ifCond}}
+
         {{!-- Select --}}
         {{#ifCond filterType '===' "select"}} 
         <select class="selectable" data-path="filters.{{updatePath}}.value">
@@ -45,6 +60,22 @@
           <div class="multi-select">
             <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
             <a class="fa-lg activable {{#if option}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{../updatePath}}.value.{{optionKey}}"></a>
+          </div>
+          {{/each}}
+        </div>
+        {{/ifCond}}
+
+        {{!-- Multi Select 3 states --}}
+        {{#ifCond filterType '===' "multi-select-3-states"}} 
+        <div class="multi-select-wrapper">
+          {{#each value as |option optionKey|}}
+          <div class="multi-select">
+            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
+            <a data-path="filters.{{../updatePath}}.value.{{optionKey}}" class="fa-lg state-change 
+              {{#ifCond option '===' null}}fa-regular fa-square{{/ifCond}} 
+              {{#ifCond option '===' true}}fa-solid fa-square-plus{{/ifCond}}
+              {{#ifCond option '===' false}}fa-solid fa-square-minus{{/ifCond}}
+            "></a>
           </div>
           {{/each}}
         </div>

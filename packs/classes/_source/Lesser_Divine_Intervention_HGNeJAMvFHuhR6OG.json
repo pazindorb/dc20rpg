@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -97,13 +98,21 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 2,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {},
+        "custom": {
+          "channel-divinity": {
+            "label": "Channel Divinity",
+            "img": "icons/magic/light/orb-hands-humanoid-yellow.webp",
+            "key": "channel-divinity",
+            "value": 1
+          }
+        },
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 2
       },
       "charges": {
         "current": null,
@@ -119,7 +128,7 @@
       },
       "otherItem": {
         "itemId": "",
-        "amountConsumed": 1,
+        "amountConsumed": null,
         "consumeCharge": true
       }
     },
@@ -170,17 +179,10 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "zX4rQi30LolmtO7h": {
-        "name": "onCreate",
-        "trigger": "onCreate",
-        "command": "const channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
-        "disabled": false,
-        "title": ""
-      },
       "mujaZ6RJ8WalUTD8": {
         "name": "postItemRoll",
         "trigger": "postItemRoll",
-        "command": "if (rolls.core._total >= 15) {\n  game.dc20rpg.resources.regainBasicResource(\"mana\", actor, 1, true)\n}",
+        "command": "if (rolls.core._total >= 15) {\n  actor.resources.mana.regain(1);\n}",
         "disabled": false,
         "title": ""
       }
@@ -252,11 +254,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034442,
-    "modifiedTime": 1745412688186,
+    "modifiedTime": 1760988753091,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

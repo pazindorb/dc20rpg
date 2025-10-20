@@ -1,4 +1,4 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 export class DC20RpgCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
   /** @override */
@@ -92,9 +92,7 @@ export class DC20RpgCombatTracker extends foundry.applications.sidebar.tabs.Comb
   async _onAddToSlot(combatant, specific) {
     let initativeValue = -1;
     if (specific) {
-      const slot = await getSimplePopup("select", {
-        header: "Select Initiative Slot", selectOptions: {1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10, 11:11, 12:12, 13:13, 14:14, 15:15, 16:16, 17:17, 18:18, 19:19, 20:20}
-      });
+      const slot = await SimplePopup.select("Select Initiative Slot", {1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10, 11:11, 12:12, 13:13, 14:14, 15:15, 16:16, 17:17, 18:18, 19:19, 20:20});
       if (slot) initativeValue = 20 - slot;
     }
     else {

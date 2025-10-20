@@ -74,7 +74,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -99,9 +100,57 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the damage dealt by 2.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the damage dealt by 2.</span></p>",
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "iHLwUknlvTToMOzw",
+        "sourceItemId": "660LFP5yxhqUlbZa",
+        "sourceItemName": "Lightning Blade",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
+        "active": false
       },
       "bxlCrndZCQcUvbjH": {
         "name": "Duration",
@@ -113,7 +162,8 @@
           "stamina": null,
           "custom": {},
           "grit": null,
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -138,9 +188,57 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Change the duration to 1 minute.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Change the duration to 1 minute.</span></p>",
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "hide": false,
+        "key": "bxlCrndZCQcUvbjH",
+        "sourceItemId": "660LFP5yxhqUlbZa",
+        "sourceItemName": "Lightning Blade",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
+        "active": false
       },
       "VEjTHUY31xjzXKd5": {
         "name": "Lightning Blade",
@@ -152,11 +250,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "modifiesCoreFormula": false,
@@ -169,7 +269,14 @@
           "formula": {
             "formula": "2",
             "type": "lightning",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -191,7 +298,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "addsEffect": {
             "img": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
@@ -285,10 +393,18 @@
           "macros": {
             "postItemRoll": "console.log(this)",
             "preItemRoll": ""
-          }
+          },
+          "changeManaSpendLimit": null,
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area"
         },
         "description": "<p>Attack You make with this weapon will apply <strong>Lightning</strong> <strong>Blade</strong> effect.</p>",
-        "hide": true
+        "hide": true,
+        "key": "VEjTHUY31xjzXKd5",
+        "sourceItemId": "660LFP5yxhqUlbZa",
+        "sourceItemName": "Lightning Blade",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -305,11 +421,12 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -405,11 +522,11 @@
   "_stats": {
     "compendiumSource": "Item.660LFP5yxhqUlbZa",
     "duplicateSource": "Item.01uJvSZpWhNPN3lD",
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1752579087636,
+    "modifiedTime": 1760521815521,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

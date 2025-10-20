@@ -1,6 +1,5 @@
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
-import { companionShare } from "../helpers/actors/companion.mjs";
 import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 
@@ -12,6 +11,9 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.flags?.dc20rpg?.itemData !== undefined;
   }
 
+  get isFlanked() {
+    return this.object.isFlanked;
+  }
 
   /**@override*/
   prepareData() {
@@ -101,8 +103,9 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   async _updateSize(size) {
-    if (this.width !== size && this.height !== size) {
+    if (this.width !== size && this.height !== size && this._id) {
       await this.update({
+        _id: this._id,
         width: size,
         height: size
       })
@@ -157,8 +160,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const movementCost = movement.passed.cost;
     let subtracted = await subtractMovePoints(this.actor, movementCost);
 
-    // Spend extra AP to move
-    if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
+    if (subtracted !== true) {
       subtracted = await spendMoreApOnMovement(this.actor, subtracted, this.movementAction);
     }
 
@@ -202,14 +204,17 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
   }
 
-  async _onCreate(data, options, userId) {
+  _onCreate(data, options, userId) {
     if (userId === game.user.id && this.actor) {
-      if (this.actor?.type === "storage") {
-        if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
-        if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
-      }
+      this._onStorageCreation();
     }
     super._onCreate(data, options, userId);
+  }
+
+  _onStorageCreation() {
+    if (this.actor?.type !== "storage") return;
+    if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
+    if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
   }
 
   //=====================================
@@ -236,5 +241,42 @@ export class DC20RpgTokenDocument extends TokenDocument {
         this.update({["flags.dc20rpg.linkedTemplates"]: Array.from(templatesLeft)});
       } 
     }
+  }
+
+  //=====================================
+  //               TARGET               =
+  //=====================================
+  toTarget(flags={}) {
+    const actor = this.actor;
+    const statuses = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
+    const rollData = actor?.getRollData();
+    const target = {
+      name: actor.name,
+      img: actor.img,
+      id: this.id,
+      isOwner: actor.isOwner,
+      system: actor.system,
+      statuses: statuses,
+      effects: actor.allEffects,
+      isFlanked: this.isFlanked,
+      rollData: {
+        target: {
+          numberOfConditions: this._numberOfConditions(actor.coreStatuses),
+          system: rollData
+        }
+      },
+      token: this.object,
+      flags: flags
+    };
+    return target;
+  }
+
+  _numberOfConditions(coreStatuses) {
+    let number = 0;
+    const conditions = CONFIG.DC20RPG.DROPDOWN_DATA.conditions;
+    for (const status of coreStatuses) {
+      if (conditions[status]) number += 1;
+    }
+    return number;
   }
 }

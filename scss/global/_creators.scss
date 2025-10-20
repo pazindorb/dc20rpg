@@ -157,3 +157,63 @@
  
   }
 }
+
+.cost-printer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+
+  .cost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    margin-bottom: 0px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    b {
+      font-family: $font-header;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    }
+
+    .cost-icon, .cost-img {
+      margin-left: 2px;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    }
+
+    .cost-img {
+      border: 1px solid white;
+      margin: 0;
+    }
+
+    &.ap {
+      color: $action-point;
+    }
+    &.stamina {
+      color: $stamina;
+      margin-right: 5px;
+    }
+    &.mana {
+      color: $mana;
+    }
+    &.health {
+      color: $health;
+    }
+    &.grit {
+      color: $grit;
+    }
+    &.restPoints {
+      color: #00887d;
+    }
+    &.charge {
+      color: #858308;
+    }
+  }
+}

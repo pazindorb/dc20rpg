@@ -83,11 +83,13 @@
           "stamina": 1,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -98,7 +100,13 @@
             "formula": "2",
             "type": "radiant",
             "category": "damage",
-            "overrideDefence": ""
+            "overrideDefence": "",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -120,7 +128,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -132,25 +143,42 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p>When you make a <strong>Martial Attack</strong> with the Weapon, you can spend 1 or more SP to deal +2 Bound Damage per SP spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p>"
+        "description": "<p>When you make a <strong>Martial Attack</strong> with the Weapon, you can spend 1 or more SP to deal +2 Bound Damage per SP spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p>",
+        "hide": false,
+        "key": "tXOWadltDwewJwss",
+        "sourceItemId": "7AqGDryoGdOJ81j5",
+        "sourceItemName": "Bound Weapon",
+        "sourceItemImg": "icons/magic/light/swords-light-glowing-white.webp",
+        "active": false
       },
       "AF8IpxNcnblXbdyh": {
         "name": "Free Attack Maneuver",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": -1
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -161,7 +189,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -183,7 +218,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -195,9 +231,25 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p>When you use your Smite you gain benefits of 1 Attack Maneuver of your choice for free.</p><p></p><p><em><strong>System Tip:</strong> Just use the maneuver and this enhancement to remove its AP cost.</em></p>"
+        "description": "<p>When you use your Smite you gain benefits of 1 Attack Maneuver of your choice for free.</p><p></p><p><em><strong>System Tip:</strong> Just use the maneuver and this enhancement to remove its AP cost.</em></p>",
+        "hide": false,
+        "key": "AF8IpxNcnblXbdyh",
+        "sourceItemId": "7AqGDryoGdOJ81j5",
+        "sourceItemName": "Bound Weapon",
+        "sourceItemImg": "icons/magic/light/swords-light-glowing-white.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -294,14 +346,14 @@
       "1knHaCb86zZ2whfi": {
         "name": "Change Bound Damage and Weapon",
         "trigger": "onDemand",
-        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: selectOptions});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nconst damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Damage type\", selectOptions: damageTypes});\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"boundedDamage\", selected);\n}",
+        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nconst damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"boundedDamage\", selected);\n}",
         "disabled": false,
         "title": "Change Bound Damage and Weapon"
       },
       "4V4jywix43dxomFi": {
         "name": "Add To Keyword",
         "trigger": "onCreate",
-        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: selectOptions});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nlet boundedDamage = actor.system.keywords.boundedDamage;\nlet newValue = boundedDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"boundedDamage\", newValue: newValue});",
+        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nlet boundedDamage = actor.system.keywords.boundedDamage;\nlet newValue = boundedDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"boundedDamage\", newValue: newValue});",
         "disabled": false,
         "title": ""
       },
@@ -352,11 +404,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034896,
-    "modifiedTime": 1752576773458,
+    "modifiedTime": 1760621748161,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

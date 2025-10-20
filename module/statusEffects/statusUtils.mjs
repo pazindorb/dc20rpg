@@ -169,14 +169,9 @@ export function exhaustionCheck(actor) {
 export function dazedCheck(actor) {
   if (actor.hasStatus("dazed")) {
     const sustained = actor.system.sustain;
-    for (const sustain of sustained) {
-      sendDescriptionToChat(actor, {
-        rollTitle: `${sustain.name} - Sustain dropped [Dazed]`,
-        image: sustain.img,
-        description: `You are no longer sustaining '${sustain.name}' - You can't Sustain an effect while Dazed`,
-      });
+    for (const sustainKey of Object.keys(sustained)) {
+      actor.dropSustain(sustainKey, "You can't Sustain an effect while Dazed.");
     }
-    actor.update({["system.sustain"]: []});
   }
 }
 

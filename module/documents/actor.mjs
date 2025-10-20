@@ -1,29 +1,31 @@
-import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
+import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
+import { deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
-import { translateLabels } from "../helpers/utils.mjs";
+import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
+import { DC20Roll } from "../roll/rollApi.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
-import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
+import { enrichWithHelpers } from "./actor/actor-helpers.mjs";
+import {prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-roll.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
 export class DC20RpgActor extends Actor {
-
-  get sceneKey() {
-    if (this.isToken) return `${this.id}#${this.token.id}`;
-    else return this.id;
-  }
 
   get class() {
     return this.items.get(this.system.details.class.id);
@@ -35,6 +37,10 @@ export class DC20RpgActor extends Actor {
 
   get slowed() {
     return this.system.moveCost - 1 || 0;
+  }
+
+  get dead() {
+    return this.hasStatus("dead");
   }
 
   get allEffects() {
@@ -111,6 +117,26 @@ export class DC20RpgActor extends Actor {
       if (ownerTurn) return true;
     }
     return false;
+  }
+
+  /** @override */
+  *allApplicableEffects() {
+    for (const effect of super.allApplicableEffects()) {
+      const parent = effect.parent;
+      if (parent.type === "infusion") continue;
+      yield effect;
+    }
+  }
+
+  companionShareFor(key) {
+    if (this.shouldShareWithOwner(key)) return this.companionOwner;
+    return this;
+  }
+
+  shouldShareWithOwner(key) {
+    if (this.type !== "companion") return false;
+    if (!this.companionOwner) return false;
+    return getValueFromPath(this, `system.shareWithCompanionOwner.${key}`);
   }
 
   /** @override */
@@ -225,6 +251,7 @@ export class DC20RpgActor extends Actor {
     makeCalculations(this);
     this._prepareCustomResources();
     translateLabels(this);
+    enrichWithHelpers(this);
     this.prepared = true; // Mark actor as prepared
   }
 
@@ -297,28 +324,42 @@ export class DC20RpgActor extends Actor {
     this.overrides = foundry.utils.expandObject(overrides);
   }
 
+  //=====================================
+  //=         ROLL FROM ACTOR           =
+  //=====================================
   /** @override */
   getRollData(activeEffectCalls) { 
-    // We want to operate on copy of original data because we are making some changes to it
     const data = {...super.getRollData()}
     if (activeEffectCalls) return prepareRollDataForEffectCall(this, data);
     return prepareRollData(this, data);
   }
 
-  getCheckOptions(attack, attributes, skills, trades) {
-    let checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
-    if (attributes) {
-      checkOptions = {...checkOptions, ...CONFIG.DC20RPG.ROLL_KEYS.attributeChecks};
+  async roll(key, type, options={}, details) {
+    if (!details) {
+      if (type === "save") details = DC20Roll.prepareSaveDetails(key, options);
+      if (type === "check") details = DC20Roll.prepareCheckDetails(key, options);
     }
-    if (skills) {
-      // Martial Check requires acrobatic and athletics skills
-      if (this.system.skills.acr && this.system.skills.ath) checkOptions.mar = "Martial Check";
-      Object.entries(this.system.skills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`);
+    return await RollDialog.open(this, details, options);
+  }
+
+  getRollOptions() {
+    const options = {};
+    options.basic = CONFIG.DC20RPG.ROLL_KEYS.baseChecks;
+    options.attribute = CONFIG.DC20RPG.ROLL_KEYS.attributeChecks;
+    options.save = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
+
+    const skills = {};
+    if (this.system.skills.acr && this.system.skills.ath) skills.mar = "Martial Check";
+    Object.entries(this.system.skills).forEach(([key, skill]) => skills[key] = `${skill.label} Check`);
+    options.skill = skills; 
+
+    if (this.system.trades) {
+      const trade = {};
+      Object.entries(this.system.trades).forEach(([key, skill]) => trade[key] = `${skill.label} Check`);
+      options.trade = trade; 
     }
-    if (trades && this.system.tradeSkills) {
-      Object.entries(this.system.tradeSkills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`)
-    }
-    return checkOptions;
+
+    return options;
   }
 
   /**
@@ -347,12 +388,12 @@ export class DC20RpgActor extends Actor {
   }
 
   hasStatus(statusId) {
-    return hasStatusWithId(this, statusId)
+    return this.statusIds.has(statusId);
   }
 
   hasAnyStatus(statuses) {
     for (const statusId of statuses) {
-      if (hasStatusWithId(this, statusId)) return true;
+      if (this.hasStatus(statusId)) return true;
     }
     return false;
   }
@@ -363,44 +404,9 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  async refreshSkills() {
-    const skillStore = game.settings.get("dc20rpg", "skillStore");
-    const skills = this.system.skills;
-    const tradeSkills = this.system.tradeSkills;
-    const languages = this.system.languages;
-
-    // Prepare keys to add and remove
-    const toRemove = {
-      skills: Object.keys(skills).filter((key) => !skillStore.skills[key] && !skills[key].custom),
-      languages: Object.keys(languages).filter((key) => !skillStore.languages[key] && !languages[key].custom)
-    }
-    if (tradeSkills) toRemove.trades = Object.keys(tradeSkills).filter((key) => !skillStore.trades[key] && !tradeSkills[key].custom);
-    const toAdd = {
-      skills: Object.keys(skillStore.skills).filter((key) => !skills[key]),
-      languages: Object.keys(skillStore.languages).filter((key) => !languages[key])
-    }
-    if (tradeSkills) toAdd.trades = Object.keys(skillStore.trades).filter((key) => !tradeSkills[key]);
-  
-    // Prepare update data
-    const updateData = {system: {skills: {}, languages: {}}}
-    if (tradeSkills) updateData.system.tradeSkills = {};
-    toRemove.skills.forEach(key => updateData.system.skills[`-=${key}`] = null);
-    toRemove.languages.forEach(key => updateData.system.languages[`-=${key}`] = null);
-    if (tradeSkills) toRemove.trades.forEach(key => updateData.system.tradeSkills[`-=${key}`] = null);
-    toAdd.skills.forEach(key => updateData.system.skills[key] = skillStore.skills[key]);
-    toAdd.languages.forEach(key => updateData.system.languages[key] = skillStore.languages[key]);
-    if (tradeSkills) toAdd.trades.forEach(key => updateData.system.tradeSkills[key] = skillStore.trades[key]);
-
-    // Update actor
-    await this.update(updateData);
-  }
-
   _prepareCustomResources() {
-    const customResources = this.system.resources.custom;
-
     // remove empty custom resources and calculate its max charges
-    for (const [key, resource] of Object.entries(customResources)) {
-      if (!resource.name) delete customResources[key];
+    for (const [key, resource] of Object.entries(this.system.resources.custom)) {
       const fromFormula = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
       resource.max = fromFormula + (resource.bonus || 0);
     }
@@ -422,7 +428,7 @@ export class DC20RpgActor extends Actor {
       for (const effect of this.allEffects) {
         const statuses = effect.statuses;
         // We only want to turn off standard status effects that way, not the ones from items.
-        if (effect.sourceName === "None") {
+        if (effect.fromStatus) {
           if (statuses.size === 1 &&  statuses.has(statusId)) existing.push(effect.id);
         }
       }
@@ -431,23 +437,32 @@ export class DC20RpgActor extends Actor {
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
       if (statusId === "prone") {
-        const confirmed = await getSimplePopup("confirm", {header: "Should spend 2 Move Points to stand up from Prone?"});
-        if (confirmed) {
-          let subtracted = await subtractMovePoints(this, 2);
+        const spendMovePointsToStandFromProne = game.settings.get("dc20rpg","spendMovePointsToStandFromProne");
+        if (spendMovePointsToStandFromProne !== "never") {
+          let confirmed = true;
+          if (spendMovePointsToStandFromProne === "ask") confirmed = await SimplePopup.confirm("Should spend 2 Move Points to stand up from Prone?");
 
-          // Spend extra AP
-          if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
-            subtracted = await spendMoreApOnMovement(this, subtracted);
-          }
-
-          if (subtracted !== true) {
-            ui.notifications.warn("Not enough move points to stand up from Prone!");
-            return false;
+          if (confirmed) {
+            let subtracted = await subtractMovePoints(this, 2);
+            if (subtracted !== true) {
+              subtracted = await spendMoreApOnMovement(this, subtracted);
+            }
+            if (subtracted !== true) {
+              ui.notifications.warn("Not enough move points to stand up from Prone!");
+              return false;
+            }
           }
         }
       }
 
-      await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
+      // Sometimes one effects triggers removal of another one
+      const effectId = existing.pop();
+      const effect = this.effects.get(effectId);
+      for (const statusId of effect.system.disableStatusOnRemoval) {
+        await this.toggleStatusEffect(statusId, {active: false});
+      }
+
+      await this.deleteEmbeddedDocuments("ActiveEffect", [effectId]); // We want to remove 1 stack of effect at the time
       this.reset();
       return false;
     }
@@ -467,12 +482,13 @@ export class DC20RpgActor extends Actor {
     effect = enhanceStatusEffectWithExtras(effect, extras);
     const effectData = {...effect};
     effectData._id = effect._id;
+    effectData.system.fromStatus = true;
     const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
 
-    // Unconscious also causes prone
-    if (created.statuses.has("unconscious")) await this.toggleStatusEffect("prone", {active: true});
-    // Deaths Doors also adds one exhaustion stack
-    if (created.statuses.has("deathsDoor")) await this.toggleStatusEffect("exhaustion", {active: true});
+    // Sometimes one effects triggers application of another one
+    for (const statusId of created.system.enableStatusOnCreation) {
+      await this.toggleStatusEffect(statusId, {active: true});
+    }
     
     this.reset();
     return created;
@@ -655,7 +671,7 @@ export class DC20RpgActor extends Actor {
     if (this.type === "storage") return;
 
     // Remove all basic actions
-    const basicActionIds = this.items.filter(item => item.type === "basicAction").map(item => item.id);
+    const basicActionIds = this.items.filter(item => item.type === "basicAction" || item.system?.itemKey === "unarmedStrike").map(item => item.id);
     await this.deleteEmbeddedDocuments("Item", basicActionIds);
 
     // Add basic actions
@@ -698,5 +714,61 @@ export class DC20RpgActor extends Actor {
       if (!filter(item)) return false;
     }
     return true;
+  }
+
+  //======================================
+  //=               SUSTAIN              =
+  //======================================
+  shouldSustain(item) {
+    if (item.system.duration.type !== "sustain") return false;
+
+    const activeCombat = game.combats.active;
+    const notInCombat = !(activeCombat && activeCombat.started && this.inCombat);
+    if (notInCombat) return false;
+    return true;
+  }
+
+  async addSustain(item) {
+    await this.update({[`system.sustain.${item.id}`]: {
+      name: item.name,
+      img: item.img,
+      itemId: item.id,
+      description: item.system.description,
+      linkedEffects: []
+    }});
+  }
+
+  async addEffectToSustain(key, effectUuid) {
+    const sustain = this.system.sustain[key];
+    if (!sustain) return;
+    const linkedEffects = sustain.linkedEffects;
+    linkedEffects.push(effectUuid);
+    await this.gmUpdate({[`system.sustain.${key}.linkedEffects`]: linkedEffects});
+  }
+
+  async dropSustain(key, message) {
+    const sustain = this.system.sustain[key];
+    if (!sustain) return;
+
+    for (const effectUuid of sustain.linkedEffects) {
+      const effect = await fromUuid(effectUuid);
+      if (!effect) continue;
+      const owner = effect.getOwningActor();
+      if (!owner) continue;
+      deleteEffectFrom(effect.id, owner);
+    }
+    await this.update({[`system.sustain.-=${key}`]: null});
+
+    if (message) {
+      sendDescriptionToChat(this, {
+        rollTitle: `[Sustain dropped] ${sustain.name}`,
+        image: sustain.img,
+        description: `You are no longer sustaining '${sustain.name}' - ${message}`,
+      });
+    }
+  }
+
+  rest(options) {
+    RestDialog.open(this, options);
   }
 }

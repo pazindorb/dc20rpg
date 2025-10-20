@@ -8,41 +8,11 @@ import { getLabelFromKey } from "./utils.mjs";
  * Converts tokens to targets used by chat message or damage calculation.
  */
 export function tokenToTarget(token, flags={}) {
-  const actor = token.actor;
-  const statuses = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
-  const rollData = actor?.getRollData();
-  const target = {
-    name: actor.name,
-    img: actor.img,
-    id: token.id,
-    isOwner: actor.isOwner,
-    system: actor.system,
-    statuses: statuses,
-    effects: actor.allEffects,
-    isFlanked: token.isFlanked,
-    rollData: {
-      target: {
-        numberOfConditions: _numberOfConditions(actor.coreStatuses),
-        system: rollData
-      }
-    },
-    token: token,
-    flags: flags
-  };
-  return target;
+  return token.document.toTarget(flags);
 }
 
 export function targetToToken(target) {
   return canvas.tokens.documentCollection.get(target.id);
-}
-
-function _numberOfConditions(coreStatuses) {
-  let number = 0;
-  const conditions = CONFIG.DC20RPG.DROPDOWN_DATA.conditions;
-  for (const status of coreStatuses) {
-    if (conditions[status]) number += 1;
-  }
-  return number;
 }
 
 //========================

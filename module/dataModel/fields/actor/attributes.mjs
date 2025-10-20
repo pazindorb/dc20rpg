@@ -9,6 +9,7 @@ export default class AttributeFields extends foundry.data.fields.SchemaField {
       value: new f.NumberField(numberInitial),
       current: new f.NumberField(numberInitial),
       save: new f.NumberField(numberInitial),
+      check: new f.NumberField(numberInitial),
       bonuses: new f.SchemaField({
         check: new f.NumberField(init0),
         value: new f.NumberField(init0),

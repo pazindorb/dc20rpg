@@ -1,6 +1,5 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
-import { addStatusWithIdToActor } from "../../statusEffects/statusUtils.mjs";
 
 export class ConditionManager extends DC20Dialog {
 
@@ -18,6 +17,11 @@ export class ConditionManager extends DC20Dialog {
       repeatedSaveKey: "",
       against: null,
       id: "",
+    }
+    this.saveBefore = {
+      askForSave: false,
+      saveKey: "",
+      against: null,
     }
     const journals = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal;
     this.conditions = CONFIG.statusEffects
@@ -50,6 +54,7 @@ export class ConditionManager extends DC20Dialog {
     const context = await super._prepareContext(options);
     context.conditions = this.conditions;
     context.extras = this.extras;
+    context.saveBefore = this.saveBefore;
     context.saveKeys = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
     return context;
   }
@@ -61,8 +66,23 @@ export class ConditionManager extends DC20Dialog {
 
     const tokens = getSelectedTokens();
     tokens.forEach(token => {
-      if (token.actor) addStatusWithIdToActor(token.actor, statusId, this.extras);
+      const actor = token.actor;
+      if (actor) {
+        this._shouldApply(actor, statusId).then(result => {
+          if (result === true) actor.toggleStatusEffect(statusId, { active: true, extras: this.extras });
+        });
+      }
     })
+  }
+
+  async _shouldApply(actor, statusId) {
+    const save = this.saveBefore;
+
+    if (save.askForSave && save.saveKey && save.against) {
+      const result = await actor.roll(save.saveKey, "save", {sendToActorOwners: true, against: save.against, statuses: [statusId]});
+      if (result._total >= save.against) return false;
+    }
+    return true;
   }
 }
 

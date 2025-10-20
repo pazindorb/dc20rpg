@@ -33,6 +33,12 @@
         {{/ifCond}}
         <input type="text" name="system.target.areas.{{key}}.unit" value="{{area.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" title="{{localize "dc20rpg.item.sheet.target.unit"}}">
         <a class="margin-left-3 margin-top-1 activable fa-lg {{#if area.hideHighlight}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.hideHighlight" title="{{localize "dc20rpg.item.sheet.target.hideHighlight"}}"></a>
+        {{#ifCond area.area '===' "aura"}} 
+          <a class="margin-left-3 margin-top-1 activable fa-lg fa-square-p {{#if area.passiveAura}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.target.areas.{{key}}.passiveAura" title="{{localize "dc20rpg.item.sheet.target.passiveAuraTitle"}}"></a>
+          {{#if @root.system.toggle.toggleable}}
+          <a class="margin-left-3 margin-top-1 activable fa-lg fa-square-t {{#if area.linkWithToggle}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.target.areas.{{key}}.linkWithToggle" title="{{localize "dc20rpg.item.sheet.target.linkWithToggleTitle"}}"></a>
+          {{/if}}
+        {{/ifCond}}
       </div>
     </div>
     <div class="row margin-top-3">

@@ -44,7 +44,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -70,11 +71,13 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
           "consume": false,
-          "fromOriginal": false
+          "fromOriginal": false,
+          "subtract": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -84,7 +87,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "overrideDamageType": false,
           "damageType": "",
@@ -106,7 +116,10 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -118,9 +131,25 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": null,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": ""
+        "description": "",
+        "hide": false,
+        "key": "QdpythsgPdfhdqKN",
+        "sourceItemId": "x9iHhn5bMFdl2UHu",
+        "sourceItemName": "Natural Weapon Passive",
+        "sourceItemImg": "icons/creatures/abilities/paw-glowing-yellow.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -199,7 +228,7 @@
       "AHf8Dv5BdkCIqqJb": {
         "name": "Select Natural Weapon Passive ",
         "trigger": "onCreate",
-        "command": "const weaponStyle = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon Weapon Style\", selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles});\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: \"false\",\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
+        "command": "const weaponStyle = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles);\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: \"false\",\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
         "disabled": false,
         "title": ""
       },
@@ -212,7 +241,7 @@
       }
     },
     "itemKey": "naturalWeaponPassive",
-    "featureSourceItem": "beastborn",
+    "featureSourceItem": "",
     "requirements": {
       "level": 0
     },
@@ -228,7 +257,9 @@
           "ignoreEdr": false,
           "ignoreMdr": false,
           "ignoreResistance": {},
-          "ignoreImmune": {}
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
         },
         "effect": null,
         "addsNewRollRequest": false,
@@ -257,16 +288,16 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.5.2",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720112470033,
-    "modifiedTime": 1747912169884,
+    "modifiedTime": 1760614694842,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
   "_id": "x9iHhn5bMFdl2UHu",
-  "sort": 0,
+  "sort": 500000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3

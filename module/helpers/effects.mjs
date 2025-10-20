@@ -31,8 +31,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   // Iterate over active effects, classifying them into categories
   for ( const effect of owner.allEffects ) {
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
-    if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
-    else {
+    if (!effect.fromStatus) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
@@ -78,7 +77,7 @@ function _connectEffectAndStatus(effect, statuses) {
         else if (status.stackable) status.stack += 1; 
 
         // If status comes from other active effects we want to give info about it with tooltip
-        if ((effect.statuses.size > 1 && effect.name !== status.name) || effect.sourceName !== "None") {
+        if ((effect.statuses.size > 1 && effect.name !== status.name) || !effect.fromStatus) {
           if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
           else status.tooltip += ` and ${effect.name}`
           status.fromOther = true
@@ -310,11 +309,13 @@ export function getEffectModifiableKeys() {
     "system.resources.health.bonus": "Health - Max Value Bonus",
     "system.resources.mana.bonus": "Mana - Max Value Bonus",
     "system.resources.mana.maxFormula" : "Mana - Calculation Formula",
+    "system.details.manaSpendLimit.bonus": "Mana Spend Limit Bonus",
     "system.resources.stamina.bonus": "Stamina - Max Value Bonus",
     "system.resources.stamina.maxFormula" : "Stamina - Calculation Formula",
     "system.resources.grit.bonus": "Grit - Max Value Bonus",
     "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
+    "system.resources.restPoints.regenerationFormula" : "Rest Points - Regeneration Formula",
     
     // Help Dice
     "system.help.maxDice": "Help Dice - Max Dice",
@@ -388,6 +389,7 @@ export function getEffectModifiableKeys() {
 
     "system.known.cantrips.max": "Cantrips Known",
     "system.known.spells.max": "Spells Known",
+    "system.known.infusions.max": "Infusions Known",
     "system.known.maneuvers.max": "Maneuvers Known",
     "system.known.techniques.max": "Techniques Known",
 
@@ -435,7 +437,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
 
     "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
-    "system.rollLevel.onYou.tradeSkills": "Roll Level with Trade Check",
+    "system.rollLevel.onYou.trades": "Roll Level with Trade Check",
 
     "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
@@ -456,7 +458,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
 
     "system.rollLevel.againstYou.skills": "Against You: Roll Level with Skill Check",
-    "system.rollLevel.againstYou.tradeSkills": "Against You: Roll Level with Trade Check",
+    "system.rollLevel.againstYou.trades": "Against You: Roll Level with Trade Check",
 
     "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
     "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
@@ -509,8 +511,8 @@ function _skillBonuses() {
   Object.entries(CONFIG.DC20RPG.skills)
     .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} - Skill Check Bonus`);
 
-  Object.entries(CONFIG.DC20RPG.tradeSkills)
-    .forEach(([key, skillLabel]) => skills[`system.tradeSkills.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
+  Object.entries(CONFIG.DC20RPG.trades)
+    .forEach(([key, skillLabel]) => skills[`system.trades.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
 
   return skills;
 }

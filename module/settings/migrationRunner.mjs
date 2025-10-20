@@ -3,7 +3,7 @@ import { SimplePopup } from "../dialogs/simple-popup.mjs";
 const versions = [
                   "0.8.1-hf2", "0.8.2", "0.8.2-hf1", "0.8.3", "0.8.4", "0.8.4-hf1", "0.8.5", 
                   "0.9.0", "0.9.5", "0.9.5-hf1", "0.9.5.2", "0.9.6.0", "0.9.7.0", "0.9.7.1",
-                  "0.9.7.2", "0.9.7.3"
+                  "0.9.7.2", "0.9.7.3", "0.9.8.0"
                 ];
 
 export async function runMigrationCheck() {
@@ -45,8 +45,8 @@ async function _runMigration(lastMigration, currentVersion, skipLastMigrationVal
   for (let i = after + 1; i <= until; i++) {
     const migratingTo = versions[i];
     ui.notifications.info(`Running system migration for version: ${migratingTo}`, {permanent: true});
-    const dialog =  new SimplePopup("non-closable", {header: "Running Migration", message: `Running system migration for version: ${migratingTo}... Please wait it might take a while. This window will be closed once the migration is complete. Grab a coffee or something :D`}, {title: "Popup"});
-    await dialog._render(true);
+    const dialog =  new SimplePopup("info", {hideButtons: true, header: "Running Migration", information: [`Running system migration for version: ${migratingTo}... Please wait it might take a while. This window will be closed once the migration is complete. Go grab some coffee :D`]});
+    await dialog.render(true);
     try {
       const migrationPath = testPath ? `../../migrations/${migratingTo}.mjs` : `../migrations/${migratingTo}.mjs`
       const migrationModule = await import(migrationPath);

@@ -111,14 +111,44 @@ export function registerHandlebarsCreators() {
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
 
-  Handlebars.registerHelper('item-table', (editMode, items, navTab) => {
+  Handlebars.registerHelper('item-table', (table, options) => {
     const partialPath = allPartials()["Item Table"];
     const template = Handlebars.partials[partialPath];
+    if (!template) return "";
+    
+    const data = options.hash;
+    const columns = data.columns ? data.columns.split(" ") : ["name"];
+    
+    let gridTemplate = "";
+    for (const column of columns) {
+      switch (column) {
+        case "name": 
+          gridTemplate += " 1fr"; break;
+
+        case "weight": case "quantity":
+          gridTemplate += " 35px"; break;
+          
+        case "action": case "components":
+          gridTemplate += " 90px"; break;
+
+        case "cost": case "config":
+          gridTemplate += " 70px"; break;
+
+        case "charges":
+          gridTemplate += " 50px"; break;
+      }
+    }
+
     if (template) {
       const context = {
-        editMode: editMode,
-        navTab: navTab,
-        items: items,
+        table: table,
+        key: data.key,
+        editMode: data.editMode,
+        columns: columns,
+        gridTemplate: gridTemplate,
+        navTab: data.navTab,
+        itemConfig: data.itemConfig,
+        editModeConfig: data.editModeConfig
       }
       return new Handlebars.SafeString(template(context));
     }
@@ -154,23 +184,6 @@ export function registerHandlebarsCreators() {
       return new Handlebars.SafeString(template(context));
     }
     return '';
-  });
-
-  Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
-    const headerOrder = isHeader  ? "35px" : '';
-
-    if (navTab === "favorites" || navTab === "main" || navTab === "basic") {
-      const rollMenuPart1 = rollMenuRow ? '' : "60px";
-      const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
-      const enhNumber = rollMenuRow ? "35px" : "";
-      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr 90px ${rollMenuPart1} 70px ${rollMenuPart2};`;
-    }
-    if (rollMenuRow) {
-      return `grid-template-columns: 35px 1fr 120px 70px 60px;`;
-    }
-    const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
-    const spellTab = navTab === "spells" ? "120px" : '';
-    return `grid-template-columns: ${headerOrder} 1fr 120px ${spellTab}${inventoryTab} 60px 70px 70px 70px;`;
   });
 
   Handlebars.registerHelper('item-label', (sheetData) => {
@@ -236,101 +249,107 @@ export function registerHandlebarsCreators() {
     return itemDetailsToHtml(item);
   });
 
-  Handlebars.registerHelper('charges-printer', (charges, source) => {
-    if (!charges) return "";
+  Handlebars.registerHelper('slot-printer', (slots, category, options) => {
+    let content = "";
+    if (!slots) return content;
 
-    const icon = source === "self" ? "fa-bolt" : "fa-right-from-bracket";
-    let component = "";
-    for (let i = 0; i < charges; i++) {
-      component += `<i class="fa-solid ${icon} cost-icon" title=${game.i18n.localize('dc20rpg.sheet.itemTable.charges')}></i>`;
+    const sectionIcon = options.hash.sectionIcon;
+    if (sectionIcon) {
+      const section = `
+      <div class="section-icon">
+        <i class="${sectionIcon} fa-lg"></i>
+      </div>`
+      content += section;
     }
-    return component;
-  });
 
-  Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
-    if (!costs) return '';
+    for (const [key, slot] of Object.entries(slots)) {
+      const img = slot.itemId ?
+        `<img class="full" src="${slot.itemImg}" data-tooltip="${game.i18n.localize(slot.slotName)}: ${slot.itemName}"/>` :
+        `<img class="empty" src="${slot.slotIcon}" data-tooltip="${game.i18n.localize(slot.slotName)}"/>`
+      
+      const deleteButton = !options.hash.editMode ? "" :
+        `<a class="delete-slot fas fa-trash " data-tooltip="${game.i18n.localize("dc20rpg.sheet.slotDelete")}" data-key="${key}" data-category="${category}"></a>`;
+      const defaultKeys = ["default", "mainHand", "offHand", "left", "right"]
 
-    let component = '';
-    const icons = {
-      actionPoint: "ap fa-dice-d6",
-      stamina: "sp fa-hand-fist",
-      mana: "mp fa-star",
-      health: "hp fa-heart",
-      grit: "grit fa-clover",
-      restPoints: "rest fa-campground"
+      const itemClass = slot.itemId ? "item-edit editable" : "";
+      const itemData = slot.itemId ? `data-item-id=${slot.itemId}` : "";
+
+      content += ` 
+      ${defaultKeys.includes(key) ? "" : deleteButton}
+      <div class="slot ${itemClass}" ${itemData} data-key="${key}" data-category="${category}">
+        ${img}
+      </div>`;
     }
-    if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
 
-    // Print core resources
-    Object.entries(costs).forEach(([key, resCost]) => {
-      const cost = resCost?.cost || resCost;
-      switch (key) {
-        case "custom": break;
-        case "actionPoint":
-          component += _printWithZero(cost, mergeAmount, icons[key]);
-          break;
-        default: 
-          component += _printNonZero(cost, mergeAmount, icons[key]);
-          break;
-      }
-    });
+    if (!content) return content;
+    return `
+      <div class="slot-section ${sectionIcon ? "slot-bar" : ""}">
+        ${content}
+      </div>
+    `;
+  })
 
-    if (!costs.custom) return component;
-    // Print custom resources
-    Object.values(costs.custom).forEach(resource => {
-      component += _printImg(resource.value, mergeAmount, resource.img);
-    });
-    return component;
-  });
+  Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => costPrinter(cost, resources, charges, quantity, showMinorAction));
 
-  Handlebars.registerHelper('item-config', (item, editMode, tab) => {
+  Handlebars.registerHelper('item-config', (item, options) => {
     if (!item) return '';
     let component = '';
 
-    // Configuration 
-    if (editMode && tab !== "favorites") {
-      component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
-      component += `<a class="item-copy fas fa-copy" title="${game.i18n.localize('dc20rpg.sheet.items.copyItem')}" data-item-id="${item._id}"></a>`;
-      component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
+    const data = options.hash;
+    const editModeConfig = data.editModeConfig ? data.editModeConfig.split(" ") : [];
+
+    // Edit Mode
+    if (data.editMode && editModeConfig.length > 0) {
+      component += _addFavorite(editModeConfig, item);
+      if (editModeConfig.includes("edit")) component += `<a class="item-edit fas fa-edit" data-tooltip="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
+      if (editModeConfig.includes("copy")) component += `<a class="item-copy fas fa-copy" data-tooltip="${game.i18n.localize('dc20rpg.sheet.items.copyItem')}" data-item-id="${item._id}"></a>`;
+      if (editModeConfig.includes("delete")) component += `<a class="item-delete fas fa-trash" data-tooltip="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
       return component;
     }
 
-    // On Demand Item Macro
-    const macros = item.system.macros;
-    if (macros) {
-      let onDemandTitle = "";
-      let hasOnDemandMacro = false;
-      for (const macro of Object.values(macros)) {
-        if (macro.trigger === "onDemand" && !macro.disabled) {
-          hasOnDemandMacro = true;
-          if (onDemandTitle !== "") onDemandTitle += "\n";
-          onDemandTitle += macro.title;
+    const config = data.config ? data.config.split(" ") : [];
+
+    // Macro
+    if (config.includes("macro")) {
+      const macros = item.system.macros;
+      if (macros) {
+        let onDemandTitle = "";
+        let hasOnDemandMacro = false;
+        for (const macro of Object.values(macros)) {
+          if (macro.trigger === "onDemand" && !macro.disabled) {
+            hasOnDemandMacro = true;
+            if (onDemandTitle !== "") onDemandTitle += "\n";
+            onDemandTitle += macro.title;
+          }
         }
-      }
-      if (hasOnDemandMacro) {
-        component +=  `<a class="run-on-demand-macro fas fa-code" title="${onDemandTitle}" data-item-id="${item._id}"></a>`;
+        if (hasOnDemandMacro) {
+          component +=  `<a class="run-on-demand-macro fas fa-code" data-tooltip="${onDemandTitle}" data-item-id="${item._id}"></a>`;
+        }
       }
     }
 
+    // Add/Remove Favorities
+    component += _addFavorite(config, item);
+
     // Activable Effects
-    if (item.system.toggle?.toggleable) {
+    if (config.includes("activable") && item.system.toggle?.toggleable) {
       const active = item.system.toggle.toggledOn ? 'fa-toggle-on' : 'fa-toggle-off';
       const title = item.system.toggle.toggledOn 
                   ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateItem`)
                   : game.i18n.localize(`dc20rpg.sheet.itemTable.activateItem`);
 
-      component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.toggle.toggledOn" style="margin-top: 2px;"></a>`
+      component += `<a class="item-toggle fa-lg fa-solid ${active}" data-tooltip="${title}" data-item-id="${item._id}" style="margin-top: 2px;"></a>`
     }
 
     // Can be equipped/attuned
     const statuses = item.system.statuses;
-    if (statuses) {
+    if (config.includes("status") && statuses) {
       const equipped = statuses.equipped ? 'fa-solid' : 'fa-regular';
       const equippedTitle = statuses.equipped 
                           ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`)
                           : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
       
-      component += `<a class="item-activable ${equipped} fa-suitcase-rolling" title="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
+      component += `<a class="item-equip ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
 
       if (item.system.properties.attunement.active) {
         const attuned = statuses.attuned ? 'fa-solid' : 'fa-regular';
@@ -338,43 +357,38 @@ export function registerHandlebarsCreators() {
                             ? game.i18n.localize(`dc20rpg.sheet.itemTable.unattuneItem`)
                             : game.i18n.localize(`dc20rpg.sheet.itemTable.attuneItem`)
         
-        component += `<a class="item-activable ${attuned} fa-hat-wizard" title="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
+        component += `<a class="item-activable ${attuned} fa-hat-wizard" data-tooltip="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
       }
     }
-    if (tab === "favorites" || tab === "main") return component;
 
-    // Favorites
+    // Known Toggle
+    if (config.includes("known")) {
+      const knownLimit = item.system.knownLimit;
+      const active = knownLimit ? 'fa-solid' : 'fa-regular';
+      const title = data.navTab === "techniques" 
+                    ? game.i18n.localize("dc20rpg.item.sheet.technique.countToLimitTitle")
+                    : game.i18n.localize("dc20rpg.item.sheet.spell.countToLimitTitle")
+      component += `<a class="item-activable ${active} fa-book" data-tooltip="${title}" data-item-id="${item._id}" data-path="system.knownLimit"></a>` 
+    }
+
+    return component;
+  });
+  function _addFavorite(config, item) {
+    if (!config.includes("favorite")) return "";
     const isFavorite = item.flags.dc20rpg.favorite;
     const active = isFavorite ? 'fa-solid' : 'fa-regular';
     const title = isFavorite
                 ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)
                 : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
-    component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
-
-    // Short Info 
-    const shortInfo = item.system.shortInfo;
-    if (shortInfo) {
-      component +=  `<a class="short-info fas fa-square-info" data-tooltip="${shortInfo}"></a>`;
-    }
-
-    // Known Toggle
-    if (tab === "techniques" || tab === "spells") {
-      const knownLimit = item.system.knownLimit;
-      const active = knownLimit ? 'fa-solid' : 'fa-regular';
-      const title = tab === "techniques" 
-                    ? game.i18n.localize("dc20rpg.item.sheet.technique.countToLimitTitle")
-                    : game.i18n.localize("dc20rpg.item.sheet.spell.countToLimitTitle")
-      component += `<a class="item-activable ${active} fa-book" title="${title}" data-item-id="${item._id}" data-path="system.knownLimit"></a>`  
-    }
-
-    return component;
-  });
+    return `<a class="item-activable ${active} fa-star" data-tooltip="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`;
+  }
 
   Handlebars.registerHelper('components', (item) => {
     let component = '';
 
     // Components
-    Object.entries(item.system.components).forEach(([key, cmp]) => {
+    const components = item.system.components || {};
+    Object.entries(components).forEach(([key, cmp]) => {
       if (cmp.active) {
         let description = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components);
         const letter = cmp.char;
@@ -505,32 +519,6 @@ export function registerHandlebarsCreators() {
   });
 }
 
-function _printWithZero(cost, mergeAmount, icon) {
-  if (cost === undefined) return '';
-  if (cost === 0) return `<i class="${icon} fa-light cost-icon"></i>`;
-  const costIconHtml = cost < 0 ? `<i class="${icon} fa-solid cost-icon">+</i>` : `<i class="${icon} fa-solid cost-icon"></i>`;
-  return _print(Math.abs(cost), mergeAmount, costIconHtml);
-}
-
-function _printNonZero(cost, mergeAmount, icon) {
-  if (!cost) return '';
-  const costIconHtml = cost < 0 ? `<i class="${icon} fa-solid cost-icon">+</i>` : `<i class="${icon} fa-solid cost-icon"></i>`;
-  return _print(Math.abs(cost), mergeAmount, costIconHtml);
-}
-
-function _printImg(cost, mergeAmount, iconPath) {
-  if (!cost) return '';
-  const costImg = cost < 0 ? `<img src=${iconPath} class="cost-img">+` : `<img src=${iconPath} class="cost-img">`;
-  return _print(Math.abs(cost), mergeAmount, costImg);
-}
-
-function _print(cost, mergeAmount, costIconHtml) {
-  if (mergeAmount > 4 && cost > 1) return `<b>${cost}x</b>${costIconHtml}`;
-  let pointsPrinter = "";
-  for (let i = 1; i <= cost; i ++) pointsPrinter += costIconHtml;
-  return pointsPrinter;
-}
-
 function _attack(attack) {
   let icon = "fa-question";
   if (attack.checkType === "attack" && attack.rangeType === "melee") icon = 'fa-gavel';
@@ -596,4 +584,45 @@ function _descriptionChar(description, char) {
     </div>
   </div>
   `
+}
+
+export function costPrinter(cost, resources=false, charges=false, quantity=false, showMinorAction=false) {
+  let component = '';
+  if (!cost) return "";
+  if (resources) {
+    for (const [key, resource] of Object.entries(cost.resources)) {
+      const isMinor = key === "ap" && resource.amount === 0 && showMinorAction;
+      if (resource.amount === 0 && !isMinor) continue;
+      
+      const weight = isMinor ? "fa-light" : "fa-solid";
+      const icon = resource.custom ? `<img src=${resource.img} class="cost-img">` : `<i class="${resource.icon} ${weight}"></i>`;
+      component += _toCost(key, icon, resource.amount, resource.label);
+    }
+  }
+
+  if (charges) {
+    for (const charge of Object.values(cost.charges)) {
+      if (charge.amount === 0) continue;
+      const icon = `<i class="${charge.icon} fa-solid"></i>`;
+      const title = `Charges from: '${charge.itemName}'`;
+      component += _toCost("charge", icon, charge.amount, title);
+    }
+  }
+
+  if (quantity) {
+    for (const quantity of Object.values(cost.quantity)) {
+      if (quantity.amount === 0) continue;
+      const icon = `<i class="${quantity.icon} fa-solid"></i>`;
+      const title = `Quantity from: '${quantity.itemName}'`;
+      component += _toCost("quantity", icon, quantity.amount, title);
+    }
+  }
+
+  return component ? `<ul class="cost-printer">${component}</ul>` : "";
+}
+
+function _toCost(key, icon, amount, title) {
+  const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
+  const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
+  return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
 }

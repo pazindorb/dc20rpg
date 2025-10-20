@@ -1,4 +1,4 @@
-import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
@@ -69,7 +69,7 @@ export async function runTemporaryMacro(command, object, additionalFields) {
     }
   }
   macro.params = scope;
-  await macro.execute(scope);
+  return await macro.execute(scope);
 }
 
 //=================================
@@ -152,6 +152,6 @@ export async function rollItemWithName(itemName) {
       continue;
     }
 
-    promptItemRoll(actor, item);
+    RollDialog.open(actor, item);
   }
 }

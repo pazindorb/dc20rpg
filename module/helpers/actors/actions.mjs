@@ -1,9 +1,8 @@
-import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { RollDialog } from "../../roll/rollDialog.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, roundFloat } from "../utils.mjs";
-import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
-import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
+import { resetEnhancements } from "./rollsFromActor.mjs";
 
 //===================================
 //            HELP ACTION           =
@@ -14,7 +13,7 @@ import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
  *  "diceValue": Number - value on a dice (ex 8). If provided MHP will also be skipped.
  *  "ignoreMHP": Boolean - If provided MHP will be skipped.
  *  "subtract": Boolean - If provided help dice will be subtracted from the roll instead.
- *  "doNotExpire": Boolean - If provided help dice wont expire at the start of actor's next turn.
+ *  "duration": String - When should this dice expire.
  * }
  */
 export function prepareHelpAction(actor, options={}) {
@@ -27,18 +26,18 @@ export function prepareHelpAction(actor, options={}) {
   const subtract = options.subtract ? "-" : "";
   activeDice[generateKey()] = {
     value: `${subtract}d${maxDice}`,
-    doNotExpire: options.doNotExpire
+    duration: options.duration || "round"
   }
   actor.update({["system.help.active"]: activeDice});
 }
 
-export async function clearHelpDice(actor, key) {
+export async function clearHelpDice(actor, key, duration="round") {
   if (key) {
     await actor.update({[`system.help.active.-=${key}`]: null});
   }
   else {
     for (const [key, help] of Object.entries(actor.system.help.active)) {
-      if (!help.doNotExpire) await actor.update({[`system.help.active.-=${key}`]: null})
+      if (help.duration === duration) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
 }
@@ -59,11 +58,19 @@ export function getActiveHelpDice(actor) {
       formula: help.value,
       icon: icon,
       subtraction: help.value.includes("-"),
-      doNotExpire: help.doNotExpire
+      duration: help.duration,
+      tooltip: _helpDiceTooltip(help)
     }
   }
   return dice;
 }
+
+function _helpDiceTooltip(help) {
+  const header = `${game.i18n.localize("dc20rpg.sheet.help.helpDice")} (${help.value})`
+  const duration = `${game.i18n.localize("dc20rpg.sheet.help.duration")}: ${game.i18n.localize(`dc20rpg.help.${help.duration}`)}`;
+  const icon = "<i class='fa-solid fa-stopwatch margin-right'></i>";
+  return `<h4 class='margin-top-5'>${header}</h4> <div class='middle-section'><p>${icon} ${duration}</p></div><hr/>${game.i18n.localize("dc20rpg.sheet.help.dropOnChat")}`;
+}        
 
 //===================================
 //            MOVE ACTION           =
@@ -105,6 +112,9 @@ export async function subtractMovePoints(actor, cost) {
 }
 
 export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMovement="ground") {
+  const spendExtraAP = game.settings.get("dc20rpg","spendMoreApOnMovePoints");
+  if (spendExtraAP === "never") return missingMovePoints;
+
   const movePoints = actor.system.movement[selectedMovement].current;
   if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
 
@@ -115,8 +125,9 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
     movePointsGained += movePoints;
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
-  if (proceed && subtractAP(actor, apSpend)) {
+  let proceed = true;
+  if (spendExtraAP === "ask") proceed = await SimplePopup.confirm(`You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`);
+  if (proceed && actor.resources.ap.checkAndSpend(apSpend)) {
     await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;
   }
@@ -126,11 +137,11 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
 //===================================
 //            HELD ACTION           =
 //===================================
-export function heldAction(item, actor) {
-  const apCost = collectExpectedUsageCost(actor, item)[0].actionPoint;
-  if (!subtractAP(actor, apCost)) return;
+export function holdAction(item, actor) {
+  const cost = item.use.collectUseCost();
+  if (!actor.resources.ap.checkAndSpend(cost.resources.ap)) return;
 
-  const rollMenu = item.flags.dc20rpg.rollMenu;
+  const rollMenu = item.system.rollMenu;
   const enhancements = {};
   item.allEnhancements.entries().forEach(([key, enh]) => enhancements[key] = enh.number);
   const actionHeld = {
@@ -144,7 +155,7 @@ export function heldAction(item, actor) {
   }
   actor.update({["flags.dc20rpg.actionHeld"]: actionHeld});
   resetEnhancements(item, actor);
-  resetRollMenu(rollMenu, item);
+  rollMenu.clear();
 }
 
 export async function triggerHeldAction(actor) {
@@ -155,7 +166,7 @@ export async function triggerHeldAction(actor) {
   if (!item) return;
   
   await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: true});
-  const result = await promptItemRoll(actor, item);
+  const result = await RollDialog.open(actor, item); 
   await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: false});
   if (!result) return;
   clearHeldAction(actor);

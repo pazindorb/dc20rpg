@@ -88,12 +88,17 @@ export async function changeActivableProperty(pathToValue, object){
 /**
  * Changes numeric value for given path.
  */
-export function changeNumericValue(value, pathToValue, object) {
+export async function changeNumericValue(value, pathToValue, object, options={}) {
   let changedValue = parseInt(value);
   if (isNaN(changedValue)) changedValue = 0;
-  // if (changedValue < 0) changedValue = 0;
+  if (options.lowerLimit != null) {
+    if (changedValue < options.lowerLimit) changedValue = options.lowerLimit;
+  }
+  if (options.upperLimit != null) {
+    if (changedValue > options.upperLimit) changedValue = options.upperLimit;
+  }
 
-  object.update({[pathToValue] : changedValue});
+  await object.update({[pathToValue] : changedValue});
 }
 
 /**

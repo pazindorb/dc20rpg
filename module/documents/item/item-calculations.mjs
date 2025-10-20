@@ -8,8 +8,6 @@ export function makeCalculations(item) {
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
   if (item.type === "weapon") _runWeaponStyleCheck(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
-
-  if (item.system.hasOwnProperty("usesWeapon")) _usesWeapon(item);
 }
 
 function _calculateRollModifier(item) {
@@ -98,29 +96,6 @@ function _calculateMaxCharges(item) {
   const rollData = item.getRollData();
   charges.max = charges.maxChargesFormula ? evaluateDicelessFormula(charges.maxChargesFormula, rollData, true).total : null;
   if (charges.current === null) charges.current = charges.max;
-}
-
-function _usesWeapon(item) {
-  const usesWeapon = item.system.usesWeapon;
-  if (!usesWeapon?.weaponAttack) return;
-
-  const owner = item.actor;
-  if (!owner) return;
-
-  const weapon = owner.items.get(usesWeapon.weaponId);
-  if (!weapon) return;
-  
-  // We want to copy weapon attack range, weaponStyle and weaponType so we can make 
-  // conditionals work for techniques and features that are using weapons
-  item.system.weaponStyle = weapon.system.weaponStyle;
-  item.system.weaponType = weapon.system.weaponType;
-  item.system.weaponStyleActive = weapon.system.weaponStyleActive;
-  item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
-  item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
-
-  // We also want to copy weapon properties and range
-  item.system.properties = weapon.system.properties;
-  item.system.range = weapon.system.range;
 }
 
 function _runWeaponStyleCheck(item) {

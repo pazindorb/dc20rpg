@@ -22,6 +22,7 @@
       }
 
       span {
+        color: var(--color-text-secondary);
         font-size: 14px;
         font-weight: bold;
       }
@@ -152,11 +153,46 @@
     #hotbar-controls-left, #hotbar-controls-right {
       height: 100%;
       justify-content: end;
+      gap: 0px;
 
-      .hotbar-controls {
+      .button-small {
+        font-size: 12px;
+        max-width: 22px;
+        max-height: 22px;
+      }
+
+      .button-wide {
+        width: 36px;
+        height: 26px;
+      }
+
+      .button-large {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+        background-color: $primary-dark;
+        color: var(--color-light-2);
+        border-color: var(--color-cool-4);
+      }
+
+      .move-points {
+
         button {
-          width: 35px;
-          height: 26px;
+          border: 1px solid var(--color-cool-4);
+          border-top: 0;
+          border-radius: 0 0 4px 4px;
+        }
+
+        input {
+          height: 40px;
+          font-family: $font-header;
+          border: 1px solid var(--color-cool-4);
+          border-radius: 4px 4px 0 0;
+          background-color: $primary-darker;
+          color: var(--color-light-2);
+          text-align: center;
+          font-size: 22px;
+          width: 36px;
         }
       }
     }
@@ -363,15 +399,26 @@
             }
           }
 
-          .action-type, .is-reaction, .show-charges, .equipped {
+          .action-type, .is-reaction, .show-charges, .slot-keybind, .equipped {
             position: absolute;
             background-color: #3b3b3bc2;
           }
 
           .action-type {
             font-size: 11px;
-            border-radius: 4px 0 10px 0;
-            padding: 3px 5px 3px 3px;
+            margin-top: 29px;
+            border-radius: 0 10px 0 4px;
+            padding: 3px;
+          }
+
+          .slot-keybind {
+            text-align: center;
+            height: 15px;
+            min-width: 15px;
+            font-size: 13px;
+            font-family: "Humaroid";
+            border-radius: 4px 0 5px 0;
+            padding-right: 2px;
           }
 
           .is-reaction {
@@ -397,7 +444,8 @@
             font-size: 14px;
             font-family: "Humaroid";
             margin-top: -15px;
-            border-radius: 0 10px 0 4px;
+            margin-left: 15px;
+            border-radius: 10px 10px 0 0;
             padding-bottom: 2px;
           }
         }
@@ -409,7 +457,18 @@
           align-items: center;
           margin-bottom: 15px;
 
-          img {
+          .portrait-overlay {
+            z-index: 2;
+            border: 0;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            margin-left: 20px;
+            margin-top: -25px;
+            filter: opacity(0.6);
+          }
+
+          .portrait {
             z-index: 1;
             border: 2px solid $secondary-darker;
             object-position: 50% 0;

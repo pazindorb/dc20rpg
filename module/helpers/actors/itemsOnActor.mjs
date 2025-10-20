@@ -1,10 +1,9 @@
-import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
-import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
@@ -76,7 +75,7 @@ export async function splitItem(item) {
   if (!item.system.stackable) return;
 
   const currentQuantity = item.system.quantity;
-  const stackSize = await getSimplePopup("input", {header: `Provide New Stack Size`, information: [`Current Quantity: ${currentQuantity}`]});
+  const stackSize = await SimplePopup.input(`Provide new stack size. Current Quantity: ${currentQuantity}`);
   if (stackSize) {
     const newStack = parseInt(stackSize);
     const oldStack = currentQuantity - newStack;
@@ -103,15 +102,15 @@ export async function addItemToActorInterceptor(item, actor) {
 
   // Item Provided Custom Resource
   if (item.system.isResource) {
-    createNewCustomResourceFromItem(item.system.resource, item.img, actor);
+    _createNewCustomResourceFromItem(item, actor);
   }
 }
 
 export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if isResource was we can update actor's custom resources
   if (updateData.system?.hasOwnProperty("isResource")) {
-    if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);
-    else removeResource(item.system.resource.resourceKey, actor);
+    if(updateData.system.isResource) _createNewCustomResourceFromItem(item, actor);
+    else actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
 
   // Check if on item toggle macro should be runned 
@@ -134,8 +133,22 @@ export async function removeItemFromActorInterceptor(item, actor) {
 
   // Item Provided Custom Resource
   if (item.system.isResource) {
-    removeResource(item.system.resource.resourceKey, actor);
+    actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
+}
+
+async function _createNewCustomResourceFromItem(item, actor) {
+  const resource = item.system.resource;
+  const resourceKey = resource.resourceKey;
+
+  const maxFormula = resource.useStandardTable ?  `@scaling.${resourceKey}` : resource.customMaxFormula;
+  const newResource = {
+    label: resource.name,
+    img: item.img,
+    maxFormula: maxFormula,
+    reset: resource.reset
+  }
+  await actor.resources.createCustomResource(newResource, resourceKey);
 }
 
 //======================================
@@ -198,11 +211,6 @@ async function removeUniqueItemFromActor(item, actor) {
 
   const uniqueItemId = actor.system.details[itemType].id;
   if (uniqueItemId === item._id) {
-    
-    // Remove item's custom resources from actor
-    Object.entries(item.system.scaling)
-      .filter(([key, scalingValue]) => scalingValue.isResource)
-      .forEach(([key, scalingValue]) => removeResource(key, actor));
 
     switch (itemType) {
       case "class":
@@ -361,7 +369,7 @@ export async function changeLevel(up, itemId, actor) {
 }
 
 export async function rerunAdvancement(actor, classId) {
-  const confirmed = await getSimplePopup("confirm", {header: "Do you want to repeat the last level up?"});
+  const confirmed = await SimplePopup.confirm("Do you want to repeat the last level up?");
   if (!confirmed) return;
   await changeLevel("false", classId, actor);
   await changeLevel("true", classId, actor);
@@ -376,22 +384,11 @@ export async function createScrollFromSpell(spell) {
   scroll.type = 'consumable';
   scroll.system.consumableType = "scroll";
   scroll.system.enhancements = {};
-  scroll.system.costs.resources = { actionPoint: 2 };
+  scroll.system.costs.resources = { ap: 2 };
 
   if (spell.actor) createItemOnActor(spell.actor, scroll);
   else Item.create(scroll);
   spell.sheet.close();
-}
-
-export function collectAmmoForWeapon(item, actor) {
-  if (!actor) return {};
-  const useAmmo = item.system?.properties?.ammo?.active;
-  if (!useAmmo) return {};
-
-  const ammo = {};
-  actor.items.filter(item => item.system.consumableType === "ammunition")
-            .forEach(item => ammo[item.id] = item);
-  return ammo;
 }
 
 export function collectWeaponsFromActor(actor) {
@@ -399,7 +396,7 @@ export function collectWeaponsFromActor(actor) {
   actor.items.forEach(item => {
     const identified = item.system.statuses ? item.system.statuses.identified : true;
     if (item.type === "weapon" && identified) 
-      weapons[item.id] = item;
+      weapons[item.id] = item.name;
   });
   return weapons;
 }
@@ -513,7 +510,7 @@ export async function handleStackableItem(createdItem, actor, event, transfer, s
   if (!stacks) {
     stacks = 1;
     if (quantity > 1) {
-      const provided = await getSimplePopup("input", {header: "How many stack you want to transfer?"});
+      const provided = await SimplePopup.input("How many stack you want to transfer?");
       stacks = parseInt(provided) > quantity ? quantity : parseInt(provided);
     }
   }

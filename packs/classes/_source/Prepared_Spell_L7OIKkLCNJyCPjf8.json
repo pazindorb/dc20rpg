@@ -83,11 +83,12 @@
           "stamina": null,
           "grit": null,
           "custom": {},
-          "restPoints": null
+          "restPoints": null,
+          "ap": null
         },
         "charges": {
-          "consume": true,
-          "fromOriginal": true
+          "fromOriginal": true,
+          "subtract": 1
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -98,7 +99,14 @@
           "formula": {
             "formula": "",
             "type": "",
-            "category": "damage"
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
           },
           "addsNewRollRequest": false,
           "rollRequest": {
@@ -120,7 +128,8 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forOneMinute": false
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -132,9 +141,25 @@
             "melee": null,
             "normal": null,
             "max": null
+          },
+          "changeManaSpendLimit": 1,
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast this Spell, you can increase your Mana Spend Limit by 1. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use this Feature once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Long Res</strong>t, but you regain the ability to use it when you roll for <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Initiative</strong>.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast this Spell, you can increase your Mana Spend Limit by 1. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use this Feature once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Long Res</strong>t, but you regain the ability to use it when you roll for <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Initiative</strong>.</span></p>",
+        "hide": false,
+        "key": "DC6dzzjscncyaT7f",
+        "sourceItemId": "L7OIKkLCNJyCPjf8",
+        "sourceItemName": "Prepared Spell",
+        "sourceItemImg": "icons/magic/control/orb-web-hold.webp",
+        "active": false
       }
     },
     "copyEnhancements": {
@@ -166,7 +191,7 @@
         "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "combat",
+        "reset": "",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -226,16 +251,16 @@
     "quickRoll": false,
     "macros": {
       "aoRqwlzsx20HfJzL": {
-        "name": "onDemand",
+        "name": "Change Prepared Spell",
         "trigger": "onDemand",
-        "command": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
+        "command": "item.callMacro(\"onCreate\")",
         "disabled": false,
-        "title": ""
+        "title": "Change Prepared Spell"
       },
       "EXCc0RsC2iomzI7T": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
+        "command": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Spell for your Prepared Spell\", spells);\n\nawait item.update({[\"system.copyEnhancements.copyFor\"]: `id=[\"${spellId}\"]`});\nawait item.updateShortInfo(`Prepared Spell: ${spells[spellId]}`);",
         "disabled": false,
         "title": ""
       }
@@ -311,11 +336,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350035266,
-    "modifiedTime": 1751528080927,
+    "modifiedTime": 1760621110333,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

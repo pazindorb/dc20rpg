@@ -17,6 +17,7 @@ export function makeCalculations(actor) {
 		_attributePoints(actor);
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
+		_manaSpendLimit(actor);
 	}
 	if (actor.type === "companion") {
 		_actionPoints(actor);
@@ -35,30 +36,68 @@ export function makeCalculations(actor) {
 }
 
 function _skillModifiers(actor) {
-	const exhaustion = actor.exhaustion;
-	const attributes = actor.system.attributes;
-	const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
-	const levelIncrease = new Set(actor.system.expertise.levelIncrease);
-
 	// Calculate skills modifiers
-	const overrideMasteryWithOwner = companionShare(actor, "skills");
 	for (let [key, skill] of Object.entries(actor.system.skills)) {
-		if (levelIncrease.has(key)) skill.mastery += 1;
-		if (overrideMasteryWithOwner) {
+		if (actor.shouldShareWithOwner("skills")) {
 			skill.mastery = actor.companionOwner.system.skills[key].mastery;
 		}
-		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
-		if (expertise.has(key)) skill.expertise = true;
+		_skillModifier(skill, key, actor);
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
-		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
-			if (levelIncrease.has(key)) skill.mastery += 1;
-			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
-			if (expertise.has(key)) skill.expertise = true;
+		for (let [key, skill] of Object.entries(actor.system.trades)) {
+			_skillModifier(skill, key, actor);
 		}
 	}
+
+	// Prepare Language label
+	for (let [key, language] of Object.entries(actor.system.languages)) {
+		language.masteryLimit = 2;
+    language.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[language.mastery];
+	}
+}
+
+function _skillModifier(skill, key, actor) {
+	const attributes = actor.system.attributes;
+	const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
+	const levelIncrease = new Set(actor.system.expertise.levelIncrease);
+
+	if (levelIncrease.has(key)) {
+		skill.mastery += 1;
+		skill.expertiseIncrease = true;				
+	}
+	if (skill.baseAttribute === "max") {
+		skill.baseAttribute = _highestAttribute(skill.attributes, actor);
+		skill.highestSelected = true;
+	}
+	if (expertise.has(key)) skill.expertise = true;
+	skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
+	skill.masteryLimit = _masteryLimit(actor, skill.expertise);
+	skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
+}
+
+function _highestAttribute(attributes, actor) {
+	let highestKey = "";
+	const actorAtt = actor.system.attributes;
+	for (const key of attributes) {
+		if (!highestKey) {
+			highestKey = key;
+		}
+
+		if (actorAtt[highestKey].value < actorAtt[key].value) {
+			highestKey = key;
+		}
+	}
+	return highestKey;
+}
+
+function _masteryLimit(actor, expertise) {
+  if (actor.type !== "character") return 5;
+
+  const level = actor.system.details.level;
+  const masteryLimit = 1 + Math.floor(level/5) + (expertise ? 1 : 0);
+  return Math.min(masteryLimit, 5); // Grandmaster is a limit for now
 }
 
 function _specialRollTypes(actor) {
@@ -79,6 +118,9 @@ function _specialRollTypes(actor) {
 	const acr = data.skills.acr;
 	const ath = data.skills.ath;
 	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
+
+	// Language Check
+	special.languageCheck = Math.max(int.check, cha.check);
 
 	// Initiative Check
 	const CM = actor.system.details.combatMastery;
@@ -107,7 +149,7 @@ function _maxHp(actor) {
 
 function _maxMana(actor) {
 	const mana = actor.system.resources.mana;
-	mana.max = evaluateDicelessFormula(mana.maxFormula, actor.getRollData()).total
+	mana.max = evaluateDicelessFormula(mana.maxFormula, actor.getRollData()).total - mana.infusions;
 }
 
 function _maxStamina(actor) {
@@ -154,8 +196,10 @@ function _spellsAndTechniquesKnown(actor) {
 
 	const known = actor.system.known;
 	const maxCantrips = known.cantrips.max;
+	const maxInfusions = known.infusions.max;
 	let spells = 0;
 	let cantrips = 0;
+	let infusions = 0;
 	let maneuvers = 0;
 	let techniques = 0;
 	actor.items
@@ -169,17 +213,22 @@ function _spellsAndTechniquesKnown(actor) {
 				if (item.system.spellType === "cantrip" && cantrips < maxCantrips) cantrips++;
 				else spells++;
 			}
+			else if (item.type === "infusion") {
+				if (infusions < maxInfusions) infusions++;
+				else spells++;
+			}
 		});
 
 	known.spells.current = spells;
 	known.cantrips.current = cantrips;
+	known.infusions.current = infusions;
 	known.maneuvers.current = maneuvers;
 	known.techniques.current = techniques;
 }
 
 function _collectSpentPoints(actor) {
 	const actorSkills = actor.system.skills;
-	const actorTrades = actor.system.tradeSkills;
+	const actorTrades = actor.system.trades;
 	const actorLanguages = actor.system.languages;
 	const manualExpertise = new Set(actor.system.expertise.manual);
 	const collected = {
@@ -333,6 +382,12 @@ function _deathsDoor(actor) {
 	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;
+}
+
+function _manaSpendLimit(actor) {
+	const combatMastery = actor.system.details.combatMastery;
+	const msl = actor.system.details.manaSpendLimit;
+	msl.value = combatMastery + msl.bonus;
 }
 
 function _basicConditionals(actor) {

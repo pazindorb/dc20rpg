@@ -5,7 +5,8 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
 
     fields = {
       resources: new f.SchemaField({
-        actionPoint: new f.NumberField(initNull),
+        actionPoint: new f.NumberField(initNull), // TODO backward compatibilty remove as part of 0.10.0 update
+        ap: new f.NumberField(initNull),
         stamina: new f.NumberField(initNull),
         mana: new f.NumberField(initNull),
         health: new f.NumberField(initNull),
@@ -24,11 +25,8 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         reset: new f.StringField({required: true, nullable: false, initial: ""}),
         showAsResource: new f.BooleanField({required: true, initial: false}),
         subtract: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
-      }),
-      otherItem: new f.SchemaField({
-        itemId: new f.StringField({required: true, initial: ""}),
-        amountConsumed: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
-        consumeCharge: new f.BooleanField({required: true, initial: true}),
+        deleteOnZero: new f.BooleanField({required: true, initial: false}),
+        limitedInfusion: new f.StringField({required: true, nullable: false, initial: ""}),
       })
     }
     super(fields, options);

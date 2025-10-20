@@ -1,0 +1,54 @@
+<form id="dmg-calculator" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.dmgCalculator.title"}}</h4>
+
+  <div class="form-group">
+    <label>{{localize 'dc20rpg.dialog.dmgCalculator.calculationType'}}</label>
+    <select data-cType="string" data-path="calculationType">
+      {{selectOptions calculationTypes selected=calculationType blank=""}}
+    </select>
+  </div>
+
+  {{#if showConfig}}
+  <div class="form-group">
+    <label>{{localize (concat 'dc20rpg.dialog.dmgCalculator.distance.' calculationType)}}</label>
+    <input type="number" data-path="distance" value="{{distance}}" data-cType="numeric"/>
+  </div>
+  {{/if}}
+
+  {{#if hasTokens}}
+  <div class="box-content">
+    {{#each tokens as |wrapper tokenId|}}
+      <div class="actor">
+        <div class="wrapper">
+          <img src="{{wrapper.token.actor.img}}"/>
+          <input disabled value="{{wrapper.token.actor.name}}"/>
+        </div>
+        
+        {{#if @root.showConfig}}
+        <div class="wrapper">
+          {{#ifCond @root.calculationType '===' "fall"}}
+            {{#if wrapper.outcome}}
+            <span class="roll-result {{wrapper.outcome}}" data-tooltip="{{localize (concat 'dc20rpg.dialog.dmgCalculator.roll.' wrapper.outcome)}}">{{wrapper.result}}</span>
+            {{else}}
+              {{#if wrapper.awaiting}}
+              <i class="fa-regular fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>
+              {{else}}
+              <input class="check-big" type="checkbox" data-cType="boolean" data-path="tokens.{{tokenId}}.uncontrolled" {{checked wrapper.uncontrolled}} data-tooltip="{{localize 'dc20rpg.dialog.dmgCalculator.uncontrolled'}}"/>
+              <button data-action="askForRoll" data-token-id="{{tokenId}}" data-tooltip="{{localize "dc20rpg.dialog.dmgCalculator.rollCheck"}} (DC {{wrapper.rollDC}})"><i class="fa-solid fa-dice"></i> DC {{wrapper.rollDC}}</button>
+              {{/if}}
+            {{/if}}
+          {{/ifCond}}
+          <input class="check-big margin-left-10" type="checkbox"  data-cType="boolean" data-path="tokens.{{tokenId}}.shareDamage" {{checked wrapper.shareDamage}} data-tooltip="{{localize 'dc20rpg.dialog.dmgCalculator.shareDamage'}}"/>
+          <button data-action="apply" data-token-id="{{tokenId}}" data-tooltip="{{wrapper.damageTitle}}">{{wrapper.damage}}<i class="fa-solid {{#ifCond @root.calculationType '===' "fall"}}fa-person-falling{{else}}fa-hammer-war{{/ifCond}}"></i></button>
+        </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  <footer class="form-footer margin-top-5">
+    <button class="button" data-action="refresh"><i class="fa-solid fa-rotate-right"></i>{{localize "dc20rpg.dialog.dmgCalculator.refresh"}}</button>
+    <button class="button" data-action="close"><i class="fa-solid"></i>{{localize "dc20rpg.dialog.display.close"}}</button>
+  </footer>
+</form>

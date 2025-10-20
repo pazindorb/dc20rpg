@@ -113,11 +113,11 @@
     {{!-- Attributes --}}
     <div class="attributes-column margin-right-5">
       <div class="check-buttons">
-        <div class="roll-button rollable margin-right-2 save-button" data-check-key="phy" data-roll="d20 + @special.phySave" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save">
+        <div class="roll-button rollable margin-right-2 save-button" data-key="phy" data-type="save" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}">
           <span class="original">{{localize 'dc20rpg.sheet.rollMenu.phySave'}}</span>
           <span class="hovered bigger">{{numberFormat system.special.phySave decimals=0 sign=true}}</span>
         </div>
-        <div class="roll-button rollable margin-left-2 save-button" data-check-key="men" data-roll="d20 + @special.menSave" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save">
+        <div class="roll-button rollable margin-left-2 save-button" data-key="men" data-type="save" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}">
           <span class="original">{{localize 'dc20rpg.sheet.rollMenu.menSave'}}</span>
           <span class="hovered bigger">{{numberFormat system.special.menSave decimals=0 sign=true}}</span>
         </div>
@@ -134,7 +134,7 @@
           {{#ifCond key '!==' "prime"}}
           <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
             <div class="atr-name">
-              <label>{{key}}</label>
+              <label>{{localize (concat 'dc20rpg.attributes.short.' key '')}}</label>
             </div>
             {{#ifCond @root.system.attributePoints.left '||' @root.editMode}}
             <div class="buttons">
@@ -150,11 +150,11 @@
               <input disabled type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
             </div>
             <div class="roll-buttons">
-              <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+              <div class="roll-button check rollable" data-key="{{key}}" data-type="check" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
                 <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
                 <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
               </div>
-              <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+              <div class="roll-button save rollable" data-key="{{key}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
                 <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
                 <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
               </div>
@@ -284,7 +284,7 @@
       <div class="custom-resource-wrapper">
         {{!-- Custom Resource --}}
         {{#each system.resources.custom as |resource key|}}
-        <div class="custom-resource margin-bottom-3" title="{{resource.name}}" data-key="{{key}}" data-type="resource">
+        <div class="custom-resource margin-bottom-3" title="{{resource.label}}" data-key="{{key}}" data-type="resource">
           <img class="resource-icon {{#if @root.editMode}}edit-resource-img{{/if}}" src="{{resource.img}}" {{#if @root.editMode}} data-key="{{key}}"{{/if}}/>
           <div class="resource-charges">
             <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
@@ -298,7 +298,7 @@
           </div>
           {{else}}
             <div class="resource-buttons">
-              <a class="spend-regain-custom-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
+              <a class="spend-regain-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
             </div>
           {{/if}}
         </div>
@@ -416,23 +416,23 @@
           <span>{{localize 'dc20rpg.sheet.checkSave.title'}}</span>
         </div>
         <div class="check-buttons">
-          <div class="roll-button rollable margin-right-2" data-check-key="att" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}" data-type="attackCheck">
+          <div class="roll-button rollable margin-right-2" data-key="att" data-type="check" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.attack'}}</span>
             <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          <div class="roll-button rollable margin-left-2" data-check-key="spe" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}" data-type="spellCheck">
+          <div class="roll-button rollable margin-left-2" data-key="spe"  data-type="check" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.spell'}}</span>
             <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
           </div>
         </div>
         <div class="check-buttons">
           {{!-- Prime Check --}}
-          <div class="roll-button rollable margin-right-2" data-check-key="prime" data-roll="d20+@attributes.prime.check" title="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-type="">
+          <div class="roll-button rollable margin-right-2" data-key="prime" data-type="check" title="{{localize 'dc20rpg.sheet.rollMenu.prime'}}">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.prime'}}</span>
             <span class="hovered bigger">{{numberFormat system.attributes.prime.check decimals=0 sign=true}}</span>
           </div>
           {{#ifCond skills.skills.acr '&&' skills.skills.ath}}
-          <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.rollMenu.martialTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
+          <div class="roll-button rollable margin-left-2" data-key="mar" data-type="check" title="{{localize 'dc20rpg.sheet.rollMenu.martialTitle'}}">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
             <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
@@ -550,31 +550,23 @@
           <div class="top-menu">
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              {{#if @root.flags.dc20rpg.showBasicActions}}
-              <input type="text" name="flags.dc20rpg.headerFilters.basic" value="{{flags.dc20rpg.headerFilters.basic}}"/>
-              {{else}}
               <input type="text" name="flags.dc20rpg.headerFilters.favorites" value="{{flags.dc20rpg.headerFilters.favorites}}"/>
-              {{/if}}
-              
             </div>
-            <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
-              <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
+            <a class="base-action">
+              <span>{{localize "dc20rpg.sheet.showsActions"}}</span>
+              <i class="fa-solid fa-dice-d6 margin-left-5"></i>
             </a>
           </div>
-          {{#if @root.flags.dc20rpg.showBasicActions}}
-          <div class="actions">
-            {{item-table false basic "basic"}}
-          </div>
-          {{else}}
           <div class="favorites">
-            {{item-table @root.editMode favorites "favorites"}}
+            {{#each favorites as |table key|}} 
+            {{item-table table key=key navTab="favorites" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable status" editModeConfig="favorite"}}
+            {{/each}}
           </div>
-          {{/if}}
         </div>
       </div>
     </div>
 
-    <div class="tab inventory-tab" data-group="primary" data-tab="inventory">
+    <div class="tab inventory-tab {{#if flags.dc20rpg.showSlots}}slot-open{{/if}}" data-group="primary" data-tab="inventory">
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
@@ -589,6 +581,10 @@
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
         </div>
+        <div class="slot-manager">
+          <a class="add-slot fa-square-plus fa-lg fa-solid" title="{{localize 'dc20rpg.sheet.addSlot'}}"></a>
+          <a class="activable fa-image-user fa-lg {{#if flags.dc20rpg.showSlots}}fa-solid{{else}}fa-regular{{/if}}" title="{{localize 'dc20rpg.sheet.showSlots'}}" data-path="flags.dc20rpg.showSlots"></a>
+        </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
           {{#each system.currency as |value key|}}
@@ -600,15 +596,49 @@
         </div>
         {{/if}}
       </div>
+      {{#if containers}}
       <div class="containers item-list">
+        <div class="container-icon" data-tooltip="{{localize "dc20rpg.sheet.containers"}}">
+          <i class="fa-solid fa-backpack fa-2x"></i>
+        </div>
         {{#each containers}}
         <div class="container item item-edit editable" data-tooltip="Open {{name}}" data-item-id="{{id}}">
-          {{#if @root.editMode}}<a class="item-delete fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"data-item-id="{{_id}}"></a>{{/if}}
+          {{#if @root.editMode}}<a class="item-delete" data-item-id="{{_id}}"><i class="fas fa-trash fa-lg" title="{{localize "dc20rpg.sheet.items.deleteItem"}}"></i></a>{{/if}}
           <img src="{{img}}"/>
         </div>
         {{/each}}
       </div>
-      {{item-table @root.editMode inventory "inventory"}}
+      {{/if}}
+
+      <div class="second-row {{#if flags.dc20rpg.showSlots}}slot-open{{/if}}">
+        {{#if flags.dc20rpg.showSlots}}
+        <div class="slot-selector margin-right-5">
+          <div class="slot-wrapper">
+            {{{slot-printer system.equipmentSlots.head "head" sectionIcon="fa-solid fa-helmet-battle" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.neck "neck" sectionIcon="fa-solid fa-medal" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.mantle "mantle" sectionIcon="fa-solid fa-booth-curtain" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.body "body" sectionIcon="fa-solid fa-shirt-long-sleeve" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.waist "waist" sectionIcon="fa-solid fa-bacon" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.hand "hand" sectionIcon="fa-solid fa-hand" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.feet "feet" sectionIcon="fa-solid fa-boot-heeled" editMode=@root.editMode}}}
+
+            {{{slot-printer system.equipmentSlots.weapon "weapon" sectionIcon="fa-solid fa-sword" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.ring "ring" sectionIcon="fa-solid fa-ring-diamond" editMode=@root.editMode}}}
+            {{{slot-printer system.equipmentSlots.trinket "trinket" sectionIcon="fa-solid fa-book-sparkles" editMode=@root.editMode}}}
+          </div>
+          <div class="characer-img"><img src="{{actor.img}}"/></div>
+        </div>
+        <div class="table-wrapper">
+          {{#each inventory as |table key|}} 
+          {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost"}}
+          {{/each}}
+        </div>
+        {{else}}
+          {{#each inventory as |table key|}} 
+          {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
+          {{/each}}
+        {{/if}}
+      </div>
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
@@ -626,7 +656,9 @@
         </div>
         {{/if}}
       </div>
-      {{item-table @root.editMode features "features"}}
+      {{#each features as |table key|}} 
+      {{item-table table key=key navTab="features" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
@@ -649,7 +681,9 @@
       {{/if}}
       </div>
 
-      {{item-table @root.editMode techniques "techniques"}}
+      {{#each techniques as |table key|}} 
+      {{item-table table key=key navTab="techniques" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable favorite known" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
@@ -667,11 +701,14 @@
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>
+          {{#if system.known.infusions.max}}<span class="margin-left-5">{{localize "dc20rpg.sheet.infusions.known"}} ({{system.known.infusions.current}}/{{system.known.infusions.max}})</span>{{/if}}
           <span class="margin-left-5">{{localize "dc20rpg.sheet.spells.known"}} ({{system.known.spells.current}}/{{system.known.spells.max}})</span>
         </div>
       {{/if}}
       </div>
-      {{item-table @root.editMode spells "spells"}}
+      {{#each spells as |table key|}} 
+      {{item-table table key=key navTab="spells" editMode=@root.editMode columns="name components action charges cost config" itemConfig="macro activable favorite known" editModeConfig="edit copy delete"}}
+      {{/each}}
     </div>
     
     <div class="tab effects-tab" data-group="primary" data-tab="effects">

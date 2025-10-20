@@ -25,23 +25,25 @@ import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
-import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
+import { DC20PrototypeTokenConfig, DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
 import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
-import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
 import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
+import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
   registerGameSettings(game.settings); // Register game settings
+  registerSystemKeybindings();
   prepareColorPalette(); // Prepare Color Palette
   
   CONFIG.DC20RPG = DC20RPG;
@@ -65,6 +67,7 @@ Hooks.once('init', async function() {
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
   CONFIG.ActiveEffect.legacyTransferral = false;
+  CONFIG.Token.prototypeSheetClass = DC20PrototypeTokenConfig;
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
@@ -90,6 +93,7 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
+  CONFIG.Item.dataModels.infusion = itemDM.DC20InfusionData;
   CONFIG.Item.dataModels.class = itemDM.DC20ClassData;
   CONFIG.Item.dataModels.subclass = itemDM.DC20SubclassData;
   CONFIG.Item.dataModels.ancestry = itemDM.DC20AncestryData;
@@ -121,7 +125,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.9.5.2", "0.9.7.0", new Set(["dc20-core-rulebook"]));
+  // await testMigration("0.9.7.3", "0.9.8.0", new Set(["dc20-core-rulebook"]));
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -141,6 +145,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   registerUniqueSystemItems();
+  overrideCoreKeybindActions();
 
   if(game.user.isGM) await createGmToolsMenu();
 
@@ -175,7 +180,7 @@ Hooks.on("createScene", async (scene, options, userId) => {
   if (userId !== game.userId) return;
 
   if (scene.grid.distance !== 1) {
-    const confirmed = await getSimplePopup("confirm", {header: "Incorrect grid distance", information: [`Looks like the '${scene.name}' scene is using a different than default grid distance. This may cause problems with distance calculations. Would you like to replace the distance with the default for this system?`]})
+    const confirmed = await SimplePopup.open("confirm", {header: "Incorrect grid distance", information: [`Looks like the '${scene.name}' scene is using a different than default grid distance. This may cause problems with distance calculations. Would you like to replace the distance with the default for this system?`]});
     if (confirmed) scene.update({
       ["grid.units"]: "Space",
       ["grid.distance"]: 1

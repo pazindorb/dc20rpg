@@ -13,6 +13,8 @@ import RollLevelFields from "./fields/actor/rollLevel.mjs";
 import SenseFields from "./fields/actor/senses.mjs";
 import SizeFields from "./fields/actor/size.mjs";
 import SkillFields from "./fields/actor/skills.mjs";
+import RollMenu from "./fields/rollMenu.mjs";
+import EquipmentSlotFields from "./fields/actor/equipmentSlots.mjs";
 
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -80,6 +82,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
       }),
       combatTraining: new CombatTraining(),
+      rollMenu: new RollMenu(false),
       globalFormulaModifiers: new GFModFields(),
       globalModifier: new f.SchemaField({
         range: new f.SchemaField({
@@ -110,7 +113,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       keywords: new f.ObjectField({required: true}),
       rollLevel: new RollLevelFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
-      sustain: new f.ArrayField(new f.ObjectField(), {required: true}),
+      sustain: new f.ObjectField({required: true, initial: {}}),
       journal: new f.StringField({required: true, initial: ""}),
       tokenHotbar: new f.SchemaField({
         sectionA: new f.ObjectField({required: true}),
@@ -146,6 +149,10 @@ export class DC20CharacterData extends DC20BaseActorData {
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
+        infusions: new f.SchemaField({
+          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
         spells: new f.SchemaField({
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -159,7 +166,8 @@ export class DC20CharacterData extends DC20BaseActorData {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
       }),
-      tradeSkills: new SkillFields("trade"),
+      tradeSkills: new SkillFields("trade"), // TODO backward compatibilty remove as part of 0.10.0 update
+      trades: new SkillFields("trade"),
       details: new f.SchemaField({
         ancestry: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
         background: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
@@ -171,6 +179,10 @@ export class DC20CharacterData extends DC20BaseActorData {
         }, {required: true}),
         subclass: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        manaSpendLimit: new f.SchemaField({
+          value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }), 
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
@@ -183,6 +195,7 @@ export class DC20CharacterData extends DC20BaseActorData {
       size: new SizeFields(true),
       movement: new MovementFields(false),
       rest: new RestFields(),
+      equipmentSlots: new EquipmentSlotFields(),
       tokenHotbar: new f.SchemaField({        
         sectionA: new f.ObjectField({required: true}),
         sectionB: new f.ObjectField({required: true}),
@@ -196,7 +209,11 @@ export class DC20CharacterData extends DC20BaseActorData {
           key: "mana",
           label: "Mana",
         }}),
-        resource3: new f.ObjectField({required: true}),
+        resource3: new f.ObjectField({required: true, initial: {
+          color: "#991a1aff",
+          key: "grit",
+          label: "Grit",
+        }}),
       })
     });
   } 

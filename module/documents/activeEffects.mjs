@@ -19,7 +19,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         useCustom: new fields.BooleanField({required: true, initial: false})
       })),
       system: new fields.SchemaField({
+        sustained: new fields.SchemaField({
+          isSustained: new fields.BooleanField({required: true, initial: false}),
+          actorUuid: new fields.StringField({required: true}),
+          itemId: new fields.StringField({required: true}),
+        }),
         statusId: new fields.StringField({required: true}),
+        condition: new fields.BooleanField({required: true, initial: false}),
+        fromStatus: new fields.BooleanField({required: true, initial: false}),
         duration: new fields.SchemaField({
           useCounter: new fields.BooleanField({required: true, initial: false}),
           resetWhenEnabled: new fields.BooleanField({required: true, initial: false}),
@@ -34,6 +41,8 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
           mode: new fields.StringField({required: true}),
           value: new fields.StringField({required: true})
         }),
+        enableStatusOnCreation: new fields.ArrayField(new fields.StringField()),
+        disableStatusOnRemoval: new fields.ArrayField(new fields.StringField()),
         requireEnhancement: new fields.StringField({required: true}),
       })
     })
@@ -94,6 +103,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return effectConfig.mustEquip
   }
 
+  get isCondition() {
+    return this.system.fromStatus && this.system.condition;
+  }
+
+  get fromStatus() {
+    return this.system.fromStatus;
+  }
+
   async disable({ignoreStateChangeLock}={}) {
     if (this.disabled) return;
     if (this.isLinkedToItem) {
@@ -103,7 +120,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       }
       else {
         const parentItem = this.getSourceItem();
-        await parentItem.update({["system.toggle.toggledOn"]: false});
+        await parentItem.toggle({forceOff: true});
       }
     }
     await this.update({disabled: true});
@@ -123,7 +140,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       }
       else {
         const parentItem = this.getSourceItem();
-        await parentItem.update({["system.toggle.toggledOn"]: true});
+        await parentItem.toggle({forceOn: true});
       }
     }
 
@@ -217,7 +234,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         this.update(this.constructor.getInitialDuration());
       }
       runInstantEvents(this, this.parent);
+      this._shouldAddToSustainList(data.system.sustained);
     }
+  }
+
+  async _shouldAddToSustainList(sustained) {
+    if (!sustained.isSustained) return;
+    const actor = await fromUuid(sustained.actorUuid);
+    if (actor) actor.addEffectToSustain(sustained.itemId, this.uuid);
   }
 
   _runStatusChangeCheck(updateData) {
