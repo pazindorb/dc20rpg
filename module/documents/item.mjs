@@ -1,7 +1,7 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
 import { getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
-import { createTemporaryMacro, runTemporaryItemMacro } from "../helpers/macros.mjs";
+import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
@@ -91,6 +91,10 @@ export class DC20RpgItem extends Item {
 
   getEffectWithName(effectName) {
     return this.effects.getName(effectName);
+  }
+
+  getEffectByKey(effectKey) {
+    return this.effects.find(effect => effect.system.effectKey === effectKey);
   }
 
   async _onCreate(data, options, userId) {
@@ -218,6 +222,15 @@ export class DC20RpgItem extends Item {
 
   async callMacro(trigger, additionalFields, preventGlobalCall) {
     await runTemporaryItemMacro(this, trigger, this.actor, additionalFields, preventGlobalCall);
+  }
+
+  async callMacroWithKey(key, additionalFields={}) {
+    const macro = this.system.macros[key];
+    if (!macro || !macro.command) {
+      ui.notifications.error(`Macro with '${key}' doesn't exist.`)
+      return;
+    }
+    return await runTemporaryMacro(macro.command, this, {item: this, actor: this.parent, ...additionalFields});
   }
 
   hasMacroForTrigger(trigger) {

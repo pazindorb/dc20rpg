@@ -10,6 +10,7 @@ async function _migrateActors(migrateModules) {
     await _moveTradeSkills(actor);
     await _addInfusionTable(actor);
     await _updateActorItems(actor);
+    await actor.prepareBasicActions();
   }
 
   // Iterate over tokens
@@ -24,6 +25,7 @@ async function _migrateActors(migrateModules) {
     await _moveTradeSkills(actor);
     await _addInfusionTable(actor);
     await _updateActorItems(actor);
+    await actor.prepareBasicActions();
   }
 
   // Iterate over compendium actors
@@ -37,6 +39,7 @@ async function _migrateActors(migrateModules) {
         await _moveTradeSkills(actor);
         await _addInfusionTable(actor);
         await _updateActorItems(actor);
+        await actor.prepareBasicActions();
       }
     }
   }

@@ -647,7 +647,6 @@ export class DC20ChatMessage extends ChatMessage {
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     heal.allowOverheal = rollingActor.system.globalModifier.allow.overheal;
     await applyHealing(actor, heal, {messageId: this.id});
-    runEventsFor("targetConfirm", actor, triggerOnlyForIdFilter(this.speaker.actor));
   }
 
   async _onSaveRoll(targetKey, key, dc, againstStatuses) {

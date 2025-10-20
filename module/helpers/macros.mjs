@@ -69,7 +69,7 @@ export async function runTemporaryMacro(command, object, additionalFields) {
     }
   }
   macro.params = scope;
-  await macro.execute(scope);
+  return await macro.execute(scope);
 }
 
 //=================================

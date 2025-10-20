@@ -370,9 +370,15 @@ export class RollDialog extends DC20Dialog {
       roll = await rollFromItem(this.item._id, this.actor, true, this.rollMode);
     }
     else {
-      this.details.costs = [];
-      if (rollMenu.apCost) this.details.costs.push({key: "ap", value: rollMenu.apCost});
-      if (rollMenu.gritCost) this.details.costs.push({key: "grit", value: rollMenu.gritCost});      
+      if (!this.details.costs) this.details.costs = {};
+      if (rollMenu.apCost) {
+        if (this.details.costs.ap != null) this.details.costs.ap += rollMenu.apCost;
+        else this.details.costs.ap = rollMenu.apCost;
+      }
+      if (rollMenu.gritCost) {
+        if (this.details.costs.grit != null) this.details.costs.grit += rollMenu.gritCost;
+        else this.details.costs.grit = rollMenu.gritCost;
+      }   
       roll = await rollFromSheet(this.actor, this.details, this.rollMode);
     }
     this.promiseResolve(roll);

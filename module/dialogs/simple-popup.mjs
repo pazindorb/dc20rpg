@@ -36,7 +36,8 @@ import { DC20Dialog } from "./dc20Dialog.mjs";
  *      "type": select/input/checkbox,
  *      "label": String,
  *      "hint": String,
- *      "options": Object[only for select type]
+ *      "options": Object[only for select type],
+ *      "preselected": String/Boolean/Number
  *    }
  *  ]
  * }
@@ -137,7 +138,8 @@ export class SimplePopup extends DC20Dialog {
   _prepareInputs() {
     if (this.popupType !== "input") return;
     for (const input of this.data.inputs) {
-      if (input.type === "checkbox") input.value = false;
+      if (input.preselected) input.value = input.preselected;
+      else if (input.type === "checkbox") input.value = false;
       else input.value = "";
     }
   }

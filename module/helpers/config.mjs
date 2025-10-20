@@ -30,6 +30,9 @@ import { RollSelect } from "../dialogs/roll-select.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
+    tools: {
+      toSelectOptions
+    },
     dialog: {
       SimplePopup,
       TokenSelector,

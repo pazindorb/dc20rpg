@@ -425,11 +425,11 @@ function _getResourceDisplayData(key, amount, item, actor) {
   else {
     const resources = {...item.system.costs.resources};
     // TODO: backward compatibility - remove after 10.0
-    if (key === "ap" && !resources.ap) {
+    if (key === "ap" && resources.ap == null) {
       resources.ap = resources.actionPoint;
     } 
-    if (resources.custom[key]) return _customResource(resources.custom[key], amount);
-    else if (resources[key]) return _basicResource(key, amount);
+    if (resources.custom[key] != null) return _customResource(resources.custom[key], amount);
+    else if (resources[key] != null) return _basicResource(key, amount);
   }
 }
 

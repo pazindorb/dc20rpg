@@ -34,12 +34,12 @@ async function _rollFromFormula(formula, details, actor, sendToChat, rollMode) {
 
   // 1. Subtract Cost
   if (details.costs) {
-    for (const cost of details.costs) {
-      if (!actor.resources[cost.key].canSpend(cost.value)) return;
+    for (const [key, value] of Object.entries(details.costs)) {
+      if (!actor.resources[key].canSpend(value)) return;
     }
     // Do spend resources
-    for (const cost of details.costs) {
-      actor.resources[cost.key].spend(cost.value)
+    for (const [key, value] of Object.entries(details.costs)) {
+      actor.resources[key].spend(value);
     }
   }
 
