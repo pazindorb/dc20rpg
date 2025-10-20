@@ -671,7 +671,7 @@ export class DC20RpgActor extends Actor {
     if (this.type === "storage") return;
 
     // Remove all basic actions
-    const basicActionIds = this.items.filter(item => item.type === "basicAction").map(item => item.id);
+    const basicActionIds = this.items.filter(item => item.type === "basicAction" || item.system?.itemKey === "unarmedStrike").map(item => item.id);
     await this.deleteEmbeddedDocuments("Item", basicActionIds);
 
     // Add basic actions
