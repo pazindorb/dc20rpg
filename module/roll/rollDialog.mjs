@@ -57,7 +57,7 @@ export class RollDialog extends DC20Dialog {
 
   static async create(actor, data={}, options={}) {
     if (data.documentName === "Item") {
-      await runTemporaryItemMacro(data, "onRollDialog", actor);
+      await runTemporaryItemMacro(data, "onRollPrompt", actor);
       options.quickRoll = options.quickRoll || data.system.quickRoll;
     }
     
