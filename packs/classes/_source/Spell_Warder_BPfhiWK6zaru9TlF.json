@@ -161,7 +161,7 @@
       "3tIZMbkMmlYI5xkU": {
         "name": "preItemRoll",
         "trigger": "preItemRoll",
-        "command": "item.doNotSendToChat = true;\nlet alreadyActive = null;\nconst toSelect = {};\nitem.effects.forEach(effect => {\n  toSelect[effect.id]= effect.name;\n  if (actor.effects.getName(effect.name)) alreadyActive = actor.effects.getName(effect.name);\n});\nconst effectId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Resitance Type\", selectOptions: toSelect});\nconst effect = item.effects.get(effectId);\nif (effect) {\n  if (alreadyActive) alreadyActive.delete();\n  game.dc20rpg.effects.createEffectOn(effect, actor);\n}",
+        "command": "item.doNotSendToChat = true;\nlet alreadyActive = null;\nconst toSelect = {};\nitem.effects.forEach(effect => {\n  toSelect[effect.id]= effect.name;\n  if (actor.effects.getName(effect.name)) alreadyActive = actor.effects.getName(effect.name);\n});\nconst effectId = await DC20.dialog.SimplePopup.select(\"Select Resitance Type\", toSelect);\nconst effect = item.effects.get(effectId);\nif (effect) {\n  if (alreadyActive) alreadyActive.delete();\n  game.dc20rpg.effects.createEffectOn(effect, actor);\n}",
         "disabled": false,
         "title": ""
       }
@@ -827,7 +827,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034630,
-    "modifiedTime": 1760295152571,
+    "modifiedTime": 1760621453427,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

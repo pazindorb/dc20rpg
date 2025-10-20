@@ -158,9 +158,9 @@
     },
     "macros": {
       "eSqw39wQihuKdOsC": {
-        "name": "preItemRoll",
+        "name": "Trigger Spell Duel",
         "trigger": "preItemRoll",
-        "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourStaminaSpent = \"Your Stamina Spent\";\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\") + \" - Spell Breaker\";\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst answers = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: header, rows: [contestantSpellCheck, contestantManaSpent, yourManaSpent, yourStaminaSpent]});\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + intValues[1];\nconst rollBonus = intValues[2] + intValues[3];\n\nconst rollFormula = `d20 + @attackMod.value.martial + ${rollBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"att\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"roll\": rollFormula,\n  \"type\": \"attackCheck\",\n  \"description\": item.system.description,\n  \"costs\": [{key: \"mana\", value: intValues[2]}, {key: \"stamina\", value: intValues[3]}, {key: \"ap\", value: 2}]\n}\n\nconst duelRoll = await game.dc20rpg.tools.promptRoll(actor, rollDetails);\n\nif (duelRoll?.total === contestDC) {\n  game.dc20rpg.tools.getSimplePopup(\"info\", {header: header, information: [tieInfo]});\n}",
+        "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourStaminaSpent = \"Your Stamina Spent\";\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\") + \" - Spell Breaker\";\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent},\n  {type: \"input\", label: yourStaminaSpent},\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + intValues[1];\nconst rollBonus = intValues[2] + intValues[3];\n\nconst rollFormula = `d20 + @attackMod.value.martial + ${rollBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"att\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"roll\": rollFormula,\n  \"type\": \"attackCheck\",\n  \"description\": item.system.description,\n  \"costs\": {ap: 2, mana: intValues[2], stamina: intValues[3]}\n}\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails);\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
         "disabled": false,
         "title": ""
       }
@@ -240,7 +240,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034668,
-    "modifiedTime": 1760295148754,
+    "modifiedTime": 1760910352915,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

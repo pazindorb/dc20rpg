@@ -228,7 +228,7 @@
       "AHf8Dv5BdkCIqqJb": {
         "name": "Select Natural Weapon Passive ",
         "trigger": "onCreate",
-        "command": "const weaponStyle = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon Weapon Style\", selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles});\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: \"false\",\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
+        "command": "const weaponStyle = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles);\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: \"false\",\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
         "disabled": false,
         "title": ""
       },
@@ -241,7 +241,7 @@
       }
     },
     "itemKey": "naturalWeaponPassive",
-    "featureSourceItem": "beastborn",
+    "featureSourceItem": "",
     "requirements": {
       "level": 0
     },
@@ -292,7 +292,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1720112470033,
-    "modifiedTime": 1760521817791,
+    "modifiedTime": 1760614694842,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -442,14 +442,14 @@
       "YQ9GBiJjO493T7vy": {
         "name": "Change Divine Damage",
         "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
         "disabled": false,
         "title": "Change Divine Damage"
       },
       "7SZ8z1aAyntvreeG": {
         "name": "Add To Keyword",
         "trigger": "onCreate",
-        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
+        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
         "disabled": false,
         "title": ""
       },
@@ -591,7 +591,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034319,
-    "modifiedTime": 1760521814793,
+    "modifiedTime": 1760618823240,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

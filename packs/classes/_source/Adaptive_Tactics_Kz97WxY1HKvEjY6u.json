@@ -167,9 +167,9 @@
     "quickRoll": true,
     "macros": {
       "jUKSrdv202jBCDWB": {
-        "name": "preItemRoll",
+        "name": "Apply Adaptive Tactics",
         "trigger": "preItemRoll",
-        "command": "const tactic = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Which Tactic do you want to use?\", selectOptions: {assault: \"Assault\", deflect: \"Deflect\"}});\nif (!tactic) return;\n\nconst lastAttackMessages = game.messages.contents.filter(msg => msg.system.actionType === \"attack\").slice(-5).reverse();\nif (lastAttackMessages.length === 0) return;\n\nconst lastAttacks = {}\nfor (const msg of lastAttackMessages) {\n  lastAttacks[msg._id] = `${msg.system.rollTitle} - ${msg.alias}`;\n}\n\nconst messageId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Roll you want to modify\", selectOptions: lastAttacks});\nconst message = game.messages.get(messageId);\nif (!message) return;\n\nconst formula = tactic === \"assault\" ? \"d8\" : \"-d8\";\nawait message.modifyCoreRoll(formula, actor, \"Tactical Dice\");",
+        "command": "const tactic = await DC20.dialog.SimplePopup.select(\"Which Tactic do you want to use?\", {assault: \"Assault\", deflect: \"Deflect\"});\nif (!tactic) return;\n\nconst lastAttackMessages = game.messages.contents.filter(msg => msg.system.actionType === \"attack\").slice(-5).reverse();\nif (lastAttackMessages.length === 0) return;\n\nconst lastAttacks = {}\nfor (const msg of lastAttackMessages) {\n  lastAttacks[msg._id] = `${msg.system.rollTitle} - ${msg.alias}`;\n}\n\nconst messageId = await DC20.dialog.SimplePopup.select(\"Select Roll you want to modify\", lastAttacks);\nconst message = game.messages.get(messageId);\nif (!message) return;\n\nconst formula = tactic === \"assault\" ? \"d8\" : \"-d8\";\nawait message.modifyCoreRoll(formula, actor, \"Tactical Dice\");",
         "disabled": false,
         "title": ""
       }
@@ -244,7 +244,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350035281,
-    "modifiedTime": 1760295149052,
+    "modifiedTime": 1760621258455,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

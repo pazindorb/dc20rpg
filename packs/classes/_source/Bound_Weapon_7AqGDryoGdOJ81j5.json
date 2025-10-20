@@ -346,14 +346,14 @@
       "1knHaCb86zZ2whfi": {
         "name": "Change Bound Damage and Weapon",
         "trigger": "onDemand",
-        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: selectOptions});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nconst damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Damage type\", selectOptions: damageTypes});\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"boundedDamage\", selected);\n}",
+        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nconst damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"boundedDamage\", selected);\n}",
         "disabled": false,
         "title": "Change Bound Damage and Weapon"
       },
       "4V4jywix43dxomFi": {
         "name": "Add To Keyword",
         "trigger": "onCreate",
-        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: selectOptions});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nlet boundedDamage = actor.system.keywords.boundedDamage;\nlet newValue = boundedDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"boundedDamage\", newValue: newValue});",
+        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nlet boundedDamage = actor.system.keywords.boundedDamage;\nlet newValue = boundedDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"boundedDamage\", newValue: newValue});",
         "disabled": false,
         "title": ""
       },
@@ -408,7 +408,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034896,
-    "modifiedTime": 1760521813471,
+    "modifiedTime": 1760621748161,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

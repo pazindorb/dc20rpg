@@ -179,17 +179,10 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "zX4rQi30LolmtO7h": {
-        "name": "onCreate",
-        "trigger": "onCreate",
-        "command": "const channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
-        "disabled": false,
-        "title": ""
-      },
       "mujaZ6RJ8WalUTD8": {
         "name": "postItemRoll",
         "trigger": "postItemRoll",
-        "command": "if (rolls.core._total >= 15) {\n  game.dc20rpg.resources.regainBasicResource(\"mana\", actor, 1, true)\n}",
+        "command": "if (rolls.core._total >= 15) {\n  actor.resources.mana.regain(1);\n}",
         "disabled": false,
         "title": ""
       }
@@ -265,7 +258,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034442,
-    "modifiedTime": 1760521813682,
+    "modifiedTime": 1760988753091,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

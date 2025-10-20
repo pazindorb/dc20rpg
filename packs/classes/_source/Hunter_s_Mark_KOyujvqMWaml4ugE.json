@@ -163,11 +163,11 @@
     "quickRoll": false,
     "macros": {
       "WzJNfQVTpdDyjgU1": {
-        "name": "onDemand",
+        "name": "Get Help Dice",
         "trigger": "onDemand",
-        "command": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\ngame.dc20rpg.tools.getSimplePopup(\"info\", {header: \"Help Dice Ready\", information:[`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]});",
+        "command": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\nDC20.dialog.SimplePopup.info(\"Help Dice Ready\", [`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]);",
         "disabled": false,
-        "title": ""
+        "title": "Get Help Dice"
       }
     },
     "toggle": {
@@ -234,7 +234,7 @@
     "conditionals": {
       "fdr6ltYNl2z2Itk9": {
         "name": "Hunter's Mark",
-        "condition": "target.hasEffectWithKey(\"huntersMark\")",
+        "condition": "target.hasEffectWithKey(\"huntersMark\", false, true)",
         "useFor": "system.attackFormula.checkType=[\"attack\"]",
         "linkWithToggle": false,
         "bonus": "0",
@@ -368,7 +368,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350035308,
-    "modifiedTime": 1760521813755,
+    "modifiedTime": 1760618240912,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

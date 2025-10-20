@@ -141,7 +141,7 @@
     },
     "macros": {
       "mVBli7CgOBgtV5Wr": {
-        "command": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Trade Skill Expertise\", selectOptions: CONFIG.DC20RPG.tradeSkills})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"tradeExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.changes[2].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Trade Skill Expertise\", CONFIG.DC20RPG.trades);\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"tradeExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.changes[2].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Choose Trade Skill Expertise",
@@ -243,7 +243,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1720101162913,
-    "modifiedTime": 1760449255508,
+    "modifiedTime": 1760615364625,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

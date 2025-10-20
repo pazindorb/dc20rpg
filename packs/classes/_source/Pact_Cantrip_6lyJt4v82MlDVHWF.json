@@ -338,16 +338,16 @@
     },
     "macros": {
       "kUAVt5aTiQUVOins": {
-        "name": "onDemand",
+        "name": "Change Pact Cantrp",
         "trigger": "onDemand",
-        "command": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
+        "command": "item.callMacro(\"onCreate\", {}, true)",
         "disabled": false,
-        "title": ""
+        "title": "Change Pact Cantrp"
       },
       "0oYeZrVGI5arco5A": {
-        "name": "onCreate",
+        "name": "Select Pact Cantrp",
         "trigger": "onCreate",
-        "command": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
+        "command": "const cantripName = await DC20.dialog.SimplePopup.input(\"What is your Pact Cantrip name?\");\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
         "disabled": false,
         "title": ""
       }
@@ -462,7 +462,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1760521813450,
+    "modifiedTime": 1760618756249,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

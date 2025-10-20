@@ -357,14 +357,14 @@
       "GDr5gvgffwTqvgcp": {
         "name": "onDemand",
         "trigger": "onDemand",
-        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
+        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
         "disabled": false,
         "title": ""
       },
       "OJvuGASLWrzQuz9O": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});",
+        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});",
         "disabled": false,
         "title": ""
       }
@@ -492,7 +492,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1760367104859,
-    "modifiedTime": 1760521818108,
+    "modifiedTime": 1760614477721,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "aRIuPJVPARYLUJSf",

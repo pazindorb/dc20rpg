@@ -164,7 +164,7 @@
       "MWR4SWwQdnR1rWjz": {
         "name": "preItemRoll",
         "trigger": "preItemRoll",
-        "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Combat Readiness Benefit\", selectOptions: selectOptions});\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
+        "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
         "disabled": false,
         "title": ""
       }
@@ -254,7 +254,7 @@
           "mode": "=="
         },
         "effectKey": "secondWind",
-        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await DC20.dialog.SimplePopup.confirm(\"Do you want to use Second Wind to regain 1 SP and 2 HP?\", {actor: actor});\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()"
+        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await DC20.dialog.SimplePopup.confirm(\"Do you want to use Second Wind to regain 1 SP and 2 HP?\", {actor: actor});\nif (!confirmed) return;\n\nawait actor.resources.stamina.regain(1);\nawait actor.resources.health.regain(2);\nawait effect.disable()"
       },
       "changes": [
         {
@@ -293,7 +293,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1760452983750,
+        "modifiedTime": 1760988538576,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -635,11 +635,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350034491,
-    "modifiedTime": 1750882410477,
+    "modifiedTime": 1760620666931,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

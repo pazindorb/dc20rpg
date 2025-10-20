@@ -138,7 +138,7 @@
       "vEkcQG7gpqcMoFv0": {
         "name": "Make Move Action",
         "trigger": "preItemRoll",
-        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
+        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
         "disabled": false,
         "title": ""
       },
@@ -155,7 +155,8 @@
     "featureSourceItem": "beastborn",
     "requirements": {
       "level": 0
-    }
+    },
+    "quickRoll": true
   },
   "effects": [],
   "sort": 200000,
@@ -167,11 +168,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.WWCGEMvgnLdPB8BJ",
-    "coreVersion": "13.344",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1750931021556,
+    "modifiedTime": 1760617197749,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

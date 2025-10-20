@@ -336,7 +336,7 @@
     "choicePointCost": 2,
     "macros": {
       "MRTOCvlHMGrVBYK0": {
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Draconic Origin damage type\", damageTypes);\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Change Draconic Origin",
@@ -350,7 +350,7 @@
         "title": ""
       },
       "BmnJwDEDUTewvu8t": {
-        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
+        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Draconic Origin damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Add To Keyword",
@@ -364,7 +364,7 @@
         "title": ""
       },
       "YhaGyhP9XYaxOYRj": {
-        "command": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Target Type\", selectOptions: {\"area\": \"Area\", \"focused\": \"Focused\"}});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"2\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"4\",\n    [\"system.target.areas.default.area\"]: \"\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.range.normal\"]: null,\n    [\"system.target.areas.default.area\"]: \"line\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n  });\n}\n",
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Target Type\", {\"area\": \"Area\", \"focused\": \"Focused\"});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"2\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"4\",\n    [\"system.target.areas.default.area\"]: \"\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.range.normal\"]: null,\n    [\"system.target.areas.default.area\"]: \"line\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n  });\n}",
         "trigger": "onRollPrompt",
         "disabled": false,
         "name": "Select Attack Type",
@@ -405,7 +405,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1760521817501,
+    "modifiedTime": 1760620608456,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

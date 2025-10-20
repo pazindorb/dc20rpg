@@ -157,26 +157,27 @@
       "customMaxFormula": ""
     },
     "macros": {
-      "gPaTIK9Xn706NbFF": {
-        "name": "onDemand",
-        "trigger": "onDemand",
-        "command": "const armors = {};\nactor.items.forEach(item => {\n  if (item.type === \"equipment\" && [\"light\", \"heavy\"].includes(item.system.equipmentType)) armors[item.id] = item.name;\n});\nconst armorId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Armor\", selectOptions: armors});\nconst armor = actor.items.get(armorId);\nif (armor) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Armor\n  const oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\n  if (oldArmor) {\n    let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Armor\n  const onItemToggle = armor.system.macros.onItemToggle;\n  armor.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactArmorId\"]: armorId});\n}",
-        "disabled": false,
-        "title": ""
-      },
       "e4fK27t6bHGpXFx3": {
-        "name": "onCreate",
+        "name": "Select Pact Armor",
         "trigger": "onCreate",
-        "command": "const armors = {};\nactor.items.forEach(item => {\n  if (item.type === \"equipment\" && [\"light\", \"heavy\"].includes(item.system.equipmentType)) armors[item.id] = item.name;\n});\nconst armorId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Armor\", selectOptions: armors});\nconst armor = actor.items.get(armorId);\nif (armor) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Armor\n  const oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\n  if (oldArmor) {\n    let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Armor\n  const onItemToggle = armor.system.macros.onItemToggle;\n  armor.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactArmorId\"]: armorId});\n}",
+        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}",
         "disabled": false,
         "title": ""
       },
       "eLXqYMgHAUbwSlws": {
-        "name": "preDelete",
+        "name": "Remove Pact Armor",
         "trigger": "preDelete",
-        "command": "const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n// Remove macro from old Pact Armor\nconst oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\nif (oldArmor) {\n  let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n  macroToUpdate = macroToUpdate.replace(code, \"\");\n  oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n}",
+        "command": "// Remove buff from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n}",
         "disabled": false,
         "title": ""
+      },
+      "lfcJOR8JHb84qbs4": {
+        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Remove buff from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n}\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Change Pact Armor",
+        "title": "Change Pact Armor",
+        "global": false
       }
     },
     "hasAdvancement": true,
@@ -257,7 +258,7 @@
       }
     },
     "toggle": {
-      "toggleable": true,
+      "toggleable": false,
       "toggledOn": false,
       "toggleOnRoll": false
     },
@@ -302,7 +303,8 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "effectKey": "pactArmor"
       },
       "changes": [
         {
@@ -326,7 +328,7 @@
       ],
       "description": "<p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You gain access to all Defensive Maneuvers.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain MDR.</p></li></ul>",
       "tint": "#ffffff",
-      "transfer": true,
+      "transfer": false,
       "statuses": [],
       "sort": 0,
       "flags": {
@@ -350,11 +352,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.347",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1750880256710,
+        "modifiedTime": 1760697538818,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -366,11 +368,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.346",
+    "coreVersion": "13.347",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
+    "systemVersion": "0.9.8.0",
     "createdTime": 1739350033944,
-    "modifiedTime": 1752576987894,
+    "modifiedTime": 1760698419193,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

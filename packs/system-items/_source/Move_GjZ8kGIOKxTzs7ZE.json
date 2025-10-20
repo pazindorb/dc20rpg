@@ -12,7 +12,7 @@
       "TXdeNOrH8C8yuOHh": {
         "name": "preItemRoll",
         "trigger": "preItemRoll",
-        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
+        "command": "if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
         "disabled": false,
         "title": ""
       }
@@ -176,7 +176,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1760521817987,
+    "modifiedTime": 1760613511604,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

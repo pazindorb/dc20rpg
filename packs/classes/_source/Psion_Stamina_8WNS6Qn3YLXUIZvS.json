@@ -276,7 +276,7 @@
     "hideFromCompendiumBrowser": false,
     "macros": {
       "p96WDiWcUizX264r": {
-        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\nactor.resources.stamina.regain(Math.ceil(maxStamina/2));",
         "trigger": "postItemRoll",
         "disabled": false,
         "name": "Regain Stamina",
@@ -364,7 +364,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1745507540559,
-    "modifiedTime": 1760521813504,
+    "modifiedTime": 1760988459071,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

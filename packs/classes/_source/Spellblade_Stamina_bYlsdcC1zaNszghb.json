@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -189,7 +190,7 @@
         "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "round",
+        "reset": "",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -249,7 +250,7 @@
     "hideFromCompendiumBrowser": false,
     "macros": {
       "p96WDiWcUizX264r": {
-        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\nactor.resources.stamina.regain(Math.ceil(maxStamina/2));",
         "trigger": "postItemRoll",
         "disabled": false,
         "name": "Regain Stamina",
@@ -329,7 +330,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350035957,
-    "modifiedTime": 1760521814168,
+    "modifiedTime": 1760988472661,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

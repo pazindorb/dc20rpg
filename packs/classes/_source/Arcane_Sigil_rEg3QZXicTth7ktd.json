@@ -255,7 +255,7 @@
       "eDtAhKiXopnmoie5": {
         "name": "preItemRoll",
         "trigger": "preItemRoll",
-        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
+        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Spell School\", selectOptions);\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
         "disabled": false,
         "title": ""
       }
@@ -332,7 +332,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1739350034142,
-    "modifiedTime": 1760521814543,
+    "modifiedTime": 1760620692405,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

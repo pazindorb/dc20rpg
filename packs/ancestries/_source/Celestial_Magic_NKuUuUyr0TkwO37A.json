@@ -250,7 +250,7 @@
       "I2oxNQOghZGdmsCE": {
         "name": "Change Celestial Magic Spell",
         "trigger": "onDemand",
-        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Celestial Magic Spell\", selectOptions: options});\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
+        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Celestial Magic Spell\", options);\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
         "disabled": false,
         "title": "Change Celestial Magic Spell"
       }
@@ -334,7 +334,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1720098982783,
-    "modifiedTime": 1760521817174,
+    "modifiedTime": 1760616732345,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

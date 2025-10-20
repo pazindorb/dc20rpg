@@ -291,7 +291,7 @@
       "ukFADETbm8f6MXP1": {
         "name": "Change Psionic Magic Spell",
         "trigger": "onDemand",
-        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Psionic Magic Spell\", selectOptions: options});\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
+        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Psionic Magic Spell\", options);;\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
         "disabled": false,
         "title": "Change Psionic Magic Spell"
       }
@@ -406,7 +406,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.8.0",
     "createdTime": 1745524031161,
-    "modifiedTime": 1760521817041,
+    "modifiedTime": 1760616795357,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
