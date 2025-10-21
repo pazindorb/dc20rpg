@@ -3,33 +3,22 @@
   
   {{!-- Actor Select --}}
   {{#if hasActors}}
-  <div class="box-content">
+  <fieldset class="actor-wrapper scrollable">
     {{#each selectableActors as |wrapper actorId|}}
-      <div class="actor">
-        <div class="wrapper">
-          <img src="{{wrapper.actor.img}}"/>
-          <input disabled value="{{wrapper.actor.name}}"/>
-        </div>
-        {{#if wrapper.request}}
-          {{#ifCond wrapper.result '!==' null}}
-          <span class="roll-result {{wrapper.outcome}}" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.rollResult"}}">{{wrapper.result}}</span>
-          {{else}}
-          <i class="fa-regular fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>
-          {{/ifCond}}
-        {{else}}
-        {{{checkbox "selectableActors.${actorId}.selected" wrapper.selected checked="fa-2x fa-solid fa-square-check" unchecked="fa-2x fa-regular fa-square" actorId=actorId}}}
-        {{/if}}
-      </div>
-    {{/each}}
-  </div>
-  {{else}}
-  <div class="box-content">
-    <div class="actor">
-      <div class="wrapper">
-        <span>{{localize "dc20rpg.dialog.actorRequest.noPlayer"}}</span>
-      </div>
+    <div class="actor {{#if wrapper.selectable}}selectable{{/if}} {{#if wrapper.selected}}selected{{/if}}" 
+      {{#if wrapper.selectable}}data-cType="activable" data-path="selectableActors.{{actorId}}.selected"{{/if}}
+    >
+      {{#if wrapper.result}}<div class="roll-result-wrapper {{wrapper.outcome}}"><span class="roll-result" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.rollResult"}}">{{wrapper.result}}</span></div>{{/if}}
+      {{#if wrapper.request}} <div class="roll-result-wrapper awaiting-result"><span class="roll-result" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"><i class="fa-light fa-dice-d20 fa-lg dice-roll"></i></div></span>{{/if}}
+      <img src="{{wrapper.actor.img}}"/>
+      <input disabled value="{{wrapper.actor.name}}"/>
     </div>
-  </div>
+    {{/each}}
+  </fieldset>
+  {{else}}
+  <fieldset class="actor-wrapper">
+    <span class="no-actor">{{localize "dc20rpg.dialog.actorRequest.noPlayer"}}</span>
+  </fieldset>
   {{/if}}
   </div>
 
@@ -64,9 +53,9 @@
   {{#unless showCloseButton}}
   <h4 class="divider">{{header}}</h4>
   {{!-- Select Roll --}}
-  <div class="select-wrapper" style="grid-template-columns: {{grid}}">
+  <div class="select-wrapper" style="grid-template-columns: {{grid}};">
     {{#if showBasic}}
-    <div class="select-column scrollable">
+    <div class="select-column scrollable" style="max-height: 300px;">
       {{!-- Rest --}}
       {{#if selectOptions.rest}}
       <fieldset>
@@ -111,7 +100,7 @@
 
     {{!-- Skills --}}
     {{#if showSkill}}
-    <div class="select-column scrollable">
+    <div class="select-column scrollable" style="max-height: 300px;">
       
       {{!-- Skill Check --}}
       {{#if selectOptions.skill}}

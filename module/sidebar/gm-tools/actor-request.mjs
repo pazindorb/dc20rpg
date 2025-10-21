@@ -45,6 +45,7 @@ export class ActorRequestDialog extends DC20Dialog {
     root: {
       classes: ["dc20rpg"],
       template: "systems/dc20rpg/templates/dialogs/gm-tools/actor-request-dialog.hbs",
+      scrollable: [".scrollable"]
     }
   };
 
@@ -52,7 +53,7 @@ export class ActorRequestDialog extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Actor Request";
     initialized.window.icon = "fa-solid fa-users-viewfinder";
-    initialized.position.width = 500;
+    initialized.position.width = 750;
 
     initialized.actions.confirm = this._onConfirmRequest;
     return initialized;
@@ -74,7 +75,7 @@ export class ActorRequestDialog extends DC20Dialog {
 
   _selectableActors(actors) {
     const selectable = {};
-    actors.forEach(actor => selectable[actor.id] = {actor: actor, selected: false});
+    actors.forEach(actor => selectable[actor.id] = {actor: actor, selected: false, selectable: true});
     return selectable;
   }
 
@@ -147,12 +148,20 @@ export class ActorRequestDialog extends DC20Dialog {
 
     for (const wrapper of Object.values(this.selectableActors)) {
       wrapper.actor.roll(key, type, options).then(result => {
-        wrapper.result = result._total;
-
-        if (rOpt.rollDC) {
-          if (rOpt.rollDC <= wrapper.result) wrapper.outcome = "success";
-          else wrapper.outcome = "fail";
+        if (result._total == null) {
+          wrapper.result = "X";
+          wrapper.outcome = "fail";
         }
+        else {
+          wrapper.result = result._total;
+          wrapper.outcome = "success";
+          if (rOpt.rollDC) {
+            if (rOpt.rollDC <= wrapper.result) wrapper.outcome = "success";
+            else wrapper.outcome = "fail";
+          }
+        }
+
+        delete wrapper.request;
         this.render();
       })
     }

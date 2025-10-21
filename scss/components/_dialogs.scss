@@ -1525,47 +1525,136 @@
     }
   }
 
-  .roll-result {
-    font-size: 16px;
-    font-family: $font-default;
-    font-weight: bold;
-    width: 40px;
-    text-align: center;
-
-    padding: 5px;
-    border: 1px solid var(--activable-on);
-    border-radius: 3px;
-    box-shadow:  0 0 5px 2px var(--activable-on) inset;
-
-    &.success {
-      background-color: $crit;
-    }
-
-    &.fail {
-      background-color: $fail;
-    }
-  }
-
-  .dice-roll {
-    display: inline-block;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  
-  .check-big {
-    --checkbox-size: 24px;
+  .actor-wrapper {    
     display: flex;
-    text-indent: 0px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    max-height: 220px;
 
-    &::before {
-      color: (var(--text-color));
+    --scroll-margin: 0;
+    border-width: 2px;
+    border-radius: 5px;
+    padding: 10px;
+
+    .actor {
+      width: 160px;
+      border-radius: 5px;
+      flex-direction: column;
+
+      padding: 5px;
+      background-color: var(--table-header-bg-color); 
+      border: 2px solid var(--color-text-selection-bg);
+      box-shadow: 0 0 3px 0px var(--color-text-selection-bg) inset;
+
+      img {
+        height: 150px;
+        width: 150px;
+        object-position: 50% 0;
+        object-fit: cover;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        box-shadow: 0 0 4px 2px var(--color-cool-5-50);
+      }
+
+      input {
+        margin-top: 6px;
+        margin-bottom: 3px;
+        border: 0;
+        color: var(--color-text-primary);
+        font-size: 18px;
+        width: 150px;
+        background-color: transparent;
+        text-align: center;
+      }
+
+      &:hover.selectable {
+        cursor: pointer;
+        box-shadow: 0 0 12px 3px var(--color-text-selection-bg) inset;
+      }
+
+      &.selected {
+        box-shadow: 0 0 12px 3px #06aa06 inset;
+        border-color: #06aa06;
+
+        &:hover {
+          box-shadow: 0 0 12px 3px #06aa06 inset;
+        }
+      }
+
+      .roll-result-wrapper {
+        width: 0;
+        height: 0;
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: bold;
+        font-family: var(--font-h4);
+        font-size: 60px;
+        text-shadow: -1px 0 black, 0 3px black, 3px 0 black, 0 -0px black;
+
+        &.awaiting-result .roll-result {
+          background-color: #6f8bc77e;
+
+          .dice-roll {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            cursor: default;
+            font-size: 80px;
+          }
+
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+          }
+        }
+
+        &.success .roll-result {
+          background-color: #6fc76f7e;
+        }
+
+        &.fail .roll-result {
+          background-color: #c76f6f7e;
+        }
+
+        .roll-result {
+          height: 199px;
+          width: 160px;
+          position: absolute;
+          left: 0;
+          top: 0;
+          margin-top: -8px;
+          margin-left: -7px;
+          display: flex;
+          align-items: center;
+          padding-bottom: 30px;
+          justify-content: center;
+          border-radius: 5px;
+          z-index: 2;
+        }
+      }
     }
-    
   }
+
+  .no-actor {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .roll-dc {
+    margin: 10px;
+
+    input {
+      width: auto;
+      text-align: end;
+    }
+  }
+
 }
 
 #initiative-slot-selector {
