@@ -45,17 +45,18 @@ export async function updateItemOnActor(itemId, actor, updateData) {
   if (item) return await item.update(updateData);
 }
 
-export async function deleteItemFromActor(itemId, actor) {
+export async function deleteItemFromActor(itemId, actor, options={}) {
   if (!actor.testUserPermission(game.user, "OWNER")) {
     emitEventToGM("removeDocument", {
       docType: "item",
       docId: itemId, 
-      actorUuid: actor.uuid
+      actorUuid: actor.uuid,
+      options: options
     });
     return;
   }
   const item = getItemFromActor(itemId, actor);
-  if (item) await item.delete();
+  if (item) await item.delete(options);
 }
 
 export function editItemOnActor(itemId, actor) {

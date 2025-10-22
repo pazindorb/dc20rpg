@@ -110,11 +110,11 @@ export function registerSystemSockets() {
   // Remove Document from Actor
   game.socket.on('system.dc20rpg', async (data) => {
     if (data.type === "removeDocument") {
-      const { docType, docId, actorUuid, gmUserId } = data.payload;
+      const { docType, docId, actorUuid, gmUserId, options } = data.payload;
       if (game.user.id === gmUserId) {
         const actor = await fromUuid(actorUuid);
         if (actorUuid && !actor) return;
-        if (docType === "item") await deleteItemFromActor(docId, actor);
+        if (docType === "item") await deleteItemFromActor(docId, actor, options);
         if (docType === "effect") await deleteEffectFrom(docId, actor);
         if (docType === "token") await deleteToken(docId);
       }

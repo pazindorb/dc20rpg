@@ -113,8 +113,9 @@ export class DC20RpgItem extends Item {
     }
   }
 
-  async _preDelete(options, user) {
-    if (this.infusions?.active) {
+  async _preDelete(options={}, user) {
+    // We are not removing infusions on transfer as those items are created on another actor
+    if (this.infusions?.active && !options.transfer) { 
       for (const infusion of Object.values(this.infusions.active)) {
         await infusion.remove();
       }

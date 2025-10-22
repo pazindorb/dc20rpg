@@ -104,7 +104,7 @@ export async function itemTransfer(event, data, actor) {
     // or if there is active GM that will do it for him
     // Improve permision checks in create items, actors and other shit
     await createItemOnActor(actor, itemData);
-    if (!infiniteStock) await deleteItemFromActor(originalItem.id, originalItem.actor);
+    if (!infiniteStock) await deleteItemFromActor(originalItem.id, originalItem.actor, {transfer: true}); 
 }
 
 async function _handleTrade(vendor, buyer, items) {

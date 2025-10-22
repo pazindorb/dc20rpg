@@ -99,7 +99,7 @@ export class TransferDialog extends DC20Dialog {
   async _transferItems(from, to) {
     const items = from.transfer.items;
     for (const item of Object.values(items)) {
-      await deleteItemFromActor(item.id, from);
+      await deleteItemFromActor(item.id, from, {transfer: true});
       await createItemOnActor(to, item.toObject());
     }
   }
