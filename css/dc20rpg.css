@@ -3109,7 +3109,7 @@
   -ms-flex-direction: row;
   flex-direction: row;
   gap: 10px;
-  max-height: 220px;
+  max-height: 230px;
   --scroll-margin: 0;
   border-width: 2px;
   border-radius: 5px;
@@ -4323,6 +4323,15 @@
   font-size: 20px;
   margin: 0 5px 0 5px;
   text-indent: 5px;
+}
+.dc20rpg .dialog-v13 .box-content .actor .wrapper .check-big {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-indent: 0px;
+}
+.dc20rpg .dialog-v13 .box-content .actor .wrapper .check-big::before {
+  text-shadow: -1px 0 var(--border-color), 0 1px var(--border-color), 1px 0 var(--border-color), 0 -1px var(--border-color);
 }
 .dc20rpg .dialog-v13 .box-content .actor:first-child {
   border-top: 0;

@@ -570,11 +570,20 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     super._onCreate(data, options, userId);
   }
 
-  _passiveAuraCheck() {
+  async _passiveAuraCheck() {
     for (const item of this.actor.items) {
       const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(item.system?.target?.areas);
       for (const template of Object.values(templates)) {
         if (template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
+          // If aura already exist we don't want to create it for the second time
+          for (const token of this.actor.getActiveTokens()) {
+            const linkedTemplates = token.document.flags.dc20rpg?.linkedTemplates || [];
+            for (const templateId of linkedTemplates) {
+              const template = canvas.templates.documentCollection.get(templateId);
+              if (template?.flags?.dc20rpg?.itemData?.itemId === item.id) return;
+            }
+          }
+
           const applyEffects = getMesuredTemplateEffects(item);
           const itemData = {
             itemId: item.id, 
@@ -584,7 +593,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
             itemImg: item.img, 
             itemName: item.name
           };
-          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
+          await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
         }
       }
     }

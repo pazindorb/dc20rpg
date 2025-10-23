@@ -279,4 +279,14 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
     return number;
   }
+
+  async _preDelete(options={}, user) {
+    // Remove existing aura
+    const linkedTemplates = this.flags.dc20rpg?.linkedTemplates || [];
+    for (const templateId of linkedTemplates) {
+      const template = canvas.templates.documentCollection.get(templateId);
+      if (template) template.delete();
+    }
+    return await super._preDelete(options, user);
+  }
 }
