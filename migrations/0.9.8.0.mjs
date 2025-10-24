@@ -65,8 +65,8 @@ async function _moveTradeSkills(actor) {
 }
 
 async function _addInfusionTable(actor) {
-  if (actor !== "character") return;
-  await actor.update({["flags.headersOrdering.spells.infusion"]: {
+  if (actor.type !== "character") return;
+  await actor.update({["flags.dc20rpg.headersOrdering.spells.infusion"]: {
     name: "Infusions",
     order: 6,
     custom: true
