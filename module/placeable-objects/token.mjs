@@ -433,7 +433,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
       const startCordY = this.document.y; // Y cord of token
 
       // We convert hit area to polygon so we will be able to check which spaces belong to it
-      const points = this.hitArea.points;
+      const points = this.hitArea?.points;
+      if (!points) return []; // There can be a moment during the initialization that hitArea is not yet prepared
       const polygon = [];
       const borderPoints = new Map();
       const rowOriented = canvas.grid.type === CONST.GRID_TYPES.HEXEVENR || canvas.grid.type === CONST.GRID_TYPES.HEXODDR;
