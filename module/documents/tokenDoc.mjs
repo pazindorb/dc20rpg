@@ -130,13 +130,13 @@ export class DC20RpgTokenDocument extends TokenDocument {
         
         // Wait for movement to finish before triggering measured template check
         let counter = 0;  // Max amount of loops
-        const timeoutID = setInterval(() => {
+        const timeoutID = setInterval(async () => {
           if (counter > 100 || (
                 (!changed.hasOwnProperty("x") || this.object.x === changed.x) && 
                 (!changed.hasOwnProperty("y") || this.object.y === changed.y)
               )) {
-            this.updateLinkedTemplates();
-            checkMeasuredTemplateWithEffects();
+            await this.updateLinkedTemplates();
+            await checkMeasuredTemplateWithEffects();
             clearInterval(timeoutID);
           }
           else counter++;
@@ -230,15 +230,14 @@ export class DC20RpgTokenDocument extends TokenDocument {
       if (!mt) idsToRemove.add(templateId);
       else {
         await mt.document.update({
-          skipUpdateCheck: true,
           x: this.object.center.x,
           y: this.object.center.y
-        });
+        }, {skipLinkedEffectApplication: true});
       }
 
       if (idsToRemove.size > 0) {
         const templatesLeft = new Set(linkedTemplates).difference(idsToRemove);
-        this.update({["flags.dc20rpg.linkedTemplates"]: Array.from(templatesLeft)});
+        await this.update({["flags.dc20rpg.linkedTemplates"]: Array.from(templatesLeft)});
       } 
     }
   }
