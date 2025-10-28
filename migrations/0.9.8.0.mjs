@@ -50,12 +50,7 @@ async function _moveTradeSkills(actor) {
 
   const updateData = {system: {trades: actor.system.trades}};
   for (const [key, trade] of Object.entries(actor.system.tradeSkills)) {
-    if (updateData.system.trades[key]) {
-      updateData.system.trades[key].mastery = trade.mastery;
-    }
-    else {
-      updateData.system.trades[key] = trade;
-    }
+    updateData.system.trades[key] = trade;
   }
   await actor.update(updateData);
 
