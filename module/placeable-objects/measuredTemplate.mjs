@@ -338,7 +338,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
           const templateDocument = await DC20MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
           const template = templateDocument.object;
           template.shape = shape;
-          templateDocument.applyEffectsToTokensInTemplate();
+          await templateDocument.applyEffectsToTokensInTemplate();
 
           initialLayer.activate();
           resolve(template);
@@ -385,7 +385,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
     linkedTemplates.push(templateDocument.id);
     await token.document.update({["flags.dc20rpg.linkedTemplates"]: linkedTemplates});
 
-    templateDocument.applyEffectsToTokensInTemplate();
+    await templateDocument.applyEffectsToTokensInTemplate();
     return template;
   }
 

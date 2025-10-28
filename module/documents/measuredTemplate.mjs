@@ -120,9 +120,6 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
     if (userId === game.user.id) {
-      if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !changed.skipUpdateCheck) {
-        this.applyEffectsToTokensInTemplate();
-      }
       if (this.flags.dc20rpg?.hideHighlight) {
         canvas.interface.grid.highlightLayers[`MeasuredTemplate.${this.id}`].visible = false;
       }
