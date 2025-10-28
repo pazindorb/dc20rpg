@@ -7,7 +7,9 @@ export async function runMigration(migrateModules) {
 async function _migrateActors(migrateModules) {  
   // Iterate over actors
   for (const actor of game.actors) {
-    await _moveTradeSkills(actor);
+    for (const effect of actor.allEffects) {
+      await _updateTradeSkillEffect(effect);
+    }
     await _addInfusionTable(actor);
     await _updateActorItems(actor);
     await actor.prepareBasicActions();
@@ -22,7 +24,9 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
     
-    await _moveTradeSkills(actor);
+    for (const effect of actor.allEffects) {
+      await _updateTradeSkillEffect(effect);
+    }
     await _addInfusionTable(actor);
     await _updateActorItems(actor);
     await actor.prepareBasicActions();
@@ -36,26 +40,14 @@ async function _migrateActors(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
-        await _moveTradeSkills(actor);
+        for (const effect of actor.allEffects) {
+          await _updateTradeSkillEffect(effect);
+        }
         await _addInfusionTable(actor);
         await _updateActorItems(actor);
         await actor.prepareBasicActions();
       }
     }
-  }
-}
-
-async function _moveTradeSkills(actor) {
-  if (!actor.system.tradeSkills) return;
-
-  const updateData = {system: {trades: actor.system.trades}};
-  for (const [key, trade] of Object.entries(actor.system.tradeSkills)) {
-    updateData.system.trades[key] = trade;
-  }
-  await actor.update(updateData);
-
-  for (const effect of actor.allEffects) {
-    await _updateTradeSkillEffect(effect);
   }
 }
 
