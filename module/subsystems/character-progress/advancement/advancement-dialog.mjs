@@ -440,7 +440,10 @@ export class ActorAdvancement extends Dialog {
     html.find('.close-item-suggestions').click(() => {this.suggestionsOpen = false; this.render()});
     html.find('.add-edit-item').mousedown(async ev => {
       if (ev.which === 1) this._onItemAdd(datasetOf(ev).uuid);
-      else await this._itemFromUuid(datasetOf(ev).uuid).sheet.render(true);
+      else {
+        const item = await this._itemFromUuid(datasetOf(ev).uuid);
+        if (item) item.sheet.render(true);
+      }
     })
   }
 

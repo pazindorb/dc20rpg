@@ -11,6 +11,7 @@ export function getActiveActorOwners(actor, allowGM=false) {
   for (const ownerId of ownership) {
     if (ownerId === "default") continue;
     const user = game.users.get(ownerId);
+    if (!user) continue;
     if (user.isGM && !allowGM) continue;
     if (user.active) owners.push(user);
   }

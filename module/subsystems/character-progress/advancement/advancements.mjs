@@ -1,6 +1,7 @@
 import { collectItemsForType } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { actorAdvancementDialog } from "./advancement-dialog.mjs";
+import { updateAdvancement } from "./advancement-util.mjs";
 
 export function createNewAdvancement() {
 	return { 
@@ -125,7 +126,8 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 		}
 		else {
 			advancement.applied = false;
-			await item.update({[`system.advancements.${key}`]: advancement});
+			advancement.key = key;
+			await updateAdvancement(item, advancement);
 		}
 	}
 }

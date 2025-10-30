@@ -9,7 +9,6 @@ import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
-import { DC20Roll } from "../roll/rollApi.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -186,18 +185,20 @@ export class DC20RpgCombat extends Combat {
 
   /** @override **/
   async endCombat() {
-    await super.endCombat();
     const combatantId = this.current.combatantId;
     const combatant = this.combatants.get(combatantId);
-    if (combatant) await clearMultipleCheckPenalty(combatant.actor);
+    const token = combatant?.token?.object;
 
+    if (combatant) clearMultipleCheckPenalty(combatant.actor);
     this.combatants.forEach(combatant => {
       const actor = combatant.actor;
       clearHeldAction(combatant.actor);
       clearHelpDice(combatant.actor);                 // Clear "round" duration
       clearHelpDice(combatant.actor, null, "combat"); // Clear "combat" duration
       this._refreshOnCombatEnd(actor);
-    })
+    });
+    await super.endCombat();
+    if (token) token.renderFlags.set({refreshTurnMarker: true});
   }
 
   /** @override **/
