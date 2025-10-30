@@ -9,6 +9,7 @@ async function _migrateActors(migrateModules) {
   for (const actor of game.actors) {
     await removeParentItemFromUniqueItems(actor); 
     await updateTradeSkills(actor);
+    await updateGritFormula(actor);
   }
 
   // Iterate over tokens
@@ -22,6 +23,7 @@ async function _migrateActors(migrateModules) {
 
     await removeParentItemFromUniqueItems(actor);
     await updateTradeSkills(actor);
+    await updateGritFormula(actor);
   }
 
   // Iterate over compendium actors
@@ -34,6 +36,7 @@ async function _migrateActors(migrateModules) {
       for (const actor of content) {
         await removeParentItemFromUniqueItems(actor);
         await updateTradeSkills(actor);
+        await updateGritFormula(actor);
       }
     }
   }
@@ -50,6 +53,11 @@ async function removeParentItemFromUniqueItems(actor) {
 
 async function updateTradeSkills(actor) {
   await actor.update({["system.trades"]: actor.system.tradeSkills});
+}
+
+async function updateGritFormula(actor) {
+  if (actor.type !== "character") return;
+  await actor.update({["system.resources.grit.maxFormula"]: '2 + @chaValue + @resources.grit.bonus'});
 }
 
 // ITEM

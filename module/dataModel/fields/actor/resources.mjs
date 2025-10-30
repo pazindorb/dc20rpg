@@ -38,7 +38,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
         grit: new f.SchemaField({ 
           ...resource(),
           label: new f.StringField({initial: "dc20rpg.resource.grit"}),
-          maxFormula: new f.StringField({ required: true, initial: "2 + @cha + @resources.grit.bonus"}),
+          maxFormula: new f.StringField({ required: true, initial: "2 + @chaValue + @resources.grit.bonus"}),
           reset: new f.StringField({initial: "long"}),
         }),
         restPoints: new f.SchemaField({
