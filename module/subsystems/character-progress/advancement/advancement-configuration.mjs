@@ -1,6 +1,7 @@
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { createTemporaryMacro } from "../../../helpers/macros.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
+import { updateAdvancement } from "./advancement-util.mjs";
 import { createNewAdvancement } from "./advancements.mjs";
 
 /**
@@ -71,7 +72,8 @@ export class AdvancementConfiguration extends Dialog {
     // We are not updating the copy so we want to grab macro from original advancement
     const originalMacro = this.item.system.advancements[this.key].macro; 
     this.advancement.macro = originalMacro;
-    this.item.update({[`system.advancements.${this.key}`] : this.advancement});
+    this.advancement.key = this.key;
+    updateAdvancement(this.item, this.advancement);
     this.close();
   }
   _onActivable(pathToValue) {
@@ -153,13 +155,11 @@ export class AdvancementConfiguration extends Dialog {
  * Creates AdvancementConfiguration dialog for given item. 
  */
 export async function configureAdvancementDialog(item, advancementKey) {
-  let advancement = {};
-  if (advancementKey) {
-    advancement = item.system.advancements[advancementKey];
-  }
-  else {
+  if (!advancementKey || !!!item.system.advancements[advancementKey]) {
     advancementKey = generateKey();
-    await item.update({[`system.advancements.${advancementKey}`]: createNewAdvancement()});
+    let advancement = createNewAdvancement();
+    advancement.key = advancementKey;
+    await updateAdvancement(item, advancement); 
   }
   const dialog = new AdvancementConfiguration(item, advancementKey, {title: `Configure Advancement`});
   dialog.render(true);

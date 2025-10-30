@@ -125,7 +125,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.9.7.3", "0.9.8.0", new Set(["dc20-core-rulebook"]));
+  // await testMigration("0.9.8.0", "0.9.8.1", new Set(["dc20-core-rulebook"]));
+  // await testMigration("0.9.8.0", "0.9.8.1");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

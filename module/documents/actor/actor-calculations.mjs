@@ -79,6 +79,8 @@ function _skillModifier(skill, key, actor) {
 
 function _highestAttribute(attributes, actor) {
 	let highestKey = "";
+	if (!attributes) return "int"; // fallback for outdated actors - remove one day :)
+
 	const actorAtt = actor.system.attributes;
 	for (const key of attributes) {
 		if (!highestKey) {

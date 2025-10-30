@@ -44,7 +44,7 @@ export async function addAdditionalAdvancement(advancement, item, collection, in
   else collection.push(advancement);
 
   // Update the item itself
-  await item.update({[`system.advancements.${advancement.key}`]: advancement});
+  await updateAdvancement(item, advancement);
 }
 
 export async function addNewSpellTechniqueAdvancements(actor, item, collection, level) {
@@ -152,10 +152,7 @@ async function _markAdvancementAsApplied(advancement, actor) {
   advancement.hideOwned = true; // clear filter
   advancement.itemNameFilter = "" // clear filter
 
-  // We dont want to persist parent item within the advancement
-  const copy = {...advancement};
-  delete copy.parentItem; 
-  await advancement.parentItem.update({[`system.advancements.${advancement.key}`]: copy});
+  await updateAdvancement(advancement.parentItem, advancement);
   
   if (advancement.macro) runTemporaryMacro(advancement.macro, advancement, {actor: actor, advancement: advancement});
   if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
@@ -232,14 +229,13 @@ async function _addRepeatableAdvancement(oldAdv) {
 
   oldAdv.cloneKey = advKey;
   newAdv.items = filteredItems;
+  newAdv.key = advKey;
 
   const parentItem = oldAdv.parentItem;
   // We want to clear item list before we add new ones
   if(oldAdv.cloneKey) await parentItem.update({[`system.advancements.${advKey}.-=items`]: null});
-  await parentItem.update({
-    [`system.advancements.${advKey}`]: newAdv,
-    [`system.advancements.${oldAdv.key}`]: oldAdv,
-  });
+  await updateAdvancement(parentItem, oldAdv);
+  await updateAdvancement(parentItem, newAdv);
 }
 
 async function _getMartialExpansionAdvancement() {
@@ -509,6 +505,7 @@ export async function collectSubclassesForClass(classKey) {
   const dialog = new SimplePopup("info", {hideButtons: true, header: "Collecting Subclasses", information: ["Collecting Subclasses... Please wait it might take a while"]});
   await dialog.render(true);
 
+  const hiddenItems = game.dc20rpg.compendiumBrowser.hideItems;
   const matching = [];
   for (const pack of game.packs) {
     if (!validateUserOwnership(pack)) continue;
@@ -516,6 +513,7 @@ export async function collectSubclassesForClass(classKey) {
     if (pack.documentName === "Item") {
       const items = await pack.getDocuments();
       items.filter(item => item.type === "subclass")
+            .filter(item => !hiddenItems.has(item.uuid))
             .filter(item => item.system.forClass.classSpecialId === classKey)
             .forEach(item => matching.push(item))
     }
@@ -552,4 +550,11 @@ export async function removeAdvancement(actor, advancement, collection) {
     advancement.parentItem.martialExpansionProvided = false;
   }
   await advancement.parentItem.update({[`system.advancements.-=${advancement.key}`]: null});
+}
+
+export async function updateAdvancement(item, advancement) {
+  // We dont want to persist parent item within the advancement
+  const copy = {...advancement};
+  delete copy.parentItem; 
+  await item.update({[`system.advancements.${advancement.key}`]: copy});
 }
