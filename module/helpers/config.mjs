@@ -1105,11 +1105,11 @@ DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort = {
 };
 
 DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas = {
-  standard: "8 + @combatMastery + @agi + @int + @pd.bonus",
+  standard: "8 + @combatMastery + @agiValue + @intValue + @pd.bonus",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
-  standard: "8 + @combatMastery + @mig + @cha + @ad.bonus",
+  standard: "8 + @combatMastery + @migValue + @chaValue + @ad.bonus",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";

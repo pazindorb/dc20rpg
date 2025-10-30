@@ -71,6 +71,7 @@ function _attributes(data) {
 		for (let [key, attribute] of Object.entries(data.attributes)) {
 			data[key] = attribute.check;
 			data[`${key}Save`] = attribute.save;
+			data[`${key}Value`] = attribute.value;
 		}
 	}
 	if (data.special?.phySave) data.phySave = data.special.phySave;
