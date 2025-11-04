@@ -774,7 +774,8 @@ function _enrichItemInfusions(item) {
   let hasCharges = false;
   let hasAttunement = false;
   const active = {};
-  for (const [key, original] of Object.entries(item.system.infusions)) {
+  const entries = Object.entries(item.system.infusions);
+  for (const [key, original] of entries) {
     const infusion = foundry.utils.deepClone(original);
     infusion.key = key;
     infusion.remove = async () => await _removeInfusion(infusion, item);
@@ -789,13 +790,14 @@ function _enrichItemInfusions(item) {
   item.infusions.hasToggle = hasToggle;
   item.infusions.hasCharges = hasCharges;
   item.infusions.hasAttunement = hasAttunement;
+  item.infusions.hasInfusions = entries.length > 0;
 }
 
 //==================================
 //              INFUSE             =
 //==================================
 async function _applyInfusion(infusionItem, item, infuserUuid) {
-  if (!infusionItem) return;
+  if (!infusionItem) return false;
   if (!["weapon", "equipment", "consumable"].includes(item.type)) {
     ui.notifications.warn("Only inventory items can be infused.");
     return false;
@@ -808,10 +810,13 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   const infusionKey = generateKey();
   const removeInfusionMacro = await _runInfusionMacro(infusionItem, item);
   const infusion = infusionItem.system.infusion;
+
+  const cost =  infuserUuid ? Math.max(infusion.power - infusion.costReduction - item.system.infusionCostReduction, 0) : null;
   const data = {
     name: infusionItem.name,
     power: infusion.power,
     tags: infusion.tags,
+    cost: cost,
     modifications: {
       effects: [],
       enhancements: [],
@@ -824,6 +829,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     },
     removeInfusionMacro: removeInfusionMacro,
     infuserUuid: infuserUuid,
+    infusionItemUuid: infusionItem.uuid
   }
   
   const updateData = {system: {infusions: {}}};
@@ -919,6 +925,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
 
   updateData.system.infusions[infusionKey] = data;
   await item.update(updateData);
+  await _applyInfuserPenalties(data);
   infusionItem.reset(); // We need to clear infusion item if macro did some changes to it
   return true;
 }
@@ -1037,11 +1044,20 @@ async function _clearTags(infusion, item) {
   await item.update(updateData);
 }
 
+async function _applyInfuserPenalties(infusion) {
+  if (!infusion.infuserUuid) return;
+
+  const actor = await fromUuid(infusion.infuserUuid);
+  if (!actor) return;
+  const infusionManaPentalty = actor.system.resources.mana.infusions;
+  await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty + infusion.cost});
+}
+
 async function _clearInfuserPenalties(infusion) {
   if (!infusion.infuserUuid) return;
 
   const actor = await fromUuid(infusion.infuserUuid);
   if (!actor) return;
   const infusionManaPentalty = actor.system.resources.mana.infusions;
-  await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.power});
+  await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.cost});
 }

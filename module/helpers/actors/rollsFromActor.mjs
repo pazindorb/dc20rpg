@@ -9,6 +9,7 @@ import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -53,7 +54,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat, rollMode) {
   // If the formula contains d20 we want to replace it.
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
 
-  const globalMod = _extractGlobalModStringForType(details.type, actor);
+  const globalMod = await _extractGlobalModStringForType(details.type, actor);
   const helpDice = rollMenu.helpDiceFormula();
   formula += " " + globalMod.value + helpDice;
 
@@ -218,7 +219,7 @@ async function _evaluateAttackRoll(actor, item, evalData) {
   const source = {value: "Attack Formula"};
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
-  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData, source);
+  const coreFormula = await _prepareAttackFromula(actor, item.system.attackFormula, evalData, source);
   const label = getLabelFromKey(item.system.attackFormula.checkType, CONFIG.DC20RPG.DROPDOWN_DATA.attackTypes); 
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
@@ -232,7 +233,7 @@ async function _evaluateCheckRoll(actor, item, evalData) {
   const source = {value: "Check Formula"};
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   const checkKey = item.checkKey;
-  const coreFormula = _prepareCheckFormula(actor, checkKey, evalData, source);
+  const coreFormula = await _prepareCheckFormula(actor, checkKey, evalData, source);
   const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
@@ -242,7 +243,7 @@ async function _evaluateCheckRoll(actor, item, evalData) {
 }
 
 async function _evaluateFormulaRolls(item, actor, evalData) {
-  const formulaRolls = _prepareFormulaRolls(item, actor, evalData);
+  const formulaRolls = await _prepareFormulaRolls(item, actor, evalData);
   for (let i = 0; i < formulaRolls.length; i++) {
     const roll = formulaRolls[i];
     await roll.clear.evaluate();
@@ -363,7 +364,7 @@ function _prepareCoreRoll(coreFormula, rollData, label) {
   return null;
 }
 
-function _prepareFormulaRolls(item, actor, evalData) {
+async function _prepareFormulaRolls(item, actor, evalData) {
   const rollData = evalData.rollData;
   const enhancements = item.allEnhancements;
   const formulas = _collectAllFormulasForAnItem(item, enhancements);
@@ -389,7 +390,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
 
     for (const [key, formula] of Object.entries(formulas)) {
       const clearRollFromula = formula.formula; // formula without any modifications
-      const modified = _modifiedRollFormula(formula, actor, enhancements, evalData, item); // formula with all enhancements applied
+      const modified = await _modifiedRollFormula(formula, actor, enhancements, evalData, item); // formula with all enhancements applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -491,7 +492,7 @@ function _fillCommonRollProperties(roll, commonData) {
   };
 }
 
-function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
+async function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   let rollFormula = formula.formula;
   let failFormula = formula.fail ? formula.failFormula : null;
   let modifierSources = formula.enhName || "Base Value";
@@ -522,7 +523,7 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   }
   else if (formula.category === "healing") globalModKey = "healing";
   
-  const globalMod = _extractGlobalModStringForType(globalModKey, actor);
+  const globalMod = await _extractGlobalModStringForType(globalModKey, actor);
   if (globalMod.value) {
     rollFormula += ` + (${globalMod.value})`;
     if (failFormula !== null) failFormula += ` + (${globalMod.value})`;
@@ -536,20 +537,20 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   };
 }
 
-function _prepareCheckFormula(actor, checkKey, evalData, source) {
+async function _prepareCheckFormula(actor, checkKey, evalData, source) {
   const rollLevel = evalData.rollLevel;
   const helpDice = evalData.helpDice;
   const rollModifiers = evalData.rollModifiers;
 
   const details = DC20Roll.prepareCheckDetails(checkKey, {rollLevel: rollLevel});
-  const globalMod = _extractGlobalModStringForType(details.type, actor);
+  const globalMod = await _extractGlobalModStringForType(details.type, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
   if (helpDice !== "") source.value += ` + Help Dice`;
   return `${details.roll} ${globalMod.value} ${helpDice} ${rollModifiers}`;
 }
 
-function _prepareAttackFromula(actor, attackFormula, evalData, source) {
+async function _prepareAttackFromula(actor, attackFormula, evalData, source) {
   const rollLevel = evalData.rollLevel;
   const helpDice = evalData.helpDice;
   const rollModifiers = evalData.rollModifiers;
@@ -559,7 +560,7 @@ function _prepareAttackFromula(actor, attackFormula, evalData, source) {
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
   const formulaMod = attackFormula.formulaMod;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
-  const globalMod = _extractGlobalModStringForType(rollType, actor);
+  const globalMod = await _extractGlobalModStringForType(rollType, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
   if (helpDice !== "") source.value += ` + Help Dice`;
@@ -802,7 +803,8 @@ function _determineRollLevel(rollMenu) {
   return advLevel - disLevel;
 }
 
-function _extractGlobalModStringForType(path, actor) {
+async function _extractGlobalModStringForType(path, actor) {
+  const toRemove = actor.flags?.dc20rpg?.effectsToRemoveAfterRoll || [];
   const globalModJson = getValueFromPath(actor.system.globalFormulaModifiers, path) || [];
   let globalMod = {
     value: "",
@@ -812,6 +814,22 @@ function _extractGlobalModStringForType(path, actor) {
     if (!json) continue;
     try {
       const mod = JSON.parse(`{${json}}`);
+      
+      if (mod.confirmation) {
+        const confirmed = await SimplePopup.confirm(`Should "${mod.source}" be applied as part of that roll?`);
+        if (!confirmed) continue;
+      }
+
+      if (mod.afterRoll) {
+        const tokens = actor.getActiveTokens();
+        toRemove.push({
+          actorId: actor._id, 
+          tokenId: tokens[0].id,
+          effectId: mod.effectId, 
+          afterRoll: mod.afterRoll
+        });
+      }
+
       globalMod.value += mod.value;
       if (globalMod.source === "") globalMod.source += `${mod.source}`
       else globalMod.source += ` + ${mod.source}`
@@ -819,6 +837,7 @@ function _extractGlobalModStringForType(path, actor) {
       ui.notifications.error(`Cannot parse global formula modifier json {${json}} with error: ${e}`)
     }
   }
+  if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
   return globalMod;
 }
 

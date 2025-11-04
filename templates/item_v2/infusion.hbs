@@ -39,6 +39,10 @@
         </div>
         <input type="text" {{#if system.infusion.variablePower}}disabled value="?"{{else}}name="system.infusion.power" value="{{system.infusion.power}}"{{/if}} data-dtype="Number" placeholder="-">
       </div>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.infusion.costReductionTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.infusion.costReduction"}}</span>
+        <input type="text" name="system.infusion.costReduction" value="{{system.infusion.costReduction}}" data-dtype="Number" placeholder="-">
+      </div>
 
       <div class="sub-header margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.infusion.tags"}}</span>

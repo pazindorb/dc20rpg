@@ -50,7 +50,7 @@ export async function applyDamage(actor, dmg, options={}) {
   const newValue = health.value - dmg.value;
   const updateData = {
     ["system.resources.health.value"]: newValue,
-    fromEvent: options.fromEvent,
+    skipEventCall: options.skipEventCall,
     messageId: options.messageId
   }
   await actor.gmUpdate(updateData);
@@ -105,7 +105,8 @@ export async function applyHealing(actor, heal, options={}) {
     const updateData = {
       ["system.resources.health.temp"]: temp,
       ["system.resources.health.current"]: newCurrent,
-      fromEvent: options.fromEvent,
+      ["system.resources.health.value"]: newCurrent,
+      skipEventCall: options.skipEventCall,
       messageId: options.messageId
     }
     await actor.gmUpdate(updateData);

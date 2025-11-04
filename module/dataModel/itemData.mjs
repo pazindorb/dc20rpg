@@ -128,6 +128,7 @@ class DC20ItemItemData extends DC20BaseItemData {
         currency: new f.StringField({required: true, initial: "gp"})
       }),
       infusions: new f.ObjectField({required:true, initial: {}}),
+      infusionCostReduction: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
       rarity: new f.StringField({required: true, initial: ""}),
       statuses: new f.SchemaField({
         attuned: new f.BooleanField({required: true, initial: false}),
@@ -312,6 +313,7 @@ export class DC20InfusionData extends DC20UsableItemData {
       infusion: new f.SchemaField({
         power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         variablePower: new f.BooleanField({required: true, initial: false}),
+        costReduction: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         tags: new f.SchemaField({
           attunement: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),

@@ -313,13 +313,9 @@ function _movement(actor) {
 
 function _jump(actor) {
 	const jump = actor.system.jump;
-	if (jump.key === "flat") {
-		jump.current = jump.value + jump.bonus;
-	}
-	else {
-		const attribute = actor.system.attributes[jump.key].value;
-		jump.current = (attribute >= 1 ? attribute : 1) + jump.bonus;
-	}
+	let value = jump.key === "flat" ? jump.value : actor.system.attributes[jump.key].value; 
+	if (value <= 0) value = 1;
+	jump.current = (value + jump.bonus) * jump.multiplier;
 }
 
 function _precisionDefence(actor) {

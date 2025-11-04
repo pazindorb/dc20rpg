@@ -48,6 +48,10 @@ export class DC20RpgItem extends Item {
     return this.system.toggle?.toggleable && this.system.toggle?.toggledOn;
   }
 
+  get equipped() {
+    return !!this.system?.statuses?.equipped;
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */

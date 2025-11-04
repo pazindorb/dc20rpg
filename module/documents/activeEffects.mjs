@@ -170,7 +170,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (!effect) return;
 
     // We want to inject effect id only for events and roll levels
-    if (change.key.includes("system.events") || change.key.includes("system.rollLevel")) {
+    if (change.key.includes("system.events") || change.key.includes("system.rollLevel") || change.key.includes("system.globalFormulaModifiers")) {
       change.value = `"effectId": "${effect.id}", ` + change.value;
     }
   }

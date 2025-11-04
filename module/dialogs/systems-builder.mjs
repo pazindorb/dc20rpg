@@ -57,6 +57,19 @@ export class SystemsBuilder extends Dialog {
         source: {
           value: "",
           format: "string"
+        },
+        confirmation: {
+          value: false,
+          format: "boolean"
+        },
+        afterRoll: {
+          value: false,
+          format: "string",
+          selectOptions: {
+            "": "",
+            "disable": "Disable Effect",
+            "delete": "Delete Effect"
+          }
         }
       }
     }

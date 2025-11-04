@@ -7,6 +7,7 @@ export default class JumpFields extends foundry.data.fields.SchemaField {
       current: new f.NumberField(init0),
       value: new f.NumberField(init0),
       bonus: new f.NumberField(init0),
+      multiplier: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       key: new f.StringField({required: true, initial: key}),
       label: new f.StringField({initial: "dc20rpg.speed.jump"}),
     };

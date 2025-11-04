@@ -260,18 +260,12 @@ async function _onInfusionRoll(actor, infusion) {
   const item = actor.items.get(itemId);
   if (!item) return;
 
-  const canInfuse = await _canInfuse(infusion, actor);
+  const canInfuse = await _canInfuse(infusion, item, actor);
   if (!canInfuse) return;
-
-  const infused = await item.infusions.apply(infusion, actor.uuid);
-  if (!infused) return;
-
-  const infusionManaPentalty = actor.system.resources.mana.infusions;
-  const mpCost = infusion.system.infusion.power;
-  await actor.update({["system.resources.mana.infusions"]: infusionManaPentalty + mpCost});
+  item.infusions.apply(infusion, actor.uuid);
 }
 
-async function _canInfuse(infusionItem, actor) {
+async function _canInfuse(infusionItem, targetItem, actor) {
   const infusion = infusionItem.system.infusion;
   let mpCost = infusion.power;
   if (infusion.variablePower) {
@@ -281,9 +275,10 @@ async function _canInfuse(infusionItem, actor) {
     infusion.power = mpCost; // We need to save provided value so we can revert it in the future
   }
 
+  const cost = Math.max(infusion.power - infusion.costReduction - targetItem.system.infusionCostReduction, 0);
   // Can spend max mana
   const mana = actor.resources.mana;
-  if (mana.max - mpCost < 0) {
+  if (mana.max - cost < 0) {
     ui.notifications.warn("Cannot infuse, not enough max mana");
     return false;
   }
@@ -293,7 +288,7 @@ async function _canInfuse(infusionItem, actor) {
   else return false;
 
   // Can spend current mana
-  if (mana.canSpend(mpCost)) mana.spend(mpCost);
+  if (mana.canSpend(cost)) mana.spend(cost);
   else return false;
 
   return true;

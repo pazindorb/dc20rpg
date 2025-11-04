@@ -342,6 +342,7 @@ export function getEffectModifiableKeys() {
     "system.movement.flying.fullSpeed": "Flying equal Movement",
     "system.movement.flying.halfSpeed": "Flying equal Half Movement",
     "system.jump.bonus": "Jump Distance Bonus",
+    "system.jump.multiplier": "Jump Distance Multiplier",
     "system.jump.key": "Jump Attribute",
 
     // Senses

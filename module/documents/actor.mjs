@@ -5,7 +5,6 @@ import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/act
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
@@ -610,12 +609,12 @@ export class DC20RpgActor extends Actor {
         if (hpDif < 0) {
           const text = `+${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.fromEvent && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
+          if(!this.skipEventCall && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
         }
         else if (hpDif > 0) {
           const text = `-${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.fromEvent) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.skipEventCall) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); 
         }
       }
     }
@@ -643,7 +642,7 @@ export class DC20RpgActor extends Actor {
   async _preUpdate(changes, options, user) {
     await updateActorHp(this, changes);
     if (changes.system?.resources?.health) {
-      this.fromEvent = changes.fromEvent;
+      this.skipEventCall = changes.skipEventCall;
       this.messageId = changes.messageId;
       this.hpBeforeUpdate = this.system.resources.health;
     }
