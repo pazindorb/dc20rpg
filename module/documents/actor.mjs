@@ -563,22 +563,24 @@ export class DC20RpgActor extends Actor {
     return await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
   }
 
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
   /**
-   * Run update opperation on Actor. If user doesn't have permissions to do so he will send a request to the active GM.
-   * If request was sended, no object will be returned by this method.
+   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
+   * No object will be returned by this method.
    */
   async gmUpdate(updateData={}, operation={}) {
     if (!this.canUserModify(game.user, "update")) {
       emitEventToGM("updateDocument", {
-        docType: "actor",
-        docId: this.id, 
-        actorUuid: this.uuid,
+        docUuid: this.uuid,
         updateData: updateData,
         operation: operation
       });
-      return;
     }
-    return await this.update(updateData, operation);
+    else {
+      await this.update(updateData, operation);
+    }
   }
 
   /** @override */

@@ -1,5 +1,6 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
+import { emitEventToGM } from "../helpers/sockets.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -199,6 +200,26 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       return this.parent;
     }
     return null;
+  }
+
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
+  /**
+   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
+   * No object will be returned by this method.
+   */
+  async gmUpdate(updateData={}, operation={}) {
+    if (!this.canUserModify(game.user, "update")) {
+      emitEventToGM("updateDocument", {
+        docUuid: this.uuid,
+        updateData: updateData,
+        operation: operation
+      });
+    }
+    else {
+      await this.update(updateData, operation);
+    }
   }
 
   // If we are removing a status from effect we need to run check 

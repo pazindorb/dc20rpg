@@ -126,17 +126,9 @@ export function editEffectOn(effectId, owner) {
 }
 
 export async function updateEffectOn(effectId, owner, updateData) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("updateDocument", {
-      docType: "effect",
-      docId: effectId, 
-      actorUuid: owner.uuid,
-      updateData: updateData
-    });
-    return;
-  }
-  const item = getItemFromActor(itemId, actor);
-  return await item.update(updateData);
+  const effect = owner.effects.get(effectId);
+  if (!effect) return;
+  return effect.gmUpdate(updateData);
 }
 
 export async function deleteEffectFrom(effectId, owner) {

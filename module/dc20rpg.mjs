@@ -13,7 +13,7 @@ import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
-import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
+import DC20RpgActiveEffect from "./documents/activeEffect.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";

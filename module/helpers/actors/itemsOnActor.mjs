@@ -32,17 +32,9 @@ export async function createItemOnActor(actor, itemData) {
 }
 
 export async function updateItemOnActor(itemId, actor, updateData) {
-  if (!actor.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("updateDocument", {
-      docType: "item",
-      docId: itemId, 
-      actorUuid: actor.uuid,
-      updateData: updateData
-    });
-    return;
-  }
-  const item = getItemFromActor(itemId, actor);
-  if (item) return await item.update(updateData);
+  const item = actor.items.get(itemId);
+  if (!item) return;
+  return await item.gmUpdate(updateData);
 }
 
 export async function deleteItemFromActor(itemId, actor, options={}) {
