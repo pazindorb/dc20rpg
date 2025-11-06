@@ -129,6 +129,7 @@ class DC20ItemItemData extends DC20BaseItemData {
       }),
       infusions: new f.ObjectField({required:true, initial: {}}),
       infusionCostReduction: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+      magicPower: new f.NumberField({required: true, nullable: true, integer: true, initial: null}),
       rarity: new f.StringField({required: true, initial: ""}),
       statuses: new f.SchemaField({
         attuned: new f.BooleanField({required: true, initial: false}),

@@ -377,7 +377,7 @@ export function getEffectModifiableKeys() {
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
     "system.skillPoints.skill.bonus": "Skill Points",
-    "system.skillPoints.trade.bonus": "Trade Skill Points",
+    "system.skillPoints.trade.bonus": "Trade Points",
     "system.skillPoints.language.bonus": "Language Points",
 
     "system.known.cantrips.max": "Cantrips Known",

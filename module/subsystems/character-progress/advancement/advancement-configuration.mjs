@@ -117,10 +117,10 @@ export class AdvancementConfiguration extends Dialog {
     if (droppedObject.type !== "Item") return;
 
     const item = await Item.fromDropData(droppedObject);
-    if (!["feature", "technique", "spell", "weapon", "equipment"].includes(item.type)) return;
+    if (!["feature", "technique", "infusion", "spell", "weapon", "equipment"].includes(item.type)) return;
 
     // Can be counted towards known spell/techniques
-    const canBeCounted = ["technique", "spell"].includes(item.type);
+    const canBeCounted = ["technique", "infusion", "spell"].includes(item.type);
 
     // Get item
     this.advancement.items[item.id] = {

@@ -819,7 +819,8 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   }
 
   // Run infusion macro
-  const removeInfusionMacro = await _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, item, infuser);
+  const macroInfusionStore = {};
+  const removeInfusionMacro = await _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, item, infuser, macroInfusionStore);
   if (infusionItem.infusionError) {
     ui.notifications.warn(infusionItem.infusionError);
     delete infusionItem.infusionError;
@@ -855,7 +856,8 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     },
     removeInfusionMacro: removeInfusionMacro,
     infuserUuid: infuserUuid,
-    infusionItemUuid: infusionItem.uuid
+    infusionItemUuid: infusionItem.uuid,
+    ...macroInfusionStore
   }
 
   // Check if infuser has resources to spend
@@ -963,7 +965,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   return true;
 }
 
-async function _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, infusionTarget, infuser) {
+async function _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, infusionTarget, infuser, macroInfusionStore) {
   const macros = infusionItem.system?.macros;
   if (!macros) return [];
 
@@ -974,7 +976,7 @@ async function _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, inf
     if (!command) continue;
 
     if (macro.trigger === "infusion") {
-      await runTemporaryMacro(command, infusionItem, {infusion: infusionItem, target: infusionTarget, infuser: infuser});
+      await runTemporaryMacro(command, infusionItem, {infusion: infusionItem, target: infusionTarget, infuser: infuser, infusionStore: macroInfusionStore});
     }
 
     if (macro.trigger === "removeInfusion") {
@@ -1026,12 +1028,12 @@ async function _removeInfusion(infusion, item) {
 
   await item.update(updateData);
   await _clearTags(infusion, item);
-  await _clearInfuserPenalties(infusion, infuser);
+  if (infuser) await _clearInfuserPenalties(infusion, infuser);
 }
 
 async function _runRemoveInfusionMacro(infusion, item, infuser) {
   for (const command of infusion.removeInfusionMacro) {
-    await runTemporaryMacro(command, item, {target: item, infusionData: infusion, infuser: infuser});
+    await runTemporaryMacro(command, item, {target: item, infusionStore: infusion, infuser: infuser});
   }
 }
 

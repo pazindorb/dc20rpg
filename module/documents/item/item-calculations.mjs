@@ -6,6 +6,7 @@ export function makeCalculations(item) {
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
+  if (item.system.infusions) _calculateMagicPower(item);
   if (item.type === "weapon") _runWeaponStyleCheck(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
 }
@@ -119,4 +120,14 @@ function _checkFeatureSourceItem(item) {
     const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem];
     if (newOrigin && newOrigin !== item.system.featureOrigin) item.update({["system.featureOrigin"]: newOrigin})
   }
+}
+
+function _calculateMagicPower(item) {
+  let magicPower = item.system.magicPower;
+  const infusions = Object.values(item.system.infusions);
+  for (const infusion of infusions) {
+    if (magicPower == null) magicPower = 0;
+    magicPower += infusion.power;
+  }
+  item.system.magicPower = magicPower;
 }

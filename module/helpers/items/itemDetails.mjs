@@ -170,22 +170,25 @@ function _components(item) {
 }
 
 function _infusionDetails(item) {
-  if (item.type !== "infusion") return "";
-
   let content = "";
-  const infusion = item.system.infusion;
-  content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
+  if (item.type === "infusion") {
+    const infusion = item.system.infusion;
+    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
 
-  Object.entries(infusion.tags).forEach(([key, tag]) => {
-    if (tag.active) {
-        content += `<div class='detail box journal-tooltip box-style'
-        data-uuid="${tag.journalUuid}"
-        data-header="${tag.label}"
-        > 
-        ${tag.label}`;
-        content += "</div>";
-    }
-  });
+    Object.entries(infusion.tags).forEach(([key, tag]) => {
+      if (tag.active) {
+          content += `<div class='detail box journal-tooltip box-style'
+          data-uuid="${tag.journalUuid}"
+          data-header="${tag.label}"
+          > 
+          ${tag.label}`;
+          content += "</div>";
+      }
+    });
+  }
+  if (item.system.magicPower != null) {
+    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${item.system.magicPower} </div>`;
+  }
   return content;
 }
 
