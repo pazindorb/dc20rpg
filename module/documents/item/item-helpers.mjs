@@ -1,4 +1,6 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { createItemOnActor } from "../../helpers/actors/itemsOnActor.mjs";
 import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
 import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
@@ -807,10 +809,34 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     return false;
   }
 
-  const infusionKey = generateKey();
-  const removeInfusionMacro = await _runInfusionMacro(infusionItem, item);
-  const infusion = infusionItem.system.infusion;
+  // If there is more than 1 item in the stack and we have infuser we need to split the items
+  const infuser = await fromUuid(infuserUuid);
+  if (infuser && item.system.quantity > 1) {
+    const itemData = item.toObject();
+    itemData.system.quantity -= 1; 
+    await createItemOnActor(infuser, itemData);
+    await item.update({["system.quantity"]: 1});
+  }
 
+  // Run infusion macro
+  const removeInfusionMacro = await _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, item, infuser);
+  if (infusionItem.infusionError) {
+    ui.notifications.warn(infusionItem.infusionError);
+    delete infusionItem.infusionError;
+    infusionItem.reset(); // We need to clear infusion item if macro did some changes to it
+    return false;
+  }
+
+  const infusionKey = generateKey();
+  const infusion = infusionItem.system.infusion;
+  // Check for variable power (important only when infuser exist)
+  if (infusion.variablePower && infuser) {
+    const cost = await SimplePopup.input("How many Magic Points it cost?");
+    let power = parseInt(cost);
+    if (!isNaN(power)) infusion.power = power;
+  }
+
+  // Prepare infusion data
   const cost =  infuserUuid ? Math.max(infusion.power - infusion.costReduction - item.system.infusionCostReduction, 0) : null;
   const data = {
     name: infusionItem.name,
@@ -830,6 +856,13 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     removeInfusionMacro: removeInfusionMacro,
     infuserUuid: infuserUuid,
     infusionItemUuid: infusionItem.uuid
+  }
+
+  // Check if infuser has resources to spend
+  const canInfuse = await _checkInfuserResources(data, infuser);
+  if (!canInfuse) {
+    infusionItem.reset(); // We need to clear infusion item if macro did some changes to it
+    return false;
   }
   
   const updateData = {system: {infusions: {}}};
@@ -925,12 +958,12 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
 
   updateData.system.infusions[infusionKey] = data;
   await item.update(updateData);
-  await _applyInfuserPenalties(data);
+  if (infuser) await _applyInfuserPenalties(data, infuser);
   infusionItem.reset(); // We need to clear infusion item if macro did some changes to it
   return true;
 }
 
-async function _runInfusionMacro(infusionItem, infusionTarget) {
+async function _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, infusionTarget, infuser) {
   const macros = infusionItem.system?.macros;
   if (!macros) return [];
 
@@ -941,7 +974,7 @@ async function _runInfusionMacro(infusionItem, infusionTarget) {
     if (!command) continue;
 
     if (macro.trigger === "infusion") {
-      await runTemporaryMacro(command, infusionItem, {infusion: infusionItem, target: infusionTarget});
+      await runTemporaryMacro(command, infusionItem, {infusion: infusionItem, target: infusionTarget, infuser: infuser});
     }
 
     if (macro.trigger === "removeInfusion") {
@@ -958,7 +991,8 @@ async function _removeInfusion(infusion, item) {
   const updateData = {system: {infusions: {}}};
   updateData.system.infusions[`-=${infusion.key}`] = null;
 
-  await _runRemoveInfusionMacro(infusion.removeInfusionMacro, item);
+  const infuser = await fromUuid(infusion.infuserUuid);
+  await _runRemoveInfusionMacro(infusion, item, infuser);
 
   // Remove item modifications
   for (const effectId of infusion.modifications.effects) {
@@ -992,12 +1026,12 @@ async function _removeInfusion(infusion, item) {
 
   await item.update(updateData);
   await _clearTags(infusion, item);
-  await _clearInfuserPenalties(infusion);
+  await _clearInfuserPenalties(infusion, infuser);
 }
 
-async function _runRemoveInfusionMacro(macros, item) {
-  for (const command of macros) {
-    await runTemporaryMacro(command, item, {target: item});
+async function _runRemoveInfusionMacro(infusion, item, infuser) {
+  for (const command of infusion.removeInfusionMacro) {
+    await runTemporaryMacro(command, item, {target: item, infusionData: infusion, infuser: infuser});
   }
 }
 
@@ -1044,20 +1078,28 @@ async function _clearTags(infusion, item) {
   await item.update(updateData);
 }
 
-async function _applyInfuserPenalties(infusion) {
-  if (!infusion.infuserUuid) return;
-
-  const actor = await fromUuid(infusion.infuserUuid);
-  if (!actor) return;
-  const infusionManaPentalty = actor.system.resources.mana.infusions;
-  await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty + infusion.cost});
+async function _checkInfuserResources(infusion, actor) {
+  if (!actor) return true;
+  
+  const mana = actor.resources.mana;
+  if (mana.max - infusion.cost < 0) {
+    ui.notifications.warn("Cannot infuse, not enough max mana");
+    return false;
+  }
+  if (!actor.resources.mana.canSpend(infusion.cost) || !actor.resources.ap.canSpend(1)) {
+    return false;
+  }
+  return true;
 }
 
-async function _clearInfuserPenalties(infusion) {
-  if (!infusion.infuserUuid) return;
+async function _applyInfuserPenalties(infusion, actor) {
+  const infusionManaPentalty = actor.system.resources.mana.infusions;
+  await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty + infusion.cost});
+  await actor.resources.ap.spend(1);
+  await actor.resources.mana.spend(infusion.cost);
+}
 
-  const actor = await fromUuid(infusion.infuserUuid);
-  if (!actor) return;
+async function _clearInfuserPenalties(infusion, actor) {
   const infusionManaPentalty = actor.system.resources.mana.infusions;
   await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.cost});
 }

@@ -49,7 +49,7 @@ import { DC20Dialog } from "./dc20Dialog.mjs";
  *  "message": String,
  *  "information": Array[String],
  * }
- * @return Object[dropped]
+ * @return Array[dropped]
  */
 export class SimplePopup extends DC20Dialog {
 
@@ -131,6 +131,9 @@ export class SimplePopup extends DC20Dialog {
     super(options);
     this.popupType = popupType;
     this.data = data;
+    if (popupType === "drop") {
+      this.data.dropData = [];
+    }
     this._prepareInputs();
     this._prepareButtonLabels();
   }
@@ -185,6 +188,10 @@ export class SimplePopup extends DC20Dialog {
       case "confirm": 
         this.promiseResolve(target.dataset.option === "confirm"); 
         break;
+
+      case "drop":
+        this.promiseResolve(this.data.dropData); 
+        break;
     }
     this.close();
   }
@@ -198,10 +205,10 @@ export class SimplePopup extends DC20Dialog {
   async _onDrop(event) {
     if (this.popupType !== "drop") return;
 
-    const item = await super._onDrop(event);
-    if (item?.uuid) {
-      this.promiseResolve(item.uuid);
-      this.close();
+    const object = await super._onDrop(event);
+    if (object?.uuid) {
+      this.data.dropData.push(object?.uuid);
+      this.render();
     }
   }
 }

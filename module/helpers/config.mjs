@@ -465,6 +465,7 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   rod: "Rod",
   scroll: "Scroll",
   wand: "Wand",
+  bomb: "Bomb",
   trap: "Trap",
   trinket: "Trinket",
   other: "Other"

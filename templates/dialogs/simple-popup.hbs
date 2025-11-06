@@ -13,6 +13,16 @@
   </fieldset>
   {{/if}}
 
+  {{#if dropData}}
+  <fieldset class="info-wrapper">
+    <div class="information">
+      {{#each dropData}}
+      <span>{{this}}, </span>
+      {{/each}}
+    </div>
+  </fieldset>
+  {{/if}}
+
   {{#ifCond popupType '===' "input"}}{{#if inputs}}
   <fieldset class="input-fields">
     {{#each inputs as |input index|}}

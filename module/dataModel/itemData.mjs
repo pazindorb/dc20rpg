@@ -335,6 +335,10 @@ export class DC20InfusionData extends DC20UsableItemData {
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.limited"}),
           }),
+          spellcasting: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.spellcasting"}),
+          }),
         }),
         copy: new f.SchemaField({
           effects: new f.BooleanField({required: true, initial: false}),

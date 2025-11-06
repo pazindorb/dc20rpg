@@ -48,7 +48,7 @@
         <span>{{localize "dc20rpg.item.sheet.infusion.tags"}}</span>
       </div>
       <div class="properties">
-        <div class="grid grid-5col grid-gap-5 margin-top-3">
+        <div class="grid grid-4col grid-gap-5 margin-top-3">
           {{#each system.infusion.tags as |tag key|}}
             <a class="activable-box activable {{#if tag.active}}active{{/if}}" data-path="system.infusion.tags.{{key}}.active">
               {{tag.label}}

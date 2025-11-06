@@ -259,37 +259,5 @@ async function _onInfusionRoll(actor, infusion) {
   const itemId = await SimplePopup.select("Select Item to Infuse", toSelectOptions(items, "id", "name"));
   const item = actor.items.get(itemId);
   if (!item) return;
-
-  const canInfuse = await _canInfuse(infusion, item, actor);
-  if (!canInfuse) return;
   item.infusions.apply(infusion, actor.uuid);
-}
-
-async function _canInfuse(infusionItem, targetItem, actor) {
-  const infusion = infusionItem.system.infusion;
-  let mpCost = infusion.power;
-  if (infusion.variablePower) {
-    const cost = await SimplePopup.input("How many Magic Points it cost?");
-    mpCost = parseInt(cost);
-    if (isNaN(mpCost)) return false;
-    infusion.power = mpCost; // We need to save provided value so we can revert it in the future
-  }
-
-  const cost = Math.max(infusion.power - infusion.costReduction - targetItem.system.infusionCostReduction, 0);
-  // Can spend max mana
-  const mana = actor.resources.mana;
-  if (mana.max - cost < 0) {
-    ui.notifications.warn("Cannot infuse, not enough max mana");
-    return false;
-  }
-
-  // Can spend current ap
-  if (actor.resources.ap.canSpend(1)) actor.resources.ap.spend(1);
-  else return false;
-
-  // Can spend current mana
-  if (mana.canSpend(cost)) mana.spend(cost);
-  else return false;
-
-  return true;
 }
