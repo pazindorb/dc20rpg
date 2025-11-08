@@ -530,7 +530,7 @@ export async function handleStackableItem(createdItem, actor, event, transfer, s
   // If transfer, remove original item or subtract charges
   const infiniteStock = createdItem.actor.system?.vendor?.infiniteStock;
   if (transfer && !infiniteStock) {
-    if (stacks === quantity) await deleteItemFromActor(createdItem.id, createdItem.actor);
+    if (stacks === quantity) await deleteItemFromActor(createdItem.id, createdItem.actor, {transfer: true});
     else await updateItemOnActor(createdItem.id, createdItem.actor, {["system.quantity"]: quantity - stacks});
   }
 }

@@ -18,7 +18,7 @@ export class ActionSelect extends DC20Dialog {
       skillBased: {},
       utility: {}
     };
-    actor.getAllItemsWithType("basicAction").forEach(action => selectOptions[action.system.category][action.id] = action);
+    actor.getAllItemsWithType(["basicAction"]).forEach(action => selectOptions[action.system.category][action.id] = action);
     this.selectOptions = selectOptions;
   }
 

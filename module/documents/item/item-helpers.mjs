@@ -831,7 +831,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   const infusionKey = generateKey();
   const infusion = infusionItem.system.infusion;
   // Check for variable power (important only when infuser exist)
-  if (infusion.variablePower && infuser) {
+  if (infusion.variablePower) {
     const cost = await SimplePopup.input("How many Magic Points it cost?");
     let power = parseInt(cost);
     if (!isNaN(power)) infusion.power = power;
@@ -931,8 +931,13 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     infusion.tags.charges.active = true;
   }
   if (infusion.tags.charges.active) {
+    const charges = foundry.utils.deepClone(infusionItem.system.costs.charges);
+    if (charges.maxChargesFormula === "@magicPower") {
+      charges.maxChargesFormula = `${data.power}`;
+    }
+
     updateData.system.costs = {
-      charges: infusionItem.system.costs.charges
+      charges: charges
     };
   }
   if (infusion.tags.consumable.active) {

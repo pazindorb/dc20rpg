@@ -702,12 +702,19 @@ export class DC20RpgActor extends Actor {
    * @param {Array} types - array of types that should match item type
    * @param {Array} filters - array of optional filters (functions) that items should be run against. Filters must return true/false. Filter example:
    *                          (item) => item.name === "My specific weapon"
+   * @param {boolean} toSelect - if true, method will return items as an object of {id: name} fields;
    */
-  getAllItemsWithType(types, filters=[]) {
+  getAllItemsWithType(types, filters=[], toSelect) {
     const items = this.items.filter(item => types.includes(item.type));
-    if (filters.length === 0) return items;
-
-    return items.filter(item => this.#matchFilters(item, filters));
+    const matched = items.filter(item => this.#matchFilters(item, filters));
+    if (toSelect) {
+      const selectOptions = {};
+      matched.forEach(item => selectOptions[item.id] = item.name);
+      return selectOptions;
+    }
+    else {
+      return matched;
+    }
   }
 
   #matchFilters(item, filters) {

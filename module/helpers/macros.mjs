@@ -1,3 +1,4 @@
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
@@ -49,8 +50,23 @@ async function _runTemporaryItemMacro(item, trigger, actor, additionalFields, gl
   const macros = item?.system?.macros;
   if (!macros) return;
   
-  for (const macro of Object.values(macros)) {
-    if (macro.trigger === trigger && !macro.disabled && (!!macro.global) === (!!global)) {
+  const triggered = Object.values(macros).filter(macro => macro.trigger === trigger && !macro.disabled && (!!macro.global) === (!!global));
+  // For On demand macro you can call only one per item
+  if (trigger === "onDemand" && triggered.length > 0) {
+    let command = null;
+    if (triggered.length === 1) {
+      if (triggered[0]?.command) command = triggered[0].command;
+    }
+    else {
+      const options = {};
+      for (let i = 0; i < triggered.length; i++) options[i] = triggered[i].title;
+      const selected = await SimplePopup.select("Select on Demand Macro you want to trigger", options);
+      if (triggered[selected]?.command) command = triggered[selected].command;
+    }
+    if (command) await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
+  }
+  else {
+    for (const macro of triggered) {
       const command = macro.command;
       if (command) {
         await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});

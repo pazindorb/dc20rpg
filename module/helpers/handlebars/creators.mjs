@@ -318,7 +318,7 @@ export function registerHandlebarsCreators() {
         for (const macro of Object.values(macros)) {
           if (macro.trigger === "onDemand" && !macro.disabled) {
             hasOnDemandMacro = true;
-            if (onDemandTitle !== "") onDemandTitle += "\n";
+            if (onDemandTitle !== "") onDemandTitle += "<br>";
             onDemandTitle += macro.title;
           }
         }
