@@ -37,6 +37,7 @@ import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
 import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
+import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
