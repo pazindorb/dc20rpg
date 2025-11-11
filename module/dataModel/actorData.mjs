@@ -96,6 +96,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         prevent: new f.SchemaField({ 
           goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           hpRegeneration: new f.BooleanField({required: true, initial: false}),
+          criticalHit: new f.BooleanField({required: true, initial: false})
         }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),

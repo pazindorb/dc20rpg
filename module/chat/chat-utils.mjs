@@ -32,6 +32,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
 export function enhanceTarget(target, rolls, details, applierId) {
   const actionType = details.actionType;
   const winner = rolls?.winningRoll;
+  const preventCriticalHit = !!target.system.globalModifier?.prevent?.criticalHit;
   
   // Prepare Common Data
   const data = {
@@ -39,7 +40,7 @@ export function enhanceTarget(target, rolls, details, applierId) {
     isCheck: actionType === "check",
     canCrit: details.canCrit,
     rollTotal: winner?._total,
-    isCritHit: winner?.crit,
+    isCritHit: winner?.crit && !preventCriticalHit,
     isCritMiss: winner?.fail,
     conditionals: details.conditionals,
     applierId: applierId

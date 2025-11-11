@@ -400,6 +400,22 @@ DC20RPG.DROPDOWN_DATA.sizes = {
   titanic: "Titanic",
 }
 
+DC20RPG.DROPDOWN_DATA.creatureTypes = {
+  aberration: "Aberration",
+  beast: "Beast",
+  celestial: "Celestial",
+  construct: "Construct",
+  dragon: "Dragon",
+  elemental: "Elemental",
+  fey: "Fey",
+  fiend: "Fiend",
+  giant: "Giant",
+  humanoid: "Humanoid",
+  ooze: "Ooze",
+  plant: "Plant",
+  undead: "Undead"
+}
+
 DC20RPG.DROPDOWN_DATA.storageTypes = {
   partyInventory: "Party Inventory",
   randomLootTable: "Random Loot Table",

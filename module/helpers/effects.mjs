@@ -403,6 +403,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
     "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
     "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 
+    "system.globalModifier.prevent.criticalHit": "Global Modifier: Prevent Critical Hit benefits against you", 
     
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",

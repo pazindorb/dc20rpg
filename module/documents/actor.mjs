@@ -1,7 +1,7 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
@@ -778,5 +778,9 @@ export class DC20RpgActor extends Actor {
 
   rest(options) {
     RestDialog.open(this, options);
+  }
+
+  async moveAction(options={}) {
+    await makeMoveAction(this, options);
   }
 }

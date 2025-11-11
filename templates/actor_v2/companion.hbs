@@ -68,7 +68,9 @@
           <div class="left-part-row margin-left-2">
             <i class="fa-solid fa-paw fa-lg"></i>
           </div>
-          <input class="creature-type" type="text" name="system.details.creatureType" value="{{system.details.creatureType}}" placeholder="{{localize 'dc20rpg.sheet.creatureType'}}"/>
+          <select class="creature-type half-row change-actor-value" data-path="system.details.creatureType" >
+            {{selectOptions @root.config.DROPDOWN_DATA.creatureTypes selected=system.details.creatureType blank=""}}
+          </select>
         </div>
 
         {{!-- Creature Role --}}
