@@ -587,7 +587,7 @@ function _sizeNumericValue(size) {
     case "tiny": return 0;
     case "small": return 1;
     case "medium": return 2;
-    case "mediumLarge": case "large": return 3;
+    case "large": return 3;
     case "huge": return 4;
     case "gargantuan": return 5;
     case "colossal": return 6;

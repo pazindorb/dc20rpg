@@ -294,7 +294,8 @@ DC20RPG.macroTriggers = {
   enhancementReset: "On Enhancement Reset",
   onKeywordUpdate: "On Keyword Update",
   infusion: "Infuse Item",
-  removeInfusion: "Remove Item Infusion"
+  removeInfusion: "Remove Item Infusion",
+  customTrigger: "Custom Trigger"
 }
 
 DC20RPG.skills = {

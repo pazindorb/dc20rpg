@@ -124,8 +124,8 @@ export async function rollFromItem(itemId, actor, sendToChat=true, rollMode) {
   }
 
   // 1. Add changes related to ammo
-  if (item.ammoId) {
-    const ammo = actor.items.get(item.ammoId);
+  if (item.ammo?.active) {
+    const ammo = item.ammo?.active;
     if (ammo) {
       item.system.rollRequests = foundry.utils.mergeObject(item.system.rollRequests, ammo.system.rollRequests);
       item.system.againstStatuses = foundry.utils.mergeObject(item.system.againstStatuses, ammo.system.againstStatuses);
@@ -180,7 +180,10 @@ export async function rollFromItem(itemId, actor, sendToChat=true, rollMode) {
     item.infusions.active[item.removeInfusionAfter].remove();
     item.reset();
   }
-  if (item.deleteAfter) item.delete();
+  // Remove all items marked with "deleteAfter"
+  for (const itm of actor.items) {
+    if (itm.deleteAfter) itm.delete();
+  }
 
   // 7. Return Core Roll
   return rolls.core;

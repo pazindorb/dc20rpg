@@ -264,7 +264,7 @@ function _collectQuantity(cost, item) {
 
   const actor = item.actor;
   if (!actor) return;
-  const ammo = actor.items.get(item.ammoId);
+  const ammo = item.ammo?.active;
   if (ammo) {
     cost.quantity[ammo.id] = 1;
   }
@@ -639,7 +639,8 @@ function _enhanceAmmo(item) {
 
   item.ammo = {
     change: async (ammoId) => await _changeAmmo(ammoId, item),
-    options: () => _getAmmoOptions(item)
+    options: () => _getAmmoOptions(item),
+    active: _getActiveAmmo(item)
   }
 }
 
@@ -655,6 +656,15 @@ function _getAmmoOptions(weapon) {
   actor.items.filter(item => item.system.consumableType === "ammunition")
             .forEach(item => ammo[item.id] = item.name);
   return ammo;
+}
+
+function _getActiveAmmo(item) {
+  const actor = item.actor;
+  if (!actor) return null;
+
+  const property = item.system.properties?.ammo;
+  const ammoId = property?.active ? property.ammoId : null;
+  return actor.items.get(ammoId);
 }
  
 //==================================//==================================
@@ -718,6 +728,7 @@ function _allEnhancements(item) {
     if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, item)) {
       const itm = parent.items.get(itemWithCopyEnh.itemId);
       if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
+      if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
       if (itm && itm.system.copyEnhancements?.copy && toggleCheck(itm, itm.system.copyEnhancements?.linkWithToggle)) {
         enhancements = new Map([...enhancements, ...itm.enhancements.all]);
       }
@@ -872,18 +883,24 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   // Copy from infusion
   if (infusion.copy.effects) {
     for (const effect of infusionItem.effects) {
-      const created = await ActiveEffect.create(effect.toObject(), {parent: item});
+      const created = await ActiveEffect.create(effect.toObject(false), {parent: item});
       data.modifications.effects.push(created.id);
     }
   }
   if (infusion.copy.enhancements) {
     for (const enhancement of Object.values(infusionItem.system.enhancements)) {
       const key = await Enhancement.create(enhancement, {parent: item});
+      updateData.system.copyEnhancements = {
+        copy: !!infusionItem.system.copyEnhancements?.copy,
+        copyFor: infusionItem.system.copyEnhancements.copyFor || "",
+        linkWithToggle: !!infusionItem.system.copyEnhancements.linkWithToggle
+      }
       data.modifications.enhancements.push(key);
     }
   }
   if (infusion.copy.macros) {
     for (const macro of Object.values(infusionItem.system.macros)) {
+      if (["infusion", "removeInfusion"].includes(macro.trigger)) continue; // We don't want to copy infusion macros
       const key = await ItemMacro.create(macro, {parent: item});
       data.modifications.macros.push(key);
     }
@@ -914,6 +931,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   }
   if (infusion.copy.toggle) {
     updateData.system.toggle = infusionItem.system.toggle;
+    updateData.system.quickRoll = infusionItem.system.quickRoll;
     updateData.system.effectsConfig = {
       linkWithToggle: infusionItem.system.effectsConfig.linkWithToggle
     }
@@ -1059,6 +1077,7 @@ async function _clearTags(infusion, item) {
       toggledOn: false,
       toggleOnRoll: false
     };
+    updateData.system.quickRoll = false;
     updateData.system.effectsConfig = {
       linkWithToggle: false
     }

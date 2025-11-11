@@ -743,6 +743,28 @@ export class DC20ChatMessage extends ChatMessage {
     this.delete();
   }
 
+  async overrideCoreRoll(formula, modifyingActor, options={onlyD20: false}) {
+    const coreRoll = this.system.chatFormattedRolls?.core;
+    if (!coreRoll) return false;
+
+    if (options.onlyD20) {
+      formula = coreRoll._formula.startsWith("d20") ? "d20" : coreRoll._formula.substr(0, 6);
+    }
+
+    const rollData = modifyingActor ? modifyingActor.getRollData() : {}
+    const roll = await evaluateFormula(formula, rollData);
+
+    const newRoll = options.onlyD20 ? this._mergeExtraRoll(roll, coreRoll, formula) : {...roll};
+    const updateData = {
+      system: {
+        chatFormattedRolls: {
+          core: newRoll
+        }
+      }
+    }
+    await this.gmUpdate(updateData);
+  }
+
   async modifyCoreRoll(formula, modifyingActor, updateInfoMessage) {
     const coreRoll = this.system.chatFormattedRolls?.core;
     if (!coreRoll) return false;
@@ -773,23 +795,8 @@ export class DC20ChatMessage extends ChatMessage {
         extraRolls: extraRolls
       }
     }
-
-    if (this.canUserModify(game.user, "update")) {
-      await this.update(updateData);
-    }
-    else {
-      const activeGM = game.users.activeGM;
-      if (!activeGM) {
-        ui.notifications.error("There needs to be an active GM to proceed with that operation");
-        return false;
-      }
-      emitSystemEvent("updateChatMessage", {
-        messageId: this.id, 
-        gmUserId: activeGM.id, 
-        updateData: updateData
-      });
-    }
-
+    await this.gmUpdate(updateData);
+    
     if (updateInfoMessage) {
       if (!modifyingActor) {
         modifyingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
@@ -833,7 +840,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (game.dice3d) await game.dice3d.showForRoll(d20Roll, this.user, true, null, false);
 
     // Now we want to make some changes to duplicated roll to match how our rolls look like
-    const newRoll = this._mergeExtraRoll(d20Roll, winningRoll);
+    const newRoll = this._mergeExtraRoll(d20Roll, winningRoll, "d20");
     const extraRolls = this.system.extraRolls || [];
     extraRolls.push(newRoll);
 
@@ -939,7 +946,7 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  _mergeExtraRoll(d20Roll, oldRoll) {
+  _mergeExtraRoll(d20Roll, oldRoll, d20RollFormula) {
     const dice = d20Roll.terms[0];
     const valueOnDice = dice.results[0].result;
 
@@ -952,7 +959,7 @@ export class DC20ChatMessage extends ChatMessage {
     newRoll._total = valueOnDice + rollMods;
     newRoll.crit = valueOnDice === 20 ? true : false;
     newRoll.fail = valueOnDice === 1 ? true : false;
-    newRoll._formula = `d20 + ${rollMods}`;
+    newRoll._formula = `${d20RollFormula} + ${rollMods}`;
     return newRoll;
   }
 
@@ -966,6 +973,24 @@ export class DC20ChatMessage extends ChatMessage {
     if (helpDice.type !== "help") return;
 
     await this._addHelpDiceToRoll(helpDice);
+  }
+
+  async gmUpdate(data={}, operation) {
+    if (this.canUserModify(game.user, "update")) {
+      await this.update(data);
+    }
+    else {
+      const activeGM = game.users.activeGM;
+      if (!activeGM) {
+        ui.notifications.error("There needs to be an active GM to proceed with that operation");
+        return false;
+      }
+      emitSystemEvent("updateChatMessage", {
+        messageId: this.id, 
+        gmUserId: activeGM.id, 
+        updateData: data
+      });
+    }
   }
 }
 
