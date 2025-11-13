@@ -260,7 +260,9 @@ export class DC20RpgItem extends Item {
     return await runTemporaryMacro(macro.command, this, {item: this, actor: this.parent, ...additionalFields});
   }
 
-  hasMacroForTrigger(trigger) {
+  hasMacroForTrigger(trigger, skipInfusion) {
+    if (skipInfusion && this.type === "infusion") return;
+
     const macros = this.system.macros;
     if (!macros) return false;
     

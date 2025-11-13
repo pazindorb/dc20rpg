@@ -310,7 +310,7 @@ export function registerHandlebarsCreators() {
     const config = data.config ? data.config.split(" ") : [];
 
     // Macro
-    if (config.includes("macro")) {
+    if (config.includes("macro") && item.type !== "infusion") {
       const macros = item.system.macros;
       if (macros) {
         let onDemandTitle = "";

@@ -148,7 +148,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
         attunement: null,
         consumable: null,
         charges: null,
-        limited: null
+        uses: null
       }),
     },
     weapon: {

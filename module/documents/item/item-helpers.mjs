@@ -75,17 +75,10 @@ async function _removeCharge(amount, delayDeletion, item) {
 
   const charges = item.system.costs.charges;
   const newAmount = charges.current - amount;
-  if (newAmount <= 0) {
-    if (charges.limitedInfusion) {
-      if (delayDeletion) item.removeInfusionAfter = charges.limitedInfusion;
-      else await item.infusions.active[charges.limitedInfusion].remove();
-      return;
-    }
-    if (charges.deleteOnZero) {
-      if (delayDeletion) item.deleteAfter = true; // Item will be removed after the operation
-      else await item.delete();
-      return;
-    }
+  if (newAmount <= 0 && charges.deleteOnZero) {
+    if (delayDeletion) item.deleteAfter = true; // Item will be removed after the operation
+    else await item.delete();
+    return;
   }
   await item.update({["system.costs.charges.current"] : Math.max(newAmount, 0)});
 }
@@ -781,6 +774,7 @@ function _enrichUseWeaponObject(item) {
 function _enrichItemInfusions(item) {
   item.infusions = {
     apply: async (infusion, infuserUuid) => await _applyInfusion(infusion, item, infuserUuid),
+    getByKey: (infusionKey) => _getByInfusionKey(infusionKey, item),
   }
 
   let hasToggle = false;
@@ -792,10 +786,13 @@ function _enrichItemInfusions(item) {
     const infusion = foundry.utils.deepClone(original);
     infusion.key = key;
     infusion.remove = async () => await _removeInfusion(infusion, item);
+    infusion.canSpend = (amount) => _canSpendInfusion(amount, infusion),
+    infusion.spend = async (amount) => await _spendInfusion(amount, infusion, item),
+    infusion.regain = async () => await _regainInfusion(infusion, item);
     active[key] = infusion;
 
     if (infusion.tags.attunement.active) hasAttunement = true;
-    if (infusion.tags.charges.active || infusion.tags.limited.active) hasCharges = true;
+    if (infusion.tags.charges.active) hasCharges = true;
     if (infusion.modifications.toggle) hasToggle = true;
   }
 
@@ -852,6 +849,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   const cost =  infuserUuid ? Math.max(infusion.power - infusion.costReduction - item.system.infusionCostReduction, 0) : null;
   const data = {
     name: infusionItem.name,
+    infusionKey: infusion.infusionKey,
     power: infusion.power,
     tags: infusion.tags,
     cost: cost,
@@ -871,6 +869,21 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     ...macroInfusionStore
   }
 
+  // We want to clone the some of the infusion data to make sure our macro changes are not refreshed
+  const cloneToArray = (object => Object.values(foundry.utils.deepClone(object)));
+  const enhancements = cloneToArray(infusionItem.system.enhancements);
+  const copyEnhancements = foundry.utils.deepClone(infusionItem.system.copyEnhancements);
+  const macros = cloneToArray(infusionItem.system.macros);
+  const conditionals = cloneToArray(infusionItem.system.conditionals);
+  const formulas = cloneToArray(infusionItem.system.formulas);
+  const againstStatuses = cloneToArray(infusionItem.system.againstStatuses);
+  const rollRequests = cloneToArray(infusionItem.system.rollRequests);
+  const description = foundry.utils.deepClone(infusionItem.system.description);
+  const toggle = foundry.utils.deepClone(infusionItem.system.toggle);
+  const quickRoll = foundry.utils.deepClone(infusionItem.system.quickRoll);
+  const effectLinkWithToggle = foundry.utils.deepClone(infusionItem.system.effectsConfig.linkWithToggle);
+  const chargesItem = foundry.utils.deepClone(item.system.costs.charges);
+
   // Check if infuser has resources to spend
   const canInfuse = await _checkInfuserResources(data, infuser);
   if (!canInfuse) {
@@ -880,6 +893,51 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   
   const updateData = {system: {infusions: {}}};
 
+  // Prepare Tags
+  if (infusion.tags.attunement.active) {
+    updateData.system.properties = {
+      attunement: {active: true}
+    }
+  }
+
+  if (infusion.tags.uses?.active) {
+    const uses = infusion.tags.uses;
+    const roll = await evaluateFormula(uses.max, {magicPower: data.power}, true);
+    const max = roll.total;
+    data.tags.uses.current = max;
+    data.tags.uses.max = max;
+  }
+
+  if (infusion.tags.charges.active) {
+    updateData.system.costs = {charges: {}};
+    const charges = infusion.tags.charges;
+
+    const roll = await evaluateFormula(charges.max, {magicPower: data.power}, true);
+    const max = roll.total;
+    data.tags.charges.maxFormula = ` + ${max}`;
+
+    let formula = chargesItem.maxChargesFormula;
+    if (!formula) formula += "0";
+    formula += data.tags.charges.maxFormula;
+    updateData.system.costs.charges.maxChargesFormula = formula;
+
+    if (!chargesItem.reset) {
+      updateData.system.costs.charges.reset = charges.reset;
+    }
+  }
+
+  if (infusion.tags.consumable.active) {
+    if (infusion.tags.charges.active) {
+      updateData.system.deleteOnZero = false;
+      updateData.system.consume = false;
+      updateData.system.costs.charges.deleteOnZero = true;
+    }
+    else {
+      updateData.system.deleteOnZero = true;
+      updateData.system.consume = true;
+    }
+  }
+  
   // Copy from infusion
   if (infusion.copy.effects) {
     for (const effect of infusionItem.effects) {
@@ -888,98 +946,58 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     }
   }
   if (infusion.copy.enhancements) {
-    for (const enhancement of Object.values(infusionItem.system.enhancements)) {
+    for (const enhancement of enhancements) {
       const key = await Enhancement.create(enhancement, {parent: item});
       updateData.system.copyEnhancements = {
-        copy: !!infusionItem.system.copyEnhancements?.copy,
-        copyFor: infusionItem.system.copyEnhancements.copyFor || "",
-        linkWithToggle: !!infusionItem.system.copyEnhancements.linkWithToggle
+        copy: !!copyEnhancements.copy,
+        copyFor: copyEnhancements.copyFor || "",
+        linkWithToggle: !!copyEnhancements.linkWithToggle
       }
       data.modifications.enhancements.push(key);
     }
   }
   if (infusion.copy.macros) {
-    for (const macro of Object.values(infusionItem.system.macros)) {
+    for (const macro of macros) {
       if (["infusion", "removeInfusion"].includes(macro.trigger)) continue; // We don't want to copy infusion macros
       const key = await ItemMacro.create(macro, {parent: item});
       data.modifications.macros.push(key);
     }
   }
   if (infusion.copy.conditionals) {
-    for (const conditional of Object.values(infusionItem.system.conditionals)) {
+    for (const conditional of conditionals) {
       const key = await Conditional.create(conditional, {parent: item});
       data.modifications.conditionals.push(key);
     }
   }
   if (infusion.copy.formulas) {
-    for (const formula of Object.values(infusionItem.system.formulas)) {
+    for (const formula of formulas) {
       const key = await Formula.create(formula, {parent: item});
       data.modifications.formulas.push(key);
     }
   }
   if (infusion.copy.rollRequests) {
-    for (const rollRequest of Object.values(infusionItem.system.rollRequests)) {
+    for (const rollRequest of rollRequests) {
       const key = await RollRequest.create(rollRequest, {parent: item});
       data.modifications.rollRequests.push(key);
     }
   }
   if (infusion.copy.againstStatuses) {
-    for (const againstStatus of Object.values(infusionItem.system.againstStatuses)) {
+    for (const againstStatus of againstStatuses) {
       const key = await AgainstStatus.create(againstStatus, {parent: item});
       data.modifications.againstStatuses.push(key);
     }
   }
   if (infusion.copy.toggle) {
-    updateData.system.toggle = infusionItem.system.toggle;
-    updateData.system.quickRoll = infusionItem.system.quickRoll;
+    updateData.system.toggle = toggle;
+    updateData.system.quickRoll = quickRoll;
     updateData.system.effectsConfig = {
-      linkWithToggle: infusionItem.system.effectsConfig.linkWithToggle
+      linkWithToggle: effectLinkWithToggle
     }
     data.modifications.toggle = true;
   }
 
-  // Tags
-  if (infusion.tags.attunement.active) {
-    updateData.system.properties = {
-      attunement: {active: true}
-    }
-  }
-
-  if (infusion.tags.limited.active && !infusion.tags.charges.active) {
-    infusion.tags.charges.active = true;
-  }
-  if (infusion.tags.charges.active) {
-    const charges = foundry.utils.deepClone(infusionItem.system.costs.charges);
-    if (charges.maxChargesFormula === "@magicPower") {
-      charges.maxChargesFormula = `${data.power}`;
-    }
-
-    updateData.system.costs = {
-      charges: charges
-    };
-  }
-  if (infusion.tags.consumable.active) {
-    if (infusion.tags.charges.active) {
-      updateData.system.costs.charges.deleteOnZero = true;
-      updateData.system.deleteOnZero = false;
-      updateData.system.consume = false;
-    }
-    else {
-      updateData.system.deleteOnZero = true;
-      updateData.system.consume = true;
-    }
-  }
-    
-  if (infusion.tags.limited.active) {
-    updateData.system.costs.charges.limitedInfusion = infusionKey;
-  }
-  else {
-    if (!updateData.system.costs) updateData.system.costs = {charges: {limitedInfusion: ""}};
-    else updateData.system.costs.charges.limitedInfusion = "";
-  }
-
   updateData.system.description = item.system.description;
-  updateData.system.description += `<div class="infusion-description" key="${infusionKey}"><br/><h3>${infusionItem.name}</h3>${infusionItem.system.description}</div>`;
+  updateData.system.description += `<div class="infusion-description" key="${infusionKey}"><br/><h3>${data.name}</h3>${description}</div>`;
 
   updateData.system.infusions[infusionKey] = data;
   await item.update(updateData);
@@ -1061,6 +1079,7 @@ async function _runRemoveInfusionMacro(infusion, item, infuser) {
 }
 
 async function _clearTags(infusion, item) {
+  const chargesItem = foundry.utils.deepClone(item.system.costs.charges);
   const updateData = {system: {}}
   
   const tags = infusion.tags;
@@ -1082,26 +1101,69 @@ async function _clearTags(infusion, item) {
       linkWithToggle: false
     }
   }
-  
-  if ((tags.charges.active || tags.limited.active) && !allInfusions.hasCharges) {
-    updateData.system.costs = {
-      charges: {
-        current: null,
-        max: null,
-        maxChargesFormula: null,
-        overriden: false,
-        rechargeFormula: "",
-        rechargeDice: "",
-        requiredTotalMinimum: null,
-        reset: "",
-        showAsResource: false,
-        subtract: 1,
-        deleteOnZero: false,
-      }
-    };
+
+  if (tags.charges.active) {
+    updateData.system.costs = {charges: {}};
+    const charges = infusion.tags.charges;
+
+    let formula = chargesItem.maxChargesFormula;
+    formula = formula.replace(charges.maxFormula, "");
+    updateData.system.costs.charges.maxChargesFormula = formula === "0" ? "" : formula;
+
+    if (!allInfusions.hasCharges) {
+      updateData.system.costs.charges.deleteOnZero = false;
+      updateData.system.costs.charges.reset = "";
+    }
+  }
+
+  if (tags.consumable.active) {
+    if (tags.charges.active && !allInfusions.hasCharges) {
+      updateData.system.deleteOnZero = true;
+      updateData.system.consume = true;
+    }
   }
 
   await item.update(updateData);
+}
+
+//==================================
+//         INFUSION USAGE          =
+//==================================
+function _canSpendInfusion(amount, infusion) {
+  const uses = infusion.tags.uses;
+  if (!uses?.active) return true;
+
+  if (uses.current - amount < 0) {
+    ui.notifications.error(`Cannot subract uses (${amount}) from '${infusion.name}' infusion.`);
+    return false;
+  }
+  return true;
+}
+
+async function _spendInfusion(amount, infusion, item) {
+  const uses = infusion.tags.uses;
+  if (!uses?.active) return;
+
+  const newValue = uses.current - amount; 
+  if (newValue === 0 && uses.limited) {
+    await infusion.remove();
+  }
+  else {
+    await item.update({[`system.infusions.${infusion.key}.tags.uses.current`]: newValue});
+  }
+}
+
+async function _regainInfusion(infusion, item) {
+  const uses = infusion.tags.uses;
+  if (!uses?.active) return;
+  await item.update({[`system.infusions.${infusion.key}.tags.uses.current`]: uses.max});
+}
+
+//==================================
+//         INFUSION UTILS          =
+//==================================
+function _getByInfusionKey(infusionKey, item) {
+  return Object.values(item.infusions.active).find(infusion => infusion.infusionKey === infusionKey);
 }
 
 async function _checkInfuserResources(infusion, actor) {

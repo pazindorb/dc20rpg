@@ -188,12 +188,20 @@ export class RestDialog extends DC20Dialog {
   async _refreshItems(restTypes) {
     for (const item of this.actor.items) {
       if (!item.system.usable) continue;
-      if (!item.use.hasCharges) continue;
+      if (item.use.hasCharges) {
+        const charges = item.system.costs.charges;
+        if (restTypes.includes(charges.reset)) {
+          const half = charges.reset === "halfOnShort" && !restTypes.includes("long") ? true : false;
+          await item.use.regainCharges(half);
+        }
+      }
       
-      const charges = item.system.costs.charges;
-      if (restTypes.includes(charges.reset)) {
-        const half = charges.reset === "halfOnShort" && !restTypes.includes("long") ? true : false;
-        await item.use.regainCharges(half);
+      if (item.infusions) {
+        for (const infusion of Object.values(item.infusions.active)) {
+          const uses = infusion.tags.uses;
+          if (!uses?.active) continue;
+          if (restTypes.includes(uses.reset)) await infusion.regain();
+        }
       }
     }
   }

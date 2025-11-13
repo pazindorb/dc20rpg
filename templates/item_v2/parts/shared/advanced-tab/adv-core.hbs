@@ -9,7 +9,19 @@
   <div class="content-wrapper">
     <div class="row">
       <span>{{infusion.name}}</span>
-      <a class="fa-lg remove-infusion fa-trash fa-solid" data-key="{{key}}" title="{{localize 'dc20rpg.item.sheet.infusions.remove'}}"></a>
+      <div class="right-part-row">
+        {{#if infusion.tags.uses.active}}
+        <div class="margin-right-5">
+          <input type="text" data-dType="Number" name="system.infusions.{{key}}.tags.uses.current" value="{{infusion.tags.uses.current}}">
+          {{#if infusion.tags.uses.limited}}
+          <span> ({{localize 'dc20rpg.item.sheet.infusions.limited'}})</span>
+          {{else}}
+          <span>/ {{infusion.tags.uses.max}}</span>
+          {{/if}}
+        </div>
+        {{/if}}
+        <a class="fa-lg remove-infusion fa-trash fa-solid" data-key="{{key}}" title="{{localize 'dc20rpg.item.sheet.infusions.remove'}}"></a>
+      </div>
     </div>
   </div>
   {{/each}}

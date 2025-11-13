@@ -26,7 +26,6 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         showAsResource: new f.BooleanField({required: true, initial: false}),
         subtract: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         deleteOnZero: new f.BooleanField({required: true, initial: false}),
-        limitedInfusion: new f.StringField({required: true, nullable: false, initial: ""}),
       })
     }
     super(fields, options);

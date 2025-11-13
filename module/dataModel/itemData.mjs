@@ -312,6 +312,7 @@ export class DC20InfusionData extends DC20UsableItemData {
       knownLimit: new f.BooleanField({required: true, initial: true}),
       effectsConfig: new EffectsConfigFields(),
       infusion: new f.SchemaField({
+        infusionKey: new f.StringField({required: true, initial: ""}),
         power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         variablePower: new f.BooleanField({required: true, initial: false}),
         costReduction: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -331,10 +332,15 @@ export class DC20InfusionData extends DC20UsableItemData {
           charges: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.charges"}),
+            max: new f.StringField({required: true, initial: ""}),
+            reset: new f.StringField({required: true, initial: ""}),
           }),
-          limited: new f.SchemaField({
+          uses: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
-            label: new f.StringField({initial: "dc20rpg.infusion.tags.limited"}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.uses"}),
+            max: new f.StringField({required: true, initial: ""}),
+            reset: new f.StringField({required: true, initial: ""}),
+            limited: new f.BooleanField({required: true, initial: false}),
           }),
         }),
         copy: new f.SchemaField({

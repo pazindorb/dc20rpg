@@ -177,12 +177,13 @@ function _infusionDetails(item) {
 
     Object.entries(infusion.tags).forEach(([key, tag]) => {
       if (tag.active) {
-          content += `<div class='detail box journal-tooltip box-style'
-          data-uuid="${tag.journalUuid}"
-          data-header="${tag.label}"
-          > 
-          ${tag.label}`;
-          content += "</div>";
+        let label = tag.label;
+        if (tag.max) label += ` (${tag.max})`;
+        content += `<div class='detail box journal-tooltip box-style'
+        data-uuid="${tag.journalUuid}"
+        data-header="${tag.label}"
+        > ${label}`;
+        content += "</div>";
       }
     });
   }
