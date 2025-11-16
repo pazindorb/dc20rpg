@@ -146,9 +146,13 @@ export function getDefaultItemFilters(preSelectedFilters) {
       tags: _filter("system.infusion.tags", "infusion.tags", "multi-select-3-states", parsedFilters["tags"] || {
         artifact: null,
         attunement: null,
-        consumable: null,
+        cursed: null,
         charges: null,
-        uses: null
+        uses: null,
+        consumable: null,
+        weapon: null,
+        shield: null,
+        armor: null,
       }),
     },
     weapon: {

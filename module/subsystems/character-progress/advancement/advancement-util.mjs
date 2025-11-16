@@ -270,7 +270,7 @@ function _prepareCompendiumFilters(advancement, key) {
       break;
     case "infusions":
       advancement.addItemsOptions.itemType = "infusion";
-      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "attunement": null, "consumable": null, "charges": null, "uses": null}}'
+      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "cursed": false, "attunement": null, "charges": null, "uses": null, "consumable": null, "weapon": null, "shield": null, "armor": null}}'
       break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";

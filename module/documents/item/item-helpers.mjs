@@ -812,10 +812,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     ui.notifications.warn("Only inventory items can be infused.");
     return false;
   }
-  if (infusionItem.system.infusion.tags.consumable.active && item.type !== "consumable") {
-    ui.notifications.warn("Only consumable item can be infused with that infusion.");
-    return false;
-  }
+  if (!_testRequirements(infusionItem.system.infusion.tags, item)) return false; 
 
   // If there is more than 1 item in the stack and we have infuser we need to split the items
   const infuser = await fromUuid(infuserUuid);
@@ -1162,6 +1159,64 @@ async function _regainInfusion(infusion, item) {
 //==================================
 //         INFUSION UTILS          =
 //==================================
+function _testRequirements(tags, item) {
+  if (tags.consumable.active && item.type !== "consumable") {
+    ui.notifications.warn("Only consumable item can be infused with that magic property.");
+    return false;
+  }
+
+  let anyCheckNeeded = false;
+  let requirements = "";
+  let fulfiled = false;
+  if (tags.weapon.active )
+
+  // Weapon & Ammo
+  if (tags.weapon.active) {
+    anyCheckNeeded = true;
+    // Ammo
+    if (tags.weapon.ammo) {
+      if (item.system.consumableType === "ammunition") fulfiled = true;
+      requirements += "Ammunition, ";
+    }
+
+    // Any Weapon
+    if (item.type !== "weapon") {
+      requirements += "Weapon, ";
+    }
+    else {
+      // Melee Weapon
+      if (tags.weapon.melee) {
+        if (item.system.weaponType === "melee") fulfiled = true;
+        else requirements += "Melee Weapon, ";
+      }
+      // Ranged Weapon
+      if (tags.weapon.ranged) {
+        if (item.system.weaponType === "ranged") fulfiled = true;
+        else requirements += "Ranged Weapon, ";
+      }
+    }
+  }
+
+  if (tags.armor.active) {
+    anyCheckNeeded = true;
+    if (["light", "heavy"].includes(item.system.equipmentType)) fulfiled = true;
+    else requirements += "Armor, ";
+  }
+  if (tags.shield.active) {
+    anyCheckNeeded = true;
+    if (["lshield", "hshield"].includes(item.system.equipmentType)) fulfiled = true;
+    else requirements += "Shield, ";
+  }
+
+  if (!fulfiled && anyCheckNeeded) {
+    requirements = requirements.slice(0, requirements.length - 2);
+    ui.notifications.warn(`Only ${requirements} can be infused with that magic property.`)
+    return false;
+  }
+
+  return true;
+}
+
 function _getByInfusionKey(infusionKey, item) {
   return Object.values(item.infusions.active).find(infusion => infusion.infusionKey === infusionKey);
 }

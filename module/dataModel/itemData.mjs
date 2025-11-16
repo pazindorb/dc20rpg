@@ -325,9 +325,28 @@ export class DC20InfusionData extends DC20UsableItemData {
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.artifact"}),
           }),
+          cursed: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.cursed"}),
+          }),
           consumable: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.consumable"}),
+          }),
+          weapon: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            melee: new f.BooleanField({required: true, initial: true}),
+            ranged: new f.BooleanField({required: true, initial: true}),
+            ammo: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.weapon"}),
+          }),
+          shield: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.shield"}),
+          }),
+          armor: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.armor"}),
           }),
           charges: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),

@@ -785,6 +785,14 @@ DC20RPG.DROPDOWN_DATA.restTypes = {
   full: "Full Rest"
 }
 
+DC20RPG.DROPDOWN_DATA.restTypesDaily = {
+  quick: "Quick Rest",
+  short: "Short Rest",
+  long: "Long Rest",
+  full: "Full Rest",
+  day: "Daily",
+}
+
 DC20RPG.DROPDOWN_DATA.resetTypes = {
   ...DC20RPG.DROPDOWN_DATA.restTypes,
   halfOnShort: "Short Rest (Regain Half)",

@@ -34,7 +34,7 @@
         <div class="multi-select-wrapper">
           {{#each value as |option optionKey|}}
           <div class="multi-select">
-            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
+            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.ms.' optionKey ''}}</span>
             <a class="fa-lg activable {{#if option}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{../updatePath}}.value.{{optionKey}}"></a>
           </div>
           {{/each}}
