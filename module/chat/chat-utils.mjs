@@ -29,10 +29,10 @@ export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, rolls, details, applierId) {
+export function enhanceTarget(target, rolls, details, applierId, showModifiedStore) {
   const actionType = details.actionType;
   const winner = rolls?.winningRoll;
-  const preventCriticalHit = !!target.system.globalModifier?.prevent?.criticalHit;
+  const preventCriticalHit = !!target?.system?.globalModifier?.prevent?.criticalHit;
   
   // Prepare Common Data
   const data = {
@@ -63,8 +63,8 @@ export function enhanceTarget(target, rolls, details, applierId) {
   if (game.settings.get("dc20rpg", "mergeDamageTypes")) _mergeFormulasByType(rolls);
 
   // Prepare final damage and healing
-  target.dmg = _prepareRolls(rolls.dmg, target, data, "damage");
-  target.heal = _prepareRolls(rolls.heal, target, data, "healing");
+  target.dmg = _prepareRolls(rolls.dmg, target, data, "damage", showModifiedStore);
+  target.heal = _prepareRolls(rolls.heal, target, data, "healing", showModifiedStore);
   enhanceOtherRolls(winner, rolls.other, data, target);
 
   // Prepare additional target specific fields
@@ -72,10 +72,14 @@ export function enhanceTarget(target, rolls, details, applierId) {
   target.rollRequests = collectTargetSpecificRollRequests(target, data);
 }
 
-function _prepareRolls(rolls, target, data, rollType) {
+function _prepareRolls(rolls, target, data, rollType, showModifiedStore) {
   const prepared = {};
   for (const rll of rolls) {
-    const showModified = Object.keys(prepared).length === 0; // By default only 1st roll should be modified
+    let showModified = showModifiedStore.get(target.id+"#"+rll.modified.id);
+    if (showModified === undefined) {
+      showModified = Object.keys(prepared).length === 0; // By default only 1st roll should be modified
+      showModifiedStore.set(target.id+"#"+rll.modified.id, showModified);
+    }
     const roll = _formatRoll(rll);
     const calculateData = {...data, isDamage: rollType === "damage", isHealing: rollType === "healing"};
     

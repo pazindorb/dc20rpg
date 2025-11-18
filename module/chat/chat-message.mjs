@@ -24,6 +24,7 @@ export class DC20ChatMessage extends ChatMessage {
   prepareDerivedData() {
     if (!this.rollOutcomeStore) this.rollOutcomeStore = new Map();
     if (!this.formulaModificationsStore) this.formulaModificationsStore = new Map();
+    if (!this.showModifiedStore) this.showModifiedStore = new Map();
     
     super.prepareDerivedData();
     if (this.system.chatFormattedRolls?.core) this._prepareRolls();
@@ -100,7 +101,7 @@ export class DC20ChatMessage extends ChatMessage {
       if (this.rollOutcomeStore.has(target.id)) {
         target.rollOutcome = this.rollOutcomeStore.get(target.id);
       }
-      enhanceTarget(target, rolls, system, this.speaker.actor);
+      enhanceTarget(target, rolls, system, this.speaker.actor, this.showModifiedStore);
       this._applyCachedModifications(target);
       target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
@@ -255,6 +256,7 @@ export class DC20ChatMessage extends ChatMessage {
   _activateListeners(html) {
     // Basic functionalities
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
+    html.find('.activable-show-modified').click(ev => this._showModifiedChange(datasetOf(ev).key));
 
     // Show/Hide description
     html.find('.desc-expand-row').click(ev => {
@@ -331,6 +333,12 @@ export class DC20ChatMessage extends ChatMessage {
      let value = getValueFromPath(this, path);
      setValueForPath(this, path, !value);
      ui.chat.updateMessage(this);
+  }
+
+  _showModifiedChange(key) {
+    const value = this.showModifiedStore.get(key);
+    this.showModifiedStore.set(key, !value);
+    ui.chat.updateMessage(this);
   }
 
   _onTargetSelectionSwap() {

@@ -212,7 +212,7 @@ function _prepareTypesAndSubtypes(context, item) {
     }
     case "equipment": {
       context.sheetData.type = getLabelFromKey(item.system.equipmentType, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes);
-      context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes);
+      context.sheetData.subtype = getLabelFromKey(item.system.statuses.slotLink.predefined, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots) || "?";
       break;
     }
     case "consumable": {

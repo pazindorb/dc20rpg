@@ -471,6 +471,7 @@ DC20RPG.DROPDOWN_DATA.equipmentTypes = {
   ...DC20RPG.DROPDOWN_DATA.shieldTypes,
   clothing: "Clothing",
   trinket: "Trinket",
+  tool: "Tool",
   other: "Other"
 }
 
@@ -498,7 +499,7 @@ DC20RPG.DROPDOWN_DATA.equipmentSlots = {
   ring: "Ring",
   feet: "Feet",
   trinket: "Trinket",
-  weapon: "Weapon",
+  weapon: "Held",
 }
 
 DC20RPG.DROPDOWN_DATA.techniqueTypes = {
