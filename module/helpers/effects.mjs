@@ -126,17 +126,9 @@ export function editEffectOn(effectId, owner) {
 }
 
 export async function updateEffectOn(effectId, owner, updateData) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("updateDocument", {
-      docType: "effect",
-      docId: effectId, 
-      actorUuid: owner.uuid,
-      updateData: updateData
-    });
-    return;
-  }
-  const item = getItemFromActor(itemId, actor);
-  return await item.update(updateData);
+  const effect = owner.effects.get(effectId);
+  if (!effect) return;
+  return effect.gmUpdate(updateData);
 }
 
 export async function deleteEffectFrom(effectId, owner) {
@@ -327,21 +319,22 @@ export function getEffectModifiableKeys() {
     "system.moveCost": "Cost of moving 1 Space",
     "system.movement.ground.bonus": "Ground Speed Bonus",
     "system.movement.climbing.bonus": "Climbing Speed Bonus",
-    "system.movement.climbing.fullSpeed": "Climbing equal Movement",
-    "system.movement.climbing.halfSpeed": "Climbing equal Half Movement",
+    "system.movement.climbing.fullSpeed": "Climbing equal Ground Speed",
+    "system.movement.climbing.halfSpeed": "Climbing equal Half Ground Speed",
     "system.movement.swimming.bonus": "Swimming Speed Bonus",
-    "system.movement.swimming.fullSpeed": "Swimming equal Movement",
-    "system.movement.swimming.halfSpeed": "Swimming equal Half Movement",
+    "system.movement.swimming.fullSpeed": "Swimming equal Ground Speed",
+    "system.movement.swimming.halfSpeed": "Swimming equal Half Ground Speed",
     "system.movement.burrow.bonus": "Burrow Speed Bonus",
-    "system.movement.burrow.fullSpeed": "Burrow equal Movement",
-    "system.movement.burrow.halfSpeed": "Burrow equal Half Movement",
+    "system.movement.burrow.fullSpeed": "Burrow equal Ground Speed",
+    "system.movement.burrow.halfSpeed": "Burrow equal Half Ground Speed",
     "system.movement.glide.bonus": "Glide Speed Bonus",
-    "system.movement.glide.fullSpeed": "Glide equal Movement",
-    "system.movement.glide.halfSpeed": "Glide equal Half Movement",
+    "system.movement.glide.fullSpeed": "Glide equal Ground Speed",
+    "system.movement.glide.halfSpeed": "Glide equal Half Ground Speed",
     "system.movement.flying.bonus": "Flying Speed Bonus",
-    "system.movement.flying.fullSpeed": "Flying equal Movement",
-    "system.movement.flying.halfSpeed": "Flying equal Half Movement",
+    "system.movement.flying.fullSpeed": "Flying equal Ground Speed",
+    "system.movement.flying.halfSpeed": "Flying equal Half Ground Speed",
     "system.jump.bonus": "Jump Distance Bonus",
+    "system.jump.multiplier": "Jump Distance Multiplier",
     "system.jump.key": "Jump Attribute",
 
     // Senses
@@ -363,7 +356,8 @@ export function getEffectModifiableKeys() {
     "system.senses.truesight.orOption.bonus": "Truesight - Bonus (if other source exist)",
 
     // Creature size
-    "system.size.size": "Size",
+    "system.size.size": "Size (Category)",
+    "system.size.spaceOccupation": "Size (Occupied Spaces)",
 
     // Attack and Save
     "system.attackMod.bonus.spell": "Spell Check Bonus",
@@ -384,7 +378,7 @@ export function getEffectModifiableKeys() {
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
     "system.skillPoints.skill.bonus": "Skill Points",
-    "system.skillPoints.trade.bonus": "Trade Skill Points",
+    "system.skillPoints.trade.bonus": "Trade Points",
     "system.skillPoints.language.bonus": "Language Points",
 
     "system.known.cantrips.max": "Cantrips Known",
@@ -409,6 +403,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
     "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
     "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 
+    "system.globalModifier.prevent.criticalHit": "Global Modifier: Prevent Critical Hit benefits against you", 
     
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",

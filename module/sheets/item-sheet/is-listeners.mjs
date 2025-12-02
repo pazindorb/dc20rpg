@@ -185,7 +185,7 @@ async function _onCreateEffectOn(type, item, key) {
     const enh = enhancements[key]
     if (!enh) return;
 
-    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: key});
+    const created = await createNewEffectOn("temporary", item, {enhKey: key});
     created.sheet.render(true);
   }
   if (type === "conditional") {
@@ -193,7 +193,7 @@ async function _onCreateEffectOn(type, item, key) {
     const cond = conditionals[key]
     if (!cond) return;
 
-    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, condKey: key});
+    const created = await createNewEffectOn("temporary", item, {condKey: key});
     created.sheet.render(true);
   }
 }

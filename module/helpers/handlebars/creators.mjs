@@ -310,7 +310,7 @@ export function registerHandlebarsCreators() {
     const config = data.config ? data.config.split(" ") : [];
 
     // Macro
-    if (config.includes("macro")) {
+    if (config.includes("macro") && item.type !== "infusion") {
       const macros = item.system.macros;
       if (macros) {
         let onDemandTitle = "";
@@ -318,7 +318,7 @@ export function registerHandlebarsCreators() {
         for (const macro of Object.values(macros)) {
           if (macro.trigger === "onDemand" && !macro.disabled) {
             hasOnDemandMacro = true;
-            if (onDemandTitle !== "") onDemandTitle += "\n";
+            if (onDemandTitle !== "") onDemandTitle += "<br>";
             onDemandTitle += macro.title;
           }
         }

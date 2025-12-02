@@ -13,7 +13,7 @@ import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
-import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
+import DC20RpgActiveEffect from "./documents/activeEffect.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
@@ -125,8 +125,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.9.8.0", "0.9.8.1", new Set(["dc20-core-rulebook"]));
-  // await testMigration("0.9.8.0", "0.9.8.1");
+  // await testMigration("0.9.8.1", "0.9.8.2", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
+  // await testMigration("0.9.8.1", "0.9.8.2");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

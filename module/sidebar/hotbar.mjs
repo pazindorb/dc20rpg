@@ -142,7 +142,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           condition: li => {
             const item = this.#isItemSlot(li);
             if (!item) return false;
-            return item.hasMacroForTrigger("onDemand");
+            return item.hasMacroForTrigger("onDemand", true);
           },
           callback: li => {
             const item = this.#isItemSlot(li);

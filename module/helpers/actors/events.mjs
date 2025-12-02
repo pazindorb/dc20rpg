@@ -46,7 +46,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           type: event.type
         }
         dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
-        await applyDamage(actor, dmg.modified, {fromEvent: true});
+        await applyDamage(actor, dmg.modified, {skipEventCall: event.trigger === "damageTaken" || event.tigger === "healingTaken"});
         break;
 
       case "healing":
@@ -56,7 +56,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           type: event.type
         };
         heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
-        await applyHealing(actor, heal.modified, {fromEvent: true});
+        await applyHealing(actor, heal.modified, {skipEventCall: event.trigger === "damageTaken" || event.tigger === "healingTaken"});
         break;
 
       case "checkRequest":

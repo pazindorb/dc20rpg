@@ -550,9 +550,11 @@ export class DC20RpgCombat extends Combat {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "deathSave",
         against: 10,
-        roll: saveFormula
+        roll: saveFormula,
+        checkKey: "deathSave"
       };
       const roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
+      if (!roll) return;
 
       // Critical Success: You are restored to 1 HP
       if (roll.crit) {

@@ -261,7 +261,9 @@
             {{#if (each5Condition @root.system.actionType category)}}{{#unless formula.fail}} 
             <a class="activable fail-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}" data-path="system.formulas.{{key}}.fail"></a>
             {{/unless}}{{/if}}
+            {{#ifCond key '!==' "weaponDamage"}}
             <a class="remove-formula damage-formula margin-right-3 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-key={{key}}></a>
+            {{/ifCond}}
           </div>
         </div>
         <div class="right-part-row">

@@ -75,7 +75,7 @@ function _attributes(data) {
 		}
 	}
 	if (data.special?.phySave) data.phySave = data.special.phySave;
-	if (data.special?.menSave) data.menSave = data.special.phySave;
+	if (data.special?.menSave) data.menSave = data.special.menSave;
 }
 
 function _details(data) {

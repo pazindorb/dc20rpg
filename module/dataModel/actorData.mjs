@@ -96,6 +96,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         prevent: new f.SchemaField({ 
           goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           hpRegeneration: new f.BooleanField({required: true, initial: false}),
+          criticalHit: new f.BooleanField({required: true, initial: false})
         }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),
@@ -187,6 +188,7 @@ export class DC20CharacterData extends DC20BaseActorData {
         martial: new f.BooleanField({required: true, initial: false}),
         martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
+        infuser: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: true}),
         advancementInfo: new f.SchemaField({ // BACKWARD COMPATIBILITY: This info was moved to class item - remove after 0.9.7.0
           multiclassTalents: new f.ObjectField({required: true}), 

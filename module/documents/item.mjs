@@ -2,6 +2,7 @@ import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFro
 import { getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
+import { emitEventToGM } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
@@ -48,6 +49,10 @@ export class DC20RpgItem extends Item {
     return this.system.toggle?.toggleable && this.system.toggle?.toggledOn;
   }
 
+  get equipped() {
+    return !!this.system?.statuses?.equipped;
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
@@ -78,6 +83,35 @@ export class DC20RpgItem extends Item {
     return prepareRollData(this, data);
   }
 
+  getEffectWithName(effectName) {
+    return this.effects.getName(effectName);
+  }
+
+  getEffectByKey(effectKey) {
+    return this.effects.find(effect => effect.system.effectKey === effectKey);
+  }
+
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
+  /**
+   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
+   * No object will be returned by this method.
+   */
+  async gmUpdate(updateData={}, operation={}) {
+    if (!this.canUserModify(game.user, "update")) {
+      emitEventToGM("updateDocument", {
+        docUuid: this.uuid,
+        updateData: updateData,
+        operation: operation
+      });
+    }
+    else {
+      await this.update(updateData, operation);
+    }
+  }
+
+  /** @override */
   async update(data={}, operation={}) {
     try {
       await super.update(data, operation);
@@ -87,14 +121,6 @@ export class DC20RpgItem extends Item {
       }
       else throw error;
     }
-  }
-
-  getEffectWithName(effectName) {
-    return this.effects.getName(effectName);
-  }
-
-  getEffectByKey(effectKey) {
-    return this.effects.find(effect => effect.system.effectKey === effectKey);
   }
 
   async _onCreate(data, options, userId) {
@@ -234,7 +260,9 @@ export class DC20RpgItem extends Item {
     return await runTemporaryMacro(macro.command, this, {item: this, actor: this.parent, ...additionalFields});
   }
 
-  hasMacroForTrigger(trigger) {
+  hasMacroForTrigger(trigger, skipInfusion) {
+    if (skipInfusion && this.type === "infusion") return;
+
     const macros = this.system.macros;
     if (!macros) return false;
     

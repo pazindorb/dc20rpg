@@ -128,6 +128,8 @@ class DC20ItemItemData extends DC20BaseItemData {
         currency: new f.StringField({required: true, initial: "gp"})
       }),
       infusions: new f.ObjectField({required:true, initial: {}}),
+      infusionCostReduction: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+      magicPower: new f.NumberField({required: true, nullable: true, integer: true, initial: null}),
       rarity: new f.StringField({required: true, initial: ""}),
       statuses: new f.SchemaField({
         attuned: new f.BooleanField({required: true, initial: false}),
@@ -310,8 +312,10 @@ export class DC20InfusionData extends DC20UsableItemData {
       knownLimit: new f.BooleanField({required: true, initial: true}),
       effectsConfig: new EffectsConfigFields(),
       infusion: new f.SchemaField({
+        infusionKey: new f.StringField({required: true, initial: ""}),
         power: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         variablePower: new f.BooleanField({required: true, initial: false}),
+        costReduction: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         tags: new f.SchemaField({
           attunement: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
@@ -321,17 +325,41 @@ export class DC20InfusionData extends DC20UsableItemData {
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.artifact"}),
           }),
+          cursed: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.cursed"}),
+          }),
           consumable: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.consumable"}),
           }),
+          weapon: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            melee: new f.BooleanField({required: true, initial: true}),
+            ranged: new f.BooleanField({required: true, initial: true}),
+            ammo: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.weapon"}),
+          }),
+          shield: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.shield"}),
+          }),
+          armor: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.armor"}),
+          }),
           charges: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.charges"}),
+            max: new f.StringField({required: true, initial: ""}),
+            reset: new f.StringField({required: true, initial: ""}),
           }),
-          limited: new f.SchemaField({
+          uses: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
-            label: new f.StringField({initial: "dc20rpg.infusion.tags.limited"}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.uses"}),
+            max: new f.StringField({required: true, initial: ""}),
+            reset: new f.StringField({required: true, initial: ""}),
+            limited: new f.BooleanField({required: true, initial: false}),
           }),
         }),
         copy: new f.SchemaField({

@@ -1,11 +1,10 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
@@ -564,22 +563,24 @@ export class DC20RpgActor extends Actor {
     return await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
   }
 
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
   /**
-   * Run update opperation on Actor. If user doesn't have permissions to do so he will send a request to the active GM.
-   * If request was sended, no object will be returned by this method.
+   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
+   * No object will be returned by this method.
    */
   async gmUpdate(updateData={}, operation={}) {
     if (!this.canUserModify(game.user, "update")) {
       emitEventToGM("updateDocument", {
-        docType: "actor",
-        docId: this.id, 
-        actorUuid: this.uuid,
+        docUuid: this.uuid,
         updateData: updateData,
         operation: operation
       });
-      return;
     }
-    return await this.update(updateData, operation);
+    else {
+      await this.update(updateData, operation);
+    }
   }
 
   /** @override */
@@ -610,12 +611,12 @@ export class DC20RpgActor extends Actor {
         if (hpDif < 0) {
           const text = `+${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.fromEvent && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
+          if(!this.skipEventCall && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
         }
         else if (hpDif > 0) {
           const text = `-${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.fromEvent) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.skipEventCall) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); 
         }
       }
     }
@@ -643,7 +644,7 @@ export class DC20RpgActor extends Actor {
   async _preUpdate(changes, options, user) {
     await updateActorHp(this, changes);
     if (changes.system?.resources?.health) {
-      this.fromEvent = changes.fromEvent;
+      this.skipEventCall = changes.skipEventCall;
       this.messageId = changes.messageId;
       this.hpBeforeUpdate = this.system.resources.health;
     }
@@ -701,12 +702,19 @@ export class DC20RpgActor extends Actor {
    * @param {Array} types - array of types that should match item type
    * @param {Array} filters - array of optional filters (functions) that items should be run against. Filters must return true/false. Filter example:
    *                          (item) => item.name === "My specific weapon"
+   * @param {boolean} toSelect - if true, method will return items as an object of {id: name} fields;
    */
-  getAllItemsWithType(types, filters=[]) {
+  getAllItemsWithType(types, filters=[], toSelect) {
     const items = this.items.filter(item => types.includes(item.type));
-    if (filters.length === 0) return items;
-
-    return items.filter(item => this.#matchFilters(item, filters));
+    const matched = items.filter(item => this.#matchFilters(item, filters));
+    if (toSelect) {
+      const selectOptions = {};
+      matched.forEach(item => selectOptions[item.id] = item.name);
+      return selectOptions;
+    }
+    else {
+      return matched;
+    }
   }
 
   #matchFilters(item, filters) {
@@ -770,5 +778,9 @@ export class DC20RpgActor extends Actor {
 
   rest(options) {
     RestDialog.open(this, options);
+  }
+
+  async moveAction(options={}) {
+    await makeMoveAction(this, options);
   }
 }

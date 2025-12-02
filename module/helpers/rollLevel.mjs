@@ -587,7 +587,7 @@ function _sizeNumericValue(size) {
     case "tiny": return 0;
     case "small": return 1;
     case "medium": return 2;
-    case "mediumLarge": case "large": return 3;
+    case "large": return 3;
     case "huge": return 4;
     case "gargantuan": return 5;
     case "colossal": return 6;
@@ -686,6 +686,7 @@ function _updateWithRollLevelFormEnhancements(item, rollLevel, genesis) {
 function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
   if (actor.system.globalModifier.ignore.closeQuarters) return;
+  if (attackFormula.ignoreCloseQuarters) return;
   if (!attackFormula.range || attackFormula.rangeType !== "ranged") return;
   
   // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space

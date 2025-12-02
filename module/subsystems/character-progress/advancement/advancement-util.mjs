@@ -48,29 +48,54 @@ export async function addAdditionalAdvancement(advancement, item, collection, in
 }
 
 export async function addNewSpellTechniqueAdvancements(actor, item, collection, level) {
+  const infuser = actor.system.details.infuser;
   const addedAdvancements = [];
   for (const [key, known] of Object.entries(actor.system.known)) {
     const newKnownAmount = known.max - known.current;
     if (newKnownAmount > 0) {
-      const advancement = createNewAdvancement();
-      advancement.name = game.i18n.localize(`dc20rpg.known.${key}`);
-      advancement.allowToAddItems = true;
-      advancement.customTitle = `You gain new ${advancement.name} (${newKnownAmount})`;
-      advancement.level = level;
-      advancement.addItemsOptions = {
-        helpText: `Add ${advancement.name}`,
-        itemLimit: newKnownAmount
-      };
-      advancement.img = CONFIG.DC20RPG.ICONS[key];
-      advancement.parentItem = item;
-      advancement.known = true;
-      advancement.key = generateKey();
-      _prepareCompendiumFilters(advancement, key);
-      await addAdditionalAdvancement(advancement, item, collection);
-      addedAdvancements.push(advancement);
+      if (infuser && key === "spells") {
+        const answer = await SimplePopup.input(`Do you want to learn infusion instead of spells? If so, how many (Max ${newKnownAmount}).`);
+        let infusions = parseInt(answer) || 0;
+        if (infusions > newKnownAmount) infusions = newKnownAmount;
+        const spells = newKnownAmount - infusions;
+
+        if (infusions > 0) {
+          const advancement = _prepareAdvancementFromKnown("infusions", infusions, item, level);
+          await addAdditionalAdvancement(advancement, item, collection);
+          addedAdvancements.push(advancement);
+        }
+        if (spells > 0) {
+          const advancement = _prepareAdvancementFromKnown("spells", spells, item, level);
+          await addAdditionalAdvancement(advancement, item, collection);
+          addedAdvancements.push(advancement);
+        }
+      }
+      else {
+        const advancement = _prepareAdvancementFromKnown(key, newKnownAmount, item, level);
+        await addAdditionalAdvancement(advancement, item, collection);
+        addedAdvancements.push(advancement);
+      }
     }
   }
   return addedAdvancements;
+}
+
+function _prepareAdvancementFromKnown(key, amount, item, level) {
+  const advancement = createNewAdvancement();
+  advancement.name = game.i18n.localize(`dc20rpg.known.${key}`);
+  advancement.allowToAddItems = true;
+  advancement.customTitle = `You gain new ${advancement.name} (${amount})`;
+  advancement.level = level;
+  advancement.addItemsOptions = {
+    helpText: `Add ${advancement.name}`,
+    itemLimit: amount
+  };
+  advancement.img = CONFIG.DC20RPG.ICONS[key];
+  advancement.parentItem = item;
+  advancement.known = true;
+  advancement.key = generateKey();
+  _prepareCompendiumFilters(advancement, key);
+  return advancement;
 }
 
 export async function shouldLearnNewSpellsOrTechniques(actor, skipRefresh) {
@@ -270,7 +295,7 @@ function _prepareCompendiumFilters(advancement, key) {
       break;
     case "infusions":
       advancement.addItemsOptions.itemType = "infusion";
-      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "attunement": null, "consumable": null, "charges": null, "limited": null}}'
+      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "cursed": false, "attunement": null, "charges": null, "uses": null, "consumable": null, "weapon": null, "shield": null, "armor": null}}'
       break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";

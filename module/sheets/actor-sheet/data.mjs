@@ -184,11 +184,7 @@ function _attributes(context) {
 }
 
 function _size(context) {
-  const size = context.system.size.size;
-  const label = size === "mediumLarge" 
-                  ? getLabelFromKey("large", CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
-                  : getLabelFromKey(context.system.size.size, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
-  context.system.size.label = label;
+  context.system.size.label = getLabelFromKey(context.system.size.size, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
 }
 
 function _allSkills(context) {

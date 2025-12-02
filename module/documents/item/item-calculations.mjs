@@ -6,26 +6,30 @@ export function makeCalculations(item) {
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
+  if (item.system.infusions) _calculateMagicPower(item);
   if (item.type === "weapon") _runWeaponStyleCheck(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
 }
 
+// TODO: Rework this shit
 function _calculateRollModifier(item) {
-  const system = item.system;
-  const attackFormula = system.attackFormula;
-  
-  // Prepare formula
-  let calculationFormula = "";
+  const attackFormula = item.system.attackFormula;
+  let formulaModifier = "";
 
-  // determine if it is a spell or attack check
-  if (attackFormula.checkType === "attack") {
-    if (system.attackFormula.combatMastery) calculationFormula += " + @attack";
-    else calculationFormula += " + @attackNoCM";
+  // Determine if it is a spell or attack check or has a custom modifer
+  if (attackFormula.customModifier) {
+    formulaModifier = attackFormula.customModifier;
   }
-  else if (attackFormula.checkType === "spell") calculationFormula += " + @spell";
+  else if (attackFormula.checkType === "attack") {
+    if (attackFormula.combatMastery) formulaModifier += " + @attack";
+    else formulaModifier += " + @attackNoCM";
+  }
+  else if (attackFormula.checkType === "spell") formulaModifier += " + @spell";
 
-  if (system.attackFormula.rollBonus) calculationFormula +=  " + @rollBonus";
-  attackFormula.formulaMod = calculationFormula;
+  if (attackFormula.rollBonus) {
+     formulaModifier +=  " + @rollBonus";
+  }
+  attackFormula.formulaMod = formulaModifier;
 
   // Calculate roll modifier for formula
   const rollData = item.getRollData();
@@ -116,4 +120,14 @@ function _checkFeatureSourceItem(item) {
     const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem];
     if (newOrigin && newOrigin !== item.system.featureOrigin) item.update({["system.featureOrigin"]: newOrigin})
   }
+}
+
+function _calculateMagicPower(item) {
+  let magicPower = item.system.magicPower;
+  const infusions = Object.values(item.system.infusions);
+  for (const infusion of infusions) {
+    if (magicPower == null) magicPower = 0;
+    magicPower += infusion.power;
+  }
+  item.system.magicPower = magicPower;
 }

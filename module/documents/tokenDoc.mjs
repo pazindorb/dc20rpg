@@ -15,6 +15,10 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.object.isFlanked;
   }
 
+  hasStatusEffect(statusId) {
+    return this.actor.hasStatus(statusId);
+  }
+
   /**@override*/
   prepareData() {
     this._prepareSystemSpecificVisionModes();
@@ -71,35 +75,20 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (!size) return;
     if (this.flags?.dc20rpg?.notOverrideSize) return;
 
-    switch(size.size) {
-      case "tiny":
-        this._updateSize(0.5);
-        break;
+    const spaceOccupation = size.spaceOccupation || this._sizeCategoryToSpaces(size.size);
+    this._updateSize(spaceOccupation);
+  }
 
-      case "small": case "medium": case "mediumLarge":
-        this._updateSize(1);
-        break;
-
-      case "large":
-        this._updateSize(2);
-        break;
-
-      case "huge":
-        this._updateSize(3);
-        break;
-
-      case "gargantuan":
-        this._updateSize(4);
-        break;
-
-      case "colossal":
-        this._updateSize(5);
-        break;
-
-      case "titanic":
-        this._updateSize(7);
-        break;
+  _sizeCategoryToSpaces(category) {
+    switch(category) {
+      case "tiny":                  return 0.5;
+      case "large":                 return 2;
+      case "huge":                  return 3;
+      case "gargantuan":            return 4;
+      case "colossal":              return 5;
+      case "titanic":               return 7;
     }
+    return 1; // small, medium
   }
 
   async _updateSize(size) {

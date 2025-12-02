@@ -3,6 +3,7 @@ import { generateKey } from "../../helpers/utils.mjs";
 export class Enhancement {
   name = "New Enhancement";
   number = 0;
+  preventModification = false;
   description = "";
   hide = false;
   resources = {

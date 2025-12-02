@@ -294,7 +294,8 @@ DC20RPG.macroTriggers = {
   enhancementReset: "On Enhancement Reset",
   onKeywordUpdate: "On Keyword Update",
   infusion: "Infuse Item",
-  removeInfusion: "Remove Item Infusion"
+  removeInfusion: "Remove Item Infusion",
+  customTrigger: "Custom Trigger"
 }
 
 DC20RPG.skills = {
@@ -399,6 +400,22 @@ DC20RPG.DROPDOWN_DATA.sizes = {
   titanic: "Titanic",
 }
 
+DC20RPG.DROPDOWN_DATA.creatureTypes = {
+  aberration: "Aberration",
+  beast: "Beast",
+  celestial: "Celestial",
+  construct: "Construct",
+  dragon: "Dragon",
+  elemental: "Elemental",
+  fey: "Fey",
+  fiend: "Fiend",
+  giant: "Giant",
+  humanoid: "Humanoid",
+  ooze: "Ooze",
+  plant: "Plant",
+  undead: "Undead"
+}
+
 DC20RPG.DROPDOWN_DATA.storageTypes = {
   partyInventory: "Party Inventory",
   randomLootTable: "Random Loot Table",
@@ -454,6 +471,7 @@ DC20RPG.DROPDOWN_DATA.equipmentTypes = {
   ...DC20RPG.DROPDOWN_DATA.shieldTypes,
   clothing: "Clothing",
   trinket: "Trinket",
+  tool: "Tool",
   other: "Other"
 }
 
@@ -465,6 +483,7 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   rod: "Rod",
   scroll: "Scroll",
   wand: "Wand",
+  bomb: "Bomb",
   trap: "Trap",
   trinket: "Trinket",
   other: "Other"
@@ -480,7 +499,7 @@ DC20RPG.DROPDOWN_DATA.equipmentSlots = {
   ring: "Ring",
   feet: "Feet",
   trinket: "Trinket",
-  weapon: "Weapon",
+  weapon: "Held",
 }
 
 DC20RPG.DROPDOWN_DATA.techniqueTypes = {
@@ -765,6 +784,14 @@ DC20RPG.DROPDOWN_DATA.restTypes = {
   short: "Short Rest",
   long: "Long Rest",
   full: "Full Rest"
+}
+
+DC20RPG.DROPDOWN_DATA.restTypesDaily = {
+  quick: "Quick Rest",
+  short: "Short Rest",
+  long: "Long Rest",
+  full: "Full Rest",
+  day: "Daily",
 }
 
 DC20RPG.DROPDOWN_DATA.resetTypes = {

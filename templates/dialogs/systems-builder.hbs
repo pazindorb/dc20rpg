@@ -13,6 +13,16 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.value"}}</span>
       <input class="input" data-path="fields.value.value" value="{{fields.value.value}}"/>
     </div>
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.confirmation"}}</span>
+      <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.afterRoll"}}</span>
+      <select class="selectable" data-path="fields.afterRoll.value">
+        {{selectOptions fields.afterRoll.selectOptions selected=fields.afterRoll.value}}
+      </select>
+    </div>
   {{/ifCond}}
 
   {{!-- Roll Level --}}

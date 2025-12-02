@@ -264,8 +264,8 @@
         {{!-- Damage --}}
         {{#each target.dmg as |roll rollKey|}}
           <div class="row"> 
-            <a class="activable margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
-                data-path="system.targets.{{ ../id}}.dmg.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
+            <a class="activable-show-modified margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
+                data-key="{{ ../id}}#{{rollKey}}" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
             {{#if roll.overridenDefence}}
             <i class="fa-solid fa-arrows-rotate" title="{{varLocalize "dc20rpg.chat.overridenDefence." roll.overridenDefence ""}}"></i>
             {{/if}}
