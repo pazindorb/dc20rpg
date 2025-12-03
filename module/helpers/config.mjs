@@ -374,7 +374,7 @@ DC20RPG.TRANSLATION_LABELS.classTypes = {
 DC20RPG.TRANSLATION_LABELS.attributes = {
   mig: "Might",
   agi: "Agility",
-  int: "Inteligence",
+  int: "Intelligence",
   cha: "Charisma"
 };
 

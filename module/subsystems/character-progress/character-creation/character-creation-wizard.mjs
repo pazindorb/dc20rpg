@@ -33,7 +33,7 @@ export class CharacterCreationWizard extends Dialog {
         int: {
           value: -2,
           mastery: false,
-          label: "Inteligence"
+          label: "Intelligence"
         }
       },
       attrPoints: {

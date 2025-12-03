@@ -426,7 +426,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.mig": "Roll Level with Might Checks",
     "system.rollLevel.onYou.checks.agi": "Roll Level with Agility Checks",
     "system.rollLevel.onYou.checks.cha": "Roll Level with Charisma Checks",
-    "system.rollLevel.onYou.checks.int": "Roll Level with Inteligence Checks",
+    "system.rollLevel.onYou.checks.int": "Roll Level with Intelligence Checks",
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
     "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
@@ -437,7 +437,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
     "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
-    "system.rollLevel.onYou.saves.int": "Roll Level with Inteligence Saves",
+    "system.rollLevel.onYou.saves.int": "Roll Level with Intelligence Saves",
     "system.rollLevel.onYou.deathSave": "Roll Level with Death Save",
 
     "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
@@ -448,7 +448,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.checks.mig": "Against You: Roll Level with Might Checks",
     "system.rollLevel.againstYou.checks.agi": "Against You: Roll Level with Agility Checks",
     "system.rollLevel.againstYou.checks.cha": "Against You: Roll Level with Charisma Checks",
-    "system.rollLevel.againstYou.checks.int": "Against You: Roll Level with Inteligence Checks",
+    "system.rollLevel.againstYou.checks.int": "Against You: Roll Level with Intelligence Checks",
     "system.rollLevel.againstYou.checks.att": "Against You: Roll Level with Attack Check",
     "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
 
@@ -458,7 +458,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
     "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
     "system.rollLevel.againstYou.saves.cha": "Against You: Roll Level with Charisma Saves",
-    "system.rollLevel.againstYou.saves.int": "Against You: Roll Level with Inteligence Saves",
+    "system.rollLevel.againstYou.saves.int": "Against You: Roll Level with Intelligence Saves",
 
     // Events
     "system.events": "Events",
