@@ -68,7 +68,7 @@
         <span>{{localize "dc20rpg.item.sheet.class.combatTraining"}}</span>
       </div>
       <div class="properties">
-        <div class="grid grid-5col grid-gap-5 margin-top-3">
+        <div class="grid grid-4col grid-gap-5 margin-top-3">
           {{#each system.combatTraining as |mastery key|}}
           <a class="activable-box activable {{#if mastery}} active {{/if}}" data-path="system.combatTraining.{{key}}">
             {{labelFromKey key @root.config.TRANSLATION_LABELS.combatTraining}}

@@ -380,6 +380,7 @@ DC20RPG.TRANSLATION_LABELS.attributes = {
 
 DC20RPG.TRANSLATION_LABELS.combatTraining = {
   weapons: "Weapons",
+  spellFocuses: "Spell Focuses",
   lightShield: "Light Shield",
   heavyShield: "Heavy Shield",
   lightArmor: "Light Armor",

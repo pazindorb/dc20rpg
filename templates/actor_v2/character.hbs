@@ -87,7 +87,7 @@
           <i class="margin-left-2 fa-solid fa-gear fa-lg"></i>
           <span class="margin-left-2">{{localize "dc20rpg.sheet.combatTraining"}}</span>
         </div>
-        <div class="masteries grid grid-5col">
+        <div class="masteries grid grid-6col">
         {{#each system.combatTraining as |mastery key|}}
           <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
         {{/each}}
