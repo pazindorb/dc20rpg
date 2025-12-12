@@ -211,8 +211,7 @@ async function _onItemCreate(tab, actor) {
   switch(tab) {
     case "inventory":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes; break;
     case "features":    selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes; break;
-    case "maneuvers":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.maneuversTypes; break;
-    case "spells":      selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes; break; 
+    case "known":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.knownTypes; break;
   }
 
   const itemType = await SimplePopup.select(game.i18n.localize("dc20rpg.dialog.create.itemType"), selectOptions);

@@ -41,8 +41,7 @@ function pcFields() {
     filter: new f.SchemaField({
       inventory: new f.StringField({required: true, initial: ""}),
       features: new f.StringField({required: true, initial: ""}),
-      maneuvers: new f.StringField({required: true, initial: ""}),
-      spells: new f.StringField({required: true, initial: ""}),
+      known: new f.StringField({required: true, initial: ""}),
       favorites: new f.StringField({required: true, initial: ""})
     }),
     order: new f.SchemaField({
@@ -90,24 +89,27 @@ function pcFields() {
 					custom: false
 				}
       }}),
-      maneuvers: new f.ObjectField({required: true, initial: {
+      known: new f.ObjectField({required: true, initial: {
         maneuver: {
 					name: "dc20rpg.table.header.maneuver",
 					order: 0,
 					custom: false
 				},
-      }}),
-      spells: new f.ObjectField({required: true, initial: {
         spell: {
 					name: "dc20rpg.table.header.spell",
-					order: 0,
+					order: 1,
+					custom: false
+				},
+        ritual: {
+					name: "dc20rpg.table.header.ritual",
+					order: 2,
 					custom: false
 				},
         infusion: {
 					name: "dc20rpg.table.header.infusion",
-					order: 1,
+					order: 3,
 					custom: false
-				},
+				}
       }}),
       favorites: new f.ObjectField({required: true, initial: {
 				basic: {

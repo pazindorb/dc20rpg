@@ -503,6 +503,12 @@ DC20RPG.DROPDOWN_DATA.equipmentSlots = {
   weapon: "Held",
 }
 
+DC20RPG.DROPDOWN_DATA.knownTypes = {
+  maneuver: "Maneuver",
+  spell: "Spell",
+  infusion: "Infusion"
+}
+
 DC20RPG.DROPDOWN_DATA.maneuverTypes = {
   attack: "Attack",
   defense: "Defense",
@@ -511,7 +517,6 @@ DC20RPG.DROPDOWN_DATA.maneuverTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.spellTypes = {
-  cantrip: "Cantrip",
   spell: "Spell",
   ritual: "Ritual"
 }
@@ -657,13 +662,13 @@ DC20RPG.DROPDOWN_DATA.advancementItemTypes = {
 
 DC20RPG.DROPDOWN_DATA.creatableTypes = {
   ...DC20RPG.DROPDOWN_DATA.inventoryTypes,
-  ...DC20RPG.DROPDOWN_DATA.spellsTypes,
+  ...DC20RPG.DROPDOWN_DATA.knownTypes,
   ...DC20RPG.DROPDOWN_DATA.featuresTypes
 }
 
 DC20RPG.DROPDOWN_DATA.allItemTypes = {
   ...DC20RPG.DROPDOWN_DATA.inventoryTypes,
-  ...DC20RPG.DROPDOWN_DATA.spellsTypes,
+  ...DC20RPG.DROPDOWN_DATA.knownTypes,
   ...DC20RPG.DROPDOWN_DATA.featuresTypes,
   class: "Class",
   subclass: "Subclass",

@@ -123,7 +123,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
     },
     maneuver: {
       maneuverOrigin: _filter("system.maneuverOrigin", "maneuver.maneuverOrigin", "text", parsedFilters["maneuverOrigin"]),
-      techniqueType: _filter("system.maneuverType", "technique.maneuverType", "select", parsedFilters["maneuverType"], CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes)
+      maneuverType: _filter("system.maneuverType", "maneuver.maneuverType", "select", parsedFilters["maneuverType"], CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes)
     },
     spell: {
       spellOrigin: _filter("system.spellOrigin", "spell.spellOrigin", "text", parsedFilters["spellOrigin"]),

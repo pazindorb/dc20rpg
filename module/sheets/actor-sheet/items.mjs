@@ -59,8 +59,7 @@ export function prepareItemsForCharacter(context, actor) {
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
   const features = _sortAndPrepareTables(headersOrdering.features);
-  const maneuvers = _sortAndPrepareTables(headersOrdering.maneuvers);
-  const spells = _sortAndPrepareTables(headersOrdering.spells);
+  const known = _sortAndPrepareTables(headersOrdering.known);
   const favorites = _sortAndPrepareTables(headersOrdering.favorites);
 
   const itemChargesAsResources = {};
@@ -88,15 +87,15 @@ export function prepareItemsForCharacter(context, actor) {
         if (isFavorite) _addItemToTable(item, favorites, "feature");
         break;
       case 'maneuver': 
-        _addItemToTable(item, maneuvers); 
+        _addItemToTable(item, known, "maneuver"); 
         if (isFavorite) _addItemToTable(item, favorites, "maneuver");
         break;
       case 'spell': 
-        _addItemToTable(item, spells, item.system.spellType); 
+        _addItemToTable(item, known, item.system.spellType); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
       case 'infusion': 
-        _addItemToTable(item, spells, "infusion"); 
+        _addItemToTable(item, known, "infusion"); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
       case 'basicAction': 
@@ -114,8 +113,7 @@ export function prepareItemsForCharacter(context, actor) {
   context.containers = containers;
   context.inventory = _filterItems(filters.inventory, inventory);
   context.features = _filterItems(filters.features, features);
-  context.maneuvers = _filterItems(filters.maneuvers, maneuvers);
-  context.spells = _filterItems(filters.spells, spells);
+  context.known = _filterItems(filters.known, known);
   context.favorites = _filterItems(filters.favorites, favorites);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;

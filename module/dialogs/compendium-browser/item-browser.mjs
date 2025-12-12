@@ -18,11 +18,14 @@ export class CompendiumBrowser extends Dialog {
       this.allItemTypes = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes;
       itemType = "weapon";
     }
+    else if (itemType === "known") {
+      this.allItemTypes = CONFIG.DC20RPG.DROPDOWN_DATA.knownTypes;
+      itemType = "maneuver";
+    }
     else if (itemType === "advancement") {
       this.allItemTypes = {
         ...CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes,
-        ...CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes,
-        ...CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes
+        ...CONFIG.DC20RPG.DROPDOWN_DATA.knownTypes,
       }
       itemType = "feature";
     }

@@ -365,7 +365,7 @@ export function registerHandlebarsCreators() {
     if (config.includes("known")) {
       const knownLimit = item.system.knownLimit;
       const active = knownLimit ? 'fa-solid' : 'fa-regular';
-      const title = data.navTab === "maneuvers" 
+      const title = data.navTab === "known" 
                     ? game.i18n.localize("dc20rpg.item.sheet.maneuver.countToLimitTitle")
                     : game.i18n.localize("dc20rpg.item.sheet.spell.countToLimitTitle")
       component += `<a class="item-activable ${active} fa-book" data-tooltip="${title}" data-item-id="${item._id}" data-path="system.knownLimit"></a>` 
