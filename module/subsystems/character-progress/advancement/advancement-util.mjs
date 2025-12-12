@@ -29,7 +29,7 @@ export async function applyAdvancement(advancement, actor) {
   if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
   
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement);
-  if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements);
+  if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
   if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor, extraAdvancements);
@@ -98,7 +98,7 @@ function _prepareAdvancementFromKnown(key, amount, item, level) {
   return advancement;
 }
 
-export async function shouldLearnNewSpellsOrTechniques(actor, skipRefresh) {
+export async function shouldLearnNewSpellsOrManeuvers(actor, skipRefresh) {
   const shouldLearn = [];
   if (!skipRefresh) actor = await refreshActor(actor); // TODO do we even need to do that? Test
   for (const [key, known] of Object.entries(actor.system.known)) {
@@ -107,19 +107,19 @@ export async function shouldLearnNewSpellsOrTechniques(actor, skipRefresh) {
   return shouldLearn;
 }
 
-async function _applyPathProgression(advancement, extraAdvancements) {
+async function _applyPathProgression(advancement, extraAdvancements, actor) {
   const parentItem = advancement.parentItem;
   const index = advancement.level -1;
   switch(advancement.mastery) {
     case "martial":
-      const numberOfMartialPaths = overrideScalingValue(parentItem, index, "martial"); 
-      if (numberOfMartialPaths === 2 && !parentItem.system.martial) {
+      if (!actor.system.details.staminaFeature) {
         const expansion = await _getSpellcasterStaminaAdvancement();
         expansion.level = advancement.level;
         expansion.key = "spellcasterStamina";
         expansion.parentItem = advancement.parentItem;
         extraAdvancements.set(expansion.key, expansion);
       }
+      overrideScalingValue(parentItem, index, "martial"); 
       break;
 
     case "spellcaster":
@@ -289,25 +289,16 @@ async function _getSpellcasterStaminaAdvancement() {
 
 function _prepareCompendiumFilters(advancement, key) {
   switch(key) {
-    case "cantrips":
-      advancement.addItemsOptions.itemType = "spell";
-      advancement.addItemsOptions.preFilters = '{"spellType": "cantrip"}'
-      break;
     case "infusions":
       advancement.addItemsOptions.itemType = "infusion";
       advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "cursed": false, "attunement": null, "charges": null, "uses": null, "consumable": null, "weapon": null, "shield": null, "armor": null}}'
       break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";
-      advancement.addItemsOptions.preFilters = '{"spellType": "spell"}'
+      // TODO 0.10.0: prepare school/tag filters
       break;
     case "maneuvers":
-      advancement.addItemsOptions.itemType = "technique";
-      advancement.addItemsOptions.preFilters = '{"techniqueType": "maneuver"}'
-      break;
-    case "techniques":
-      advancement.addItemsOptions.itemType = "technique";
-      advancement.addItemsOptions.preFilters = '{"techniqueType": "technique"}'
+      advancement.addItemsOptions.itemType = "maneuver";
       break;
   }
 }

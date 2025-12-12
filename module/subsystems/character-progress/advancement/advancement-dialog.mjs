@@ -4,7 +4,7 @@ import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../
 import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
-import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
+import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrManeuvers } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { collectAdvancementsFromItem } from "./advancements.mjs";
@@ -237,9 +237,9 @@ export class ActorAdvancement extends Dialog {
       });
     }
 
-    // Add spell/techniques selector (before those were added already)
+    // Add spell/maneuvers selector (before those were added already)
     if (!this.knownApplied) {
-      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor, true);
+      const shouldLearn = await shouldLearnNewSpellsOrManeuvers(this.actor, true);
       for (const known of shouldLearn) {
         progress.push({
           img: CONFIG.DC20RPG.ICONS[known],
@@ -573,7 +573,7 @@ export class ActorAdvancement extends Dialog {
       this.next();
     }
     else {
-      const toLearn = await shouldLearnNewSpellsOrTechniques(this.actor);
+      const toLearn = await shouldLearnNewSpellsOrManeuvers(this.actor);
       if (toLearn.length === 0 || this.knownApplied) this.showFinal = true;
       else {
         const addedAdvancements = await addNewSpellTechniqueAdvancements(this.actor, this.currentItem, this.advancements, this.currentAdvancement.level);
@@ -631,10 +631,10 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     const item = await fromUuid(itemUuid);
-    if (!["feature", "technique", "spell", "infusion", "weapon", "equipment", "consumable"].includes(item.type)) return;
+    if (!["feature", "maneuver", "spell", "infusion", "weapon", "equipment", "consumable"].includes(item.type)) return;
 
-    // Can be countent towards known spell/techniques
-    const canBeCounted = ["technique", "spell", "infusion"].includes(item.type);
+    // Can be countent towards known spell/maneuvers
+    const canBeCounted = ["maneuver", "spell", "infusion"].includes(item.type);
 
     // Get item
     advancement.items[item.id] = {

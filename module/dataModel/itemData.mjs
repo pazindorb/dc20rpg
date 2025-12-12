@@ -459,11 +459,6 @@ export class DC20ClassData extends DC20UniqueItemData {
       spellcaster: new f.BooleanField({required: true, initial: false}),
       martialExpansion: new f.BooleanField({required: true, initial: false}),
       multiclass: new f.ObjectField({required: true}),
-      talentMasteries: new f.ArrayField(
-        new f.StringField({required: true, initial: ""}), {
-          required: true,
-          initial: ["","","","","","","","","","","","","","","","","","","",""]
-      }),
       scaling: new f.ObjectField({required: true, initial: {
         maxHpBonus: {
           label: "dc20rpg.scaling.maxHpBonus",

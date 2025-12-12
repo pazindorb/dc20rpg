@@ -10,6 +10,7 @@ export function prepareDataFromItems(actor) {
 	const customResources = []; 
 	const conditionals = [];
 	const itemsWithEnhancementsToCopy = [];
+	let staminaFeature = false;
 
 	actor.items.forEach(item => {
 		// Inventory
@@ -18,6 +19,9 @@ export function prepareDataFromItems(actor) {
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
+
+		// Mark Stamina Feature
+		if (item.system.staminaFeature) staminaFeature = true;
 
 		// Conditionals
 		const conds = item.system.conditionals;
@@ -35,6 +39,7 @@ export function prepareDataFromItems(actor) {
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
 	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
+	actor.system.details.staminaFeature = staminaFeature;
 }
 
 export function prepareUniqueItemData(actor) {
