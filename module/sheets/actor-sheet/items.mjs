@@ -87,9 +87,9 @@ export function prepareItemsForCharacter(context, actor) {
         _addItemToTable(item, features, item.system.featureType); 
         if (isFavorite) _addItemToTable(item, favorites, "feature");
         break;
-      case 'technique': 
-        _addItemToTable(item, maneuvers, item.system.techniqueType); 
-        if (isFavorite) _addItemToTable(item, favorites, "technique");
+      case 'maneuver': 
+        _addItemToTable(item, maneuvers); 
+        if (isFavorite) _addItemToTable(item, favorites, "maneuver");
         break;
       case 'spell': 
         _addItemToTable(item, spells, item.system.spellType); 

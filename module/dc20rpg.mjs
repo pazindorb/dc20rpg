@@ -93,6 +93,7 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.container = itemDM.DC20ContainerData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
+  CONFIG.Item.dataModels.maneuver = itemDM.DC20ManeuverData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
   CONFIG.Item.dataModels.infusion = itemDM.DC20InfusionData;
   CONFIG.Item.dataModels.class = itemDM.DC20ClassData;
@@ -127,7 +128,7 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
   // await testMigration("0.9.8.2", "0.10.0.0", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
-  // await testMigration("0.9.8.2", "0.10.0.0");
+  await testMigration("0.9.8.2", "0.10.0.0");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -176,6 +177,8 @@ Hooks.on("renderDialogV2", (app, element, context, option) => {
   if (selector) {
     const basicActionOption = selector.querySelector('[value="basicAction"]');
     if (basicActionOption) selector.removeChild(basicActionOption);
+    const techniqueOption = selector.querySelector('[value="technique"]');
+    if (techniqueOption) selector.removeChild(techniqueOption);
   }
 });
 Hooks.on("createScene", async (scene, options, userId) => {

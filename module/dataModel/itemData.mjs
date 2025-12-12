@@ -304,6 +304,20 @@ export class DC20TechniqueData extends DC20UsableItemData {
   }
 }
 
+export class DC20ManeuverData extends DC20UsableItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      maneuverType: new f.StringField({required: true, initial: ""}),
+      maneuverOrigin: new f.StringField({required: true, initial: ""}),
+      knownLimit: new f.BooleanField({required: true, initial: true}),
+      usesWeapon: new UsesWeaponFields(),
+      effectsConfig: new EffectsConfigFields()
+    })
+  }
+}
+
 export class DC20InfusionData extends DC20UsableItemData {
   static defineSchema() {
     const f = foundry.data.fields;
@@ -477,14 +491,6 @@ export class DC20ClassData extends DC20UniqueItemData {
         },
         maneuversKnown: {
           label: "dc20rpg.scaling.maneuversKnown",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        techniquesKnown: {
-          label: "dc20rpg.scaling.techniquesKnown",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        cantripsKnown: {
-          label: "dc20rpg.scaling.cantripsKnown",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         },
         spellsKnown: {

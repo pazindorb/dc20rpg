@@ -149,10 +149,6 @@ export class DC20CharacterData extends DC20BaseActorData {
         language: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
       }),
       known: new f.SchemaField({
-        cantrips: new f.SchemaField({
-          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
         infusions: new f.SchemaField({
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -164,11 +160,7 @@ export class DC20CharacterData extends DC20BaseActorData {
         maneuvers: new f.SchemaField({
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
-        techniques: new f.SchemaField({
-          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
+        })
       }),
       tradeSkills: new SkillFields("trade"), // TODO backward compatibilty remove as part of 0.10.0 update
       trades: new SkillFields("trade"),

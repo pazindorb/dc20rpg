@@ -211,7 +211,7 @@ async function _onItemCreate(tab, actor) {
   switch(tab) {
     case "inventory":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes; break;
     case "features":    selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes; break;
-    case "techniques":  selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.techniquesTypes; break;
+    case "maneuvers":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.maneuversTypes; break;
     case "spells":      selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes; break; 
   }
 

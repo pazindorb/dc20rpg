@@ -22,7 +22,7 @@ export class CompendiumBrowser extends Dialog {
       this.allItemTypes = {
         ...CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes,
         ...CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes,
-        ...CONFIG.DC20RPG.DROPDOWN_DATA.techniquesTypes
+        ...CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes
       }
       itemType = "feature";
     }

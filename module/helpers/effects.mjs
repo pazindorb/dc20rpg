@@ -381,11 +381,9 @@ export function getEffectModifiableKeys() {
     "system.skillPoints.trade.bonus": "Trade Points",
     "system.skillPoints.language.bonus": "Language Points",
 
-    "system.known.cantrips.max": "Cantrips Known",
     "system.known.spells.max": "Spells Known",
     "system.known.infusions.max": "Infusions Known",
     "system.known.maneuvers.max": "Maneuvers Known",
-    "system.known.techniques.max": "Techniques Known",
 
     // Combat Training
     ..._combatTraining(),

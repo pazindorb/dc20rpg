@@ -20,7 +20,7 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
 
-    await _updateActorItems(actor);
+    // await _updateActorItems(actor);
   }
 
   // Iterate over compendium actors
@@ -32,7 +32,7 @@ async function _migrateActors(migrateModules) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
 
-        await _updateActorItems(actor);
+        // await _updateActorItems(actor);
       }
     }
   }
@@ -40,7 +40,7 @@ async function _migrateActors(migrateModules) {
 
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
-
+    await migrateTechniqueToManeuver(item);
   }
 }
 
@@ -48,7 +48,7 @@ async function _updateActorItems(actor) {
 async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
-
+    await migrateTechniqueToManeuver(item);
   }
 
   // Iterate over compendium items
@@ -59,8 +59,20 @@ async function _migrateItems(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
-        if (item.type === "technique")
+        
       }
     }
   }
+}
+
+async function migrateTechniqueToManeuver(item) {
+  if (item.type !== "technique") return;
+
+  const itemData = item.toObject();
+  itemData.type = "maneuver";
+  const options = {keepId: true};
+  if (item.actor) options.parent = item.actor;
+
+  await item.delete();
+  await Item.create(itemData, options);
 }

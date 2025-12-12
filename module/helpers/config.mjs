@@ -503,9 +503,11 @@ DC20RPG.DROPDOWN_DATA.equipmentSlots = {
   weapon: "Held",
 }
 
-DC20RPG.DROPDOWN_DATA.techniqueTypes = {
-  maneuver: "Maneuver",
-  technique: "Technique"
+DC20RPG.DROPDOWN_DATA.maneuverTypes = {
+  attack: "Attack",
+  defense: "Defense",
+  grapple: "Grapple",
+  utility: "Utility"
 }
 
 DC20RPG.DROPDOWN_DATA.spellTypes = {
@@ -643,10 +645,6 @@ DC20RPG.DROPDOWN_DATA.spellsTypes = {
   infusion: "Infusion",
 }
 
-DC20RPG.DROPDOWN_DATA.techniquesTypes = {
-  technique: "Technique"
-}
-
 DC20RPG.DROPDOWN_DATA.featuresTypes = {
   feature: "Feature"
 }
@@ -655,20 +653,17 @@ DC20RPG.DROPDOWN_DATA.advancementItemTypes = {
   any: "Any Type",
   ...DC20RPG.DROPDOWN_DATA.featuresTypes,
   ...DC20RPG.DROPDOWN_DATA.spellsTypes,
-  ...DC20RPG.DROPDOWN_DATA.techniquesTypes
 }
 
 DC20RPG.DROPDOWN_DATA.creatableTypes = {
   ...DC20RPG.DROPDOWN_DATA.inventoryTypes,
   ...DC20RPG.DROPDOWN_DATA.spellsTypes,
-  ...DC20RPG.DROPDOWN_DATA.techniquesTypes,
   ...DC20RPG.DROPDOWN_DATA.featuresTypes
 }
 
 DC20RPG.DROPDOWN_DATA.allItemTypes = {
   ...DC20RPG.DROPDOWN_DATA.inventoryTypes,
   ...DC20RPG.DROPDOWN_DATA.spellsTypes,
-  ...DC20RPG.DROPDOWN_DATA.techniquesTypes,
   ...DC20RPG.DROPDOWN_DATA.featuresTypes,
   class: "Class",
   subclass: "Subclass",
@@ -1087,10 +1082,8 @@ DC20RPG.PROPERTIES = {
 
 DC20RPG.ICONS = {
   martialExpansion: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
-  cantrips: "icons/sundries/scrolls/scroll-bound-blue-white.webp",
   spells: "icons/skills/trades/academics-book-study-runes.webp",
   maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
-  techniques: "icons/skills/melee/spear-tips-quintuple-orange.webp",
   attributes: "icons/skills/trades/academics-investigation-puzzles.webp",
   infusions: "icons/commodities/tech/tube-chamber-lightning.webp"
 }

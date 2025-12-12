@@ -15,7 +15,7 @@ export function makeCalculations(actor) {
 
 		_skillPoints(actor);
 		_attributePoints(actor);
-		_spellsAndTechniquesKnown(actor);
+		_spellsAndManeuversKnown(actor);
 		_weaponStyles(actor);
 		_manaSpendLimit(actor);
 	}
@@ -192,29 +192,20 @@ function _attributePoints(actor) {
 	attributePoints.left = attributePoints.max - attributePoints.spent;
 }
 
-function _spellsAndTechniquesKnown(actor) {
+function _spellsAndManeuversKnown(actor) {
 	const items = actor.items;
 	if (items.size <= 0) return;
 
 	const known = actor.system.known;
-	const maxCantrips = known.cantrips.max;
 	const maxInfusions = known.infusions.max;
 	let spells = 0;
-	let cantrips = 0;
 	let infusions = 0;
 	let maneuvers = 0;
-	let techniques = 0;
 	actor.items
 		.filter(item => item.system.knownLimit)
 		.forEach(item => {
-			if (item.type === "technique") {
-				if (item.system.techniqueType === "maneuver") maneuvers++;
-				else techniques++;
-			}
-			else if (item.type === "spell") {
-				if (item.system.spellType === "cantrip" && cantrips < maxCantrips) cantrips++;
-				else spells++;
-			}
+			if (item.type === "maneuver") maneuvers++;
+			else if (item.type === "spell") spells++;
 			else if (item.type === "infusion") {
 				if (infusions < maxInfusions) infusions++;
 				else spells++;
@@ -222,10 +213,8 @@ function _spellsAndTechniquesKnown(actor) {
 		});
 
 	known.spells.current = spells;
-	known.cantrips.current = cantrips;
 	known.infusions.current = infusions;
 	known.maneuvers.current = maneuvers;
-	known.techniques.current = techniques;
 }
 
 function _collectSpentPoints(actor) {

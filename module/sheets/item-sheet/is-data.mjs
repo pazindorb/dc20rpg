@@ -29,7 +29,7 @@ export function preprareSheetData(context, item) {
   context.sheetData = {};
   _prepareTypesAndSubtypes(context, item);
   _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "consumable", "feature", "technique", "spell", "infusion", "basicAction"].includes(item.type)) {
+  if (["weapon", "equipment", "consumable", "feature", "maneuver", "spell", "infusion", "basicAction"].includes(item.type)) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
@@ -225,9 +225,9 @@ function _prepareTypesAndSubtypes(context, item) {
       context.sheetData.subtype = item.system.featureOrigin;
       break;
     }
-    case "technique": {
-      context.sheetData.type = getLabelFromKey(item.system.techniqueType, CONFIG.DC20RPG.DROPDOWN_DATA.techniqueTypes);
-      context.sheetData.subtype = item.system.techniqueOrigin;
+    case "maneuver": {
+      context.sheetData.type = getLabelFromKey(item.system.maneuverType, CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes);
+      context.sheetData.subtype = item.system.maneuverOrigin;
       break;
     }
     case "spell": {
@@ -305,7 +305,7 @@ export function prepareContainer(item, context) {
     container: {label: "Containers", items: {}},
     loot: {label: "Loot", items: {}},
     feature: {label: "Features", items: {}},
-    technique: {label: "Techniques", items: {}},
+    maneuver: {label: "Maneuvers", items: {}},
     spell: {label: "Spells", items: {}},
     other: {label: "Others", items: {}},
   };
