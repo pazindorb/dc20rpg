@@ -550,7 +550,7 @@
           <div class="top-menu">
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" name="flags.dc20rpg.headerFilters.favorites" value="{{flags.dc20rpg.headerFilters.favorites}}"/>
+              <input type="text" name="system.sheetData.header.filter.favorites" value="{{system.sheetData.header.filter.favorites}}"/>
             </div>
             <a class="base-action">
               <span>{{localize "dc20rpg.sheet.showsActions"}}</span>
@@ -579,7 +579,7 @@
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
+          <input type="text" name="system.sheetData.header.filter.inventory" value="{{system.sheetData.header.filter.inventory}}"/>
         </div>
         <div class="slot-manager">
           <a class="add-slot fa-square-plus fa-lg fa-solid" title="{{localize 'dc20rpg.sheet.addSlot'}}"></a>
@@ -652,7 +652,7 @@
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.dc20rpg.headerFilters.features" value="{{flags.dc20rpg.headerFilters.features}}"/>
+          <input type="text" name="system.sheetData.header.filter.features" value="{{system.sheetData.header.filter.features}}"/>
         </div>
         {{/if}}
       </div>
@@ -661,18 +661,18 @@
       {{/each}}
     </div>
     
-    <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
+    <div class="tab maneuvers-tab" data-group="primary" data-tab="maneuvers">
       <div class="top-menu">
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
-          <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="maneuvers"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
           <a class="open-compendium margin-left-10" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="technique"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
-          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="item-create margin-left-10" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="maneuvers"><i class="fa-lg fa-solid fa-sack"></i></a>
         </div>
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.dc20rpg.headerFilters.techniques" value="{{flags.dc20rpg.headerFilters.techniques}}"/>
+          <input type="text" name="system.sheetData.header.filter.maneuvers" value="{{system.sheetData.header.filter.maneuvers}}"/>
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.maneuvers.known"}} ({{system.known.maneuvers.current}}/{{system.known.maneuvers.max}})</span>
@@ -681,8 +681,8 @@
       {{/if}}
       </div>
 
-      {{#each techniques as |table key|}} 
-      {{item-table table key=key navTab="techniques" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable favorite known" editModeConfig="edit copy delete"}}
+      {{#each maneuvers as |table key|}} 
+      {{item-table table key=key navTab="maneuvers" editMode=@root.editMode columns="name action charges cost config" itemConfig="macro activable favorite known" editModeConfig="edit copy delete"}}
       {{/each}}
     </div>
     
@@ -697,7 +697,7 @@
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.dc20rpg.headerFilters.spells" value="{{flags.dc20rpg.headerFilters.spells}}"/>
+          <input type="text" name="system.sheetData.header.filter.spells" value="{{system.sheetData.header.filter.spells}}"/>
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>

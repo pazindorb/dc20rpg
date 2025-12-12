@@ -139,6 +139,7 @@ export class DC20CharacterData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      sheetData: new SheetDataFields("character"),
       attributes: new AttributeFields(-2, true),
       attributePoints: new PointFields(12),
       resources: new ResourceFields(true),
@@ -315,6 +316,7 @@ export class DC20StorageData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      sheetData: new SheetDataFields("storage"),
       randomLoot: new f.SchemaField({
         numberOfItems: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         rollDice: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),

@@ -96,7 +96,7 @@
       <div class="top-menu">
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
+          <input type="text" name="system.sheetData.header.filter.inventory" value="{{system.sheetData.header.filter.inventory}}"/>
         </div>
         <div class="top-menu-buttons">
           {{#ifCond system.storageType "!==" 'vendor'}}
@@ -134,7 +134,7 @@
           </div>
           {{!-- Name --}}
           <div class="column name">
-            <input {{#if table.custom}}{{else}}disabled{{/if}} type="text" name="flags.dc20rpg.headersOrdering.inventory.{{key}}.name" value="{{table.name}}"/>
+            <input {{#if table.custom}}{{else}}disabled{{/if}} type="text" name="system.sheetData.header.order.inventory.{{key}}.name" value="{{localize table.name}}"/>
           </div>
           {{!-- Cost --}}
           {{#ifCond @root.system.storageType '===' "vendor"}}

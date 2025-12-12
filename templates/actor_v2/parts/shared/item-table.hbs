@@ -13,7 +13,7 @@
 
       {{#ifCond this '===' "name"}}
       <div class="column name">
-        <input {{#ifCond @root.editMode '&&' @root.table.custom}}{{else}}disabled{{/ifCond}} type="text" name="flags.dc20rpg.headersOrdering.{{@root.navTab}}.{{@root.key}}.name" value="{{@root.table.name}}"/>
+        <input {{#ifCond @root.editMode '&&' @root.table.custom}}{{else}}disabled{{/ifCond}} type="text" name="system.sheetData.header.order.{{@root.navTab}}.{{@root.key}}.name" value="{{localize @root.table.name}}"/>
       </div>
       {{/ifCond}}
 

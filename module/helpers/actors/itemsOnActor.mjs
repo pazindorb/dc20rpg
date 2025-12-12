@@ -397,19 +397,19 @@ export function collectWeaponsFromActor(actor) {
 //======================================
 //             Item Tables             =
 //======================================
-export function reorderTableHeaders(tab, current, swapped, actor) { // TODO - MOVE TO ACTOR SYSTEM INSTEAD?
-  const headersOrdering = actor.flags.dc20rpg.headersOrdering;
+export function reorderTableHeaders(tab, current, swapped, actor) {
+  const headersOrdering = actor.system.sheetData.header.order;
 
   const currentOrder = headersOrdering[tab][current].order;
   const swappedOrder = headersOrdering[tab][swapped].order;
   headersOrdering[tab][current].order = swappedOrder;
   headersOrdering[tab][swapped].order = currentOrder;
 
-  actor.update({[`flags.dc20rpg.headersOrdering`]: headersOrdering });
+  actor.update({[`system.sheetData.header.order`]: headersOrdering });
 }
 
 export function createNewTable(tab, actor) {
-  const headers = actor.flags.dc20rpg.headersOrdering[tab];
+  const headers = actor.system.sheetData.header.order[tab];
   const order = Object.entries(headers)
                 .sort((a, b) => a[1].order - b[1].order)
                 .map(([a, b]) => b.order)
@@ -426,11 +426,11 @@ export function createNewTable(tab, actor) {
     order: last + 1
   }
 
-  actor.update({[`flags.dc20rpg.headersOrdering.${tab}.${key}`] : newTable});
+  actor.update({[`system.sheetData.header.order.${tab}.${key}`] : newTable});
 }
 
 export function removeCustomTable(tab, table, actor) {
-  actor.update({[`flags.dc20rpg.headersOrdering.${tab}.-=${table}`]: null});
+  actor.update({[`system.sheetData.header.order.${tab}.-=${table}`]: null});
 }
 
 //======================================
