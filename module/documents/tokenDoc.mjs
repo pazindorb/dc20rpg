@@ -16,6 +16,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   hasStatusEffect(statusId) {
+    if (!this.actor) return false;
     return this.actor.hasStatus(statusId);
   }
 

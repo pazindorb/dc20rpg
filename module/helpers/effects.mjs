@@ -4,7 +4,7 @@ import { evaluateDicelessFormula } from "./rolls.mjs";
 import { emitEventToGM } from "./sockets.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
-  const hideNonessentialEffects = owner.flags.dc20rpg?.hideNonessentialEffects;
+  const hideNonessentialEffects = !owner.system.sheetData.show.nonessentialEffects;
   // Prepare all statuses 
   const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 

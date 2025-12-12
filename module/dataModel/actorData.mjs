@@ -15,12 +15,14 @@ import SizeFields from "./fields/actor/size.mjs";
 import SkillFields from "./fields/actor/skills.mjs";
 import RollMenu from "./fields/rollMenu.mjs";
 import EquipmentSlotFields from "./fields/actor/equipmentSlots.mjs";
+import SheetDataFields from "./fields/actor/sheetData.mjs";
 
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const f = foundry.data.fields;
 
     return {
+      sheetData: new SheetDataFields(),
       attributes: new AttributeFields(),
       skills: new SkillFields("skill"),
       languages: new SkillFields("language"),

@@ -1,6 +1,6 @@
 <form class="{{cssClass}} {{actor.type}} actor_v2" autocomplete="off">
   {{!-- Edit Mode Button --}}
-  <a class="edit-button activable {{#if flags.dc20rpg.editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="flags.dc20rpg.editMode">
+  <a class="edit-button activable {{#if editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="system.sheetData.editMode">
     <i class="fa fa-lg fa-square-pen fa-solid"></i> <span>{{localize "dc20rpg.sheet.edit"}}</span>
   </a> 
 
@@ -479,11 +479,11 @@
     <div class="tab core-tab" data-group="primary" data-tab="core">
       <div class="first-row">
         {{!-- Damager Reduction oneliners --}}
-        {{#if flags.dc20rpg.onelinerModeDMR}}
+        {{#if system.sheetData.show.onelinerModeDMR}}
           <div class="oneliner">
             <div class="oneliner-header">
               <span>{{localize "dc20rpg.sheet.dmgTypes.title"}}</span>
-              <div title="{{localize 'dc20rpg.sheet.dmgTypes.hideOnelinerModeDMR'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeDMR "flags.dc20rpg.onelinerModeDMR" "true"}}}</div>
+              <div title="{{localize 'dc20rpg.sheet.dmgTypes.hideOnelinerModeDMR'}}">{{{show-hide-toggle system.sheetData.show.onelinerModeDMR "system.sheetData.show.onelinerModeDMR" "true"}}}</div>
             </div> 
             <div class="oneliner-content grid">
               {{#each oneliners.damageReduction as |oneliner key|}}
@@ -497,11 +497,11 @@
         {{/if}}
 
         {{!-- Status Resistances oneliners --}}
-        {{#if flags.dc20rpg.onelinerModeCI}}
+        {{#if system.sheetData.show.onelinerModeCI}}
           <div class="oneliner">
             <div class="oneliner-header">
               <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
-              <div title="{{localize 'dc20rpg.sheet.condImm.hideOnelinerModeCI'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeCI "flags.dc20rpg.onelinerModeCI" "true"}}}</div>
+              <div title="{{localize 'dc20rpg.sheet.condImm.hideOnelinerModeCI'}}">{{{show-hide-toggle system.sheetData.show.onelinerModeCI "system.sheetData.show.onelinerModeCI" "true"}}}</div>
             </div>
             <div class="oneliner-content grid">
               {{#each oneliners.statusResistances as |oneliner key|}}
@@ -527,7 +527,7 @@
           {{PARTIAL "Character Skills"}}
 
           {{!-- Damage Reduction --}}
-          {{#unless flags.dc20rpg.onelinerModeDMR}}
+          {{#unless system.sheetData.show.onelinerModeDMR}}
           <div class="border-box content-box no-small-boxes dmg-reduction margin-top-5 margin-right-3">
             <div class="box-inner no-padding">
               {{PARTIAL "Dmg Reduction"}}
@@ -536,7 +536,7 @@
           {{/unless}}
 
           {{!-- Status Resistances --}}
-          {{#unless flags.dc20rpg.onelinerModeCI}}
+          {{#unless system.sheetData.show.onelinerModeCI}}
           <div class="border-box content-box no-small-boxes conditions grid-span-2 margin-top-5 margin-right-3">
             <div class="box-inner no-padding">
               {{PARTIAL "Status Resistances"}}
@@ -566,7 +566,7 @@
       </div>
     </div>
 
-    <div class="tab inventory-tab {{#if flags.dc20rpg.showSlots}}slot-open{{/if}}" data-group="primary" data-tab="inventory">
+    <div class="tab inventory-tab {{#if system.sheetData.show.slots}}slot-open{{/if}}" data-group="primary" data-tab="inventory">
       <div class="top-menu">
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
@@ -583,7 +583,7 @@
         </div>
         <div class="slot-manager">
           <a class="add-slot fa-square-plus fa-lg fa-solid" title="{{localize 'dc20rpg.sheet.addSlot'}}"></a>
-          <a class="activable fa-image-user fa-lg {{#if flags.dc20rpg.showSlots}}fa-solid{{else}}fa-regular{{/if}}" title="{{localize 'dc20rpg.sheet.showSlots'}}" data-path="flags.dc20rpg.showSlots"></a>
+          <a class="activable fa-image-user fa-lg {{#if system.sheetData.show.slots}}fa-solid{{else}}fa-regular{{/if}}" title="{{localize 'dc20rpg.sheet.showSlots'}}" data-path="system.sheetData.show.slots"></a>
         </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
@@ -610,8 +610,8 @@
       </div>
       {{/if}}
 
-      <div class="second-row {{#if flags.dc20rpg.showSlots}}slot-open{{/if}}">
-        {{#if flags.dc20rpg.showSlots}}
+      <div class="second-row {{#if system.sheetData.show.slots}}slot-open{{/if}}">
+        {{#if system.sheetData.show.slots}}
         <div class="slot-selector margin-right-5">
           <div class="slot-wrapper">
             {{{slot-printer system.equipmentSlots.head "head" sectionIcon="fa-solid fa-helmet-battle" editMode=@root.editMode}}}
@@ -714,10 +714,10 @@
     <div class="tab effects-tab" data-group="primary" data-tab="effects">
       <div class="active-effects">
         <div class="letter-circle-icon clickable" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}" style="top:10px;">
-          {{{show-hide-toggle flags.dc20rpg.showInactiveEffects "flags.dc20rpg.showInactiveEffects"}}}
+          {{{show-hide-toggle system.sheetData.show.inactiveEffects "system.sheetData.show.inactiveEffects"}}}
         </div>
-        <div class="letter-circle-icon clickable small" title="{{#if flags.dc20rpg.hideNonessentialEffects}}{{localize 'dc20rpg.sheet.effects.showAllEffects'}}{{else}}{{localize 'dc20rpg.sheet.effects.showOnlyEssencialEffects'}}{{/if}}" style="top:-18px;right:-7.5px;">
-          <a class="margin-top-3 activable fa-solid {{#if flags.dc20rpg.hideNonessentialEffects}}fa-n{{else}}fa-e{{/if}}" data-path="flags.dc20rpg.hideNonessentialEffects"></a>
+        <div class="letter-circle-icon clickable small" title="{{#if system.sheetData.show.nonessentialEffects}}{{localize 'dc20rpg.sheet.effects.showAllEffects'}}{{else}}{{localize 'dc20rpg.sheet.effects.showOnlyEssencialEffects'}}{{/if}}" style="top:-18px;right:-7.5px;">
+          <a class="margin-top-3 activable fa-solid {{#if system.sheetData.show.nonessentialEffects}}fa-n{{else}}fa-e{{/if}}" data-path="system.sheetData.show.nonessentialEffects"></a>
         </div>
         <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}" style="top:-11px;right:20px;">
           <a class="effect-create fa-solid fa-hourglass-half" data-type="temporary" title="{{localize 'dc20rpg.item.sheet.effects.temporary'}}"></a>
@@ -726,8 +726,8 @@
           <a class="effect-create fa-solid fa-infinity" data-type="passive" title="{{localize 'dc20rpg.item.sheet.effects.passive'}}"></a>
         </div>
         <div class="grid grid-2col">
-          {{effects-table @root.editMode effects.temporary effects.disabled flags.dc20rpg.showInactiveEffects}}
-          {{effects-table @root.editMode effects.passive effects.inactive flags.dc20rpg.showInactiveEffects}}
+          {{effects-table @root.editMode effects.temporary effects.disabled system.sheetData.show.inactiveEffects}}
+          {{effects-table @root.editMode effects.passive effects.inactive system.sheetData.show.inactiveEffects}}
         </div>
       </div>
       {{PARTIAL "Statuses"}}

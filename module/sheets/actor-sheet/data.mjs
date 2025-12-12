@@ -6,7 +6,7 @@ export function duplicateData(context, actor) {
   context.type = actor.type;
   context.system = foundry.utils.deepClone(actor.system);
   context.flags = foundry.utils.deepClone(actor.flags);
-  context.editMode = context.flags.dc20rpg?.editMode;
+  context.editMode = context.system.sheetData.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.help = _help(actor);
   context.items = actor.items.contents;
