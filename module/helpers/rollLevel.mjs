@@ -241,7 +241,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
         dis: 0,
         autoCrit: autoCrit
       };
-      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses)
       genesis.push({
         sourceName: "You",
         label: `Immune vs ${statusLabel}`,
@@ -256,7 +256,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: 0
         };
       }
-      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses)
       genesis.push({
         type: "adv",
         sourceName: "You",
@@ -272,7 +272,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: Math.abs(saveLevel)
         };
       }
-      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses)
       genesis.push({
         type: "dis",
         sourceName: "You",

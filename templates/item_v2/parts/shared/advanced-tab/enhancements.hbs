@@ -319,7 +319,7 @@
         </div>
         <div class="right-part-row">
           <select name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.id">
-            {{selectOptions @root.config.DROPDOWN_DATA.statusResistances selected=enhancement.modifications.againstStatus.id blank=""}}
+            {{selectOptions @root.config.DROPDOWN_DATA.allStatuses selected=enhancement.modifications.againstStatus.id blank=""}}
           </select>
           <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>

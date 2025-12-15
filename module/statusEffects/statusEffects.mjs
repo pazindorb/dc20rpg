@@ -25,17 +25,16 @@ export function registerDC20Statues() {
     _paralyzed(),
     _petrified(),
 
-    _poisoned(),
     _prone(),
     _restrained(),
     _slowed(),
-
     _stunned(),
+
     _surprised(), 
     _taunted(),
     _tethered(),
-
     _terrified(),
+
     _unconscious(),
     _weakened(),
     
@@ -1384,73 +1383,6 @@ function _terrified() {
 //================================
 //         NON-STACKING          =
 //================================
-function _poisoned() {
-  return {
-    id: "poisoned",
-    _id: "utxmhm7ggruwq7ic",
-    name: "Poisoned",
-    label: "Poisoned",
-    stackable: false,
-    statuses: ["impaired"],
-    system: {
-      statusId: "poisoned",
-      condition: true
-    },
-    img: "systems/dc20rpg/images/statuses/poisoned.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You're <strong>Impaired</strong> (DisADV on Physical Checks).</p>
-        </li>
-        <li>
-            <p>You take 1 Poison damage at the start of each of your turns.</p>
-        </li>
-    </ul>
-    <p></p>
-    <h4>Medicine (Action)</h4>
-    <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a Medicine Check against the DC of the Poison. <strong>Success:</strong> You end the Poison on the target.</p>
-    `,
-    changes: [
-      {
-        key: "system.events",
-        mode: 2,
-        priority: undefined,
-        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.mig",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.agi",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.att",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-    ]
-  }
-}
 function _deafened() {
   return {
     id: "deafened",

@@ -205,7 +205,7 @@
     <div class="row">
       <div class="left-part-row">
         <select name="system.againstStatuses.{{key}}.id">
-          {{selectOptions @root.config.DROPDOWN_DATA.statusResistances selected=status.id blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.allStatuses selected=status.id blank=""}}
         </select>
         <a class="remove-against-status margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-key="{{key}}"></a>
       </div>

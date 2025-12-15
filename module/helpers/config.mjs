@@ -717,12 +717,13 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   weakened: "Weakened",
 }
 
-DC20RPG.DROPDOWN_DATA.statusResistances = {
+DC20RPG.DROPDOWN_DATA.allStatuses = {
   magical: "Magical Effect",
-  curse: "Curse",
+  curse: "Cursed",
   movement: "Forced Movement",
   prone: "Prone",
   grappled: "Grappled",
+  diseased: "Diseased",
   ...DC20RPG.DROPDOWN_DATA.conditions
 }
 
@@ -1279,7 +1280,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   invisible: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2226eef8173ad6f0",
   paralyzed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.229ca0b7af175638",
   petrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.60baaa6572e920ef",
-  poisoned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.d91b084c66aa513d",
+  poisoned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.d91b084c66aa513d", //TODO: Remove/Replace with 0.10 update
   prone: "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.0wgHQIXjhxgu9i0s",
   tethered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.w9QjKl0BzncI1DRv",
   terrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.UkBt66vXWP3eyEOj",
