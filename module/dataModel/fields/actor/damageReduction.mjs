@@ -56,10 +56,6 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
           ...dmgType("mystical"),
           label: new f.StringField({initial: "dc20rpg.reductions.psychic"})
         }),
-        sonic: new f.SchemaField({
-          ...dmgType("mystical"),
-          label: new f.StringField({initial: "dc20rpg.reductions.sonic"})
-        }),
         umbral: new f.SchemaField({
           ...dmgType("mystical"),
           label: new f.StringField({initial: "dc20rpg.reductions.umbral"})

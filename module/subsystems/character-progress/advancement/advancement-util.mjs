@@ -54,7 +54,7 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
     const newKnownAmount = known.max - known.current;
     if (newKnownAmount > 0) {
       if (infuser && key === "spells") {
-        const answer = await SimplePopup.input(`Do you want to learn infusion instead of spells? If so, how many (Max ${newKnownAmount}).`);
+        const answer = await SimplePopup.input(`Do you want to learn infusion instead of spell? If so, how many (Max ${newKnownAmount}).`);
         let infusions = parseInt(answer) || 0;
         if (infusions > newKnownAmount) infusions = newKnownAmount;
         const spells = newKnownAmount - infusions;

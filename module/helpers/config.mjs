@@ -610,7 +610,6 @@ DC20RPG.DROPDOWN_DATA.elementalDamageTypes = {
   fire: "Fire",
   lightning: "Lightning",
   poison: "Poison",
-  sonic: "Sonic",
 }
 
 DC20RPG.DROPDOWN_DATA.mysticalDamageTypes = {
