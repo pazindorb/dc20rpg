@@ -502,6 +502,11 @@ function _enrichSlot(actor, slot) {
 async function _equipSlot(item, slot, actor) {
   if (slot.isEquipped) await _unequipSlot(slot, actor);
 
+  // Cumbersome: It takes 1 AP to draw, stow, or pick up this Weapon.
+  if (item.system.properties?.cumbersome?.active) {
+    if (!actor.resources.ap.checkAndSpend(1)) return;
+  }
+
   const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
   await actor.update({
     [`${path}.itemId`]: item.id,
@@ -518,6 +523,11 @@ async function _equipSlot(item, slot, actor) {
 async function _unequipSlot(slot, actor) {
   const item = actor.items.get(slot.itemId);
   if (!item) return;
+
+  // Cumbersome: It takes 1 AP to draw, stow, or pick up this Weapon.
+  if (item.system.properties?.cumbersome?.active) {
+    if (!actor.resources.ap.checkAndSpend(1)) return;
+  }
 
   const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
   await actor.update({

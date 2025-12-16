@@ -349,6 +349,10 @@ export class DC20RpgItem extends Item {
       else await slot.unequip();
     }
     else {
+      // Cumbersome: It takes 1 AP to draw, stow, or pick up this Weapon.
+      if (this.system.properties?.cumbersome?.active) {
+        if (!this.actor.resources.ap.checkAndSpend(1)) return;
+      }
       // Update equipped stataus
       await this.update({["system.statuses.equipped"]: newState});
     }

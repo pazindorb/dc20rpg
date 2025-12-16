@@ -131,18 +131,6 @@ export class ItemCreatorDialog extends DC20Dialog {
       this._disableIfNotActive(properties.returning, properties.toss);
     }
 
-    // Disable Capture if not Chained or Whip style
-    if (properties.capture && this.itemType === "weapon") {
-      const weaponStyle = this.blueprint.system.weaponStyle;
-      if (["chained", "whip"].includes(weaponStyle)) {
-        properties.capture.disabled = false;
-      }
-      else {
-        properties.capture.active = false;
-        properties.capture.disabled = true;
-      }
-    }
-
     // Copy Damage and Style to Multi Faceted Property
     if (properties?.multiFaceted?.active) {
       properties.multiFaceted.damageType.first = this.blueprint.system.formulas.weaponDamage.type;
@@ -192,7 +180,7 @@ export class ItemCreatorDialog extends DC20Dialog {
 
     // Reset properties
     Object.entries(this.blueprint.system.properties).forEach(([key, prop]) => {
-      if (["twoHanded", "unwieldy", "ammo"].includes(key) && itemSubtype === "ranged") prop.active = true;
+      if (["twoHanded", "ammo"].includes(key) && itemSubtype === "ranged") prop.active = true;
       else prop.active = false;
     });
   }

@@ -211,7 +211,13 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
       for (const token of selected) {
         const actor = token?.actor;
-        if (actor) await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+        if (actor) {
+          const itemData = this.document.flags.dc20rpg.itemData;
+          if (itemData.system.properties?.cumbersome?.active) {
+            if (!actor.resources.ap.checkAndSpend(1)) return;
+          }
+          await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+        }
       }
       await deleteToken(this.id);
     }

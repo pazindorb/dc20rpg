@@ -76,3 +76,14 @@ async function migrateTechniqueToManeuver(item) {
   await item.delete();
   await Item.create(itemData, options);
 }
+
+async function migrateWeaponStyleAndProperties(item) {
+  if (item.type !== "weapon") return;
+
+  if (item.system.weaponStyle === "chained") await item.update({["system.weaponStyle"]: "whip"});
+  if (item.system.properties.multiFaceted.active) {
+    const multiFaceted = item.system.properties.multiFaceted;
+    if (multiFaceted.weaponStyle.first === "chained") await item.update({["system.properties.multiFaceted.weaponStyle.first"]: "whip"})
+    if (multiFaceted.weaponStyle.second === "chained") await item.update({["system.properties.multiFaceted.weaponStyle.second"]: "whip"})
+  }
+}

@@ -449,7 +449,9 @@ DC20RPG.DROPDOWN_DATA.basicActionsCategories = {
   defensive: "Defensive",
   utility: "Utility",
   reaction: "Reaction",
-  skillBased: "Skill Based"
+  skillBased: "Skill Based",
+  weaponStyles: "Weapon Styles",
+  basic: "Basic"
 }
 
 DC20RPG.DROPDOWN_DATA.weaponTypes = {
@@ -858,7 +860,6 @@ DC20RPG.DROPDOWN_DATA.checkRangeType = {
 
 DC20RPG.DROPDOWN_DATA.meleeWeaponStyles = {
   axe: "Axe Style",
-  chained: "Chained Style",
   hammer: "Hammer Style",
   pick: "Pick Style",
   spear: "Spear Style",
@@ -870,7 +871,8 @@ DC20RPG.DROPDOWN_DATA.meleeWeaponStyles = {
 
 DC20RPG.DROPDOWN_DATA.rangedWeaponStyles = {
   bow: "Bow Style",
-  crossbow: "Crossbow Style"
+  crossbow: "Crossbow Style",
+  sling: "Sling Style"
 }
 
 DC20RPG.DROPDOWN_DATA.weaponStyles = {
@@ -927,6 +929,18 @@ DC20RPG.PROPERTIES = {
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J"
   },
+  cumbersome: {
+    label: "dc20rpg.properties.cumbersome",
+    for: ["ranged"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.s5koKAxjBv26tHHV"
+  },
+  deft: {
+    label: "dc20rpg.properties.deft",
+    for: ["ranged"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oiJStOGltgWyJiUL"
+  },
   guard: {
     label: "dc20rpg.properties.guard",
     for: ["melee"],
@@ -977,7 +991,7 @@ DC20RPG.PROPERTIES = {
   reload: {
     label: "dc20rpg.properties.reload",
     for: ["ranged"],
-    cost: 0,
+    cost: -1,
     loaded: true,
     value: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv"
@@ -1008,7 +1022,7 @@ DC20RPG.PROPERTIES = {
   },
   unwieldy: {
     label: "dc20rpg.properties.unwieldy",
-    for: ["melee", "ranged"],
+    for: ["melee"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w"
   },
@@ -1023,12 +1037,6 @@ DC20RPG.PROPERTIES = {
     for: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog"
-  },
-  capture: {
-    label: "dc20rpg.properties.capture",
-    for: ["melee"],
-    cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV"
   },
 
   adIncrease: {
@@ -1213,7 +1221,6 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal = {
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal = {
   axe: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.mAcVFce6zbhRTnhT",
-  chained: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.InTw8G1qVIu0Dp3v",
   hammer: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Gfy8diDLkPtI8gDu",
   pick: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.tDkThSS22AdDCQns",
   spear: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.HNZkdDlCaaGo4IhU",
@@ -1222,10 +1229,11 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal = {
   fist: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.qfjN63bCAeQ2u6EM",
   whip: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.seYjPL2iUDDmUjkx",
   bow: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oUiUr8lUymzGgi1Q",
-  crossbow: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.InTw8G1qVIu0Dp2v"
+  crossbow: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.InTw8G1qVIu0Dp2v",
+  sling: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.xAslrZ732IcB9fib"
 }
 
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems = {
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems = {
   attack: "Compendium.dc20rpg.system-items.Item.hN1j1N0Bh8gTy0pG",
   disarm: "Compendium.dc20rpg.system-items.Item.Ks9SnrRBfRhVWgWo",
   grapple: "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
@@ -1256,7 +1264,26 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems = {
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
 }
 
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems = {
+  axe: "Compendium.dc20rpg.system-items.Item.cu5r0FkZ1ziDFDTp",
+  bow: "Compendium.dc20rpg.system-items.Item.oNNORgKXm8nhSytk",
+  crossbow: "Compendium.dc20rpg.system-items.Item.DPhsG8KoA14wmhnu",
+  fist: "Compendium.dc20rpg.system-items.Item.H4qzpwj1XjcsMjCX",
+  hammer: "Compendium.dc20rpg.system-items.Item.7onvgWlf2H2W2T8o",
+  pick: "Compendium.dc20rpg.system-items.Item.TJ12va8JqLDlTtYF",
+  sling: "Compendium.dc20rpg.system-items.Item.n7UBa5Xcek34FqVR",
+  spear: "Compendium.dc20rpg.system-items.Item.1nDJHk7JjVcDEaNQ",
+  staff: "Compendium.dc20rpg.system-items.Item.FBjGIg7JZ7YDgTXj",
+  sword: "Compendium.dc20rpg.system-items.Item.fpQ90Eqdkdw4kFXm",
+  whip: "Compendium.dc20rpg.system-items.Item.oEV39co428ZiXmQC",
+}
+
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike = "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4";
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.martialEnhancements = "Compendium.dc20rpg.system-items.Item.r6Lzh5dG0sJ0DgBu";
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters = {
+  spToAp: "Compendium.dc20rpg.system-items.Item.myVD8OrciokDai2s",
+  mpToAp: "Compendium.dc20rpg.system-items.Item.fZJ3BxmAjAW6rpYs"
+}
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   bleeding: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820",

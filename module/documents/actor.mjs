@@ -677,23 +677,38 @@ export class DC20RpgActor extends Actor {
 
     // Add basic actions
     const actionsData = [];
-    for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
-      const action = await fromUuid(uuid);
-      const data = action.toObject();
-      data.flags.dc20BasicActionsSource = uuid;
-      data.flags.dc20BasicActionKey = key;
+    for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems)) {
+      const data = await this._basicActionData(uuid, key);
       actionsData.push(data);
     }
 
     if (this.type === "character") {
-      const uuid = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike;
-      const action = await fromUuid(uuid);
-      const data = action.toObject();
-      data.flags.dc20BasicActionsSource = uuid;
-      data.flags.dc20BasicActionKey = "unarmedStrike";
-      actionsData.push(data);
+      const unarmedStrike = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike, "unarmedStrike");
+      actionsData.push(unarmedStrike);
+
+      // Add mp/sp on ap converters and martial enhancements
+      const mpToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.mpToAp, "mpToAp");
+      actionsData.push(mpToAp);
+      const spToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.spToAp, "spToAp");
+      actionsData.push(spToAp);
+      const martialEnhancements = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.martialEnhancements, "martialEnhancements");
+      actionsData.push(martialEnhancements);
+
+      // Add weapon styles
+      for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems)) {
+        const data = await this._basicActionData(uuid, key);
+        actionsData.push(data);
+      }
     }
     await this.createEmbeddedDocuments("Item", actionsData);
+  }
+
+  async _basicActionData(uuid, key) {
+    const action = await fromUuid(uuid);
+    const data = action.toObject();
+    data.flags.dc20BasicActionsSource = uuid;
+    data.flags.dc20BasicActionKey = key;
+    return data;
   }
 
   /**

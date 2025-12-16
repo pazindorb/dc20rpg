@@ -573,7 +573,14 @@ function _isLoaded(item, skipError=false) {
 async function _reloadItem(item, free) {
   const actor = item.actor;
   if (!free && actor) {
-    if (!actor.resources.ap.checkAndSpend(1)) return;
+    const result = await SimplePopup.open("confirm", {header: "Reload your weapon", message: "You can reload your weapon by spending 1 AP or 1 SP.", confirmLabel: "Spend 1 SP", denyLabel: "Spend 1 AP"})
+    if (result == null) return;
+    if (result === true) {
+      if (!actor.resources.stamina.checkAndSpend(1)) return;
+    }
+    if (result === false) {
+      if (!actor.resources.ap.checkAndSpend(1)) return;
+    }
   }
   await item.update({[`system.properties.reload.loaded`]: true});
 }
