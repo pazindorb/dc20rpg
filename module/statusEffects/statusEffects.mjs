@@ -1533,18 +1533,9 @@ function _deafened() {
         <li>
             <p>You can't <span>hear </span>(see the <strong>Unheard</strong> section for more information).</p>
         </li>
-        <li>
-            <p>You have Resistance (Half) to Sonic damage.</p>
-        </li>
     </ul>
     `,
     changes: [
-      {
-        key: "system.damageReduction.damageTypes.sonic.resistance",
-        mode: 5,
-        priority: undefined,
-        value: "true"
-      },
       {
         key: "system.rollLevel.onYou.skills",
         mode: 2,
@@ -2323,18 +2314,6 @@ function _petrified() {
       },
       {
         key: "system.damageReduction.damageTypes.psychic.resistance",
-        mode: 5,
-        priority: undefined,
-        value: "true"
-      },
-      {
-        key: "system.damageReduction.damageTypes.sonic.resistance",
-        mode: 5,
-        priority: undefined,
-        value: "true"
-      },
-      {
-        key: "system.damageReduction.damageTypes.sonic.resistance",
         mode: 5,
         priority: undefined,
         value: "true"

@@ -388,7 +388,6 @@ function _applyDamageReduction(hit, dmg, damageReduction, ignore) {
         damageReduction.damageTypes.psychic.resistance = true;
         break;
       case "edr":
-        damageReduction.damageTypes.sonic.resistance = true;
         damageReduction.damageTypes.poison.resistance = true;
         damageReduction.damageTypes.corrosion.resistance = true;
         damageReduction.damageTypes.lightning.resistance = true;
