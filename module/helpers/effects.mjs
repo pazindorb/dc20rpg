@@ -412,14 +412,18 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.healing": "Formula Modifier: Healing",
     "system.globalFormulaModifiers.attackDamage.martial.melee": "Formula Modifier: Melee Martial Damage",
     "system.globalFormulaModifiers.attackDamage.martial.ranged": "Formula Modifier: Ranged Martial Damage",
+    "system.globalFormulaModifiers.attackDamage.martial.area": "Formula Modifier: Area Martial Damage",
     "system.globalFormulaModifiers.attackDamage.spell.melee": "Formula Modifier: Melee Spell Damage",
     "system.globalFormulaModifiers.attackDamage.spell.ranged": "Formula Modifier: Ranged Spell Damage",
+    "system.globalFormulaModifiers.attackDamage.spell.area": "Formula Modifier: Area Spell Damage",
 
     // Roll Level
     "system.rollLevel.onYou.martial.melee": "Roll Level with Melee Martial Attack",
     "system.rollLevel.onYou.martial.ranged": "Roll Level with Ranged Martial Attack",
+    "system.rollLevel.onYou.martial.area": "Roll Level with Area Martial Attack",
     "system.rollLevel.onYou.spell.melee": "Roll Level with Melee Spell Attack",
     "system.rollLevel.onYou.spell.ranged": "Roll Level with Ranged Spell Attack",
+    "system.rollLevel.onYou.spell.area": "Roll Level with Area Spell Attack",
 
     "system.rollLevel.onYou.checks.mig": "Roll Level with Might Checks",
     "system.rollLevel.onYou.checks.agi": "Roll Level with Agility Checks",
@@ -440,8 +444,10 @@ export function getEffectModifiableKeys() {
 
     "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
     "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
+    "system.rollLevel.againstYou.martial.area": "Against You: Roll Level with Area Martial Attack",
     "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
     "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
+    "system.rollLevel.againstYou.spell.area": "Against You: Roll Level with Area Spell Attack",
 
     "system.rollLevel.againstYou.checks.mig": "Against You: Roll Level with Might Checks",
     "system.rollLevel.againstYou.checks.agi": "Against You: Roll Level with Agility Checks",

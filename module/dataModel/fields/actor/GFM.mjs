@@ -11,10 +11,12 @@ export default class GFModFields extends foundry.data.fields.SchemaField {
         martial: new f.SchemaField({
           melee: new f.ArrayField(new f.StringField(), {required: true}),
           ranged: new f.ArrayField(new f.StringField(), {required: true}),
+          area: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         spell: new f.SchemaField({
           melee: new f.ArrayField(new f.StringField(), {required: true}),
           ranged: new f.ArrayField(new f.StringField(), {required: true}),
+          area: new f.ArrayField(new f.StringField(), {required: true}),
         }),
       }),
       healing: new f.ArrayField(new f.StringField(), {required: true}),

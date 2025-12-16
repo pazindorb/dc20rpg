@@ -246,6 +246,13 @@ export class RollDialog extends DC20Dialog {
       selfroll: "Self Roll"
     };
     context.rollMode = this.rollMode;
+    if (context.rollMenu) {
+      switch (context.rollMenu.rangeType) {
+        case "melee": context.rangeIcon = "fa-sword"; break;
+        case "ranged": context.rangeIcon = "fa-bow-arrow"; break;
+        case "area": context.rangeIcon = "fa-bullseye"; break;
+      }
+    }
 
     // ITEM ROLL
     if (this.item) {
@@ -346,8 +353,10 @@ export class RollDialog extends DC20Dialog {
   }
 
   async _onRangeChange() {
+    const ranges = ["melee", "ranged", "area"];
     const current = this.item.system.rollMenu.rangeType;
-    let newRange = current === "melee" ? "ranged" : "melee";
+    const index = ranges.indexOf(current);
+    const newRange = ranges[index + 1] || ranges[0];
     await this.item.update({["system.rollMenu.rangeType"]: newRange});
     const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
     if (autoRollLevelCheck) this._rollLevelCheck(false);

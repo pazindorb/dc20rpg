@@ -217,7 +217,7 @@
       {{#if rollMenu.rangeType}}
       <div class="row margin-top-5">
         <div class="row">
-          <a class="toggle fa-solid fa-lg {{#ifCond rollMenu.rangeType '===' "melee"}}fa-gavel{{else}}fa-crosshairs{{/ifCond}}" style="height:30px" data-action="rangeChange" data-path="system.rollMenu.halfCover" data-tooltip="{{localize (concat 'dc20rpg.sheet.rollMenu.rangeType.' item.system.rollMenu.rangeType '')}}"></a>
+          <a class="toggle fa-solid fa-lg {{rangeIcon}}" style="height:30px" data-action="rangeChange" data-path="system.rollMenu.halfCover" data-tooltip="{{localize (concat 'dc20rpg.sheet.rollMenu.rangeType.' item.system.rollMenu.rangeType '')}}"></a>
         </div>
       </div>
       {{/if}}

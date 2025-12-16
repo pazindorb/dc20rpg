@@ -837,13 +837,14 @@ DC20RPG.DROPDOWN_DATA.actionTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.attackTypes = {
-  attack: "Attack Check",
-  spell: "Spell Check"
+  attack: "Martial Attack",
+  spell: "Spell Attack"
 }
 
 DC20RPG.DROPDOWN_DATA.rangeTypes = {
   melee: "Melee Attack",
-  ranged: "Range Attack"
+  ranged: "Range Attack",
+  area: "Area Attack"
 }
 
 DC20RPG.DROPDOWN_DATA.rollRequestCategory = {
@@ -852,10 +853,12 @@ DC20RPG.DROPDOWN_DATA.rollRequestCategory = {
 }
 
 DC20RPG.DROPDOWN_DATA.checkRangeType = {
-  attackmelee: "Melee Attack",
-  attackranged: "Range Attack",
-  spellmelee: "Melee Spell",
-  spellranged: "Range Spell",
+  attackmelee: "Melee Martial Attack",
+  attackranged: "Range Martial Attack",
+  attackarea: "Area Martial Attack",
+  spellmelee: "Melee Spell Attack",
+  spellranged: "Range Spell Attack",
+  spellarea: "Area Spell Attack",
 }
 
 DC20RPG.DROPDOWN_DATA.meleeWeaponStyles = {
@@ -1262,6 +1265,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems = {
   search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
   attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
+  sustain: "Compendium.dc20rpg.system-items.Item.BWX0CWhJE1S1PY9x"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems = {

@@ -184,11 +184,11 @@ function _fullyConcealed() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.rollLevel.againstYou.skills",
         mode: 2,
         priority: undefined,
         value: '"label": "Fully Concealed", "autoFail": true, "skill": "awa"'
-      },
+      }
     ]
   }
 }
@@ -221,23 +221,11 @@ function _unheard() {
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      },
-      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
-      {
-        key: "system.rollLevel.onYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      }
     ]
   }
 }
@@ -279,6 +267,12 @@ function _unseen() {
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },      
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -291,7 +285,19 @@ function _unseen() {
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      }, 
+      {
         key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
@@ -304,6 +310,12 @@ function _unseen() {
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
@@ -346,6 +358,12 @@ function _hidden() {
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -358,7 +376,19 @@ function _hidden() {
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
@@ -376,6 +406,12 @@ function _hidden() {
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
@@ -388,19 +424,7 @@ function _hidden() {
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      },
-      {
         key: "system.rollLevel.onYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
@@ -462,6 +486,12 @@ function _fullyStunned() {
         value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -469,6 +499,12 @@ function _fullyStunned() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
@@ -695,6 +731,12 @@ function _exposed() {
         value: '"value": 1, "type": "adv", "label": "Exposed"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Exposed"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -702,6 +744,12 @@ function _exposed() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Exposed"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Exposed"'
@@ -736,6 +784,12 @@ function _hindered() {
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Hindered"'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -743,6 +797,12 @@ function _hindered() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Hindered"'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
@@ -802,6 +862,12 @@ function _dazed() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Dazed"'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
@@ -878,6 +944,12 @@ function _impaired() {
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Impaired"'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
@@ -1103,6 +1175,12 @@ function _intimidated() {
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1110,6 +1188,12 @@ function _intimidated() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
@@ -1191,6 +1275,12 @@ function _frightened() {
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1198,6 +1288,12 @@ function _frightened() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
@@ -1258,6 +1354,12 @@ function _restrained() {
         value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1265,6 +1367,12 @@ function _restrained() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Restrained"'
@@ -1282,6 +1390,12 @@ function _restrained() {
         value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1289,6 +1403,12 @@ function _restrained() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Restrained"'
@@ -1323,6 +1443,12 @@ function _taunted() {
         value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1333,7 +1459,13 @@ function _taunted() {
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
-      }
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
+      },
     ]
   }
 }
@@ -1466,6 +1598,12 @@ function _blinded() {
         value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1473,6 +1611,12 @@ function _blinded() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
@@ -1490,6 +1634,12 @@ function _blinded() {
         value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1497,6 +1647,12 @@ function _blinded() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
@@ -1530,6 +1686,12 @@ function _invisible() {
         value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1537,6 +1699,12 @@ function _invisible() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
@@ -1554,6 +1722,12 @@ function _invisible() {
         value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1561,6 +1735,12 @@ function _invisible() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
@@ -1614,6 +1794,12 @@ function _prone() {
         value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
+        key: "system.rollLevel.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Prone"'
+      },
+      {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1621,6 +1807,12 @@ function _prone() {
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Prone"'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Prone"'
@@ -1797,6 +1989,12 @@ function _paralyzed() {
         value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1804,6 +2002,12 @@ function _paralyzed() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Paralyzed"'
@@ -1833,6 +2037,12 @@ function _paralyzed() {
         value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1843,7 +2053,13 @@ function _paralyzed() {
         mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
-      }
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
     ]
   }
 }
@@ -1907,6 +2123,12 @@ function _unconscious() {
         value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1914,6 +2136,12 @@ function _unconscious() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unconscious"'
@@ -1943,6 +2171,12 @@ function _unconscious() {
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -1950,6 +2184,12 @@ function _unconscious() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
@@ -2022,6 +2262,12 @@ function _petrified() {
         value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
+        key: "system.rollLevel.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
+      },
+      {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
@@ -2029,6 +2275,12 @@ function _petrified() {
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Petrified"'

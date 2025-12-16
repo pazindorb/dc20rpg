@@ -15,7 +15,6 @@ export async function runItemRollLevelCheck(item, actor, startingValues=[{adv: 0
 
   const actionType = item.system.actionType;
   const specificCheckOptions = {
-    hasArea: !!item.system?.target?.areas?.default?.area,
     range: item.system.range,
     properties: item.system.properties,
     allEnhancements: item.allEnhancements
@@ -521,6 +520,7 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
 function _getAttackPath(checkType, rangeType) {
   if (checkType === "attack") return `martial.${rangeType}`;
   if (checkType === "spell") return `spell.${rangeType}`;
+  if (checkType === "area") return `area.${rangeType}`;
   return "";
 }
 
@@ -713,7 +713,7 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (!specifics) return false;
 
   // Skip range check if use area targeting 
-  if (specifics.hasArea) return false;
+  if (attackFormula.rangeType === "area") return false;
 
   const range = specifics?.range;
   const properties = specifics?.properties 

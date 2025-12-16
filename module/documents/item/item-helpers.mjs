@@ -774,15 +774,10 @@ function _enrichUseWeaponObject(item) {
   const weapon = owner.items.get(item.system.usesWeapon.weaponId);
   if (!weapon) return;
   
-  // We want to copy weapon attack range, weaponStyle and weaponType so we can make 
-  // conditionals work for maneuvers and features that are using weapons
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
-  item.system.weaponStyleActive = weapon.system.weaponStyleActive;
-  item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
-  item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
+  item.system.combatTraining = weapon.system.combatTraining;
 
-  // We also want to copy weapon range and properties
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
 

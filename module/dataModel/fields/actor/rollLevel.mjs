@@ -6,10 +6,12 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
         martial: new f.SchemaField({
           melee: new f.ArrayField(new f.StringField(), {required: true}),
           ranged: new f.ArrayField(new f.StringField(), {required: true}),
+          area: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         spell: new f.SchemaField({
           melee: new f.ArrayField(new f.StringField(), {required: true}),
           ranged: new f.ArrayField(new f.StringField(), {required: true}),
+          area: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         checks: new f.SchemaField({
           mig: new f.ArrayField(new f.StringField(), {required: true}),
