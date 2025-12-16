@@ -767,7 +767,7 @@ function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
 
 function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
   if (coreRoll.fail && actor.inCombat) {
-    if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType) && !rollMenu.autoFail) {
+    if (["attackCheck", "spellCheck", "att", "mar", "spe"].includes(rollType) && !rollMenu.autoFail) {
       sendDescriptionToChat(actor, {
         rollTitle: "Critical Fail - exposed",
         image: actor.img,

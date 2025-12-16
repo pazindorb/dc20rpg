@@ -340,13 +340,13 @@
           <span>{{localize 'dc20rpg.sheet.checkSave.title'}}</span>
         </div>
         <div class="check-buttons">
-          <div class="roll-button rollable margin-right-2" data-key="att" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-type="check">
-            <span class="original">{{localize 'dc20rpg.sheet.checkSave.attack'}}</span>
-            <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
+          <div class="roll-button rollable margin-right-2" data-key="mar" data-type="check" title="{{localize 'dc20rpg.sheet.checkSave.martialCheckTitle'}}">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
+            <span class="hovered bigger">{{numberFormat system.checkMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          <div class="roll-button rollable margin-left-2" data-key="spe" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-type="check">
+          <div class="roll-button rollable margin-left-2" data-key="spe" data-type="check" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.spell'}}</span>
-            <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
+            <span class="hovered bigger">{{numberFormat system.checkMod.value.spell decimals=0 sign=true}}</span>
           </div>
         </div>
         <div class="check-buttons">
@@ -355,12 +355,11 @@
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.prime'}}</span>
             <span class="hovered bigger">{{numberFormat system.attributes.prime.check decimals=0 sign=true}}</span>
           </div>
-          {{#ifCond skills.allSkills.acr '&&' skills.allSkills.ath}}
-          <div class="roll-button rollable margin-left-2" data-key="mar" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-type="check">
-            <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
-            <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
+          {{!-- Attack Check --}}
+          <div class="roll-button rollable margin-left-2" data-key="att" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-type="check">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.attack'}}</span>
+            <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          {{/ifCond}}
         </div>
 
         <div class="saves">

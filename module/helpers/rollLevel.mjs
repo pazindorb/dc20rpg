@@ -19,14 +19,12 @@ export async function runItemRollLevelCheck(item, actor, startingValues=[{adv: 0
     properties: item.system.properties,
     allEnhancements: item.allEnhancements
   };
-  let checkKey = "";
   switch (actionType) {
     case "attack":
       const attackFormula = item.system.attackFormula;
       const oldRange = attackFormula.rangeType;
       attackFormula.rangeType = item.system.rollMenu.rangeType || oldRange;
       attackFormula.range = item.system.range.normal;
-      checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
       [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = await _runCheckAgainstTargets("attack", attackFormula, actor, false, specificCheckOptions);
       _runCloseQuartersCheck(attackFormula, actor, actorRollLevel, actorGenesis);
@@ -36,13 +34,12 @@ export async function runItemRollLevelCheck(item, actor, startingValues=[{adv: 0
     case "check":
       const check = item.system.check;
       const respectSizeRules = check.respectSizeRules
-      checkKey = check.checkKey;
       check.type = "skillCheck";
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(check, actor, "onYou", "You");
       [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules, specificCheckOptions);
       break;
   }
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.system.rollMenu);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, item.checkKey, item.system.rollMenu);
 
   const rollLevel = {
     adv: (actorRollLevel.adv + targetRollLevel.adv + mcpRollLevel.adv),
@@ -530,17 +527,9 @@ function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
   // is being made against 
   const actorToAnalyze = actorAskingForCheck || actor;
   if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
-  // if (checkKey === "prime") return `checks.${actorToAnalyze.system.details.primeAttrKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
-  if (checkKey === "mar") {
-    const acr = actorToAnalyze.system.skills.acr;
-    const ath = actorToAnalyze.system.skills.ath;
-    if (acr && ath) {
-      checkKey = acr.modifier >= ath.modifier ? "acr" : "ath";
-      category = "skills";
-    }
-  }
+  if (checkKey === "mar") return `checks.mar`;
   if (!category) return;
 
   let attrKey = actorToAnalyze.system[category][checkKey].baseAttribute;

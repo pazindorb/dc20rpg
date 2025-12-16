@@ -471,8 +471,8 @@ export class DC20RpgCombat extends Combat {
 
   _getInitiativeCritEffectData(actor) {
     const checkKeys = [
-      "martial.melee", "martial.ranged", "spell.melee", "spell.ranged",
-      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.spe",
+      "martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",
+      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.mar", "checks.spe",
       "saves.mig", "saves.agi", "saves.cha", "saves.int"
     ]
     const change = (checkPath) => {
@@ -507,7 +507,7 @@ export class DC20RpgCombat extends Combat {
   }
 
   _getInitiativeCritFailEffectData(actor) {
-    const checkKeys = ["martial.melee", "martial.ranged", "spell.melee", "spell.ranged"]
+    const checkKeys = ["martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",]
     const change = (checkPath) => {
       return {
         key: `system.rollLevel.againstYou.${checkPath}`,

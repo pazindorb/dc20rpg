@@ -25,19 +25,19 @@ export class DC20Roll extends Roll {
         rollType = "attackCheck";
         break;
 
+      case "mar":
+        partial = " + @checkMod.value.martial";
+        rollType = "martialCheck";
+        break;
+
       case "spe":
-        partial = " + @attackMod.value.spell";
+        partial = " + @checkMod.value.spell";
         rollType = "spellCheck";
         break;
 
       case "language": 
         partial = " + @special.languageCheck";
         rollType = "attributeCheck"
-        break;
-
-      case "mar": 
-        partial = " + @special.marCheck";
-        rollType = "skillCheck";
         break;
 
       default:

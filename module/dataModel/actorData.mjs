@@ -73,6 +73,16 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
           martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
       }),
+      checkMod: new f.SchemaField({
+        value: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+        bonus: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+      }),
       attackMod: new f.SchemaField({
         value: new f.SchemaField({
           spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -265,6 +275,7 @@ export class DC20CompanionData extends DC20NpcData {
       companionOwnerId: new f.StringField({required: true, initial: ""}),
       shareWithCompanionOwner: new f.SchemaField({
         attackMod: new f.BooleanField({required: true, initial: true}),
+        checkMod: new f.BooleanField({required: true, initial: true}),
         saveDC: new f.BooleanField({required: true, initial: true}),
         ap: new f.BooleanField({required: true, initial: true}),
         health: new f.BooleanField({required: true, initial: false}),

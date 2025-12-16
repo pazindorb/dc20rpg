@@ -99,7 +99,7 @@ export function prepareEquippedItemsFlags(actor) {
 export function prepareRollDataForItems(actor) {
 	_combatMatery(actor);
 	_coreAttributes(actor);
-	_attackModAndSaveDC(actor);
+	_modifierAndSaveDC(actor);
 	_combatTraining(actor);
 }
 
@@ -257,6 +257,7 @@ function _implementEquipmentData(actor, collectedData) {
 		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.rollLevel.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.rollLevel.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 	}
 
@@ -269,6 +270,7 @@ function _implementEquipmentData(actor, collectedData) {
 		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 		actor.system.rollLevel.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.rollLevel.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
@@ -383,24 +385,38 @@ function _coreAttributes(actor) {
 	}
 }
 
-function _attackModAndSaveDC(actor) {
+function _modifierAndSaveDC(actor) {
 	const exhaustion = actor.exhaustion;
 	const prime = actor.system.attributes.prime.value;
 	const CM = actor.system.details.combatMastery;
 
 	// Attack Modifier
 	const attackMod = actor.system.attackMod;
-	const mod = attackMod.value;
+	const attack = attackMod.value;
 	if (companionShare(actor, "attackMod")) {
-		mod.martial = actor.companionOwner.system.attackMod.value.martial + attackMod.bonus.martial;
-		mod.spell = actor.companionOwner.system.attackMod.value.spell + attackMod.bonus.spell;
+		attack.martial = actor.companionOwner.system.attackMod.value.martial + attackMod.bonus.martial;
+		attack.spell = actor.companionOwner.system.attackMod.value.spell + attackMod.bonus.spell;
 	}
 	else if (!attackMod.flat) {
-		mod.martial = prime + CM + attackMod.bonus.martial;
-		mod.spell = prime + CM + attackMod.bonus.spell;
+		attack.martial = prime + CM + attackMod.bonus.martial;
+		attack.spell = prime + CM + attackMod.bonus.spell;
 	}
-	mod.martial -= exhaustion;
-	mod.spell -= exhaustion;
+	attack.martial -= exhaustion;
+	attack.spell -= exhaustion;
+
+	// Check Modifier
+	const checkMod = actor.system.checkMod;
+	const check = checkMod.value;
+	if (companionShare(actor, "checkMod")) {
+		check.martial = actor.companionOwner.system.checkMod.value.martial + checkMod.bonus.martial;
+		check.spell = actor.companionOwner.system.checkMod.value.spell + checkMod.bonus.spell;
+	}
+	else if (!checkMod.flat) {
+		check.martial = prime + CM + checkMod.bonus.martial;
+		check.spell = prime + CM + checkMod.bonus.spell;
+	}
+	check.martial -= exhaustion;
+	check.spell -= exhaustion;
 
 	// Save DC
 	const saveDC = actor.system.saveDC;

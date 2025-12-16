@@ -360,8 +360,10 @@ export function getEffectModifiableKeys() {
     "system.size.spaceOccupation": "Size (Occupied Spaces)",
 
     // Attack and Save
-    "system.attackMod.bonus.spell": "Spell Check Bonus",
-    "system.attackMod.bonus.martial": "Attack Check Bonus",
+    "system.attackMod.bonus.spell": "Spell Attack Bonus",
+    "system.attackMod.bonus.martial": "Martial Attack Bonus",
+    "system.checkMod.bonus.spell": "Spell Check Bonus",
+    "system.checkMod.bonus.martial": "Martial Check Bonus",
     "system.saveDC.bonus.spell": "Spell Save DC Bonus",
     "system.saveDC.bonus.martial": "Martial Save DC Bonus",
 
@@ -405,6 +407,7 @@ export function getEffectModifiableKeys() {
     
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
+    "system.globalFormulaModifiers.martialCheck": "Formula Modifier: Martial Check",
     "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",
     "system.globalFormulaModifiers.attributeCheck": "Formula Modifier: Attribute Check",
     "system.globalFormulaModifiers.save": "Formula Modifier: Save",
@@ -430,6 +433,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.cha": "Roll Level with Charisma Checks",
     "system.rollLevel.onYou.checks.int": "Roll Level with Intelligence Checks",
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
+    "system.rollLevel.onYou.checks.mar": "Roll Level with Martial Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
     "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
 
@@ -454,6 +458,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.checks.cha": "Against You: Roll Level with Charisma Checks",
     "system.rollLevel.againstYou.checks.int": "Against You: Roll Level with Intelligence Checks",
     "system.rollLevel.againstYou.checks.att": "Against You: Roll Level with Attack Check",
+    "system.rollLevel.againstYou.checks.mar": "Against You: Roll Level with Martial Check",
     "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
 
     "system.rollLevel.againstYou.skills": "Against You: Roll Level with Skill Check",

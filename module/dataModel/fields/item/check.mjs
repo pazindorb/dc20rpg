@@ -4,7 +4,7 @@ export default class CheckFields extends foundry.data.fields.SchemaField {
 
     fields = {
       canCrit: new f.BooleanField({required: true, initial: false}),
-      checkKey: new f.StringField({required: true, initial: "att"}),
+      checkKey: new f.StringField({required: true, initial: "mar"}),
       multiCheck: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         options: new f.ObjectField({required: true})

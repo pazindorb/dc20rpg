@@ -286,9 +286,9 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const checkType = item.system?.check?.checkKey;
 
     let color = "";
-    if (actionType === "attack" && attackCheckType === "attack") color = "martial-attack";
+    if (actionType === "attack" && attackCheckType === "martial") color = "martial-attack";
     else if (actionType === "attack" && attackCheckType === "spell") color = "spell-attack";
-    else if (actionType === "check" && checkType === "att") color = "martial-attack";
+    else if (actionType === "check" && checkType === "mar") color = "martial-attack";
     else if (actionType === "check" && checkType === "spe") color = "spell-check";
     else if (actionType === "check") color = "skill-check";
     item.borderColor = color;

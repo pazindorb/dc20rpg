@@ -814,6 +814,12 @@ function _hindered() {
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
+        key: "system.rollLevel.onYou.checks.mar",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Hindered"'
+      },
+      {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
@@ -932,6 +938,12 @@ function _impaired() {
       },
       {
         key: "system.rollLevel.onYou.checks.att",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Impaired"'
+      },
+      {
+        key: "system.rollLevel.onYou.checks.mar",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
@@ -1157,6 +1169,12 @@ function _intimidated() {
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
+        key: "system.rollLevel.onYou.checks.mar",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
@@ -1252,6 +1270,12 @@ function _frightened() {
       },
       {
         key: "system.rollLevel.onYou.checks.att",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.checks.mar",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
