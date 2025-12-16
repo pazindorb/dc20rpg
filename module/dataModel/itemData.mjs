@@ -106,7 +106,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       conditional: new ConditionalFields(), // Left for backward compatibility remove as part of 0.10
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
-      provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
       tip: new f.StringField({required: true, initial: ""}),
     })
@@ -458,7 +457,6 @@ export class DC20ClassData extends DC20UniqueItemData {
       bannerImg: new f.StringField({required: true, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
-      martialExpansion: new f.BooleanField({required: true, initial: false}),
       multiclass: new f.ObjectField({required: true}),
       scaling: new f.ObjectField({required: true, initial: {
         maxHpBonus: {

@@ -118,10 +118,6 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 
 		// If advancement does not come from base item we want to remove it instad of marking it as not applied
 		if (advancement.additionalAdvancement) {
-			if (key === "martialExpansion") {
-				await actor.update({["system.details.martialExpansionProvided"]: false});
-				item.martialExpansionProvided = false;
-			}
 			await item.update({[`system.advancements.-=${key}`]: null});
 		}
 		else {

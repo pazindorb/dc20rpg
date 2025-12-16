@@ -23,11 +23,6 @@ export async function applyAdvancement(advancement, actor) {
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
   const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
-  
-  // Check for Martial Expansion that comes from the class, Martial Path or some other items
-  const martialExpansion = await _checkMartialExpansion(advancement, actor);
-  if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
-  
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement);
   if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
@@ -154,14 +149,6 @@ async function _addItemsToActor(items, actor, advancement) {
       extraAdvancements.set(extraAdvancement.key, extraAdvancement);
     }
 
-    const martialExpansion = await _martialExpansion(created, actor, parentItem);
-    if (martialExpansion) {
-      martialExpansion.level = advancement.level;
-      martialExpansion.parentItem = parentItem;
-      martialExpansion.createdBy = advancement.key;
-      extraAdvancements.set(martialExpansion.key, martialExpansion);
-    }
-
     // Add created id to advancement record
     if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
     record.createdItemId = created._id;
@@ -180,7 +167,6 @@ async function _markAdvancementAsApplied(advancement, actor) {
   await updateAdvancement(advancement.parentItem, advancement);
   
   if (advancement.macro) runTemporaryMacro(advancement.macro, advancement, {actor: actor, advancement: advancement});
-  if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
 
 function _extraAdvancement(item) {
@@ -190,36 +176,6 @@ function _extraAdvancement(item) {
     additional.key = generateKey();
     additional.img = item.img;
     return additional;
-  }
-  return null;
-}
-
-async function _martialExpansion(item, actor, parentItem) {
-  // Martial Expansion
-  if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !parentItem.martialExpansionProvided) {
-    const expansion = await _getMartialExpansionAdvancement();
-    expansion.key = "martialExpansion";
-    expansion.parentItem = parentItem;
-    parentItem.martialExpansionProvided = true;
-    return expansion;
-  }
-  return null;
-}
-
-async function _checkMartialExpansion(advancement, actor) {
-  const parentItem = advancement.parentItem;
-  if (actor.system.details.martialExpansionProvided || parentItem.martialExpansionProvided) return null;
-
-  const fromItem = parentItem.system.martialExpansion;
-  const fromMartialPath = advancement.progressPath && advancement.mastery === "martial";
-  if (fromItem || fromMartialPath) {
-    const expansion = await _getMartialExpansionAdvancement();
-    expansion.level = advancement.level;
-    expansion.key = "martialExpansion";
-    expansion.parentItem = parentItem;
-    expansion.createdBy = advancement.key;
-    parentItem.martialExpansionProvided = true;
-    return expansion;
   }
   return null;
 }
@@ -261,18 +217,6 @@ async function _addRepeatableAdvancement(oldAdv) {
   if(oldAdv.cloneKey) await parentItem.update({[`system.advancements.${advKey}.-=items`]: null});
   await updateAdvancement(parentItem, oldAdv);
   await updateAdvancement(parentItem, newAdv);
-}
-
-async function _getMartialExpansionAdvancement() {
-  const martialExpansion = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
-  if (!martialExpansion || !martialExpansion?.system) {
-    ui.notifications.warn("Martial Expansion Item cannot be found")
-    return;
-  }
-  const advancement = Object.values(martialExpansion.system.advancements)[0];
-  advancement.customTitle = advancement.name;
-  advancement.img = CONFIG.DC20RPG.ICONS["martialExpansion"];
-  return advancement;
 }
 
 async function _getSpellcasterStaminaAdvancement() {
@@ -560,11 +504,6 @@ export async function removeAdvancement(actor, advancement, collection) {
   if (index === -1) return;
   collection.splice(index, 1);
 
-  // Remove from DB
-  if (advancement.key === "martialExpansion") {
-    await actor.update({["system.details.martialExpansionProvided"]: false});
-    advancement.parentItem.martialExpansionProvided = false;
-  }
   await advancement.parentItem.update({[`system.advancements.-=${advancement.key}`]: null});
 }
 

@@ -1098,9 +1098,8 @@ DC20RPG.PROPERTIES = {
 }
 
 DC20RPG.ICONS = {
-  martialExpansion: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
   spells: "icons/skills/trades/academics-book-study-runes.webp",
-  maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
+  maneuvers: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
   attributes: "icons/skills/trades/academics-investigation-puzzles.webp",
   infusions: "icons/commodities/tech/tube-chamber-lightning.webp"
 }
@@ -1149,8 +1148,6 @@ DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas = {
 DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
   standard: "8 + @combatMastery + @migValue + @chaValue + @ad.bonus",
 }
-
-DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
 DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina = "Compendium.dc20rpg.system-items.Item.y7T8fH64IizcTw0K";
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw"
