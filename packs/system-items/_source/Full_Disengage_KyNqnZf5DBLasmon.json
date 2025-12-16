@@ -92,7 +92,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -178,36 +179,48 @@
       "changes": [
         {
           "key": "system.rollLevel.againstYou.martial.melee",
-          "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
           "mode": 2,
+          "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.martial.ranged",
-          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
           "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.melee",
-          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
           "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.ranged",
-          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
           "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
           "priority": null
         },
         {
           "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Disengage\"",
           "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Disengage\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.area",
+          "mode": 2,
+          "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.area",
+          "mode": 2,
+          "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
           "priority": null
         }
       ],
-      "description": "<p>You <span>are </span><span>immune to Opportunity Attacks until the start of your next turn.</span></p>",
+      "description": "<p>You <span>are immune to Opportunity Attacks until the start of your next turn.</span></p>",
       "tint": "#e0bb00",
       "transfer": false,
       "statuses": [],
@@ -225,11 +238,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880257532,
+        "modifiedTime": 1765897433559,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -246,11 +259,11 @@
   "_stats": {
     "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
     "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1760521818013,
+    "modifiedTime": 1765897434773,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

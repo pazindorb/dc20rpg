@@ -1,9 +1,9 @@
 {
-  "name": "Jump",
+  "name": "Extend Jump",
   "type": "basicAction",
-  "img": "icons/svg/upgrade.svg",
+  "img": "icons/svg/jump.svg",
   "system": {
-    "description": "<p ><span >You can spend <strong >1 AP</strong> to attempt to increase the distance you can cover when Jumping. Make a <strong >DC 10</strong> <strong >Martial </strong><strong>Check</strong>.</span></p><ul><li><p ><span ><em ><strong >Long Jump:</strong></em> </span></p><ul><li><p ><span ><strong >Success:</strong> You can move 1 additional Space as part of your Long Jump. </span></p></li><li><p ><span ><strong >Success (each 5):</strong> +1 additional Space.</span></p></li></ul></li><li><p ><span ><em ><strong >High Jump:</strong></em> </span></p><ul><li><p ><span ><strong >Success:</strong> You can move an additional 1ft (30cm) as part of your High Jump. </span></p></li><li><p ><span ><strong >Success (each 5):</strong> +1ft (30cm).</span></p></li></ul></li></ul>",
+    "description": "<p>When you perform a Jump, you can spend 1 AP to increase your Jump Distance for the Jump.</p><p>Make a DC 10 Acrobatics Check. </p><ul><li><p><strong>Failure:</strong> Your Jump Distance increases by 1. </p></li><li><p><strong>Success:</strong> Your Jump Distance increases by 2. </p></li><li><p><strong>Success (each 5):</strong> +1 Jump Distance.</p></li></ul><p><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><em><strong>DC Tip:</strong> Remember, your Long Jump Distance equals your Jump Distance in Spaces, and your High Jump distance equals your Jump Distance in feet.</em></span></p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
@@ -28,7 +28,7 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "acr",
       "contestedKey": "phy",
       "checkDC": 10,
       "failEffect": ""
@@ -66,7 +66,21 @@
         "consumeCharge": true
       }
     },
-    "formulas": {},
+    "formulas": {
+      "FyEx3tXnkMu2TgDe": {
+        "formula": "2",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "1",
+        "each5": true,
+        "each5Formula": "1",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false,
+        "label": "Bonus Jump Distance"
+      }
+    },
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
@@ -92,7 +106,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -154,7 +169,7 @@
   },
   "effects": [],
   "folder": "czCH58aedZfapcMH",
-  "sort": 100000,
+  "sort": 800000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
@@ -163,11 +178,11 @@
   "_stats": {
     "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
     "duplicateSource": "Item.5aV1c024MqxOEJFp",
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1760521818080,
+    "modifiedTime": 1765885320862,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

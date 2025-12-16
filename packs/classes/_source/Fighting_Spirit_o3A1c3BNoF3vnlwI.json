@@ -311,7 +311,7 @@
         "startTurn": null
       },
       "disabled": false,
-      "description": "<p>You have ADV on the next Physical Check<span> </span><span>you make.</span></p>",
+      "description": "<p>You have ADV on the next Physical Check<span> you make.</span></p>",
       "flags": {
         "dc20rpg": {
           "duration": {
@@ -358,6 +358,12 @@
           "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
         }
       ],
       "origin": "Actor.0Y8OFGsNsMSEWKdW",
@@ -378,11 +384,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.sIxJsqtrjssed4Y1",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256731,
+        "modifiedTime": 1765897616216,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -530,6 +536,18 @@
           "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
           "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "priority": null
         }
       ],
       "description": "<p>You <span>impose DisADV on the next Attack or Grapple made against you before the start of your next turn.</span></p>",
@@ -556,11 +574,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.Item.KzYJlGDFQVxuw2UF.ActiveEffect.q11dyOEQpnZF878I",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256735,
+        "modifiedTime": 1765897649433,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

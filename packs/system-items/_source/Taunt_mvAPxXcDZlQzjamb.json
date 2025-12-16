@@ -1,9 +1,9 @@
 {
-  "name": "Shove",
+  "name": "Taunt",
   "type": "basicAction",
-  "img": "icons/svg/thrust.svg",
+  "img": "icons/svg/eye.svg",
   "system": {
-    "description": "<p><span>You can spend <strong>1 AP</strong> to attempt to push a creature within 1 Space of you. Make an <strong>Athletics Check</strong> contested by the target’s <strong>Martial Check</strong>.</span></p><p><span><strong>Success:</strong> You push the creature 1 Space away from you or to its left or right.</span></p><p><span><strong>Success (each 5):</strong> Push up to 1 additional Space.</span></p><p><span><em><strong>Knock Prone:</strong></em> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>Prone</strong> instead.</span></p><p><em><strong>DC Tip:</strong> If you shove a creature into a target, follow the rules for hitting the target in the Collision section.</em></p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to attempt to taunt a creature that can see or hear you within 10 Spaces. </p><p>Make an <strong>Influence Check</strong> contested by the target’s <strong>Charisma Save</strong>. </p><p><strong>Success:</strong> The target is Taunted by you for 1 Round.</p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
@@ -24,15 +24,28 @@
       "combatMastery": false,
       "critThreshold": 20,
       "halfDmgOnMiss": false,
-      "formulaMod": "physical"
+      "formulaMod": "physical",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "customModifier": ""
     },
     "check": {
       "canCrit": false,
-      "checkKey": "ath",
-      "contestedKey": "mar",
+      "checkKey": "inf",
+      "contestedKey": "cha",
       "checkDC": 10,
-      "failEffect": "prone",
-      "againstDC": false
+      "failEffect": "intimidated",
+      "againstDC": false,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "respectSizeRules": false
     },
     "save": {
       "type": "phy",
@@ -48,7 +61,9 @@
         "mana": null,
         "health": null,
         "custom": {},
-        "ap": 1
+        "ap": 1,
+        "grit": null,
+        "restPoints": null
       },
       "charges": {
         "current": null,
@@ -59,39 +74,24 @@
         "rechargeDice": "",
         "requiredTotalMinimum": null,
         "reset": "",
-        "showAsResource": false
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
-    "formulas": {
-      "3PgzdDKWwHaol7Nf": {
-        "formula": "1",
-        "type": "",
-        "category": "other",
-        "fail": true,
-        "failFormula": "0",
-        "each5": true,
-        "each5Formula": "1",
-        "dontMerge": false,
-        "overrideDefence": "",
-        "perTarget": true,
-        "label": "Push Distance"
-      }
-    },
+    "formulas": {},
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
       "copyFor": "",
-      "linkWithToggle": false
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
     },
     "range": {
       "normal": null,
       "max": null,
-      "unit": ""
+      "unit": "",
+      "melee": 1
     },
     "duration": {
       "value": null,
@@ -100,7 +100,6 @@
     },
     "target": {
       "count": null,
-      "invidual": true,
       "type": "",
       "areas": {
         "default": {
@@ -118,7 +117,33 @@
       "condition": "",
       "useFor": "",
       "linkWithToggle": false,
-      "bonus": "0"
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
     },
     "hasAdvancement": false,
     "advancements": {
@@ -162,18 +187,26 @@
     "effectsConfig": {
       "linkWithToggle": false,
       "active": false,
-      "addToChat": false
+      "addToChat": false,
+      "toggleItem": true,
+      "addToTemplates": ""
     },
-    "category": "offensive",
+    "category": "skillBased",
     "quickRoll": false,
     "againstEffect": {
-      "id": "prone"
+      "id": "intimidated",
+      "untilYourNextTurnEnd": true,
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
     },
     "rollRequests": {
       "rollRequestFromTemplate": {
         "category": "contest",
         "saveKey": "",
-        "contestedKey": "mar",
+        "contestedKey": "cha",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true,
@@ -181,46 +214,67 @@
       }
     },
     "againstStatuses": {
-      "XwmMsQ34wPKEe8fJ": {
-        "id": "prone",
+      "L3trfHBJPf9U04Oa": {
+        "id": "taunted",
         "supressFromChatMessage": false,
         "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": false,
-        "untilTargetNextTurnStart": false,
-        "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
-      },
-      "f4mpPYuvPPyPEaZ2": {
-        "id": "movement",
-        "supressFromChatMessage": true,
-        "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": false,
+        "untilYourNextTurnEnd": true,
         "untilTargetNextTurnStart": false,
         "untilTargetNextTurnEnd": false,
         "untilFirstTimeTriggered": false
       }
     },
-    "itemKey": "shove"
+    "itemKey": "taunt",
+    "shortInfo": "",
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "conditionals": {},
+    "provideMartialExpansion": false,
+    "tip": ""
   },
   "effects": [],
-  "folder": "4kuxWHZSmuNdlmkW",
-  "sort": 300000,
+  "folder": "czCH58aedZfapcMH",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1765885265068,
+    "modifiedTime": 1765885265085,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "flags": {},
-  "_stats": {
-    "compendiumSource": null,
-    "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
-    "coreVersion": "13.350",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
-    "createdTime": 1732728815896,
-    "modifiedTime": 1765884587702,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
-  },
-  "_id": "QDPNjfb8u5Jn3XPL",
-  "_key": "!items!QDPNjfb8u5Jn3XPL"
+  "_id": "mvAPxXcDZlQzjamb",
+  "sort": 600000,
+  "_key": "!items!mvAPxXcDZlQzjamb"
 }

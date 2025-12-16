@@ -1,0 +1,260 @@
+{
+  "name": "Sustained Action",
+  "type": "basicAction",
+  "img": "icons/svg/teleport.svg",
+  "system": {
+    "description": "<p>You must spend <strong>1 AP</strong> at the start of each of your turns to Sustain an effect until the start of your next turn. </p><p>You can't Sustain an effect while Dazed. When you become Dazed, any effect you’re Sustaining ends. You can choose to end the effect at anytime for free.</p><p><strong>Outside of Combat:</strong> You can only Sustain 1 effect at a time outside of Combat. If you attempt to Sustain a second effect while already Sustaining a first, the first effect immediately ends.</p>",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "macros": {},
+    "isReaction": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": false,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "formulaMod": "physical",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "customModifier": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "ap": null,
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "items": {}
+      }
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "active": false,
+      "addToChat": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "category": "utility",
+    "quickRoll": false,
+    "itemKey": "sustain",
+    "shortInfo": "",
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "conditionals": {},
+    "provideMartialExpansion": false,
+    "tip": ""
+  },
+  "effects": [],
+  "folder": "SvxA57HGyAhazYbX",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1765885090985,
+    "modifiedTime": 1765885231926,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "BWX0CWhJE1S1PY9x",
+  "sort": 400000,
+  "_key": "!items!BWX0CWhJE1S1PY9x"
+}
