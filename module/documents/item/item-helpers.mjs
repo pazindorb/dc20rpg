@@ -547,6 +547,7 @@ function _enrichPropertiesObject(item) {
   _enhanceReload(item);
   _enhanceMultiFaceted(item);
   _enhanceAmmo(item);
+  _enhanceWeaponStyle(item);
 }
 
 //==================================
@@ -658,6 +659,21 @@ function _getActiveAmmo(item) {
   const property = item.system.properties?.ammo;
   const ammoId = property?.active ? property.ammoId : null;
   return actor.items.get(ammoId);
+}
+
+//==================================
+//           WEAPON STYLE          =
+//==================================
+function _enhanceWeaponStyle(item) {
+  if (item.type !== "weapon") return;
+  
+  const weaponStyle = [item.system.weaponStyle];
+  const multiFaceted = item.system.properties.multiFaceted;
+  if (multiFaceted.active) {
+    weaponStyle.push(multiFaceted.weaponStyle.first);
+    weaponStyle.push(multiFaceted.weaponStyle.second);
+  }
+  item.weaponStyle = weaponStyle;
 }
  
 //==================================//==================================

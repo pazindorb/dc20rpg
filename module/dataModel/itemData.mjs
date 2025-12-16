@@ -176,9 +176,9 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      combatTraining: new f.BooleanField({required: true, initial: false}),
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
-      weaponStyleActive: new f.BooleanField({required: true, initial: false}),
       actionType: new f.StringField({required: true, initial: "attack"}),
       properties: new PropertyFields("weapon"),
       formulas: new f.ObjectField({required: true, initial: {
@@ -203,6 +203,7 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      combatTraining: new f.BooleanField({required: true, initial: false}),
       equipmentType: new f.StringField({required: true, initial: ""}),
       properties: new PropertyFields("equipment"),
     })

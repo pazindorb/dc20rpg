@@ -118,7 +118,7 @@ let CAPTURE_TO_LINK = [];
 export function initJournalLinker() {
   const raw = {
     ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal,
-    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems
+    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems
   };
 
   const entries = Object.entries(raw).filter(([k]) => !EXCLUDE.has(k));

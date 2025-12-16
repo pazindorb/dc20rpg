@@ -27,7 +27,7 @@ function defaultFields() {
       onelinerModeCI: new f.BooleanField({required: true, initial: true}),
       slots: new f.BooleanField({required: true, initial: true}),
       inactiveEffects: new f.BooleanField({required: true, initial: true}),
-      nonessentialEffects: new f.BooleanField({required: true, initial: true}),
+      nonessentialEffects: new f.BooleanField({required: true, initial: false}),
     }),
     editMode: new f.BooleanField({required: true, initial: false}),
   };

@@ -7,7 +7,7 @@ export function makeCalculations(item) {
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
   if (item.system.infusions) _calculateMagicPower(item);
-  if (item.type === "weapon") _runWeaponStyleCheck(item);
+  if (item.type === "weapon") _combatTraining(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
 }
 
@@ -102,14 +102,31 @@ function _calculateMaxCharges(item) {
   if (charges.current === null) charges.current = charges.max;
 }
 
-function _runWeaponStyleCheck(item) {
+function _combatTraining(item) {
   const owner = item.actor;
   if (!owner) return;
+  if (!item.system.hasOwnProperty("combatTraining")) return;
 
-  const weaponStyleActive = item.system.weaponStyleActive;
-  // If it is not true then we want to check if actor has "weapons" Combat Training.
-  // If it is true, then we assume that some feature made it that way and we dont care about the actor
-  if (!weaponStyleActive) item.system.weaponStyleActive = owner.system.combatTraining.weapons;
+  const combatTraining = item.system.combatTraining;
+  if (combatTraining) return // Item has Combat Training from some other source (Pact Weapon for example) and we dont have to check the actor's training
+
+  // We need to check if actor has training for that item type
+  const trainingKey = _trainingKey(item);
+  if (!trainingKey) return;
+  item.system.combatTraining = owner.system.combatTraining[trainingKey];
+}
+
+function _trainingKey(item) {
+  if (item.type === "weapon") return "weapons";
+  if (item.type === "spellFocus") return "spellFocuses";
+  if (item.type === "equipment") {
+    switch (item.system.equipmentType) {
+      case "light": return "lightArmor";
+      case "heavy": return "heavyArmor";
+      case "lshield": return "lightShield";
+      case "hshield": return "heavyShield"
+    }
+  }
 }
 
 function _checkFeatureSourceItem(item) {

@@ -223,24 +223,14 @@ function _armorData(item, data, actor) {
 	if (properties.rigid.active) data.agiCheckDis++;
 
 	if (["light", "heavy"].includes(equipmentType)) {
-		if (equipmentType === "heavy") {
-			if (!combatTraining.heavyArmor) data.lackArmorTraining = true;
-		}
-		else {
-			if (!combatTraining.lightArmor) data.lackArmorTraining = true;
-		}
+		if (!item.system.combatTraining) data.lackArmorTraining = true;
 	}
 	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
 		if (properties.pdIncrease.active) data.shieldBonus.pdBonus = properties.pdIncrease.value;
 		if (properties.adIncrease.active) data.shieldBonus.adBonus = properties.adIncrease.value;
 		data.shieldBonus.shieldsWielded++;
 
-		if (equipmentType === "hshield") {
-			if (!combatTraining.heavyShield) data.lackShieldTraining = true;
-		}
-		else {
-			if (!combatTraining.lightShield) data.lackShieldTraining = true;
-		}
+		if (!item.system.combatTraining) data.lackShieldTraining = true;
 	}
 	else {
 		if (properties.pdIncrease.active) data.pdBonus += properties.pdIncrease.value;
@@ -252,7 +242,6 @@ function _armorData(item, data, actor) {
 function _implementEquipmentData(actor, collectedData) {
 	const pd = actor.system.defences.precision;
 	const ad = actor.system.defences.area;
-	const details = actor.system.details;
 
 	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
 	for (let i = 0; i < collectedData.agiCheckDis; i++) {

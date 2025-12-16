@@ -34,7 +34,6 @@ import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
-import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
@@ -48,9 +47,9 @@ Hooks.once('init', async function() {
   prepareColorPalette(); // Prepare Color Palette
   
   CONFIG.DC20RPG = DC20RPG;
+  CONFIG.DC20ConditionalHelpers = {};
   initDC20Config();
   prepareDC20tools();
-  registerDC20ConditionalHelpers();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";

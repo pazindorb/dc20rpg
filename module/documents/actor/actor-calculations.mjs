@@ -1,6 +1,5 @@
 import { companionShare } from "../../helpers/actors/companion.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
-import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function makeCalculations(actor) {
 	_skillModifiers(actor);
@@ -16,7 +15,6 @@ export function makeCalculations(actor) {
 		_skillPoints(actor);
 		_attributePoints(actor);
 		_spellsAndManeuversKnown(actor);
-		_weaponStyles(actor);
 		_manaSpendLimit(actor);
 	}
 	if (actor.type === "companion") {
@@ -436,53 +434,5 @@ function _basicConditionals(actor) {
 				respectSizeRules: false,
 			},
 		});
-	}
-}
-
-function _weaponStyles(actor) {
-	const conditionals = [
-		_conditionBuilder("axe", `target.hasAnyCondition(["bleeding"])`),
-		_conditionBuilder("bow", `target.hasAnyCondition(["slowed"])`),
-		_conditionBuilder("fist", `target.hasAnyCondition(["grappled"])`),
-		_conditionBuilder("hammer", `target.hasAnyCondition(["dazed", "petrified"])`),
-		_conditionBuilder("pick", `target.hasAnyCondition(["impaired"])`),
-		_conditionBuilder("staff", `target.hasAnyCondition(["hindered"])`),
-		_conditionBuilder("sword", `target.hasAnyCondition(["exposed"])`),
-		_conditionBuilder("chained", `target.system.details.armor.shieldEquipped`, "@target.system.details.armor.shieldBonus.ad", "@target.system.details.armor.shieldBonus.pd"),
-		_conditionBuilder("whip", `helpers.whipHelper("${actor.id}", target)`),
-		_conditionBuilder("crossbow", `helpers.crossbowHelper("${actor.id}", target)`),
-		_conditionBuilder("spear", `helpers.spearHelper(target)`),
-	];
-	conditionals.forEach(conditional => actor.system.conditionals.push(conditional));
-}
-
-function _conditionBuilder(weaponStyle, condition, reduceAd, reducePd) {
-	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
-	return {
-		condition: condition, 
-		bonus: '1', 
-		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 
-		name: `${weaponStyleLabel} Passive`,
-		linkWithToggle: false,
-		flags: {
-			ignorePdr: false,
-			ignoreEdr: false,
-			ignoreMdr: false,
-			ignoreResistance: {},
-			ignoreImmune: {},
-			reduceAd: reduceAd,
-			reducePd: reducePd
-		},
-		effect: null,
-		addsNewRollRequest: false,
-    rollRequest: {
-      category: "",
-      saveKey: "",
-      contestedKey: "",
-      dcCalculation: "",
-      dc: 0,
-      addMasteryToDC: true,
-      respectSizeRules: false,
-    },
 	}
 }
