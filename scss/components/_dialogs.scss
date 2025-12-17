@@ -1269,23 +1269,21 @@
     padding: 5px;
     color: var(--text-color-3);
 
-    .mana-spend-limit {
+    .spend-limit {
       display: flex;
       align-items: center;
       justify-content: center;
 
+      white-space: nowrap;
+      text-shadow: none;
+      color: var(--text-color);
+      border-right: 2px solid var(--border-color);
+
       .cost-printer {
         width: fit-content;
+        border-right: 0;
 
-        b {
-          white-space: nowrap;
-          text-shadow: none;
-          color: var(--text-color);
-        }
-      }
-
-      &.exceeds {
-        .mana, .fa-gauge-max {
+        .exceeds {
           color: var(--dark-red);
         }
       }

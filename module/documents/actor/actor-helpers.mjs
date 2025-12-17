@@ -501,6 +501,7 @@ function _enrichSlot(actor, slot) {
 
 async function _equipSlot(item, slot, actor) {
   if (slot.isEquipped) await _unequipSlot(slot, actor);
+  if (item.equipped) await item.equip({forceUneqip: true});
 
   // Cumbersome: It takes 1 AP to draw, stow, or pick up this Weapon.
   if (item.system.properties?.cumbersome?.active) {

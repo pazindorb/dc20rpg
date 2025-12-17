@@ -304,6 +304,7 @@ export function getEffectModifiableKeys() {
     "system.details.manaSpendLimit.bonus": "Mana Spend Limit Bonus",
     "system.resources.stamina.bonus": "Stamina - Max Value Bonus",
     "system.resources.stamina.maxFormula" : "Stamina - Calculation Formula",
+    "system.details.staminaSpendLimit.bonus": "Stamina Spend Limit Bonus",
     "system.resources.grit.bonus": "Grit - Max Value Bonus",
     "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",

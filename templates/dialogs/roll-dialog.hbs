@@ -264,17 +264,31 @@
   {{#if item}}
   <fieldset class="expected-cost">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
-    {{#if expectedCost.resources.mana}}
-    <div class="mana-spend-limit margin-left-5 {{#if manaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.manaLimit'}}">
+    {{#ifCond expectedCost.resources.mana '||' expectedCost.resources.stamina}}
+    <div class="spend-limit">
       <i class="fa-solid fa-gauge-max fa-2x margin-right-10"></i>
+
+      {{!-- Mana Spend Limit --}}
+      {{#if expectedCost.resources.mana}}
       <ul class="cost-printer">
-        <li class="cost mana" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.manaLimit"}}">
+        <li class="cost mana {{#if manaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.manaLimit"}}{{#if manaSpendLimit.modified}} {{localize "dc20rpg.dialog.rollDialog.modifiedLimit"}}{{/if}}">
           <b>{{manaSpendLimit.amount}}</b>
           <i class="mp fa-star cost-icon fa-solid"></i>
         </li>
       </ul>
+      {{/if}}
+
+      {{!-- Stamina Spend Limit --}}
+      {{#if expectedCost.resources.stamina}}
+      <ul class="cost-printer">
+        <li class="cost stamina {{#if staminaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.staminaLimit"}}{{#if staminaSpendLimit.modified}} {{localize "dc20rpg.dialog.rollDialog.modifiedLimit"}}{{/if}}">
+          <b>{{staminaSpendLimit.amount}}</b>
+          <i class="sp fa-hand-fist cost-icon fa-solid"></i>
+        </li>
+      </ul>
+      {{/if}}
     </div>
-    {{/if}}
+    {{/ifCond}}
 
     <div style="width: 100%;">
       {{{cost-printer expectedCost true true false false}}}

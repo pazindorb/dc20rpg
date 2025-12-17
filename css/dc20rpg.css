@@ -2820,7 +2820,7 @@
   padding: 5px;
   color: var(--text-color-3);
 }
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit {
+.dc20rpg #roll-prompt .expected-cost .spend-limit {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2830,18 +2830,18 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit .cost-printer {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit .cost-printer b {
   white-space: nowrap;
   text-shadow: none;
   color: var(--text-color);
+  border-right: 2px solid var(--border-color);
 }
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit.exceeds .mana, .dc20rpg #roll-prompt .expected-cost .mana-spend-limit.exceeds .fa-gauge-max {
+.dc20rpg #roll-prompt .expected-cost .spend-limit .cost-printer {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-right: 0;
+}
+.dc20rpg #roll-prompt .expected-cost .spend-limit .cost-printer .exceeds {
   color: var(--dark-red);
 }
 .dc20rpg #roll-prompt .expected-cost .extra-buttons {

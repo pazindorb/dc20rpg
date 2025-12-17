@@ -189,6 +189,10 @@ export class DC20CharacterData extends DC20BaseActorData {
           value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }), 
+        staminaSpendLimit: new f.SchemaField({
+          value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }), 
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         staminaFeature: new f.BooleanField({required: true, initial: false}),

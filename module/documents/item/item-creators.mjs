@@ -49,7 +49,8 @@ export class Enhancement {
       normal: null,
       max: null
     },
-    changeManaSpendLimit: 0
+    changeManaSpendLimit: 0,
+    changeStaminaSpendLimit: 0
   };
 
 

@@ -15,7 +15,7 @@ export function makeCalculations(actor) {
 		_skillPoints(actor);
 		_attributePoints(actor);
 		_spellsAndManeuversKnown(actor);
-		_manaSpendLimit(actor);
+		_spendLimits(actor);
 	}
 	if (actor.type === "companion") {
 		_actionPoints(actor);
@@ -369,10 +369,16 @@ function _deathsDoor(actor) {
 	else death.active = false;
 }
 
-function _manaSpendLimit(actor) {
+function _spendLimits(actor) {
 	const combatMastery = actor.system.details.combatMastery;
+	
+	// Mana
 	const msl = actor.system.details.manaSpendLimit;
 	msl.value = combatMastery + msl.bonus;
+
+	// Stamina
+	const ssl = actor.system.details.staminaSpendLimit;
+	ssl.value = combatMastery + ssl.bonus;
 }
 
 function _basicConditionals(actor) {

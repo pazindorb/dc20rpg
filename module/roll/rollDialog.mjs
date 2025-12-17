@@ -278,6 +278,7 @@ export class RollDialog extends DC20Dialog {
 
       context.expectedCost = this.item.use.useCostDisplayData();
       context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
+      context.staminaSpendLimit = this._getStaminaSpendLimit(context.expectedCost);
       context.rollLabel = `Roll Item: ${this.item.name}`;
 
       context.canSpendGrit = false;
@@ -300,12 +301,14 @@ export class RollDialog extends DC20Dialog {
 
     const mana = expectedCost?.resources?.mana?.amount;
     const msl = manaSpendLimit.value + this._enhancementMslChanges();
-    const amount = msl === manaSpendLimit.value ? msl : `${manaSpendLimit.value} (${msl})`;
+    const amount = msl === manaSpendLimit.value ? msl : `${msl}*`;
+    const modified = msl !== manaSpendLimit.value;
     const exceeds = mana > 0 && mana > msl;
 
     return {
       amount: amount,
-      exceeds: exceeds
+      exceeds: exceeds,
+      modified: modified
     }
   }
 
@@ -314,6 +317,33 @@ export class RollDialog extends DC20Dialog {
     const enhancements = this.item.enhancements.active;
     enhancements.values().forEach(enh => {
       const change = enh.modifications.changeManaSpendLimit || 0;
+      limitChange += change * enh.number;
+    });
+    return limitChange;
+  }
+
+  _getStaminaSpendLimit(expectedCost) {
+    const staminaSpendLimit = this.actor.system.details.staminaSpendLimit;
+    if (!staminaSpendLimit) return {};
+
+    const stamina = expectedCost?.resources?.stamina?.amount;
+    const ssl = staminaSpendLimit.value + this._enhancementSslChanges();
+    const amount = ssl === staminaSpendLimit.value ? ssl : `${ssl}*`;
+    const modified = ssl !== staminaSpendLimit.value;
+    const exceeds = stamina > 0 && stamina > ssl;
+
+    return {
+      amount: amount,
+      exceeds: exceeds,
+      modified: modified
+    }
+  }
+
+  _enhancementSslChanges() {
+    let limitChange = 0;
+    const enhancements = this.item.enhancements.active;
+    enhancements.values().forEach(enh => {
+      const change = enh.modifications.changeStaminaSpendLimit || 0;
       limitChange += change * enh.number;
     });
     return limitChange;
