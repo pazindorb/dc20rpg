@@ -34,7 +34,7 @@ export function preprareSheetData(context, item) {
     _prepareFormulas(context, item);
   }
   if (item.type === "weapon") {
-    let propertyCost = item.system.weaponType === "ranged" ? 2 : 0;
+    let propertyCost = item.system.weaponType === "ranged" ? 1 : 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
       if (prop.active) propertyCost += prop.cost;
     })

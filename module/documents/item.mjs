@@ -353,6 +353,10 @@ export class DC20RpgItem extends Item {
       if (this.system.properties?.cumbersome?.active) {
         if (!this.actor.resources.ap.checkAndSpend(1)) return;
       }
+      // Reload: Weapon gets unloaded when you take it of
+      if (this.system.properties?.reload?.active && newState === false) {
+        await this.reloadable.unload();
+      }
       // Update equipped stataus
       await this.update({["system.statuses.equipped"]: newState});
     }

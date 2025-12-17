@@ -206,14 +206,13 @@ function _equipment(items, actor) {
 		lackArmorTraining: false,
 		lackShieldTraining: false,
 	}
-	items.forEach(item => _armorData(item, collectedData, actor));
+	items.forEach(item => _armorData(item, collectedData));
 	_implementEquipmentData(actor, collectedData);
 }
 
-function _armorData(item, data, actor) {
+function _armorData(item, data) {
 	if (!item.system.statuses.equipped) return data;
 
-	const combatTraining = actor.system.combatTraining;
 	const properties = item.system.properties;
 	const equipmentType = item.system.equipmentType;
 

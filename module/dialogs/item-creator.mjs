@@ -165,7 +165,7 @@ export class ItemCreatorDialog extends DC20Dialog {
 
   _updateBlueprintOnTypeChange(itemSubtype) {
     // Base property points to spend
-    if (itemSubtype === "ranged") this.propertyPoints = 0 + this.bonusPoints;
+    if (itemSubtype === "ranged") this.propertyPoints = 1 + this.bonusPoints;
     else this.propertyPoints = 2 + this.bonusPoints;
 
     // Prepare default range of that weapon
@@ -192,6 +192,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "";
     if (["melee", "ranged", "lshield", "hshield"].includes(subType)) {
       this.blueprint.system.costs.resources.ap = 1;
+      this.blueprint.system.statuses.slotLink.predefined = "weapon";
     }
     if (["lshield", "hshield"].includes(subType)) {
       this.blueprint.system.actionType = "attack";

@@ -959,7 +959,7 @@ DC20RPG.PROPERTIES = {
   },
   impact: {
     label: "dc20rpg.properties.impact",
-    for: ["melee"],
+    for: ["melee", "ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY"
   },
@@ -971,7 +971,7 @@ DC20RPG.PROPERTIES = {
   },
   multiFaceted: {
     label: "dc20rpg.properties.multiFaceted",
-    for: ["melee"],
+    for: ["melee", "ranged"],
     cost: 1,
     selected: "first",
     weaponStyle: {

@@ -529,6 +529,10 @@ async function _unequipSlot(slot, actor) {
   if (item.system.properties?.cumbersome?.active) {
     if (!actor.resources.ap.checkAndSpend(1)) return;
   }
+  // Reload: Weapon gets unloaded when you take it of
+  if (item.system.properties?.reload?.active) {
+    await item.reloadable.unload();
+  }
 
   const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
   await actor.update({

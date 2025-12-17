@@ -33,7 +33,7 @@
     "properties": {
       "attunement": {
         "active": false,
-        "label": "dc20rpg.properties.attunement",
+        "label": "Attunement",
         "journalUuid": "",
         "for": [
           "melee",
@@ -48,16 +48,17 @@
       },
       "ammo": {
         "active": false,
-        "label": "dc20rpg.properties.ammo",
+        "label": "Ammo",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh",
         "for": [
           "ranged"
         ],
-        "cost": 0
+        "cost": 0,
+        "ammoId": ""
       },
       "concealable": {
         "active": true,
-        "label": "dc20rpg.properties.concealable",
+        "label": "Concealable",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J",
         "for": [
           "melee"
@@ -66,7 +67,7 @@
       },
       "guard": {
         "active": false,
-        "label": "dc20rpg.properties.guard",
+        "label": "Guard",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
         "for": [
           "melee"
@@ -75,7 +76,7 @@
       },
       "heavy": {
         "active": false,
-        "label": "dc20rpg.properties.heavy",
+        "label": "Heavy",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY",
         "for": [
           "melee",
@@ -85,7 +86,7 @@
       },
       "impact": {
         "active": false,
-        "label": "dc20rpg.properties.impact",
+        "label": "Impact",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY",
         "for": [
           "melee"
@@ -94,7 +95,7 @@
       },
       "longRanged": {
         "active": false,
-        "label": "dc20rpg.properties.longRanged",
+        "label": "Long-Ranged",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW",
         "for": [
           "ranged"
@@ -113,7 +114,7 @@
           "first": "",
           "second": ""
         },
-        "label": "dc20rpg.properties.multiFaceted",
+        "label": "Multi-Faceted",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
         "for": [
           "melee"
@@ -123,7 +124,7 @@
       "reach": {
         "active": false,
         "value": 1,
-        "label": "dc20rpg.properties.reach",
+        "label": "Reach",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
         "for": [
           "melee"
@@ -133,16 +134,17 @@
       "reload": {
         "active": false,
         "value": 1,
-        "label": "dc20rpg.properties.reload",
+        "label": "Reload",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv",
         "for": [
           "ranged"
         ],
-        "cost": 0
+        "cost": -1,
+        "loaded": true
       },
       "silent": {
         "active": false,
-        "label": "dc20rpg.properties.silent",
+        "label": "Silent",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa",
         "for": [
           "ranged"
@@ -151,7 +153,7 @@
       },
       "toss": {
         "active": true,
-        "label": "dc20rpg.properties.toss",
+        "label": "Toss",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
         "for": [
           "melee",
@@ -161,7 +163,7 @@
       },
       "thrown": {
         "active": false,
-        "label": "dc20rpg.properties.thrown",
+        "label": "Thrown",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK",
         "for": [
           "melee"
@@ -170,7 +172,7 @@
       },
       "twoHanded": {
         "active": false,
-        "label": "dc20rpg.properties.twoHanded",
+        "label": "Two-Handed",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy",
         "for": [
           "melee",
@@ -180,17 +182,16 @@
       },
       "unwieldy": {
         "active": false,
-        "label": "dc20rpg.properties.unwieldy",
+        "label": "Unwieldy",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w",
         "for": [
-          "melee",
-          "ranged"
+          "melee"
         ],
         "cost": -1
       },
       "versatile": {
         "active": false,
-        "label": "dc20rpg.properties.versatile",
+        "label": "Versatile",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich",
         "for": [
           "melee"
@@ -199,7 +200,7 @@
       },
       "returning": {
         "active": false,
-        "label": "dc20rpg.properties.returning",
+        "label": "Returning",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog",
         "for": [
           "melee"
@@ -214,6 +215,12 @@
           "melee"
         ],
         "cost": 1
+      },
+      "cumbersome": {
+        "label": "Cumbersome"
+      },
+      "deft": {
+        "label": "Deft"
       }
     },
     "isReaction": false,
@@ -313,7 +320,7 @@
     "secondWeaponStyle": "axe"
   },
   "effects": [],
-  "sort": 0,
+  "sort": 200000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
@@ -324,9 +331,9 @@
     "duplicateSource": "Item.8IfvMwc3iEGuS3OW",
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1719920384377,
-    "modifiedTime": 1761242888949,
+    "modifiedTime": 1765972826397,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

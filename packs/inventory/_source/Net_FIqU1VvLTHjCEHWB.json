@@ -1,41 +1,63 @@
 {
-  "name": "Heater Shield",
+  "name": "Net",
   "type": "equipment",
-  "img": "icons/equipment/shield/heater-steel-boss-red.webp",
+  "img": "icons/tools/fishing/net-simple-tan.webp",
   "system": {
     "itemKey": "",
-    "description": "",
+    "description": "<p>You can throw the Net.</p><p>Make a <strong>Martial Check</strong> contested by the target’s <strong>Physical Save</strong>. The Net has no effect on creatures that are formless, smaller than Small, or larger than Large.</p><p><strong>Save Failure:</strong> The target is Immobilized by the Net until it’s freed.</p><p><strong>Save Failure (5):</strong> The target is also Restrained until it’s freed.</p><p>Forced movement doesn't free the target, but teleportation does.</p><p>A creature can spend <strong>1 AP</strong> to make a <strong>DC 10 Athletics</strong> or <strong>Acrobatics</strong> Check.</p><p><strong>Success:</strong> It can free itself or another creature within its reach.</p>",
+    "shortInfo": "",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
     "requirements": {
-      "level": 1,
+      "level": 0,
       "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
+    "inventory": true,
     "quantity": 1,
+    "lootRoll": 1,
+    "stackable": false,
     "weight": 0,
     "price": {
       "value": 0,
       "currency": "gp"
     },
+    "infusions": {},
+    "infusionCostReduction": 0,
+    "magicPower": null,
     "rarity": "",
     "statuses": {
       "attuned": false,
       "equipped": false,
-      "identified": true,
       "slotLink": {
+        "category": "",
+        "key": "",
         "predefined": "weapon"
-      }
+      },
+      "identified": true
     },
     "properties": {
       "attunement": {
-        "active": false,
-        "slotCost": 0,
         "label": "dc20rpg.properties.attunement",
-        "journalUuid": "",
         "for": [
           "melee",
           "ranged",
@@ -45,104 +67,96 @@
           "heavy",
           "other"
         ],
-        "cost": 0
-      },
-      "adIncrease": {
-        "active": true,
-        "value": 1,
-        "label": "dc20rpg.properties.adIncrease",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
-        "for": [
-          "lshield",
-          "hshield",
-          "light",
-          "heavy"
-        ],
-        "cost": 1,
-        "valueCostMultiplier": true
-      },
-      "pdIncrease": {
-        "active": true,
-        "value": 1,
-        "label": "dc20rpg.properties.pdIncrease",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
-        "for": [
-          "lshield",
-          "hshield",
-          "light",
-          "heavy"
-        ],
-        "cost": 1,
-        "valueCostMultiplier": true
-      },
-      "edr": {
-        "active": false,
-        "label": "dc20rpg.properties.edr",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
-        "for": [
-          "hshield",
-          "light",
-          "heavy"
-        ],
-        "cost": 2
-      },
-      "pdr": {
-        "active": false,
-        "label": "dc20rpg.properties.pdr",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
-        "for": [
-          "hshield",
-          "heavy"
-        ],
-        "cost": 2
-      },
-      "bulky": {
-        "active": false,
-        "label": "dc20rpg.properties.bulky",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
-        "for": [
-          "hshield",
-          "heavy"
-        ],
-        "cost": -1
-      },
-      "rigid": {
-        "active": false,
-        "label": "dc20rpg.properties.rigid",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
-        "for": [
-          "hshield",
-          "heavy"
-        ],
-        "cost": -1
-      },
-      "grasp": {
-        "active": false,
-        "label": "dc20rpg.properties.grasp",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE",
-        "for": [
-          "lshield"
-        ],
-        "cost": 1
+        "cost": 0,
+        "journalUuid": ""
       },
       "toss": {
-        "active": false,
         "label": "dc20rpg.properties.toss",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
         "for": [
           "melee",
           "lshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6"
+      },
+      "adIncrease": {
+        "label": "dc20rpg.properties.adIncrease",
+        "for": [
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ],
+        "cost": 1,
+        "value": 1,
+        "valueCostMultiplier": true,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp"
+      },
+      "pdIncrease": {
+        "label": "dc20rpg.properties.pdIncrease",
+        "for": [
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ],
+        "cost": 1,
+        "value": 1,
+        "valueCostMultiplier": true,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf"
+      },
+      "edr": {
+        "label": "dc20rpg.properties.edr",
+        "for": [
+          "hshield",
+          "light",
+          "heavy"
+        ],
+        "cost": 2,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk"
+      },
+      "pdr": {
+        "label": "dc20rpg.properties.pdr",
+        "for": [
+          "hshield",
+          "heavy"
+        ],
+        "cost": 2,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB"
+      },
+      "bulky": {
+        "label": "dc20rpg.properties.bulky",
+        "for": [
+          "hshield",
+          "heavy"
+        ],
+        "cost": -1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR"
+      },
+      "rigid": {
+        "label": "dc20rpg.properties.rigid",
+        "for": [
+          "hshield",
+          "heavy"
+        ],
+        "cost": -1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo"
+      },
+      "grasp": {
+        "label": "dc20rpg.properties.grasp",
+        "for": [
+          "lshield"
+        ],
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE"
       },
       "mounted": {
-        "active": false,
         "label": "dc20rpg.properties.mounted",
-        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
         "for": [
           "hshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
       }
     },
     "effectsConfig": {
@@ -153,18 +167,19 @@
       "addToTemplates": "",
       "mustEquip": true
     },
+    "usable": true,
     "isReaction": false,
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "attack",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -179,17 +194,19 @@
         "crit": false,
         "conditionals": false
       },
-      "formulaMod": ""
+      "ignoreCloseQuarters": false,
+      "formulaMod": "",
+      "customModifier": ""
     },
     "check": {
       "canCrit": false,
-      "checkKey": "att",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -204,13 +221,13 @@
     "costs": {
       "resources": {
         "actionPoint": null,
+        "ap": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
-        "custom": {},
-        "ap": 1
+        "custom": {}
       },
       "charges": {
         "current": null,
@@ -222,12 +239,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -239,21 +252,44 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
-    "formulas": {
-      "83vgJTTzFMMP7Mnf": {
-        "formula": "1",
-        "type": "bludgeoning",
-        "category": "damage",
-        "fail": false,
-        "failFormula": "",
-        "each5": false,
-        "each5Formula": "",
-        "dontMerge": false,
-        "overrideDefence": ""
+    "againstStatuses": {
+      "JyJrUqEck0iLVQZ5": {
+        "id": "immobilized",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      },
+      "siUcia8pcuM5cc8X": {
+        "id": "restrained",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
       }
     },
+    "rollRequests": {
+      "UvyEMrG9u83mmN0E": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "formulas": {},
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
@@ -315,20 +351,20 @@
         "formula": "",
         "type": "",
         "category": "damage",
-        "dontMerge": false
+        "dontMerge": false,
+        "overrideDefence": ""
       }
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
-        "mustChoose": false,
-        "pointAmount": 1,
-        "level": 0,
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
         "applied": false,
-        "talent": false,
+        "additionalAdvancement": false,
         "repeatable": false,
         "repeatAt": [
           0,
@@ -353,35 +389,45 @@
           0,
           0
         ],
+        "progressPath": false,
+        "mustChoose": false,
+        "pointAmount": 1,
         "allowToAddItems": false,
-        "additionalAdvancement": true,
-        "compendium": "",
-        "preFilters": "",
-        "tip": "",
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "talentFilter": false,
+          "ancestryFilter": false,
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
         "items": {}
       }
     },
-    "equipmentType": "lshield"
+    "tip": "",
+    "combatTraining": false,
+    "equipmentType": "other"
   },
   "effects": [],
-  "folder": "Hq3Lomj82fS00ldp",
+  "folder": "zfQ1f4wBWybh2VbK",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
-    "createdTime": 1744926288444,
-    "modifiedTime": 1765979102212,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1765979102192,
+    "modifiedTime": 1765979126661,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "jKs5vGUHMUUEH0oD",
-  "sort": 500000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!jKs5vGUHMUUEH0oD"
+  "_id": "FIqU1VvLTHjCEHWB",
+  "sort": 200000,
+  "_key": "!items!FIqU1VvLTHjCEHWB"
 }
