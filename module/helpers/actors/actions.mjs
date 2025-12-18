@@ -88,7 +88,20 @@ export async function makeMoveAction(actor, options={}) {
   
   let movePoints = options.movePoints;
   if (!movePoints) {
-    const moveKey = options.moveType || "ground";
+    let moveKey = options.moveType;
+    if (!moveKey) {
+      if (actor.hasOtherMoveOptions) {
+        moveKey = await SimplePopup.open("input", {
+          header: game.i18n.localize("dc20rpg.dialog.movementType.title"),
+          inputs: [{
+            type: "select",
+            options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,
+            preselected: "ground"
+          }]
+        });
+      }
+      else moveKey = "ground";
+    }
     movePoints = actor.system.movement[moveKey].current;
   }
 

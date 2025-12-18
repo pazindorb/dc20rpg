@@ -485,7 +485,7 @@ export function registerHandlebarsCreators() {
         case "contest": component += _contest([mods.rollRequest]); break;
       }
     }
-    if (mods.hasAdditionalFormula) {
+    if (mods.hasAdditionalFormula && !mods.specificFormulaKey) { // TODO: Rework this tooltip generation
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       let char = mods.additionalFormula.replace(" ", "");
       if (!(char.includes("+") || char.includes("-"))) char = `+${char}`;

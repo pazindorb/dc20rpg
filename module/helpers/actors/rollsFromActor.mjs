@@ -393,7 +393,7 @@ async function _prepareFormulaRolls(item, actor, evalData) {
 
     for (const [key, formula] of Object.entries(formulas)) {
       const clearRollFromula = formula.formula; // formula without any modifications
-      const modified = await _modifiedRollFormula(formula, actor, enhancements, evalData, item); // formula with all enhancements applied
+      const modified = await _modifiedRollFormula(formula, key, actor, enhancements, evalData); // formula with all enhancements applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -495,7 +495,7 @@ function _fillCommonRollProperties(roll, commonData) {
   };
 }
 
-async function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
+async function _modifiedRollFormula(formula, key, actor, enhancements, evalData) {
   let rollFormula = formula.formula;
   let failFormula = formula.fail ? formula.failFormula : null;
   let modifierSources = formula.enhName || "Base Value";
@@ -505,6 +505,8 @@ async function _modifiedRollFormula(formula, actor, enhancements, evalData, item
     enhancements.values().forEach(enh => {
       const enhMod = enh.modifications;
       if (enhMod.hasAdditionalFormula && enhMod.additionalFormula) {
+        if (enhMod.specificFormulaKey && enhMod.specificFormulaKey !== key) return;
+
         for (let i = 0; i < enh.number; i++) {
           const additional = (enhMod.additionalFormula.includes("+") || enhMod.additionalFormula.includes("-")) ? enhMod.additionalFormula : ` + ${enhMod.additionalFormula}`
           rollFormula += additional;
@@ -595,7 +597,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     againstStatuses: _prepareAgainstStatuses(item),
     rollRequests: _prepareRollRequests(item),
     sustain: actor.shouldSustain(item),
-    applicableEffects: _prepareEffectsFromItems(item, item.system.effectsConfig?.addToChat) // addToChat left for BACKWARD COMPATIBILITY - remove in the future
+    applicableEffects: _prepareEffectsFromItems(item)
   };
 
   if (actionType === "attack") {
@@ -694,10 +696,10 @@ function _prepareEffectsFromItems(item, forceAddToChat) {
         const requireEnhancement = effect.system.requireEnhancement;
         if (requireEnhancement) {
           const number = item.allEnhancements.get(requireEnhancement)?.number
-          if (number > 0) effects.push(effect.toObject());
+          if (number > 0) effects.push(effect.toObject(false));
         }
         else {
-          effects.push(effect.toObject());
+          effects.push(effect.toObject(false));
         }
       }
     });

@@ -11,7 +11,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
     if (target && roll.perTarget) {
       if (target.rollOutcome) {
         const rollOutcome = target.rollOutcome;
-        const otherRoll = _degreeOfSuccess(winningRoll._total, data.isCritMiss, rollOutcome.total, roll, true);
+        const otherRoll = _degreeOfSuccess(rollOutcome.against, data.isCritMiss, rollOutcome.total, roll, true);
         target.other.push(otherRoll);
       }
     }

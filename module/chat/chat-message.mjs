@@ -697,11 +697,13 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.success = true;
       rollOutcome.label = "Critical Success";
       rollOutcome.total = roll._total;
+      rollOutcome.against = details.against;
     }
     else if (roll.fail) {
       rollOutcome.success = false;
       rollOutcome.label = "Critical Fail";
       rollOutcome.total = roll._total;
+      rollOutcome.against = details.against;
     }
     else {
       const rollTotal = roll._total;
@@ -709,6 +711,7 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.success = rollSuccess;
       rollOutcome.label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
       rollOutcome.total = rollTotal;
+      rollOutcome.against = details.against;
     }
     this.rollOutcomeStore.set(target.id, rollOutcome);
     ui.chat.updateMessage(this);

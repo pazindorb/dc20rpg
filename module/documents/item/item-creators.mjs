@@ -25,6 +25,7 @@ export class Enhancement {
     targetDefenceType: "area",
     hasAdditionalFormula: false,
     additionalFormula: "",
+    specificFormulaKey: "",
     overrideDamageType: false,
     damageType: "",
     addsNewFormula: false,

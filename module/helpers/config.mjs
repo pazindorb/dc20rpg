@@ -1240,6 +1240,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems = {
   grapple: "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
   shove: "Compendium.dc20rpg.system-items.Item.QDPNjfb8u5Jn3XPL",
   tackle: "Compendium.dc20rpg.system-items.Item.IolKDTVBEKdYMiGQ",
+  throw: "Compendium.dc20rpg.system-items.Item.stkxBrB4D0xrUPuc",
   disengage: "Compendium.dc20rpg.system-items.Item.ZK9sD2F2Sq7Jt3Kz",
   fullDisengage: "Compendium.dc20rpg.system-items.Item.KyNqnZf5DBLasmon",
   dodge: "Compendium.dc20rpg.system-items.Item.Y6oevdLqA31GPcbt",
@@ -1261,6 +1262,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems = {
   mountedDefence: "Compendium.dc20rpg.system-items.Item.1KXLpI788cdgbe4O",
   passThrough: "Compendium.dc20rpg.system-items.Item.9KgyzSQbC5xbOwZ4",
   search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
+  taunt: "Compendium.dc20rpg.system-items.Item.mvAPxXcDZlQzjamb",
   attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
   sustain: "Compendium.dc20rpg.system-items.Item.BWX0CWhJE1S1PY9x"

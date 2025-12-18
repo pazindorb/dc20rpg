@@ -20,6 +20,7 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
           cha: new f.ArrayField(new f.StringField(), {required: true}),
           att: new f.ArrayField(new f.StringField(), {required: true}),
           spe: new f.ArrayField(new f.StringField(), {required: true}),
+          mar: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         saves: new f.SchemaField({
           mig: new f.ArrayField(new f.StringField(), {required: true}),
@@ -48,6 +49,7 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
           cha: new f.ArrayField(new f.StringField(), {required: true}),
           att: new f.ArrayField(new f.StringField(), {required: true}),
           spe: new f.ArrayField(new f.StringField(), {required: true}),
+          mar: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         saves: new f.SchemaField({
           mig: new f.ArrayField(new f.StringField(), {required: true}),
