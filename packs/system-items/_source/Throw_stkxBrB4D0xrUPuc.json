@@ -1,0 +1,279 @@
+{
+  "type": "basicAction",
+  "name": "Throw",
+  "img": "icons/svg/acid.svg",
+  "system": {
+    "itemKey": "",
+    "description": "<p>You can spend <strong>1 AP</strong> to throw an object or a creature you have Grappled.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Object</span></strong></span></p><p>The target is thrown up to a number of Spaces away as shown in the Throwing Table. For the purposes of throwing, your minimum Might is 1. The total distance thrown is halved if thrown vertically.</p><p><strong>Throw at a Target:</strong> When you throw an object at a target it’s considered a Ranged Martial Attack with an Improvised Weapon against the target’s PD.</p><ul><li><p><strong>Hit:</strong> The target takes 1 damage of a type determined by the GM.</p></li><li><p><strong>Miss:</strong> The thrown object continues traveling up to your maximum throwing distance.</p></li></ul><p><em><strong>DC Tip:</strong> When you throw Weapons (including an Improvised Weapon) that lack the Toss or Thrown Properties as part of an Attack, you make the Attack with DisADV.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Creature</span></strong></span></p><p>Make an Athletics Check against the target’s Might Save.</p><ul><li><p><strong>Check Success:</strong> The target is thrown up to a number of Spaces away as shown in the Throwing Table (ending the Grapple).</p></li></ul><p>For the purposes of throwing, your minimum Might is 1. The total distance thrown is halved if thrown vertically upward.</p><p><strong>Throw at a Target:</strong> When you throw the creature at a target, you compare your Athletics Check against the target’s PD.</p><ul><li><p><strong>Hit:</strong> The thrown creature and the target share the Collision damage (each take half).</p></li><li><p><strong>Miss:</strong> The thrown creature continues traveling to your maximum throwing distance.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Throwing Table</span></strong></span></p><table><tbody><tr><td><p><strong>Size</strong></p></td><td><p><strong>Spaces Thrown</strong></p></td></tr><tr><td><p>2+ Sizes smaller</p></td><td><p>2 x Might</p></td></tr><tr><td><p>1 Size smaller</p></td><td><p>Might</p></td></tr><tr><td><p>Same Size</p></td><td><p>1/2 Might</p></td></tr><tr><td><p>Larger</p></td><td><p>Impossible</p></td></tr></tbody></table><p><em><strong>Example:</strong> A Medium sized creature with a Might of 0 (minimum Might of 1) could throw a Tiny object up to 2 Spaces, a Small object 1 Space, and Medium object 1 Space (rounded up from 0.5). Conversely, if that creature had a Might of 6, they could throw a Tiny object 12 Spaces, a Small object 6 Spaces, and a Medium object 3 Spaces.</em></p><p></p><p><em><strong>System Info:</strong> In the DC20 system, throwing is not a basic action and has its own section in the rules. For automation purposes, I added it to the actions.</em></p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": true,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": "",
+      "customModifier": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "ath",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": false,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {
+      "KUYd44pkNM8LE2gE": {
+        "category": "contest",
+        "saveKey": "mig",
+        "contestedKey": "mig",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "pointAmount": 1,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "talentFilter": false,
+          "ancestryFilter": false,
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "category": "offensive",
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    }
+  },
+  "effects": [],
+  "folder": "4kuxWHZSmuNdlmkW",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1766085911095,
+    "modifiedTime": 1766085967714,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "stkxBrB4D0xrUPuc",
+  "sort": 0,
+  "_key": "!items!stkxBrB4D0xrUPuc"
+}
