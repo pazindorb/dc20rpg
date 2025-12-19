@@ -7,16 +7,9 @@ export function duplicateItemData(context, item) {
   context.system = item.system;
   context.flags = item.flags;
 
-  context.itemsWithChargesIds = {};
-  context.consumableItemsIds = {};
   context.hasOwner = false;
   let actor = item.actor ?? null;
-  if (actor) {
-    context.hasOwner = true;
-    const itemIds = actor.getOwnedItemsIds(item.id);
-    context.itemsWithChargesIds = itemIds.withCharges;
-    context.consumableItemsIds = itemIds.consumable;
-  }
+  if (actor) context.hasOwner = true;
 }
 
 export function prepareItemData(context, item) {
@@ -29,7 +22,7 @@ export function preprareSheetData(context, item) {
   context.sheetData = {};
   _prepareTypesAndSubtypes(context, item);
   _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "consumable", "feature", "maneuver", "spell", "infusion", "basicAction"].includes(item.type)) {
+  if (["weapon", "equipment", "spellFocus", "consumable", "feature", "maneuver", "spell", "infusion", "basicAction"].includes(item.type)) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
@@ -40,7 +33,7 @@ export function preprareSheetData(context, item) {
     })
     context.propertyCost = propertyCost;
   }
-  if (item.type === "equipment") {
+  if (item.type === "equipment" || item.type === "spellFocus") {
     let propertyCost = 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
       const propValue = prop.value || 1;
@@ -214,6 +207,10 @@ function _prepareTypesAndSubtypes(context, item) {
       context.sheetData.type = getLabelFromKey(item.system.equipmentType, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes);
       context.sheetData.subtype = getLabelFromKey(item.system.statuses.slotLink.predefined, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots) || "?";
       break;
+    }
+    case "spellFocus": {
+      context.sheetData.type = "CUJ DSUP";
+      context.sheetData.subtype = game.i18n.localize("TYPES.Item.spellFocus");
     }
     case "consumable": {
       context.sheetData.type = getLabelFromKey(item.system.consumableType, CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes);

@@ -7,8 +7,8 @@ export function makeCalculations(item) {
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
   if (item.system.infusions) _calculateMagicPower(item);
-  if (item.type === "weapon") _combatTraining(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
+  _combatTraining(item);
 }
 
 // TODO: Rework this shit

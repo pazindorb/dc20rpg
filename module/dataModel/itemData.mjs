@@ -197,6 +197,17 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
   }
 }
 
+export class DC20SpellFocusData extends DC20ItemUsableMergeData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      combatTraining: new f.BooleanField({required: true, initial: false}),
+      properties: new PropertyFields("spellFocus")
+    })
+  }
+}
+
 export class DC20EquipmentData extends DC20ItemUsableMergeData {
   static defineSchema() {
     const f = foundry.data.fields;

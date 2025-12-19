@@ -86,6 +86,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.dataModels.storage = DC20StorageData;
   CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
+  CONFIG.Item.dataModels.spellFocus = itemDM.DC20SpellFocusData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;

@@ -361,31 +361,6 @@ export class DC20RpgActor extends Actor {
     return options;
   }
 
-  /**
-   * Returns object containing items owned by actor that have charges or are consumable.
-   */
-  getOwnedItemsIds(excludedId) {
-    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot"];
-
-    const itemsWithCharges = {};
-    const consumableItems = {};
-    const weapons = {};
-    const items = this.items;
-    items.forEach(item => {
-      if (item.id !== excludedId && !excludedTypes.includes(item.type)) {
-        const maxChargesFormula = item.system.costs?.charges?.maxChargesFormula;
-        if (maxChargesFormula) itemsWithCharges[item.id] = item.name; 
-        if (item.type === "consumable") consumableItems[item.id] = item.name;
-        if (item.type === "weapon") weapons[item.id] = item.name;
-      }
-    });
-    return {
-      withCharges: itemsWithCharges,
-      consumable: consumableItems,
-      weapons: weapons
-    }
-  }
-
   hasStatus(statusId) {
     return this.statusIds.has(statusId);
   }

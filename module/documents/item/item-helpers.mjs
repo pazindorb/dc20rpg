@@ -826,7 +826,7 @@ function _enrichItemInfusions(item) {
 //==================================
 async function _applyInfusion(infusionItem, item, infuserUuid) {
   if (!infusionItem) return false;
-  if (!["weapon", "equipment", "consumable"].includes(item.type)) {
+  if (!["weapon", "equipment", "spellFocus", "consumable"].includes(item.type)) {
     ui.notifications.warn("Only inventory items can be infused.");
     return false;
   }

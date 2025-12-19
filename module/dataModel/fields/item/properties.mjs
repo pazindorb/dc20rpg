@@ -12,6 +12,7 @@ function _preparePropertiesFor(itemType, fields) {
   let acceptedTypes = ["other"];
   if (itemType === "weapon") acceptedTypes = ["melee", "ranged"];
   if (itemType === "equipment") acceptedTypes = ["lshield", "hshield", "light", "heavy"];
+  if (itemType === "spellFocus") acceptedTypes = ["spellFocus"]
 
   const entries = Object.entries(CONFIG.DC20RPG.PROPERTIES)
   entries.forEach(([key, prop]) => {

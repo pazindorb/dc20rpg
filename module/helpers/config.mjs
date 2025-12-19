@@ -642,6 +642,7 @@ DC20RPG.DROPDOWN_DATA.healingTypes = {
 DC20RPG.DROPDOWN_DATA.inventoryTypes = {
   weapon: "Weapon",
   equipment: "Equipment",
+  spellFocus: "Spell Focus",
   consumable: "Consumable",
   container: "Container",
   loot: "Loot"
@@ -916,7 +917,7 @@ DC20RPG.DROPDOWN_DATA.helpDiceDuration = {
 DC20RPG.PROPERTIES = {
   attunement: {
     label: "dc20rpg.properties.attunement",
-    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other"],
+    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other", "spellFocus"],
     cost: 0,
     journalUuid: ""
   },
@@ -1094,6 +1095,73 @@ DC20RPG.PROPERTIES = {
     for: ["hshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
+  },
+
+  channeling: {
+    label: "dc20rpg.properties.channeling",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  closeQuarters: {
+    label: "dc20rpg.properties.closeQuarters",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  longRangedSF: {
+    label: "dc20rpg.properties.longRangedSF",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  muffled: {
+    label: "dc20rpg.properties.muffled",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  powerful: {
+    label: "dc20rpg.properties.powerful",
+    for: ["spellFocus"],
+    cost: 2,
+    journalUuid: ""
+  },
+  protective: {
+    label: "dc20rpg.properties.protective",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  reachSF: {
+    label: "dc20rpg.properties.reachSF",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  reactive: {
+    label: "dc20rpg.properties.reactive",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  twoHandedSF: {
+    label: "dc20rpg.properties.twoHandedSF",
+    for: ["spellFocus"],
+    cost: -1,
+    journalUuid: ""
+  },
+  vicious: {
+    label: "dc20rpg.properties.vicious",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  warded: {
+    label: "dc20rpg.properties.warded",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
   },
 }
 
