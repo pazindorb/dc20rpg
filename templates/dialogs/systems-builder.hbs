@@ -18,7 +18,7 @@
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.afterRoll"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.afterRoll"}}</span>
       <select class="selectable" data-path="fields.afterRoll.value">
         {{selectOptions fields.afterRoll.selectOptions selected=fields.afterRoll.value}}
       </select>
@@ -26,47 +26,51 @@
   {{/ifCond}}
 
   {{!-- Roll Level --}}
-  {{#ifCond type '===' "rollLevel"}}
+  {{#ifCond type '===' "dynamicRollModifier"}}
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.type"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.type"}}</span>
       <select class="selectable" data-path="fields.type.value">
         {{selectOptions fields.type.selectOptions selected=fields.type.value}}
       </select>
     </div>
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.value"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.value"}}</span>
       <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
     </div>
     <div class="row margin-top-5 ignore-symetry">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.autoCrit"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.autoCrit"}}</span>
       <a class="activable fa-2x {{#if fields.autoCrit.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.autoCrit.value"></a>
     </div>
     <div class="row margin-top-5 ignore-symetry">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.autoFail"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.autoFail"}}</span>
       <a class="activable fa-2x {{#if fields.autoFail.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.autoFail.value"></a>
     </div>
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.label"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.modifier"}}</span>
+      <input class="input" data-path="fields.modifier.value" value="{{fields.modifier.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.label"}}</span>
       <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
     </div>
     {{#if specificSkill}}
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.skill"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.skill"}}</span>
       <input class="input" data-path="fields.skill.value" value="{{fields.skill.value}}"/>
     </div>
     {{/if}}
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.applyOnlyForId"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.applyOnlyForId"}}</span>
       <select class="selectable" data-path="fields.applyOnlyForId.value">
         {{selectOptions fields.applyOnlyForId.selectOptions selected=fields.applyOnlyForId.value}}
       </select>
     </div>
     <div class="row margin-top-5 ignore-symetry">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.confirmation"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.confirmation"}}</span>
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
     <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.afterRoll"}}</span>
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.afterRoll"}}</span>
       <select class="selectable" data-path="fields.afterRoll.value">
         {{selectOptions fields.afterRoll.selectOptions selected=fields.afterRoll.value}}
       </select>

@@ -150,7 +150,6 @@ function _onRollTemplateSelect(selected, item) {
     dcCalculation: "spell",
     dc: 0,
     addMasteryToDC: true,
-    respectSizeRules: false,
   };
   const contestRequest = {
     category: "contest",
@@ -159,7 +158,6 @@ function _onRollTemplateSelect(selected, item) {
     dcCalculation: "spell",
     dc: 0,
     addMasteryToDC: true,
-    respectSizeRules: false,
   };
 
   // Set action type

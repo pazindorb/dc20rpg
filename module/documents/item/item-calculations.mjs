@@ -1,7 +1,7 @@
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(item) {
-  if (item.system.attackFormula) _calculateRollModifier(item);
+  // if (item.system.attackFormula) _calculateRollModifier(item);
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
@@ -22,7 +22,7 @@ function _calculateRollModifier(item) {
   }
   else if (attackFormula.checkType === "attack") {
     if (attackFormula.combatMastery) formulaModifier += " + @attack";
-    else formulaModifier += " + @attackNoCM";
+    else formulaModifier += " + @attackNoCM"; // TODO: Remove as we always add combat mastery now
   }
   else if (attackFormula.checkType === "spell") formulaModifier += " + @spell";
 

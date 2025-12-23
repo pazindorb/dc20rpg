@@ -141,7 +141,7 @@ export class ActorRequestDialog extends DC20Dialog {
     const rOpt = this.rollOptions;
     const options = {
       sendToActorOwners: true, 
-      startingRollMenuValues: this._startingRollLevel()
+      initialRollMenuValues: this._initialRollLevel()
     }
     if (rOpt.rollMode) options.rollMode = rOpt.rollMode;
     if (rOpt.rollDC) options.against = rOpt.rollDC;
@@ -167,32 +167,9 @@ export class ActorRequestDialog extends DC20Dialog {
     }
   }
 
-  _startingRollLevel() {
+  _initialRollLevel() {
     const rollLevel = this.rollOptions.rollLevel;
-    const genesis = [];
-    if (rollLevel.adv > 0) {
-      genesis.push({
-        autoCrit: false,
-        autoFail: false,
-        label: "GM Modification",
-        sourceName: "GM",
-        type: "adv",
-        value: rollLevel.adv
-      });
-    }
-
-    if (rollLevel.dis > 0) {
-      genesis.push({
-        autoCrit: false,
-        autoFail: false,
-        label: "GM Modification",
-        sourceName: "GM",
-        type: "dis",
-        value: rollLevel.dis
-      });
-    }
-    return [rollLevel, genesis];
-
+    return {adv: rollLevel.adv, dis: rollLevel.dis};
   }
 
   async _onRest(key) {

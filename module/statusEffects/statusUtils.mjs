@@ -42,7 +42,7 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     effect.description += extras.mergeDescription;
   }
   if (extras.untilFirstTimeTriggered) {
-    changes.forEach(change => _enhnanceRollLevel(change));
+    changes.forEach(change => _enhnanceDynamicRollModifier(change));
     changes.push(_newEvent("targetConfirm", effect.name, extras.actorId)); 
   }
   if (extras.untilTargetNextTurnStart) {
@@ -134,8 +134,8 @@ function _repeatedSave(label, checkKey, against, statusId) {
   }
 }
 
-function _enhnanceRollLevel(change) {
-  if (change.key.includes("system.rollLevel.")) {
+function _enhnanceDynamicRollModifier(change) {
+  if (change.key.includes("system.dynamicRollModifier.")) {
     change.value = '"afterRoll": "delete", ' + change.value;
   }
 }

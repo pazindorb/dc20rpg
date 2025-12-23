@@ -4,15 +4,16 @@ import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mj
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 import { DC20Dialog } from "../dialogs/dc20Dialog.mjs";
-import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { getValueFromPath } from "../helpers/utils.mjs";
+import { runItemDRMCheck, runSheetDRMCheck } from "./dynamicRollModifier.mjs";
+import { DC20Roll } from "./rollApi.mjs";
+import { evaluateFormula } from "../helpers/rolls.mjs";
 
 export class RollDialog extends DC20Dialog {
 
@@ -110,8 +111,8 @@ export class RollDialog extends DC20Dialog {
   //==========================================
   constructor(actor, data={}, options={}) {
     super(options);
-    // We want to clear effectsToRemove when we open new roll prompt
-    actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); 
+    // We want to clear afterRollEffects when we open new roll prompt
+    actor.update({["flags.dc20rpg.afterRollEffects"]: []}); 
 
     this.actor = actor;
     if (data.documentName === "Item") {
@@ -136,18 +137,19 @@ export class RollDialog extends DC20Dialog {
       }
     }
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
-    this.startingRollMenuValues = options.startingRollMenuValues;
+    this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
-    this._autoRollLevelCheck(options);
+    this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
+    this.modifyFormula = false;
+    this._autoDRMCheck(options);
   }
 
-  _autoRollLevelCheck(options) {
-    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-    if (autoRollLevelCheck) {
-      this._rollLevelCheck(false, options.quickRoll); // it deals with quick roll as well
+  _autoDRMCheck(options) {
+    if (this.autoDRMCheck) {
+      this._DRMCheck(false, options.quickRoll); // it deals with quick roll as well
     }
     else {
-      this.rollLevelChecked = false;
+      this.DRMChecked = false;
       if (options.quickRoll) this._onRoll();
     }
   }
@@ -200,8 +202,9 @@ export class RollDialog extends DC20Dialog {
     initialized.actions.holdAction = this._onHoldAction;
     initialized.actions.roll = this._onRoll;
 
-    initialized.actions.rollLevel = this._onRollLevelCheck;
+    initialized.actions.drm = this._onDRMCheck;
     initialized.actions.rangeChange = this._onRangeChange;
+    initialized.actions.modifyFormula = this._onModifyFormula;
 
     initialized.actions.multiFaceted = this._onMultiFaceted;
     initialized.actions.reloadWeapon = this._onWeaponReload;
@@ -219,6 +222,9 @@ export class RollDialog extends DC20Dialog {
     const context = await super._prepareContext(options);
     
     // COMMON DATA
+    this._prepareCoreFormula();
+    context.coreFormula = this.coreFormula;
+    context.modifyFormula = this.modifyFormula;
     context.header = {
       img: this.updateObject.img,
       name: this.details?.rollTitle || this.updateObject.name,
@@ -238,7 +244,7 @@ export class RollDialog extends DC20Dialog {
       "- d12": "-d12",
     };
     context.disableRollLevel = context.rollMenu.autoFail || context.rollMenu.autoCrit;
-    context.rollLevelChecked = this.rollLevelChecked;
+    context.DRMChecked = this.DRMChecked;
     context.rollModes = {
       publicroll: "Public Roll",
       gmroll: "GM Roll",
@@ -353,7 +359,7 @@ export class RollDialog extends DC20Dialog {
     return {
       rollDetails: this.details,
       ...this.actor,
-      rollLevelChecked: this.rollLevelChecked
+      DRMChecked: this.DRMChecked
     };
   }
 
@@ -364,6 +370,29 @@ export class RollDialog extends DC20Dialog {
       enhancements[key].useCost = this.item.use.enhancementCostDisplayData(key);
     }
     return enhancements;
+  }
+
+  _prepareCoreFormula() {
+    if (this.modifyFormula) return;
+
+    const rollMenu = this.updateObject.system.rollMenu;
+    const helpDice = rollMenu.helpDiceFormula();
+    const modifier = rollMenu.coreFormula.modifier.replace(/\s\s+/g, ' '); // Get rid of extra space
+    const source = rollMenu.coreFormula.source;
+    const rollLevel = rollMenu.adv - rollMenu.dis;
+
+    const coreFormula = [];
+    if (this.itemRoll) {
+      const d20Roll = DC20Roll.prepareItemCoreRollDetails(this.updateObject, {rollLevel: rollLevel});
+      coreFormula.push({value: d20Roll.roll, source: "Base Roll Formula"});
+    }
+    else {
+      const d20Roll = DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
+      coreFormula.push({value: d20Roll.roll , source: "Base Roll Formula"})
+    }
+    if (modifier) coreFormula.push({value: modifier, source: source});
+    if (helpDice) coreFormula.push({value: helpDice, source: "Help Dice"});
+    this.coreFormula = coreFormula;
   }
 
   //==========================================
@@ -388,8 +417,7 @@ export class RollDialog extends DC20Dialog {
     const index = ranges.indexOf(current);
     const newRange = ranges[index + 1] || ranges[0];
     await this.item.update({["system.rollMenu.rangeType"]: newRange});
-    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-    if (autoRollLevelCheck) this._rollLevelCheck(false);
+    if (this.autoDRMCheck) this._DRMCheck(false);
     else this.render();
   }
 
@@ -403,6 +431,14 @@ export class RollDialog extends DC20Dialog {
 
   async _onRoll(event) {
     if(event) event.preventDefault();
+    const formula = this.modifyFormula || this.coreFormula.map(obj => obj.value).join(" ");
+    console.log(formula);
+    const result = await evaluateFormula(formula, this.updateObject.getRollData());
+    console.log(result)
+
+    return;
+
+    // TODO: REWORK THIS PART
     let roll = null;
     const rollMenu = this.updateObject.system.rollMenu;
     if (this.itemRoll) {
@@ -424,13 +460,26 @@ export class RollDialog extends DC20Dialog {
     this.close();
   }
 
-  async _onRollLevelCheck(event) {
+  async _onDRMCheck(event) {
     event.preventDefault();
-    this._rollLevelCheck(true);
+    this._DRMCheck(true);
   }
 
-  _onDisplayRollLevelCheckResult(result=this.rollLevelCheckResult) {
-    SimplePopup.info("Expected Roll Level", result);
+  _displayDRMResult(result) {
+
+    console.log("========ROLLER========");
+    for (const res of result.roller) {
+      console.log(res);
+    }
+    console.log("========STATUSES========");
+    for (const res of result.statuses.values()) {
+      console.log(res);
+    }
+    console.log("========TARGETS========");
+    for (const res of result.targets.values()) {
+      console.log(res);
+    }
+    // TODO: Make it preety!
   }
 
   async _onWeaponReload() {
@@ -438,22 +487,33 @@ export class RollDialog extends DC20Dialog {
     this.render();
   }
 
-  async _rollLevelCheck(display, quickRoll) {
-    this.rollLevelChecked = true;
-    let result = [];
-    if (this.itemRoll) result = await runItemRollLevelCheck(this.item, this.actor, this.startingRollMenuValues);
-    else result = await runSheetRollLevelCheck(this.details, this.actor, this.startingRollMenuValues);
-
-    if (quickRoll) return this._onRoll();
+  async _DRMCheck(display, quickRoll) {
+    this.DRMChecked = true;
+    let [finalValue, result] = [{}, {}];
+    if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
+    else [finalValue, result] = await runSheetDRMCheck(this.details, this.actor, this.initialRollMenuValue);
     
-    if (result[result.length -1] === "FORCE_DISPLAY") {
-      result.pop();
-      display = true; // For manual actions we always want to display this popup
+    await this._updateRollMenu(finalValue);
+    if (quickRoll) {
+      this._prepareCoreFormula();
+      return this._onRoll();
     }
 
-    if (display) this._onDisplayRollLevelCheckResult(result);
-    this.rollLevelCheckResult = result;
+    if (display || finalValue.manualChanges || finalValue.autoCrit || finalValue.autoFail) {
+      this._displayDRMResult(result);
+    }
     this.render()
+  }
+
+  async _updateRollMenu(finalValue) {
+    await this.updateObject.update({
+      ["system.rollMenu.adv"]: finalValue.adv,
+      ["system.rollMenu.dis"]: finalValue.dis,
+      ["system.rollMenu.autoCrit"]: finalValue.autoCrit,
+      ["system.rollMenu.autoFail"]: finalValue.autoFail,
+      ["system.rollMenu.coreFormula.modifier"]: finalValue.modifier,
+      ["system.rollMenu.coreFormula.source"]: finalValue.label,
+    });
   }
 
   async _onCreateMeasuredTemplate(event, target) {
@@ -497,8 +557,7 @@ export class RollDialog extends DC20Dialog {
         token.setTarget(true, { user: user, releaseOthers: false });
       }
 
-      const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-      if (autoRollLevelCheck) this._rollLevelCheck(false);
+      if (this.autoDRMCheck) this._DRMCheck(false);
     }
   }
 
@@ -514,6 +573,12 @@ export class RollDialog extends DC20Dialog {
 
   async _onMultiFaceted(event, target) {
     await this.item.multiFaceted.swap();
+    this.render();
+  }
+
+  _onModifyFormula() {
+    if (this.modifyFormula) this.modifyFormula = false;
+    else this.modifyFormula = this.coreFormula.map(obj => obj.value).join(" ");
     this.render();
   }
   
@@ -542,8 +607,7 @@ export class RollDialog extends DC20Dialog {
       this.render();
     }
 
-    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-    if (autoRollLevelCheck && runCheck) this._rollLevelCheck(false);
+    if (this.autoDRMCheck && runCheck) this._DRMCheck(false);
   }
 
   async _onToggleRollLevel(path, which) {
@@ -567,6 +631,10 @@ export class RollDialog extends DC20Dialog {
 
     if (cType === "ammo-select") {
       await this.item.ammo.change(value);
+      this.render();
+    }
+    else if (cType === "modify-formula") {
+      this.modifyFormula = value;
       this.render();
     }
     else if (cType === "roll-mode") {

@@ -112,6 +112,10 @@
         <a class="activable fa-lg {{#if system.check.canCrit}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.canCrit"></a>
       </div>
       {{/if}}
+      <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.check.respectSizeRulesTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.check.respectSizeRules"}}</span>
+        <a class="activable fa-lg {{#if system.check.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.respectSizeRules"></a>
+      </div>
     </div>
   {{/ifCond}}
 
@@ -158,10 +162,6 @@
       <select name="system.rollRequests.{{key}}.contestedKey">
         {{selectOptions @root.config.ROLL_KEYS.contests selected=request.contestedKey blank=""}}
       </select>
-    </div>
-    <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRulesTitle"}}">
-      <span>{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRules"}}</span>
-      <a class="activable fa-lg {{#if request.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollRequests.{{key}}.respectSizeRules"></a>
     </div>
     {{/ifCond}}
 

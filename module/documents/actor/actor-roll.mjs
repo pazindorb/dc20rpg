@@ -90,14 +90,14 @@ function _details(data) {
 
 function _mods(data, actor) {
 	const attackMod = actor.system.attackMod.value;
-	if (attackMod.martial) {
-		data.attack = attackMod.martial;
-		
-		if (data.combatMastery) data.attackNoCM = data.attack - data.combatMastery;
-		else data.attackNoCM = data.attack;
+	const checkMod = actor.system.checkMod.value;
+	data.attack = {
+		martial: attackMod.martial,
+		spell: attackMod.spell,
 	}
-	if (attackMod.spell) {
-		data.spell = attackMod.spell;
+	data.check = {
+		martial: checkMod.martial,
+		spell: checkMod.spell,
 	}
 }
 

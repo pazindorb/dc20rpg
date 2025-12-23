@@ -2,7 +2,7 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHelpDice, getActiveHelpDice, makeMoveAction, prepareHelpAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
@@ -500,7 +500,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       rowSize: helpConfig.rowSize,
     }
 
-    const helpDice = getActiveHelpDice(this.actor);
+    const helpDice = this.actor.help.active;
     this.helpDice = helpDice;
     helpData.dice = helpDice;
     return helpData;
@@ -610,7 +610,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   async _onHelp(evnet, target) {
     const subtracted = this.actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
-    await prepareHelpAction(this.actor);
+    await this.actor.help.prepare();
     this.render();
   }
 
@@ -800,7 +800,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
-        if (confirmed) clearHelpDice(owner, key);
+        if (confirmed) owner.help.clear(key);
       }
     }
   }

@@ -1,4 +1,4 @@
-export default class RollLevelFields extends foundry.data.fields.SchemaField {
+export default class DynamicRollModifierFields extends foundry.data.fields.SchemaField {
   constructor(fields={}, options={}) {
     const f = foundry.data.fields;
     fields = {
@@ -31,7 +31,6 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
         deathSave: new f.ArrayField(new f.StringField(), {required: true}),
         initiative: new f.ArrayField(new f.StringField(), {required: true}),
         skills: new f.ArrayField(new f.StringField(), {required: true}),
-        trades: new f.ArrayField(new f.StringField(), {required: true}),
       }),
       againstYou: new f.SchemaField({
         martial: new f.SchemaField({
@@ -60,7 +59,6 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
           cha: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         skills: new f.ArrayField(new f.StringField(), {required: true}),
-        trades: new f.ArrayField(new f.StringField(), {required: true}),
         ...fields
       }),
     };

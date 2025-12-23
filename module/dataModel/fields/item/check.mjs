@@ -12,7 +12,7 @@ export default class CheckFields extends foundry.data.fields.SchemaField {
       contestedKey: new f.StringField({required: true, initial: "phy"}), // Left for backward compatibility
       againstDC: new f.BooleanField({required: true, initial: true}),
       checkDC: new f.NumberField({ required: true, nullable: false, integer: true, initial: 10 }),
-      respectSizeRules: new f.BooleanField({required: true, initial: false}), // Left for backward compatibility
+      respectSizeRules: new f.BooleanField({required: true, initial: false}),
       failEffect: new f.StringField({required: true, initial: ""}), // Left for backward compatibility
       ...fields
     };

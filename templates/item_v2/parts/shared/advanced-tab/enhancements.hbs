@@ -284,10 +284,6 @@
             {{selectOptions @root.config.ROLL_KEYS.contests selected=enhancement.modifications.rollRequest.contestedKey blank=""}}
           </select>
         </div>
-        <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRulesTitle"}}">
-          <span>{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRules"}}</span>
-          <a class="activable fa-lg {{#if enhancement.modifications.rollRequest.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.rollRequest.respectSizeRules"></a>
-        </div>
         {{/ifCond}}
 
         {{!-- Save --}}

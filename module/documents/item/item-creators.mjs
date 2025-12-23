@@ -170,7 +170,6 @@ export class RollRequest {
   dcCalculation = "spell";
   dc = 0;
   addMasteryToDC = true;
-  respectSizeRules = false;
 
   static async create(data={}, options={}) {
     const item = options.parent;

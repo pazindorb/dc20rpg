@@ -286,7 +286,7 @@ DC20RPG.macroTriggers = {
   preDelete: "Before Deletion",
   onItemToggle: "On Item Toggle/Equip",
   onRollPrompt: "On Roll Dialog Open",
-  rollLevelCheck: "On Roll Level Check",
+  onDRMCheck: "On Dynamic Roll Modifier Check",
   preItemCost: "Before Item Cost Check",
   preItemRoll: "Before Item Roll",
   postItemRoll: "After Item Roll",

@@ -2,11 +2,10 @@ import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from 
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
+import { clearHeldAction, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
-import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 
@@ -189,12 +188,12 @@ export class DC20RpgCombat extends Combat {
     const combatant = this.combatants.get(combatantId);
     const token = combatant?.token?.object;
 
-    if (combatant) clearMultipleCheckPenalty(combatant.actor);
+    if (combatant) combatant.actor.mcp.clear();
     this.combatants.forEach(combatant => {
       const actor = combatant.actor;
       clearHeldAction(combatant.actor);
-      clearHelpDice(combatant.actor);                 // Clear "round" duration
-      clearHelpDice(combatant.actor, null, "combat"); // Clear "combat" duration
+      combatant.actor.help.clear();
+      combatant.actor.help.clear(null, "combat");
       this._refreshOnCombatEnd(actor);
     });
     await super.endCombat();
@@ -327,7 +326,7 @@ export class DC20RpgCombat extends Combat {
       runEventsFor("turnStart", actor);
       reenableEventsOn("turnStart", actor);
       this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
-      clearHelpDice(actor);
+      actor.help.clear();
       clearHeldAction(actor);
       await super._onStartTurn(combatant, context);
 
@@ -354,7 +353,7 @@ export class DC20RpgCombat extends Combat {
     reenableEventsOn("turnEnd", actor);
     this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id));
     this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id), currentRound);
-    await clearMultipleCheckPenalty(actor);
+    await actor.mcp.clear();
     clearMovePoints(actor);
     await super._onEndTurn(combatant, context);
 
@@ -463,7 +462,7 @@ export class DC20RpgCombat extends Combat {
         image: actor.img,
         description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
       });
-      prepareHelpAction(actor, {diceValue: 6, duration: "combat"});
+      actor.help.prepare({diceValue: 6, duration: "combat"})
       return true;
     }
     return false;
@@ -477,7 +476,7 @@ export class DC20RpgCombat extends Combat {
     ]
     const change = (checkPath) => {
       return {
-        key: `system.rollLevel.onYou.${checkPath}`,
+        key: `system.dynamicRollModifier.onYou.${checkPath}`,
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Initiative Critical Success", "confirmation": true, "afterRoll": "delete"'
@@ -510,7 +509,7 @@ export class DC20RpgCombat extends Combat {
     const checkKeys = ["martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",]
     const change = (checkPath) => {
       return {
-        key: `system.rollLevel.againstYou.${checkPath}`,
+        key: `system.dynamicRollModifier.againstYou.${checkPath}`,
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'

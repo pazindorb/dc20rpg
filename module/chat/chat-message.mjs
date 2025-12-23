@@ -9,7 +9,6 @@ import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
-import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -834,7 +833,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const messageTitle = helpDice.customTitle || game.i18n.localize("dc20rpg.sheet.help.help");
     const success = await this.modifyCoreRoll(helpDice.formula, helpDiceOwner, messageTitle);
-    if (success) await clearHelpDice(helpDiceOwner, helpDice.key);
+    if (success) await helpDiceOwner.help.clear(helpDice.key);
   }
 
   async _addRoll(rollType) {

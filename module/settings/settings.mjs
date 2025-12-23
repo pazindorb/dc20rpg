@@ -118,12 +118,12 @@ export function registerGameSettings(settings) {
   // ======================================
   // ==           TARGETTING             ==
   // ======================================
-  settings.register("dc20rpg", "autoRollLevelCheck", {
-    name: "Run Roll Level Check Automatically",
-    hint: "If selected, Roll Level Check will run automatically when performing a roll and modifing roll level with enhancement or range change.",
+  settings.register("dc20rpg", "autoDRMCheck", {
+    name: "Run DRM Check Automatically",
+    hint: "If selected, Dynamic Roll Modifier Check will run automatically when performing a roll.",
     scope: "world",
     config: true,
-    default: false,
+    default: true,
     type: Boolean
 	});
 

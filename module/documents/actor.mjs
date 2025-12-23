@@ -30,6 +30,12 @@ export class DC20RpgActor extends Actor {
     return this.items.get(this.system.details.class.id);
   }
 
+  get targetHash() {
+    const token = this.getActiveTokens()[0];
+    const tokenId = token?.id || "";
+    return `${this.id}#${tokenId}`;
+  }
+
   get exhaustion() {
     return getStatusWithId(this, "exhaustion")?.stack || 0
   }

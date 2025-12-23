@@ -1,4 +1,3 @@
-import { getActiveHelpDice } from "../../helpers/actors/actions.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
@@ -14,7 +13,7 @@ export function duplicateData(context, actor) {
 
 function _help(actor) {
   return {
-    dice: getActiveHelpDice(actor),
+    dice: actor.help.active,
     rowSize: 5
   }
 }

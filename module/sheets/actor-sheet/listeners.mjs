@@ -17,7 +17,6 @@ import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
 import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
-import { clearHelpDice, prepareHelpAction } from "../../helpers/actors/actions.mjs";
 import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
 import { ActionSelect } from "../../dialogs/action-select.mjs";
@@ -48,14 +47,14 @@ export function activateCommonLinsters(html, actor) {
   });
   html.find('.recharge-item').click(ev => getItemFromActor(datasetOf(ev).itemId, actor).use.regainCharges());
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
-  html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) prepareHelpAction(actor)});
+  html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) actor.help.prepare()});
   html.find('.help-dice').mousedown(async ev => {
     if (ev.which !== 3) return;
     const key = ev.currentTarget.dataset?.key;
     const owner = getActorFromIds(actor.id, actor.token?.id);
     if (owner) {
       const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
-      if (confirmed) clearHelpDice(owner, key);
+      if (confirmed) owner.help.clear(key);
     }
   });
 

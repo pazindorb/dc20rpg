@@ -73,8 +73,8 @@ export class SystemsBuilder extends Dialog {
         }
       }
     }
-    // Roll Level
-    if (type === "rollLevel") {
+    // Dynamic Roll Modifier
+    if (type === "dynamicRollModifier") {
       return {
         value: {
           value: "1",
@@ -90,6 +90,10 @@ export class SystemsBuilder extends Dialog {
           }
         },
         label: {
+          value: "",
+          format: "string"
+        },
+        modifier: {
           value: "",
           format: "string"
         },

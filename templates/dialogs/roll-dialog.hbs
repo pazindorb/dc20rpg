@@ -209,8 +209,8 @@
       </div>
 
       <div class="row margin-top-5">
-        <div class="letter-circle-icon small clickable" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}" data-action="rollLevel">
-          <a class="fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
+        <div class="letter-circle-icon small clickable" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.runDRMCheck'}}" data-action="drm">
+          <a class="fa-solid fa-magnifying-glass fa-lg {{#unless DRMChecked}}not-used{{/unless}}"></a>    
         </div>
       </div>
 
@@ -305,6 +305,25 @@
     </div>
   </fieldset>
   {{/if}}
+
+  {{!-- Core Roll Formula --}}
+  <fieldset class="expected-cost">
+    <legend>{{localize "dc20rpg.dialog.rollDialog.coreFormula"}}</legend>
+
+    <div class="formula-wrapper" style="width: 100%;">
+      {{#if modifyFormula}}
+      <input data-cType="modify-formula" value="{{modifyFormula}}">
+      {{else}}
+      {{#each coreFormula}}
+      <div class="formula-partial" data-tooltip="{{source}}">{{value}}</div>
+      {{/each}}
+      {{/if}}
+    </div>
+
+    <div class="extra-buttons margin-right-10">
+      <a class="toggle fa-2x {{#if modifyFormula}}fa-solid{{else}}fa-light{{/if}} fa-square-pen" data-action="modifyFormula" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.modifyFormula'}}"></a>
+    </div>
+  </fieldset>
 
   {{!-- Roll --}}
   <footer class="form-footer margin-top-5">

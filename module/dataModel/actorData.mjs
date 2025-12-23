@@ -16,6 +16,7 @@ import SkillFields from "./fields/actor/skills.mjs";
 import RollMenu from "./fields/rollMenu.mjs";
 import EquipmentSlotFields from "./fields/actor/equipmentSlots.mjs";
 import SheetDataFields from "./fields/actor/sheetData.mjs";
+import DynamicRollModifierFields from "./fields/actor/dynamicRollModifier.mjs";
 
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -124,7 +125,8 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       events: new f.ArrayField(new f.StringField(), {required: true}),
       conditionals: new f.ArrayField(new f.ObjectField(), {required: true}),
       keywords: new f.ObjectField({required: true}),
-      rollLevel: new RollLevelFields(),
+      rollLevel: new RollLevelFields(),  // TODO backward compatibilty remove as part of 0.10.5 update
+      dynamicRollModifier: new DynamicRollModifierFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       sustain: new f.ObjectField({required: true, initial: {}}),
       journal: new f.StringField({required: true, initial: ""}),

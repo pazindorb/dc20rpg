@@ -1,6 +1,19 @@
 import { getLabelFromKey } from "../helpers/utils.mjs";
 
-export class DC20Roll extends Roll {
+export class DC20Roll {
+
+  static prepareItemCoreRollDetails(item, options={}) {
+    switch(item.system.actionType) {
+      case "check": return this.prepareCheckDetails(item.checkKey, options);
+      case "attack": return this.prepareAttackDetails(item.system.attackFormula.checkType, options);
+    }
+    return {};
+  }
+
+  static prepareAttackDetails(key, options={}) {
+    if (key === "spell") return this.#prepareRollDetails(" + @attack.spell + @rollBonus", "att", "attackCheck", options);
+    return this.#prepareRollDetails(" + @attack.martial + @rollBonus", "att", "attackCheck", options);
+  }
 
   static prepareCheckDetails(key, options={}) {
     let partial = "";
@@ -21,17 +34,17 @@ export class DC20Roll extends Roll {
         break;
 
       case "att":
-        partial = " + @attackMod.value.martial";
+        partial = " + @attack.martial";
         rollType = "attackCheck";
         break;
 
       case "mar":
-        partial = " + @checkMod.value.martial";
+        partial = " + @check.martial";
         rollType = "martialCheck";
         break;
 
       case "spe":
-        partial = " + @checkMod.value.spell";
+        partial = " + @check.spell";
         rollType = "spellCheck";
         break;
 
@@ -65,6 +78,7 @@ export class DC20Roll extends Roll {
 
     const ROLL_KEYS = rollType === "save" ? CONFIG.DC20RPG.ROLL_KEYS.saveTypes : CONFIG.DC20RPG.ROLL_KEYS.allChecks;
     ROLL_KEYS.language = "Language Check";
+    ROLL_KEYS.att = "Attack Check";
     let label = options.customLabel || getLabelFromKey(key, ROLL_KEYS);
     const rollTitle = options.rollTitle || getLabelFromKey(key, ROLL_KEYS);
     

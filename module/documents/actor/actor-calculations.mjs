@@ -407,7 +407,6 @@ function _basicConditionals(actor) {
       dcCalculation: "",
       dc: 0,
       addMasteryToDC: true,
-      respectSizeRules: false,
     },
 	});
 
@@ -437,7 +436,6 @@ function _basicConditionals(actor) {
 				dcCalculation: "",
 				dc: 0,
 				addMasteryToDC: true,
-				respectSizeRules: false,
 			},
 		});
 	}

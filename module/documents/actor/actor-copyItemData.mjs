@@ -244,33 +244,33 @@ function _implementEquipmentData(actor, collectedData) {
 
 	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
 	for (let i = 0; i < collectedData.agiCheckDis; i++) {
-		actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
 	}
 
 	// Lack Shield Training
 	if (collectedData.lackShieldTraining) {
-		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 	}
 
 	// Lack Armor Training
 	if (collectedData.lackArmorTraining) {
-		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
 	// Armor bonus

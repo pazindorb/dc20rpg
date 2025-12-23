@@ -2881,6 +2881,34 @@
   margin-left: -3px;
   margin-top: -5px;
 }
+.dc20rpg #roll-prompt .formula-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #roll-prompt .formula-wrapper input {
+  width: 100%;
+  border: 0;
+  text-align: center;
+  background-color: transparent;
+  padding: 4px;
+}
+.dc20rpg #roll-prompt .formula-wrapper .formula-partial {
+  padding: 3px;
+}
+.dc20rpg #roll-prompt .formula-wrapper .formula-partial:hover {
+  border: 1px solid var(--text-color-2);
+  border-radius: 3px;
+  padding: 6px;
+  -webkit-box-shadow: 0 0 8px var(--activable-off) inset;
+  box-shadow: 0 0 8px var(--activable-off) inset;
+}
 .dc20rpg #roll-prompt .roll-menu {
   display: grid;
   grid-template-columns: 1fr 100px 1fr;

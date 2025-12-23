@@ -1,13 +1,11 @@
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
-import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
-import { effectsToRemovePerActor } from "../effects.mjs";
+import { handleAfterRollEffectModification } from "../effects.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 
@@ -28,7 +26,7 @@ export async function rollFromSheet(actor, details, rollMode) {
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-async function _rollFromFormula(formula, details, actor, sendToChat, rollMode) { // TODO SHOULD WE MOVE ROLL MENU TO SYSTEM? I THINK WE SHOULD
+async function _rollFromFormula(formula, details, actor, sendToChat, rollMode) {
   const rollMenu = actor.system.rollMenu;
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
@@ -84,7 +82,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat, rollMode) {
 
   // 6. Cleanup
   if (actor.inCombat && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
-    applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
+    if (!rollMenu.ignoreMCP) actor.mcp.apply(details.checkKey);
   }
   _runCritAndCritFailEvents(roll, actor, rollMenu)
   if (!details.initiative) _respectNat1Rules(roll, actor, details.type, null, rollMenu);
@@ -150,7 +148,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true, rollMode) {
   if (actionType === "help") {
     let ignoreMHP = item.system.help?.ignoreMHP;
     if (!ignoreMHP) ignoreMHP = rollMenu.ignoreMCP;
-    prepareHelpAction(actor, {ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, duration: item.system.help?.duration});
+    actor.help.prepare({ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, duration: item.system.help?.duration})
   }
 
   // 4. Post Item Roll
@@ -730,7 +728,7 @@ function _prepareConditionals(conditionals, item) {
 function _finishRoll(actor, item, rollMenu, coreRoll) {
   const checkKey = item.checkKey;
   if (checkKey) {
-    if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
+    if (actor.inCombat && !rollMenu.ignoreMCP) actor.mcp.apply(checkKey);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
   if (actor.shouldSustain(item)) actor.addSustain(item);
@@ -794,9 +792,9 @@ function _toggleItem(item) {
 }
 
 function _deleteEffectsMarkedForRemoval(actor) {
-  if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
-  actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => effectsToRemovePerActor(toRemove));
-  actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); // Clear effects to remove
+  if (!actor.flags.dc20rpg.afterRollEffects) return;
+  actor.flags.dc20rpg.afterRollEffects.forEach(toRemove => handleAfterRollEffectModification(toRemove));
+  actor.update({["flags.dc20rpg.afterRollEffects"]: []}); // Clear after roll effects
 } 
 
 //=======================================
@@ -809,7 +807,7 @@ function _determineRollLevel(rollMenu) {
 }
 
 async function _extractGlobalModStringForType(path, actor) {
-  const toRemove = actor.flags?.dc20rpg?.effectsToRemoveAfterRoll || [];
+  const toRemove = actor.flags?.dc20rpg?.afterRollEffects || [];
   const globalModJson = getValueFromPath(actor.system.globalFormulaModifiers, path) || [];
   let globalMod = {
     value: "",
@@ -842,7 +840,7 @@ async function _extractGlobalModStringForType(path, actor) {
       ui.notifications.error(`Cannot parse global formula modifier json {${json}} with error: ${e}`)
     }
   }
-  if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
+  if (toRemove.length > 0) await actor.update({["flags.dc20rpg.afterRollEffects"]: toRemove});
   return globalMod;
 }
 

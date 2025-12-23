@@ -1328,6 +1328,31 @@
     }
   }
 
+  .formula-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input {
+      width: 100%;
+      border: 0;
+      text-align: center;
+      background-color: transparent;
+      padding: 4px;
+    }
+
+    .formula-partial {
+      padding: 3px;
+
+      &:hover {
+        border: 1px solid var(--text-color-2);
+        border-radius: 3px;
+        padding: 6px;
+        box-shadow:  0 0 8px var(--activable-off) inset;
+      }
+    }
+  }
+
   .roll-menu {
     display: grid;
     grid-template-columns: 1fr 100px 1fr;

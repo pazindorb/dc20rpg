@@ -1,16 +1,19 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { companionShare } from "../../helpers/actors/companion.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey, getValueFromPath } from "../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../settings/skillConfig.mjs";
 
 export function enrichWithHelpers(actor) {
   enrichRollMenuObject(actor);
+  _enrichMultipleCheckPenaltyObject(actor);
   _enrichResourcesObject(actor);
   _enrichAttributesObject(actor);
   _enrichSkillsObject(actor);
   if (actor.system.equipmentSlots) {
     _enrichEquipmentSlots(actor);
   }
+  _enrichSpecialActions(actor);
 }
 
 //==================================//==================================
@@ -551,3 +554,131 @@ async function _deleteSlot(slot, actor) {
   if (slot.isEquipped) await _unequipSlot(slot, actor);
   await actor.update({[`system.equipmentSlots.${slot.category}.-=${slot.key}`]: null});
 }
+
+//==================================//==================================
+//                    MULTIPLE CHECK/HELP PENALTY                      =
+//==================================//==================================
+function _enrichMultipleCheckPenaltyObject(actor) {
+  actor.mcp = {
+    apply: async (checkKey) => await _applyMCP(checkKey, actor),
+    clear: async () => await _clearMCP(actor),
+    getValueFor: (checkKey) => _mcpValue(checkKey, actor)
+  };
+}
+
+async function _applyMCP(checkKey, actor) {
+  if (!checkKey) return;
+  if (companionShare(actor, "mcp")) {
+    return actor.companionOwner.mcp.apply(checkKey);
+  }
+
+  if (actor.myTurnActive || checkKey === "help") {
+    const mcp = actor.system.mcp;
+    mcp.push(checkKey);
+    await actor.update({["system.mcp"]: mcp});
+  }
+}
+
+async function _clearMCP(actor) {
+  if (actor.flags.dc20rpg.actionHeld?.isHeld) {
+    let mcp = actor.system.mcp;
+    if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
+    await actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
+  }
+  await actor.update({["system.mcp"]: []});
+}
+
+function _mcpValue(checkKey, actor) {
+  if (!checkKey) return 0;
+
+  if (companionShare(actor, "mcp")) {
+    return actor.companionOwner.mcp.getValueFor(checkKey);
+  }
+
+  const mcp = actor.system.mcp;
+  return mcp.filter(penalty => penalty === checkKey).length;
+}
+
+//==================================//==================================
+//                           SPECIAL ACTIONS                           =
+//==================================//==================================
+export function _enrichSpecialActions(actor) {
+  actor.help = {
+    active: _activeHelp(actor),
+    prepare: async (options) => await _prepareHelp(actor, options),
+    clear: async (key, duration) => await _clearHelp(actor, key, duration)
+  }
+}
+
+//==================================
+//           HELP ACTION           =
+//==================================
+async function _prepareHelp(actor, options={}) {
+  const activeDice = actor.system.help.active; 
+  let maxDice = actor.system.help.maxDice;
+
+  if (options.diceValue) {
+    maxDice = options.diceValue;
+  }
+  else if (actor.inCombat && !options.ignoreMHP) {
+    const reduction = actor.mcp.getValueFor("help") * 2;
+    maxDice = Math.max(maxDice - reduction, 4);
+    actor.mcp.apply("help");
+  }
+  const subtract = options.subtract ? "-" : "";
+  activeDice[generateKey()] = {
+    value: `${subtract}d${maxDice}`,
+    duration: options.duration || "round"
+  }
+  await actor.update({["system.help.active"]: activeDice});
+}
+
+async function _clearHelp(actor, key, duration="round") {
+  if (key) {
+    await actor.update({[`system.help.active.-=${key}`]: null});
+  }
+  else {
+    for (const [key, help] of Object.entries(actor.system.help.active)) {
+      if (help.duration === duration) await actor.update({[`system.help.active.-=${key}`]: null})
+    }
+  }
+}
+
+function _activeHelp(actor) {
+  const dice = {};
+  for (const [key, help] of Object.entries(actor.system.help.active)) {
+    let icon = "fa-dice";
+    switch (help.value) {
+      case "d20": case "-d20": icon = "fa-dice-d20"; break;
+      case "d12": case "-d12": icon = "fa-dice-d12"; break; 
+      case "d10": case "-d10": icon = "fa-dice-d10"; break; 
+      case "d8": case "-d8": icon = "fa-dice-d8"; break; 
+      case "d6": case "-d6": icon = "fa-dice-d6"; break; 
+      case "d4": case "-d4": icon = "fa-dice-d4"; break; 
+    }
+    dice[key] = {
+      formula: help.value,
+      icon: icon,
+      subtraction: help.value.includes("-"),
+      duration: help.duration,
+      tooltip: _helpDiceTooltip(help)
+    }
+  }
+  return dice;
+}
+
+function _helpDiceTooltip(help) {
+  const header = `${game.i18n.localize("dc20rpg.sheet.help.helpDice")} (${help.value})`
+  const duration = `${game.i18n.localize("dc20rpg.sheet.help.duration")}: ${game.i18n.localize(`dc20rpg.help.${help.duration}`)}`;
+  const icon = "<i class='fa-solid fa-stopwatch margin-right'></i>";
+  return `<h4 class='margin-top-5'>${header}</h4> <div class='middle-section'><p>${icon} ${duration}</p></div><hr/>${game.i18n.localize("dc20rpg.sheet.help.dropOnChat")}`;
+} 
+
+//===================================
+//            MOVE ACTION           =
+//===================================
+
+
+//===================================
+//            HELD ACTION           =
+//===================================
