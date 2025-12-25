@@ -10,9 +10,9 @@
     "hideFromCompendiumBrowser": false,
     "macros": {
       "rAhzI1qOxxsXLX17": {
-        "name": "rollLevelCheck",
-        "trigger": "rollLevelCheck",
-        "command": "const sizeDif = await DC20.dialog.SimplePopup.select(\n  \"What is the size difference between You and the Target\", \n  {\n    same: \"Same Size\", \n    oneSize: \"Target is one Size bigger\",\n    bigger: \"Target is two or more Sizes bigger\",\n  });\n\nif (sizeDif === \"oneSize\") {\n  rollLevel.dis++;\n  genesis.push({\n    type: \"dis\",\n    sourceName: \"You\",\n    label: \"Your Target is One Size bigger\",\n    value: 1\n  });\n}\n\nif (sizeDif === \"bigger\") {\n  autoFail.value = true\n  genesis.push({\n    sourceName: \"You\",\n    label: \"Your Target is Two or more Sizes bigger\",\n    autoFail: true\n  });\n}",
+        "name": "Size Check",
+        "trigger": "onDRMCheck",
+        "command": "const sizeDif = await DC20.dialog.SimplePopup.select(\n  \"What is the size difference between You and the Target\", \n  {\n    same: \"Same size\", \n    oneSize: \"Target is one size larger\",\n    bigger: \"Target is two or more sizes larger\",\n  });\n\nif (sizeDif === \"oneSize\") {\n  results.push({label: \"Target one size larger\", type: \"dis\", value: 1, targetHash: actor.targetHash});\n}\n\nif (sizeDif === \"bigger\") {\n  results.push({label: \"Target is too large\", autoFail: true, targetHash: actor.targetHash});\n}",
         "disabled": false,
         "title": ""
       }
@@ -194,11 +194,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1760612941026,
+    "modifiedTime": 1766697490378,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

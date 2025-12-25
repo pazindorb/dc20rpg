@@ -364,51 +364,15 @@
       },
       "changes": [
         {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "priority": null
-        },
-        {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Battlecry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.events",
+          "key": "system.globalFormulaModifiers.damage.any",
+          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\", \"afterRoll\": \"delete\"",
           "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Fury Shout\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.area",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.area",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
           "priority": null
         }
       ],
@@ -434,7 +398,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1765898862925,
+        "modifiedTime": 1766696170982,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
