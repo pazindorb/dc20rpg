@@ -407,13 +407,14 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.range.normal": "Normal Range (bonus)",
     "system.globalModifier.range.max": "Max Range (bonus)",
 
-    "system.globalModifier.damage.martial.melee": "GFM: Melee Martial Damage",
-    "system.globalModifier.damage.martial.ranged": "GFM: Ranged Martial Damage",
-    "system.globalModifier.damage.martial.area": "GFM: Area Martial Damage",
-    "system.globalModifier.damage.martial.melee": "GFM: Melee Spell Damage",
-    "system.globalModifier.damage.martial.ranged": "GFM: Ranged Spell Damage",
-    "system.globalModifier.damage.martial.area": "GFM: Area Spell Damage",
-    "system.globalModifier.healing": "GFM: Healing",
+    "system.globalFormulaModifiers.damage.martial.melee": "GFM: Melee Martial Damage",
+    "system.globalFormulaModifiers.damage.martial.ranged": "GFM: Ranged Martial Damage",
+    "system.globalFormulaModifiers.damage.martial.area": "GFM: Area Martial Damage",
+    "system.globalFormulaModifiers.damage.spell.melee": "GFM: Melee Spell Damage",
+    "system.globalFormulaModifiers.damage.spell.ranged": "GFM: Ranged Spell Damage",
+    "system.globalFormulaModifiers.damage.spell.area": "GFM: Area Spell Damage",
+    "system.globalFormulaModifiers.damage.any": "GFM: Any Damage",
+    "system.globalFormulaModifiers.healing": "GFM: Healing",
 
     // Dynamic Roll Modifier
     "system.dynamicRollModifier.onYou.martial.melee": "DRM: Melee Martial Attack",

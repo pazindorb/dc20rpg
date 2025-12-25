@@ -4620,6 +4620,44 @@
 .dc20rpg #adventurers-register .item-list .name:hover {
   cursor: pointer;
 }
+.dc20rpg #drm-dialog .result-wrapper {
+  -webkit-box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+  box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row {
+  padding: 5px;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: bold;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  text-align: end;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .fa-solid {
+  text-shadow: -1px 0 var(--border-color), 0 1px var(--border-color), 1px 0 var(--border-color), 0 -1px var(--border-color);
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .green {
+  color: #016b01;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .red {
+  color: #8f0404;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .purple {
+  color: #8f0288;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .gold {
+  color: #c7b511;
+  text-shadow: -1px 0 #8f0404, 0 1px #8f0404, 1px 0 #8f0404, 0 -1px #8f0404;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row:last-child {
+  border-bottom: none;
+}
 .dc20rpg .item-list {
   margin-bottom: 10px;
 }

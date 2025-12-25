@@ -114,11 +114,6 @@ function _specialRollTypes(actor) {
 	const cha = data.attributes.cha;
 	special.menSave = Math.max(int.save, cha.save);
 
-	// Martial Check
-	const acr = data.skills.acr;
-	const ath = data.skills.ath;
-	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
-
 	// Language Check
 	special.languageCheck = Math.max(int.check, cha.check);
 

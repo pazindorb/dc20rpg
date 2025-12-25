@@ -11,6 +11,7 @@ import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollReques
 
 export function enrichWithHelpers(item) {
   enrichRollMenuObject(item);
+  _enrichEnhancementObject(item);
 
   if (item.system.usable) {
     item.use = {};
@@ -18,9 +19,6 @@ export function enrichWithHelpers(item) {
   }
   if (item.system.properties) {
     _enrichPropertiesObject(item);
-  }
-  if (item.system.enhancements) {
-    _enrichEnhancementObject(item);
   }
   if (item.system.usesWeapon?.weaponAttack) {
     _enrichUseWeaponObject(item);
@@ -687,9 +685,10 @@ function _enhanceWeaponStyle(item) {
 //                             ENHANCEMENTS                            =
 //==================================//==================================
 function _enrichEnhancementObject(item) {
+  const entries = item.system.enhancements ? Object.entries(item.system.enhancements) : [];
   const enhancements = {};
   enhancements.maintained = new Map();
-  for (const [key, enhancement] of Object.entries(item.system.enhancements)) {
+  for (const [key, enhancement] of entries) {
     enhancement.key = key;
     enhancement.sourceItemId = item.id;
     enhancement.sourceItemName = item.name;

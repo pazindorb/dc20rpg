@@ -5,6 +5,7 @@ import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
@@ -38,10 +39,12 @@ export class DC20RpgItem extends Item {
   }
 
   get allEnhancements() {
+    // TODO - replace with "enhancements.all" - leave depracated message?
     return this.enhancements.all;
   }
 
   get activeEnhancements() {
+    // TODO - replace with "enhancements.active" - leave depracated message?
     return this.enhancements.active;
   }
 
@@ -81,6 +84,10 @@ export class DC20RpgItem extends Item {
   getRollData() {
     const data = {...super.getRollData()}
     return prepareRollData(this, data);
+  }
+
+  async roll(options={}) {
+    return await RollDialog.open(this.actor, this.item, options);
   }
 
   getEffectWithName(effectName) {

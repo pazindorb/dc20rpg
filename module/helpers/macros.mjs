@@ -1,6 +1,5 @@
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
 //===============================
@@ -153,7 +152,7 @@ export async function rollItemFromUuid(itemUuid) {
     return ui.notifications.warn(`Could not find item ${itemName}. You may need to delete and recreate this macro.`);
   }
 
-  return await rollFromItem(item._id, item.parent);
+  return await item.roll();
 }
 
 export async function rollItemWithName(itemName) {

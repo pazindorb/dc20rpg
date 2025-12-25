@@ -141,7 +141,7 @@ export class ActorRequestDialog extends DC20Dialog {
     const rOpt = this.rollOptions;
     const options = {
       sendToActorOwners: true, 
-      initialRollMenuValues: this._initialRollLevel()
+      initialRollMenuValue: this._initialRollLevel()
     }
     if (rOpt.rollMode) options.rollMode = rOpt.rollMode;
     if (rOpt.rollDC) options.against = rOpt.rollDC;

@@ -2967,3 +2967,44 @@
     }
   }
 }
+
+#drm-dialog {
+  .result-wrapper { 
+    box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+
+    .result-row {
+      padding: 5px;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: end;
+      
+      .fa-solid {
+        text-shadow: -1px 0 var(--border-color), 0 1px var(--border-color), 1px 0 var(--border-color), 0 -1px var(--border-color);
+      }
+
+      .green {
+        color: #016b01;
+      }
+
+      .red {
+        color: #8f0404;
+      }
+
+      .purple {
+        color: #8f0288;
+      }
+
+      .gold {
+        color: #c7b511;
+        text-shadow: -1px 0 #8f0404, 0 1px #8f0404, 1px 0 #8f0404, 0 -1px #8f0404;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}

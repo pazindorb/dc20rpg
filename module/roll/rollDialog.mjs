@@ -1,6 +1,5 @@
 import { holdAction } from "../helpers/actors/actions.mjs";
 import { collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -13,7 +12,7 @@ import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { getValueFromPath } from "../helpers/utils.mjs";
 import { runItemDRMCheck, runSheetDRMCheck } from "./dynamicRollModifier.mjs";
 import { DC20Roll } from "./rollApi.mjs";
-import { evaluateFormula } from "../helpers/rolls.mjs";
+import { DRMDialog } from "./drmDialog.mjs";
 
 export class RollDialog extends DC20Dialog {
 
@@ -112,7 +111,7 @@ export class RollDialog extends DC20Dialog {
   constructor(actor, data={}, options={}) {
     super(options);
     // We want to clear afterRollEffects when we open new roll prompt
-    actor.update({["flags.dc20rpg.afterRollEffects"]: []}); 
+    this.afterRollEffects = [];
 
     this.actor = actor;
     if (data.documentName === "Item") {
@@ -264,7 +263,7 @@ export class RollDialog extends DC20Dialog {
     if (this.item) {
       prepareItemFormulas(this.item, this.actor);
       context.usesWeapon = this.item.system.usesWeapon?.weaponAttack;
-      context.multiCheck = this.item.system.check.multiCheck.active;
+      context.multiCheck = this.item.system.check?.multiCheck?.active;
       context.usesAmmo = !!this.item.ammo;
       context.multiFaceted = !!this.item.multiFaceted;
       context.reloadable = !!this.item.reloadable;
@@ -282,7 +281,7 @@ export class RollDialog extends DC20Dialog {
         context.reloaded = this.item.reloadable.isLoaded(true);
       }
 
-      context.expectedCost = this.item.use.useCostDisplayData();
+      context.expectedCost = this.item.use?.useCostDisplayData();
       context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
       context.staminaSpendLimit = this._getStaminaSpendLimit(context.expectedCost);
       context.rollLabel = `Roll Item: ${this.item.name}`;
@@ -384,11 +383,11 @@ export class RollDialog extends DC20Dialog {
     const coreFormula = [];
     if (this.itemRoll) {
       const d20Roll = DC20Roll.prepareItemCoreRollDetails(this.updateObject, {rollLevel: rollLevel});
-      coreFormula.push({value: d20Roll.roll, source: "Base Roll Formula"});
+      if (d20Roll.roll) coreFormula.push({value: d20Roll.roll, source: "Base Core Formula"});
     }
     else {
       const d20Roll = DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
-      coreFormula.push({value: d20Roll.roll , source: "Base Roll Formula"})
+      if (d20Roll.roll) coreFormula.push({value: d20Roll.roll , source: "Base Core Formula"})
     }
     if (modifier) coreFormula.push({value: modifier, source: source});
     if (helpDice) coreFormula.push({value: helpDice, source: "Help Dice"});
@@ -432,30 +431,15 @@ export class RollDialog extends DC20Dialog {
   async _onRoll(event) {
     if(event) event.preventDefault();
     const formula = this.modifyFormula || this.coreFormula.map(obj => obj.value).join(" ");
-    console.log(formula);
-    const result = await evaluateFormula(formula, this.updateObject.getRollData());
-    console.log(result)
-
-    return;
-
-    // TODO: REWORK THIS PART
-    let roll = null;
-    const rollMenu = this.updateObject.system.rollMenu;
-    if (this.itemRoll) {
-      roll = await rollFromItem(this.item._id, this.actor, true, this.rollMode);
+    const source = this.modifyFormula ? "Custom Formula" : this.coreFormula.map(obj => obj.source).join(" + ");
+    const coreFormula = {
+      formula: formula,
+      source: source,
     }
-    else {
-      if (!this.details.costs) this.details.costs = {};
-      if (rollMenu.apCost) {
-        if (this.details.costs.ap != null) this.details.costs.ap += rollMenu.apCost;
-        else this.details.costs.ap = rollMenu.apCost;
-      }
-      if (rollMenu.gritCost) {
-        if (this.details.costs.grit != null) this.details.costs.grit += rollMenu.gritCost;
-        else this.details.costs.grit = rollMenu.gritCost;
-      }   
-      roll = await rollFromSheet(this.actor, this.details, this.rollMode);
-    }
+
+    const roll = this.itemRoll 
+                  ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects})
+                  : await DC20Roll.rollFormula(coreFormula, this.details, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
     this.promiseResolve(roll);
     this.close();
   }
@@ -465,23 +449,6 @@ export class RollDialog extends DC20Dialog {
     this._DRMCheck(true);
   }
 
-  _displayDRMResult(result) {
-
-    console.log("========ROLLER========");
-    for (const res of result.roller) {
-      console.log(res);
-    }
-    console.log("========STATUSES========");
-    for (const res of result.statuses.values()) {
-      console.log(res);
-    }
-    console.log("========TARGETS========");
-    for (const res of result.targets.values()) {
-      console.log(res);
-    }
-    // TODO: Make it preety!
-  }
-
   async _onWeaponReload() {
     await this.item.reloadable.reload();
     this.render();
@@ -489,18 +456,19 @@ export class RollDialog extends DC20Dialog {
 
   async _DRMCheck(display, quickRoll) {
     this.DRMChecked = true;
-    let [finalValue, result] = [{}, {}];
-    if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
-    else [finalValue, result] = await runSheetDRMCheck(this.details, this.actor, this.initialRollMenuValue);
+    let [finalValue, result, afterRoll] = [{}, {}, []];
+    if (this.itemRoll) [finalValue, result, afterRoll] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
+    else [finalValue, result, afterRoll] = await runSheetDRMCheck(this.details, this.actor, this.initialRollMenuValue);
     
     await this._updateRollMenu(finalValue);
+    this.afterRollEffects = afterRoll;
     if (quickRoll) {
       this._prepareCoreFormula();
       return this._onRoll();
     }
 
     if (display || finalValue.manualChanges || finalValue.autoCrit || finalValue.autoFail) {
-      this._displayDRMResult(result);
+      DRMDialog.open(result);
     }
     this.render()
   }
@@ -580,6 +548,13 @@ export class RollDialog extends DC20Dialog {
     if (this.modifyFormula) this.modifyFormula = false;
     else this.modifyFormula = this.coreFormula.map(obj => obj.value).join(" ");
     this.render();
+  }
+
+  async _onActivable(path, dataset) {
+    await super._onActivable(path, dataset);
+    if (path.includes(".rollMenu.") && !path.includes(".auto")) {
+      if (this.autoDRMCheck) this._DRMCheck(false);
+    }
   }
   
   async _onToggle(path, which, max, min, dataset) {

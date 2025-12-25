@@ -4,7 +4,6 @@ import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { getLabelFromKey, getValueFromPath } from "../helpers/utils.mjs";
 import { DC20Roll } from "./rollApi.mjs";
 
-// TODO: Removing statuses after use
 export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
   const afterRoll = [];
   let results = [];
@@ -72,7 +71,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
   await runTemporaryItemMacro(item, "onDRMCheck", actor, {results: results});
 
   // Final result
-  return _finalResult(results, initial);
+  return _finalResult(results, initial, [], afterRoll);
 }
 
 export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0}) {
@@ -108,7 +107,7 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0})
   results = [...results, ...apGritResult, ...mcpResult];
 
   // Final result
-  return _finalResult(results, initial, details.statuses);
+  return _finalResult(results, initial, details.statuses, afterRoll);
 }
 
 //========================================
@@ -240,10 +239,10 @@ function _againstStatuses(statuses, actor) {
     }
     else if (saveLevel !== 0) {
       if (saveLevel > 0) {
-        result.push({type: "adv", value: saveLevel, label: `Resistance vs ${statusLabel}`, targetHash: actor.targetHash, status: statusId});
+        result.push({type: "adv", value: Math.abs(saveLevel), label: `Resistance vs ${statusLabel}`, targetHash: actor.targetHash, status: statusId});
       }
       if (saveLevel < 0) {
-        result.push({type: "dis", value: saveLevel, label: `Vulnerability vs ${statusLabel}`, targetHash: actor.targetHash, status: statusId});
+        result.push({type: "dis", value: Math.abs(saveLevel), label: `Vulnerability vs ${statusLabel}`, targetHash: actor.targetHash, status: statusId});
       }
     }
 
@@ -464,7 +463,7 @@ function _longRange(target) {
 //========================================
 //             FINAL RESULT              =
 //========================================
-function _finalResult(results, initial, statusIds=[]) {
+function _finalResult(results, initial, statusIds=[], afterRoll) {
   const roller = [];
 
   const statuses = new Map();
@@ -543,7 +542,7 @@ function _finalResult(results, initial, statusIds=[]) {
   if (initial.adv || initial.dis) {
     finalResult.adv += initial.adv;
     finalResult.dis += initial.dis;
-    roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}]`, type: "rollLevel"});
+    roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}]`});
   }
 
   const allDRMs = {
@@ -551,7 +550,7 @@ function _finalResult(results, initial, statusIds=[]) {
     statuses: statuses,
     targets: targets
   }
-  return [finalResult, allDRMs];
+  return [finalResult, allDRMs, afterRoll];
 }
 
 function _commonValue(values, labelPartial) {
@@ -571,7 +570,7 @@ function _commonValue(values, labelPartial) {
     autoCrit.push(crit);
     autoFail.push(fail);
 
-    if (rollModifier) {
+    if (rollModifier != null) {
       if (coreRollMod === null) {
         coreRollMod = rollModifier;
         finalLabel = label;
@@ -619,34 +618,34 @@ function _markManualChanges(values, common) {
 
     if (rollModifier !== common.modifier) {
       manualChanges = true;
-      value.push({manual: `For this target/status, you need to modify that roll with: '${rollModifier}'.`, type: "formula"});
+      value.push({manual: `For this target/status, you need to modify that roll with: '${rollModifier}'.`});
     }
     if (rollLevel.level !== common.level) {
       manualChanges = true;
       // ADV -> ADV
       if (rollLevel.level > 0 && common.level >= 0) {
-        value.push({manual: `For this target/status, you should roll ${rollLevel.level - common.level} more advantage dice.`, type: "rollLevel"});
+        value.push({manual: `For this target/status, you should roll ${rollLevel.level - common.level} more advantage dice.`});
       }
       // DIS -> DIS
       if (rollLevel.level < 0 && common.level <= 0) {
-        value.push({manual: `For this target/status, you should roll ${Math.abs(rollLevel.level) - Math.abs(common.level)} more disadvantage dice.`, type: "rollLevel"});
+        value.push({manual: `For this target/status, you should roll ${Math.abs(rollLevel.level) - Math.abs(common.level)} more disadvantage dice.`});
       }
       // ADV -> DIS
       if (rollLevel.level < 0 && common.level > 0) {
-        value.push({manual: `For this target/status, you need to remove all advantages and roll ${Math.abs(rollLevel.level)} disadvantage dice.`, type: "rollLevel"});
+        value.push({manual: `For this target/status, you need to remove all advantages and roll ${Math.abs(rollLevel.level)} disadvantage dice.`});
       }
       // DIS -> ADV
       if (rollLevel.level > 0 && common.level < 0) {
-        value.push({manual: `For this target/status, you need to remove all disadvantages and roll ${rollLevel.level} advantage dice.`, type: "rollLevel"});
+        value.push({manual: `For this target/status, you need to remove all disadvantages and roll ${rollLevel.level} advantage dice.`});
       }
     }
     if (crit !== common.autoCrit) {
       manualChanges = true;
-      value.push({manual: "For this target/status this role should be a guaranteed critical hit.", type: "crit"});
+      value.push({manual: "For this target/status this role should be a guaranteed critical success."});
     }
     if (fail !== common.autoFail) {
       manualChanges = true;
-      value.push({manual: "For this target/status this role should be a guaranteed fail.", type: "fail"});
+      value.push({manual: "For this target/status this role should be a guaranteed fail."});
     }
   }
   return manualChanges;

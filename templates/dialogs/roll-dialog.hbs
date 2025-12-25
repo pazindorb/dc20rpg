@@ -307,6 +307,7 @@
   {{/if}}
 
   {{!-- Core Roll Formula --}}
+  {{#if coreFormula.length}}
   <fieldset class="expected-cost">
     <legend>{{localize "dc20rpg.dialog.rollDialog.coreFormula"}}</legend>
 
@@ -324,6 +325,7 @@
       <a class="toggle fa-2x {{#if modifyFormula}}fa-solid{{else}}fa-light{{/if}} fa-square-pen" data-action="modifyFormula" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.modifyFormula'}}"></a>
     </div>
   </fieldset>
+  {{/if}}
 
   {{!-- Roll --}}
   <footer class="form-footer margin-top-5">

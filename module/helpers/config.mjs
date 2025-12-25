@@ -178,11 +178,6 @@ export function initDC20Config() {
 
   // Prepare Skill Checks
   const skillChecks = {};
-
-  // Martial Check requires acrobatic and athletics skills
-  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
-    skillChecks.mar = "Martial Check";
-  }
   // Prepare Skills
   Object.entries(CONFIG.DC20RPG.skills).forEach(([key, label]) => {
     skillChecks[key] = `${label} Check`;

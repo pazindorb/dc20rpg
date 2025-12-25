@@ -37,6 +37,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
 }
 
 export function enrichRollMenuObject(object) {
+  object.system.rollMenu.rollLevel = _rollLevel(object);
   object.system.rollMenu.clear = async () => await _clearRollMenu(object);
   object.system.rollMenu.helpDiceFormula = () => _helpDiceFormula(object);
   object.system.rollMenu.apForAdvUp = async () => await _resourceForAdv(object, "ap", true);
@@ -94,4 +95,9 @@ async function _resourceForAdv(object, key, up) {
       ['system.rollMenu.adv']: adv - 1
     });
   }
+}
+
+function _rollLevel(object) {
+  const rollMenu = object.system.rollMenu;
+  return rollMenu.adv - rollMenu.dis;
 }

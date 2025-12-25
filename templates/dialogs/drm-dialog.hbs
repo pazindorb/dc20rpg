@@ -1,0 +1,18 @@
+<form id="drm-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  {{#each result}} 
+  {{#if values}}
+  <fieldset class="result-wrapper">
+    <legend>{{label}}</legend>
+
+    {{#each values}}
+      <div class="result-row">
+        <i class="fa-solid fa-lg {{icon}}"></i><span>{{text}}</span>
+      </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+  {{/each}}
+  <footer class="form-footer">
+    <button data-action="close">{{localize "dc20rpg.dialog.display.close"}}</button>
+  </footer>
+</form>
