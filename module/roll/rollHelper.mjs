@@ -252,9 +252,11 @@ async function _modifiedRollFormula(formula, key, item, evalData) {
       const checkType = item.system.attackFormula.checkType;
       const checkKey = checkType === "attack" ? "martial" : checkType; // TODO: Remove after we change it to martial
       const [specificGlobalMod, specificAfterRoll] = await extractGFModValue(`damage.${checkKey}.${rangeType}`, item.actor);
-      globalMod.value += globalMod.value ? ` + ${specificGlobalMod.value}` : specificGlobalMod.value;
-      globalMod.source += globalMod.source ? ` + ${specificGlobalMod.source}` : specificGlobalMod.source;
-      afterRoll = [...afterRoll, ...specificAfterRoll];
+      if (specificGlobalMod.value) {
+        globalMod.value += globalMod.value ? ` + ${specificGlobalMod.value}` : specificGlobalMod.value;
+        globalMod.source += globalMod.source ? ` + ${specificGlobalMod.source}` : specificGlobalMod.source;
+        afterRoll = [...afterRoll, ...specificAfterRoll];
+      }
     }
   }
 

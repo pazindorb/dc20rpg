@@ -177,7 +177,10 @@ function _validateSpecificSkillKey(modification, specificSkill) {
 function _getCheckPath(details, actor) {
   switch (details.type) {
     case "attributeCheck": case "attackCheck": case "spellCheck": case "martialCheck":
-      return `checks.${details.checkKey}`;
+      if (details.checkKey === "prime") {
+        return `checks.${actor.system.details.primeAttrKey}`;
+      }
+      else return `checks.${details.checkKey}`;
     case "initiative":  return "initiative";
     case "deathSave":   return "deathSave";
     case "save":        return _getSavePath(details.checkKey, actor);

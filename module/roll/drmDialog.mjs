@@ -59,7 +59,7 @@ export class DRMDialog extends DC20Dialog {
       // Auto Fail
       if (!element.autoCrit && element.autoFail) {
         skipRollLevel = true;
-        formatted.push({icon: "fa-dice green", text: `${element.label} :    [Automatic Fail]`});
+        formatted.push({icon: "fa-dice red", text: `${element.label} :    [Automatic Fail]`});
       }
 
       // Adv/Dis

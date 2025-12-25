@@ -77,11 +77,11 @@ export class SystemsBuilder extends Dialog {
     if (type === "dynamicRollModifier") {
       return {
         value: {
-          value: "1",
+          value: "0",
           format: "number"
         },
         type: {
-          value: "adv",
+          value: "",
           format: "string",
           selectOptions: {
             "": "",

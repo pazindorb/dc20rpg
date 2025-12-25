@@ -9,6 +9,7 @@ async function _migrateActors(migrateModules) {
   for (const actor of game.actors) {
 
     await _updateActorItems(actor);
+    await migrateRollLevelToDRMandGFM(actor);
   }
 
   // Iterate over tokens
@@ -20,7 +21,8 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
 
-    // await _updateActorItems(actor);
+    await _updateActorItems(actor);
+    await migrateRollLevelToDRMandGFM(actor);
   }
 
   // Iterate over compendium actors
@@ -32,7 +34,8 @@ async function _migrateActors(migrateModules) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
 
-        // await _updateActorItems(actor);
+        await _updateActorItems(actor);
+        await migrateRollLevelToDRMandGFM(actor);
       }
     }
   }
@@ -41,6 +44,8 @@ async function _migrateActors(migrateModules) {
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await migrateTechniqueToManeuver(item);
+    await migrateWeaponStyleAndProperties(item);
+    await migrateRollLevelToDRMandGFM(item);
   }
 }
 
@@ -49,6 +54,8 @@ async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
     await migrateTechniqueToManeuver(item);
+    await migrateWeaponStyleAndProperties(item);
+    await migrateRollLevelToDRMandGFM(item);
   }
 
   // Iterate over compendium items
@@ -59,7 +66,9 @@ async function _migrateItems(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
-        
+        await migrateTechniqueToManeuver(item);
+        await migrateWeaponStyleAndProperties(item);
+        await migrateRollLevelToDRMandGFM(item);
       }
     }
   }
@@ -85,5 +94,22 @@ async function migrateWeaponStyleAndProperties(item) {
     const multiFaceted = item.system.properties.multiFaceted;
     if (multiFaceted.weaponStyle.first === "chained") await item.update({["system.properties.multiFaceted.weaponStyle.first"]: "whip"})
     if (multiFaceted.weaponStyle.second === "chained") await item.update({["system.properties.multiFaceted.weaponStyle.second"]: "whip"})
+  }
+}
+
+async function migrateRollLevelToDRMandGFM(object) {
+  for (const effect of object.effects) {
+    let hasChanges = false
+    for (const change of effect.changes) {
+      if (change.key.includes("rollLevel")) {
+        change.key = change.key.replace("rollLevel", "dynamicRollModifier");
+        hasChanges = true;
+      }
+      if (change.key.includes("globalFormulaModifiers.attackDamage")) {
+        change.key = change.key.replace("globalFormulaModifiers.attackDamage", "globalFormulaModifiers.damage");
+        hasChanges = true;
+      }
+    }
+    if (hasChanges) await effect.update({changes: effect.changes});
   }
 }
