@@ -1185,7 +1185,6 @@ function _testRequirements(tags, item) {
   let anyCheckNeeded = false;
   let requirements = "";
   let fulfiled = false;
-  if (tags.weapon.active )
 
   // Weapon & Ammo
   if (tags.weapon.active) {
@@ -1211,6 +1210,13 @@ function _testRequirements(tags, item) {
         if (item.system.weaponType === "ranged") fulfiled = true;
         else requirements += "Ranged Weapon, ";
       }
+    }
+  }
+
+  if (tags.spellFocus.active) {
+    anyCheckNeeded = true;
+    if (item.type === "spellFocus") {
+      fulfiled = true;
     }
   }
 

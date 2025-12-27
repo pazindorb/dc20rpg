@@ -151,6 +151,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
         uses: null,
         consumable: null,
         weapon: null,
+        spellFocus: null,
         shield: null,
         armor: null,
       }),

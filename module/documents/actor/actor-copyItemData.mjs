@@ -7,6 +7,7 @@ import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 export function prepareDataFromItems(actor) {
 	const weapon = [];
 	const equipment = [];
+	const spellFocus = [];
 	const customResources = []; 
 	const conditionals = [];
 	const itemsWithEnhancementsToCopy = [];
@@ -16,6 +17,7 @@ export function prepareDataFromItems(actor) {
 		// Inventory
 		if (item.type === 'weapon') weapon.push(item);
 		if (item.type === 'equipment') equipment.push(item);
+		if (item.type === "spellFocus") spellFocus.push(item);
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
@@ -35,6 +37,7 @@ export function prepareDataFromItems(actor) {
 	});
 
 	_weapon(weapon, actor);
+	_spellFocus(spellFocus, actor);
 	_equipment(equipment, actor);
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
@@ -185,13 +188,73 @@ function _subclass(actor) {
 function _weapon(items, actor) {
 	let bonusPD = 0;
 	items.forEach(item => {
-		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD++;
+		if (item.system.properties.guard.active && item.system.statuses.equipped) bonusPD++;
 	});
 	actor.system.defences.precision.bonuses.always += bonusPD;
 } 
 
+function _spellFocus(items, actor) {
+	const data = {
+		channeling: 0,
+		vicious: 0,
+		powerful: 0,
+		protective: 0,
+		ignoreCloseQuarters: false,
+		longRanged: false,
+		reach: false,
+		warded: false,
+	}
+	
+	// Collect item data
+	items.forEach(item => {
+		if (!item.system.combatTraining) return;
+		const properties = item.system.properties;
+		if (!item.system.statuses.equipped) return;
+		
+		if (properties.channeling.active) data.channeling++;
+		if (properties.vicious.active) data.vicious++;
+		if (properties.powerful.active) data.powerful++;
+		if (properties.protective.active) data.protective++;
+
+		if (properties.closeQuarters.active) data.ignoreCloseQuarters = true;
+		if (properties.longRangedSF.active) data.longRanged = true;
+		if (properties.reachSF.active) data.reach = true;
+		if (properties.warded.active) data.warded = true;
+	})
+
+	// Implement item data
+	if (data.channeling) {
+		actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${data.channeling}", "label": "Channeling Property"`);
+	}
+	if (data.vicious) {
+		actor.system.dynamicRollModifier.onYou.spell.melee.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
+		actor.system.dynamicRollModifier.onYou.spell.ranged.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
+		actor.system.dynamicRollModifier.onYou.spell.area.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
+	}
+	if (data.powerful) {
+		actor.system.globalFormulaModifiers.damage.spell.melee.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
+		actor.system.globalFormulaModifiers.damage.spell.ranged.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
+		actor.system.globalFormulaModifiers.damage.spell.area.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
+	}
+	if (data.protective) {
+		actor.system.defences.area.bonuses.always += data.protective;
+	}
+	if (data.ignoreCloseQuarters) {
+		actor.system.globalModifier.spell.ignore.closeQuarters = true;
+	}
+	if (data.longRanged) {
+		actor.system.globalModifier.spell.range.normal += 5
+	}
+	if (data.reach) {
+		actor.system.globalModifier.spell.range.melee += 1
+	}
+	if (data.warded) {
+		actor.system.damageReduction.mdr.active = true;
+	}
+}
+
 function _equipment(items, actor) {
-	let collectedData = {
+	const data = {
 		adBonus: 0,
 		pdBonus: 0,
 		shieldBonus: {
@@ -206,8 +269,8 @@ function _equipment(items, actor) {
 		lackArmorTraining: false,
 		lackShieldTraining: false,
 	}
-	items.forEach(item => _armorData(item, collectedData));
-	_implementEquipmentData(actor, collectedData);
+	items.forEach(item => _armorData(item, data));
+	_implementEquipmentData(actor, data);
 }
 
 function _armorData(item, data) {

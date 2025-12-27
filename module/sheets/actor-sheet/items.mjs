@@ -78,8 +78,8 @@ export function prepareItemsForCharacter(context, actor) {
       case 'container':
         containers.push(item);
         break;
-      case 'weapon': case 'equipment': case 'consumable': case 'loot':
-        _addItemToTable(item, inventory); 
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
+        _addItemToTable(item, inventory, "weapon"); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
         break;
       case 'feature': 
@@ -140,7 +140,7 @@ export function prepareItemsForNpc(context, actor) {
         containers.push(item);
         break;
 
-      case 'weapon': case 'equipment': case 'consumable': case 'loot':
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
         if (hasApCost) _addItemToTable(item, main, "action");
         else _addItemToTable(item, main, "inventory");
         break;
@@ -177,7 +177,7 @@ export function prepareItemsForStorage(context, actor) {
 
     switch (item.type) {
       
-      case 'weapon': case 'equipment': case 'consumable': case 'loot':
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         break;
       case 'container':

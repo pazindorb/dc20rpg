@@ -365,6 +365,10 @@ export class DC20InfusionData extends DC20UsableItemData {
             ammo: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.weapon"}),
           }),
+          spellFocus: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.spellFocus"}),
+          }),
           shield: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.shield"}),

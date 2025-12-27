@@ -23,7 +23,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
     
     // Close Quarters
-    const skipCloseQuarters = attackFormula.rangeType !== "ranged" || attackFormula.ignoreCloseQuarters || actor.system.globalModifier.ignore.closeQuarters;
+    const skipCloseQuarters = attackFormula.rangeType !== "ranged" || attackFormula.ignoreCloseQuarters || actor.system.globalModifier[checkType].ignore.closeQuarters;
     const closeQuartersResult = skipCloseQuarters ? [] : _closeQuartersCheck(attacker);
     results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
 
@@ -394,14 +394,15 @@ function _targetRangeCheck(target, attacker, rangeType, item) {
 
   const result = [];
   const range = item.system.range;
+  const checkType = _checkType(item);
   if (rangeType === "melee") {
-    const melee = (range.melee || 1) + _bonusRange("melee", item, attacker.actor);
+    const melee = (range.melee || 1) + _bonusRange("melee", checkType, item, attacker.actor);
     if (!attacker.isTokenInRange(target, melee)) {
       result.push(_outOfRange(target));
     }
   }
   if (rangeType === "ranged") {
-    const longRange = !attacker.actor.system.globalModifier.ignore.longRange;
+    const longRange = !attacker.actor.system.globalModifier[checkType].ignore.longRange;
     let normal = range.normal;
     let max = range.max;
 
@@ -412,8 +413,8 @@ function _targetRangeCheck(target, attacker, rangeType, item) {
     }
 
     if (normal != null && max != null) {
-      normal = normal + _bonusRange("normal", item, attacker.actor);
-      max = max + _bonusRange("max", item, attacker.actor);
+      normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
+      max = max + _bonusRange("max", checkType, item, attacker.actor);
       if (!attacker.isTokenInRange(target, max)) {
         result.push(_outOfRange(target));  // Out of max range
       }
@@ -422,7 +423,7 @@ function _targetRangeCheck(target, attacker, rangeType, item) {
       }
     }
     else if (normal != null) {
-      normal = normal + _bonusRange("normal", item, attacker.actor);
+      normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
       if (!attacker.isTokenInRange(target, normal)) {
         result.push(_outOfRange(target));
       }
@@ -431,7 +432,7 @@ function _targetRangeCheck(target, attacker, rangeType, item) {
   return result;
 }
 
-function _bonusRange(rangeKey, item, actor) {
+function _bonusRange(rangeKey, checkType, item, actor) {
   let range = 0;
 
   // Reach
@@ -450,7 +451,7 @@ function _bonusRange(rangeKey, item, actor) {
   })
 
   // Global Modifier
-  range += actor.system.globalModifier.range[rangeKey] || 0;
+  if(checkType) range += actor.system.globalModifier[checkType].range[rangeKey] || 0;
 
   return range;
 }
@@ -461,6 +462,16 @@ function _outOfRange(target) {
 
 function _longRange(target) {
   return {type: "dis", value: 1, label: "Long Range", target: true, targetHash: target.actor.targetHash};
+}
+
+function _checkType(item) {
+  if (item.system.actionType === "attack") {
+    return item.system.attackFormula.checkType === "attack" ? "martial" : item.system.attackFormula.checkType;
+  }
+  if (item.system.actionType === "check") {
+    if (item.system.check.checkKey === "mar") return "martial";
+    if (item.system.check.checkKey === "spe") return "spell";
+  }
 }
 
 //========================================

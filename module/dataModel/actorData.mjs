@@ -97,8 +97,30 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       combatTraining: new CombatTraining(),
       rollMenu: new RollMenu(false),
       globalFormulaModifiers: new GFModFields(),
-      globalModifier: new f.SchemaField({
-        range: new f.SchemaField({
+      globalModifier: new f.SchemaField({  
+        martial: new f.SchemaField({
+          range: new f.SchemaField({
+            melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          }),
+          ignore: new f.SchemaField({
+            closeQuarters: new f.BooleanField({required: true, initial: false}),
+            longRange: new f.BooleanField({required: true, initial: false}),
+          })
+        }), 
+        spell: new f.SchemaField({
+          range: new f.SchemaField({
+            melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          }),
+          ignore: new f.SchemaField({
+            closeQuarters: new f.BooleanField({required: true, initial: false}),
+            longRange: new f.BooleanField({required: true, initial: false}),
+          })
+        }),
+        range: new f.SchemaField({   // TODO backward compatibilty remove as part of 0.10.5 update
           melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -113,8 +135,8 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),
-          closeQuarters: new f.BooleanField({required: true, initial: false}),
-          longRange: new f.BooleanField({required: true, initial: false}),
+          closeQuarters: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.10.5 update
+          longRange: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.10.5 update
           flanking: new f.BooleanField({required: true, initial: false})
         }),
         provide: new f.SchemaField({

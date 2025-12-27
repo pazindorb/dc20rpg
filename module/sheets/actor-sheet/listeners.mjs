@@ -253,7 +253,7 @@ async function _onInfusionRoll(actor, infusion) {
     return;
   }
 
-  const items = actor.getAllItemsWithType(["weapon", "consumable", "equipment"]);
+  const items = actor.getAllItemsWithType(["weapon", "spellFocus", "consumable", "equipment"]);
   const itemId = await SimplePopup.select("Select Item to Infuse", toSelectOptions(items, "id", "name"));
   const item = actor.items.get(itemId);
   if (!item) return;

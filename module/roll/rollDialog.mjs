@@ -1,5 +1,5 @@
 import { holdAction } from "../helpers/actors/actions.mjs";
-import { collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -276,7 +276,7 @@ export class RollDialog extends DC20Dialog {
       context.hasTemplates = Object.keys(context.measurementTemplates).length > 0;
 
       if (context.usesAmmo) context.ammoSelection = this.item.ammo.options();
-      if (context.usesWeapon) context.weaponSelection = collectWeaponsFromActor(this.actor);
+      if (context.usesWeapon) context.weaponSelection = this.actor.getAllItemsWithType(["weapon"], [], true);
       if (context.reloadable) {
         context.reloaded = this.item.reloadable.isLoaded(true);
       }

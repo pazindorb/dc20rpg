@@ -459,7 +459,7 @@ function _prepareSpellsAndManeuvers(form, actor, itemCards) {
 }
 
 function _prepareInventory(form, actor, itemCards) {
-  const inventory = actor.items.filter(item => ["weapon", "equipment", "consumable"].includes(item.type));
+  const inventory = actor.items.filter(item => ["weapon", "equipment", "spellFocus", "consumable"].includes(item.type));
 
   let text = "";
   for (const item of inventory) {

@@ -631,7 +631,7 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     const item = await fromUuid(itemUuid);
-    if (!["feature", "maneuver", "spell", "infusion", "weapon", "equipment", "consumable"].includes(item.type)) return;
+    if (!["feature", "maneuver", "spell", "infusion", "weapon", "equipment", "consumable", "spellFocus"].includes(item.type)) return;
 
     // Can be countent towards known spell/maneuvers
     const canBeCounted = ["maneuver", "spell", "infusion"].includes(item.type);

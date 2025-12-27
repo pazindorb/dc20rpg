@@ -1096,67 +1096,67 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.channeling",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.mBflttRgeLdylTZZ"
   },
   closeQuarters: {
     label: "dc20rpg.properties.closeQuarters",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Xg0AwLlGx03Vdnih"
   },
   longRangedSF: {
     label: "dc20rpg.properties.longRangedSF",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.wDGeoUrkQvn3th35"
   },
   muffled: {
     label: "dc20rpg.properties.muffled",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.ISzf2phZTZvwiHsq"
   },
   powerful: {
     label: "dc20rpg.properties.powerful",
     for: ["spellFocus"],
     cost: 2,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Udv5sCjHaa4Bx2Zp"
   },
   protective: {
     label: "dc20rpg.properties.protective",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.uoFaMh6q92dSSldr"
   },
   reachSF: {
     label: "dc20rpg.properties.reachSF",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.J1ESWCD4Ru9UqIzw"
   },
   reactive: {
     label: "dc20rpg.properties.reactive",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.sURvDJvKs1wdvY9t"
   },
   twoHandedSF: {
     label: "dc20rpg.properties.twoHandedSF",
     for: ["spellFocus"],
     cost: -1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.0H6XuLWBPDKvgaD0"
   },
   vicious: {
     label: "dc20rpg.properties.vicious",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL"
   },
   warded: {
     label: "dc20rpg.properties.warded",
     for: ["spellFocus"],
     cost: 1,
-    journalUuid: ""
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.u7S4lYMKvBrydwcM"
   },
 }
 
@@ -1368,7 +1368,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   immobilized: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk",
   hindered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3be8114c415718d2",
   impaired: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a",
-  weakened: "Compendium.world.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0qADnucZuuZHI9XW",
+  weakened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0qADnucZuuZHI9XW",
   incapacitated: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.e49439b5f79839d3",
   intimidated: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f",
   invisible: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2226eef8173ad6f0",

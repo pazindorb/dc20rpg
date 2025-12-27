@@ -9,7 +9,7 @@ async function _migrateActors(migrateModules) {
   for (const actor of game.actors) {
 
     await _updateActorItems(actor);
-    await migrateRollLevelToDRMandGFM(actor);
+    await _migrateEffects(actor);
   }
 
   // Iterate over tokens
@@ -22,7 +22,7 @@ async function _migrateActors(migrateModules) {
     if (!actor) continue; // Some modules create tokens without actors
 
     await _updateActorItems(actor);
-    await migrateRollLevelToDRMandGFM(actor);
+    await _migrateEffects(actor);
   }
 
   // Iterate over compendium actors
@@ -35,7 +35,7 @@ async function _migrateActors(migrateModules) {
       for (const actor of content) {
 
         await _updateActorItems(actor);
-        await migrateRollLevelToDRMandGFM(actor);
+        await _migrateEffects(actor);
       }
     }
   }
@@ -45,7 +45,7 @@ async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await migrateTechniqueToManeuver(item);
     await migrateWeaponStyleAndProperties(item);
-    await migrateRollLevelToDRMandGFM(item);
+    await _migrateEffects(item);
   }
 }
 
@@ -55,7 +55,7 @@ async function _migrateItems(migrateModules) {
   for (const item of game.items) {
     await migrateTechniqueToManeuver(item);
     await migrateWeaponStyleAndProperties(item);
-    await migrateRollLevelToDRMandGFM(item);
+    await _migrateEffects(item);
   }
 
   // Iterate over compendium items
@@ -68,7 +68,7 @@ async function _migrateItems(migrateModules) {
       for (const item of content) {
         await migrateTechniqueToManeuver(item);
         await migrateWeaponStyleAndProperties(item);
-        await migrateRollLevelToDRMandGFM(item);
+        await _migrateEffects(item);
       }
     }
   }
@@ -97,7 +97,7 @@ async function migrateWeaponStyleAndProperties(item) {
   }
 }
 
-async function migrateRollLevelToDRMandGFM(object) {
+async function _migrateEffects(object) {
   for (const effect of object.effects) {
     let hasChanges = false
     for (const change of effect.changes) {

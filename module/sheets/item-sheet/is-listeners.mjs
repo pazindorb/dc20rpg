@@ -101,6 +101,7 @@ export function activateCommonLinsters(html, item) {
       label: "Starting Equipment",
       weapon: false,
       ranged: false,
+      spellFocus: false,
       armor: false,
       shield: false,
       itemData: {},
