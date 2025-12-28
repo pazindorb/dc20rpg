@@ -410,7 +410,7 @@ export class CharacterCreationWizard extends Dialog {
     const key = datasetOf(event).key;
     const slot = datasetOf(event).slot;
     let itemType = "inventory";
-    let filters = "";
+    let filters = '{"magicPower": {"over": null, "under": 0}}';
     let lockItemType = false;
 
     if (slot === "armor" || slot === "shield") {
@@ -419,6 +419,10 @@ export class CharacterCreationWizard extends Dialog {
     }
     if (slot === "weapon" || slot === "ranged") {
       itemType === "weapon"
+      lockItemType = true;
+    }
+    if (slot === "spellFocus") {
+      itemType = "spellFocus";
       lockItemType = true;
     }
     createItemBrowser(itemType, lockItemType, this, filters, {itemKey: key});
@@ -435,6 +439,9 @@ export class CharacterCreationWizard extends Dialog {
       itemData = await openItemCreator("equipment", {subTypes: CONFIG.DC20RPG.DROPDOWN_DATA.shieldTypes});
     if (slot === "weapon" || slot === "ranged") 
       itemData = await openItemCreator("weapon", {subTypes: CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes});
+    if (slot === "spellFocus") {
+      itemData = await openItemCreator("spellFocus", {subTypes: {}});
+    }
 
     if (itemData) this.actorData.startingEquipment[key].itemData = itemData;
     this.render();

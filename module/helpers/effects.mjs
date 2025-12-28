@@ -393,9 +393,11 @@ export function getEffectModifiableKeys() {
 
     // Global Modifiers
     "system.globalModifier.ignore.difficultTerrain": "Ignore Difficult Terrain",
-    "system.globalModifier.ignore.closeQuarters": "Ignore Close Quarters",
-    "system.globalModifier.ignore.longRange": "Ignore Long Range Disadvantage",
     "system.globalModifier.ignore.flanking": "Ignore being Flanked",
+    "system.globalModifier.martial.ignore.closeQuarters": "Ignore Close Quarters (Martial Attack)",
+    "system.globalModifier.spell.ignore.closeQuarters": "Ignore Close Quarters (Spell Attack)",
+    "system.globalModifier.martial.ignore.longRange": "Ignore Long Range Disadvantage (Martial Attack)",
+    "system.globalModifier.spell.ignore.longRange": "Ignore Long Range Disadvantage (Spell Attack)",
     "system.globalModifier.provide.halfCover": "Provide Half Cover",
     "system.globalModifier.provide.tqCover": "Provide 3/4 Cover",
     "system.globalModifier.allow.overheal": "Convert overheal you done to Temp HP",
@@ -403,9 +405,12 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.prevent.hpRegeneration": "Prevent any HP regeneration", 
     "system.globalModifier.prevent.criticalHit": "Prevent Critical Hit benefits against you", 
     
-    "system.globalModifier.range.melee": "Melee Range (bonus)",
-    "system.globalModifier.range.normal": "Normal Range (bonus)",
-    "system.globalModifier.range.max": "Max Range (bonus)",
+    "system.globalModifier.martial.range.melee": "Martial Melee Range (bonus)",
+    "system.globalModifier.martial.range.normal": "Martial Normal Range (bonus)",
+    "system.globalModifier.martial.range.max": "Martial Max Range (bonus)",
+    "system.globalModifier.spell.range.melee": "Spell Melee Range (bonus)",
+    "system.globalModifier.spell.range.normal": "Spell Normal Range (bonus)",
+    "system.globalModifier.spell.range.max": "Spell Max Range (bonus)",
 
     "system.globalFormulaModifiers.damage.martial.melee": "GFM: Melee Martial Damage",
     "system.globalFormulaModifiers.damage.martial.ranged": "GFM: Ranged Martial Damage",

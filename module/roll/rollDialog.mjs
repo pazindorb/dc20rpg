@@ -387,7 +387,17 @@ export class RollDialog extends DC20Dialog {
     }
     else {
       const d20Roll = DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
-      if (d20Roll.roll) coreFormula.push({value: d20Roll.roll , source: "Base Core Formula"})
+      let custom = this.details.customFormula;
+      if (custom) {
+        if (rollLevel !== 0) {
+          const value = Math.abs(rollLevel) + 1;
+          const type = rollLevel > 0 ? "kh" : "kl";
+          const dice = `${value}d20${type}`;
+          custom = custom.replace("d20", dice);
+        }
+      }
+      if (custom) coreFormula.push({value: custom, source: "Custom Core Formula"})
+      else if (d20Roll.roll) coreFormula.push({value: d20Roll.roll , source: "Base Core Formula"})
     }
     if (modifier) coreFormula.push({value: modifier, source: source});
     if (helpDice) coreFormula.push({value: helpDice, source: "Help Dice"});

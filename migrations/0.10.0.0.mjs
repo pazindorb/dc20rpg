@@ -10,6 +10,7 @@ async function _migrateActors(migrateModules) {
 
     await _updateActorItems(actor);
     await _migrateEffects(actor);
+    await actor.prepareBasicActions();
   }
 
   // Iterate over tokens
@@ -23,6 +24,7 @@ async function _migrateActors(migrateModules) {
 
     await _updateActorItems(actor);
     await _migrateEffects(actor);
+    await actor.prepareBasicActions();
   }
 
   // Iterate over compendium actors
@@ -36,6 +38,7 @@ async function _migrateActors(migrateModules) {
 
         await _updateActorItems(actor);
         await _migrateEffects(actor);
+        await actor.prepareBasicActions();
       }
     }
   }

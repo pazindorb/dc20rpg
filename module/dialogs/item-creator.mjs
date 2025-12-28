@@ -6,7 +6,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     super(options);
     this.itemType = itemType;
     this.bonusPoints = options.bonusProperties || 0;
-    this.propertyPoints = 2 + this.bonusPoints;
+    this.propertyPoints = (this.itemType === "spellFocus" ? 1 : 2) + this.bonusPoints;
     this._prepareBlueprint(itemType, options.blueprint);
     this.itemSubTypes = options.subTypes || this._prepareSubTypes();
   }
@@ -26,10 +26,9 @@ export class ItemCreatorDialog extends DC20Dialog {
       return;
     }
 
-    const blueprintImg = itemType === "weapon" ? "icons/svg/sword.svg" : "icons/svg/shield.svg";
     const createData = {
       name: blueprint?.name || "Blueprint",
-      img: blueprint?.img || blueprintImg,
+      img: blueprint?.img || this._blueprintImg(itemType),
       type: itemType,
     }
 
@@ -37,9 +36,21 @@ export class ItemCreatorDialog extends DC20Dialog {
     this.blueprint = item.toObject();
   }
 
+  _blueprintImg(itemType) {
+    switch(itemType) {
+      case "weapon": return "icons/svg/sword.svg";
+      case "equipment": return "icons/svg/shield.svg";
+      case "spellFocus": return "icons/svg/frozen.svg";
+    }
+  }
+
   _prepareSubTypes() {
     const dropdownData = CONFIG.DC20RPG.DROPDOWN_DATA;
-    return this.itemType === "weapon" ? dropdownData.weaponTypes : {...dropdownData.armorTypes, ...dropdownData.shieldTypes}
+    switch(this.itemType) {
+      case "weapon": return dropdownData.weaponTypes;
+      case "equipment": return {...dropdownData.armorTypes, ...dropdownData.shieldTypes};
+      case "spellFocus": return null;
+    }
   }
 
   _initializeApplicationOptions(options) {
@@ -56,7 +67,7 @@ export class ItemCreatorDialog extends DC20Dialog {
   async _prepareContext(options) {
     this._updateWithProperties();
     const dropdownData = CONFIG.DC20RPG.DROPDOWN_DATA;
-    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "";
+    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "spellFocus";
     const itemSubTypes = this.itemSubTypes;
 
     const context = await super._prepareContext(options);
@@ -189,7 +200,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     event.preventDefault();
 
     // Prepare item before creation
-    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "";
+    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "spellFocus";
     if (["melee", "ranged", "lshield", "hshield"].includes(subType)) {
       this.blueprint.system.costs.resources.ap = 1;
       this.blueprint.system.statuses.slotLink.predefined = "weapon";
@@ -207,6 +218,9 @@ export class ItemCreatorDialog extends DC20Dialog {
           dontMerge: false,
           overrideDefence: "",
       }
+    }
+    if (subType === "spellFocus") {
+      this.blueprint.system.statuses.slotLink.predefined = "weapon";
     }
 
     this.promiseResolve(this.blueprint);

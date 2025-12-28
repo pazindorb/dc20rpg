@@ -92,6 +92,7 @@ export function filterDocuments(collectedDocuments, filters) {
   return filtered;
 }
 
+// TODO: Can we improve filters?
 export function getDefaultItemFilters(preSelectedFilters) {
   let parsedFilters = {};
   if (preSelectedFilters) {
@@ -114,8 +115,8 @@ export function getDefaultItemFilters(preSelectedFilters) {
       featureOrigin: _filter("system.featureOrigin", "feature.featureOrigin", "text", parsedFilters["featureOrigin"]),
       featureType: _filter("system.featureType", "feature.featureType", "select", parsedFilters["featureType"], CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes),
       level: {
-        over: _filter("system.requirements.level", "feature.level.over", "over"),
-        under: _filter("system.requirements.level", "feature.level.under", "under"),
+        over: _filter("system.requirements.level", "feature.level.over", "over", parsedFilters["level"]?.over),
+        under: _filter("system.requirements.level", "feature.level.under", "under", parsedFilters["level"]?.under),
         filterType: "over-under",
         updatePath: "level",
         nestedFilters: ["over", "under"]
@@ -137,8 +138,8 @@ export function getDefaultItemFilters(preSelectedFilters) {
     },
     infusion: {
       power: {
-        over: _filter("system.infusion.power", "infusion.power.over", "over"),
-        under: _filter("system.infusion.power", "infusion.power.under", "under"),
+        over: _filter("system.infusion.power", "infusion.power.over", "over", parsedFilters["power"]?.over),
+        under: _filter("system.infusion.power", "infusion.power.under", "under", parsedFilters["power"]?.under),
         filterType: "over-under",
         updatePath: "power",
         nestedFilters: ["over", "under"]
@@ -159,9 +160,32 @@ export function getDefaultItemFilters(preSelectedFilters) {
     weapon: {
       weaponType: _filter("system.weaponType", "weapon.weaponType", "select", parsedFilters["weaponType"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes),
       weaponStyle: _filter("system.weaponStyle", "weapon.weaponStyle", "select", parsedFilters["weaponStyle"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles),
+      magicPower: {
+        over: _filter("system.magicPower", "weapon.magicPower.over", "over", parsedFilters["magicPower"]?.over),
+        under: _filter("system.magicPower", "weapon.magicPower.under", "under", parsedFilters["magicPower"]?.under),
+        filterType: "over-under",
+        updatePath: "magicPower",
+        nestedFilters: ["over", "under"]
+      },
     },
     equipment: {
-      equipmentType: _filter("system.equipmentType", "equipment.equipmentType", "select", parsedFilters["equipmentType"], CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes)
+      equipmentType: _filter("system.equipmentType", "equipment.equipmentType", "select", parsedFilters["equipmentType"], CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes),
+      magicPower: {
+        over: _filter("system.magicPower", "equipment.magicPower.over", "over", parsedFilters["magicPower"]?.over),
+        under: _filter("system.magicPower", "equipment.magicPower.under", "under", parsedFilters["magicPower"]?.under),
+        filterType: "over-under",
+        updatePath: "magicPower",
+        nestedFilters: ["over", "under"]
+      },
+    },
+    spellFocus: {
+      magicPower: {
+        over: _filter("system.magicPower", "spellFocus.magicPower.over", "over", parsedFilters["magicPower"]?.over),
+        under: _filter("system.magicPower", "spellFocus.magicPower.under", "under", parsedFilters["magicPower"]?.under),
+        filterType: "over-under",
+        updatePath: "magicPower",
+        nestedFilters: ["over", "under"]
+      },
     },
     consumable: {
       consumableType: _filter("system.consumableType", "consumable.consumableType", "select", parsedFilters["consumableType"], CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes)
@@ -176,8 +200,8 @@ export function getDefaultActorFilters() {
   return {
     name: _filter("name", "name", "text"),
     level: {
-      over: _filter("system.details.level", "level.over", "over"),
-      under: _filter("system.details.level", "level.under", "under"),
+      over: _filter("system.details.level", "level.over", "over", parsedFilters["level"]?.over),
+      under: _filter("system.details.level", "level.under", "under", parsedFilters["level"]?.under),
       filterType: "over-under",
       updatePath: "level",
       nestedFilters: ["over", "under"]
