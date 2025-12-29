@@ -18,7 +18,7 @@ export function canApplyAdvancement(advancement) {
   return true;
 }
 
-export async function applyAdvancement(advancement, actor) {
+export async function applyAdvancement(advancement, actor, talentType) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
@@ -27,7 +27,7 @@ export async function applyAdvancement(advancement, actor) {
   if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
-  if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor, extraAdvancements);
+  if (advancement.talent) await _fillMulticlassInfo(advancement, actor, extraAdvancements, talentType);
   return [extraAdvancements.values(), tips];
 }
 
@@ -247,8 +247,8 @@ function _prepareCompendiumFilters(advancement, key) {
   }
 }
 
-async function _fillMulticlassInfo(advancement, actor, extraAdvancements) {
-  if (advancement.talentFilterType === "general" || advancement.talentFilterType === "class") return;
+async function _fillMulticlassInfo(advancement, actor, extraAdvancements, talentType) {
+  if (!talentType || talentType === "general" || talentType === "class") return;
 
   const multiclass = await _findSelectedMulticlassOption(advancement, actor);
   const clazz = actor.class;
@@ -326,29 +326,20 @@ async function _addFlavorFeatureAdvancement(multiclass, extraAdvancements, advan
 
   const label = `${multiclass.name} - Flavor Feature`;
   const key = generateKey();
-  extraAdvancements.set(key, {
-    img: img,
-    name: label,
-    customTitle: label,
-    mustChoose: true,
-    pointAmount: 1,
-    level: advancement.level,
-    parentItem: advancement.parentItem,
-    createdBy: advancement.key,
-    applied: false,
-    talent: false,
-    repeatable: false,
-    repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    allowToAddItems: false,
-    additionalAdvancement: true,
-    compendium: "",
-    preFilters: "",
-    tip: "",
-    items: flavorFeatures
-  });
+  const extra = createNewAdvancement();
+  extra.img = img;
+  extra.name = label,
+  extra.customTitle = label;
+  extra.mustChoose = true;
+  extra.level = advancement.level;
+  extra.parentItem = advancement.parentItem;
+  extra.createdBy = advancement.key;
+  extra.additionalAdvancement = true;
+  extra.items = flavorFeatures;
+  extraAdvancements.set(key, extra);
 }
 
-export function markItemRequirements(items, talentFilterType, actor) {
+export function markItemRequirements(items, talentType, actor) {
   for (const item of items) {
     const requirements = item.system.requirements;
     let requirementMissing = "";
@@ -373,7 +364,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
     const baseClassKey = actor.system.details.class.classKey;
     const multiclass = actor.class !== undefined ? Object.values(actor.class.system.multiclass) : [];
     // Subclass 3rd level feature requires at least one feature from Class or needs to be from your class
-    if (["expert", "master", "grandmaster", "legendary"].includes(talentFilterType)) {
+    if (["expert", "master", "grandmaster", "legendary"].includes(talentType)) {
       if (item.system.featureType === "subclass" && requirements.level === 3) {
         const subclassKey = item.system.featureSourceItem;
         const classKey = CONFIG.DC20RPG.SUBCLASS_CLASS_LINK[subclassKey];
@@ -385,7 +376,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
       }
     }
     // Subclass 6th level feature requires at least one feature from that Subclass 
-    if (["master", "grandmaster", "legendary"].includes(talentFilterType)) {
+    if (["master", "grandmaster", "legendary"].includes(talentType)) {
       if (item.system.featureType === "subclass" && requirements.level === 6) {
         const subclassKey = item.system.featureSourceItem;
         if (!multiclass.find(key => key === subclassKey)) {
@@ -396,7 +387,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
       }
     }
     // Class Capstone 8th level feature requires at least two features from that Class 
-    if (["grandmaster", "legendary"].includes(talentFilterType)) {
+    if (["grandmaster", "legendary"].includes(talentType)) {
       if (item.system.featureType === "class" && requirements.level === 8) {
         const classKey = item.system.featureSourceItem;
         if (multiclass.filter(key => key === classKey).length < 2) {
@@ -407,7 +398,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
       }
     }
     // Subclass Capstone 9th level feature requires at least two features from that Subclass 
-    if (["legendary"].includes(talentFilterType)) {
+    if (["legendary"].includes(talentType)) {
       if (item.system.featureType === "subclass" && requirements.level === 9) {
         const subclassKey = item.system.featureSourceItem;
         if (multiclass.filter(key => key === subclassKey).length < 2) {

@@ -16,12 +16,11 @@ export function createNewAdvancement() {
 		progressPath: false,
 		mustChoose: false,
 		pointAmount: 1,
+		talent: false, 
 		allowToAddItems: false,
 		addItemsOptions: {
 			itemType: "",
 			preFilters: "",
-			talentFilter: false,
-			ancestryFilter: false,
 			helpText: "",
 			itemLimit: null,
  		},

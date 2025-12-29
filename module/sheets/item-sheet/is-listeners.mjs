@@ -7,7 +7,7 @@ import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
-import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
+import { blueprintAdvancements, configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
@@ -51,6 +51,7 @@ export function activateCommonLinsters(html, item) {
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
+  html.find('.blueprint-advancement').click(() => blueprintAdvancements(item));
   html.find('.advancement-edit').click(ev => configureAdvancementDialog(item, datasetOf(ev).key));
   html.find('.editable-advancement').mousedown(ev => ev.which === 2 ? configureAdvancementDialog(item, datasetOf(ev).key) : ()=>{});
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));

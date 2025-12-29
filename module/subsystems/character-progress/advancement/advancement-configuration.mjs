@@ -157,10 +157,77 @@ export class AdvancementConfiguration extends Dialog {
 export async function configureAdvancementDialog(item, advancementKey) {
   if (!advancementKey || !!!item.system.advancements[advancementKey]) {
     advancementKey = generateKey();
-    let advancement = createNewAdvancement();
+    const advancement = createNewAdvancement();
     advancement.key = advancementKey;
     await updateAdvancement(item, advancement); 
   }
   const dialog = new AdvancementConfiguration(item, advancementKey, {title: `Configure Advancement`});
   dialog.render(true);
+}
+
+export function blueprintAdvancements(item) {
+  switch(item.type) {
+    case "class": return _classBlueprint(item);
+    case "subclass": return _subclassBlueprint(item);
+    case "ancestry": return _ancestryBlueprint(item);
+    case "background": return _backgroundBlueprint(item);
+  }
+
+}
+
+function _classBlueprint(item) {
+  const advancements = {};
+  advancements[generateKey()] = _baseAdvancement("Class Features", 1, false, false);
+  advancements[generateKey()] = _baseAdvancement("Class Feature, Talent, Path Progression", 2, true, true);
+  advancements[generateKey()] = _baseAdvancement("Talent, Path Progression", 4, true, true);
+  advancements[generateKey()] = _baseAdvancement("Class Feature", 5, false, false);
+  advancements[generateKey()] = _baseAdvancement("Path Progression", 6, true, false);
+  advancements[generateKey()] = _baseAdvancement("Talent", 7, false, true);
+  advancements[generateKey()] = _baseAdvancement("Class Capstone Feature, Path Progression", 8, true, false);
+  advancements[generateKey()] = _baseAdvancement("Epic Boon, Talent", 10, false, true);
+  item.update({["system.advancements"]: advancements});
+}
+
+function _subclassBlueprint(item) {
+  const advancements = {};
+  advancements[generateKey()] = _baseAdvancement("Subclass Feature", 3, false, false);
+  advancements[generateKey()] = _baseAdvancement("Subclass Feature", 6, false, false);
+  advancements[generateKey()] = _baseAdvancement("Subclass Capstone Feature", 9, false, false);
+  item.update({["system.advancements"]: advancements});
+}
+
+function _ancestryBlueprint(item) {
+  const advancement = createNewAdvancement();
+  advancement.name = "Ancestry Traits";
+  advancement.level = 0;
+  advancement.customTitle = "Select Your Ancestry Traits";
+  advancement.allowToAddItems = true;
+  advancement.addItemsOptions.itemType = "ancestry";
+  advancement.addItemsOptions.preFilters = '{"featureType": "ancestry"}';
+  advancement.addItemsOptions.helpText = "Add more Ancestry Traits";
+  advancement.mustChoose = true;
+  advancement.pointAmount = 5;
+  advancement.repeatable = true;
+  advancement.repeatAt = [0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  item.update({[`system.advancements.${generateKey()}`]: advancement});
+}
+
+function _backgroundBlueprint(item) {
+  // Nothing to see here yet
+}
+
+function _baseAdvancement(name, level, pathProgress, talent) {
+  const advancement = createNewAdvancement();
+
+  advancement.name = name;
+  advancement.level = level;
+  advancement.progressPath = pathProgress;
+  if (talent) {
+    advancement.allowToAddItems = true;
+    advancement.addItemsOptions.itemLimit = 1;
+    advancement.addItemsOptions.itemType = "talent";
+    advancement.addItemsOptions.helpText = "Add new Talent";
+    advancement.talent = true;
+  }
+  return advancement;
 }

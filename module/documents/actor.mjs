@@ -653,7 +653,7 @@ export class DC20RpgActor extends Actor {
     if (this.type === "storage") return;
 
     // Remove all basic actions
-    const basicActionIds = this.items.filter(item => item.type === "basicAction" || item.system?.itemKey === "unarmedStrike").map(item => item.id);
+    const basicActionIds = this.items.filter(item => item.type === "basicAction").map(item => item.id);
     await this.deleteEmbeddedDocuments("Item", basicActionIds);
 
     // Add basic actions
@@ -664,8 +664,9 @@ export class DC20RpgActor extends Actor {
     }
 
     if (this.type === "character") {
-      const unarmedStrike = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike, "unarmedStrike");
-      actionsData.push(unarmedStrike);
+      // We should not remove unarmed strike each time - it might break some features
+      // const unarmedStrike = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike, "unarmedStrike");
+      // actionsData.push(unarmedStrike);
 
       // Add mp/sp on ap converters and martial enhancements
       const mpToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.mpToAp, "mpToAp");

@@ -1,5 +1,5 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
+import { applyAdvancements, createNewAdvancement, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { emitEventToGM } from "../sockets.mjs";
@@ -298,6 +298,7 @@ function _fillBefore(level, advByLevel) {
   }
 }
 
+// TODO REWORK IT (OUTDATED!)
 function _mergeAdvancements(first, second) {
   if (!first && !second) return;
   if (!second) return first;
@@ -308,20 +309,20 @@ function _mergeAdvancements(first, second) {
     ..._mergeItems(second.items)
   };
 
-  return {
-    name: `Merged: ${first.name} + ${second.name}`,
-    mustChoose: first.mustChoose || second.mustChoose,
-    pointAmount: first.pointAmount,
-    level: first.level,
-    applied: first.applied || second.applied,
-    talent: first.talent || second.talent,
-    repeatable: first.repeatable,
-    repeatAt: first.repeatAt,
-    allowToAddItems: first.allowToAddItems || second.allowToAddItems,
-    compendium: first.compendium,
-    preFilters: first.preFilters,
-    items: items,
-  }
+  const advancement = createNewAdvancement();
+  advancement.name = `Merged: ${first.name} + ${second.name}`;
+  advancement.level = 0;
+  advancement.customTitle = "Select Your Ancestry Traits";
+  advancement.allowToAddItems = true;
+  advancement.addItemsOptions.itemType = "ancestry";
+  advancement.addItemsOptions.preFilters = '{"featureType": "ancestry"}';
+  advancement.addItemsOptions.helpText = "Add more Ancestry Traits";
+  advancement.mustChoose = true;
+  advancement.pointAmount = 5;
+  advancement.repeatable = true;
+  advancement.repeatAt = [0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  advancement.items = items;
+  return advancement;
 }
 
 function _mergeItems(items) {

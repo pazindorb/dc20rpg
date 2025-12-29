@@ -486,6 +486,14 @@ export class DC20ClassData extends DC20UniqueItemData {
           label: "dc20rpg.scaling.bonusMana",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         },
+        maneuversKnown: {
+          label: "dc20rpg.scaling.maneuversKnown",
+          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        },
+        spellsKnown: {
+          label: "dc20rpg.scaling.spellsKnown",
+          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        },
         skillPoints: {
           label: "dc20rpg.scaling.skillPoints",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -496,14 +504,6 @@ export class DC20ClassData extends DC20UniqueItemData {
         },
         attributePoints: {
           label: "dc20rpg.scaling.attributePoints",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        maneuversKnown: {
-          label: "dc20rpg.scaling.maneuversKnown",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        spellsKnown: {
-          label: "dc20rpg.scaling.spellsKnown",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         }
       }}),

@@ -653,9 +653,9 @@ DC20RPG.DROPDOWN_DATA.featuresTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.advancementItemTypes = {
-  any: "Any Type",
-  ...DC20RPG.DROPDOWN_DATA.featuresTypes,
-  ...DC20RPG.DROPDOWN_DATA.spellsTypes,
+  talent: "Talent",
+  ancestry: "Ancestry",
+  ...DC20RPG.DROPDOWN_DATA.knownTypes
 }
 
 DC20RPG.DROPDOWN_DATA.creatableTypes = {

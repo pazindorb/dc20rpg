@@ -104,7 +104,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
   }
 
   return {
-    name: _filter("name", "name", "text"),
+    name: _filter("name", "name", "text", parsedFilters["name"]),
     compendium: _filter("fromPack", "compendium", "multi-select", {
       system: true,
       world: true,
@@ -198,7 +198,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
 
 export function getDefaultActorFilters() {
   return {
-    name: _filter("name", "name", "text"),
+    name: _filter("name", "name", "text", parsedFilters["name"]),
     level: {
       over: _filter("system.details.level", "level.over", "over", parsedFilters["level"]?.over),
       under: _filter("system.details.level", "level.under", "under", parsedFilters["level"]?.under),
