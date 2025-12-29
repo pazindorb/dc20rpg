@@ -46,7 +46,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -137,7 +138,9 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null,
+          "specificFormulaKey": ""
         },
         "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
         "charges": {
@@ -229,7 +232,9 @@
           },
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null,
+          "specificFormulaKey": ""
         },
         "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 2 if it is an Area or by 4 if its Focused.</p>",
         "hide": false,
@@ -334,7 +339,8 @@
     "featureSourceItem": "dragonborn",
     "requirements": {
       "level": 0
-    }
+    },
+    "choicePointCost": 2
   },
   "effects": [],
   "sort": 350000,
@@ -348,9 +354,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1761303731790,
+    "modifiedTime": 1766930510482,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

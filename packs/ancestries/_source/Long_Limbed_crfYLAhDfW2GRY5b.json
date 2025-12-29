@@ -44,7 +44,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -140,7 +141,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "<p>When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>, your reach is <strong>1 Space</strong> greater than normal.</p>",
         "hide": false,
@@ -230,7 +232,78 @@
       "level": 0
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Long-Limbed",
+      "img": "icons/creatures/unholy/demon-fanged-horned-yellow.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.crfYLAhDfW2GRY5b",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "MjTa9eE6x7GDi92d",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalModifier.martial.range.melee",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>, your reach is <strong>1 Space</strong> greater than normal.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1766930808258,
+        "modifiedTime": 1766930837505,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!crfYLAhDfW2GRY5b.MjTa9eE6x7GDi92d"
+    }
+  ],
   "sort": 1300000,
   "ownership": {
     "default": 0,
@@ -242,9 +315,9 @@
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1761303731622,
+    "modifiedTime": 1766930814655,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

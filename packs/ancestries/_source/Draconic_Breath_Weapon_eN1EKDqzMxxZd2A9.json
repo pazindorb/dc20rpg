@@ -156,7 +156,9 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null,
+          "specificFormulaKey": ""
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong></span>, you can spend <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 SP </strong></span>to increase the damage by 1.</p>",
         "charges": {
@@ -244,7 +246,9 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null,
+          "specificFormulaKey": ""
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong>, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 MP</strong> to increase it by 2.</span></p>",
         "charges": {
@@ -364,7 +368,7 @@
         "title": ""
       },
       "YhaGyhP9XYaxOYRj": {
-        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Target Type\", {\"area\": \"Area\", \"focused\": \"Focused\"});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"2\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"4\",\n    [\"system.target.areas.default.area\"]: \"\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.range.normal\"]: null,\n    [\"system.target.areas.default.area\"]: \"line\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n  });\n}",
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Target Type\", {\"area\": \"Area\", \"focused\": \"Focused\"});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.resources.stamina\"]: \"1\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.resources.mana\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.target.areas.default.area\"]: \"\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.resources.stamina\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.resources.mana\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"1\",\n    [\"system.range.normal\"]: null,\n    [\"system.target.areas.default.area\"]: \"line\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n  });\n}",
         "trigger": "onRollPrompt",
         "disabled": false,
         "name": "Select Attack Type",
@@ -403,9 +407,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1761303731666,
+    "modifiedTime": 1766930383895,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
