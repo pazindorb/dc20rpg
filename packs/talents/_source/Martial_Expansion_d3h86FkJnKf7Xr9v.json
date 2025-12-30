@@ -5,7 +5,7 @@
   "_id": "d3h86FkJnKf7Xr9v",
   "img": "icons/weapons/swords/sword-broad-serrated-blue.webp",
   "system": {
-    "description": "<p><em>You can only gain this Talent once.</em></p><p>You gain the following benefits:</p><ul><li><p>You gain Combat Training with Weapons, Armor, and Shields.</p></li><li><p>You learn 2 additional Maneuvers.</p></li><li><p>You learn 1 additional Technique.</p></li></ul>",
+    "description": "<p><em>You can only gain this Talent once.</em></p><p>You gain the following benefits:</p><ul><li><p><strong>Combat Training:</strong> You gain Combat Training with Weapons, Heavy Armors, and all Shields.</p></li><li><p><strong>Stamina Regen:</strong> You gain the Stamina Regen of the Class of your choice or the Spellcaster Path Stamina Regen (see “Character Paths” on page 161). You can only benefit from 1 Stamina Regen per Round.</p></li><li><p><strong>Maneuvers Known:</strong> You learn 2 Maneuvers.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -134,7 +134,114 @@
         0
       ]
     },
-    "provideMartialExpansion": false
+    "provideMartialExpansion": false,
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Martial Expansion",
+        "customTitle": "Martial Expansion - Stamina Regen",
+        "allowToAddItems": true,
+        "addItemsOptions": {
+          "itemType": "feature",
+          "preFilters": "",
+          "helpText": "Add another Stamina Regen if it is missing from the list (drag and drop)",
+          "itemLimit": 1
+        },
+        "key": "default",
+        "items": {
+          "blC9lZ8UnSZci4Kz": {
+            "uuid": "Compendium.dc20rpg.classes.Item.blC9lZ8UnSZci4Kz",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Champion Stamina"
+          },
+          "S40h02S2iFGqWL8q": {
+            "uuid": "Compendium.dc20rpg.classes.Item.S40h02S2iFGqWL8q",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Commander Stamina"
+          },
+          "dzgOIH8OgQBq5ahb": {
+            "uuid": "Compendium.dc20rpg.classes.Item.dzgOIH8OgQBq5ahb",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Hunter Stamina"
+          },
+          "rk5Szd5fEjYxSu9j": {
+            "uuid": "Compendium.dc20rpg.classes.Item.rk5Szd5fEjYxSu9j",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Monk Stamina"
+          },
+          "8WNS6Qn3YLXUIZvS": {
+            "uuid": "Compendium.dc20rpg.classes.Item.8WNS6Qn3YLXUIZvS",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Psion Stamina"
+          },
+          "uezhxAMZF5eUJOUe": {
+            "uuid": "Compendium.dc20rpg.classes.Item.uezhxAMZF5eUJOUe",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Rogue Stamina"
+          },
+          "bYlsdcC1zaNszghb": {
+            "uuid": "Compendium.dc20rpg.classes.Item.bYlsdcC1zaNszghb",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Spellblade Stamina"
+          },
+          "3q7VlwMP6k4A71VC": {
+            "uuid": "Compendium.dc20rpg.system-items.Item.3q7VlwMP6k4A71VC",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+            "name": "Spellcaster Stamina"
+          }
+        },
+        "mustChoose": true,
+        "pointAmount": 1
+      }
+    }
   },
   "effects": [
     {
@@ -195,15 +302,9 @@
           "mode": 2,
           "value": "2",
           "priority": null
-        },
-        {
-          "key": "system.known.techniques.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
         }
       ],
-      "description": "<p>You gain the following benefits:</p><ul><li><p>You gain Combat Training with Weapons, Armor, and Shields.</p></li><li><p>You learn 2 additional Maneuvers.</p></li><li><p>You learn 1 additional Technique.</p></li></ul>",
+      "description": "<p>You gain the following benefits:</p><ul><li><p><strong>Combat Training:</strong> You gain Combat Training with Weapons, Heavy Armors, and all Shields.</p></li><li><p><strong>Stamina Regen:</strong> You gain the Stamina Regen of the Class of your choice or the Spellcaster Path Stamina Regen (see “Character Paths” on page 161). You can only benefit from 1 Stamina Regen per Round.</p></li><li><p><strong>Maneuvers Known:</strong> You learn 2 Maneuvers.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -229,11 +330,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256937,
+        "modifiedTime": 1766935372820,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -249,11 +350,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.2",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1719850606087,
-    "modifiedTime": 1755033332385,
+    "modifiedTime": 1766936440844,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

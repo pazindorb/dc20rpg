@@ -1,9 +1,10 @@
 {
-  "name": "Commander Stamina",
+  "folder": "x8uO1tZjA7FyzFiM",
+  "name": "Ancestry Increase",
   "type": "feature",
-  "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+  "img": "icons/consumables/mushrooms/alien-spotted-blue.webp",
   "system": {
-    "description": "<p>Once per round, you can regain up to half your maximum SP when you grant a creature a Help Die.</p>",
+    "description": "<p>You gain 4 Ancestry Points.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,23 +16,49 @@
       "linkWithToggle": false,
       "flags": {
         "ignorePdr": false,
+        "ignoreEdr": false,
         "ignoreMdr": false,
         "ignoreResistance": {},
         "ignoreImmune": {}
       },
-      "effect": null
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": "melee",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "customModifier": ""
     },
     "duration": {
       "value": null,
@@ -46,7 +73,6 @@
     },
     "target": {
       "count": null,
-      "invidual": true,
       "type": "",
       "areas": {
         "default": {
@@ -63,19 +89,19 @@
       "checkKey": "att",
       "contestedKey": "phy",
       "checkDC": 10,
-      "failEffect": "",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "againstDC": true,
-      "respectSizeRules": false
+      "respectSizeRules": false,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "system.techniqueType=\"maneuver\"",
+      "copyFor": "",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -93,29 +119,26 @@
         "mana": null,
         "health": null,
         "custom": {},
+        "ap": null,
         "grit": null,
         "restPoints": null
       },
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "1",
+        "maxChargesFormula": "",
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
-    "featureType": "class",
-    "featureOrigin": "Commander",
+    "featureType": "talent",
+    "featureOrigin": "General",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -124,7 +147,8 @@
       "active": false,
       "addToChat": false,
       "linkWithToggle": false,
-      "toggleItem": true
+      "toggleItem": true,
+      "addToTemplates": ""
     },
     "isResource": false,
     "resource": {
@@ -156,18 +180,41 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "quickRoll": true,
-    "itemKey": "commanderStamina",
+    "itemKey": "",
+    "shortInfo": "",
     "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
     "hideFromCompendiumBrowser": false,
-    "macros": {
-      "NHgHTEr905yechN4": {
-        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\nactor.resources.stamina.regain(Math.ceil(maxStamina/2));",
-        "trigger": "postItemRoll",
-        "disabled": false,
-        "name": "Regain Stamina",
-        "title": ""
-      }
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
@@ -185,15 +232,16 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "hasAdvancement": false,
+    "conditionals": {},
+    "hasAdvancement": true,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
-        "mustChoose": false,
-        "pointAmount": 1,
-        "level": 0,
+        "name": "Ancestry Increase",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
         "applied": false,
-        "talent": false,
+        "additionalAdvancement": false,
         "repeatable": false,
         "repeatAt": [
           0,
@@ -218,39 +266,46 @@
           0,
           0
         ],
-        "allowToAddItems": false,
-        "additionalAdvancement": true,
-        "compendium": "",
-        "preFilters": "",
-        "items": {}
+        "progressPath": false,
+        "mustChoose": true,
+        "pointAmount": 4,
+        "allowToAddItems": true,
+        "addItemsOptions": {
+          "itemType": "feature",
+          "preFilters": "{\"featureType\": \"ancestry\"}",
+          "talentFilter": false,
+          "ancestryFilter": true,
+          "helpText": "Add more Ancestry Traits",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {},
+        "key": "default"
       }
     },
-    "help": {
-      "ignoreMHP": false,
-      "subtract": false
-    },
-    "featureSourceItem": "commander",
-    "staminaFeature": true
+    "tip": "",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false
   },
   "effects": [],
-  "folder": "n4y6lVx1uVoY6hqD",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1739350036021,
-    "modifiedTime": 1767111078547,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "createdTime": 1767010074808,
+    "modifiedTime": 1767010074808,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "S40h02S2iFGqWL8q",
-  "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!S40h02S2iFGqWL8q"
+  "_id": "wrdeivDokaJxKZ2E",
+  "sort": 0,
+  "_key": "!items!wrdeivDokaJxKZ2E"
 }
