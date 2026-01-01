@@ -70,7 +70,8 @@
           "hshield",
           "light",
           "heavy",
-          "other"
+          "other",
+          "spellFocus"
         ],
         "cost": 0
       },
@@ -270,7 +271,7 @@
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "ranged",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -479,7 +480,9 @@
           "itemLimit": null
         },
         "macro": "",
-        "items": {}
+        "items": {},
+        "doNotAddToKnownLimit": false,
+        "talent": false
       }
     },
     "tip": "",
@@ -495,7 +498,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1765977898185,
-    "modifiedTime": 1765977943750,
+    "modifiedTime": 1767311251340,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -503,6 +506,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "nAlDqX0C2SSMlbHx",
-  "sort": 150000,
+  "sort": 200000,
   "_key": "!items!nAlDqX0C2SSMlbHx"
 }

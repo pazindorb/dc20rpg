@@ -70,7 +70,8 @@
           "hshield",
           "light",
           "heavy",
-          "other"
+          "other",
+          "spellFocus"
         ],
         "cost": 0
       },
@@ -111,7 +112,7 @@
           "ranged"
         ],
         "cost": 2,
-        "disabled": true
+        "disabled": false
       },
       "impact": {
         "active": false,
@@ -203,7 +204,7 @@
         "disabled": true
       },
       "twoHanded": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.properties.twoHanded",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy",
         "for": [
@@ -270,7 +271,7 @@
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "ranged",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -479,7 +480,9 @@
           "itemLimit": null
         },
         "macro": "",
-        "items": {}
+        "items": {},
+        "doNotAddToKnownLimit": false,
+        "talent": false
       }
     },
     "tip": "",
@@ -495,7 +498,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1765977585265,
-    "modifiedTime": 1765977585265,
+    "modifiedTime": 1767311277252,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -503,6 +506,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "Y950xaJnRwbC4wW1",
-  "sort": 0,
+  "sort": 250000,
   "_key": "!items!Y950xaJnRwbC4wW1"
 }

@@ -44,7 +44,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -65,7 +65,7 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "acr",
       "multiCheck": {
         "active": false,
         "options": {}
@@ -119,7 +119,21 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "7ac1f1gRB0l5qs2I": {
+        "formula": "2",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "1",
+        "each5": true,
+        "each5Formula": "1",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false,
+        "label": "Bonus Jump Distance"
+      }
+    },
     "enhancements": {
       "Tsj1I28v5rvbmJ0g": {
         "name": "Instant Jump",
@@ -230,8 +244,8 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "2",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -375,11 +389,95 @@
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
+      },
+      "DN1VTvaxYCgKnVwi": {
+        "name": "Stamina Action",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You can now spend 1 SP instead of 1 AP to perform the Extend Jump Action.</p>",
+        "hide": false,
+        "resources": {
+          "ap": -1,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": "",
+      "copy": true,
+      "copyFor": "system.itemKey=[\"extendJump\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -518,7 +616,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1766098995134,
-    "modifiedTime": 1766098995134,
+    "modifiedTime": 1767306605438,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

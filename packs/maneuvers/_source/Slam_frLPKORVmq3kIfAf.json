@@ -31,7 +31,16 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "G57pnlw3UEpdfNWJ": {
+        "command": "const attacker = actor.getActiveTokens()[0];\nfor (const token of game.user.targets) {\n  if (!token.actor) continue;\n  const sizeResults = _sizeCheck(token, attacker);\n  for (const result of sizeResults) {\n    results.push(result);\n  }\n}\n\nfunction _sizeCheck(target, attacker) {\n  if (!attacker) return [];\n  const attackerSize = attacker.actor.system.size.size;\n  const targetSize = target.actor.system.size.size;\n  const sizeDiff = _sizeNumericValue(attackerSize) - _sizeNumericValue(targetSize);\n  if (sizeDiff >= 1) {\n    return [{type: \"adv\", value: 1, label: \"1 or more size smaller then the attacker\", targetHash: target.actor.targetHash, target: true}];\n  }\n  if (sizeDiff === -1) {\n    return [{type: \"dis\", value: 1, label: \"1 size larger then the attacker\", targetHash: target.actor.targetHash, target: true}];\n  }\n  if (sizeDiff < -1) {\n    return [{autoFail: true, label: \"More than 1 size larger then the attacker\", targetHash: target.actor.targetHash, target: true}];\n  }\n  return [];\n}\n\nfunction _sizeNumericValue(size) {\n  switch (size) {\n    case \"tiny\": return 0;\n    case \"small\": return 1;\n    case \"medium\": return 2;\n    case \"large\": return 3;\n    case \"huge\": return 4;\n    case \"gargantuan\": return 5;\n    case \"colossal\": return 6;\n    case \"titanic\": return 7;\n  }\n}",
+        "trigger": "onDRMCheck",
+        "disabled": false,
+        "name": "Respect creature size",
+        "title": "",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -531,7 +540,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1766074468748,
-    "modifiedTime": 1766074566914,
+    "modifiedTime": 1767307771989,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

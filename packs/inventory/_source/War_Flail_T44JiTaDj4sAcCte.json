@@ -41,7 +41,8 @@
           "hshield",
           "light",
           "heavy",
-          "other"
+          "other",
+          "spellFocus"
         ],
         "cost": 0
       },
@@ -112,13 +113,14 @@
           "second": "whip"
         },
         "damageType": {
-          "first": "slashing",
+          "first": "bludgeoning",
           "second": "slashing"
         },
         "label": "dc20rpg.properties.multiFaceted",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
         "for": [
-          "melee"
+          "melee",
+          "ranged"
         ],
         "cost": 1
       },
@@ -277,7 +279,7 @@
     "formulas": {
       "weaponDamage": {
         "formula": "2",
-        "type": "slashing",
+        "type": "bludgeoning",
         "category": "damage",
         "fail": false,
         "failFormula": "",
@@ -327,7 +329,7 @@
     "secondWeaponStyle": "axe"
   },
   "effects": [],
-  "sort": 200000,
+  "sort": 150000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
@@ -340,7 +342,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1719920384377,
-    "modifiedTime": 1765974462900,
+    "modifiedTime": 1767299473695,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

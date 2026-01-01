@@ -11,7 +11,7 @@
     "choicePointCost": 1,
     "requirements": {
       "level": 0,
-      "items": ""
+      "items": "throw"
     },
     "rollMenu": {
       "free": false,
@@ -73,7 +73,7 @@
       "contestedKey": "phy",
       "againstDC": false,
       "checkDC": 10,
-      "respectSizeRules": false,
+      "respectSizeRules": true,
       "failEffect": ""
     },
     "save": {
@@ -129,7 +129,50 @@
         "respectSizeRules": false
       }
     },
-    "formulas": {},
+    "formulas": {
+      "eLAluQgrQtFeZp65": {
+        "formula": "max(ceil(@mig/2), 1)",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": " Throw Distance (Same Size)",
+        "dontModifyFailFormula": true
+      },
+      "aHb2Ea8jVawfLB8P": {
+        "formula": " max(@mig, 1 )",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": "Throw Distance (1 Size smaller)",
+        "dontModifyFailFormula": true
+      },
+      "JF8vfMuElJy7ZHGP": {
+        "formula": "2 * max(@mig, 1)",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": "Throw Distance (2+ Sizes smaller)",
+        "dontModifyFailFormula": true
+      }
+    },
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
@@ -266,7 +309,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1766085911095,
-    "modifiedTime": 1766085967714,
+    "modifiedTime": 1767309426527,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

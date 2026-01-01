@@ -73,7 +73,7 @@
       "contestedKey": "phy",
       "againstDC": false,
       "checkDC": 10,
-      "respectSizeRules": false,
+      "respectSizeRules": true,
       "failEffect": ""
     },
     "save": {
@@ -129,7 +129,50 @@
         "respectSizeRules": false
       }
     },
-    "formulas": {},
+    "formulas": {
+      "gNlcIZDfBdPfNxVS": {
+        "formula": "max(ceil(@mig/2), 1)",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": " Throw Distance (Same Size)",
+        "dontModifyFailFormula": true
+      },
+      "TAlQYJBUDOm9g58q": {
+        "formula": " max(@mig, 1 )",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": "Throw Distance (1 Size smaller)",
+        "dontModifyFailFormula": true
+      },
+      "KbIW3O6SwqaPWL2K": {
+        "formula": "2 * max(@mig, 1)",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "0",
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": true,
+        "label": "Throw Distance (2+ Sizes smaller)",
+        "dontModifyFailFormula": true
+      }
+    },
     "enhancements": {
       "MhF3rKIte16NLb4a": {
         "name": "Increased Throw",
@@ -155,8 +198,8 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -388,8 +431,8 @@
       }
     },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": "",
+      "copy": true,
+      "copyFor": "system.itemKey=[\"throw\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -528,7 +571,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1766086095481,
-    "modifiedTime": 1767184020075,
+    "modifiedTime": 1767309436898,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
