@@ -150,7 +150,7 @@ async function _addItemsToActor(items, actor, advancement) {
     }
 
     // Add created id to advancement record
-    if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
+    if (record.ignoreKnown || advancement.doNotAddToKnownLimit) created.update({["system.knownLimit"]: false});
     record.createdItemId = created._id;
     advancement.items[key] = record;
   }

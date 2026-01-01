@@ -144,6 +144,14 @@ export class DC20RpgActor extends Actor {
     return getValueFromPath(this, `system.shareWithCompanionOwner.${key}`);
   }
 
+  getItemByKey(itemKey) {
+    return this.items.find(item => item.system.itemKey === itemKey);
+  }
+
+  getEffectByKey(effectKey) {
+    return this.allEffects.find(effect => effect.system.effectKey === effectKey);
+  }
+
   /** @override */
   prepareData() {
     this.statuses ??= new Set();
@@ -665,8 +673,10 @@ export class DC20RpgActor extends Actor {
 
     if (this.type === "character") {
       // We should not remove unarmed strike each time - it might break some features
-      // const unarmedStrike = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike, "unarmedStrike");
-      // actionsData.push(unarmedStrike);
+      if (!this.getItemByKey("unarmedStrike")) {
+        const unarmedStrike = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike, "unarmedStrike");
+        actionsData.push(unarmedStrike);
+      }
 
       // Add mp/sp on ap converters and martial enhancements
       const mpToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.mpToAp, "mpToAp");

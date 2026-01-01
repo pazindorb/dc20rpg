@@ -106,7 +106,7 @@ function _handleHealing(data, token) {
 //==========================================
 //=               AUTO LINK                =
 //==========================================
-const EXCLUDE = new Set(["attack","object","spell","move","jump"]);
+const EXCLUDE = new Set(["attack","object","spell","move","jump","throw"]);
 const UUID_TOKEN_RE = /@UUID\[[^\]]+]\{[^}]*}/g;
 
 const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

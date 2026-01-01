@@ -177,7 +177,7 @@ export class RollDialog extends DC20Dialog {
     if (!rollsHeldAction) return;
 
     // Update enhancements
-    const allEnhancements = this.item.allEnhancements;
+    const allEnhancements = this.item.enhancements.all;
     for (const [enhKey, enhNumber] of Object.entries(actionHeld.enhancements)) {
       const itemId = allEnhancements.get(enhKey).sourceItemId;
       const itemToUpdate = this.actor.items.get(itemId);
@@ -569,7 +569,7 @@ export class RollDialog extends DC20Dialog {
   
   async _onToggle(path, which, max, min, dataset) {
     if (path.includes("system.enhancements")) {
-      await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.runCheck === "true");
+      await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.runDrmCheck === "true");
     }
     else if (["apForAdv", "gritForAdv"].includes(path)) {
       await this._onToggleRollLevel(path, which, max, min);
@@ -579,7 +579,7 @@ export class RollDialog extends DC20Dialog {
     }
   }
 
-  async _onToggleEnhancement(path, which, max, min, itemId, runCheck) {
+  async _onToggleEnhancement(path, which, max, min, itemId, runDrmCheck) {
     const item = this._getItem(itemId);
     const value = getValueFromPath(item, path);
 
@@ -592,7 +592,7 @@ export class RollDialog extends DC20Dialog {
       this.render();
     }
 
-    if (this.autoDRMCheck && runCheck) this._DRMCheck(false);
+    if (this.autoDRMCheck && runDrmCheck) this._DRMCheck(false);
   }
 
   async _onToggleRollLevel(path, which) {

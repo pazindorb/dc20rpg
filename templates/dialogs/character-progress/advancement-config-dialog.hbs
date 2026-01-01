@@ -34,6 +34,10 @@
         <span>{{localize "dc20rpg.dialog.advancement.itemLimit"}}</span>
         <input class="numeric-input-nullable" type="text" value="{{addItemsOptions.itemLimit}}" data-path="addItemsOptions.itemLimit"/>
       </div>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.doNotAddToKnownLimitTitle"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.doNotAddToKnownLimit"}}</span>
+        <a class="activable" data-path="doNotAddToKnownLimit"><i class="fa-2x {{#if doNotAddToKnownLimit}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.dialog.advancement.compendium"}}</span>
         <select class="selectable" data-path="addItemsOptions.itemType">

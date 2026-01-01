@@ -15,6 +15,7 @@ export function createNewAdvancement() {
 		repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		progressPath: false,
 		mustChoose: false,
+		doNotAddToKnownLimit: false,
 		pointAmount: 1,
 		talent: false, 
 		allowToAddItems: false,

@@ -86,6 +86,7 @@ export class Formula {
   category = "damage";
   fail = false;
   failFormula = "";
+  dontModifyFailFormula = false;
   each5 = false;
   each5Formula = "";
   dontMerge = false;

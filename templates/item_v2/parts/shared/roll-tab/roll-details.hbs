@@ -307,6 +307,7 @@
             </div>
             <div class="buttons">
               <a class="activable fail-formula fa-solid fa-square-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.fail"></a>
+              <a class="activable {{#if formula.dontModifyFailFormula}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.dontModifyFailFormula"}}" data-path="system.formulas.{{key}}.dontModifyFailFormula"></a>
             </div>
           </div>
           <div class="right-part-row">

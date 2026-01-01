@@ -143,7 +143,7 @@
           {{#ifCond @root.rollsHeldAction '||' enhancement.preventModification}}
           <i>{{enhancement.number}}</i>
           {{else}}
-          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-check={{#ifCond enhancement.modifications.rollLevelChange '||' enhancement.modifications.addsRange}}"true"{{else}}"false"{{/ifCond}} data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
             {{enhancement.number}}
           </a>
           {{/ifCond}}

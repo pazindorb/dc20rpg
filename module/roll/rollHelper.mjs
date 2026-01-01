@@ -1,7 +1,7 @@
 import { extractGFModValue } from "../dataModel/fields/actor/GFM.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
-import { getLabelFromKey } from "../helpers/utils.mjs";
+import { generateKey, getLabelFromKey } from "../helpers/utils.mjs";
 
 export function labelForItemRoll(item) {
   const actionType = item.system.actionType;
@@ -191,10 +191,10 @@ async function _prepareFormulas(formulas, item, evalData) {
         const dmgType = damageOverride || formula.type;
         let damageTypeLabel = getLabelFromKey(dmgType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
         roll.modified.label = "Damage - " + damageTypeLabel;
-        roll.modified.type = formula.type;
+        roll.modified.type = dmgType;
         roll.modified.typeLabel = damageTypeLabel;
         roll.clear.label = "Damage - " + damageTypeLabel;
-        roll.clear.type = formula.type;
+        roll.clear.type = dmgType;
         roll.clear.typeLabel = damageTypeLabel;
         damageRolls.push(roll);
         break;
@@ -223,7 +223,7 @@ async function _prepareFormulas(formulas, item, evalData) {
 
 async function _modifiedRollFormula(formula, key, item, evalData) {
   let rollFormula = formula.formula;
-  let failFormula = formula.fail ? formula.failFormula : null;
+  let failFormula = (formula.fail && !formula.dontModifyFailFormula) ? formula.failFormula : null;
   let modifierSources = formula.enhName || "Base Value";
 
   // From Enhancements

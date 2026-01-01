@@ -546,6 +546,7 @@ function _enrichPropertiesObject(item) {
   _enhanceMultiFaceted(item);
   _enhanceAmmo(item);
   _enhanceWeaponStyle(item);
+  _enrichDeftProperty(item);
 }
 
 //==================================
@@ -594,6 +595,7 @@ function _enhanceMultiFaceted(item) {
   const property = item.system?.properties?.multiFaceted;
   if (!property || !property.active) return;
 
+  if (!property.labelKey) property.labelKey = property.weaponStyle[property.selected];
   item.multiFaceted = {
     swap: () => _swapMultiFaceted(item)
   }
@@ -667,6 +669,27 @@ function _getActiveAmmo(item) {
 }
 
 //==================================
+//               DEFT              =
+//==================================
+function _enrichDeftProperty(item) {
+  if (!item.system.properties?.deft?.active) return;
+
+  const macro = new ItemMacro();
+  macro.name = "Deft Property";
+  macro.trigger = "onDRMCheck";
+  macro.command = `
+if (!actor.hasStatus("prone")) return;
+
+const rollMenu = item.system.rollMenu;
+const attackFormula = item.system.attackFormula;
+const rangeType = rollMenu.rangeType || attackFormula.rangeType;
+
+if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (counter prone status)", targetHash: actor.targetHash});
+  `;
+  item.system.macros["deft"] = macro;
+}
+
+//==================================
 //           WEAPON STYLE          =
 //==================================
 function _enhanceWeaponStyle(item) {
@@ -694,6 +717,7 @@ function _enrichEnhancementObject(item) {
     enhancement.sourceItemName = item.name;
     enhancement.sourceItemImg = item.img;
     enhancement.active = enhancement.number > 0
+    enhancement.drmCheck = _shouldRunDRMCheck(enhancement);
 
     enhancement.toggleUp = async () => await _enhancementToggle(enhancement, true, item);
     enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, item);
@@ -764,6 +788,11 @@ function _activeEnhancements(item) {
   return active;
 }
 
+function _shouldRunDRMCheck(enhancement) {
+  const mod = enhancement.modifications
+  return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula;
+}
+
 //==================================//==================================
 //                              USE WEAPON                             =
 //==================================//==================================
@@ -779,6 +808,7 @@ function _enrichUseWeaponObject(item) {
 
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
+  item.system.macros = {...item.system.macros, ...weapon.system.macros};
 
   item.ammo = weapon.ammo || undefined;
   item.reloadable = weapon.reloadable || undefined;

@@ -128,6 +128,9 @@ export async function removeItemFromActorInterceptor(item, actor) {
   if (item.system.isResource) {
     actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
+
+  // Unequip item
+  if (item.equipped) await item.equip({forceUneqip: true});
 }
 
 async function _createNewCustomResourceFromItem(item, actor) {
