@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/nature/lotus-glow-pink.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to make a <strong>DC 10 Spell Check</strong> to heal a target within your Domain.</p><p><strong>Success:</strong> The target immediately regains <strong>2 HP</strong>. For the next minute, it regains an additional <strong>1 HP</strong> each time it ends its turn within your Domain.</p><p><strong>Success (each 5):</strong> They immediately regain <strong>+1 HP</strong>.</p><p><strong>Failure:</strong> The target only regains <strong>2 HP</strong> immediately.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to make a DC 10 Spell Check to heal a target within your Domain.</p><p><strong>Success:</strong> The target immediately regains 1 HP. For the next minute, they regain an additional 1 HP each time they end their turn within your Domain.</p><p><strong>Success (each 5):</strong> They immediately regain +1 HP.</p><p><strong>Failure:</strong> The target only regains 1 HP immediately.</p><p></p><p><em><strong>System Tip:</strong> Apply effect to target only on success.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -72,7 +73,7 @@
     },
     "formulas": {
       "yPghBqUGawULfAUd": {
-        "formula": "2",
+        "formula": "1",
         "type": "heal",
         "category": "healing",
         "fail": false,
@@ -232,17 +233,90 @@
       "subtract": false
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Wild Growth",
+      "img": "icons/magic/nature/lotus-glow-pink.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.uYcWwnEQ3lAJogeX",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null,
+        "turns": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "pCxhnpVXd3eLKveT",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"healing\", \"trigger\": \"turnEnd\", \"label\": \"Wild Growth - Healing\", \"preTrigger\": \"skip\", \"value\": 1, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You regain 1 HP each time you end your turn within your Domain.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1767130295755,
+        "modifiedTime": 1767130586673,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!uYcWwnEQ3lAJogeX.pCxhnpVXd3eLKveT"
+    }
+  ],
   "folder": "assAWwSMvV8I7IsS",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350036002,
-    "modifiedTime": 1760521814654,
+    "modifiedTime": 1767130290135,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/nature/tree-spirit-black.webp",
   "system": {
-    "description": "<p>When a creature within 10 spaces of you takes Elemental damage, you can spend <strong>1</strong> <strong>AP</strong> as a <strong>Reaction</strong> to summon a torrent of nature.</p><p>The torrent fills a 1 Space Radius Sphere centered on the target that lasts for 1 minute.</p><p>While creatures are within the area, they are have <strong>Vulnerable 1</strong> against the triggering damage type and have <strong>DisADV</strong> on Checks and Saves to resist being moved or knocked <strong>Prone</strong>.</p><p><strong>Ending Early:</strong> The torrent ends early if you use this Feature again, become Incapacitated, die, or choose to end it for free at anytime.</p>",
+    "description": "<p>When a creature within 10 spaces of you takes Elemental damage, you can spend <strong>1</strong> <strong>AP</strong> as a <strong>Reaction</strong> to summon a torrent of nature.</p><p>The torrent fills a 3 Spaces Diameter Sphere centered on the target that lasts for 1 minute.</p><p>While creatures are within the area, they are have <strong>Vulnerable 1</strong> against the triggering damage type and have <strong>DisADV</strong> on Checks and Saves to resist being moved or knocked <strong>Prone</strong>.</p><p><strong>Ending Early:</strong> The torrent ends early if you use this Feature again, become Incapacitated, die, or choose to end it for free at anytime.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -51,9 +51,10 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 1,
+          "distance": 1.5,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -151,7 +152,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -240,7 +242,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -329,7 +332,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -418,7 +422,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -507,7 +512,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -1070,9 +1076,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035127,
-    "modifiedTime": 1761303729803,
+    "modifiedTime": 1767130921936,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

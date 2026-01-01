@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
   "system": {
-    "description": "<p>You have an assortment of unique oils, tools, and weapon accessories that you can use to modify a Weapon (or piece of ammunition) when making an Attack.</p><p><span><strong>Hunter’s Strike: </strong>You can spend<strong> 1 SP</strong> as part of an Attack Check to add 1 of the effects listed below. You can only use 1 of these effects per Attack Check.</span></p><ul><li><p><span><strong>Piercing:</strong></span> 2 Piercing damage and <span><strong>Physical Save </strong></span>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong><span><strong>.</strong></span></p></li><li><p><span><strong>Snare: </strong></span>2 Bludgeoning damage and <span><strong>Physical Save </strong></span>against <span><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk]{Immobilized} </strong></span>until the end of your next turn<span><strong>.</strong></span></p></li><li><p><strong>Acid:</strong> 2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1}</strong> until the end of your next turn.</p></li><li><p><strong>Toxin:</strong> 2 Poison damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> until the end of your next turn.</p></li><li><p><span><strong>Flash Bang: </strong>2 Sonic damage and <strong>Mental Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>until the end of your next turn.</span></p></li><li><p><span><strong>Fire Oil: </strong>2 Fire damage and <strong>Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5]{Burning}</strong>.</span></p></li></ul><p></p>",
+    "description": "<p><span class=\"cf0\">You can spend 1 SP as part of a Weapon Attack to add 1 of the unique Martial Enhancements listed below. You can only use 1 of these enhancements per Attack.</span></p><p><span class=\"cf0\">The damage increases by 1 for each SP spent beyond the first. If a Enhancement forces the target to make a Save, it does so against your Save DC.</span></p><ul><li><p><span class=\"cf0\"><strong>Acid:</strong> The target takes 1 Corrosion damage and makes an Agility Save. <br><strong>Save Failure:</strong> The target becomes Hindered until the end of your next turn.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Fire:</strong> The target takes 1 Fire damage and makes a Might Save. <br><strong>Save Failure:</strong> The target begins Burning.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Piercing:</strong> The target takes 1 Piercing damage and makes a Might Save. <br><strong>Save Failure:</strong> The target begins Bleeding.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Snare:</strong> The target takes 1 Bludgeoning damage and makes an Agility Save. <br><strong>Save Failure:</strong> The target becomes Immobilized until the end of your next turn.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Toxin:</strong> The target takes 1 Poison damage and makes a Might Save. <br><strong>Save Failure:</strong> The target becomes Impaired until the end of your next turn.</span></p></li></ul><p class=\"pf0\"></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -84,223 +84,48 @@
       }
     },
     "enhancements": {
-      "psqqOomUdYYJBJcW": {
-        "name": "Hunter’s Strike: Piercing",
+      "cskPT8W2FK1qwDZG": {
+        "name": "Acid",
         "number": 0,
+        "preventModification": false,
+        "description": "<p><span class=\"cf0\">The target takes 1 Corrosion damage and makes an Agility Save. </span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target becomes Hindered until the end of your next turn.</span></p>",
+        "hide": false,
         "resources": {
-          "actionPoint": null,
+          "ap": null,
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {},
           "grit": null,
           "restPoints": null,
-          "ap": null
+          "custom": {}
         },
         "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw",
-          "subtract": null
+          "subtract": null,
+          "fromOriginal": false
         },
         "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "addsNewFormula": true,
-          "formula": {
-            "formula": "2",
-            "type": "piercing",
-            "category": "damage",
-            "overrideDefence": "",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "perTarget": false
-          },
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewRollRequest": true,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "phy",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": true,
-          "againstStatus": {
-            "id": "bleeding",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
           "modifiesCoreFormula": false,
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0
-        },
-        "description": "<p>2 Piercing damage and Physical Save against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820]{Bleeding}</strong>.</p>",
-        "hide": false,
-        "key": "psqqOomUdYYJBJcW",
-        "sourceItemId": "eu0sQyynPGSuLRiy",
-        "sourceItemName": "Hunter’s Strike",
-        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
-        "active": false
-      },
-      "ERBAQakGUNtmoPaB": {
-        "name": "Hunter’s Strike: Snare",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw",
-          "subtract": null
-        },
-        "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "addsNewFormula": true,
-          "formula": {
-            "formula": "2",
-            "type": "bludgeoning",
-            "category": "damage",
-            "overrideDefence": "",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "perTarget": false
-          },
+          "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
-          "addsNewRollRequest": true,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "phy",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": true,
-          "againstStatus": {
-            "id": "immobilized",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": true,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0
-        },
-        "description": "<p>2 Bludgeoning damage and <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong></span>against <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk]{Immobilized}.</strong></span></p>",
-        "hide": false,
-        "key": "ERBAQakGUNtmoPaB",
-        "sourceItemId": "eu0sQyynPGSuLRiy",
-        "sourceItemName": "Hunter’s Strike",
-        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
-        "active": false
-      },
-      "rPJYtKxrsWusovHy": {
-        "name": "Hunter’s Strike: Acid",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw",
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
           "addsNewFormula": true,
           "formula": {
-            "formula": "2",
+            "formula": "1",
             "type": "corrosion",
             "category": "damage",
-            "overrideDefence": "",
             "fail": false,
             "failFormula": "",
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
+            "overrideDefence": "",
             "perTarget": false
           },
-          "overrideDamageType": false,
-          "damageType": "",
           "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
@@ -308,12 +133,11 @@
             "contestedKey": "",
             "dcCalculation": "martial",
             "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "slowed",
+            "id": "hindered",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": true,
@@ -323,6 +147,11 @@
             "forOneMinute": false,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -335,62 +164,52 @@
             "normal": null,
             "max": null
           },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "MJ5tItUxEG0AxkOw": {
+        "name": "Fire",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p class=\"pf0\"><span class=\"cf0\">The target takes 1 Fire damage and makes a Might Save. </span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Save Failure:</strong> The target begins Burning.</span></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
           "modifiesCoreFormula": false,
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0
-        },
-        "description": "<p>2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 1} </strong>until the end of your next turn.</p>",
-        "hide": false,
-        "key": "rPJYtKxrsWusovHy",
-        "sourceItemId": "eu0sQyynPGSuLRiy",
-        "sourceItemName": "Hunter’s Strike",
-        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
-        "active": false
-      },
-      "ZMPKdkjBYxvAnNze": {
-        "name": "Hunter’s Strike: Poison",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw",
-          "subtract": null
-        },
-        "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
           "addsNewFormula": true,
           "formula": {
-            "formula": "2",
-            "type": "poison",
+            "formula": "1",
+            "type": "fire",
             "category": "damage",
-            "overrideDefence": "",
             "fail": false,
             "failFormula": "",
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
+            "overrideDefence": "",
             "perTarget": false
           },
-          "overrideDamageType": false,
-          "damageType": "",
           "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
@@ -398,188 +217,7 @@
             "contestedKey": "",
             "dcCalculation": "martial",
             "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": true,
-          "againstStatus": {
-            "id": "impaired",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": true,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0
-        },
-        "description": "<p>2 <strong>Poison</strong> damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> until the end of your next turn.</p>",
-        "hide": false,
-        "key": "ZMPKdkjBYxvAnNze",
-        "sourceItemId": "eu0sQyynPGSuLRiy",
-        "sourceItemName": "Hunter’s Strike",
-        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
-        "active": false
-      },
-      "drXXPuAOCsJLHLOg": {
-        "name": "Hunter’s Strike: Flash Bang",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw",
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "addsNewFormula": true,
-          "formula": {
-            "formula": "2",
-            "type": "sonic",
-            "category": "damage",
-            "overrideDefence": "",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "perTarget": false
-          },
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewRollRequest": true,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "men",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": true,
-          "againstStatus": {
-            "id": "dazed",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": true,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Sonic damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Mental Save </strong>against <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed} </strong>until the end of your next turn.</span></p>",
-        "hide": false,
-        "key": "drXXPuAOCsJLHLOg",
-        "sourceItemId": "eu0sQyynPGSuLRiy",
-        "sourceItemName": "Hunter’s Strike",
-        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
-        "active": false
-      },
-      "DybnWJrobFrEojsK": {
-        "name": "Hunter’s Strike: Fire Oil",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "originalId": "ajgSH5FPoJZvtCcw",
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "addsNewFormula": true,
-          "formula": {
-            "formula": "2",
-            "type": "fire",
-            "category": "damage",
-            "overrideDefence": "",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "perTarget": false
-          },
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewRollRequest": true,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "phy",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": true,
           "againstStatus": {
@@ -594,6 +232,11 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
           "rollLevelChange": false,
           "rollLevel": {
             "type": "adv",
@@ -605,24 +248,261 @@
             "normal": null,
             "max": null
           },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "s9IpB1wN4Ah1IlTo": {
+        "name": "Piercing",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p class=\"pf0\"><span class=\"cf0\">The target takes 1 Piercing damage and makes a Might Save. </span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Save Failure:</strong> The target begins Bleeding.</span></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
           "modifiesCoreFormula": false,
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "1",
+            "type": "piercing",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "mig",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "bleeding",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Fire damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5]{Burning}</strong>.</span></p>",
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "1kvwf3dyXPptkR42": {
+        "name": "Snare",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p class=\"pf0\"><span class=\"cf0\">The target takes 1 Bludgeoning damage and makes an Agility Save.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Save Failure:</strong> The target becomes Immobilized until the end of your next turn.</span></p>",
         "hide": false,
-        "key": "DybnWJrobFrEojsK",
-        "sourceItemId": "eu0sQyynPGSuLRiy",
-        "sourceItemName": "Hunter’s Strike",
-        "sourceItemImg": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
-        "active": false
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "1",
+            "type": "bludgeoning",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "agi",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "immobilized",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "7aGedRsniLii9Wum": {
+        "name": "Toxin",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p class=\"pf0\"><span class=\"cf0\">The target takes 1 Poison damage and makes a Might Save. </span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Save Failure:</strong> The target becomes Impaired until the end of your next turn.</span></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "1",
+            "type": "poison",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "mig",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "impaired",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -787,9 +667,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035174,
-    "modifiedTime": 1761303729474,
+    "modifiedTime": 1767139231806,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

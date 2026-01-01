@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
   "system": {
-    "description": "<p>Your training in warfare has granted you the following benefits:</p><ul><li><p><strong>Weapon Master:</strong> At the start of each of your turns, you can freely swap any Weapon you’re currently wielding in each hand for any other Weapon.</p></li><li><p><strong>Maneuver Master:</strong> You learn 2 Maneuvers of your choice.</p></li><li><p><strong>Technique Master:</strong> You learn 1 Technique of your choice. Once per Combat, when you perform a Technique you can reduce its SP cost by 1.</p></li></ul>",
+    "description": "<p>Your training in warfare has granted you the following benefits:</p><ul><li><p><strong>Weapon Master:</strong> At the start of each of your turns, you can freely swap any Weapon you’re currently wielding in each hand for any other Weapon without  provoking Opportunity Attacks.</p></li><li><p><strong>Maneuver Master:</strong> You learn 1 Maneuver of your choice. Once per Round when you perform a Maneuver, you can reduce its SP cost by 1.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -74,7 +74,7 @@
     "formulas": {},
     "enhancements": {
       "MqAOGocRZKDahFJA": {
-        "name": "Technique Master",
+        "name": "Maneuver Master",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -152,9 +152,10 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Once per</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Combat</strong>, when you perform a Technique you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">SP</strong> cost by 1.</span></p>",
+        "description": "<p>Once per Round when you perform a Maneuver, you can reduce its SP cost by 1.</p>",
         "hide": false,
         "key": "MqAOGocRZKDahFJA",
         "sourceItemId": "lMCeeVziJxm0Ht1f",
@@ -165,7 +166,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.techniqueType=\"technique\"",
+      "copyFor": "type=[\"maneuver\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -192,7 +193,7 @@
         "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "combat",
+        "reset": "roundEnd",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -326,7 +327,7 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Technique Master",
+      "name": "Maneuver Master",
       "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
       "_id": "3jRjMeQu9SfRg9KS",
       "type": "base",
@@ -338,19 +339,13 @@
       },
       "changes": [
         {
-          "key": "system.known.techniques.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
           "key": "system.known.maneuvers.max",
+          "value": "1",
           "mode": 2,
-          "value": "2",
           "priority": null
         }
       ],
-      "description": "<ul><li><p><strong>Maneuver Master:</strong> You learn 2 Maneuvers of your choice.</p></li><li><p><strong>Technique Master:</strong> You learn 1 Technique of your choice.</p></li></ul>",
+      "description": "<p>You learn 1 Maneuver of your choice.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -373,11 +368,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256723,
+        "modifiedTime": 1767118808988,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -391,9 +386,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035605,
-    "modifiedTime": 1761303729559,
+    "modifiedTime": 1767118932685,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,9 +1,9 @@
 {
-  "name": "Heightened Spell",
+  "name": "Vicious Spell",
   "type": "feature",
-  "img": "icons/magic/time/arrows-circling-pink.webp",
+  "img": "icons/magic/death/skeleton-eye-skull-glow-orange.webp",
   "system": {
-    "description": "<p>When you cast a Spell that forces a creature to make a <strong>Save</strong> to resist its effects, you can spend <strong>1 MP</strong> to give 1 target DisADV on its first <strong>Save</strong> against the Spell.</p>",
+    "description": "<p><span class=\"cf0\">When you cast a Spell that forces</span><span class=\"cf1\"> </span><span class=\"cf0\">a creature to make a Save to resist its effects, 1 target of</span><span class=\"cf1\"> </span><span class=\"cf0\">your choice has <strong>DisADV</strong> on its first Save against the Spell.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -147,9 +147,10 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p>When you cast a Spell that forces a creature to make a <strong>Save</strong> to resist its effects, you can spend <strong>1 MP</strong> to give 1 target DisADV on its first <strong>Save</strong> against the Spell.</p><p><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>You can only use 1 Meta Magic Enhancement per Spell</strong></span></p>",
+        "description": "<p><span class=\"cf0\">When you cast a Spell that forces</span><span class=\"cf1\"> </span><span class=\"cf0\">a creature to make a Save to resist its effects, 1 target of</span><span class=\"cf1\"> </span><span class=\"cf0\">your choice has <strong>DisADV</strong> on its first Save against the Spell.</span></p>",
         "charges": {
           "subtract": null,
           "fromOriginal": false
@@ -245,7 +246,7 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "itemKey": "heightenedSpell",
+    "itemKey": "viciousSpell",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
@@ -319,9 +320,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034811,
-    "modifiedTime": 1761303729224,
+    "modifiedTime": 1767176430049,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

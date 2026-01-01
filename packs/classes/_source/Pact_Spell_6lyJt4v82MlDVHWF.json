@@ -1,9 +1,9 @@
 {
-  "name": "Pact Cantrip",
+  "name": "Pact Spell",
   "type": "feature",
   "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
   "system": {
-    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p><strong>Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong>ADV</strong> on the <strong>Spell</strong> <strong>Check</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
+    "description": "<p><span class=\"cf0\">Choose a Spell you know. The chosen Spell becomes your Pact Spell. </span></p><p><span class=\"cf0\">When you cast your Pact Spell, you gain the following benefits:</span></p><ul><li><p><span class=\"cf0\"><strong>Death’s Toll:</strong> If the Spell deals damage, it deals an extra</span><span class=\"cf1\"> </span><span class=\"cf0\">+1 damage to Bloodied targets.</span></p></li><li><p><span class=\"cf0\"><strong>Range Increase:</strong> If the Spell’s range is 1 , it increases by</span><span class=\"cf1\"> </span><span class=\"cf0\">1 Space, otherwise it increases by 5 Spaces.</span></p></li><li><p><span class=\"cf0\"><strong>Patron’s Favor:</strong> Once per Round, you can grant yourself</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on any Check you make to cast your Pact Spell.</span></p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -73,27 +73,35 @@
     },
     "formulas": {},
     "enhancements": {
-      "epEeEWmilTgEKeFZ": {
-        "name": "Pact Cantrip - Advantage",
+      "Mx0diqSuDu3hCZiX": {
+        "name": "Range Increase",
         "number": 0,
+        "preventModification": false,
+        "description": "",
+        "hide": false,
         "resources": {
-          "actionPoint": null,
+          "ap": null,
           "health": null,
           "mana": null,
           "stamina": null,
           "grit": null,
-          "custom": {},
           "restPoints": null,
-          "ap": null
+          "custom": {}
         },
         "charges": {
-          "fromOriginal": true,
-          "subtract": 1
+          "subtract": null,
+          "fromOriginal": false
         },
         "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "ignoreDR": false,
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
           "addsNewFormula": false,
           "formula": {
             "formula": "",
@@ -107,17 +115,14 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "overrideDamageType": false,
-          "damageType": "",
           "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
             "saveKey": "",
             "contestedKey": "",
-            "dcCalculation": "martial",
+            "dcCalculation": "spell",
             "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": false,
           "againstStatus": {
@@ -131,6 +136,95 @@
             "forOneMinute": false,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": 1,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "cWSJmh6qkxI61VsQ": {
+        "name": "Patron’s Favor",
+        "number": 0,
+        "preventModification": false,
+        "description": "",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": 1,
+          "fromOriginal": true
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           },
           "rollLevelChange": true,
           "rollLevel": {
@@ -143,116 +237,9 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": null,
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeStaminaSpendLimit": null
-        },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong>.</span></p>",
-        "hide": false,
-        "key": "epEeEWmilTgEKeFZ",
-        "sourceItemId": "6lyJt4v82MlDVHWF",
-        "sourceItemName": "Pact Cantrip",
-        "sourceItemImg": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
-        "active": false
-      },
-      "vSuLLqUruNVQ7jQl": {
-        "name": "Pact Cantrip - Range",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "ignoreDR": false,
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": true,
-          "bonusRange": {
-            "melee": 2,
-            "normal": 5,
-            "max": 5
-          },
-          "changeManaSpendLimit": null,
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeStaminaSpendLimit": null
-        },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</span></p>",
-        "hide": false,
-        "key": "vSuLLqUruNVQ7jQl",
-        "sourceItemId": "6lyJt4v82MlDVHWF",
-        "sourceItemName": "Pact Cantrip",
-        "sourceItemImg": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
-        "active": false
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -420,7 +407,7 @@
     },
     "conditionals": {
       "csK0IUEZuFMIxzxY": {
-        "name": "Pact Cantrip",
+        "name": "Death’s Toll",
         "condition": "target.hasAnyCondition([\"bloodied\"])",
         "useFor": "name=\"CANTRIP NAME HERE\"",
         "linkWithToggle": false,
@@ -464,7 +451,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1767015042638,
+    "modifiedTime": 1767181635889,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

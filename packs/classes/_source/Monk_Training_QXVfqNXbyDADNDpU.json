@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/commodities/wood/bamboo-brown.webp",
   "system": {
-    "description": "<p>Your martial arts training grants you greater offense, defense, and movement.</p><ul><li><p><strong>Iron Palm:</strong> Your <strong>Unarmed</strong> <strong>Strikes</strong> deal 1 damage and are considered Melee Weapons with the <strong>Impact</strong> Property.</p></li><li><p><strong>Patient Defense: </strong>While you aren't wearing Armor you gain <strong>+2 PD</strong>. </p></li></ul><ul><li><p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
+    "description": "<p>Your martial arts training grants you greater offense, defense, and movement.</p><ul><li><p><strong>Iron Palm:</strong> <span class=\"cf0\">Choose a Melee Weapon Style when you gain this Feature. Your limbs are considered Natural Weapons that deal <strong>2</strong> Bludgeoning damage and can perform the Weapon Enhancement of the chosen Weapon Style.</span></p></li><li><p><strong>Patient Defense: </strong>While you aren't wearing Armor you gain <strong>+2 PD</strong>. </p></li></ul><ul><li><p><strong>Step of the Wind:</strong> You gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -170,7 +170,7 @@
     "quickRoll": false,
     "macros": {
       "yUGns5UAgTkWacnl": {
-        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\nunarmedStrike.update({\n  [\"system.formulas.weaponDamage.formula\"]: \"1\",\n  [\"system.properties.impact.active\"]: true\n});",
+        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Unarmed Strike Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nunarmedStrike.update({\n  [\"system.weaponStyle\"]: weaponStyle,\n  [\"system.formulas.weaponDamage.formula\"]: \"2\"\n});",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Add Iron Palm to Unarmed Strike",
@@ -178,7 +178,7 @@
         "global": false
       },
       "NLsw4JOssO2ObCWd": {
-        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\nunarmedStrike.update({\n  [\"system.formulas.weaponDamage.formula\"]: \"0\",\n  [\"system.properties.impact.active\"]: false\n});",
+        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\n\nunarmedStrike.update({\n  [\"system.weaponStyle\"]: \"\",\n  [\"system.formulas.weaponDamage.formula\"]: \"0\"\n});",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Iron Palm from Unarmed Strike",
@@ -228,9 +228,9 @@
       "system": {
         "statusId": "",
         "disableWhen": {
-          "path": "system.details.armor.armorEquipped",
-          "mode": "==",
-          "value": "true"
+          "path": "",
+          "mode": "",
+          "value": ""
         }
       },
       "changes": [
@@ -259,7 +259,7 @@
           "priority": null
         }
       ],
-      "description": "<ul><li><p><span><strong>Patient Defense: </strong>While you aren't wearing Armor you gain <strong>+2 PD</strong>. </span></p></li><li><p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
+      "description": "<ul><li><p><strong>Patient Defense: </strong>While you aren't wearing Armor you gain <strong>+2 PD</strong>. </p></li></ul><ul><li><p><strong>Step of the Wind:</strong> You gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -285,11 +285,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.Cvlcs6l8C9R7XddU.ActiveEffect.uf2iNfUEHraYoOhS",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": 1744980204150,
-        "modifiedTime": 1750880256686,
+        "modifiedTime": 1767168996220,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -301,11 +301,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034306,
-    "modifiedTime": 1750923170735,
+    "modifiedTime": 1767169243211,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

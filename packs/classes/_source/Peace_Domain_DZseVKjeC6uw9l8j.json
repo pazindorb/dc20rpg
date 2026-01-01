@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/equipment/head/helm-spangen-engraved.webp",
   "system": {
-    "description": "<p>You gain Combat Training with Heavy Armor and Heavy Shields and learn 1 Defensive Maneuver of your choice.</p>",
+    "description": "<p>You gain Combat Training with Heavy Armor and Heavy Shields and learn 1 Defense Maneuver of your choice.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -176,10 +177,10 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "hasAdvancement": false,
+    "hasAdvancement": true,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
+        "name": "Peace Domain",
         "mustChoose": false,
         "pointAmount": 1,
         "level": 0,
@@ -209,11 +210,19 @@
           0,
           0
         ],
-        "allowToAddItems": false,
+        "allowToAddItems": true,
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
-        "items": {}
+        "items": {},
+        "macro": "const data = Object.values(advancement.items)[0];\nif (!data) return;\n\nconst item = actor.items.get(data.createdItemId);\nif (item) item.update({[\"system.knownLimit\"]: false});",
+        "addItemsOptions": {
+          "itemLimit": 1,
+          "itemType": "maneuver",
+          "preFilters": "{\"maneuverType\": \"defense\"}",
+          "helpText": "Add Defense Maneuver"
+        },
+        "key": "default"
       }
     },
     "help": {
@@ -245,12 +254,6 @@
         }
       },
       "changes": [
-        {
-          "key": "system.known.maneuvers.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
         {
           "key": "system.combatTraining.heavyShield",
           "mode": 5,
@@ -287,11 +290,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256650,
+        "modifiedTime": 1767126553693,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -303,11 +306,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034826,
-    "modifiedTime": 1745412688183,
+    "modifiedTime": 1767126611525,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
   "system": {
-    "description": "<p>You gain the power to harness your inner spirit as a counterbalance against to your physical energy.</p><p><span ><strong><span >Ki Points</span></strong></span></p><p>You have a maximum number of Ki Points equal to your Stamina Point. When your Stamina Point maximum increases, your Ki Point maximum also increases equally.</p><p><strong>Regaining Ki:</strong> When you spend a <strong>Stamina</strong> <strong>Point</strong> on your turn, you regain a <strong>Ki</strong> <strong>Point</strong>. While out of Combat, any <strong>Ki</strong> <strong>Points</strong> you spend replenish immediately.</p><p> </p><p><span ><strong><span >Ki Actions</span></strong></span></p><p>You can spend 1 Ki Point at any time to perform 1 of the activities listed below:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.96kFQIA7P0dh5Nys]{Deflect Attack}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.nAgoXn3wKtURiOs7]{Slow Fall}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.5I8i4iV5xvAR9iJf]{Uncanny Dodge}</p></li></ul>",
+    "description": "<p>You gain the power to harness your inner spirit as a counterbalance against to your physical energy.</p><p><span><strong>Ki Points</strong></span></p><p>You have a maximum number of Ki Points equal to your Stamina Point. When your Stamina Point maximum increases, your Ki Point maximum also increases equally.</p><p><strong>Regaining Ki:</strong> <span class=\"cf0\">When you spend a Stamina Point on your turn, you regain a Ki Point. You regain all spent Ki Points when Combat ends.</span></p><p> </p><p><span><strong>Ki Actions</strong></span></p><p>You can spend 1 Ki Point at any time to perform 1 of the activities listed below:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.96kFQIA7P0dh5Nys]{Deflect Attack}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.nAgoXn3wKtURiOs7]{Slow Fall}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.5I8i4iV5xvAR9iJf]{Uncanny Dodge}</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -136,7 +136,7 @@
     "resource": {
       "name": "Ki Points",
       "resourceKey": "ki-point",
-      "reset": "",
+      "reset": "combatEnd",
       "values": [
         1,
         0,
@@ -287,7 +287,7 @@
           "priority": null
         }
       ],
-      "description": "<p><strong>Regaining Ki:</strong> When you spend a Stamina Point on your turn, you regain a Ki Point. While out of Combat, any Ki Points you spend replenish immediately.</p>",
+      "description": "<p><strong>Regaining Ki:</strong> <span class=\"cf0\">When you spend a Stamina Point on your turn, you regain a Ki Point. You regain all spent Ki Points when Combat ends.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -296,11 +296,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.347",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.8.0",
         "createdTime": 1760443512960,
-        "modifiedTime": 1760447424664,
+        "modifiedTime": 1767170931431,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!KzFTB80UezpHFVat.WGYHWlRo62dlEX4e"
@@ -311,11 +311,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034644,
-    "modifiedTime": 1760447155069,
+    "modifiedTime": 1767170913303,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

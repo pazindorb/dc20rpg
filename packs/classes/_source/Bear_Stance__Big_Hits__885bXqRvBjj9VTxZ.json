@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/bear-roar-bite-brown.webp",
   "system": {
-    "description": "<ul><li><p>+1 damage when you score a <strong>Heavy</strong>, <strong>Brutal</strong>, and <strong>Critical</strong> <strong>Hit</strong> with <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>.</p></li><li><p>When you miss an <strong>Melee Martial Attack</strong>, you gain ADV on the next Melee Martial Attack you make before the end of your turn.</p></li></ul>",
+    "description": "<ul><li><p><span class=\"cf0\">You deal <strong>+1</strong> damage on Heavy Hits (or higher) and</span><span class=\"cf1\"> </span><span class=\"cf0\">Critical Hits on Martial Attacks made using Unarmed</span><span class=\"cf1\"> </span><span class=\"cf0\">Strikes or Melee Weapons.</span></p></li><li><p><span class=\"cf0\">When you Miss using a Melee Martial Attack, you gain</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on the next Melee Martial Attack you make before</span><span class=\"cf1\"> </span><span class=\"cf0\">the end of your turn. You can only gain this benefit once</span><span class=\"cf1\"> </span><span class=\"cf0\">on each of your turns.</span></p></li></ul><p><em><strong>System Tip:</strong> Use on demand macro to apply that effect.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -164,7 +165,16 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "AuqKXWkg6xF3GRRm": {
+        "command": "const effect = item.getEffectByKey(\"bearStanceMiss\");\nif (!effect) return;\n\ngame.dc20rpg.effects.createEffectOn(effect.toObject(), actor);",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Apply Attack Miss Effect",
+        "title": "Apply Attack Miss Effect",
+        "global": false
+      }
+    },
     "againstEffect": {
       "id": "",
       "supressFromChatMessage": false,
@@ -224,14 +234,16 @@
       "zuoUT2TvtGRa7Tm3": {
         "name": "Bear Stance",
         "condition": "hit >= 5 || crit",
-        "useFor": "system.weaponType=\"melee\"",
+        "useFor": "system.weaponType=[\"melee\"]",
         "linkWithToggle": true,
         "bonus": "1",
         "flags": {
           "ignorePdr": false,
           "ignoreMdr": false,
           "ignoreResistance": {},
-          "ignoreImmune": {}
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
         },
         "effect": null,
         "addsNewRollRequest": false,
@@ -278,7 +290,7 @@
         }
       },
       "changes": [],
-      "description": "<ul><li><p>+1 damage when you score a <strong>Heavy</strong>, <strong>Brutal</strong>, and <strong>Critical</strong> <strong>Hit</strong> with <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>.</p></li><li><p>When you miss an <strong>Melee Martial Attack</strong>, you gain ADV on the next Melee Martial Attack you make before the end of your turn.</p></li></ul>",
+      "description": "<ul><li><p><span class=\"cf0\">You deal <strong>+1</strong> damage on Heavy Hits (or higher) and</span><span class=\"cf1\"> </span><span class=\"cf0\">Critical Hits on Martial Attacks made using Unarmed</span><span class=\"cf1\"> </span><span class=\"cf0\">Strikes or Melee Weapons.</span></p></li><li><p><span class=\"cf0\">When you Miss using a Melee Martial Attack, you gain</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on the next Melee Martial Attack you make before</span><span class=\"cf1\"> </span><span class=\"cf0\">the end of your turn. You can only gain this benefit once</span><span class=\"cf1\"> </span><span class=\"cf0\">on each of your turns.</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -296,15 +308,92 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256596,
+        "modifiedTime": 1767169592726,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!885bXqRvBjj9VTxZ.X8EX7mSnG98qcI62"
+    },
+    {
+      "name": "Bear Stance - Miss",
+      "img": "icons/creatures/abilities/bear-roar-bite-brown-green.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.885bXqRvBjj9VTxZ",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "ZRVp0Pu0xigAo03X",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "bearStanceMiss",
+        "macro": "",
+        "addToChat": false,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Bear Stance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnEnd\", \"label\": \"Bear Stance\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p><span class=\"cf0\">When you Miss using a Melee Martial Attack, you gain</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on the next Melee Martial Attack you make before</span><span class=\"cf1\"> </span><span class=\"cf0\">the end of your turn. You can only gain this benefit once</span><span class=\"cf1\"> </span><span class=\"cf0\">on each of your turns.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1767169577610,
+        "modifiedTime": 1767169871216,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!885bXqRvBjj9VTxZ.ZRVp0Pu0xigAo03X"
     }
   ],
   "folder": "8PuTMRT8o1FtiBCV",
@@ -312,11 +401,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035023,
-    "modifiedTime": 1745412688175,
+    "modifiedTime": 1767170235369,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

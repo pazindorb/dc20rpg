@@ -1,9 +1,9 @@
 {
   "name": "Mongoose Stance (Multi)",
   "type": "feature",
-  "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
+  "img": "icons/creatures/claws/claw-bear-paw-swipe-red.webp",
   "system": {
-    "description": "<ul><li><p>Your <strong>Melee Martial Attack</strong> deal +1 damage while you are <strong>Flanked</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong> against a target, you can make another <strong>Melee Martial Attack</strong> for free against a different target within your Melee Range. You can only make this bonus Melee Martial Attack once on each of your turns. Make a single <strong>Attack Check</strong> and apply the number rolled to each target’s <strong>Physical Defense</strong>. <strong>Attack Hit:</strong> You deal your Unarmed Strike damage.</p></li></ul>",
+    "description": "<ul><li><p><span class=\"cf0\">Your <strong>Melee Martial Attacks</strong> deal +1 damage while you’re Flanked.</span></p></li><li><p><span class=\"cf0\">When you make a Melee Martial Attack, you choose</span><span class=\"cf1\"> </span><span class=\"cf0\">a second target within your Melee Range. You make a</span><span class=\"cf1\"> </span><span class=\"cf0\">single Attack Check against both targets.</span></p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -151,7 +151,7 @@
           "changeStaminaSpendLimit": null,
           "specificFormulaKey": ""
         },
-        "description": "<p>When you are in Mongoose Stance <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Melee Martial Attack</strong> deal +1 damage while you are <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Flanked</strong>.</span></p>",
+        "description": "<p><span class=\"cf0\">Your <strong>Melee Martial Attacks</strong> deal +1 damage while you’re Flanked.</span></p>",
         "hide": false,
         "charges": {
           "subtract": null,
@@ -166,7 +166,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponType=\"melee\"",
+      "copyFor": "system.attackFormula.rangeType=[\"melee\"]&&system.attackFormula.checkType=[\"attack\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -350,7 +350,7 @@
           "priority": null
         }
       ],
-      "description": "<ul><li><p>Your <strong>Melee Martial Attack</strong> deal +1 damage while you are <strong>Flanked</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong> against a target, you can make another <strong>Melee Martial Attack</strong> for free against a different target within your Melee Range. You can only make this bonus Melee Martial Attack once on each of your turns. Make a single <strong>Attack Check</strong> and apply the number rolled to each target’s <strong>Physical Defense</strong>. <strong>Attack Hit:</strong> You deal your Unarmed Strike damage.</p></li></ul>",
+      "description": "<ul><li><p><span class=\"cf0\">Your <strong>Melee Martial Attacks</strong> deal +1 damage while you’re Flanked.</span></p></li><li><p><span class=\"cf0\">When you make a Melee Martial Attack, you choose</span><span class=\"cf1\"> </span><span class=\"cf0\">a second target within your Melee Range. You make a</span><span class=\"cf1\"> </span><span class=\"cf0\">single Attack Check against both targets.</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -372,7 +372,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1766696278596,
+        "modifiedTime": 1767170517644,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -388,7 +388,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034547,
-    "modifiedTime": 1766696279462,
+    "modifiedTime": 1767170637210,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

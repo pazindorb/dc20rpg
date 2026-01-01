@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/trades/music-singing-voice-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to start a performance that lasts for 1 minute.</p><p>Choose 1 of the performances below. Creatures of your choice within <strong>10 Spaces</strong> that can see or hear you benefit from your performance.</p><ul><li><p><strong>Battle Ballad:</strong> Once on each of their turns, the chosen creatures deal <strong>+1 damage</strong> against 1 target of their choice on an Attack they make.</p></li><li><p><strong>Fast Tempo:</strong> The chosen creatures gain <strong>+1 Speed</strong>.</p></li><li><p><strong>Inspiring:</strong> The chosen creatures gain <strong>1 Temp HP</strong> at the start of each of their turns.</p></li><li><p><strong>Emotional:</strong> Choose 1 of the following Conditions: <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0f27a9c67ee55f2c]{Charmed}, @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.f2d19e12af30f93d]{Frightened}, @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.UkBt66vXWP3eyEOj]{Turned}</strong>. The chosen creatures have Resistance against the chosen <strong>Condition</strong>. <br>If a target is effected by the chosen <strong>Condition</strong> at the start of its turn, it can immediately attempt to end the Condition on itself by Repeating its Save.</p></li></ul><p></p><p><strong>Changing Performances:</strong> Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p><p><strong>Ending Early:</strong> The performance ends early if you become <strong>Incapacitated</strong>, you die, or choose to end it for free.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to start a performance that lasts for 1 minute.</p><p>Choose 1 of the performances below. Creatures of your choice within <strong>10 Spaces</strong> that can see or hear you benefit from your performance.</p><ul><li><p><strong>Battle Ballad:</strong> The chosen creatures gain a d4 bonus to the first Attack Check they make on each of their turns.</p></li><li><p><strong>Fast Tempo:</strong> The chosen creatures gain <strong>+1 Speed</strong>.</p></li><li><p><strong>Inspiring:</strong> The chosen creatures gain <strong>1 Temp HP</strong> at the start of each of their turns.</p></li><li><p><strong>Emotional:</strong> Choose 1 of the following Conditions: Charmed, Frightened, Intimidated, or Taunted. The chosen creatures have Resistance against the chosen <strong>Condition</strong>. <br>If a target is effected by the chosen <strong>Condition</strong> at the start of its turn, it can immediately attempt to end the Condition on itself by Repeating its Save.</p></li></ul><p></p><p><strong>Changing Performances:</strong> Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p><p><strong>Ending Early:</strong> The performance ends early if you become <strong>Incapacitated</strong>, you die, or choose to end it for free.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -704,6 +704,162 @@
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
         "active": false
+      },
+      "8rABYSQKGQuf4dee": {
+        "name": "Emotional - Intimidated",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have </span><span style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\">ADV</span><span style=\"font-family: Signika, sans-serif\"> on </span><span style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\">Saves</span><span style=\"font-family: Signika, sans-serif\"> to resist and end Intimidated Condition.</span></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "name": "Emotional - Intimidated",
+            "img": "icons/magic/control/fear-fright-mask-orange.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "8rABYSQKGQuf4dee"
+              }
+            },
+            "_id": "h6MHfvcIxOVz6y4N",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": ""
+            },
+            "changes": [
+              {
+                "key": "system.statusResistances.intimidated.resistance",
+                "mode": 2,
+                "value": "1",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p><span>You have <strong>ADV</strong> on <strong>Saves</strong> to resist and end <strong>Intimidated</strong> Condition. If you are affected by the <strong>Condition</strong> at the start of your turn, you can immediately attempt to end the <strong>Condition</strong> by repeating its <strong>Save</strong>.</span></p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1767115578746,
+              "modifiedTime": 1767115607614,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -883,7 +1039,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "GL3MZ5TT0EA8vcbf"
+        "requireEnhancement": "GL3MZ5TT0EA8vcbf",
+        "addToChat": true
       },
       "changes": [
         {
@@ -893,13 +1050,43 @@
           "priority": null
         },
         {
-          "key": "system.globalFormulaModifiers.damage.any",
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\", \"confirmation\": true, \"afterRoll\": \"disable\"",
+          "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
           "priority": null
         }
       ],
-      "description": "<p><span>Once on each of your turn, you deal <strong>+1 damage</strong></span> against 1 target of your choice on an Attack you make.</p>",
+      "description": "<p><span>The chosen creatures gain a d4 bonus to the first Attack Check they make on each of their turns.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -927,9 +1114,9 @@
         "duplicateSource": null,
         "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1766693930311,
+        "modifiedTime": 1767115767960,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -956,7 +1143,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "v0YjX5gvDi9OPeLq"
+        "requireEnhancement": "v0YjX5gvDi9OPeLq",
+        "addToChat": true
       },
       "changes": [
         {
@@ -992,11 +1180,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256658,
+        "modifiedTime": 1767115337697,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1023,7 +1211,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "YmRa89r1AW92xlms"
+        "requireEnhancement": "YmRa89r1AW92xlms",
+        "addToChat": true
       },
       "changes": [
         {
@@ -1059,11 +1248,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256661,
+        "modifiedTime": 1767115333469,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1090,7 +1279,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "Ouwdlwkqsy5xFbj7"
+        "requireEnhancement": "Ouwdlwkqsy5xFbj7",
+        "addToChat": true
       },
       "changes": [
         {
@@ -1126,11 +1316,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256664,
+        "modifiedTime": 1767115329456,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1157,7 +1347,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "i6A1A28SNF80D9ec"
+        "requireEnhancement": "i6A1A28SNF80D9ec",
+        "addToChat": true
       },
       "changes": [
         {
@@ -1193,11 +1384,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.classes.Item.eMVSsCzJqYu14tT2.ActiveEffect.7vBV02aXYp62rlnv",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256667,
+        "modifiedTime": 1767115325155,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1224,7 +1415,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "TyLSlDlYCdNUIXVT"
+        "requireEnhancement": "TyLSlDlYCdNUIXVT",
+        "addToChat": true
       },
       "changes": [
         {
@@ -1260,11 +1452,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.classes.Item.eMVSsCzJqYu14tT2.ActiveEffect.7vBV02aXYp62rlnv",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256670,
+        "modifiedTime": 1767115321608,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1280,7 +1472,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350035250,
-    "modifiedTime": 1766696098607,
+    "modifiedTime": 1767115686260,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

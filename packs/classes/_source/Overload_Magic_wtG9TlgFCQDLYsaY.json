@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>Incapacitated</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion X}</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+    "description": "<p class=\"pf0\"><span class=\"cf1\">You can spend <strong>1 AP + 1 MP</strong> in Combat to channel</span><span class=\"cf0\"> </span><span class=\"cf1\">raw magical energy for 1 minute, or until you become</span><span class=\"cf0\"> </span><span class=\"cf1\">Incapacitated, die, or choose to end it early at any time for</span><span class=\"cf0\"> </span><span class=\"cf1\">free.</span></p><p class=\"pf0\"><span class=\"cf1\">For the duration, your magic is overloaded and you’re</span><span class=\"cf0\"> </span><span class=\"cf1\">subjected to the following effects:</span></p><ul><li>You gain +5 to all Spell Attacks and Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion X}</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -89,12 +90,12 @@
       "resources": {
         "actionPoint": null,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "custom": {},
         "grit": null,
         "restPoints": null,
-        "ap": 2
+        "ap": 1
       },
       "charges": {
         "current": null,
@@ -281,7 +282,7 @@
           "mode": "=="
         },
         "effectKey": "overloadMagic",
-        "macro": "game.dc20rpg.effects.exhaustionToggle(actor, true);\nui.notifications.info(\"Received stack of Exhaustion\");"
+        "macro": "actor.toggleStatusEffect(\"exhaustion\", { active: true });\nui.notifications.info(\"Received stack of Exhaustion\");"
       },
       "changes": [
         {
@@ -295,9 +296,15 @@
           "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Overload Magic\", \"checkKey\": \"prime\", \"against\": 0, \"statuses\": [\"exhaustion\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
+        },
+        {
+          "key": "system.checkMod.bonus.spell",
+          "mode": 2,
+          "value": "5",
+          "priority": null
         }
       ],
-      "description": "<ul><li><p>You gain +5 to all Spell Checks you make.</p></li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br /><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>. You lose any @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion} gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+      "description": "<ul><li>You gain +5 to all Spell Attacks and Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br /><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -323,11 +330,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256757,
+        "modifiedTime": 1767177422408,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -339,11 +346,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350033956,
-    "modifiedTime": 1760521814720,
+    "modifiedTime": 1767175512457,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

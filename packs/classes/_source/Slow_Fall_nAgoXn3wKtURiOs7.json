@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/air/fog-gas-smoke-dense-blue.webp",
   "system": {
-    "description": "<p><strong>(1 Ki)</strong> Reduce damage you take from falling by an amount equal to your level.</p>",
+    "description": "<p class=\"pf0\"><span class=\"cf0\">When you take damage from falling, you can spend 1 or more Ki Points to reduce the damage by an amount equal to the Ki Points spent.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -71,7 +72,98 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "d88Rj5DMswQq08Ry": {
+        "name": "Reduce More Damage",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p class=\"pf0\"><span class=\"cf0\">When you take damage from falling, you can spend 1 or more Ki Points to reduce the damage by an amount equal to the Ki Points spent.</span></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {
+            "ki-point": {
+              "name": "Ki Points",
+              "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+              "value": 1
+            }
+          }
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
     "copyEnhancements": {
       "copy": false,
       "copyFor": "",
@@ -164,7 +256,7 @@
     "itemKey": "slowFall",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "quickRoll": true,
+    "quickRoll": false,
     "macros": {},
     "toggle": {
       "toggleable": false,
@@ -233,11 +325,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035575,
-    "modifiedTime": 1745412732158,
+    "modifiedTime": 1767171681139,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

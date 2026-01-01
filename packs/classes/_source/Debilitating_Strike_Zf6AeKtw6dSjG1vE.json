@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/blade-tip-energy-green.webp",
   "system": {
-    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73d26b54fce004a0]{Exposed}</strong></p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5fa74b85758bd263]{Deafened}</strong></p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3be8114c415718d2]{Hindered}</strong></p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 2}</strong></p></li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
+    "description": "<p>When you make a Weapon Attack, you can spend <strong>1 SP</strong> to force the target to make a Physical Save against your Save DC. </p><p><strong>Save Failure:</strong> The target suffers 1 of the following effects of your choice for 1 Round: Deafened, Exposed, Hindered, or Slowed 2. </p><p>A target can’t be affected by the same option more than once at a time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -73,7 +74,7 @@
     "formulas": {},
     "enhancements": {
       "VJJdbnvzYURCeaRr": {
-        "name": "Debilitating Strike - Expose",
+        "name": "Debilitating Strike - Exposed",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -152,9 +153,10 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Until the end of your next turn Attack Checks against your target have ADV.</span></p>",
+        "description": "<p>Until the end of your next turn your target is Exposed.</p>",
         "hide": false,
         "key": "VJJdbnvzYURCeaRr",
         "sourceItemId": "Zf6AeKtw6dSjG1vE",
@@ -242,7 +244,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "<p>Until the end of your next turn your target is Deafened.</p>",
         "hide": false,
@@ -332,9 +335,10 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p>Until the end of your next turn your target has disadvantage on Attack Checks.</p>",
+        "description": "<p>Until the end of your next turn your target is Hindered.</p>",
         "hide": false,
         "key": "kjnrGFwqifWeaGwS",
         "sourceItemId": "Zf6AeKtw6dSjG1vE",
@@ -422,9 +426,10 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p>Until the end of your next turn every 1 Space your target moves costs it an extra 2 Space of movement.</p><p><em><strong>System Tip:</strong> Apply Slowed condition twice.</em></p>",
+        "description": "<p>Until the end of your next turn your target is Slowed 2.</p><p><em><strong>System Tip:</strong> Apply Slowed condition twice.</em></p>",
         "hide": false,
         "key": "RvvZpqISoPaEKzgp",
         "sourceItemId": "Zf6AeKtw6dSjG1vE",
@@ -601,9 +606,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035871,
-    "modifiedTime": 1761303729366,
+    "modifiedTime": 1767129122781,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

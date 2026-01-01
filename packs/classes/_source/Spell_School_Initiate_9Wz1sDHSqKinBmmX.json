@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/sundries/books/book-open-purple.webp",
   "system": {
-    "description": "<p>You’ve completed training in a specialized School of Magic.</p><p>Choose a Spell School. You gain the following benefits:</p><ul><li><p><strong>School Magic:</strong> You learn 1 Arcane Cantrip and 1 Arcane Spell from this Spell School.</p></li><li><p><strong>Signature School:</strong> When you cast a Spell from the chosen School, you can reduce its <strong>MP</strong> cost by 1. Its total MP cost before the reduction still can’t exceed your Mana Spend Limit. </p><p>You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</p></li></ul>",
+    "description": "<p><span class=\"cf0\">You’ve completed training in a specialized School of Magic.</span></p><p><span class=\"cf0\">Choose a Spell School. You gain the following benefits:</span></p><ul><li><p><strong>School Magic:</strong> You learn 2 Arcane Spells from this Spell School.</p></li><li><p><strong>Signature School:</strong> <span class=\"cf0\">When you cast a Spell from the chosen School, you can reduce its MP cost by 1. Its total MP cost before the reduction can’t exceed your Mana Spend Limit. You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</span></p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -154,7 +154,7 @@
           },
           "changeStaminaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast a Spell from the chosen School, you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">MP</strong> cost by 1.<br style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Its total <strong>MP</strong> cost before the reduction still can’t exceed your Mana Spend Limit. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</span></p>",
+        "description": "<p><span class=\"cf0\">When you cast a Spell from the chosen School, you can reduce its MP cost by 1. Its total MP cost before the reduction can’t exceed your Mana Spend Limit. </span></p><p><span class=\"cf0\">You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</span></p>",
         "hide": false,
         "key": "13HW6SCfr6PM61tu",
         "sourceItemId": "9Wz1sDHSqKinBmmX",
@@ -282,10 +282,10 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "hasAdvancement": false,
+    "hasAdvancement": true,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
+        "name": "Spell School Initiate",
         "mustChoose": false,
         "pointAmount": 1,
         "level": 0,
@@ -315,11 +315,19 @@
           0,
           0
         ],
-        "allowToAddItems": false,
+        "allowToAddItems": true,
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
-        "items": {}
+        "items": {},
+        "customTitle": "You learn 2 Arcane Spells from choosen Spell School of Magic.",
+        "addItemsOptions": {
+          "itemType": "spell",
+          "itemLimit": 2,
+          "helpText": "Add Spell"
+        },
+        "key": "default",
+        "doNotAddToKnownLimit": true
       }
     },
     "help": {
@@ -327,79 +335,9 @@
       "subtract": false
     },
     "featureSourceItem": "wizard",
-    "tip": "<p>You learn 1 Arcane Cantrip and 1 Arcane Spell from your selected Spell School</p>"
+    "tip": ""
   },
-  "effects": [
-    {
-      "origin": "Item.jqgcZpqpIycpgbD4",
-      "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Spell School Initiate",
-      "img": "icons/sundries/books/book-open-purple.webp",
-      "_id": "QM6XIB588Cd9FcYt",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.known.cantrips.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
-      "description": "<p>You learn 1 Arcane Cantrip and 1 Arcane Spell from this Spell School</p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256604,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!9Wz1sDHSqKinBmmX.QM6XIB588Cd9FcYt"
-    }
-  ],
+  "effects": [],
   "folder": "Vnj8VsHGDPyOtBbP",
   "flags": {},
   "_stats": {
@@ -409,7 +347,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350035521,
-    "modifiedTime": 1767015449971,
+    "modifiedTime": 1767183160109,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

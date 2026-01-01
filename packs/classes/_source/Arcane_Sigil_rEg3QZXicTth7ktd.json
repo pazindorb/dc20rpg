@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/runes-star-magenta.webp",
   "system": {
-    "description": "<p>You can spend<strong> 1 AP </strong>and <strong>1 MP</strong> to create a 1 Space diameter Arcane Sigil on the ground beneath you that lasts for 1 minute.</p><p>Choose 1 <strong>Spell School</strong> (Abjuration, Enchantment, Necromancy, etc.) or 1 <strong>Spell Tag</strong> (Fire, Cold, Teleportation, etc.) when you create the Arcane Sigil. The Arcane Sigil radiates magic of the chosen type.</p><p><strong>Using a Sigil:</strong> While a creature is within the area of your Arcane Sigil, it has ADV on <strong>Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p><p><strong>Moving a Sigil:</strong> You can spend <strong>1 AP</strong> to teleport one of your Sigils within 10 spaces to your current space, but multiple Sigils can’t coexist in the same Space.</p>",
+    "description": "<p><span class=\"cf0\">You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to choose a Spell School or Spell Tag and create a 1 Space diameter Circle on a surface within a Space you’re occupying. The Circle is your Arcane Sigil which lasts for 1 minute. You can’t place more than 1 Arcane Sigil in the same Space.</span></p><p><strong>Using a Sigil:</strong> While a creature is within the area of your Arcane Sigil, it has ADV on Spell Checks to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p><p><strong>Moving a Sigil:</strong> You can spend <strong>1 AP</strong> to teleport one of your Sigils within 10 spaces to your current space, but multiple Sigils can’t coexist in the same Space.</p><p></p><p><span class=\"cf0\"><em><strong>DC Tip:</strong> A magical sigil like this radiates the magic of the chosen School making its type of magic discernable by effects that can detect magic.</em></span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -74,7 +74,7 @@
     "formulas": {},
     "enhancements": {
       "n99AxQuH1fRMU0c5": {
-        "name": "You are standing in your Sigil",
+        "name": "Arcane Sigil",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -152,9 +152,10 @@
           },
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
-          "targetDefenceType": "area"
+          "targetDefenceType": "area",
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While a creature is within the area of your Arcane Sigil, it has ADV on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</span></p>",
+        "description": "<p>While a creature is within the area of your Arcane Sigil, it has ADV on Spell Checks to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p>",
         "hide": false,
         "key": "n99AxQuH1fRMU0c5",
         "sourceItemId": "rEg3QZXicTth7ktd",
@@ -165,7 +166,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.magicSchool=[\"SPELL SCHOOL\"]",
+      "copyFor": "type=[\"spell\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": true
     },
@@ -330,9 +331,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034142,
-    "modifiedTime": 1761303729677,
+    "modifiedTime": 1767183315676,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
