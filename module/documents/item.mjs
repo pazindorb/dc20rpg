@@ -306,7 +306,7 @@ export class DC20RpgItem extends Item {
       for (const template of Object.values(templates)) {
         if (this.#getLinkedTemplate(token)) continue;
         if (template.passiveAura || (template.linkWithToggle && this.toggledOn)) {
-          const applyEffects = getMesuredTemplateEffects(this);
+          const applyEffects = getMesuredTemplateEffects(this, [], this.actor);
           const itemData = {
             itemId: this.id, 
             actorId: this.actor.id, 

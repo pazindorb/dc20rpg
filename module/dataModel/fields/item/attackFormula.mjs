@@ -18,7 +18,6 @@ export default class AttackFormulaFields extends foundry.data.fields.SchemaField
       }),
       ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
       formulaMod: new f.StringField({required: true, initial: ""}),
-      customModifier: new f.StringField({required: true, initial: ""}),
       ...fields
     };
     super(fields, options);

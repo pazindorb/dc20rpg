@@ -1,7 +1,7 @@
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(item) {
-  // if (item.system.attackFormula) _calculateRollModifier(item);
+  if (item.system.attackFormula) _calculateRollModifier(item);
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
@@ -11,24 +11,17 @@ export function makeCalculations(item) {
   _combatTraining(item);
 }
 
-// TODO: Rework this shit
 function _calculateRollModifier(item) {
   const attackFormula = item.system.attackFormula;
-  let formulaModifier = "";
+  if (!attackFormula.checkType) {
+    attackFormula.rollModifier = 0;
+    return;
+  }
+  
+  const attackKey = attackFormula.checkType === "attack" ? "martial" : attackFormula.checkType;
+  let formulaModifier = ` + @attack.${attackKey}`;
 
-  // Determine if it is a spell or attack check or has a custom modifer
-  if (attackFormula.customModifier) {
-    formulaModifier = attackFormula.customModifier;
-  }
-  else if (attackFormula.checkType === "attack") {
-    if (attackFormula.combatMastery) formulaModifier += " + @attack";
-    else formulaModifier += " + @attackNoCM"; // TODO: Remove as we always add combat mastery now
-  }
-  else if (attackFormula.checkType === "spell") formulaModifier += " + @spell";
-
-  if (attackFormula.rollBonus) {
-     formulaModifier +=  " + @rollBonus";
-  }
+  if (attackFormula.rollBonus) formulaModifier +=  " + @rollBonus";
   attackFormula.formulaMod = formulaModifier;
 
   // Calculate roll modifier for formula

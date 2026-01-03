@@ -69,7 +69,12 @@ export function activateCommonLinsters(html, item) {
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
-  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.allChecks)));
+  html.find('.multi-select').change(ev => {
+    const path = datasetOf(ev).path;
+    const labels = path.includes("spellTags") ?  CONFIG.DC20RPG.DROPDOWN_DATA.spellTags : CONFIG.DC20RPG.ROLL_KEYS.allChecks; // Improve multi-select
+    const key = valueOf(ev);
+    addToMultiSelect(item, path, key, getLabelFromKey(key, labels));
+  });
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement

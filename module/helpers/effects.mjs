@@ -252,14 +252,21 @@ export function injectFormula(effect, effectOwner) {
   }
 }
 
-export function getMesuredTemplateEffects(item, applicableEffects) {
+export function getMesuredTemplateEffects(item, applicableEffects, actor) {
   if (!item) return {applyFor: "", effects: []};
-  if (item.effects.size === 0) return {applyFor: "", effects: []};
+  if (item.effects.size === 0 && applicableEffects.length === 0) return {applyFor: "", effects: []};
   if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
+
+  const effects = applicableEffects || item.effects.toObject();
+  if (actor) {
+    for (const effect of effects) {
+      injectFormula(effect, actor);
+    }
+  }
 
   return {
     applyFor: item.system.effectsConfig.addToTemplates,
-    effects: applicableEffects || item.effects.toObject()
+    effects: effects
   }
 }
 
@@ -439,10 +446,10 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
     "system.dynamicRollModifier.onYou.skills": "DRM: Skill Check",
 
-    "system.dynamicRollModifier.onYou.saves.mig": "DRM: Might Saves",
-    "system.dynamicRollModifier.onYou.saves.agi": "DRM: Agility Saves",
-    "system.dynamicRollModifier.onYou.saves.cha": "DRM: Charisma Saves",
-    "system.dynamicRollModifier.onYou.saves.int": "DRM: Intelligence Saves",
+    "system.dynamicRollModifier.onYou.saves.mig": "DRM: Might Save",
+    "system.dynamicRollModifier.onYou.saves.agi": "DRM: Agility Save",
+    "system.dynamicRollModifier.onYou.saves.cha": "DRM: Charisma Save",
+    "system.dynamicRollModifier.onYou.saves.int": "DRM: Intelligence Save",
     "system.dynamicRollModifier.onYou.deathSave": "DRM: Death Save",
 
     "system.dynamicRollModifier.againstYou.martial.melee": "DRM (Against): Melee Martial Attack ",
@@ -463,10 +470,10 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",
     "system.dynamicRollModifier.againstYou.trades": "DRM (Against): Trade Check",
 
-    "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Saves",
-    "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Saves",
-    "system.dynamicRollModifier.againstYou.saves.cha": "DRM (Against): Charisma Saves",
-    "system.dynamicRollModifier.againstYou.saves.int": "DRM (Against): Intelligence Saves",
+    "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Save",
+    "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Save",
+    "system.dynamicRollModifier.againstYou.saves.cha": "DRM (Against): Charisma Save",
+    "system.dynamicRollModifier.againstYou.saves.int": "DRM (Against): Intelligence Save",
 
     // Events
     "system.events": "Events",

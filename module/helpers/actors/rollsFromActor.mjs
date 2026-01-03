@@ -120,13 +120,13 @@ function _prepareCheckDetails(item) {
   }
 }
 
-function _prepareEffectsFromItems(item, forceAddToChat) {
+function _prepareEffectsFromItems(item) {
   const effects = [];
   // From Item itself
   if (item.effects.size !== 0) {
     item.effects.forEach(effect => {
       const addToChat = effect.system.addToChat;
-      if (forceAddToChat || addToChat) {
+      if (addToChat) {
         const requireEnhancement = effect.system.requireEnhancement;
         if (requireEnhancement) {
           const number = item.allEnhancements.get(requireEnhancement)?.number

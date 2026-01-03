@@ -519,23 +519,20 @@ DC20RPG.DROPDOWN_DATA.spellTypes = {
   ritual: "Ritual"
 }
 
-DC20RPG.DROPDOWN_DATA.spellLists = {
+DC20RPG.DROPDOWN_DATA.spellSources = {
   arcane: "Arcane",
   divine: "Divine",
   primal: "Primal"
 }
 
-DC20RPG.DROPDOWN_DATA.magicSchools = {
+DC20RPG.DROPDOWN_DATA.spellSchools = {
   astromancy: "Astromancy",
-  chronomancy: "Chronomancy",
   conjuration: "Conjuration",
-  destruction: "Destruction",
   divination: "Divination",
+  elemental: "Elemental",
   enchantment: "Enchantment",
-  illusion: "Illusion",
-  necromancy: "Necromancy",
-  protection: "Protection",
-  restoration: "Restoration",
+  invocation: "Invocation",
+  nullification: "Nullification",
   transmutation: "Transmutation"
 }
 
@@ -905,6 +902,53 @@ DC20RPG.DROPDOWN_DATA.helpDiceDuration = {
   combat: "Combat",
   infinity: "Infinity"
 }
+
+DC20RPG.DROPDOWN_DATA.spellTags = {
+  ailment: "Ailment",
+  air: "Air",
+  antimagic: "Antimagic",
+  blood: "Blood",
+  chaos: "Chaos",
+  cleansing: "Cleansing",
+  communication: "Communication",
+  curse: "Curse",
+  death: "Death",
+  embolden: "Embolden",
+  emotions: "Emotions",
+  enfeeble: "Enfeeble",
+  forge: "Forge",
+  gravity: "Gravity",
+  healing: "Healing",
+  illusion: "Illusion",
+  knowledge: "Knowledge",
+  light: "Light",
+  madness: "Madness",
+  metamorphosis: "Metamorphosis",
+  motion: "Motion",
+  plants: "Plants",
+  planes: "Planes",
+  resurrection: "Resurrection",
+  scent: "Scent",
+  sense: "Sense",
+  shadow: "Shadow",
+  sound: "Sound",
+  spirit: "Spirit",
+  strike: "Strike",
+  summoning: "Summoning",
+  teleportation: "Teleportation",
+  thoughts: "Thoughts",
+  time: "Time",
+  trap: "Trap",
+  ward: "Ward",
+  water: "Water",
+  weapon: "Weapon",
+  ...DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.elementalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.mysticalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.conditions,
+  ...DC20RPG.DROPDOWN_DATA.creatureTypes,
+}
+
 
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =

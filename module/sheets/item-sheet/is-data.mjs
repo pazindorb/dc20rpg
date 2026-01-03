@@ -51,7 +51,7 @@ function _prepareDetailsBoxes(context, item) {
   const infoBoxes = {};
   infoBoxes.rollDetails = _prepareRollDetailsBoxes(context);
   infoBoxes.properties = _preparePropertiesBoxes(context);
-  infoBoxes.spellLists = _prepareSpellLists(context);
+  infoBoxes.spellSources = _prepareSpellSources(context);
   infoBoxes.spellProperties = _prepareSpellPropertiesBoxes(context);
 
   context.sheetData.infoBoxes = infoBoxes;
@@ -124,15 +124,14 @@ function _preparePropertiesBoxes(context) {
   return properties;
 }
 
-function _prepareSpellLists(context) {
+function _prepareSpellSources(context) {
   const properties = {};
-  const spellLists = context.system.spellLists;
+  const spellSource = context.system.spellSource;
+  if (!spellSource) return properties;
 
-  if (!spellLists) return properties;
-
-  for (const [key, prop] of Object.entries(spellLists)) {
+  for (const [key, prop] of Object.entries(spellSource)) {
     if (prop.active) {
-      properties[key] = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellLists);
+      properties[key] = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources);
     }
   }
 
@@ -209,7 +208,7 @@ function _prepareTypesAndSubtypes(context, item) {
       break;
     }
     case "spellFocus": {
-      context.sheetData.type = "CUJ DSUP";
+      context.sheetData.type = "";
       context.sheetData.subtype = game.i18n.localize("TYPES.Item.spellFocus");
     }
     case "consumable": {
@@ -224,12 +223,12 @@ function _prepareTypesAndSubtypes(context, item) {
     }
     case "maneuver": {
       context.sheetData.type = getLabelFromKey(item.system.maneuverType, CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes);
-      context.sheetData.subtype = item.system.maneuverOrigin;
+      context.sheetData.subtype = game.i18n.localize("TYPES.Item.maneuver");
       break;
     }
     case "spell": {
       context.sheetData.type = getLabelFromKey(item.system.spellType, CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes);
-      context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools);
+      context.sheetData.subtype = getLabelFromKey(item.system.spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools);
       break;
     }
     case "infusion": {

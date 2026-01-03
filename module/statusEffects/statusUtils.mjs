@@ -1,4 +1,3 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 
 export function isStackable(statusId) {
@@ -77,6 +76,9 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     effect.duration.rounds = extras.forXRounds;
     effect.system.duration.useCounter = true;
     effect.system.duration.onTimeEnd = "delete";
+  }
+  if (extras.sustain) {
+    effect.system.sustained = extras.sustain;
   }
   effect.changes = changes;
   return effect;

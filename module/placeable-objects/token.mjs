@@ -591,7 +591,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
             }
           }
 
-          const applyEffects = getMesuredTemplateEffects(item);
+          const applyEffects = getMesuredTemplateEffects(item, [], this.actor);
           const itemData = {
             itemId: item.id, 
             actorId: this.actor.id, 

@@ -358,6 +358,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (targetIds[0] === undefined) targetIds = [];
     // We dont want to modify original effect so we copy its data.
     const effectData = {...effect};
+    effectData.system.chatMessageId = this.id;
     this._replaceWithSpeakerId(effectData);
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
@@ -383,6 +384,7 @@ export class DC20ChatMessage extends ChatMessage {
 
       const effects = index === -1 ? target.effects : [target.effects[index]]
       for (const effectData of effects) {
+        effectData.system.chatMessageId = this.id;
         this._replaceWithSpeakerId(effectData);
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
         injectFormula(effectData, rollingActor);
@@ -399,7 +401,8 @@ export class DC20ChatMessage extends ChatMessage {
 
     if (targetIds[0] === undefined) targetIds = [];
     const againstStatus = this.system.againstStatuses.find(eff => eff.id === statusId);
-    const extras = {...againstStatus, actorId: this.speaker.actor, ...this._repeatedSaveExtras()};
+    const extras = {...againstStatus, actorId: this.speaker.actor, ...this._repeatedSaveExtras() };
+    if (this.system.sustain) extras.sustain = this._sustainExtras();
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
@@ -412,6 +415,15 @@ export class DC20ChatMessage extends ChatMessage {
     const saveDC = rollingActor.system.saveDC.value;
     return {
       against: Math.max(saveDC.spell, saveDC.martial),
+    }
+  }
+  
+  _sustainExtras() {
+    const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    return {
+      itemId: this.system.itemId,
+      actorUuid: rollingActor.uuid,
+      isSustained: true
     }
   }
 
@@ -521,6 +533,7 @@ export class DC20ChatMessage extends ChatMessage {
     this._onApplyTargetSpecificEffect(-1, targetIds);
     // Apply Statuses
     for (const status of this.system.againstStatuses) {
+      if (status.supressFromChatMessage) continue;
       this._onApplyStatus(status.id, targetIds);
     }
   }
@@ -568,7 +581,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
     const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
-    const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects);
+    const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects, actor);
     const itemData = {
       itemId: this.flags.dc20rpg.itemId, 
       actorId: this.speaker.actor, 

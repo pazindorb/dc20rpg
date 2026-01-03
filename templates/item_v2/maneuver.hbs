@@ -28,14 +28,6 @@
         </select>
       </div>
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.maneuver.maneuverOrigin"}}</span>
-        <input type="text" name="system.maneuverOrigin" value="{{system.maneuverOrigin}}" placeholder="-">
-      </div>
-      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.maneuver.countToLimitTitle"}}">
-        <span>{{localize "dc20rpg.item.sheet.countToLimit"}}</span>
-        <a class="fa-lg activable {{#if system.knownLimit}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.knownLimit"></a>
-      </div>
-      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.useWeapon"}}</span>
         <a class="fa-lg activable {{#if system.usesWeapon.weaponAttack}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.usesWeapon.weaponAttack"></a>
       </div>

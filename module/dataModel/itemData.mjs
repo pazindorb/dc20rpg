@@ -301,7 +301,7 @@ export class DC20BasicActionData extends DC20UsableItemData {
   }
 }
 
-export class DC20TechniqueData extends DC20UsableItemData {
+export class DC20TechniqueData extends DC20UsableItemData { // TODO: Remove as part of 0.10.5
   static defineSchema() {
     const f = foundry.data.fields;
   
@@ -321,7 +321,6 @@ export class DC20ManeuverData extends DC20UsableItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       maneuverType: new f.StringField({required: true, initial: ""}),
-      maneuverOrigin: new f.StringField({required: true, initial: ""}),
       knownLimit: new f.BooleanField({required: true, initial: true}),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()
@@ -412,34 +411,33 @@ export class DC20SpellData extends DC20UsableItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       spellType: new f.StringField({required: true, initial: ""}),
-      spellOrigin: new f.StringField({required: true, initial: ""}),
-      magicSchool: new f.StringField({required: true, initial: ""}),
+      spellSchool: new f.StringField({required: true, initial: ""}),
       knownLimit: new f.BooleanField({required: true, initial: true}),
       attackFormula: new AttackFormulaFields({checkType: new f.StringField({required: true, initial: "spell"})}),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields(),
-      spellLists: new f.SchemaField({
+      spellSource: new f.SchemaField({
         arcane: new f.SchemaField({
           active: new f.BooleanField({required: true, initial: false}),
-          label: new f.StringField({initial: "dc20rpg.spellList.arcane"})
+          label: new f.StringField({initial: "dc20rpg.spellSource.arcane"})
         }),
         divine: new f.SchemaField({
           active: new f.BooleanField({required: true, initial: false}),
-          label: new f.StringField({initial: "dc20rpg.spellList.divine"})
+          label: new f.StringField({initial: "dc20rpg.spellSource.divine"})
         }),
         primal: new f.SchemaField({
           active: new f.BooleanField({required: true, initial: false}),
-          label: new f.StringField({initial: "dc20rpg.spellList.primal"})
+          label: new f.StringField({initial: "dc20rpg.spellSource.primal"})
         }),
       }),
       components: new f.SchemaField({
         verbal: new f.SchemaField({
-          active: new f.BooleanField({required: true, initial: false}),
+          active: new f.BooleanField({required: true, initial: true}),
           char: new f.StringField({required: true, initial: "V"}),
           label: new f.StringField({initial: "dc20rpg.spellComponent.verbal"})
         }),
         somatic: new f.SchemaField({
-          active: new f.BooleanField({required: true, initial: false}),
+          active: new f.BooleanField({required: true, initial: true}),
           char: new f.StringField({required: true, initial: "S"}),
           label: new f.StringField({initial: "dc20rpg.spellComponent.somatic"})
         }),
@@ -452,12 +450,7 @@ export class DC20SpellData extends DC20UsableItemData {
           label: new f.StringField({initial: "dc20rpg.spellComponent.material"})
         })
       }),
-      tags: new f.SchemaField({
-        fire: new f.SchemaField({
-          active: new f.BooleanField({required: true, initial: true}),
-          label: new f.StringField({initial: "dc20rpg.spellTags.fire"})
-        }),
-      }),
+      spellTags: new f.ObjectField({required: true}),
     })
   }
 }

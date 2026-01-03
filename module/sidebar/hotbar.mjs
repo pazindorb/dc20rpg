@@ -514,7 +514,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   // ==================== CONTEXT =====================
 
   async _onRender(context, options) {
-    if (context.tokenHotbar) {
+    if (context.tokenHotbar && context.showTokenHotbar) {
       this.element.classList.add("token-hotbar");
     }
     await super._onRender(context, options);
@@ -522,7 +522,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     this.element.firstChild.classList.add(`theme-${colorTheme}`);
 
     // Override drop behavior
-    if (context.tokenHotbar) {
+    if (context.tokenHotbar && context.showTokenHotbar) {
       new foundry.applications.ux.DragDrop.implementation({
         dragSelector: ".slot.full, .help-dice",
         dropSelector: ".slot",
@@ -851,7 +851,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   _onDragStart(event) {
     if (event.target.classList.contains('help-dice')) this._onDragHelpDice(event);
     else if (event.target.classList.contains('item-slot')) this._onDragItem(event);
-    else super._onDragStart(event);
   }
 
   _onDragItem(event) {

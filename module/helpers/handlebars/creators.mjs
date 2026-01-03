@@ -217,7 +217,7 @@ export function registerHandlebarsCreators() {
     let content = '';
     const attackCheck = item.system.attackFormula.checkType;
     const attackRange = item.system.attackFormula.rangeType;
-    const rollMod = "";
+    const rollMod = item.system.attackFormula.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
     const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);

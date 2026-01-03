@@ -499,7 +499,7 @@ export class RollDialog extends DC20Dialog {
     const template = this.measurementTemplates[key];
     if (!template) return;
 
-    const applyEffects = getMesuredTemplateEffects(this.item);
+    const applyEffects = getMesuredTemplateEffects(this.item, [], this.actor);
     const itemData = {
       itemId: this.item.id, 
       actorId: this.actor.id, 
