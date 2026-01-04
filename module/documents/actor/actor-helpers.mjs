@@ -517,6 +517,7 @@ async function _equipSlot(item, slot, actor) {
     [`${path}.itemName`]: item.name,
     [`${path}.itemImg`]: item.img,
   });
+  await runTemporaryItemMacro(item, "onItemToggle", actor, {on: true, off: false, equipping: true});
   await item.update({
     ["system.statuses.equipped"]: true,
     ["system.statuses.slotLink.category"]: slot.category,
@@ -543,6 +544,7 @@ async function _unequipSlot(slot, actor) {
     [`${path}.-=itemName`]: null,
     [`${path}.-=itemImg`]: null,
   });
+  await runTemporaryItemMacro(item, "onItemToggle", actor, {on: false, off: true, equipping: true});
   await item.update({
     ["system.statuses.equipped"]: false,
     ["system.statuses.slotLink.category"]: "",

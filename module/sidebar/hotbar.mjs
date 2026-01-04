@@ -763,7 +763,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       if (owner) {
         if (dataset.itemId) {
           const item = getItemFromActor(dataset.itemId, owner);
-          if (item) changeActivableProperty("system.toggle.toggledOn", item);
+          if (item) item.toggle();
         }
         else {
           toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");

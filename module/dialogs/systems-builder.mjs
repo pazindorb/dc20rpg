@@ -155,7 +155,8 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "skip": "Skip Effect for that Roll"
+            "skip": "Skip Effect for that Roll",
+            "spendAP": "Spend 1 AP to Activate"
           }
         },
         postTrigger: {

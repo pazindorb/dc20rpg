@@ -114,6 +114,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
+  html.find('.manual-event').click(ev => {
+    const effect = actor.effects.get(datasetOf(ev).effectId);
+    if (effect) effect.runManualEvent();
+  });
   
   // Skills
   html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());

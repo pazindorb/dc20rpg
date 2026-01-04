@@ -205,7 +205,8 @@ async function _resourceManipulation(value, key, label, actor) {
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
   const label = event.label || event.effectName;
-  const confirmation = await SimplePopup.confirm(`Do you want to use "${label}" as a part of that action?`);
+  const message = event.preTrigger === "spendAP" ? `You need to spend 1 AP to trigger "${label}" event as part of that action. Proceed?` : `Do you want to trigger "${label}" event as a part of that action?`;
+  const confirmation = await SimplePopup.confirm(message);
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {
@@ -216,6 +217,14 @@ async function _runPreTrigger(event, actor) {
     if (event.preTrigger === "skip") {
       return false;
     }
+  }
+  if (confirmation && event.preTrigger === "spendAP") {
+    const canSpend = actor.resources.ap.checkAndSpend(1);
+    if (!canSpend) {
+      const effect = await _disableEffect(event.effectId, actor);
+      if (effect) preTriggerTurnedOffEvents.push(effect);
+    }
+    return canSpend;
   }
   return true;
 }
@@ -319,7 +328,7 @@ async function _runCustomEventTypes(event, actor, effect) {
 //=================================
 //=        FILTER METHODS         =
 //=================================
-export function effectEventsFilters(effectName, statuses, effectKey) {
+export function effectEventsFilters(effectName, statuses, effectKey, effectId) {
   const filters = [];
   if (effectName !== undefined) {
     filters.push({
@@ -348,6 +357,16 @@ export function effectEventsFilters(effectName, statuses, effectKey) {
       filterMethod: (field) => {
         if (!field) return true;
         return statuses?.has(field);
+      }
+    })
+  }
+  if (effectId !== undefined) {
+    filters.push({
+      required: false,
+      eventField: "effectId",
+      filterMethod: (field) => {
+        if (!field) return true;
+        return field === effectId;
       }
     })
   }

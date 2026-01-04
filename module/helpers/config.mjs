@@ -259,6 +259,7 @@ DC20RPG.allEventTriggers = {
   critFail: "On Nat 1",
   never: "Never",
   instant: "Instant",
+  manual: "Manual Trigger",
   rest: "On Rest End",
 }
 
@@ -273,6 +274,7 @@ DC20RPG.reenableTriggers = {
   effectRemoved: "Effect Removed",
   effectEnabled: "Effect Enabled",
   effectDisabled: "Effect Disabled",
+  manual: "Manual Trigger"
 }
 
 DC20RPG.macroTriggers = {
@@ -942,9 +944,7 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
   ward: "Ward",
   water: "Water",
   weapon: "Weapon",
-  ...DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
-  ...DC20RPG.DROPDOWN_DATA.elementalDamageTypes,
-  ...DC20RPG.DROPDOWN_DATA.mysticalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.damageTypes,
   ...DC20RPG.DROPDOWN_DATA.conditions,
   ...DC20RPG.DROPDOWN_DATA.creatureTypes,
 }

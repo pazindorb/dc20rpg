@@ -113,6 +113,15 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return this.system.fromStatus;
   }
 
+  get hasManualEvent() {
+    for (const change of this.changes) {
+      if (change.key === "system.events") {
+        if (change.value.includes('"trigger": "manual"') || change.value.includes('"reenable": "turnStart"')) return true;
+      } 
+    }
+    return false;
+  }
+
   async disable({ignoreStateChangeLock}={}) {
     if (this.disabled) return;
     if (this.isLinkedToItem) {
@@ -201,6 +210,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       return this.parent;
     }
     return null;
+  }
+
+  async runManualEvent() {
+    const actor = this.getOwningActor();
+    if (actor) {
+      await runEventsFor("manual", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey, this.id));
+      await reenableEventsOn("manual", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey, this.id)); 
+    }
   }
 
   //======================================

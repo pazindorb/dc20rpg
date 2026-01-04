@@ -344,7 +344,7 @@ export function registerHandlebarsCreators() {
                           ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`)
                           : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
       
-      component += `<a class="item-equip ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
+      component += `<a class="item-equip ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}"></a>`
 
       if (item.system.properties.attunement.active) {
         const attuned = statuses.attuned ? 'fa-solid' : 'fa-regular';

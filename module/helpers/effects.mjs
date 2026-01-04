@@ -35,6 +35,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
+      effect.manualTrigger = effect.hasManualEvent;
       if (effect.system.nonessential && hideNonessentialEffects) continue;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);

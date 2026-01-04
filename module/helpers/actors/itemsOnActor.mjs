@@ -105,17 +105,6 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
     if(updateData.system.isResource) _createNewCustomResourceFromItem(item, actor);
     else actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
-
-  // Check if on item toggle macro should be runned 
-  if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
-    const toggledOn = updateData.system.toggle.toggledOn;
-    await runTemporaryItemMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn, equipping: false});
-  }
-  // Check if on item toggle macro should be runned when item is equipped
-  if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
-    const equipped = updateData.system.statuses.equipped;
-    await runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped, equipping: true});
-  }
 }
 
 export async function removeItemFromActorInterceptor(item, actor) {
