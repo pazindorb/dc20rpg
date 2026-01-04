@@ -1,0 +1,819 @@
+{
+  "name": "Haste",
+  "type": "spell",
+  "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>You bolster the Speed of a creature within range for the duration.</p><p>Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> Once per Round, the target can gain half their Speed in Spaces of Movement for free.</p><p><strong>Success:</strong> Once per Round, the target gains its full Speed in Spaces of Movement instead.</p><p><strong>Success (Each 5):</strong> +1 Space.</p><p></p><p><em><strong>System Tip:</strong> It is automated in the way to grant you bonus movement speed at the begining of your turn.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><span class=\"cf0\"><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</span></p><p><strong>Enhanced Speed: (1 MP, Repeatable)</strong> The target gains +3 Spaces of Movement each round.</p><p><strong>Phased Movement: (1 MP)</strong> The target can move through other creature’s Spaces. Other creatures Spaces are considered Difficult Terrain.</p><p><strong>Disengage: (1 MP)</strong> The target gains the benefits of the Disengage Action for the duration.</p><p><strong>Reflexes: (1 MP)</strong> The target gains ADV on Agility Checks and Saves for the duration.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 15,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {},
+    "enhancements": {
+      "D4W7tB1aKvrLQGfQ": {
+        "name": "Range",
+        "number": 0,
+        "preventModification": false,
+        "description": "",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "k5vi5ID1NaWfvNK6": {
+        "name": "Enhanced Speed",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target gains +3 Spaces of Movement each round.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.flags.dc20rpg = {\n  enhancedSpeed: (enh.number * 3)\n}",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "RehLcy3qJvRjOnCk": {
+        "name": "Phased Movement",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target can move through other creature’s Spaces. Other creatures Spaces are considered Difficult Terrain.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "tTPTEF7wSj31c2E1": {
+        "name": "Disengage",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target gains the benefits of the Disengage Action for the duration.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "9Vc60aC0VdWbWHt2": {
+        "name": "Reflexes",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target gains ADV on Agility Checks and Saves for the duration.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.checks.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Haste - Reflexes\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Haste - Reflexes\"'\n})",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": 5,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "astromancy",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    },
+    "spellSource": {
+      "arcane": {
+        "active": true,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": false,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": false,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {
+      "embolden": "Embolden",
+      "motion": "Motion",
+      "time": "Time"
+    }
+  },
+  "effects": [
+    {
+      "name": "Haste",
+      "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+      "origin": "Item.CbgUmgPHbbwFjoyI",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "IbTbhdvY34ZPlCEd",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "haste",
+        "macro": "// Select haste bonus speed value\nif (event.trigger === \"instant\") {\n  let rollValue = await DC20.dialog.SimplePopup.input(\"What was your Spell Check value?\");\n  rollValue = parseInt(rollValue) || 0;\n  let bonusSpeed = 0;\n  let outcome = \"fail\";\n\n  let successRate = Math.floor((rollValue - 15)/5);\n  if (successRate >= 0) {\n    outcome = \"success\";\n    bonusSpeed = successRate;\n  }\n  effect.update({[\"flags.dc20rpg.haste\"]: {outcome: outcome, bonusSpeed: bonusSpeed}})\n}\n\n\n// Apply bonus speed value\nif (event.trigger === \"turnStart\") {\n  const haste = effect.flags.dc20rpg.haste;\n  if (!haste) return;\n\n  let moveKey = \"ground\";\n  if (actor.hasOtherMoveOptions) {\n    moveKey = await SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n  }\n  const movePoints = actor.system.movement[moveKey].current;\n\n  const enhancedSpeed = effect.flags?.dc20rpg?.enhancedSpeed || 0;\n  let movement = haste.outcome === \"success\" ? movePoints : Math.ceil(movePoints/2);\n  movement += haste.bonusSpeed + enhancedSpeed;\n  actor.moveAction({movePoints: movement});\n  ui.notifications.notify(`Granted ${movement} Move Points from Haste.`);\n}",
+        "addToChat": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Haste\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Haste - Bonus Movement\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain bonus movement points at the beginning of tour turn.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!S9HmZehxzCM2TvMu.IbTbhdvY34ZPlCEd"
+    }
+  ],
+  "folder": "dfc59dQ1Su1x6e6c",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1767439926985,
+    "modifiedTime": 1767439927006,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "S9HmZehxzCM2TvMu",
+  "sort": 200000,
+  "_key": "!items!S9HmZehxzCM2TvMu"
+}

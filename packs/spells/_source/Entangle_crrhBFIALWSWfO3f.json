@@ -1,0 +1,851 @@
+{
+  "name": "Entangle",
+  "type": "spell",
+  "img": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p><span class=\"cf0\">You conjure an area of entangling plants or other natural effect on the surfaces in a 2 Space diameter Sphere, the area becomes Entangled for the duration. Make a Spell Check against the Agility Save of each target in the area.</span></p><p><span class=\"cf0\"><strong>Check Success:</strong> The target is Immobilized. A creature can spend 1 AP to attempt this Save again, alternatively the Condition ends if the Entangled Space it is in is cleared.</span></p><p><span class=\"cf0\"><strong>Entangled:</strong> Entangled Spaces are Difficult Terrain. These Spaces are cleared if they take Elemental or Slashing damage equal to the MP spent on this Spell and have a PD and AD equal to your Save DC.</span></p><p><span class=\"cf0\"><em><strong>Example:</strong> A 1st level Druid casts Entangle using 1 MP, each Space has a PD and AD or 14 (equal to Save DC) and needs to take 1 Fire or Slashing damage to be cleared (equal to 1 MP spent to cast the Spell)</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Grasping:</strong> <strong>(1 MP, Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target is Immobilized.</p><p><strong>Restrained: (2 MP)</strong> Creatures Immobilized by Entangle are Restrained.</p><p><strong>Spikey Terrain: (X MP)</strong> Creatures take X Piercing damage when they enter an Entangled Space after the Spell has been cast. They also take this damage if they fail a Save to end the Immobilized Condition inflicted by this Spell.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": false,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 2,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {
+      "ZheoPdWs2Fzt1Now": {
+        "id": "immobilized",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "deilROwiLvgZZUIw": {
+        "category": "contest",
+        "saveKey": "agi",
+        "contestedKey": "agi",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
+    "formulas": {},
+    "enhancements": {
+      "eqPXCSdsRVTOQ6o3": {
+        "name": "Range",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "R0wDEHqm4E7aKr89": {
+        "name": "Area",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "gARfpLHZb5kvjFNb": {
+        "name": "Grasping",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p><strong>(Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p><p></p><p><em><strong>System Tip:</strong> This enhancement is not automated. Just reapply Entangle effect again.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "item.system.duration.type = \"sustain\";\nitem.system.effectsConfig.addToTemplates = \"all\";",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "aTade7nOb9Uj6HSe": {
+        "name": "Restrained",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Creatures Immobilized by Entangle are Restrained.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"entangle\");\nif (!effect) return;\n\neffect.statuses.add(\"restrained\");\neffect.statuses.add(\"grappled\");\neffect.changes.forEach(change => {\n  if (change.key === \"system.events\" && change.value.includes('\"statuses\": [\"immobilized\"]')) {\n    change.value = change.value.replace('\"statuses\": [\"immobilized\"]', '\"statuses\": [\"immobilized\", \"restrained\"]');\n  }\n})\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "4GZEiQ03OyC73uhj": {
+        "name": "Spikey Terrain",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Creatures take X Piercing damage when they enter an Entangled Space after the Spell has been cast. They also take this damage if they fail a Save to end the Immobilized Condition inflicted by this Spell.</p><p></p><p><em><strong>System Tip:</strong> This damage is not automated.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": 5,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "sphere",
+          "distance": 2,
+          "width": null,
+          "unit": "",
+          "difficult": "all"
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "conjuration",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    },
+    "spellSource": {
+      "arcane": {
+        "active": false,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": false,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": true,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {
+      "immobilized": "Immobilized",
+      "plants": "Plants",
+      "piercing": "Piercing",
+      "restrained": "Restrained"
+    }
+  },
+  "effects": [
+    {
+      "name": "Entangle",
+      "img": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+      "origin": "Item.HQyczaYtSdERgT9y",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "startRound": null,
+        "startTurn": null,
+        "seconds": null,
+        "turns": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "gBj6BB6nTYDQt8og",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "entangle",
+        "macro": "",
+        "addToChat": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.onYou.saves.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Immobilized (Entagle)\"",
+          "priority": null
+        },
+        {
+          "key": "system.movement.ground.bonus",
+          "mode": 2,
+          "value": "-100",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"manual\", \"label\": \"Entangle\", \"preTrigger\": \"spendAP\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are under the effect of Entangle.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "immobilized"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!crrhBFIALWSWfO3f.gBj6BB6nTYDQt8og"
+    }
+  ],
+  "folder": "oSwtE4idWkaIPpl6",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1767539653608,
+    "modifiedTime": 1767539683553,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "crrhBFIALWSWfO3f",
+  "sort": 0,
+  "_key": "!items!crrhBFIALWSWfO3f"
+}

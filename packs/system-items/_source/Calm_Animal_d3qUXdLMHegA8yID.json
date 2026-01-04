@@ -201,44 +201,51 @@
         "statusId": "taunted",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
           "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "mode": 2
+          "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "mode": 2
+          "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "mode": 2
+          "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "mode": 2
+          "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "mode": 2
+          "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "mode": 2
+          "priority": null
         }
       ],
       "description": "<p>You have DisADV on <strong>Attack Checks</strong> against creatures other than the one that Taunted you. If a creature is successfully <strong>Taunted</strong> while already <strong>Taunted</strong> by another creature, the original Taunt is removed.</p>",
@@ -265,7 +272,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": 1734563610353,
-        "modifiedTime": 1766696771876,
+        "modifiedTime": 1767438734312,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -291,7 +298,8 @@
         "statusId": "taunted",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
@@ -404,7 +412,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": 1734564222018,
-        "modifiedTime": 1766696771879,
+        "modifiedTime": 1767438742063,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -430,7 +438,8 @@
         "statusId": "taunted",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
@@ -550,7 +559,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": 1734564327501,
-        "modifiedTime": 1766696771881,
+        "modifiedTime": 1767438746926,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
