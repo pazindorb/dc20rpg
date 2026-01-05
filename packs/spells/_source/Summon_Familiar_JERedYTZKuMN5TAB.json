@@ -1,10 +1,10 @@
 {
-  "name": "Mage Armor",
+  "name": "Summon Familiar",
   "type": "spell",
-  "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+  "img": "icons/creatures/birds/corvid-call-sound-glowing.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You create a magical protective coating around the target creature. The target gains +2 AD for the duration.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration increases by 1 step. (1 hour → 8 hours → until Long Rest).</p><p><strong>Greater Armor: (1 MP)</strong> The target gain an additional +1 AD.</p><p><strong>Heavily Warded: (1 MP)</strong> The target gains PDR.</p>",
+    "description": "<p><span class=\"cf0\">You summon a friendly spirit that enters your service until you are reduced to 0 HP or you choose to end the Spell for free on your turn. It takes the form of a Tiny creature of your choice, but with a Creature Type of your choice (except Giant and Humanoid).</span></p><p><span class=\"cf0\">Your Familiar uses this statblock @UUID[Compendium.dc20rpg.summons.Actor.KC3W9mS4ebylBryW]{Familiar}.</span></p><p><em><strong>DC Tip:</strong> The Familiar shares your Prime Modifier and Combat Mastery so it’s Attack, Martial and Spell Checks are the same as yours.</em></p><p><span class=\"cf0\"><strong>MP Reduction:</strong> When you cast the Spell, your maximum MP is reduced by an amount equal to the MP spent. This MP reduction only ends when the Spell ends. You don’t regain any lost MP when your maximum MP is restored.</span></p><p><em><strong>System Tip:</strong> Use On Demand macro to revert mana reduction.</em></p><p><span class=\"cf0\"><strong>Recasting the Spell:</strong> You can't have more than 1 Familiar at a time. If you cast this Spell while you already have a Familiar, your Familiar can retain its form, adopt a new form of your choice, or it disappears and a new one takes its place. The new Familiar can be a previous one you summoned in the past or a new one altogether. In either case, you can reassign its Familiar Traits.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Familiar Traits</span></strong></span></p><p>Your Familiar has the following Familiar Traits:</p><ul><li><p>@UUID[Compendium.dc20rpg.monster-features.Item.60dYMlkKgxMpN2ku]{Familiar Bond}</p></li><li><p>@UUID[Compendium.dc20rpg.monster-features.Item.aav672BvMdGoG01n]{Spell Delivery}</p></li><li><p>@UUID[Compendium.dc20rpg.monster-features.Item.60dYMlkKgxMpN2ku]{Familiar Bond}</p></li></ul><p><em><strong>System Tip:</strong> You can find Expanded Familiar Traits on Familiar Companion Sheet.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Actions</span></strong></span></p><p><span class=\"cf0\"><strong>Pocket Dimension:</strong> You can spend a Minor Action to dismiss the Familiar into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. When dismissed, any items it was carrying are left behind. When summoned, it appears in the nearest unoccupied Space of your choice.</span></p><p><span class=\"cf0\"><strong>Shared Senses:</strong> While your Familiar is within 20 Spaces, you can spend 1 AP to connect your senses to the Familiar’s senses until the end of your next turn. For the duration, you are Deafened and Blinded to your own senses, but you can see what your Familiar sees and hear what it hears. The connection ends early if either of you moves farther than 20 Spaces from the other.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Managing the Familiar</span></strong></span></p><p><span class=\"cf0\"><strong>Combat:</strong> The Familiar shares your Initiative, acting on your turn. You can spend 1 AP to command the Familiar to use an Action. It can’t take the Attack Action or Spell Action unless it has a Familiar Feature that allows it to. When you take the Move Action, your Familiar also gains the benefits of the Move Action. If you don’t command it, when your turn ends it takes the Dodge Action.</span></p><p><span class=\"cf0\"><strong>Shared MCP:</strong> When the Familiar makes a Check, it shares your Multiple Check Penalty.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><span class=\"cf0\"><strong>Additional Traits: (1 MP, Repeatable)</strong> Grant your Familiar 2 points worth of Familiar or Beast Traits (you can’t choose Negative Traits).</span></p><p><em><strong>System Tip:</strong> If you want to use Beast Traits you need to add them to the familiar yourself.</em></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,7 +35,24 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "Rr9jjXTEDi1i2H6P": {
+        "command": "const actorEffect = actor.getEffectByKey(\"familiarManaReduction\");\nif (actorEffect) actorEffect.delete();\n\nconst cost = item.use.collectUseCost();\nconst mana = cost.resources?.mana || 0;\nif (!mana) return;\n\nconst effect = item.getEffectByKey(\"familiarManaReduction\");\nif(!effect) return;\n\nconst data = effect.toObject();\ndata.changes[0].value = (mana * -1);\ngame.dc20rpg.effects.createEffectOn(data, actor);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Reduce Max Mana",
+        "title": "",
+        "global": false
+      },
+      "rWwYkbBoDEcwoYO1": {
+        "command": "const actorEffect = actor.getEffectByKey(\"familiarManaReduction\");\nif (actorEffect) actorEffect.delete();",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Revert Mana Reduction",
+        "title": "Revert Mana Reduction",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -48,7 +65,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "other",
+    "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -124,96 +141,11 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "GZqLp7ULqqMMGGNf": {
-        "name": "Range",
+      "yF4OewgAvboRYINF": {
+        "name": "Additional Traits",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": true,
-          "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ELMEPEQQOtq8T9Cp": {
-        "name": "Duration",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The duration increases by 1 step. (1 hour → 8 hours → until Long Rest).</p>",
+        "description": "<p>Grant your Familiar 2 points worth of Familiar or Beast Traits (you can’t choose Negative Traits).</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -277,176 +209,6 @@
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "yeOxAuBEs6uqnLIS": {
-        "name": "Greater Armor",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The target gain an additional +1 AD.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.defences.area.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "hs1N2e7To5gRI0cG": {
-        "name": "Heavily Warded",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The target gains <span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\">PDR</span>.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.damageReduction.pdr.active\",\n  mode: 5,\n  value: \"true\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -473,14 +235,14 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 1,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": 1,
-      "type": "continuous",
-      "timeUnit": "hours"
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
     },
     "target": {
       "count": null,
@@ -599,7 +361,7 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
@@ -628,28 +390,28 @@
       }
     },
     "spellTags": {
-      "embolden": "Embolden",
-      "ward": "Ward"
+      "communication": "Communication",
+      "sense": "Sense",
+      "summoning": "Summoning"
     }
   },
   "effects": [
     {
-      "name": "Mage Armor",
-      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
-      "origin": "Item.ZfO7N2kMbGC0tpwr",
+      "name": "Familiar Mana Reduction",
+      "img": "icons/creatures/birds/corvid-call-sound-glowing.webp",
+      "origin": "Item.GDNdelsWL6VEPQBY",
       "duration": {
-        "rounds": 1,
         "startTime": 0,
         "combat": null,
         "seconds": null,
-        "startRound": 12,
+        "startRound": 17,
         "startTurn": 0
       },
       "disabled": false,
       "flags": {
         "dc20rpg": {}
       },
-      "_id": "qzyHuzccTfVO56h2",
+      "_id": "0ZD0LdyevjoC3Nio",
       "type": "base",
       "system": {
         "sustained": {
@@ -665,10 +427,11 @@
           "resetWhenEnabled": false,
           "onTimeEnd": ""
         },
-        "effectKey": "mageArmor",
+        "effectKey": "familiarManaReduction",
         "macro": "",
-        "addToChat": true,
-        "nonessential": false,
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": true,
         "disableWhen": {
           "path": "",
           "mode": "",
@@ -681,13 +444,13 @@
       },
       "changes": [
         {
-          "key": "system.defences.area.bonuses.always",
+          "key": "system.resources.mana.bonus",
           "mode": 2,
-          "value": "2",
+          "value": "0",
           "priority": null
         }
       ],
-      "description": "<p>Magical protective coating around you - AD increased.</p>",
+      "description": "<p>Effect that reduces max mana when familiar is summoned.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -701,7 +464,7 @@
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": null
       },
-      "_key": "!items.effects!TCcityaEWjhTKHWv.qzyHuzccTfVO56h2"
+      "_key": "!items.effects!JERedYTZKuMN5TAB.0ZD0LdyevjoC3Nio"
     }
   ],
   "folder": "oSwtE4idWkaIPpl6",
@@ -713,7 +476,7 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767553037793,
+    "createdTime": 1767633474780,
     "modifiedTime": 1767633474828,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
@@ -721,7 +484,7 @@
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "TCcityaEWjhTKHWv",
-  "sort": 500000,
-  "_key": "!items!TCcityaEWjhTKHWv"
+  "_id": "JERedYTZKuMN5TAB",
+  "sort": 400000,
+  "_key": "!items!JERedYTZKuMN5TAB"
 }
