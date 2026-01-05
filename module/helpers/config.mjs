@@ -551,9 +551,6 @@ DC20RPG.DROPDOWN_DATA.defences = {
 
 DC20RPG.DROPDOWN_DATA.precisionDefenceFormulasLabels = {
   standard: "Standard Formula",
-  standardMaxAgi: "Max Agility Limit",
-  berserker: "Berserker Defense",
-  patient: "Patient Defense",
   custom: "Custom Formula",
   flat: "Flat",
 }
@@ -561,7 +558,6 @@ DC20RPG.DROPDOWN_DATA.precisionDefenceFormulasLabels = {
 DC20RPG.DROPDOWN_DATA.areaDefenceFormulasLabels = {
   standard: "Standard Formula",
   custom: "Custom Formula",
-  patient: "Patient Defense",
   flat: "Flat"
 }
 

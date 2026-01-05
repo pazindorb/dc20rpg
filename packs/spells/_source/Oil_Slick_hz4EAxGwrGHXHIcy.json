@@ -1,10 +1,10 @@
 {
-  "name": "Disguise Self",
+  "name": "Oil Slick",
   "type": "spell",
-  "img": "icons/creatures/mammals/unicorn-horned-white.webp",
+  "img": "icons/magic/water/vortex-water-whirlpool-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You alter your appearance to that of a specific person that you have seen or a general member of that ancestry. Your new form needs to be of the same size as you and you do not gain the traits, Features, or statistics of that form.</span></p><p class=\"pf0\"><span class=\"cf0\">Make a DC 15 Spell Check.</span></p><ul><li><p class=\"pf0\"><span class=\"cf0\"><strong>Failure:</strong> Creatures gain ADV on Checks made to identify you.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Success:</strong> Creatures make Checks to identify you as normal.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Success (5):</strong> Creatures gain DisADV on Checks made to identify you.</span></p></li></ul><p class=\"pf0\"><span class=\"cf0\"><strong>Being Identified:</strong> A creature can make an Investigation Check against your Save DC to discern that your form is not natural and has been altered by magic.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Duration: (1 MP, Repeatable) </strong>The duration increases by 1 step (10 min → 1 hour → 8 hour → Long Rest). You no longer need to Sustain the Spell and you can end it at any time for free.</p><p><strong>Size: (1 MP)</strong> You can choose the appearance of a creature 1 size smaller or larger than you. Your size does not change.</p><p><strong>Mimicry: (1 MP)</strong> You can perfectly mimic the voice, accent, and mannerisms of a creature you’ve heard speak for at least 1 minute.</p><p><strong>Alter Form: (1 MP)</strong> When you Sustain this Spell or by spending 1 AP, you can alter your appearance to a new form of your choice.</p>",
+    "description": "<p>An oily substance covers the ground in 2 Space diameter Sphere area within range. When you cast the Spell, make a Spell Check against the Agility Save of each target in the area.</p><ul><li><p><strong>Check Success:</strong> The target falls Prone.</p></li></ul><p><strong>Covered:</strong> The affected Spaces are Difficult Terrain for the duration. When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><ul><li><p><strong>Save Failure:</strong> The target falls Prone.</p></li></ul><p><em><strong>System Tip:</strong> When you create the area for that spell it will ask for Agility Save vs DC immediately, ignore that. This automation is there to handle new actor entering the area. During cast this Agility Save should be made against contested Spell Check, so just use created chat message.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 space.</p><p><strong>Spreading Oil: (1 MP)</strong> Whenever a creature falls Prone in a Covered Space, it becomes afflicted by Spreading Oil for the duration. When the creature enters a Space, that Space becomes Covered. A creature afflicted by Spreading Oil makes a Repeated Agility Save at the end of each of its turns, ending the effect on a Success.</p><p><strong>Flammable: (X MP)</strong> Any oil produced by this Spell becomes flammable. If fire touches the Space it ignites. When a creature enters the area for the first time on its turn, or starts its turn in an ignited Space, it makes a Repeated Physical Save against your Save DC.</p><ul><li><p><strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p></li></ul>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "spe",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -89,7 +89,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 1,
+        "ap": 2,
         "stamina": null,
         "mana": 1,
         "health": null,
@@ -120,20 +120,42 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
+    "againstStatuses": {
+      "f499vRl1pU4PEpMZ": {
+        "id": "prone",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "rmiPYFQzIU3BvPiB": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "agi",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {},
     "enhancements": {
-      "J2ZKNKndGBK22p2U": {
-        "name": "Duration",
+      "WLwLITadkC7qm8ez": {
+        "name": "Range",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The duration increases by 1 step (10 min → 1 hour → 8 hour → Long Rest). You no longer need to Sustain the Spell and you can end it at any time for free.</p>",
+        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -191,7 +213,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.duration.type = \"continuous\";",
+            "preItemRoll": "",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -199,21 +221,21 @@
             "type": "adv",
             "value": 1
           },
-          "addsRange": false,
+          "addsRange": true,
           "bonusRange": {
             "melee": null,
-            "normal": null,
+            "normal": 5,
             "max": null
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
       },
-      "HhOI5tSU5QO8Mtsv": {
-        "name": "Size",
+      "VEKg4BdLlGnVhXai": {
+        "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can choose the appearance of a creature 1 size smaller or larger than you. Your size does not change.</p>",
+        "description": "<p>The diameter of the Sphere increases by 1 space.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -294,11 +316,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "1M6YDkLGh1wQaCSp": {
-        "name": "Mimicry",
+      "1h5hYINvbPiokido": {
+        "name": "Spreading Oil",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can perfectly mimic the voice, accent, and mannerisms of a creature you’ve heard speak for at least 1 minute.</p>",
+        "description": "<p>Whenever a creature falls Prone in a Covered Space, it becomes afflicted by Spreading Oil for the duration. When the creature enters a Space, that Space becomes Covered. A creature afflicted by Spreading Oil makes a Repeated Agility Save at the end of each of its turns, ending the effect on a Success.</p><p></p><p><em><strong>System Tip:</strong> Save is not automated. You can just place new template on the map when it spreads.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -379,11 +401,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "PRHGXpOKwVdrICNy": {
-        "name": "Alter Form",
+      "nQAtJDt46gvw28g5": {
+        "name": "Flammable",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you Sustain this Spell or by spending 1 AP, you can alter your appearance to a new form of your choice.</p>",
+        "description": "<p>Any oil produced by this Spell becomes flammable. If fire touches the Space it ignites. When a creature enters the area for the first time on its turn, or starts its turn in an ignited Space, it makes a Repeated Physical Save against your Save DC.</p><p><strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p><p></p><p><em><strong>System Tip:</strong> This is not automated.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -473,25 +495,26 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": 10,
-      "type": "sustain",
+      "value": 1,
+      "type": "continuous",
       "timeUnit": "minutes"
     },
     "target": {
       "count": null,
-      "type": "self",
+      "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": null,
+          "area": "sphere",
+          "distance": 2,
           "width": null,
           "unit": "",
-          "difficult": ""
+          "difficult": "all",
+          "hideHighlight": false
         }
       }
     },
@@ -591,7 +614,7 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": ""
+      "addToTemplates": "all"
     },
     "spellSource": {
       "arcane": {
@@ -628,11 +651,88 @@
       }
     },
     "spellTags": {
-      "communication": "Communication",
-      "illusion": "Illusion"
+      "burning": "Burning",
+      "trap": "Trap"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Oil Slick - Helper",
+      "img": "icons/magic/water/vortex-water-whirlpool-blue.webp",
+      "origin": "Item.ClMLqcrZ3wn078ua",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 16,
+        "startTurn": 0
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "abm8IPRIO57J6hWH",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "if (actor.hasStatus(\"prone\")) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: [\"prone\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.toggleStatusEffect(\"prone\", { active: true });\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>This effect handle applying Oil Slick effect when new target enters the area or starts its turn in the covered area. Do not modify events as it might break the behavior.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!hz4EAxGwrGHXHIcy.abm8IPRIO57J6hWH"
+    }
+  ],
   "folder": "oSwtE4idWkaIPpl6",
   "flags": {},
   "_stats": {
@@ -642,15 +742,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767536269130,
-    "modifiedTime": 1767552150947,
+    "createdTime": 1767620016493,
+    "modifiedTime": 1767620318312,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "Hhj8d9mIhin2UqUc",
+  "_id": "hz4EAxGwrGHXHIcy",
   "sort": 0,
-  "_key": "!items!Hhj8d9mIhin2UqUc"
+  "_key": "!items!hz4EAxGwrGHXHIcy"
 }

@@ -342,13 +342,15 @@
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
           <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
-          {{#if enhancement.modifications.againstStatus.repeatedSave}}
-          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSaveKey">
-            {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=enhancement.modifications.againstStatus.repeatedSaveKey blank=""}}
-          </select>
-          {{/if}}
         </div>
       </div>
+      {{#if enhancement.modifications.againstStatus.repeatedSave}}
+      <div class="row margin-top-3">
+        <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSaveKey">
+          {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=enhancement.modifications.againstStatus.repeatedSaveKey blank=""}}
+        </select>
+      </div>
+      {{/if}}
       {{/if}}
 
       {{!-- Adds Effect --}}

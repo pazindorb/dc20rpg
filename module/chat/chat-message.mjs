@@ -581,6 +581,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
     const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
+    this.system.applicableEffects.forEach(effect => effect.system.chatMessageId = this.id);
     const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects, actor);
     const itemData = {
       itemId: this.flags.dc20rpg.itemId, 

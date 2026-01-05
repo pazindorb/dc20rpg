@@ -36,6 +36,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         effectKey: new fields.StringField({required: true}),
         macro: new fields.StringField({required: true}),
         addToChat: new fields.BooleanField({required: true, initial: false}),
+        applyToTemplate: new fields.BooleanField({required: true, initial: true}),
         nonessential: new fields.BooleanField({required: true, initial: false}),
         disableWhen: new fields.SchemaField({
           path: new fields.StringField({required: true}),
@@ -269,9 +270,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     super._onCreate(data, options, userId);
     if (userId === game.user.id) {
       // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
-      if (data.duration.startTime === null) {
-        this.update(this.constructor.getInitialDuration());
-      }
+      this.update(this.constructor.getInitialDuration());
       runInstantEvents(this, this.parent);
       this._shouldAddToSustainList(data.system.sustained);
     }
@@ -293,8 +292,9 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if(oldStatusId) {
       const oldStatus = CONFIG.statusEffects.find(e => e.id === oldStatusId);
       if (oldStatus) {
+        const oldChanges = updateData.changes || [];
         const newChanges = [];
-        updateData.changes.forEach(change => {
+        oldChanges.forEach(change => {
           if (!this.isChangeFromStatus(change, oldStatus)) newChanges.push(change);
         });
         updateData.changes = newChanges;

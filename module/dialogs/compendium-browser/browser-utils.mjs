@@ -123,18 +123,17 @@ export function getDefaultItemFilters(preSelectedFilters) {
       },
     },
     maneuver: {
-      maneuverOrigin: _filter("system.maneuverOrigin", "maneuver.maneuverOrigin", "text", parsedFilters["maneuverOrigin"]),
       maneuverType: _filter("system.maneuverType", "maneuver.maneuverType", "select", parsedFilters["maneuverType"], CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes)
     },
     spell: {
-      spellOrigin: _filter("system.spellOrigin", "spell.spellOrigin", "text", parsedFilters["spellOrigin"]),
       spellType: _filter("system.spellType", "spell.spellType", "select", parsedFilters["spellType"], CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes),
-      magicSchool: _filter("system.magicSchool", "spell.magicSchool", "select", parsedFilters["magicSchool"], CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools),
-      spellLists: _filter("system.spellLists", "spell.spellLists", "multi-select", parsedFilters["spellLists"] || {
+      spellSchool: _filter("system.spellSchool", "spell.spellSchool", "select", parsedFilters["spellSchool"], CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools),
+      spellSource: _filter("system.spellSource", "spell.spellSource", "multi-select", parsedFilters["spellSource"] || {
         arcane: true,
         divine: true,
         primal: true
-      }) 
+      }),
+      // TODO: Add spell tags
     },
     infusion: {
       power: {

@@ -258,7 +258,8 @@ export function getMesuredTemplateEffects(item, applicableEffects, actor) {
   if (item.effects.size === 0 && applicableEffects.length === 0) return {applyFor: "", effects: []};
   if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
 
-  const effects = applicableEffects || item.effects.toObject();
+  let effects = applicableEffects || item.effects.toObject();
+  effects = effects.filter(effect => effect.system.applyToTemplate);
   if (actor) {
     for (const effect of effects) {
       injectFormula(effect, actor);

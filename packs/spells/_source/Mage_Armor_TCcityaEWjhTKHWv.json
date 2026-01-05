@@ -1,10 +1,10 @@
 {
-  "name": "Disguise Self",
+  "name": "Mage Armor",
   "type": "spell",
-  "img": "icons/creatures/mammals/unicorn-horned-white.webp",
+  "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You alter your appearance to that of a specific person that you have seen or a general member of that ancestry. Your new form needs to be of the same size as you and you do not gain the traits, Features, or statistics of that form.</span></p><p class=\"pf0\"><span class=\"cf0\">Make a DC 15 Spell Check.</span></p><ul><li><p class=\"pf0\"><span class=\"cf0\"><strong>Failure:</strong> Creatures gain ADV on Checks made to identify you.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Success:</strong> Creatures make Checks to identify you as normal.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Success (5):</strong> Creatures gain DisADV on Checks made to identify you.</span></p></li></ul><p class=\"pf0\"><span class=\"cf0\"><strong>Being Identified:</strong> A creature can make an Investigation Check against your Save DC to discern that your form is not natural and has been altered by magic.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Duration: (1 MP, Repeatable) </strong>The duration increases by 1 step (10 min → 1 hour → 8 hour → Long Rest). You no longer need to Sustain the Spell and you can end it at any time for free.</p><p><strong>Size: (1 MP)</strong> You can choose the appearance of a creature 1 size smaller or larger than you. Your size does not change.</p><p><strong>Mimicry: (1 MP)</strong> You can perfectly mimic the voice, accent, and mannerisms of a creature you’ve heard speak for at least 1 minute.</p><p><strong>Alter Form: (1 MP)</strong> When you Sustain this Spell or by spending 1 AP, you can alter your appearance to a new form of your choice.</p>",
+    "description": "<p>You create a magical protective coating around the target creature. The target gains +2 AD for the duration.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration increases by 1 step. (1 hour → 8 hours → until Long Rest).</p><p><strong>Greater Armor: (1 MP)</strong> The target gain an additional +1 AD.</p><p><strong>Heavily Warded: (1 MP)</strong> The target gains PDR.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -124,96 +124,96 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "J2ZKNKndGBK22p2U": {
+      "GZqLp7ULqqMMGGNf": {
+        "name": "Range",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "ELMEPEQQOtq8T9Cp": {
         "name": "Duration",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The duration increases by 1 step (10 min → 1 hour → 8 hour → Long Rest). You no longer need to Sustain the Spell and you can end it at any time for free.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "item.system.duration.type = \"continuous\";",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "HhOI5tSU5QO8Mtsv": {
-        "name": "Size",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>You can choose the appearance of a creature 1 size smaller or larger than you. Your size does not change.</p>",
+        "description": "<p>The duration increases by 1 step. (1 hour → 8 hours → until Long Rest).</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -294,11 +294,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "1M6YDkLGh1wQaCSp": {
-        "name": "Mimicry",
+      "yeOxAuBEs6uqnLIS": {
+        "name": "Greater Armor",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can perfectly mimic the voice, accent, and mannerisms of a creature you’ve heard speak for at least 1 minute.</p>",
+        "description": "<p>The target gain an additional +1 AD.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -361,7 +361,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.defences.area.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -379,11 +379,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "PRHGXpOKwVdrICNy": {
-        "name": "Alter Form",
+      "hs1N2e7To5gRI0cG": {
+        "name": "Heavily Warded",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you Sustain this Spell or by spending 1 AP, you can alter your appearance to a new form of your choice.</p>",
+        "description": "<p>The target gains <span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\">PDR</span>.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -446,7 +446,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.damageReduction.pdr.active\",\n  mode: 5,\n  value: \"true\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -473,18 +473,18 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": 10,
-      "type": "sustain",
-      "timeUnit": "minutes"
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "hours"
     },
     "target": {
       "count": null,
-      "type": "self",
+      "type": "",
       "areas": {
         "default": {
           "area": "",
@@ -628,11 +628,82 @@
       }
     },
     "spellTags": {
-      "communication": "Communication",
-      "illusion": "Illusion"
+      "embolden": "Embolden",
+      "ward": "Ward"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Mage Armor",
+      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+      "origin": "Item.ZfO7N2kMbGC0tpwr",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 12,
+        "startTurn": 0
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "qzyHuzccTfVO56h2",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "mageArmor",
+        "macro": "",
+        "addToChat": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.area.bonuses.always",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "description": "<p>Magical protective coating around you - AD increased.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!TCcityaEWjhTKHWv.qzyHuzccTfVO56h2"
+    }
+  ],
   "folder": "oSwtE4idWkaIPpl6",
   "flags": {},
   "_stats": {
@@ -642,15 +713,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767536269130,
-    "modifiedTime": 1767552150947,
+    "createdTime": 1767553037793,
+    "modifiedTime": 1767553089506,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "Hhj8d9mIhin2UqUc",
+  "_id": "TCcityaEWjhTKHWv",
   "sort": 0,
-  "_key": "!items!Hhj8d9mIhin2UqUc"
+  "_key": "!items!TCcityaEWjhTKHWv"
 }

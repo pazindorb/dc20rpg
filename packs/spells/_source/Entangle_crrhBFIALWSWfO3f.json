@@ -320,7 +320,7 @@
         "name": "Grasping",
         "number": 0,
         "preventModification": false,
-        "description": "<p><strong>(Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p><p></p><p><em><strong>System Tip:</strong> This enhancement is not automated. Just reapply Entangle effect again.</em></p>",
+        "description": "<p><strong>(Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p><p></p><p><em><strong>System Tip:</strong> To make this enhancement work you cannot delete \"Entangle\" chat message.</em></p><p><em><strong>System Tip 2:</strong> If you are using this enhancement you should ignore 1st popup that will appear when you place Measurement Template, it is created to handle new actor entering the area. Another workaround is to apply \"Entangle\" effect before you place Mesurement Template.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -383,7 +383,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.duration.type = \"sustain\";\nitem.system.effectsConfig.addToTemplates = \"all\";",
+            "preItemRoll": "item.system.duration.type = \"sustain\";\nconst effect = item.getEffectByKey(\"grasping\");\nif (effect) effect.system.addToChat = true;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -698,7 +698,7 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": ""
+      "addToTemplates": "all"
     },
     "spellSource": {
       "arcane": {
@@ -787,7 +787,8 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "applyToTemplate": false
       },
       "changes": [
         {
@@ -823,9 +824,88 @@
         "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1767557989076
       },
       "_key": "!items.effects!crrhBFIALWSWfO3f.gBj6BB6nTYDQt8og"
+    },
+    {
+      "name": "Grasping",
+      "img": "icons/magic/nature/root-vine-entangle-foot-green.webp",
+      "origin": "Compendium.dc20rpg.spells.Item.crrhBFIALWSWfO3f",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "startRound": null,
+        "startTurn": null,
+        "seconds": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "yFfHMOjF22RlrKxd",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "grasping",
+        "macro": "// If entangle already applied do nothing\nif (actor.getEffectByKey(\"entangle\")) return;\n\n// If fail apply Entangle\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) {\n  ui.notifications.notify(\"'Entangle' chat message not found. Cannot apply the effect.\");\n  return;\n}\nconst entangle = message.system.applicableEffects.find(effect => effect.system.effectKey === \"entangle\");\nif (!entangle) {\n  ui.notifications.notify(\"'Entangle' effect not found on chat message.\");\n  return;\n}\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: entangle.statuses, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  game.dc20rpg.effects.createEffectOn(entangle, actor);\n}",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>Helper effect to handle \"Grasping\" enhancement. Do not modify events as it might break the behavior.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1767558563118,
+        "modifiedTime": 1767561096257,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!crrhBFIALWSWfO3f.yFfHMOjF22RlrKxd"
     }
   ],
   "folder": "oSwtE4idWkaIPpl6",
@@ -838,7 +918,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767539653608,
-    "modifiedTime": 1767539683553,
+    "modifiedTime": 1767564247447,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
