@@ -209,6 +209,12 @@ export async function addFlatDamageReductionEffect(actor) {
     img: "icons/svg/mage-shield.svg",
     description: "<p>You are spending Grit to reduce incoming damage</p>",
     duration: {rounds: 1},
+    system: {
+      duration: {
+        useCounter: true,
+        onTimeEnd: "delete"
+      }
+    },
     changes: [
       {
         key: "system.damageReduction.flat",
@@ -262,6 +268,8 @@ export function getMesuredTemplateEffects(item, applicableEffects=[], actor) {
   effects = effects.filter(effect => effect.system.applyToTemplate);
   if (actor) {
     for (const effect of effects) {
+      if (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};
+      effect.flags.dc20rpg.templateCallTime = Date.now();
       injectFormula(effect, actor);
     }
   }
@@ -291,9 +299,12 @@ export function getEffectModifiableKeys() {
     "system.defences.area.customFormula": "Area Defence: Custom Calculation Formula",
 
     // Damage reduction
-    "system.damageReduction.pdr.active": "Physical Damage Reduction",
-    "system.damageReduction.edr.active": "Elemental Damage Reduction",
-    "system.damageReduction.mdr.active": "Mystical Damage Reduction",
+    "system.damageReduction.pdr.active": "PDR",
+    "system.damageReduction.pdr.skipEqCheck": "PDR - Ignore Equipment Bonus",
+    "system.damageReduction.edr.active": "EDR",
+    "system.damageReduction.edr.skipEqCheck": "EDR - Ignore Equipment Bonus",
+    "system.damageReduction.mdr.active": "MDR",
+    "system.damageReduction.mdr.skipEqCheck": "MDR - Ignore Equipment Bonus",
     ..._damageReduction(),
 
     // Flat Damage/healing Modification

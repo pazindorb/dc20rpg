@@ -195,6 +195,7 @@ export class AgainstStatus {
   untilTargetNextTurnEnd = false;
   untilFirstTimeTriggered = false;
   forOneMinute = false;
+  forXRounds = null;
   repeatedSave = false;
   repeatedSaveKey = "phy";
 

@@ -248,7 +248,7 @@ function _spellFocus(items, actor) {
 	if (data.reach) {
 		actor.system.globalModifier.spell.range.melee += 1
 	}
-	if (data.warded) {
+	if (data.warded && !actor.system.damageReduction.mdr.skipEqCheck) {
 		actor.system.damageReduction.mdr.active = true;
 	}
 }
@@ -346,8 +346,10 @@ function _implementEquipmentData(actor, collectedData) {
 	}
 
 	// PDR and EDR
-	if (collectedData.pdr) actor.system.damageReduction.pdr.active = true;
-	if (collectedData.edr) actor.system.damageReduction.edr.active = true;
+	const pdr = actor.system.damageReduction.pdr;
+	const edr = actor.system.damageReduction.edr;
+	if (collectedData.pdr && !pdr.skipEqCheck) pdr.active = true;
+	if (collectedData.edr && !edr.skipEqCheck) edr.active = true;
 }
 
 function _customResources(items, actor) {

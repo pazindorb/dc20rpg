@@ -1,5 +1,6 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { companionShare } from "../../helpers/actors/companion.mjs";
+import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey, getValueFromPath } from "../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../settings/skillConfig.mjs";

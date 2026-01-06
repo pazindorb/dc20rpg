@@ -201,6 +201,7 @@
         </select>
         <a class="remove-against-status margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-key="{{key}}"></a>
       </div>
+      {{!-- Triggers --}}
       <div class="right-part-row">
         <a class="activable margin-left-5 fa-lg {{#if status.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" 
             data-path="system.againstStatuses.{{key}}.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
@@ -214,15 +215,30 @@
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
         <a class="activable margin-left-5 fa-lg {{#if status.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
-        <a class="activable margin-left-5 fa-lg {{#if status.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-            data-path="system.againstStatuses.{{key}}.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
-        <a class="activable margin-left-5 fa-lg {{#if status.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-            data-path="system.againstStatuses.{{key}}.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+      </div>
+    </div>
+    {{!-- Repeated Save --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.repeatedSave"}}</span>
+      <div class="right-part-row">
         {{#if status.repeatedSave}}
         <select class="margin-left-5" name="system.againstStatuses.{{key}}.repeatedSaveKey">
           {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=status.repeatedSaveKey blank=""}}
         </select>
         {{/if}}
+        <a class="activable margin-left-5 fa-lg {{#if status.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+      </div>
+    </div>
+    {{!-- Duration (Rounds) --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.duration"}}</span>
+      <div class="right-part-row">
+        {{#unless status.forOneMinute}}
+        <input type="text" name="system.againstStatuses.{{key}}.forXRounds" value="{{status.forXRounds}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.forXRounds"}}">
+        {{/unless}}
+        <a class="activable margin-left-5 fa-lg {{#if status.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
       </div>
     </div>
   </div>

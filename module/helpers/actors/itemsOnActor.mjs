@@ -1,7 +1,6 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { applyAdvancements, createNewAdvancement, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { runTemporaryItemMacro } from "../macros.mjs";
 import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
 

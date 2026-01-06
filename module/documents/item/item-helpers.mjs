@@ -805,6 +805,7 @@ function _enrichUseWeaponObject(item) {
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
   item.system.combatTraining = weapon.system.combatTraining;
+  item.system.attackFormula.rollBonus = weapon.system.attackFormula.rollBonus;
 
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
