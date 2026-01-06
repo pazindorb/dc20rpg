@@ -320,7 +320,7 @@
         "name": "Grasping",
         "number": 0,
         "preventModification": false,
-        "description": "<p><strong>(Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p><p></p><p><em><strong>System Tip:</strong> To make this enhancement work you cannot delete \"Entangle\" chat message.</em></p><p><em><strong>System Tip 2:</strong> If you are using this enhancement you should ignore 1st popup that will appear when you place Measurement Template, it is created to handle new actor entering the area. Another workaround is to apply \"Entangle\" effect before you place Mesurement Template.</em></p>",
+        "description": "<p><strong>(Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p><p></p><p><em><strong>System Tip:</strong> To make this enhancement work you cannot delete \"Entangle\" chat message.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -861,7 +861,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "grasping",
-        "macro": "// If entangle already applied do nothing\nif (actor.getEffectByKey(\"entangle\")) return;\n\n// If fail apply Entangle\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) {\n  ui.notifications.notify(\"'Entangle' chat message not found. Cannot apply the effect.\");\n  return;\n}\nconst entangle = message.system.applicableEffects.find(effect => effect.system.effectKey === \"entangle\");\nif (!entangle) {\n  ui.notifications.notify(\"'Entangle' effect not found on chat message.\");\n  return;\n}\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: entangle.statuses, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  game.dc20rpg.effects.createEffectOn(entangle, actor);\n}",
+        "macro": "// If entangle already applied do nothing\nif (actor.getEffectByKey(\"entangle\")) return;\n\n// We dont want to call it to fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// If fail apply Entangle\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) {\n  ui.notifications.notify(\"'Entangle' chat message not found. Cannot apply the effect.\");\n  return;\n}\nconst entangle = message.system.applicableEffects.find(effect => effect.system.effectKey === \"entangle\");\nif (!entangle) {\n  ui.notifications.notify(\"'Entangle' effect not found on chat message.\");\n  return;\n}\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: entangle.statuses, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  game.dc20rpg.effects.createEffectOn(entangle, actor);\n}",
         "addToChat": false,
         "applyToTemplate": true,
         "nonessential": false,
@@ -902,7 +902,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": 1767558563118,
-        "modifiedTime": 1767561096257,
+        "modifiedTime": 1767705113505,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!crrhBFIALWSWfO3f.yFfHMOjF22RlrKxd"
@@ -918,7 +918,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767539653608,
-    "modifiedTime": 1767633474828,
+    "modifiedTime": 1767688789813,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
