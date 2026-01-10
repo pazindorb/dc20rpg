@@ -155,7 +155,7 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "skip": "Skip Effect for that Roll",
+            "skip": "Skip Event for that Roll",
             "spendAP": "Spend 1 AP to Activate"
           }
         },
@@ -288,6 +288,14 @@ export class SystemsBuilder extends Dialog {
           skip: {
             key: "trigger",
             dontSkipFor: ["resourceChange"]
+          }
+        },
+        tempHpChangeOnly: {
+          value: false,
+          format: "boolean",
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["healingTaken"]
           }
         },
         operation: {

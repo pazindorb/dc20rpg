@@ -3,10 +3,10 @@ import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
+import { runHealthChangeEvent, runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
-import { deleteEffectFrom } from "../helpers/effects.mjs";
+import { createEffectOn, deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
@@ -482,6 +482,10 @@ export class DC20RpgActor extends Actor {
     return created;
   }
 
+  async applyEffect(effectData) {
+    return await createEffectOn(effectData, this);
+  }
+
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   /** @override */
   async rollInitiative({createCombatants=false, rerollInitiative=false, initiativeOptions={}}={}) {
@@ -587,25 +591,16 @@ export class DC20RpgActor extends Actor {
     // HP change check
     if (userId === game.user.id) {
       if (changed.system?.resources?.health) {
-        const newHP = changed.system.resources.health;
-        const previousHP = this.hpBeforeUpdate;
-        const tempHpChange = newHP.temp > 0 && !newHP.current;
-        
-        const newValue = newHP.value;
-        const oldValue = previousHP.value;
-        healthThresholdsCheck(newHP.current, this);
-        
-        const hpDif = oldValue - newValue;
+        healthThresholdsCheck(changed.system.resources.health.current, this);
         const tokens = getAllTokensForActor(this);
-        if (hpDif < 0) {
-          const text = `+${Math.abs(hpDif)}`;
+        const hpChange = options.hpChange;
+        if (hpChange > 0) {
+          const text = `+${Math.abs(hpChange)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.skipEventCall && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
         }
-        else if (hpDif > 0) {
-          const text = `-${Math.abs(hpDif)}`;
+        else if (hpChange < 0) {
+          const text = `-${Math.abs(hpChange)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.skipEventCall) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); 
         }
       }
     }
@@ -632,25 +627,34 @@ export class DC20RpgActor extends Actor {
   /** @inheritDoc */
   async _preUpdate(changes, options, user) {
     await updateActorHp(this, changes);
-    if (changes.system?.resources?.health) {
-      this.skipEventCall = changes.skipEventCall;
-      this.messageId = changes.messageId;
-      this.hpBeforeUpdate = this.system.resources.health;
-    }
 
-    // Run resource change event
+    // Run resource change events
+    const stopChangeFor = [];
     if (changes.system?.resources) {
       const before = this.system.resources;
       for (const [key, resource] of Object.entries(changes.system.resources)) {
-        if (key === "health") continue;
+        if (key === "health") {
+          const hpChange = await runHealthChangeEvent(resource, before.health, changes.messageId, this, changes.skipEventCall);
+          options.hpChange = hpChange;
+          if (hpChange === 0) stopChangeFor.push({custom: false, key: "health"});
+        }
         if (key === "custom") {
           for (const [customKey, customRes] of Object.entries(resource)) {
-            await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+            const stopChange = stopChange = await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+            if (stopChange) stopChangeFor.push({custom: true, key: customKey});
           }
         }
-        await runResourceChangeEvent(key, resource, before[key], this, false);
+        const stopChange = await runResourceChangeEvent(key, resource, before[key], this, false);
+        if (stopChange) stopChangeFor.push({custom: false, key: key});
       }
     }
+
+    // If event wants to stop some changes we remove it from the change list
+    for (const toStop of stopChangeFor) {
+      if (toStop.custom) delete changes.system.resources.custom[toStop.key];
+      else delete changes.system.resources[toStop.key];
+    }
+
     return await super._preUpdate(changes, options, user);
   }
 

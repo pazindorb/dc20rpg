@@ -430,7 +430,7 @@ export class DC20ChatMessage extends ChatMessage {
   _replaceWithSpeakerId(effect) {
     for (let i = 0; i < effect.changes.length; i++) {
       let changeValue = effect.changes[i].value;
-      if (changeValue.includes("#SPEAKER_ID#")) {
+      if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }

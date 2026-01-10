@@ -122,6 +122,12 @@
       <input class="numeric-input" data-path="fields.minimum.value" value="{{fields.minimum.value}}"/>
     </div>
     {{/if}}
+    {{#ifCond fields.trigger.value '===' "rest"}}
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.tempHpChangeOnly"}}</span>
+      <a class="activable fa-2x {{#if fields.tempHpChangeOnly.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.tempHpChangeOnly.value"></a>
+    </div>
+    {{/if}}
     {{!-- Rest Type --}}
     {{#ifCond fields.trigger.value '===' "rest"}}
     <div class="row margin-top-5">

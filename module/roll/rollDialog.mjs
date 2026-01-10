@@ -386,7 +386,7 @@ export class RollDialog extends DC20Dialog {
       if (d20Roll.roll) coreFormula.push({value: d20Roll.roll, source: "Base Core Formula"});
     }
     else {
-      const d20Roll = DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
+      const d20Roll = this.details.type === "save" ? DC20Roll.prepareSaveDetails(this.details.checkKey, {rollLevel: rollLevel}) : DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
       let custom = this.details.customFormula;
       if (custom) {
         if (rollLevel !== 0) {

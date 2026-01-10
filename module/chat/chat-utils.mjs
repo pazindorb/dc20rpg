@@ -3,7 +3,6 @@ import { generateKey } from "../helpers/utils.mjs";
 
 
 export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
-  if (!winningRoll) return;
   if (otherRolls.length === 0) return;
 
   if (target) target.other = [];
@@ -15,7 +14,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, data, target) {
         target.other.push(otherRoll);
       }
     }
-    if (!target) {
+    if (!target && winningRoll) {
       if (data?.againstDC && data.checkDC) {
         roll = _degreeOfSuccess(winningRoll._total, data.isCritMiss, data.checkDC, roll);
       }
@@ -157,7 +156,7 @@ function _mergeFormulasByType(rolls) {
 
   // Damage Rolls
   for (const roll of rolls.dmg) {
-    if (roll.modified.dontMerge) {
+    if (roll.modified.dontMerge || roll.modified.overrideDefence) {
       dmgByType.set(generateKey(), roll);
       continue;
     }

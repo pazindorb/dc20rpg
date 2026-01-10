@@ -511,13 +511,13 @@ function _fullyStunned() {
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.mig",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.agi",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
       }
@@ -2029,13 +2029,13 @@ function _paralyzed() {
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.mig",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed", "autoFail": true'
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.agi",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed", "autoFail": true'
       },
@@ -2163,13 +2163,13 @@ function _unconscious() {
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.mig",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.agi",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
       },
@@ -2368,13 +2368,13 @@ function _petrified() {
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.mig",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Petrified", "autoFail": true'
       },
       {
         key: "system.dynamicRollModifier.onYou.saves.agi",
-        mode: 5,
+        mode: 2,
         priority: undefined,
         value: '"label": "Petrified", "autoFail": true'
       }

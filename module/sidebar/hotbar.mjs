@@ -5,7 +5,7 @@ import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
+import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
@@ -443,6 +443,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           else effect.itemId = ""; 
         }
 
+        effect.manualTrigger = effect.hasManualEvent;
         if(effect.disabled) disabled.push(effect);
         else active.push(effect);
       }
@@ -766,7 +767,13 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           if (item) item.toggle();
         }
         else {
-          toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+          if (event.shiftKey) {
+            const effect = getEffectFrom(dataset.effectId, owner);
+            effect.runManualEvent();
+          }
+          else {
+            toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+          }
         }
       }
     }

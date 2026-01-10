@@ -133,19 +133,18 @@ function _collectFormulas(item) {
   // Some enhancements can provide additional formula
   let fromEnhancements = {};
   item.enhancements.all.values().forEach(enh => {
-    for (let i = 0; i < enh.number; i++) {
-      const enhMod = enh.modifications;
-      // Add formula from enhancement;
-      if (enhMod.addsNewFormula) {
-        let key = "";
-        do {
-          key = generateKey();
-        } while (formulas[key]);
-        fromEnhancements[key] = enhMod.formula;
-        fromEnhancements[key].enhName = enh.name;
+    const enhMod = enh.modifications;
+    if (enhMod.addsNewFormula) {
+      const key = generateKey();
+      const formula = {...enhMod.formula};
+      if (enh.number > 1) {
+        formula.formula = ` + (${enh.number} * (${formula.formula}))`;
+        if (formula.failFormula) formula.failFormula = ` + (${enh.number} * (${formula.failFormula}))`;
+        if (formula.each5Formula) formula.each5Formula = ` + (${enh.number} * (${formula.each5Formula}))`;
       }
-    }
-
+      fromEnhancements[key] = formula;
+      fromEnhancements[key].enhName = enh.name;
+    } 
   })
   formulas = {...formulas, ...fromEnhancements};
 

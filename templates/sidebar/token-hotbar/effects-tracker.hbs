@@ -2,7 +2,7 @@
 
   {{!-- Active --}}
   {{#each effects.active}}
-  <div class="effect-wrapper" title="{{localize 'HOTBAR.EFFECT'}}">
+  <div class="effect-wrapper" title="{{localize 'HOTBAR.EFFECT'}}{{#if manualTrigger}}{{localize 'HOTBAR.MANUAL_TRIGGER'}}{{/if}}">
     {{#ifCond system.stack '>' 0}}
     <div class="status-stack">
       <div class="letter-circle-icon">

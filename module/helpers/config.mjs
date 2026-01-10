@@ -254,7 +254,7 @@ DC20RPG.allEventTriggers = {
   rollCheck: "Check Roll",
   rollItem: "Any Item Roll",
   attack: "Item Attack Roll",
-  move: "Actor Move",
+  move: "Movement",
   crit: "On Nat 20",
   critFail: "On Nat 1",
   never: "Never",
@@ -713,7 +713,7 @@ DC20RPG.DROPDOWN_DATA.conditions = {
 
 DC20RPG.DROPDOWN_DATA.allStatuses = {
   magical: "Magical Effect",
-  curse: "Cursed",
+  cursed: "Cursed",
   movement: "Forced Movement",
   prone: "Prone",
   grappled: "Grappled",
@@ -911,6 +911,7 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
   communication: "Communication",
   curse: "Curse",
   death: "Death",
+  earth: "Earth",
   embolden: "Embolden",
   emotions: "Emotions",
   enfeeble: "Enfeeble",

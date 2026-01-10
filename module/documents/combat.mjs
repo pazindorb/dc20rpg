@@ -497,8 +497,12 @@ export class DC20RpgCombat extends Combat {
         startRound: 1,
         startTurn: 0,
       },
-      "flags.dc20rpg.duration.useCounter": true,
-      "flags.dc20rpg.duration.onTimeEnd": "delete",
+      system: {
+        duration: {
+          useCounter: true,
+          onTimeEnd: "delete"
+        }
+      },
       description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
       disabled: false,
       changes: changes
@@ -530,8 +534,12 @@ export class DC20RpgCombat extends Combat {
         startRound: 1,
         startTurn: 0,
       },
-      "flags.dc20rpg.duration.useCounter": true,
-      "flags.dc20rpg.duration.onTimeEnd": "delete",
+      system: {
+        duration: {
+          useCounter: true,
+          onTimeEnd: "delete"
+        }
+      },
       description: "The first Attack made against you during the first Round of Combat has ADV.",
       disabled: false,
       changes: changes

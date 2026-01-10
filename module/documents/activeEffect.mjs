@@ -1,5 +1,6 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
+import { runTemporaryMacro } from "../helpers/macros.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 
 /**
@@ -340,5 +341,16 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       sendEffectRemovedMessage(this.parent, this);
       await this.delete();
     }
+    if (onTimeEnd === "runMacro") {
+      await this.runMacro({timer: true});
+    }
+  }
+
+  async runMacro(additionalFields) {
+    const command = this.system.macro;
+    if (!command) return;
+    const actor = this.getOwningActor();
+    if (!actor) return;
+    await runTemporaryMacro(command, this, {actor: actor, effect: this, ...additionalFields});
   }
 }

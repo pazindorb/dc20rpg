@@ -152,9 +152,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
       case "runMacro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.system.macro;
-        if (!command) break;
-        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: true}});
+        await effect.runMacro({event: event, extras: {success: true}});
         break;
 
       default:
@@ -174,9 +172,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
       case "runMacro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.system.macro;
-        if (!command) break;
-        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: false}});
+        await effect.runMacro({event: event, extras: {success: false}});
         break;
   
       default:
@@ -218,13 +214,16 @@ async function _runPreTrigger(event, actor) {
       return false;
     }
   }
-  if (confirmation && event.preTrigger === "spendAP") {
-    const canSpend = actor.resources.ap.checkAndSpend(1);
-    if (!canSpend) {
-      const effect = await _disableEffect(event.effectId, actor);
-      if (effect) preTriggerTurnedOffEvents.push(effect);
+  if (event.preTrigger === "spendAP") {
+    if (confirmation) {
+      const canSpend = actor.resources.ap.checkAndSpend(1);
+      if (!canSpend) {
+        const effect = await _disableEffect(event.effectId, actor);
+        if (effect) preTriggerTurnedOffEvents.push(effect);
+      }
+      return canSpend;
     }
-    return canSpend;
+    else return false;
   }
   return true;
 }
@@ -380,6 +379,18 @@ export function minimalAmountFilter(amount) {
     filterMethod: (field) => {
       if (!field) return true;
       return amount >= field;
+    }
+  }
+  return [filter];
+}
+
+export function tempHPChangeOnlyFilter(tempHpChangeOnly) {
+  const filter = {
+    required: false,
+    eventField: "tempHpChangeOnly",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return !tempHpChangeOnly;
     }
   }
   return [filter];

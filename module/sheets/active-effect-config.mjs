@@ -66,7 +66,8 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     context.onTimeEndOptions = {
       "": "",
       disable: "Disable Effect",
-      delete: "Delete Effect"
+      delete: "Delete Effect",
+      runMacro: "Run Macro"
     };
     const statusIds = {};
     CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);

@@ -245,7 +245,7 @@ export function injectFormula(effect, effectOwner) {
     const value = change.value;
     
     // formulas start with "<#" and end with "#>"
-    if (value.includes("<#") && value.includes("#>")) {
+    if (typeof value === "string" && value.includes("<#") && value.includes("#>")) {
       // We want to calculate that formula and repleace it with value calculated
       const formulaRegex = /<#(.*?)#>/g;
       const formulasFound = value.match(formulaRegex);
