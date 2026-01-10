@@ -1,10 +1,10 @@
 {
-  "name": "Tendrils from Beyond",
+  "name": "Fear",
   "type": "spell",
-  "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+  "img": "icons/magic/control/fear-fright-monster-grin-red-orange.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You bring forth tendrils from beyond which cover each surface in a 2 Space diameter Sphere within range for the duration. Spaces filled with tendrils become Difficult Terrain.</span></p><p class=\"pf0\"><span class=\"cf0\">When you cast this Spell, make an Area Spell Attack against the PD of each creatures in the area.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Tendril Attack:</strong> Once on each of your turns, when you Sustain this Spell or by spending 1 AP, you can make an Area Spell Attack against the PD of each target within the area. Hit: The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><em><strong>System Tip:</strong> Use On Demand macro to trigger <strong>Tendril</strong> <strong>Attack</strong>. Attack will be free. If you were using <strong>Damage</strong> or <strong>Tripping</strong> enhancement when casting remember to add them to this attack.</em></p><p class=\"pf0\"><span class=\"cf0\"><strong>Moving Tendrils:</strong> When you Sustain this Spell or by spending 1 AP, you can move the area up to 5 Spaces to another Space within range.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> You can choose the order of your effects that occur at the same time.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Maw of Madness: (2 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. <strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p><p><strong>Tripping: (2 MP)</strong> When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target falls Prone.</p>",
+    "description": "<p>You instill fear in a creature within range that can see or hear you. Make a Spell Check against the target’s Repeated Charisma Save.</p><p><strong>Check Success:</strong> The target is Frightened by you for the duration.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Inner Demons: (X MP)</strong> While Frightened by this Spell, the target takes X Psychic Damage whenever it fails a Check or Save (not including the initial Save against this Spell).</p><p><strong>Flee: (1 MP)</strong> The target spends 1 AP running away from you each time it fails a Save against this Spell.</p><p><strong>Terrify: (3 MP)</strong> On a Success, the target is Terrified of you instead.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,16 +35,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "VdAeMHARby6iRceV": {
-        "command": "await item.update({[\"system.rollMenu.free\"]: true});\nitem.roll();",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Trigger Tendril Attack",
-        "title": "Trigger Tendril Attack",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -57,9 +48,9 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "attack",
+    "actionType": "check",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -77,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "spe",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -98,7 +89,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 2,
+        "ap": 1,
         "stamina": null,
         "mana": 1,
         "health": null,
@@ -129,110 +120,34 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
-    "formulas": {
-      "NNpn11zhR0Lr7GH3": {
-        "formula": "1",
-        "type": "bludgeoning",
-        "category": "damage",
-        "fail": false,
-        "failFormula": "",
-        "dontModifyFailFormula": false,
-        "each5": false,
-        "each5Formula": "",
-        "dontMerge": false,
-        "overrideDefence": "",
-        "perTarget": false
+    "againstStatuses": {
+      "y4rzziDo7AAA699L": {
+        "id": "frightened",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
       }
     },
+    "rollRequests": {
+      "0wUALNcyQbY3nqkL": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
+    "formulas": {},
     "enhancements": {
-      "gY0mO8AfQSJ74fVE": {
-        "name": "Change Damage to Psychic ",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>By default damage is set to Bludgeoning. You use this enhancement to make it Psychic.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": true,
-          "damageType": "psychic",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ONF6KdolniOjpWmK": {
+      "Z8C5akUPu7jJmnhZ": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -294,6 +209,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -317,96 +233,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "KreQcsQcw5eByKWA": {
-        "name": "Damage",
+      "m3TQsUTQh37AevMo": {
+        "name": "Inner Demons",
         "number": 0,
         "preventModification": false,
-        "description": "The damage increases by 1.",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "vYiZYPrz4xiFq5eF": {
-        "name": "Area",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "description": "<p>While Frightened by this Spell, the target takes X Psychic Damage whenever it fails a Check or Save (not including the initial Save against this Spell).</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -464,13 +295,14 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": ""
+            "postItemRoll": "const effect = item.getEffectByKey(\"fear\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.innerDemons = enh.number;"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -487,16 +319,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "DIJnMDrhoEY65bcw": {
-        "name": "Maw of Madness",
+      "l7qIgdBWKN7n8cRr": {
+        "name": "Flee",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
+        "description": "<p>The target spends 1 AP running away from you each time it fails a Save against this Spell.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -549,94 +381,14 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": {
-            "name": "Maw of Madness",
-            "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
-            "origin": null,
-            "duration": {
-              "rounds": 1,
-              "startTime": 0,
-              "combat": null,
-              "seconds": null,
-              "startRound": 12,
-              "startTurn": 1
-            },
-            "disabled": false,
-            "flags": {
-              "dc20rpg": {
-                "enhKey": "DIJnMDrhoEY65bcw"
-              }
-            },
-            "_id": "i3zsirLe1MFA8yQT",
-            "type": "base",
-            "system": {
-              "sustained": {
-                "isSustained": false,
-                "actorUuid": "",
-                "itemId": ""
-              },
-              "statusId": "",
-              "condition": false,
-              "fromStatus": false,
-              "duration": {
-                "useCounter": false,
-                "resetWhenEnabled": false,
-                "onTimeEnd": ""
-              },
-              "effectKey": "",
-              "macro": "const details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
-              "addToChat": false,
-              "applyToTemplate": true,
-              "nonessential": false,
-              "disableWhen": {
-                "path": "",
-                "mode": "",
-                "value": ""
-              },
-              "enableStatusOnCreation": [],
-              "disableStatusOnRemoval": [],
-              "requireEnhancement": "",
-              "chatMessageId": ""
-            },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
-            "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
-            "tint": "#ffffff",
-            "transfer": false,
-            "statuses": [],
-            "sort": 0,
-            "_stats": {
-              "compendiumSource": null,
-              "duplicateSource": null,
-              "exportSource": null,
-              "coreVersion": "13.350",
-              "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767705140600,
-              "modifiedTime": 1767705140606,
-              "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
-          },
+          "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": ""
+            "postItemRoll": "const effect = item.getEffectByKey(\"fear\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.flee = true;"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -653,16 +405,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "8erK4UZV7vccK7UC": {
-        "name": "Tripping",
+      "2f2XaqkOITco7hWR": {
+        "name": "Terrify",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. </p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
+        "description": "<p>On a Success, the target is Terrified of you instead.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 3,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -696,10 +448,10 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
-            "saveKey": "agi",
+            "saveKey": "",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
@@ -707,21 +459,21 @@
           },
           "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "prone",
-            "supressFromChatMessage": false,
+            "id": "terrified",
+            "supressFromChatMessage": true,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forXRounds": null
+            "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"fear\");\nif (!effect) return;\n\neffect.system.statusId = \"terrified\";\neffect.statuses = [\"terrified\"];\neffect.changes = [{\n  key: \"system.events\",\n  mode: 2,\n  value: `\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Fear\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"terrified\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"`\n}];",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -748,25 +500,25 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": 1,
-      "type": "sustain",
-      "timeUnit": "minutes"
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
     },
     "target": {
       "count": null,
       "type": "",
       "areas": {
         "default": {
-          "area": "sphere",
-          "distance": 2,
+          "area": "",
+          "distance": null,
           "width": null,
           "unit": "",
-          "difficult": "all"
+          "difficult": ""
         }
       }
     },
@@ -855,7 +607,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "enchantment",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -866,7 +618,7 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": "all"
+      "addToTemplates": ""
     },
     "spellSource": {
       "arcane": {
@@ -878,7 +630,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -903,14 +655,168 @@
       }
     },
     "spellTags": {
-      "aberration": "Aberration",
-      "bludgeoning": "Bludgeoning",
-      "madness": "Madness",
-      "psychic": "Psychic"
+      "emotions": "Emotions",
+      "frightened": "Frightened",
+      "motion": "Motion",
+      "psychic": "Psychic",
+      "terrified": "Terrified"
     }
   },
-  "effects": [],
-  "folder": "oSwtE4idWkaIPpl6",
+  "effects": [
+    {
+      "name": "Fear",
+      "img": "icons/magic/control/fear-fright-monster-grin-red-orange.webp",
+      "origin": "Item.jQWTP4Uz3StxDO5F",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "AJfIq1RxdhK916bG",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "frightened",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "fear",
+        "macro": "const flee = effect.flags.dc20rpg?.flee;\nconst innerDemons = effect.flags.dc20rpg?.innerDemons;\n\nif (flee) {\n  if (actor.resources.ap.checkAndSpend(1)) {\n    DC20.dialog.SimplePopup.info(\"Flee - Save Fail\", [\"You spend 1 AP to run away from the caster.\"])\n  }\n}\n\nif (innerDemons) {\n  let dmg = {\n    value: innerDemons,\n    source: \"Inner Demons\",\n    type: \"psychic\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.int",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.cha",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mar",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.spe",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Frightened\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Fear\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"frightened\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are under the effect of Fear.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "frightened"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!TI6B4lE0P885yeeG.AJfIq1RxdhK916bG"
+    }
+  ],
+  "folder": "Hb8UnD0bunkWVR3a",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -919,15 +825,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767635157382,
-    "modifiedTime": 1767741245479,
+    "createdTime": 1767956241674,
+    "modifiedTime": 1767970305043,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "nlx8kMSMm7x3dcsH",
-  "sort": 0,
-  "_key": "!items!nlx8kMSMm7x3dcsH"
+  "_id": "TI6B4lE0P885yeeG",
+  "sort": 700000,
+  "_key": "!items!TI6B4lE0P885yeeG"
 }

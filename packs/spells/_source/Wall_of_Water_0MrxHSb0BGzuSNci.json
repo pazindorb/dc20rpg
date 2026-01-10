@@ -1,10 +1,10 @@
 {
-  "name": "Tendrils from Beyond",
+  "name": "Wall of Water",
   "type": "spell",
-  "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+  "img": "icons/magic/water/wave-water-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You bring forth tendrils from beyond which cover each surface in a 2 Space diameter Sphere within range for the duration. Spaces filled with tendrils become Difficult Terrain.</span></p><p class=\"pf0\"><span class=\"cf0\">When you cast this Spell, make an Area Spell Attack against the PD of each creatures in the area.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Tendril Attack:</strong> Once on each of your turns, when you Sustain this Spell or by spending 1 AP, you can make an Area Spell Attack against the PD of each target within the area. Hit: The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><em><strong>System Tip:</strong> Use On Demand macro to trigger <strong>Tendril</strong> <strong>Attack</strong>. Attack will be free. If you were using <strong>Damage</strong> or <strong>Tripping</strong> enhancement when casting remember to add them to this attack.</em></p><p class=\"pf0\"><span class=\"cf0\"><strong>Moving Tendrils:</strong> When you Sustain this Spell or by spending 1 AP, you can move the area up to 5 Spaces to another Space within range.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> You can choose the order of your effects that occur at the same time.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Maw of Madness: (2 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. <strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p><p><strong>Tripping: (2 MP)</strong> When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target falls Prone.</p>",
+    "description": "<p>You create a 2 Space high, 3 Space long Wall of water within range for the duration. Creatures in the are subjected to the Underwater Combat rules and begin to Suffocate if they can’t hold their breath or breath underwater, and are Slowed when moving through the area.</p><p>Attacks that deal Physical or Elemental damage have DisADV if made against targets within the area or on the other side of the Wall.</p><p><strong>Spell Cast:</strong> When you cast the Spell, make a Spell Check against the Agility Save of each target in the area.</p><p><strong>Save Failure:</strong> The target is pushed 1 Space to a Space of your choice within the area or within 1 Space of the area.</p><p><strong>Spell End:</strong> When the Spell ends, it creates a Tidal Wave on both sides of the Wall that crashes upon on every Space within a number of Spaces equal to its height in both directions.</p><ul><li><p><strong>Objects:</strong> Objects in the area that weigh 200lbs or less that aren’t held or carried are pushed away from the Wall’s original area the Spaces at the edge of the tidal wave’s area.</p></li><li><p><strong>Creatures:</strong> Creatures in the area that are Medium sized or smaller must make a Might Save against your Save DC.</p><ul><li><p><strong>Save Failure:</strong> They are pushed 1 Space away from the Wall’s original area.</p></li><li><p><strong>Failure (Each 5):</strong> They are pushed up to 1 additional Space.</p></li></ul><p><em><strong>System Tip:</strong> Use on demand macro to create \"<strong>Spell End</strong>\" chat message.</em></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Extinguish</span></strong></span></p><p>Open flames in the area are extinguished, including torches, candles, or small campfires, unless magical or protected.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Length: (1 MP, Repeatable)</strong> The Wall’s length increases by 2 Spaces.</p><p><strong>Height: (1 MP, Repeatable)</strong> The Wall’s height increases by 1 Space.</p><p><strong>Prone: (1 MP)</strong> Each target that fails its Save against the Tidal Wave also falls Prone.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -36,12 +36,12 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "VdAeMHARby6iRceV": {
-        "command": "await item.update({[\"system.rollMenu.free\"]: true});\nitem.roll();",
+      "7xTeVlxwlJ9OG4Py": {
+        "command": "await item.update({\n  [\"system.actionType\"]: \"other\",\n  [\"system.rollMenu.free\"]: true,\n  [\"system.rollRequests.0kfImJhamPfxxrQS.category\"]: \"save\",\n  [\"system.formulas.mpX2KfosCX3CPHKz.each5\"]: true,\n  [\"system.formulas.mpX2KfosCX3CPHKz.fail\"]: true,\n});\nawait item.roll();\nitem.update({\n  [\"system.actionType\"]: \"check\",\n  [\"system.rollRequests.0kfImJhamPfxxrQS.category\"]: \"contest\",\n  [\"system.formulas.mpX2KfosCX3CPHKz.each5\"]: false,\n  [\"system.formulas.mpX2KfosCX3CPHKz.fail\"]: false,\n})",
         "trigger": "onDemand",
         "disabled": false,
-        "name": "Trigger Tendril Attack",
-        "title": "Trigger Tendril Attack",
+        "name": "Trigger  Tidal Wave",
+        "title": "Trigger Tidal Wave",
         "global": false
       }
     },
@@ -57,9 +57,9 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "attack",
+    "actionType": "check",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -77,13 +77,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "spe",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -129,110 +129,49 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
+    "againstStatuses": {
+      "0xdRBMBWcNet3a1e": {
+        "id": "movement",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "0kfImJhamPfxxrQS": {
+        "category": "contest",
+        "saveKey": "mig",
+        "contestedKey": "agi",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {
-      "NNpn11zhR0Lr7GH3": {
+      "mpX2KfosCX3CPHKz": {
         "formula": "1",
-        "type": "bludgeoning",
-        "category": "damage",
+        "type": "",
+        "category": "other",
         "fail": false,
-        "failFormula": "",
-        "dontModifyFailFormula": false,
+        "failFormula": "0",
+        "dontModifyFailFormula": true,
         "each5": false,
-        "each5Formula": "",
+        "each5Formula": "1",
         "dontMerge": false,
         "overrideDefence": "",
-        "perTarget": false
+        "perTarget": true,
+        "label": "Push Distance"
       }
     },
     "enhancements": {
-      "gY0mO8AfQSJ74fVE": {
-        "name": "Change Damage to Psychic ",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>By default damage is set to Bludgeoning. You use this enhancement to make it Psychic.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": true,
-          "damageType": "psychic",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ONF6KdolniOjpWmK": {
+      "MishXwbH3q0a99eY": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -294,91 +233,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": true,
-          "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "KreQcsQcw5eByKWA": {
-        "name": "Damage",
-        "number": 0,
-        "preventModification": false,
-        "description": "The damage increases by 1.",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -402,11 +257,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "vYiZYPrz4xiFq5eF": {
-        "name": "Area",
+      "szMxIom77Ia0xVyE": {
+        "name": "Length",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "description": "<p>The Wall’s length increases by 2 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -464,6 +319,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -487,16 +343,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "DIJnMDrhoEY65bcw": {
-        "name": "Maw of Madness",
+      "PFVUVcbKkRxddDWe": {
+        "name": "Height",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
+        "description": "<p>The Wall’s height increases by 1 Space.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -549,91 +405,11 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": {
-            "name": "Maw of Madness",
-            "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
-            "origin": null,
-            "duration": {
-              "rounds": 1,
-              "startTime": 0,
-              "combat": null,
-              "seconds": null,
-              "startRound": 12,
-              "startTurn": 1
-            },
-            "disabled": false,
-            "flags": {
-              "dc20rpg": {
-                "enhKey": "DIJnMDrhoEY65bcw"
-              }
-            },
-            "_id": "i3zsirLe1MFA8yQT",
-            "type": "base",
-            "system": {
-              "sustained": {
-                "isSustained": false,
-                "actorUuid": "",
-                "itemId": ""
-              },
-              "statusId": "",
-              "condition": false,
-              "fromStatus": false,
-              "duration": {
-                "useCounter": false,
-                "resetWhenEnabled": false,
-                "onTimeEnd": ""
-              },
-              "effectKey": "",
-              "macro": "const details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
-              "addToChat": false,
-              "applyToTemplate": true,
-              "nonessential": false,
-              "disableWhen": {
-                "path": "",
-                "mode": "",
-                "value": ""
-              },
-              "enableStatusOnCreation": [],
-              "disableStatusOnRemoval": [],
-              "requireEnhancement": "",
-              "chatMessageId": ""
-            },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
-            "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
-            "tint": "#ffffff",
-            "transfer": false,
-            "statuses": [],
-            "sort": 0,
-            "_stats": {
-              "compendiumSource": null,
-              "duplicateSource": null,
-              "exportSource": null,
-              "coreVersion": "13.350",
-              "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767705140600,
-              "modifiedTime": 1767705140606,
-              "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
-          },
+          "addsEffect": null,
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
@@ -653,16 +429,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "8erK4UZV7vccK7UC": {
-        "name": "Tripping",
+      "AzgU2UsFJRilyEPf": {
+        "name": "Prone",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. </p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
+        "description": "<p>Each target that fails its Save against the Tidal Wave also falls Prone.</p><p></p><p><em><strong>System Tip:</strong> Remember to use that enhancement when you tigger Tidal Wave (Spell End).</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -696,10 +472,10 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
-            "saveKey": "agi",
+            "saveKey": "",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
@@ -715,9 +491,9 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forXRounds": null
+            "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
@@ -754,7 +530,7 @@
     },
     "duration": {
       "value": 1,
-      "type": "sustain",
+      "type": "instantaneous",
       "timeUnit": "minutes"
     },
     "target": {
@@ -762,9 +538,9 @@
       "type": "",
       "areas": {
         "default": {
-          "area": "sphere",
-          "distance": 2,
-          "width": null,
+          "area": "line",
+          "distance": 3,
+          "width": 1,
           "unit": "",
           "difficult": "all"
         }
@@ -855,7 +631,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "elemental",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -870,7 +646,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -878,7 +654,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -903,14 +679,115 @@
       }
     },
     "spellTags": {
-      "aberration": "Aberration",
-      "bludgeoning": "Bludgeoning",
-      "madness": "Madness",
-      "psychic": "Psychic"
+      "motion": "Motion",
+      "slowed": "Slowed",
+      "water": "Water"
     }
   },
-  "effects": [],
-  "folder": "oSwtE4idWkaIPpl6",
+  "effects": [
+    {
+      "name": "Wall of Water",
+      "img": "icons/magic/water/wave-water-blue.webp",
+      "origin": "Item.IqJsEibaxjaDIG9l",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "startRound": 60,
+        "startTurn": 0,
+        "seconds": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "O8AHN544nyWPttjG",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are inside of Wall of Water. You are Slowed when moving through the area.</p><p>Attacks that deal Physical or Elemental damage have DisADV if made against targets within the area or on the other side of the Wall.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!0MrxHSb0BGzuSNci.O8AHN544nyWPttjG"
+    }
+  ],
+  "folder": "cwDGEv0bc2Jc1rn4",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -919,15 +796,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767635157382,
-    "modifiedTime": 1767741245479,
+    "createdTime": 1767948261046,
+    "modifiedTime": 1767948790451,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "nlx8kMSMm7x3dcsH",
-  "sort": 0,
-  "_key": "!items!nlx8kMSMm7x3dcsH"
+  "_id": "0MrxHSb0BGzuSNci",
+  "sort": 1100000,
+  "_key": "!items!0MrxHSb0BGzuSNci"
 }

@@ -290,7 +290,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"acidRain\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.damageValue = enh.number + 1;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -766,7 +766,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "acidRain",
-        "macro": "const dissolving = effect.flags.dc20rpg?.dissolving;\nconst corrode = effect.flags.dc20rpg?.corrode;\n\n// We dont want to call it to fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: 1,\n    source: \"Acid Rain\",\n    type: \"corrosion\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n\n  // Apply Dissolving effect\n  if (dissolving) {\n    const dissolve = {\n      name: \"Dissolving\",\n      description: \"<p>You lose PDR and EDR for one round.</p>\",\n      duration: {rounds: 1},\n      img: \"icons/magic/acid/dissolve-drip-droplet-smoke.webp\",\n      system: {\n        duration: {\n          useCounter: true,\n          onTimeEnd: \"delete\"\n        }\n      },\n      changes: [\n        {\n          key: \"system.damageReduction.pdr.active\",\n          mode: 5,\n          value:\"false\"\n        },\n        {\n          key: \"system.damageReduction.pdr.skipEqCheck\",\n          mode: 5,\n          value:\"true\"\n        },\n        {\n          key: \"system.damageReduction.edr.active\",\n          mode: 5,\n          value:\"false\"\n        },\n        {\n          key: \"system.damageReduction.edr.skipEqCheck\",\n          mode: 5,\n          value:\"true\"\n        },\n      ]\n    }\n    game.dc20rpg.effects.createEffectOn(dissolve, actor);\n  }\n\n  // Apply Corrode to equipped weapons\n  if (corrode) {\n    const weapons = actor.getAllItemsWithType([\"weapon\"], [\n      (weapon) => weapon.equipped, // Must be equipped\n      (weapon) => !weapon.system.macros.fixWeapon // Skip if already broken\n    ]);\n    for (const weapon of weapons) {\n      const macro = new DC20.ItemMacro();\n      macro.name = \"Repair Weapon\";\n      macro.title = \"Repair Weapon\";\n      macro.trigger = \"onDemand\";\n      macro.command = `\n        let formula = item.system.formulas.weaponDamage?.formula;\n        if (!formula) return;\n        formula = formula.replace(\" - 1\", \"\");\n        item.update({\n          [\"system.formulas.weaponDamage.formula\"]: formula,\n          [\"system.macros.-=fixWeapon\"]: null,\n        });\n        ui.notifications.notify(\"Fixed weapon\")\n      `;\n      const formula = weapon.system.formulas.weaponDamage?.formula;\n      if (formula) {\n        weapon.update({\n          [\"system.formulas.weaponDamage.formula\"]: formula + \" - 1\",\n          [\"system.macros.fixWeapon\"]: macro\n        });\n        ui.notifications.notify(\"Corrode Armament applied to your equipped weapon. You can repair it with on demand macro.\")\n      }\n    }\n  }\n}",
+        "macro": "const dissolving = effect.flags.dc20rpg?.dissolving;\nconst corrode = effect.flags.dc20rpg?.corrode;\nconst dmgValue = effect.flags.dc20rpg?.damageValue || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Acid Rain\",\n    type: \"corrosion\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n\n  // Apply Dissolving effect\n  if (dissolving) {\n    const dissolve = {\n      name: \"Dissolving\",\n      description: \"<p>You lose PDR and EDR for one round.</p>\",\n      duration: {rounds: 1},\n      img: \"icons/magic/acid/dissolve-drip-droplet-smoke.webp\",\n      system: {\n        duration: {\n          useCounter: true,\n          onTimeEnd: \"delete\"\n        }\n      },\n      changes: [\n        {\n          key: \"system.damageReduction.pdr.active\",\n          mode: 5,\n          value:\"false\"\n        },\n        {\n          key: \"system.damageReduction.pdr.skipEqCheck\",\n          mode: 5,\n          value:\"true\"\n        },\n        {\n          key: \"system.damageReduction.edr.active\",\n          mode: 5,\n          value:\"false\"\n        },\n        {\n          key: \"system.damageReduction.edr.skipEqCheck\",\n          mode: 5,\n          value:\"true\"\n        },\n      ]\n    }\n    game.dc20rpg.effects.createEffectOn(dissolve, actor);\n  }\n\n  // Apply Corrode to equipped weapons\n  if (corrode) {\n    const weapons = actor.getAllItemsWithType([\"weapon\"], [\n      (weapon) => weapon.equipped, // Must be equipped\n      (weapon) => !weapon.system.macros.fixWeapon // Skip if already broken\n    ]);\n    for (const weapon of weapons) {\n      const macro = new DC20.ItemMacro();\n      macro.name = \"Repair Weapon\";\n      macro.title = \"Repair Weapon\";\n      macro.trigger = \"onDemand\";\n      macro.command = `\n        let formula = item.system.formulas.weaponDamage?.formula;\n        if (!formula) return;\n        formula = formula.replace(\" - 1\", \"\");\n        item.update({\n          [\"system.formulas.weaponDamage.formula\"]: formula,\n          [\"system.macros.-=fixWeapon\"]: null,\n        });\n        ui.notifications.notify(\"Fixed weapon\")\n      `;\n      const formula = weapon.system.formulas.weaponDamage?.formula;\n      if (formula) {\n        weapon.update({\n          [\"system.formulas.weaponDamage.formula\"]: formula + \" - 1\",\n          [\"system.macros.fixWeapon\"]: macro\n        });\n        ui.notifications.notify(\"Corrode Armament applied to your equipped weapon. You can repair it with on demand macro.\")\n      }\n    }\n  }\n}",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -783,14 +783,14 @@
       "changes": [
         {
           "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Acid Rain\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
           "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
           "priority": null
         },
         {
           "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Acid Rain\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
           "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
           "priority": null
         }
       ],
@@ -807,7 +807,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1767705093213
+        "modifiedTime": 1767792866840
       },
       "_key": "!items.effects!QElNEG3fwInXJKI0.ibhueKyMQz7ufXsl"
     }
@@ -822,7 +822,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767698729294,
-    "modifiedTime": 1767701468694,
+    "modifiedTime": 1767948790451,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -830,6 +830,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "QElNEG3fwInXJKI0",
-  "sort": 300000,
+  "sort": 4000000,
   "_key": "!items!QElNEG3fwInXJKI0"
 }

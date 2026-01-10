@@ -1,10 +1,10 @@
 {
-  "name": "Tendrils from Beyond",
+  "name": "Hex",
   "type": "spell",
-  "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+  "img": "icons/magic/control/buff-flight-wings-runes-red.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You bring forth tendrils from beyond which cover each surface in a 2 Space diameter Sphere within range for the duration. Spaces filled with tendrils become Difficult Terrain.</span></p><p class=\"pf0\"><span class=\"cf0\">When you cast this Spell, make an Area Spell Attack against the PD of each creatures in the area.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Tendril Attack:</strong> Once on each of your turns, when you Sustain this Spell or by spending 1 AP, you can make an Area Spell Attack against the PD of each target within the area. Hit: The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><em><strong>System Tip:</strong> Use On Demand macro to trigger <strong>Tendril</strong> <strong>Attack</strong>. Attack will be free. If you were using <strong>Damage</strong> or <strong>Tripping</strong> enhancement when casting remember to add them to this attack.</em></p><p class=\"pf0\"><span class=\"cf0\"><strong>Moving Tendrils:</strong> When you Sustain this Spell or by spending 1 AP, you can move the area up to 5 Spaces to another Space within range.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> You can choose the order of your effects that occur at the same time.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Maw of Madness: (2 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. <strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p><p><strong>Tripping: (2 MP)</strong> When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target falls Prone.</p>",
+    "description": "<p>Make a Spell Check against the Repeated Charisma Save of a target within range.</p><p><strong>Check</strong> <strong>Success:</strong> The target is Cursed for the duration. While Cursed this way, it gains Vulnerability (1) to a damage type of your choice. The Curse can be removed by any effect that ends a Basic Curse.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Expanded: (1 MP)</strong> The target becomes Vulnerable to a category of damage (Physical, Elemental or Mystical) of your choice instead of 1 damage type.</p><p><strong>Break Resistance: (1 MP)</strong> The target doesn’t benefit from Resistance to the damage types they are Vulnerable to due to the Curse for the duration.</p><p><strong>Improved Vulnerability: (2 MP, Repeatable)</strong> The Vulnerability increases by 1.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -36,12 +36,12 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "VdAeMHARby6iRceV": {
-        "command": "await item.update({[\"system.rollMenu.free\"]: true});\nitem.roll();",
-        "trigger": "onDemand",
+      "o7QQpTDTdjrDM3IP": {
+        "command": "const effect = item.getEffectByKey(\"hex\");\nif (!effect) return;\n\nconst EXPANDED = \"xA5WgSNCDW5qZuAU\";\nconst BREAK_RESISTANCE = \"QuSGYPyc7Eu4Veim\";\nconst IMPROVED = \"j96AmO1RKb1DZE2i\";\n\nconst enhancements = item.enhancements.active;\n\nlet value = 1;\nlet options = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nlet dmgTypes = [];\nif (enhancements.get(EXPANDED)) {\n  options = {\n    physical: \"Physical\",\n    elemental: \"Elemental\",\n    mystical: \"Mystical\"\n  }\n}\nif (enhancements.get(IMPROVED)) {\n  value += enhancements.get(IMPROVED).number;\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", options);\nif (!selected) return;\n\nswitch(selected) {\n  case \"physical\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes);\n    break;\n  case \"elemental\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\n    break;\n  case \"mystical\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes);\n    break;\n  default:\n    dmgTypes = [selected];\n}\n\n// Add Vulnerability to the effect\nfor (const dmgType of dmgTypes) {\n  effect.changes.push({\n    key: `system.damageReduction.damageTypes.${dmgType}.vulnerable`,\n    mode: 2,\n    value: value\n  })\n}\n\n// Add Resistance removal to the effect\nif (enhancements.get(BREAK_RESISTANCE)) {\n  for (const dmgType of dmgTypes) {\n    effect.changes.push({\n      key: `system.damageReduction.damageTypes.${dmgType}.resistance`,\n      mode: 5,\n      value: false\n    })\n    effect.changes.push({\n      key: `system.damageReduction.damageTypes.${dmgType}.resist`,\n      mode: 5,\n      value: 0\n    })\n  }\n}",
+        "trigger": "preItemRoll",
         "disabled": false,
-        "name": "Trigger Tendril Attack",
-        "title": "Trigger Tendril Attack",
+        "name": "Prepare Hex effect",
+        "title": "",
         "global": false
       }
     },
@@ -57,9 +57,9 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "attack",
+    "actionType": "check",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -77,13 +77,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "spe",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -98,7 +98,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 2,
+        "ap": 1,
         "stamina": null,
         "mana": 1,
         "health": null,
@@ -129,110 +129,34 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
-    "formulas": {
-      "NNpn11zhR0Lr7GH3": {
-        "formula": "1",
-        "type": "bludgeoning",
-        "category": "damage",
-        "fail": false,
-        "failFormula": "",
-        "dontModifyFailFormula": false,
-        "each5": false,
-        "each5Formula": "",
-        "dontMerge": false,
-        "overrideDefence": "",
-        "perTarget": false
+    "againstStatuses": {
+      "LShfL98SJ3EBYIfI": {
+        "id": "cursed",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
       }
     },
+    "rollRequests": {
+      "rLrCk3dz0On5qDMH": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
+    "formulas": {},
     "enhancements": {
-      "gY0mO8AfQSJ74fVE": {
-        "name": "Change Damage to Psychic ",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>By default damage is set to Bludgeoning. You use this enhancement to make it Psychic.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": true,
-          "damageType": "psychic",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ONF6KdolniOjpWmK": {
+      "WVRaFSyAy4YF3C9B": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -294,6 +218,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -317,96 +242,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "KreQcsQcw5eByKWA": {
-        "name": "Damage",
+      "xA5WgSNCDW5qZuAU": {
+        "name": "Expanded",
         "number": 0,
         "preventModification": false,
-        "description": "The damage increases by 1.",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "vYiZYPrz4xiFq5eF": {
-        "name": "Area",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "description": "<p>The target becomes Vulnerable to a category of damage (Physical, Elemental or Mystical) of your choice instead of 1 damage type.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -464,6 +304,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -487,11 +328,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "DIJnMDrhoEY65bcw": {
-        "name": "Maw of Madness",
+      "QuSGYPyc7Eu4Veim": {
+        "name": "Break Resistance",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
+        "description": "<p>The target doesn’t benefit from Resistance to the damage types they are Vulnerable to due to the Curse for the duration.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "j96AmO1RKb1DZE2i": {
+        "name": "Improved Vulnerability",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The Vulnerability increases by 1.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -549,175 +476,9 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
-          },
-          "addsEffect": {
-            "name": "Maw of Madness",
-            "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
-            "origin": null,
-            "duration": {
-              "rounds": 1,
-              "startTime": 0,
-              "combat": null,
-              "seconds": null,
-              "startRound": 12,
-              "startTurn": 1
-            },
-            "disabled": false,
-            "flags": {
-              "dc20rpg": {
-                "enhKey": "DIJnMDrhoEY65bcw"
-              }
-            },
-            "_id": "i3zsirLe1MFA8yQT",
-            "type": "base",
-            "system": {
-              "sustained": {
-                "isSustained": false,
-                "actorUuid": "",
-                "itemId": ""
-              },
-              "statusId": "",
-              "condition": false,
-              "fromStatus": false,
-              "duration": {
-                "useCounter": false,
-                "resetWhenEnabled": false,
-                "onTimeEnd": ""
-              },
-              "effectKey": "",
-              "macro": "const details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
-              "addToChat": false,
-              "applyToTemplate": true,
-              "nonessential": false,
-              "disableWhen": {
-                "path": "",
-                "mode": "",
-                "value": ""
-              },
-              "enableStatusOnCreation": [],
-              "disableStatusOnRemoval": [],
-              "requireEnhancement": "",
-              "chatMessageId": ""
-            },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
-            "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
-            "tint": "#ffffff",
-            "transfer": false,
-            "statuses": [],
-            "sort": 0,
-            "_stats": {
-              "compendiumSource": null,
-              "duplicateSource": null,
-              "exportSource": null,
-              "coreVersion": "13.350",
-              "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767705140600,
-              "modifiedTime": 1767705140606,
-              "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
-          },
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "8erK4UZV7vccK7UC": {
-        "name": "Tripping",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. </p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": true,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "agi",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": true,
-          "againstStatus": {
-            "id": "prone",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forXRounds": null
           },
           "addsEffect": null,
           "macros": {
@@ -748,25 +509,25 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": null,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": 1,
-      "type": "sustain",
-      "timeUnit": "minutes"
+      "value": null,
+      "type": "",
+      "timeUnit": ""
     },
     "target": {
       "count": null,
       "type": "",
       "areas": {
         "default": {
-          "area": "sphere",
-          "distance": 2,
+          "area": "",
+          "distance": null,
           "width": null,
           "unit": "",
-          "difficult": "all"
+          "difficult": ""
         }
       }
     },
@@ -855,7 +616,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "enchantment",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -866,7 +627,7 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": "all"
+      "addToTemplates": ""
     },
     "spellSource": {
       "arcane": {
@@ -874,7 +635,7 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
@@ -903,14 +664,85 @@
       }
     },
     "spellTags": {
-      "aberration": "Aberration",
-      "bludgeoning": "Bludgeoning",
-      "madness": "Madness",
-      "psychic": "Psychic"
+      "curse": "Curse",
+      "enfeeble": "Enfeeble"
     }
   },
-  "effects": [],
-  "folder": "oSwtE4idWkaIPpl6",
+  "effects": [
+    {
+      "name": "Hex",
+      "img": "icons/magic/control/buff-flight-wings-runes-red.webp",
+      "origin": "Item.ZMyU8IaAHNScR9Bi",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "yj8Ioa9bpX7WGjI8",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "hex",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are cursed by Hex. You gain Vulnerability to some damage types.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!KlAbJxo396tA3oTZ.yj8Ioa9bpX7WGjI8"
+    }
+  ],
+  "folder": "Hb8UnD0bunkWVR3a",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -919,15 +751,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767635157382,
-    "modifiedTime": 1767741245479,
+    "createdTime": 1767964170806,
+    "modifiedTime": 1767970305043,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "nlx8kMSMm7x3dcsH",
-  "sort": 0,
-  "_key": "!items!nlx8kMSMm7x3dcsH"
+  "_id": "KlAbJxo396tA3oTZ",
+  "sort": 100000,
+  "_key": "!items!KlAbJxo396tA3oTZ"
 }

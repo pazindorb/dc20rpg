@@ -1,10 +1,10 @@
 {
-  "name": "Tendrils from Beyond",
+  "name": "Poison Cloud",
   "type": "spell",
-  "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+  "img": "icons/magic/air/fog-gas-smoke-dense-green.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You bring forth tendrils from beyond which cover each surface in a 2 Space diameter Sphere within range for the duration. Spaces filled with tendrils become Difficult Terrain.</span></p><p class=\"pf0\"><span class=\"cf0\">When you cast this Spell, make an Area Spell Attack against the PD of each creatures in the area.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Tendril Attack:</strong> Once on each of your turns, when you Sustain this Spell or by spending 1 AP, you can make an Area Spell Attack against the PD of each target within the area. Hit: The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><em><strong>System Tip:</strong> Use On Demand macro to trigger <strong>Tendril</strong> <strong>Attack</strong>. Attack will be free. If you were using <strong>Damage</strong> or <strong>Tripping</strong> enhancement when casting remember to add them to this attack.</em></p><p class=\"pf0\"><span class=\"cf0\"><strong>Moving Tendrils:</strong> When you Sustain this Spell or by spending 1 AP, you can move the area up to 5 Spaces to another Space within range.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> You can choose the order of your effects that occur at the same time.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Maw of Madness: (2 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. <strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p><p><strong>Tripping: (2 MP)</strong> When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target falls Prone.</p>",
+    "description": "<p><span class=\"cf0\">You create a 2 Space diameter Sphere of poison gas within range for the duration. The Sphere spreads around corners. When a creature enters the area for the first time on its turn, or starts its turn there, it makes a Might Save. Save Failure: The creature takes 1 Poison damage.</span></p><p><span class=\"cf0\"><strong>Spell Cast:</strong> Make an Area Spell Attack against the AD of each target within the area.</span></p><p><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Poison damage.</span></p><p><strong>Relocate:</strong> When you Sustain this Spell or by spending 1 AP, you can move the Sphere up to 5 Spaces to another Space within range.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Noxious</span></strong></span></p><p><span class=\"cf0\">Plant life in the area that are not being worn or held wilts or dies, grass blackens, and flowers or vines shrivel where the Spell touches.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Debilitating Poison: (2 MP)</strong> A creature that fails its Save becomes Poisoned by for 1 minute. While Poisoned in this way, the creature becomes Impaired or Hindered (your choice when you use this Enhancement). A creature can make a Repeated Might Save at the end of each of its turns, ending the Poison on a success. This Poison can be removed by any effect that ends a Basic Poison.</p><p><strong>Deadly Poison: (2 MP, Repeatable)</strong> A creature that fails its Save becomes Poisoned for 1 minute. While Poisoned in this way, the creature takes 1 Poison damage at the start of each of its turns. A creature can make a Repeated Might Save at the end of each of its turns, ending the Poison on a success. The damage increases by 1 each time you use this Enhancement. This Poison can be removed by any effect that ends a Basic Poison.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,16 +35,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "VdAeMHARby6iRceV": {
-        "command": "await item.update({[\"system.rollMenu.free\"]: true});\nitem.roll();",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Trigger Tendril Attack",
-        "title": "Trigger Tendril Attack",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -61,7 +52,7 @@
     "attackFormula": {
       "rangeType": "area",
       "checkType": "spell",
-      "targetDefence": "precision",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -100,7 +91,7 @@
         "actionPoint": null,
         "ap": 2,
         "stamina": null,
-        "mana": 1,
+        "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -132,9 +123,9 @@
     "againstStatuses": {},
     "rollRequests": {},
     "formulas": {
-      "NNpn11zhR0Lr7GH3": {
+      "jE6oPfZLJLIJ66ae": {
         "formula": "1",
-        "type": "bludgeoning",
+        "type": "poison",
         "category": "damage",
         "fail": false,
         "failFormula": "",
@@ -147,92 +138,7 @@
       }
     },
     "enhancements": {
-      "gY0mO8AfQSJ74fVE": {
-        "name": "Change Damage to Psychic ",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>By default damage is set to Bludgeoning. You use this enhancement to make it Psychic.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": true,
-          "damageType": "psychic",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ONF6KdolniOjpWmK": {
+      "Zq51hbHEX6YIHRGa": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -294,6 +200,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -317,11 +224,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "KreQcsQcw5eByKWA": {
+      "m2pHO2SjMkLCG081": {
+        "name": "Area",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "s88Kcq45tVGBywqm": {
         "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "The damage increases by 1.",
+        "description": "<p>The damage increases by 1.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -379,12 +372,13 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"poisonCloud\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.damageValue = enh.number + 1;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -402,96 +396,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "vYiZYPrz4xiFq5eF": {
-        "name": "Area",
+      "HY24ZfyJ5qLeWFld": {
+        "name": "Debilitating Poison",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "DIJnMDrhoEY65bcw": {
-        "name": "Maw of Madness",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
+        "description": "<p>A creature that fails its Save becomes Poisoned by for 1 minute. While Poisoned in this way, the creature becomes Impaired or Hindered (your choice when you use this Enhancement). </p><p>A creature can make a Repeated Might Save at the end of each of its turns, ending the Poison on a success. </p><p>This Poison can be removed by any effect that ends a Basic Poison.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -549,93 +458,13 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": {
-            "name": "Maw of Madness",
-            "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
-            "origin": null,
-            "duration": {
-              "rounds": 1,
-              "startTime": 0,
-              "combat": null,
-              "seconds": null,
-              "startRound": 12,
-              "startTurn": 1
-            },
-            "disabled": false,
-            "flags": {
-              "dc20rpg": {
-                "enhKey": "DIJnMDrhoEY65bcw"
-              }
-            },
-            "_id": "i3zsirLe1MFA8yQT",
-            "type": "base",
-            "system": {
-              "sustained": {
-                "isSustained": false,
-                "actorUuid": "",
-                "itemId": ""
-              },
-              "statusId": "",
-              "condition": false,
-              "fromStatus": false,
-              "duration": {
-                "useCounter": false,
-                "resetWhenEnabled": false,
-                "onTimeEnd": ""
-              },
-              "effectKey": "",
-              "macro": "const details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
-              "addToChat": false,
-              "applyToTemplate": true,
-              "nonessential": false,
-              "disableWhen": {
-                "path": "",
-                "mode": "",
-                "value": ""
-              },
-              "enableStatusOnCreation": [],
-              "disableStatusOnRemoval": [],
-              "requireEnhancement": "",
-              "chatMessageId": ""
-            },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
-            "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
-            "tint": "#ffffff",
-            "transfer": false,
-            "statuses": [],
-            "sort": 0,
-            "_stats": {
-              "compendiumSource": null,
-              "duplicateSource": null,
-              "exportSource": null,
-              "coreVersion": "13.350",
-              "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767705140600,
-              "modifiedTime": 1767705140606,
-              "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
-          },
+          "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"poisonCloud\");\nif (!effect) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Poison Type\", {hindered: \"Hindered\", impaired: \"Impaired\"});\nif (!selected) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.debilitating = selected;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -653,11 +482,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "8erK4UZV7vccK7UC": {
-        "name": "Tripping",
+      "U9w2SGjNSMvy46Tn": {
+        "name": "Deadly Poison",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. </p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
+        "description": "<p>A creature that fails its Save becomes Poisoned for 1 minute. While Poisoned in this way, the creature takes 1 Poison damage at the start of each of its turns. </p><p>A creature can make a Repeated Might Save at the end of each of its turns, ending the Poison on a success.</p><p>The damage increases by 1 each time you use this Enhancement.</p><p>This Poison can be removed by any effect that ends a Basic Poison.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -696,18 +525,18 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
-            "saveKey": "agi",
+            "saveKey": "",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": true,
+          "addsAgainstStatus": false,
           "againstStatus": {
-            "id": "prone",
+            "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -715,13 +544,13 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forXRounds": null
+            "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"poisonCloud\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.deadly = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -766,7 +595,7 @@
           "distance": 2,
           "width": null,
           "unit": "",
-          "difficult": "all"
+          "difficult": ""
         }
       }
     },
@@ -855,7 +684,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "elemental",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -870,7 +699,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -878,7 +707,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -903,14 +732,92 @@
       }
     },
     "spellTags": {
-      "aberration": "Aberration",
-      "bludgeoning": "Bludgeoning",
-      "madness": "Madness",
-      "psychic": "Psychic"
+      "ailment": "Ailment",
+      "hindered": "Hindered",
+      "impaired": "Impaired",
+      "poison": "Poison"
     }
   },
-  "effects": [],
-  "folder": "oSwtE4idWkaIPpl6",
+  "effects": [
+    {
+      "name": "Poison Cloud",
+      "img": "icons/magic/air/fog-gas-smoke-dense-green.webp",
+      "origin": "Item.qJYRdZaarEOjtOi8",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 52,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "Pal3UHUGxzgLvyXL",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "poisonCloud",
+        "macro": "const debilitating = effect.flags.dc20rpg?.debilitating;\nconst deadly = effect.flags.dc20rpg?.deadly || 0;\nconst dmgValue = effect.flags.dc20rpg?.damageValue || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"poisoned\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Poison Cloud\",\n    type: \"poison\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n\n  // Apply Debilitating effect\n  if (debilitating) {\n    actor.toggleStatusEffect(debilitating, { active: true, extras: {forOneMinute: true, repeatedSave: true, repeatedSaveKey: \"mig\", against: event.against, id: debilitating } });\n  }\n\n  // Apply Deadly effect\n  if (deadly) {\n    const effectData = {\n      name: \"Deadly Poison\",\n      description: \"You take X Poison damage at the start of each of your turns.\",\n      img: \"icons/magic/unholy/projectile-smoke-tendril-green.webp\",\n      duration: {\n        rounds: 5\n      },\n      system: {\n        duration: {\n          useCounter: true,\n          onTimeEnd: \"delete\"\n        }\n      },\n      changes: [\n        {\n          key: \"system.events\",\n          mode: 2,\n          value: `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Deadly Poison\", \"value\": ${deadly}, \"type\": \"poison\", \"actorId\": \"${event.actorId}\"`\n        },\n        {\n          key: \"system.events\",\n          mode: 2,\n          value: `\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Deadly Poison - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"${event.against}\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"`\n        },\n      ]\n    }\n    game.dc20rpg.effects.createEffectOn(effectData, actor);\n  }\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Poison Cloud\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Poison Cloud\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You are inside of the Poison Cloud. You might take damage when you start your turn.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!7LvydLPTINnqnU7m.Pal3UHUGxzgLvyXL"
+    }
+  ],
+  "folder": "cwDGEv0bc2Jc1rn4",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -919,15 +826,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767635157382,
-    "modifiedTime": 1767741245479,
+    "createdTime": 1767816491694,
+    "modifiedTime": 1767948790451,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "nlx8kMSMm7x3dcsH",
-  "sort": 0,
-  "_key": "!items!nlx8kMSMm7x3dcsH"
+  "_id": "7LvydLPTINnqnU7m",
+  "sort": 100000,
+  "_key": "!items!7LvydLPTINnqnU7m"
 }

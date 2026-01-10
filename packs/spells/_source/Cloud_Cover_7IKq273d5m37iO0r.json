@@ -1,10 +1,10 @@
 {
-  "name": "Tendrils from Beyond",
+  "name": "Cloud Cover",
   "type": "spell",
-  "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+  "img": "icons/magic/air/fog-gas-smoke-swirling-gray.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You bring forth tendrils from beyond which cover each surface in a 2 Space diameter Sphere within range for the duration. Spaces filled with tendrils become Difficult Terrain.</span></p><p class=\"pf0\"><span class=\"cf0\">When you cast this Spell, make an Area Spell Attack against the PD of each creatures in the area.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Tendril Attack:</strong> Once on each of your turns, when you Sustain this Spell or by spending 1 AP, you can make an Area Spell Attack against the PD of each target within the area. Hit: The target takes 1 Bludgeoning or Psychic damage (your choice).</span></p><p class=\"pf0\"><em><strong>System Tip:</strong> Use On Demand macro to trigger <strong>Tendril</strong> <strong>Attack</strong>. Attack will be free. If you were using <strong>Damage</strong> or <strong>Tripping</strong> enhancement when casting remember to add them to this attack.</em></p><p class=\"pf0\"><span class=\"cf0\"><strong>Moving Tendrils:</strong> When you Sustain this Spell or by spending 1 AP, you can move the area up to 5 Spaces to another Space within range.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> You can choose the order of your effects that occur at the same time.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Maw of Madness: (2 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. <strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p><p><strong>Tripping: (2 MP)</strong> When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target falls Prone.</p>",
+    "description": "<p><span class=\"cf0\">You obscure a 4 Space diameter Sphere within range with natural phenomenon (such as fog, sand, or sleet) for the duration. The Sphere spreads around corners. Targets within the area are Fully Concealed against creatures that aren’t within 1 Space of them. The Spell ends early if a 20 mph (30 kph) wind disperses it.</span></p><p><span class=\"cf0\"><strong>Relocate:</strong> When you Sustain this Spell or by spending 1 AP, you can move the Sphere up to 5 Spaces to another Space within range.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Blanketing Cloud: (2 MP)</strong> Surfaces within the area becomes covered in natural phenomenon (such as debris, ice, or sand) for the duration, making them Difficult Terrain. When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Agility Save. <strong>Save Failure:</strong> The target falls Prone.</p><p><strong>Abrasive Storm: (X MP)</strong> When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Might Save. <strong>Save Failure:</strong> The target takes X Slashing or Cold Damage (chosen when you use this Enhancement).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,16 +35,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "VdAeMHARby6iRceV": {
-        "command": "await item.update({[\"system.rollMenu.free\"]: true});\nitem.roll();",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Trigger Tendril Attack",
-        "title": "Trigger Tendril Attack",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -57,9 +48,9 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "attack",
+    "actionType": "other",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -131,108 +122,9 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {
-      "NNpn11zhR0Lr7GH3": {
-        "formula": "1",
-        "type": "bludgeoning",
-        "category": "damage",
-        "fail": false,
-        "failFormula": "",
-        "dontModifyFailFormula": false,
-        "each5": false,
-        "each5Formula": "",
-        "dontMerge": false,
-        "overrideDefence": "",
-        "perTarget": false
-      }
-    },
+    "formulas": {},
     "enhancements": {
-      "gY0mO8AfQSJ74fVE": {
-        "name": "Change Damage to Psychic ",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>By default damage is set to Bludgeoning. You use this enhancement to make it Psychic.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": true,
-          "damageType": "psychic",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ONF6KdolniOjpWmK": {
+      "wzxN6AmZ7M0uySnc": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -317,92 +209,7 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "KreQcsQcw5eByKWA": {
-        "name": "Damage",
-        "number": 0,
-        "preventModification": false,
-        "description": "The damage increases by 1.",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "vYiZYPrz4xiFq5eF": {
+      "APohpWQA3kXATfUA": {
         "name": "Area",
         "number": 0,
         "preventModification": false,
@@ -487,11 +294,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "DIJnMDrhoEY65bcw": {
-        "name": "Maw of Madness",
+      "5N2fKqjOm4XNMLmv": {
+        "name": "Blanketing Cloud",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
+        "description": "<p>Surfaces within the area becomes covered in natural phenomenon (such as debris, ice, or sand) for the duration, making them Difficult Terrain. </p><p>When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Agility Save. </p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -553,8 +360,8 @@
             "repeatedSaveKey": "phy"
           },
           "addsEffect": {
-            "name": "Maw of Madness",
-            "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+            "name": "Blanketing Cloud",
+            "img": "icons/magic/air/fog-gas-smoke-swirling-blue.webp",
             "origin": null,
             "duration": {
               "rounds": 1,
@@ -567,10 +374,10 @@
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "DIJnMDrhoEY65bcw"
+                "enhKey": "5N2fKqjOm4XNMLmv"
               }
             },
-            "_id": "i3zsirLe1MFA8yQT",
+            "_id": "R4G2qKHMAA3W9Y2M",
             "type": "base",
             "system": {
               "sustained": {
@@ -587,7 +394,7 @@
                 "onTimeEnd": ""
               },
               "effectKey": "",
-              "macro": "const details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
+              "macro": "if (actor.hasStatus(\"prone\")) return;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.toggleStatusEffect(\"prone\", { active: true });\n}",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -604,20 +411,20 @@
             "changes": [
               {
                 "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Blanketing Cloud\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
                 "mode": 2,
                 "priority": null,
                 "useCustom": false
               },
               {
                 "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maw of Madness\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Blanketing Cloud\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
                 "mode": 2,
                 "priority": null,
                 "useCustom": false
               }
             ],
-            "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target spends 1 AP suffering from temporary madness.</p>",
+            "description": "<p>Surfaces within the area becomes covered in natural phenomenon (such as debris, ice, or sand) for the duration, making them Difficult Terrain. When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Agility Save.</p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
             "tint": "#ffffff",
             "transfer": false,
             "statuses": [],
@@ -629,13 +436,13 @@
               "coreVersion": "13.350",
               "systemId": "dc20rpg",
               "systemVersion": "0.10.0.0",
-              "createdTime": 1767705140600,
-              "modifiedTime": 1767705140606,
+              "createdTime": 1767705430440,
+              "modifiedTime": 1767705436210,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             }
           },
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "item.system.target.areas.default.difficult = \"all\";",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -653,16 +460,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "8erK4UZV7vccK7UC": {
-        "name": "Tripping",
+      "PASjWOdKiqgVHSzO": {
+        "name": "Abrasive Storm",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you make an Attack with this Spell, each target makes an Agility Save against your Save DC. </p><p><strong>Save Failure:</strong> The target falls Prone.</p>",
+        "description": "<p>When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Might Save. </p><p><strong>Save Failure:</strong> The target takes X Slashing or Cold Damage (chosen when you use this Enhancement).</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -696,18 +503,18 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
-            "saveKey": "agi",
+            "saveKey": "",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": true,
+          "addsAgainstStatus": false,
           "againstStatus": {
-            "id": "prone",
+            "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -716,12 +523,92 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forXRounds": null
+            "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Abrasive Storm",
+            "img": "icons/magic/air/fog-gas-smoke-purple-blue.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": 12,
+              "startTurn": 1
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "PASjWOdKiqgVHSzO"
+              }
+            },
+            "_id": "GBkbQdakBCEeZaQL",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "const dmgValue = effect.flags.dc20rpg?.stormDmg || 1;\nconst dmgType = effect.flags.dc20rpg?.stormType || \"slashing\";\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Abrasive Storm\",\n    type: dmgType\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n}",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.events",
+                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Abrasive Storm\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.events",
+                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Abrasive Storm\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Might Save.</p><p><strong>Save Failure:</strong> The target takes X Slashing or Cold Damage (chosen when you use this Enhancement).</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1767705439651,
+              "modifiedTime": 1767705447346,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const dmgType = await DC20.dialog.SimplePopup.select(\"Abrasive Storm damage type\", {cold: \"Cold\", slashing: \"Slashing\"});\n\nenh.modifications.addsEffect.flags.dc20rpg.stormType = dmgType;\nenh.modifications.addsEffect.flags.dc20rpg.stormDmg = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -753,7 +640,7 @@
       "unit": ""
     },
     "duration": {
-      "value": 1,
+      "value": 10,
       "type": "sustain",
       "timeUnit": "minutes"
     },
@@ -763,10 +650,10 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 2,
+          "distance": 4,
           "width": null,
           "unit": "",
-          "difficult": "all"
+          "difficult": ""
         }
       }
     },
@@ -855,7 +742,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "elemental",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -870,7 +757,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -878,7 +765,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -903,14 +790,161 @@
       }
     },
     "spellTags": {
-      "aberration": "Aberration",
-      "bludgeoning": "Bludgeoning",
-      "madness": "Madness",
-      "psychic": "Psychic"
+      "cold": "Cold",
+      "shadow": "Shadow",
+      "slashing": "Slashing"
     }
   },
-  "effects": [],
-  "folder": "oSwtE4idWkaIPpl6",
+  "effects": [
+    {
+      "name": "Cloud Cover",
+      "img": "icons/magic/air/fog-gas-smoke-swirling-gray.webp",
+      "origin": "Item.dAvzjBS8yNgsC1pS",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "startRound": 9,
+        "startTurn": 0,
+        "seconds": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "kSVViavA68Lxby8c",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "fullyConcealed",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.againstYou.skills",
+          "mode": 2,
+          "value": "\"label\": \"Fully Concealed\", \"autoFail\": true, \"skill\": \"awa\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unseen (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are Fully Concealed against creatures that aren’t within 1 Space of your.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "fullyConcealed",
+        "unseen"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1767826375111
+      },
+      "_key": "!items.effects!7IKq273d5m37iO0r.kSVViavA68Lxby8c"
+    }
+  ],
+  "folder": "cwDGEv0bc2Jc1rn4",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -919,15 +953,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767635157382,
-    "modifiedTime": 1767741245479,
+    "createdTime": 1767705321010,
+    "modifiedTime": 1767948790451,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "nlx8kMSMm7x3dcsH",
-  "sort": 0,
-  "_key": "!items!nlx8kMSMm7x3dcsH"
+  "_id": "7IKq273d5m37iO0r",
+  "sort": 3200000,
+  "_key": "!items!7IKq273d5m37iO0r"
 }

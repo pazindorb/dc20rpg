@@ -1,10 +1,10 @@
 {
-  "name": "Oil Slick",
+  "name": "Command",
   "type": "spell",
-  "img": "icons/magic/water/vortex-water-whirlpool-blue.webp",
+  "img": "icons/magic/control/control-influence-puppet.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>An oily substance covers the ground in 2 Space diameter Sphere area within range. When you cast the Spell, make a Spell Check against the Agility Save of each target in the area.</p><p><strong>Check Success:</strong> The target falls Prone.</p><p><strong>Covered:</strong> The affected Spaces are Difficult Terrain for the duration. When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target falls Prone.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 space.</p><p><strong>Spreading Oil: (1 MP)</strong> Whenever a creature falls Prone in a Covered Space, it becomes afflicted by Spreading Oil for the duration. When the creature enters a Space, that Space becomes Covered. A creature afflicted by Spreading Oil makes a Repeated Agility Save at the end of each of its turns, ending the effect on a Success.</p><p><strong>Flammable: (X MP)</strong> Any oil produced by this Spell becomes flammable. If fire touches the Space it ignites. When a creature enters the area for the first time on its turn, or starts its turn in an ignited Space, it makes a Repeated Physical Save against your Save DC. <strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p>",
+    "description": "<p>You speak a command to a creature within range that can hear you. Make a Spell Check against the target’s Charisma Save.</p><p><strong>Check Success:</strong> The target immediately follows the command given by spending 1 AP (if it can). If the creature can’t spend the AP to follow the command, it becomes Stunned until the start of its turn. The number of stacks of Stunned it gains is equal to the amount of AP it couldn’t spend to follow the command. The creature can’t willingly fail their Check or spend any resources (AP, SP, or MP) to modify the Action it takes.</p><p><strong>Ignoring a Command:</strong> The Spell has no effect if the target doesn't understand your language, if it's unable to follow your command (such as commanding an immobilized creature to move), or if your command is directly harmful to itself.</p><p><strong>Choosing a Command:</strong> You can choose from the list of example commands below or improvise your own at the GM’s discretion.</p><ul><li><p><strong>Move:</strong> The target moves up to its Speed to a location (or in a direction) of your choice.</p></li><li><p><strong>Prone:</strong> The target falls Prone.</p></li><li><p><strong>Attack:</strong> The target makes 1 Attack that normally costs 1 AP. You choose the target of the Attack, which must be within the commanded creature’s range.</p></li><li><p><strong>Drop:</strong> The target drops what it’s holding.</p></li></ul><p><em><strong>System Tip:</strong> Just simply apply stunned condition from chat if target cant perform the command.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Word of Authority: (1 MP)</strong> The Spell no longer fails if the target doesn't understand your Language, it follows the command as if it can understand it.</p><p><strong>Extended Command: (2 MP)</strong> You can command the creature to perform up to 2 actions. The target spends 2 AP to follow all of the given commands.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -68,7 +68,7 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
@@ -89,7 +89,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 2,
+        "ap": 1,
         "stamina": null,
         "mana": 1,
         "health": null,
@@ -121,25 +121,25 @@
       "untilFirstTimeTriggered": false
     },
     "againstStatuses": {
-      "f499vRl1pU4PEpMZ": {
-        "id": "prone",
+      "kCc9uyVxVmnfQelT": {
+        "id": "stunned",
         "supressFromChatMessage": false,
         "untilYourNextTurnStart": false,
         "untilYourNextTurnEnd": false,
-        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnStart": true,
         "untilTargetNextTurnEnd": false,
         "untilFirstTimeTriggered": false,
         "forOneMinute": false,
+        "forXRounds": null,
         "repeatedSave": false,
-        "repeatedSaveKey": "phy",
-        "forXRounds": null
+        "repeatedSaveKey": "phy"
       }
     },
     "rollRequests": {
-      "rmiPYFQzIU3BvPiB": {
-        "category": "contest",
-        "saveKey": "",
-        "contestedKey": "agi",
+      "waYwhYjiXOYAxnty": {
+        "category": "save",
+        "saveKey": "cha",
+        "contestedKey": "",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true
@@ -147,7 +147,7 @@
     },
     "formulas": {},
     "enhancements": {
-      "WLwLITadkC7qm8ez": {
+      "fIG0DLOZFPnNxEkM": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -209,6 +209,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -232,11 +233,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VEKg4BdLlGnVhXai": {
-        "name": "Area",
+      "YAOS3Fonb0zXncEK": {
+        "name": "Word of Authority",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 space.</p>",
+        "description": "<p>The Spell no longer fails if the target doesn't understand your Language, it follows the command as if it can understand it.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -294,6 +295,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -317,16 +319,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "1h5hYINvbPiokido": {
-        "name": "Spreading Oil",
+      "UqmNRNAZ5ivf59qp": {
+        "name": "Extended Command",
         "number": 0,
         "preventModification": false,
-        "description": "<p>Whenever a creature falls Prone in a Covered Space, it becomes afflicted by Spreading Oil for the duration. When the creature enters a Space, that Space becomes Covered. A creature afflicted by Spreading Oil makes a Repeated Agility Save at the end of each of its turns, ending the effect on a Success.</p><p></p><p><em><strong>System Tip:</strong> Save is not automated. You can just place new template on the map when it spreads.</em></p>",
+        "description": "<p>You can command the creature to perform up to 2 actions. The target spends 2 AP to follow all of the given commands.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -379,91 +381,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "nQAtJDt46gvw28g5": {
-        "name": "Flammable",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Any oil produced by this Spell becomes flammable. If fire touches the Space it ignites. When a creature enters the area for the first time on its turn, or starts its turn in an ignited Space, it makes a Repeated Physical Save against your Save DC.</p><p><strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p><p></p><p><em><strong>System Tip:</strong> This is not automated.</em></p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -496,26 +414,25 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": 1,
-      "type": "continuous",
-      "timeUnit": "minutes"
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
     },
     "target": {
       "count": null,
       "type": "",
       "areas": {
         "default": {
-          "area": "sphere",
-          "distance": 2,
+          "area": "",
+          "distance": null,
           "width": null,
           "unit": "",
-          "difficult": "all",
-          "hideHighlight": false
+          "difficult": ""
         }
       }
     },
@@ -604,7 +521,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "enchantment",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -615,7 +532,7 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": "all"
+      "addToTemplates": ""
     },
     "spellSource": {
       "arcane": {
@@ -623,11 +540,11 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -652,90 +569,13 @@
       }
     },
     "spellTags": {
-      "burning": "Burning",
-      "trap": "Trap"
+      "communication": "Communication",
+      "emotions": "Emotions",
+      "motion": "Motion"
     }
   },
-  "effects": [
-    {
-      "name": "Oil Slick",
-      "img": "icons/magic/water/vortex-water-whirlpool-blue.webp",
-      "origin": "Item.ClMLqcrZ3wn078ua",
-      "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "flags": {
-        "dc20rpg": {}
-      },
-      "_id": "abm8IPRIO57J6hWH",
-      "type": "base",
-      "system": {
-        "sustained": {
-          "isSustained": false,
-          "actorUuid": "",
-          "itemId": ""
-        },
-        "statusId": "",
-        "condition": false,
-        "fromStatus": false,
-        "duration": {
-          "useCounter": false,
-          "resetWhenEnabled": false,
-          "onTimeEnd": ""
-        },
-        "effectKey": "",
-        "macro": "if (actor.hasStatus(\"prone\")) return;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: [\"prone\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.toggleStatusEffect(\"prone\", { active: true });\n}",
-        "addToChat": true,
-        "applyToTemplate": true,
-        "nonessential": false,
-        "disableWhen": {
-          "path": "",
-          "mode": "",
-          "value": ""
-        },
-        "enableStatusOnCreation": [],
-        "disableStatusOnRemoval": [],
-        "requireEnhancement": "",
-        "chatMessageId": ""
-      },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p>This effect handle applying Oil Slick effect when new target enters the area or starts its turn in the covered area. Do not modify events as it might break the behavior.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1767705491527
-      },
-      "_key": "!items.effects!hz4EAxGwrGHXHIcy.abm8IPRIO57J6hWH"
-    }
-  ],
-  "folder": "oSwtE4idWkaIPpl6",
+  "effects": [],
+  "folder": "Hb8UnD0bunkWVR3a",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -744,15 +584,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767620016493,
-    "modifiedTime": 1767780298496,
+    "createdTime": 1767953362963,
+    "modifiedTime": 1767970305043,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "hz4EAxGwrGHXHIcy",
-  "sort": 700000,
-  "_key": "!items!hz4EAxGwrGHXHIcy"
+  "_id": "U8YlKGkza433gO8q",
+  "sort": 800000,
+  "_key": "!items!U8YlKGkza433gO8q"
 }
