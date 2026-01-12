@@ -139,7 +139,7 @@ export class RollDialog extends DC20Dialog {
     this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
     this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
-    this.modifyFormula = false;
+    this.modifyFormula = options.customFormula || false;
     this._autoDRMCheck(options);
   }
 
@@ -562,7 +562,7 @@ export class RollDialog extends DC20Dialog {
 
   async _onActivable(path, dataset) {
     await super._onActivable(path, dataset);
-    if (path.includes(".rollMenu.") && !path.includes(".auto")) {
+    if (path.includes(".rollMenu.") && !(path.includes(".auto") || path.includes(".free"))) {
       if (this.autoDRMCheck) this._DRMCheck(false);
     }
   }

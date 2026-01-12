@@ -123,10 +123,8 @@ function _degreeOfSuccess(checkValue, natOne, checkDC, roll, contest) {
   if (natOne || (checkValue < checkDC)) {
     const failRoll = roll.failRoll;
     if (failRoll) {
-      modified.source = modified.source.replace("Base Value", "");
-      if (contest) modified.source = "[Contest Lost] " + modified.source;
-      else modified.source = "[Check Failed] " + modified.source;
-      
+      const title = contest ? "[Contest Lost]" : "[Check Failed]"
+      modified.source = modified.source.replace("Base Value", title);
       modified._formula = failRoll.formula;
       modified._total = failRoll.total;
       modified.terms = failRoll.terms;
@@ -139,9 +137,8 @@ function _degreeOfSuccess(checkValue, natOne, checkDC, roll, contest) {
       const degree = Math.floor((checkValue - checkDC) / 5);
       const formula = degree > 1 ? `(${degree} * ${each5Roll.formula})` : each5Roll.formula;
 
-      modified.source = modified.source.replace("Base Value", "");
-      if (contest) modified.source = `[Contest Won over ${(degree * 5)}] ${modified.source}`;
-      else modified.source = `[Check Succeeded over ${(degree * 5)}] ${modified.source}`;
+      const title = contest ? `[Contest Won over ${(degree * 5)}]` : `[Check Succeeded over ${(degree * 5)}]`
+      modified.source = modified.source.replace("Base Value", title);
       
       modified._formula += ` + ${formula}`;
       modified._total += (degree * each5Roll.total);

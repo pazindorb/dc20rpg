@@ -54,6 +54,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         toggleable: new f.BooleanField({required: true, initial: false}),
         toggledOn: new f.BooleanField({required: true, initial: false}),
         toggleOnRoll: new f.BooleanField({required: true, initial: false}),
+        offOnSustainDrop: new f.BooleanField({required: true, initial: false}),
       }),
       actionType: new f.StringField({required: true, initial: ""}),
       attackFormula: new AttackFormulaFields(),
@@ -78,6 +79,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         copyFor: new f.StringField({required: true, initial: ""}),
         linkWithToggle: new f.BooleanField({required: true, initial: false}),
         hideFromRollMenu: new f.BooleanField({required: true, initial: false}), // TODO: backward compatibility remove as part of 0.10
+        onlyMaintained: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
         melee: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),

@@ -83,6 +83,7 @@ export class Enhancement {
 export class Formula {
   formula = "";
   type = "";
+  label = "";
   category = "damage";
   fail = false;
   failFormula = "";

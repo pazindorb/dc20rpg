@@ -290,7 +290,7 @@ export class SystemsBuilder extends Dialog {
             dontSkipFor: ["resourceChange"]
           }
         },
-        tempHpChangeOnly: {
+        skipTempHpChangeOnly: {
           value: false,
           format: "boolean",
           skip: {

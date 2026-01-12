@@ -69,6 +69,7 @@ export async function evaluateCoreRoll(coreFormula, rollData, evalData={}) {
       failPerDice.push(result.result === 1);
     });
   }
+  if (critPerDice.length === 0 && failPerDice.length === 0) return roll;
 
   const rollLevel = (rollOptions.maximize || rollOptions.minimize) ? "" : _rollLevelFromFormula(coreFormula.formula);
   roll.crit = rollLevel === "adv" ? critPerDice.some(r => r === true) : critPerDice.every(r => r === true);
@@ -81,6 +82,7 @@ export async function evaluateCoreRoll(coreFormula, rollData, evalData={}) {
 function _rollLevelFromFormula(formula) {
   const parts = formula.split("d20");
   if (!parts[0]) return "";
+  if (!parts[1]) return "";
   if (parts[1].startsWith("kh")) return "adv";
   if (parts[1].startsWith("kl")) return "dis";
   return "";

@@ -198,9 +198,8 @@ function _degreeOfSuccess(checkValue, natOne, checkDC, final, contest) {
   if (natOne || (checkValue < checkDC)) {
     const failValue = modified.failValue;
     if (failValue !== undefined) {
-      modified.source = modified.source.replace("Base Value", "");
-      if (contest) modified.source = "[Contest Lost] " + modified.source;
-      else modified.source += "[Check Failed] " + modified.source;
+      const title = contest ? "[Contest Lost]" : "[Check Failed]"
+      modified.source = modified.source.replace("Base Value", title);
       modified.value = failValue;
     }
   }
@@ -209,9 +208,8 @@ function _degreeOfSuccess(checkValue, natOne, checkDC, final, contest) {
     const each5Value = modified.each5Value;
     if (each5Value) {
       const degree = Math.floor((checkValue - checkDC) / 5);
-      modified.source = modified.source.replace("Base Value", "");
-      if (contest) modified.source += `[Contest Won over ${(degree * 5)}] ${modified.source}`;
-      else modified.source += `[Check Succeeded over ${(degree * 5)}] ${modified.source}`;
+      const title = contest ? `[Contest Won over ${(degree * 5)}]` : `[Check Succeeded over ${(degree * 5)}]`
+      modified.source = modified.source.replace("Base Value", title);
       modified.value += (degree * each5Value);
     }
   }

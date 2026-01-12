@@ -1,4 +1,4 @@
-import { changedResourceFilter, minimalAmountFilter, runEventsFor, tempHPChangeOnlyFilter } from "./events.mjs";
+import { changedResourceFilter, minimalAmountFilter, runEventsFor, skipTempHpChangeOnlyFilter } from "./events.mjs";
 
 //============================================
 //          Resources Manipulations          =
@@ -54,23 +54,23 @@ export async function runResourceChangeEvent(key, after, before, actor, custom) 
   const changeValue = after.value - before.value;
   if (changeValue === 0) return;
   const operation = changeValue > 0 ? "addition" : "subtraction";
-  const fields = {resourceKey: key, change: changeValue, customResource: custom, stopChange: false}
+  const fields = {resourceKey: key, change: changeValue, customResource: custom, preventChange: false}
   await runEventsFor("resourceChange", actor, changedResourceFilter(key, operation), fields)
-  return fields.stopChange;
+  return fields.preventChange;
 }
 
 export async function runHealthChangeEvent(after, before, messageId, actor, skipEventCall) {
   const hpChange =after.value - before.value;
   const amount = Math.abs(hpChange);
 
-  const fields = {amount: amount, messageId: messageId, stopChange: false}
+  const fields = {amount: amount, messageId: messageId, preventChange: false}
   if (hpChange < 0 && !skipEventCall) {
     await runEventsFor("damageTaken", actor, minimalAmountFilter(amount), fields); 
   }
   if (hpChange > 0 && !skipEventCall) {
     const tempHpChangeOnly = (hpChange === after.temp) || (after.temp > 0 && !after.current);
     fields.tempHpChangeOnly = tempHpChangeOnly;
-    await runEventsFor("healingTaken", actor, [...minimalAmountFilter(amount), tempHPChangeOnlyFilter(tempHpChangeOnly)], fields);
+    await runEventsFor("healingTaken", actor, [...minimalAmountFilter(amount), ...skipTempHpChangeOnlyFilter(tempHpChangeOnly)], fields);
   }
-  return fields.stopChange ? 0 : hpChange;
+  return fields.preventChange ? 0 : hpChange;
 }

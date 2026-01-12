@@ -22,7 +22,7 @@ import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getTokenForActor } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
-import { calculateForTarget, tokenToTarget } from "./targets.mjs";
+import { calculateForTarget, getActorFromTargetHash, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
@@ -31,7 +31,8 @@ import { RollSelect } from "../dialogs/roll-select.mjs";
 export function prepareDC20tools() {
   window.DC20 = {
     tools: {
-      toSelectOptions
+      toSelectOptions,
+      getActorFromTargetHash
     },
     dialog: {
       SimplePopup,
@@ -252,8 +253,8 @@ DC20RPG.allEventTriggers = {
   effectDisabled: "Effect Disabled",
   rollSave: "Save Roll",
   rollCheck: "Check Roll",
+  attack: "Attack Roll",
   rollItem: "Any Item Roll",
-  attack: "Item Attack Roll",
   move: "Movement",
   crit: "On Nat 20",
   critFail: "On Nat 1",
@@ -919,6 +920,7 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
   gravity: "Gravity",
   healing: "Healing",
   illusion: "Illusion",
+  invisible: "Invisible",
   knowledge: "Knowledge",
   light: "Light",
   madness: "Madness",

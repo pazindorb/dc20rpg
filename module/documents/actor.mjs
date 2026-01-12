@@ -629,28 +629,28 @@ export class DC20RpgActor extends Actor {
     await updateActorHp(this, changes);
 
     // Run resource change events
-    const stopChangeFor = [];
+    const preventChangeFor = [];
     if (changes.system?.resources) {
       const before = this.system.resources;
       for (const [key, resource] of Object.entries(changes.system.resources)) {
         if (key === "health") {
           const hpChange = await runHealthChangeEvent(resource, before.health, changes.messageId, this, changes.skipEventCall);
           options.hpChange = hpChange;
-          if (hpChange === 0) stopChangeFor.push({custom: false, key: "health"});
+          if (hpChange === 0) preventChangeFor.push({custom: false, key: "health"});
         }
         if (key === "custom") {
           for (const [customKey, customRes] of Object.entries(resource)) {
-            const stopChange = stopChange = await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
-            if (stopChange) stopChangeFor.push({custom: true, key: customKey});
+            const preventChange = await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+            if (preventChange) preventChangeFor.push({custom: true, key: customKey});
           }
         }
-        const stopChange = await runResourceChangeEvent(key, resource, before[key], this, false);
-        if (stopChange) stopChangeFor.push({custom: false, key: key});
+        const preventChange = await runResourceChangeEvent(key, resource, before[key], this, false);
+        if (preventChange) preventChangeFor.push({custom: false, key: key});
       }
     }
 
     // If event wants to stop some changes we remove it from the change list
-    for (const toStop of stopChangeFor) {
+    for (const toStop of preventChangeFor) {
       if (toStop.custom) delete changes.system.resources.custom[toStop.key];
       else delete changes.system.resources[toStop.key];
     }
@@ -753,7 +753,8 @@ export class DC20RpgActor extends Actor {
       img: item.img,
       itemId: item.id,
       description: item.system.description,
-      linkedEffects: []
+      linkedEffects: [],
+      toggleOff: item.system?.toggle?.offOnSustainDrop
     }});
   }
 
@@ -765,10 +766,19 @@ export class DC20RpgActor extends Actor {
     await this.gmUpdate({[`system.sustain.${key}.linkedEffects`]: linkedEffects});
   }
 
+  async addTemplateToSustain(key, templateUuid) {
+    // TODO
+  }
+
+  async addAuraToSustain(key, auraUuid) {
+    // TODO
+  }
+
   async dropSustain(key, message) {
     const sustain = this.system.sustain[key];
     if (!sustain) return;
 
+    // Drop effects when sustain drops
     for (const effectUuid of sustain.linkedEffects) {
       const effect = await fromUuid(effectUuid);
       if (!effect) continue;
@@ -776,6 +786,12 @@ export class DC20RpgActor extends Actor {
       if (!owner) continue;
       deleteEffectFrom(effect.id, owner);
     }
+    // Toggle item off when sustain drops
+    if (sustain.toggleOff) {
+      const item = this.items.get(sustain.itemId);
+      if (item) item.toggle({forceOff: true});
+    }
+
     await this.update({[`system.sustain.-=${key}`]: null});
 
     if (message) {

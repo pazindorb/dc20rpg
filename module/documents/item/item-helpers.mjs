@@ -768,8 +768,10 @@ function _allEnhancements(item) {
       const itm = parent.items.get(itemWithCopyEnh.itemId);
       if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
       if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
-      if (itm && itm.system.copyEnhancements?.copy && toggleCheck(itm, itm.system.copyEnhancements?.linkWithToggle)) {
-        enhancements = new Map([...enhancements, ...itm.enhancements.all]);
+      const copyConfig = itm.system.copyEnhancements;
+      if (copyConfig?.copy && toggleCheck(itm, copyConfig?.linkWithToggle)) {
+        if (copyConfig?.onlyMaintained) enhancements = new Map([...enhancements, ...itm.enhancements.maintained]);
+        else enhancements = new Map([...enhancements, ...itm.enhancements.all]);
       }
     }
   }
@@ -1139,7 +1141,8 @@ async function _clearTags(infusion, item) {
     updateData.system.toggle = {
       toggleable: false,
       toggledOn: false,
-      toggleOnRoll: false
+      toggleOnRoll: false,
+      offOnSustainDrop: false
     };
     updateData.system.quickRoll = false;
     updateData.system.effectsConfig = {

@@ -23,7 +23,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
     
     // Close Quarters
-    const skipCloseQuarters = attackFormula.rangeType !== "ranged" || attackFormula.ignoreCloseQuarters || actor.system.globalModifier[checkType].ignore.closeQuarters;
+    const skipCloseQuarters = rangeType !== "ranged" || attackFormula.ignoreCloseQuarters || actor.system.globalModifier[checkType].ignore.closeQuarters;
     const closeQuartersResult = skipCloseQuarters ? [] : _closeQuartersCheck(attacker);
     results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
 
@@ -444,7 +444,7 @@ function _bonusRange(rangeKey, checkType, item, actor) {
   // Enhancement
   item.enhancements.active.values().forEach(enh => {
     const bonusRange = enh.modifications.bonusRange[rangeKey];
-    const addsRange = enh.modifications.addsRange[rangeKey];
+    const addsRange = enh.modifications.addsRange;
     if (addsRange && bonusRange) {
       range += (enh.number * bonusRange);
     }

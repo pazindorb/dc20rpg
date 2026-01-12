@@ -606,7 +606,7 @@ function _bleeding() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete"'
+        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete", "skipTempHpChangeOnly": true'
       }
     ]
   }
@@ -809,18 +809,6 @@ function _hindered() {
       },
       {
         key: "system.dynamicRollModifier.onYou.checks.att",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Hindered"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.checks.mar",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Hindered"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.checks.spe",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'

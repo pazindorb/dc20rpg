@@ -46,7 +46,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           type: event.type
         }
         dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
-        await applyDamage(actor, dmg.modified, {skipEventCall: event.trigger === "damageTaken" || event.tigger === "healingTaken"});
+        await applyDamage(actor, dmg.modified, {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"});
         break;
 
       case "healing":
@@ -56,7 +56,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           type: event.type
         };
         heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
-        await applyHealing(actor, heal.modified, {skipEventCall: event.trigger === "damageTaken" || event.tigger === "healingTaken"});
+        await applyHealing(actor, heal.modified, {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"});
         break;
 
       case "checkRequest":
@@ -384,10 +384,10 @@ export function minimalAmountFilter(amount) {
   return [filter];
 }
 
-export function tempHPChangeOnlyFilter(tempHpChangeOnly) {
+export function skipTempHpChangeOnlyFilter(tempHpChangeOnly) {
   const filter = {
     required: false,
-    eventField: "tempHpChangeOnly",
+    eventField: "skipTempHpChangeOnly",
     filterMethod: (field) => {
       if (!field) return true;
       return !tempHpChangeOnly;
