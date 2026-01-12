@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Arcane Shield",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You create a barrier of magic to protect yourself or another creature nearby.</p><p><strong>Trigger:</strong> When a target you can see within range (including yourself) is targeted by an Attack against its AD.</p><p><strong>Reaction:</strong> You grant the target a +5 bonus to its AD.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Multiple Targets: (1 AP, Repeatable)</strong> You target 1 additional creature within range that’s also targeted by the same Attack.</p><p><strong>Arcane Absorption: (1 MP, Repeatable)</strong> Immediately after the Attack, you gain 2 Temp HP. The Temp HP increases by 2 each time you use this Enhancement.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -124,11 +124,11 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
-        "name": "Range",
+      "lTrfIcuyhSqV31DT": {
+        "name": "Multiple Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "description": "<p>You target 1 additional creature within range that’s also targeted by the same Attack.</p>",
         "hide": false,
         "resources": {
           "ap": 1,
@@ -200,21 +200,21 @@
             "type": "adv",
             "value": 1
           },
-          "addsRange": true,
+          "addsRange": false,
           "bonusRange": {
             "melee": null,
-            "normal": 5,
+            "normal": null,
             "max": null
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "7ls6NqfxInRDp2lS": {
+        "name": "Arcane Absorption",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>Immediately after the Attack, you gain 2 Temp HP. </p><p>The Temp HP increases by 2 each time you use this Enhancement.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -239,183 +239,11 @@
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
-          "addsNewFormula": false,
+          "addsNewFormula": true,
           "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 3,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
+            "formula": "2",
+            "type": "temporary",
+            "category": "healing",
             "fail": false,
             "failFormula": "",
             "dontModifyFailFormula": false,
@@ -477,13 +305,13 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 1,
       "max": null,
       "unit": ""
     },
     "duration": {
       "value": null,
-      "type": "",
+      "type": "instantaneous",
       "timeUnit": ""
     },
     "target": {
@@ -492,7 +320,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +412,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "nullification",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -603,7 +431,7 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
@@ -632,11 +460,89 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "ward": "Ward"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Arcane Shield",
+      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
+      "origin": "Item.DBp1DdcJ6XmKJvF9",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 94,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "dVv2nkwnyan5834t",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "applyToTemplate": true,
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.area.bonuses.always",
+          "value": "5",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Arcane Shield\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You grant the target a +5 bonus to its AD against this Attack.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!txMH1SH2GvspBSoQ.dVv2nkwnyan5834t"
+    }
+  ],
+  "folder": "b0r4jNWftsRiK88T",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +551,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768065287705,
+    "modifiedTime": 1768123068770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "txMH1SH2GvspBSoQ",
+  "sort": 900000,
+  "_key": "!items!txMH1SH2GvspBSoQ"
 }

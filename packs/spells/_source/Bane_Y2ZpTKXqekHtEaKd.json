@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Bane",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/death/skull-horned-worn-fire-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>Make a Spell Check against a the Repeated Charisma Save.</p><p><strong>Save Failure:</strong> The target is Cursed for the duration. While Cursed in this way, the target subtracts a d6 from its Checks for the duration. The Curse can be removed by any effect that ends a Basic Curse.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Targets: (1 AP + X MP)</strong> You increase the number of targets by X.</p><p><strong>Full Bane: (2 MP)</strong> The target also subtract the same die from its Saves. The cost of this Enhancement increases to 4 MP if you use the Targets Enhancement.</p><p><strong>Greater Bane: (1 MP, Repeatable)</strong> The size of the die increases by 1 step (d6→d8→d10→d12).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,7 +35,16 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "Xw63KTRMLdajHFHg": {
+        "command": "const effect = item.getEffectByKey(\"bane\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\nconst full = enhancements.get(\"6I4hf5EzKEwUw3Ki\");\nconst greater = enhancements.get(\"2V0UDp6caiOiYgJj\");\n\nconst fromEnh = greater?.number || 0;\nlet diceValue = Math.min(6 + 2 * fromEnh, 12);\nconst dice = `d${diceValue}`;\n\nfor (const change of effect.changes) {\n  change.value = change.value.replace(\"#DICE#\", dice);\n}\n\nif (full) {\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.mig\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.agi\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.cha\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.int\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n}",
+        "trigger": "preItemRoll",
+        "disabled": false,
+        "name": "Handle Bane",
+        "title": "",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -91,7 +100,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -120,11 +129,34 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
+    "againstStatuses": {
+      "03KlUBBzhsuxm7Gt": {
+        "id": "cursed",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "s0xrQnEY1d5wSdCU": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "M1deEeom0FKSIJis": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +242,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "e6WquFQtvrTJoHMG": {
+        "name": "Targets - AP Cost",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "ItfOltEyEh5myx4G": {
+        "name": "Targets",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You increase the number of targets by X.</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,16 +414,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "6I4hf5EzKEwUw3Ki": {
+        "name": "Full Bane",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>The target also subtract the same die from its Saves. The cost of this Enhancement increases to 4 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -382,16 +500,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "2V0UDp6caiOiYgJj": {
+        "name": "Greater Bane",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>The size of the die increases by 1 step (d6→d8→d10→d12).</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -477,14 +595,14 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -492,7 +610,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +702,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "nullification",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -599,7 +717,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -632,11 +750,157 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "curse": "Curse",
+      "enfeeble": "Enfeeble"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Bane",
+      "img": "icons/magic/death/skull-horned-worn-fire-blue.webp",
+      "origin": "Item.VV9RPCo0DJxi0kV3",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "LwRRA2z8w9yFpMKg",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "bane",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.spe",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mar",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.cha",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.int",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are under the effect of Bane.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!Y2ZpTKXqekHtEaKd.LwRRA2z8w9yFpMKg"
+    }
+  ],
+  "folder": "b0r4jNWftsRiK88T",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +909,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768066976590,
+    "modifiedTime": 1768123068770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "Y2ZpTKXqekHtEaKd",
+  "sort": 800000,
+  "_key": "!items!Y2ZpTKXqekHtEaKd"
 }

@@ -1,10 +1,10 @@
 {
-  "name": "Bless",
+  "name": "Solar Beam",
   "type": "spell",
-  "img": "icons/magic/holy/prayer-hands-glowing-yellow-white.webp",
+  "img": "icons/magic/light/projectile-beam-yellow.webp",
   "system": {
-    "itemKey": "",
-    "description": "<p>A creature of your choice within range gains 1 of the blessings from the list below for the duration.</p><p>Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> The blessing is a d6.</p><p><strong>Success:</strong> The blessing is a d8.</p><p><strong>Success (5):</strong> The Blessing is a d10.</p><p></p><p><strong><span style=\"text-decoration: underline;\">Blessings</span></strong></p><ul><li><p><strong>Attacks:</strong> The target adds the die to its Attack Checks for the duration.</p></li><li><p><strong>Checks:</strong> The target adds the die to its Checks (except Attack Checks) for the duration.</p></li><li><p><strong>Saves:</strong> The target adds the die to its Saves for the duration.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Targets: (1 AP + X MP)</strong> You increase the number of targets by X.</p><p><strong>Full Bless: (1 MP)</strong> The target benefits from all 3 Blessings. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p><strong>Greater Bless: (1 MP)</strong> The size of the die granted increases by 1 step (d6→d8→d10→d12).</p>",
+    "itemKey": "solarBeam",
+    "description": "<p>You store a radiant power within yourself for the duration. You gain 1 Charge plus another Charge each time you Sustain this Spell (up to a maximum of 4).</p><p><strong>Sunlight:</strong> Once on each of your turns while in an area of Sunlight, you can spend 1 AP to gain a Charge.</p><p><strong>Spell Attack:</strong> You can spend 1 AP to release all stored Charges and make an Area Spell Attack against the AD every target within a 4 Space Line. If you release 4 Charges, you make the Attack with ADV.</p><p><strong>Hit:</strong> The target takes 1 Radiant damage per Charge.</p><p><em><strong>System Tip:</strong> When you drop <strong>Solar Beam Charges</strong> effect Spell Attack will trigger. Remember to remove if you drop sustain.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Light Beacon</span></strong></span></p><p>For the duration of the Spell, the Light Level of any Space you occupy increases by 1.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The length of the Line increases by 6 Spaces.</p><p><strong>Burning Radiance: (1 MP, Repeatable)</strong> Each target makes a Repeated Physical Save. <strong>Save Failure:</strong> The target begins Burning for 1 minute. Burning damage from this Enhancementdeals Radiant damage.</p><p><strong>Blinding: (4 MP)</strong> Each target makes a Physical Save. <strong>Save Failure:</strong> The target is Blinded for 1 Round.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -36,11 +36,11 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "zwTZo2oLB2v347tu": {
-        "command": "const effect = item.getEffectByKey(\"bless\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\n\n// Greater Bless Active\nif (enhancements.get(\"zDwy7sCYKiKS5O3O\")) {\n  effect.flags.dc20rpg = {greaterBless: true};\n}\n\n// Full Bless Active - nothing more to do here\nif (enhancements.get(\"hmc5tmMPtjnFpXhT\")) return;\n\n// Select Blessing\nlet blessing = await DC20.dialog.SimplePopup.select(\"Select Blessing\", {attacks: \"Attacks\", checks: \"Checks\", saves: \"Saves\"});\n\nconst newChanges = [];\nfor (const change of effect.changes) {\n  if (change.key.includes(\"events\")) newChanges.push(change);\n  if (change.key.includes(\".saves.\") && blessing === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".checks.\") && blessing === \"checks\") newChanges.push(change);\n  if (change.key.includes(\".martial.\") && blessing === \"attacks\") newChanges.push(change);\n  if (change.key.includes(\".spell.\") && blessing === \"attacks\") newChanges.push(change);\n}\neffect.changes = newChanges;",
-        "trigger": "preItemRoll",
+      "vdGDq9scIlVqB59Q": {
+        "command": "const effect = item.getEffectByKey(\"solarBeamCharges\");\nif (!effect) return;\n\nactor.applyEffect(effect.toObject(false))",
+        "trigger": "postItemRoll",
         "disabled": false,
-        "name": "Handle Bless Selection",
+        "name": "Apply Solar Beam Charges",
         "title": "",
         "global": false
       }
@@ -57,11 +57,11 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "area",
       "checkType": "spell",
-      "targetDefence": "precision",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -77,14 +77,14 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
       "againstDC": true,
-      "checkDC": 15,
+      "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -98,9 +98,9 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 1,
+        "ap": 2,
         "stamina": null,
-        "mana": 1,
+        "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -133,16 +133,16 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "gPfc6EvkfIGlGbRM": {
-        "name": "Range",
+      "RjqowOso2aPpysFs": {
+        "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "description": "The damage increases by 1.",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
-          "mana": null,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -158,7 +158,7 @@
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
           "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -195,97 +195,13 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": true,
-          "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "FWqLhQoCuRIX5eyE": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"solarBeamCharges\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.bonusDmg = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -303,11 +219,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "8ELXmL2T1lSzNIxi": {
-        "name": "Targets",
+      "CgvMe3EbcCWRnSQe": {
+        "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You increase the number of targets by X.</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "description": "<p>The length of the Line increases by 6 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -365,6 +281,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -388,11 +305,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "hmc5tmMPtjnFpXhT": {
-        "name": "Full Bless",
+      "fsh3GvJweaTM2Ltm": {
+        "name": "Burning Radiance",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The target benefits from all 3 Blessings. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
+        "description": "<p>Each target makes a Repeated Physical Save.</p><p><strong>Save Failure:</strong> The target begins Burning for 1 minute. Burning damage from this Enhancement deals Radiant damage.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -450,12 +367,13 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"solarBeamCharges\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.burning = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -473,16 +391,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "zDwy7sCYKiKS5O3O": {
-        "name": "Greater Bless",
+      "0HfaxypAIW3JO5sp": {
+        "name": "Blinding",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The size of the die granted increases by 1 step (d6→d8→d10→d12).</p>",
+        "description": "<p>Each target makes a Physical Save. </p><p><strong>Save Failure:</strong> The target is Blinded for 1 Round.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 4,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -535,12 +453,13 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"solarBeamCharges\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.blinded = true;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -567,7 +486,7 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": null,
       "max": null,
       "unit": ""
     },
@@ -581,9 +500,9 @@
       "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": null,
-          "width": null,
+          "area": "line",
+          "distance": 4,
+          "width": 1,
           "unit": "",
           "difficult": ""
         }
@@ -674,7 +593,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "divination",
+    "spellSchool": "invocation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -689,7 +608,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -697,7 +616,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -722,28 +641,115 @@
       }
     },
     "spellTags": {
-      "embolden": "Embolden"
+      "blinded": "Blinded",
+      "burning": "Burning",
+      "light": "Light",
+      "radiant": "Radiant"
     }
   },
   "effects": [
     {
-      "name": "Bless",
-      "img": "icons/magic/holy/prayer-hands-glowing-yellow-white.webp",
-      "origin": "Item.S0TvgW2D8Nv4fQon",
+      "name": "Solar Beam - Charges (1)",
+      "img": "icons/magic/light/projectile-beam-yellow.webp",
+      "origin": "Item.KoLBstp3heREfOHp",
       "duration": {
-        "rounds": 5,
+        "rounds": 1,
         "startTime": 0,
         "combat": null,
-        "startRound": null,
-        "startTurn": null,
         "seconds": null,
-        "turns": null
+        "startRound": 82,
+        "startTurn": 1
       },
       "disabled": false,
       "flags": {
         "dc20rpg": {}
       },
-      "_id": "z3Dyu1hiUmCLktEA",
+      "_id": "vF0cAGgPHZqVuJc7",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "solarBeamCharges",
+        "macro": "if (event.trigger === \"instant\") {\n  effect.update({[\"flags.dc20rpg.solarBeam\"]: 1})\n}\n\nif (event.trigger === \"turnStart\") {\n  const confirmed = await DC20.dialog.SimplePopup.confirm(\"Did you sustained Solar Beam?\");\n  if (!confirmed) return;\n  \n  const current = effect.flags.dc20rpg.solarBeam;\n  const newValue = Math.min(current + 1, 4)\n  effect.update({\n    [\"flags.dc20rpg.solarBeam\"]: newValue,\n    [\"name\"]: `Solar Beam - Charges (${newValue})`\n  })\n}\n\nif (event.trigger === \"effectRemoved\") {\n  const item = actor.getItemByKey(\"solarBeam\");\n  if (!item) {\n    ui.notifications.notify(\"Cannot roll 'Solar Beam' - item not found.\");\n    return;\n  }\n  \n  const burning = effect.flags.dc20rpg?.burning || 0;\n  const blinded = effect.flags.dc20rpg?.blinded;\n  const bonusDmg = effect.flags.dc20rpg.bonusDmg || 0;\n  const stacks = effect.flags.dc20rpg.solarBeam || 1;\n  const dmg = stacks + bonusDmg;\n\n  let solarBurning;\n  let solarBlinded;\n  if (burning) solarBurning = item.getEffectByKey(\"solarBurning\");\n  if (blinded) solarBlinded = item.getEffectByKey(\"solarBlinded\");\n\n  // Configure effects\n  if (solarBurning) {\n    solarBurning.changes[0].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": ${burning}, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"`\n    await solarBurning.update({\n      [\"changes\"]: solarBurning.changes,\n      [\"system.addToChat\"]: true\n    })\n  }\n  if (solarBlinded) await solarBlinded.update({ [\"system.addToChat\"]: true });\n\n  // Configure item\n  const updateData = {\n    system: {\n      actionType: \"attack\",\n      rollMenu: {free: true},\n      againstStatuses: {}\n    }\n  }\n  \n  // Dmg Formula\n  const formula = new DC20.Formula();\n  formula.formula = `${dmg}`;\n  formula.type = \"radiant\";\n  updateData.system.formulas = {solarBeam: formula};\n  \n  // Roll Request\n  if (solarBurning || solarBlinded) {\n    const request = new DC20.RollRequest();\n    request.saveKey = \"phy\";\n    updateData.system.rollRequests = {solarBeam: request}\n  }\n\n  // Against statuses\n  if (solarBurning) {\n    const stataus = new DC20.AgainstStatus();\n    stataus.id = \"burning\";\n    stataus.supressFromChatMessage = true;\n    updateData.system.againstStatuses.solarBurning = stataus;\n  }\n  if (solarBlinded) {\n    const stataus = new DC20.AgainstStatus();\n    stataus.id = \"blinded\";\n    stataus.supressFromChatMessage = true;\n    updateData.system.againstStatuses.solarBlinded = stataus;\n  }\n\n  await item.update(updateData)\n  const options = stacks === 4 ? {initialRollMenuValue: {adv: 1, dis: 0}} : {};\n  await item.roll(options);\n\n  // Cleanup\n  await item.update({\n    [\"system.actionType\"]: \"\",\n    [\"system.formulas.-=solarBeam\"]: null,\n    [\"system.rollRequests.-=solarBeam\"]: null,\n    [\"system.againstStatuses.-=solarBurning\"]: null,\n    [\"system.againstStatuses.-=solarBlinded\"]: null\n  });\n  if (solarBurning) await solarBurning.update({ [\"system.addToChat\"]: false });\n  if (solarBlinded) await solarBlinded.update({ [\"system.addToChat\"]: false });\n}",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Solar Beam - Increase Charge\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Solar Beam\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"label\": \"Solar Beam - End\", \"withEffectKey\": \"solarBeamCharges\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>Solar Beam charges counter.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1768057609933
+      },
+      "_key": "!items.effects!WjCVyefalIg70KOo.vF0cAGgPHZqVuJc7"
+    },
+    {
+      "name": "Burning",
+      "img": "systems/dc20rpg/images/statuses/burning.svg",
+      "origin": "Item.KoLBstp3heREfOHp",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "umVZPkJH1oHBRoM3",
       "type": "base",
       "system": {
         "sustained": {
@@ -759,9 +765,10 @@
           "resetWhenEnabled": false,
           "onTimeEnd": "delete"
         },
-        "effectKey": "bless",
-        "macro": "const greaterBless = effect.flags.dc20rpg?.greaterBless;\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nlet dice = \"d6\";\nconst rollTotal = message.system.coreRollTotal;\nif (rollTotal < 15) dice = greaterBless ? \"d8\" : \"d6\";\nelse if (rollTotal >= 20) dice = greaterBless ? \"d12\" : \"d10\";\nelse dice = greaterBless ? \"d10\" : \"d8\";\n\nconst changes = effect.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", dice);\n}\neffect.update({changes: changes});",
-        "addToChat": true,
+        "effectKey": "solarBurning",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
         "nonessential": false,
         "disableWhen": {
           "path": "",
@@ -775,112 +782,24 @@
       },
       "changes": [
         {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
+          "key": "system.events",
           "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.spe",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mar",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mig",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.agi",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.cha",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.int",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.mig",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.cha",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.int",
-          "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-          "mode": 2,
+          "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": 1, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         },
         {
           "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Bless\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Burning - Repeated Save\", \"checkKey\": \"phy\", \"statuses\": [\"burning\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
           "priority": null
         }
       ],
-      "description": "<p>You are blessed.</p>",
-      "tint": "#ffffff",
+      "description": "<p>You take <strong>X</strong> Radiant damage at the start of each of your turns.</p><p><em><strong>Ending Burning:</strong></em> All stacks of the Condition end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water. Alternatively, a creature within 1 Space can spend <strong>1 AP</strong> to remove 1 stack of the Condition.</p>",
+      "tint": "#ced06d",
       "transfer": false,
-      "statuses": [],
+      "statuses": [
+        "burning"
+      ],
       "sort": 0,
       "_stats": {
         "compendiumSource": null,
@@ -891,10 +810,162 @@
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": null
       },
-      "_key": "!items.effects!YpSBL9pBk2U7RVfu.z3Dyu1hiUmCLktEA"
+      "_key": "!items.effects!WjCVyefalIg70KOo.umVZPkJH1oHBRoM3"
+    },
+    {
+      "name": "Blinded",
+      "img": "systems/dc20rpg/images/statuses/blinded.svg",
+      "origin": "Item.KoLBstp3heREfOHp",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null,
+        "turns": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "we2SeXWlfdj7pnTz",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "blinded",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "solarBlinded",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": 1, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.skills",
+          "mode": 2,
+          "value": "\"label\": \"Blinded\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You take <strong>X</strong> Radiant damage at the start of each of your turns.</p><p><em><strong>Ending Burning:</strong></em> All stacks of the Condition end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water. Alternatively, a creature within 1 Space can spend <strong>1 AP</strong> to remove 1 stack of the Condition.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "blinded"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!WjCVyefalIg70KOo.we2SeXWlfdj7pnTz"
     }
   ],
-  "folder": "jKTkmZGvvgT6k7Mt",
+  "folder": "qnapObjqhhvIHQEA",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -903,15 +974,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767473721521,
-    "modifiedTime": 1768066188098,
+    "createdTime": 1768056402174,
+    "modifiedTime": 1768063286243,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "YpSBL9pBk2U7RVfu",
-  "sort": 0,
-  "_key": "!items!YpSBL9pBk2U7RVfu"
+  "_id": "WjCVyefalIg70KOo",
+  "sort": 700000,
+  "_key": "!items!WjCVyefalIg70KOo"
 }

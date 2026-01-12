@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Spirit Link",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/death/undead-ghosts-trio-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>Make a Spell Check against the Repeated Charisma Save of 2 creatures within range that don’t share their HP.</p><p><strong>Check Success:</strong> If both target’s fail the Save, they are Linked for the Duration.</p><p><em><strong>DC Tip:</strong> A creature can choose to fail a Save if it want.</em></p><p><strong>Linked:</strong> While within 10 Spaces of each other, whenever one Linked creature regains or loses HP, the amount is shared with the other Linked creature.</p><p><em><strong>Example:</strong> You target yourself and an enemy, they fail the Save and you choose to fail the Save making you Linked to each other. When the enemy drinks a healing potion to heal 2 HP, you instead heal for 1 HP each, splitting the healing between you.</em></p><p><em><strong>System Tip:</strong> Apply Spirit Link to one token. Another will be added by the effect macro. Effect will not be removed automatically.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Extended Link: (1 MP, Repeatable)</strong> The maximum range of the Link increases by 5 Spaces.</p><p><strong>Lion’s Heart: (1 MP)</strong> While within range of the link, each target gains Resistance to Charmed, Taunted, Intimidated, Frightened, and Terrified).</p><p><strong>Transference: (3 MP)</strong> Instead of sharing HP regained or lost while Linked, choose 1 target to receive all the changes in HP.</p><p><strong>Profane: (3 MP)</strong> Instead of sharing loses of HP while Linked, both creatures lose the full amount of HP.</p><p></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -91,7 +91,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -121,10 +121,19 @@
       "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
-    "rollRequests": {},
+    "rollRequests": {
+      "W0CF1Fkukw5EaOfW": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "iT9WUAgpbr9c41q3": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +219,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "9fPkictDTyYRQypZ": {
+        "name": "Extended Link",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The maximum range of the Link increases by 5 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,11 +305,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "bxEgVmdL1MHy3ITi": {
+        "name": "Lion’s Heart",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>While within range of the link, each target gains Resistance to Charmed, Taunted, Intimidated, Frightened, and Terrified).</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -364,7 +373,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"spiritLink\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.statusResistances.charmed.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.taunted.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.intimidated.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.frightened.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.terrified.resistance\",\n  mode: 2,\n  value: \"1\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -382,11 +391,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "BP2w0dmzjJJ5IAJx": {
+        "name": "Transference",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Instead of sharing HP regained or lost while Linked, choose 1 target to receive all the changes in HP.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -450,7 +459,93 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"spiritLink\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.transference = true;",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "fHdbMsQYLOPtffHn": {
+        "name": "Profane",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Instead of sharing loses of HP while Linked, both creatures lose the full amount of HP.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 3,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"spiritLink\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.profane = true;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -477,14 +572,14 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -492,7 +587,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -599,7 +694,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -632,10 +727,97 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "blood": "Blood",
+      "curse": "Curse",
+      "spirit": "Spirit",
+      "ward": "Ward"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Spirit Link",
+      "img": "icons/magic/death/undead-ghosts-trio-blue.webp",
+      "origin": "Item.0HUu5hngNyHtgQxu",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "startRound": 94,
+        "startTurn": 1,
+        "seconds": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "onqARKI6aPeUKMXm",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "spiritLink",
+        "macro": "let transference = effect.flags.dc20rpg?.transference;\nconst profane = effect.flags.dc20rpg?.profane;\n\nif (event.trigger === \"instant\") {\n  const tokens = await DC20.dialog.TokenSelector.open(canvas.tokens.placeables, \"Select Actor you want to link with. Make sure he failed the save as well.\");\n  const linkedActor = tokens[0]?.actor;\n  if (!linkedActor) {\n    ui.notifications.error(\"Actor not found.\")\n    return;\n  }\n\n  if (transference) {\n    const confirmed = await DC20.dialog.SimplePopup.open(\"confirm\", {confirmLabel: actor.name, denyLabel: linkedActor.name, message: \"Which actor should be the target of Transference?\"});\n    transference = confirmed ? actor.id : linkedActor.id;\n  }\n\n  // Prepare second Spirit Link data\n  const linkData = effect.toObject(false);\n  const changes = [];\n  for (const change of linkData.changes) {\n    if (change.value.includes('\"trigger\": \"instant\"')) continue;\n    changes.push(change);\n  }\n  linkData.changes.pop();\n  linkData.changes = changes;\n  linkData.flags.dc20rpg.targetHash = actor.targetHash;\n  if (transference) linkData.flags.dc20rpg.transference = transference;\n  linkedActor.applyEffect(linkData);\n\n  // Update original Spirit Link\n  effect.gmUpdate({[\"flags.dc20rpg.targetHash\"]: linkedActor.targetHash});\n  if (transference) effect.gmUpdate({[\"flags.dc20rpg.transference\"]: transference});\n  return;\n}\n\n// Get Linked Actor\nconst targetHash = effect.flags.dc20rpg?.targetHash;\nconst linked = DC20.tools.getActorFromTargetHash(targetHash);\nif (!linked) {\n  ui.notifications.error(\"Linked Actor not found.\")\n  return;\n}\n\nif (event.trigger === \"damageTaken\") {\n  extras.preventChange = true;\n  const amount = extras.amount;\n  const dmg = {value: 0, source: \"Spirit Link\"};\n\n  if (transference) {\n    dmg.value = amount;\n    if (transference === actor.id) game.dc20rpg.tools.applyDamage(actor, dmg, {skipEventCall: true, messageId: extras.messageId});\n    if (transference === linked.id) game.dc20rpg.tools.applyDamage(linked, dmg, {skipEventCall: true, messageId: extras.messageId});\n    return;\n  }\n\n  dmg.value = profane ? amount : Math.ceil(amount/2);\n  game.dc20rpg.tools.applyDamage(actor, dmg, {skipEventCall: true, messageId: extras.messageId});\n  game.dc20rpg.tools.applyDamage(linked, dmg, {skipEventCall: true, messageId: extras.messageId});\n}\n\nif (event.trigger === \"healingTaken\") {\n  extras.preventChange = true;\n  const amount = extras.amount;\n  const heal = {value: 0, type: \"heal\", source: \"Spirit Link\"};\n  \n  if (transference) {\n    heal.value = amount;\n    if (transference === actor.id) game.dc20rpg.tools.applyHealing(actor, heal, {skipEventCall: true, messageId: extras.messageId});\n    if (transference === linked.id) game.dc20rpg.tools.applyHealing(linked, heal, {skipEventCall: true, messageId: extras.messageId});\n    return;\n  }\n\n  heal.value = Math.ceil(amount/2);\n  game.dc20rpg.tools.applyHealing(actor, heal, {skipEventCall: true, messageId: extras.messageId});\n  game.dc20rpg.tools.applyHealing(linked, heal, {skipEventCall: true, messageId: extras.messageId});\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Spirit Link - Damage Share\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"healingTaken\", \"label\": \"Spirit Link - Damage Share\", \"skipTempHpChangeOnly\": true, \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Spirit Link\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>Your HP is linked with other creature.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!zI3FZ02E3NPmJ17a.onqARKI6aPeUKMXm"
+    }
+  ],
   "folder": "qnapObjqhhvIHQEA",
   "flags": {},
   "_stats": {
@@ -645,7 +827,7 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
+    "createdTime": 1768063286188,
     "modifiedTime": 1768063286243,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
@@ -653,7 +835,7 @@
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "zI3FZ02E3NPmJ17a",
+  "sort": 600000,
+  "_key": "!items!zI3FZ02E3NPmJ17a"
 }

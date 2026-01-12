@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Wind Blessing",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/air/fog-gas-smoke-dense-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You imbue a target within range with wind for the duration. Make a DC 15 Spell Check.</p><ul><li><p><strong>Failure</strong>: The target’s Speed and Jump distance is increased by 2.</p></li><li><p><strong>Success</strong>: The target’s Speed and Jump distance is increased by 3.</p></li><li><p><strong>Success (Each 10)</strong>: +1 Speed and Jump Distance.</p></li></ul><p><strong>Repelling Winds:</strong> You can spend 2 AP to end the Spell, when you do make a Spell Check against the Might Save of each target within 1 Space of the imbued target.</p><ul><li><p><strong>Check Success:</strong> The target is pushed horizontally 1 Space away from you.</p></li><li><p><strong>Success (each 5):</strong> up to +1 Space.</p></li></ul><p>When you use Repelling Winds you can spend MP to increase the distance pushed by 1 per MP spent.</p><p><em><strong>System Tip:</strong> Use on demand macro to trigger Repelling Winds.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>One with Wind: (1 MP, Repeatable)</strong> The target’s Speed and Jump Distance increases by an additional 1.</p><p><strong>Wind Barrier: (1 MP, Sustained)</strong> Ranged Attacks that deal Physical or Elemental damage made against the target have DisADV.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,7 +35,16 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "uu7PSS1t85cWa4G9": {
+        "command": "const formula = new DC20.Formula();\nformula.category = \"other\";\nformula.label = \"Push Distance\";\nformula.each5 = true;\nformula.false = true;\nformula.formula = \"1\"\nformula.each5Formula = \"1\";\nformula.failFormula = \"0\";\nformula.dontModifyFailFormula = true;\nformula.perTarget = true;\n\nconst rollRequest = new DC20.RollRequest();\nrollRequest.saveKey = \"mig\";\n\nconst against = new DC20.AgainstStatus();\nagainst.id = \"movement\";\nagainst.supressFromChatMessage = true;\n\nawait item.update({\n  system: {\n    formulas: {repellingWinds: formula},\n    rollRequests: {repellingWinds: rollRequest},\n    againstStatuses: {repellingWinds: against},\n    enhancements: {\n      [\"PdHxZufsaITJm2do\"]: {hide: true},\n      [\"8kDMhCyfVA1E7pMM\"]: {hide: true},\n      [\"F46dVlHoIzDEpn4w\"]: {hide: true},\n      [\"mTn0op5FfwJpoH7o\"]: {hide: false},\n    },\n    costs: {resources: {ap: 2, mana: null}}\n  }\n})\nawait item.roll();\nitem.update({\n  system: {\n    formulas: {[\"-=repellingWinds\"]: null},\n    rollRequests: {[\"-=repellingWinds\"]: null},\n    againstStatuses: {[\"-=repellingWinds\"]: null},\n    enhancements: {\n      [\"PdHxZufsaITJm2do\"]: {hide: false},\n      [\"8kDMhCyfVA1E7pMM\"]: {hide: false},\n      [\"F46dVlHoIzDEpn4w\"]: {hide: false},\n      [\"mTn0op5FfwJpoH7o\"]: {hide: true},\n    },\n    costs: {resources: {ap: 1, mana: 1}}\n  }\n})",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Cast Repelling Winds",
+        "title": "Cast Repelling Winds",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -46,7 +55,8 @@
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "check",
     "attackFormula": {
@@ -74,8 +84,8 @@
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
-      "checkDC": 10,
+      "againstDC": true,
+      "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -91,7 +101,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,7 +134,7 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "PdHxZufsaITJm2do": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +220,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "8kDMhCyfVA1E7pMM": {
+        "name": "One with Wind",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The target’s Speed and Jump Distance increases by an additional 1.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -278,7 +288,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"windBlessing\");\nif (!effect) return;\n\neffect.flags.dc20rpg.bonusRange = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -296,11 +306,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "F46dVlHoIzDEpn4w": {
+        "name": "Wind Barrier",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p><strong>(Sustained)</strong> Ranged Attacks that deal Physical or Elemental damage made against the target have DisADV.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -364,7 +374,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "item.system.duration.type = \"sustain\";\nconst effect = item.getEffectByKey(\"windBlessing\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.ranged\",\n  mode: 5,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Wind Blessing\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.ranged\",\n  mode: 5,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Wind Blessing\", \"confirmation\": true'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -382,16 +392,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "mTn0op5FfwJpoH7o": {
+        "name": "Push More",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
-        "hide": false,
+        "description": "<p>When you use Repelling Winds you can spend MP to increase the distance pushed by 1 per MP spent.</p>",
+        "hide": true,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -406,8 +416,8 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -473,18 +483,19 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -492,7 +503,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +595,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -599,15 +610,15 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,11 +643,98 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "air": "Air",
+      "embolden": "Embolden",
+      "motion": "Motion"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Wind Blessing",
+      "img": "icons/magic/air/fog-gas-smoke-dense-blue.webp",
+      "origin": "Item.tFgAFBh237Lzg2kn",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "f4hnSNknP1RElAHG",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "windBlessing",
+        "macro": "const message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst total = message.system.chatFormattedRolls.core._total;\nlet base = 2;\nif (total >= 15) {\n  base = 3;\n  base += Math.floor((total - 15)/10);\n} \nconst bonus = effect.flags.dc20rpg?.bonusRange || 0;\nconst value = base + bonus;\n\neffect.changes[0].value = value;\neffect.changes[1].value = value;\neffect.update({changes: effect.changes});",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.jump.bonus",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.movement.ground.bonus",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Wind Blessing\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>Your Speed and Jump Distance is increased.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!rnAzVDnLYUpeTgPS.f4hnSNknP1RElAHG"
+    }
+  ],
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +743,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768252356717,
+    "modifiedTime": 1768252358639,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "rnAzVDnLYUpeTgPS",
+  "sort": 650000,
+  "_key": "!items!rnAzVDnLYUpeTgPS"
 }

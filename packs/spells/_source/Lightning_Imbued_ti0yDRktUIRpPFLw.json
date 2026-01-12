@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Lightning Imbued",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>For the duration, you deal +1 Lightning damage on Martial Attacks.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (2 MP, Repeatable)</strong> Your Attacks affected by this Spell deal +1 Lightning damage.</p><p><strong>Effortless: (1 MP)</strong> You no longer need to Sustain the Spell.</p><p><strong>Chain Lightning: (X MP)</strong> Once per Round, when you make an Attack affected by this Spell, you can choose 1 additional target within 3 Spaces of the original target using the same Martial Attack for the additional target. <strong>Hit:</strong> The Target takes X Lightning damage.</p><p><strong>Static Strike: (X MP)</strong> Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. <strong>Save Failure:</strong> For the next round, the first time the target willingly moves or takes a Reaction it takes X Lightning damage.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,7 +35,24 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "x28XzPRkWtTnW8XG": {
+        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"Oc5nziBUUaVtxvpd\"];\nconst chain = enhancements[\"DNLadWmMRrcvM3Oo\"];\nconst staticStrike = enhancements[\"rLnTIIUT56Ba9Bmb\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"lightning\";\n\nconst lightningImbued = new DC20.Enhancement();\nlightningImbued.name = \"Lightning Imbued\";\nlightningImbued.modifications.formula = dmgFormula;\nlightningImbued.modifications.addsNewFormula = true;\nlightningImbued.description = `You deal ${1 + damage.number} Lightning damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=Oc5nziBUUaVtxvpd\"]: null,\n  [\"-=6gSVlUQEVeCiajO7\"]: null,\n  [\"-=DNLadWmMRrcvM3Oo\"]: null,\n  [\"-=rLnTIIUT56Ba9Bmb\"]: null,\n  lightningImbued: lightningImbued\n}\nif (chain.number > 0) {\n  const blueprint = foundry.utils.deepClone(chain);\n  blueprint.name = \"Lightning Imbued - Chain Lightning\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  blueprint.modifications.formula.formula = `${chain.number}`\n  newEnhancements.chain = blueprint;\n}\nif (staticStrike.number > 0) {\n  const blueprint = foundry.utils.deepClone(staticStrike);\n  blueprint.name = \"Lightning Imbued - Static Strike\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  blueprint.modifications.addsEffect.changes[0].value = `\"eventType\": \"damage\", \"trigger\": \"move\", \"label\": \"Static Strike\", \"preTrigger\": \"skip\", \"postTrigger\": \"delete\", \"value\": ${staticStrike.number}, \"type\": \"lightning\", \"actorId\": \"#SPEAKER_ID#\"`;\n  blueprint.modifications.addsEffect.changes[1].value = `\"eventType\": \"damage\", \"trigger\": \"manual\", \"label\": \"Static Strike\", \"preTrigger\": \"skip\", \"postTrigger\": \"delete\", \"value\": ${staticStrike.number}, \"type\": \"lightning\", \"actorId\": \"#SPEAKER_ID#\"`;\n  newEnhancements.staticStrike = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
+        "trigger": "postChatMessageCreated",
+        "disabled": false,
+        "name": "Prepare Item after roll",
+        "title": "",
+        "global": false
+      },
+      "LdSAKK8hyw0xYQG6": {
+        "command": "if (!off) return;\n\nconst oldEnhancements = item.flags.dc20rpg.enhancements;\nif (!oldEnhancements) return;\nfor (const enh of Object.values(oldEnhancements)) {\n  enh.number = 0;\n}\n\noldEnhancements[\"-=lightningImbued\"] = null;\noldEnhancements[\"-=chain\"] = null;\noldEnhancements[\"-=staticStrike\"] = null;\nitem.update({\n  [\"flags.dc20rpg.-=enhancements\"]: null,\n  [\"system.copyEnhancements.copy\"]: false,\n  [\"system.enhancements\"]: oldEnhancements\n})",
+        "trigger": "onItemToggle",
+        "disabled": false,
+        "name": "Reset Item on toggle off",
+        "title": "",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -44,11 +61,12 @@
       "duration": "round"
     },
     "toggle": {
-      "toggleable": false,
+      "toggleable": true,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": true,
+      "offOnSustainDrop": true
     },
-    "actionType": "check",
+    "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +86,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -91,7 +109,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,102 +142,16 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
-        "name": "Range",
+      "Oc5nziBUUaVtxvpd": {
+        "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": true,
-          "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>Your Attacks affected by this Spell deal +1 Lightning damage.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -296,11 +228,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "6gSVlUQEVeCiajO7": {
+        "name": "Effortless",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>You no longer need to Sustain the Spell.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -364,6 +296,92 @@
           },
           "addsEffect": null,
           "macros": {
+            "preItemRoll": "item.system.duration.type = \"continuous\"",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "DNLadWmMRrcvM3Oo": {
+        "name": "Chain Lightning",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Once per Round, when you make an Attack affected by this Spell, you can choose 1 additional target within 3 Spaces of the original target using the same Martial Attack for the additional target. </p><p><strong>Hit:</strong> The Target takes X Lightning damage.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "1",
+            "type": "lightning",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": true,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
           },
@@ -382,16 +400,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "rLnTIIUT56Ba9Bmb": {
+        "name": "Static Strike",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC.</p><p><strong>Save Failure:</strong> For the next round, the first time the target willingly moves or takes a Reaction it takes X Lightning damage.</p><p></p><p><em><strong>System Tip:</strong> Movement will trigger this damage but reaction will require using Manual Trigger.</em> </p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -425,10 +443,10 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "phy",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
@@ -448,7 +466,89 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Static Strike",
+            "img": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": 100,
+              "startTurn": 1,
+              "turns": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "rLnTIIUT56Ba9Bmb"
+              }
+            },
+            "_id": "rcD6OtcKIgENPOWg",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": true,
+                "resetWhenEnabled": false,
+                "onTimeEnd": "delete"
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.events",
+                "value": "\"eventType\": \"damage\", \"trigger\": \"move\", \"label\": \"Static Strike\", \"preTrigger\": \"skip\", \"postTrigger\": \"delete\", \"value\": 1, \"type\": \"lightning\", \"actorId\": \"#SPEAKER_ID#\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.events",
+                "value": "\"eventType\": \"damage\", \"trigger\": \"manual\", \"label\": \"Static Strike\", \"preTrigger\": \"skip\", \"postTrigger\": \"delete\", \"value\": 1, \"type\": \"lightning\", \"actorId\": \"#SPEAKER_ID#\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>You take X Lightning damage when you willingly move or takes a Reaction.</p>",
+            "tint": "#ffffff",
+            "transfer": false,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768208738835,
+              "modifiedTime": 1768208738835,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
@@ -471,9 +571,10 @@
     },
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "",
+      "copyFor": "system.actionType=[\"attack\"]&&system.attackFormula.checkType=[\"attack\"]",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": true
     },
     "range": {
       "melee": 1,
@@ -482,17 +583,17 @@
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
-      "type": "",
+      "type": "self",
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +685,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -603,11 +704,11 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,11 +733,14 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "lightning": "Lightning",
+      "strike": "Strike",
+      "trap": "Trap",
+      "weapon": "Weapon"
     }
   },
   "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +749,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768209066614,
+    "modifiedTime": 1768248198821,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "ti0yDRktUIRpPFLw",
+  "sort": 1100000,
+  "_key": "!items!ti0yDRktUIRpPFLw"
 }

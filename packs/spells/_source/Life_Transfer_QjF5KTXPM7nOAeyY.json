@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Life Transfer",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/life/cross-beam-green.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You take damage to heal a creature you can see within range. Make a DC 15 Spell Check. </p><p><strong>Failure:</strong> You lose up to 1 HP and the target regains the same amount of HP. </p><p><strong>Success:</strong> You lose up to 2 HP. </p><p><strong>Success (Each 5):</strong> Up to 1 additional HP.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Transfer: (1 AP, Repeatable)</strong> You lose up to 1 additional HP.</p><p><strong>Transfer Rest: (1 AP + 1 Rest Point, Repeatable)</strong> The target regains +1 HP.</p><p><strong>Affliction: (2 MP, Repeatable)</strong> Choose a Basic Disease, Basic Curse, or Basic Poison affecting the target, if it is willing the affliction ends on the target and you become affected by the affliction.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -74,8 +74,8 @@
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
-      "checkDC": 10,
+      "againstDC": true,
+      "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -122,9 +122,36 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "FKtXrYnoHRgzKCXt": {
+        "formula": "2",
+        "type": "true",
+        "category": "damage",
+        "fail": true,
+        "failFormula": "1",
+        "dontModifyFailFormula": false,
+        "each5": true,
+        "each5Formula": "1",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      },
+      "VK9eq6HaFCmsgT2q": {
+        "formula": "2",
+        "type": "heal",
+        "category": "healing",
+        "fail": true,
+        "failFormula": "1",
+        "dontModifyFailFormula": false,
+        "each5": true,
+        "each5Formula": "1",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "ivpXZmAA989g9KoO": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,16 +237,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "UhQ9Cl7iSNrkc2Yd": {
+        "name": "Increased Transfer",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>You lose up to 1 additional HP.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -234,8 +261,8 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -296,19 +323,19 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "pMyPiU4PYhbYZvlk": {
+        "name": "Transfer Rest",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>The target regains +1 HP.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
-          "restPoints": null,
+          "restPoints": 1,
           "custom": {}
         },
         "charges": {
@@ -320,9 +347,9 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "VK9eq6HaFCmsgT2q",
           "overrideDamageType": false,
           "damageType": "",
           "addsNewFormula": false,
@@ -382,16 +409,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "paDApvoMKtbFEMGz": {
+        "name": "Affliction",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Choose a Basic Disease, Basic Curse, or Basic Poison affecting the target, if it is willing the affliction ends on the target and you become affected by the affliction.</p><p></p><p><em><strong>System Tip:</strong> GM needs to transfer that effect on you.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -477,13 +504,13 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
     "duration": {
       "value": null,
-      "type": "",
+      "type": "instantaneous",
       "timeUnit": ""
     },
     "target": {
@@ -492,7 +519,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -632,7 +659,9 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "blood": "Blood",
+      "cleansing": "Cleansing",
+      "healing": "Healing"
     }
   },
   "effects": [],
@@ -645,7 +674,7 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
+    "createdTime": 1768043544295,
     "modifiedTime": 1768063286243,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
@@ -653,7 +682,7 @@
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "QjF5KTXPM7nOAeyY",
+  "sort": 500000,
+  "_key": "!items!QjF5KTXPM7nOAeyY"
 }

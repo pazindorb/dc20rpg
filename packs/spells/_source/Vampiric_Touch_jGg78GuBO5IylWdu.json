@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Vampiric Touch",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/death/mouth-bite-fangs-vampire.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>Make a Melee Spell Attack against the PD of a creature in range.</p><p><strong>Hit:</strong> The target takes 1 Umbral damage and you can spend 1 Rest Point to regain 1 HP.</p><p><em><strong>System Tip:</strong> Rest Point spending is not automated. You need to remove it manually.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Leeching Grab: (1 AP)</strong> The target makes a Might Save against your Save DC. <strong>Save Failure:</strong> The target is Slowed for 1 round.</p><p><strong>Doomed: (1 AP, Repeatable)</strong> The target makes a Repeated Charisma Save against your Save DC. <strong>Save Failure:</strong> The target is Doomed for 1 minute.</p><p><strong>Life Drain: (1 MP, Repeatable)</strong> The damage increases by 1 and you regain 1 HP on a Hit (You regain this HP without spending Rest Points).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "attack",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -122,13 +122,40 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "CCBNQvJMrszyVDLk": {
+        "formula": "1",
+        "type": "umbral",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      },
+      "Oa12GNaN9MNz3unT": {
+        "formula": "1",
+        "type": "heal",
+        "category": "healing",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "4k1kk5neLtrC5a8E": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "description": "<p>The range of the Spell increases by 1 Space. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
           "ap": 1,
@@ -149,7 +176,7 @@
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
           "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -202,24 +229,24 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": null,
-            "normal": 5,
+            "melee": 1,
+            "normal": null,
             "max": null
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "t0q2f2raXMRZ9QmW": {
+        "name": "Leeching Grab",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The target makes a Might Save against your Save DC. </p><p><strong>Save Failure:</strong> The target is Slowed for 1 round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -253,18 +280,18 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "mig",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "slowed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -272,7 +299,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
-            "forXRounds": null,
+            "forXRounds": 1,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -296,16 +323,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "hGZSn4TGVeKPZV8p": {
+        "name": "Doomed",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>The target makes a Repeated Charisma Save against your Save DC. <strong>Save Failure:</strong> The target is Doomed for 1 minute.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -339,28 +366,28 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "cha",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "doomed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
+            "forOneMinute": true,
             "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSave": true,
+            "repeatedSaveKey": "cha"
           },
           "addsEffect": null,
           "macros": {
@@ -382,16 +409,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "vHtNrZgtqFfLHjJj": {
+        "name": "Life Drain",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>The damage increases by 1 and you regain 1 HP on a Hit (You regain this HP without spending Rest Points).</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -406,8 +433,8 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -477,13 +504,13 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 1,
       "max": null,
       "unit": ""
     },
     "duration": {
       "value": null,
-      "type": "",
+      "type": "instantaneous",
       "timeUnit": ""
     },
     "target": {
@@ -492,7 +519,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +611,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "nullification",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -632,11 +659,15 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "blood": "Blood",
+      "doomed": "Doomed",
+      "healing": "Healing",
+      "slowed": "Slowed",
+      "umbral": "Umbral"
     }
   },
   "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "folder": "b0r4jNWftsRiK88T",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +676,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768123565960,
+    "modifiedTime": 1768123565960,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "jGg78GuBO5IylWdu",
+  "sort": 0,
+  "_key": "!items!jGg78GuBO5IylWdu"
 }

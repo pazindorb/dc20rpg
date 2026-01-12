@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Acid Imbued",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>For the duration, you deal +1 Corrosion damage on Martial Attacks.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (2 MP, Repeatable)</strong> Your Attacks affected by this Spell deal +1 Corrosion damage.</p><p><strong>Effortless: (1 MP)</strong> You no longer need to Sustain the Spell.</p><p><strong>Dissolving Strikes: (1 MP)</strong> Once per round, 1 target of an Attack affected by this Spell makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target no longer benefits from PDR or EDR for 1 Round.</p><p><strong>Acid Strikes: (2 MP)</strong> Once per round, 1 target of an Attack affected by this Spell makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target is Hindered for 1 round.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,7 +35,24 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "jGLq05utVs88bsd9": {
+        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"LZV9Gcbr0b30FyCI\"];\nconst dissolving = enhancements[\"yoAUlOwTKxBDAhNc\"];\nconst acid = enhancements[\"0tgzjjNMvZEgT0mF\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"corrosion\";\n\nconst acidImbued = new DC20.Enhancement();\nacidImbued.name = \"Acid Imbued\";\nacidImbued.modifications.formula = dmgFormula;\nacidImbued.modifications.addsNewFormula = true;\nacidImbued.description = `You deal ${1 + damage.number} Corrosion damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=Tb1hdcjRO4EB9fCo\"]: null,\n  [\"-=LZV9Gcbr0b30FyCI\"]: null,\n  [\"-=yoAUlOwTKxBDAhNc\"]: null,\n  [\"-=0tgzjjNMvZEgT0mF\"]: null,\n  acidImbued: acidImbued\n}\nif (dissolving.number > 0) {\n  const blueprint = foundry.utils.deepClone(dissolving);\n  blueprint.name = \"Acid Imbued - Dissolving Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.dissolving = blueprint;\n}\nif (acid.number > 0) {\n  const blueprint = foundry.utils.deepClone(acid);\n  blueprint.name = \"Acid Imbued - Acid Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.acid = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
+        "trigger": "postChatMessageCreated",
+        "disabled": false,
+        "name": "Prepare Item after roll",
+        "title": "",
+        "global": false
+      },
+      "M4TWpRy87gnHsYlC": {
+        "command": "if (!off) return;\n\nconst oldEnhancements = item.flags.dc20rpg.enhancements;\nif (!oldEnhancements) return;\nfor (const enh of Object.values(oldEnhancements)) {\n  enh.number = 0;\n}\n\noldEnhancements[\"-=acidImbued\"] = null;\noldEnhancements[\"-=dissolving\"] = null;\noldEnhancements[\"-=acid\"] = null;\nitem.update({\n  [\"flags.dc20rpg.-=enhancements\"]: null,\n  [\"system.copyEnhancements.copy\"]: false,\n  [\"system.enhancements\"]: oldEnhancements\n})",
+        "trigger": "onItemToggle",
+        "disabled": false,
+        "name": "Reset Item on toggle off",
+        "title": "",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -44,11 +61,12 @@
       "duration": "round"
     },
     "toggle": {
-      "toggleable": false,
+      "toggleable": true,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": true,
+      "offOnSustainDrop": true
     },
-    "actionType": "check",
+    "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +86,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -91,7 +109,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,16 +142,16 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
-        "name": "Range",
+      "LZV9Gcbr0b30FyCI": {
+        "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "description": "<p>Your Attacks affected by this Spell deal +1 Corrosion damage.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
-          "mana": null,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -149,14 +167,14 @@
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
           "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "additionalFormula": "1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
           "addsNewFormula": false,
           "formula": {
-            "formula": "",
-            "type": "",
+            "formula": "1",
+            "type": "corrosion",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -200,21 +218,21 @@
             "type": "adv",
             "value": 1
           },
-          "addsRange": true,
+          "addsRange": false,
           "bonusRange": {
             "melee": null,
-            "normal": 5,
+            "normal": null,
             "max": null
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "Tb1hdcjRO4EB9fCo": {
+        "name": "Effortless",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>You no longer need to Sustain the Spell.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -278,7 +296,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "item.system.duration.type = \"continuous\"",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -296,11 +314,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "yoAUlOwTKxBDAhNc": {
+        "name": "Dissolving Strikes",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target no longer benefits from PDR or EDR for 1 Round.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -339,10 +357,10 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "agi",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
@@ -362,7 +380,103 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Dissolving Strikes",
+            "img": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": 100,
+              "startTurn": 1,
+              "turns": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "yoAUlOwTKxBDAhNc"
+              }
+            },
+            "_id": "G8wXgCzf9MnzG0g3",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": true,
+                "resetWhenEnabled": false,
+                "onTimeEnd": "delete"
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.damageReduction.pdr.active",
+                "mode": 5,
+                "value": "false",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.damageReduction.edr.active",
+                "mode": 5,
+                "value": "false",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.damageReduction.pdr.skipEqCheck",
+                "mode": 5,
+                "value": "true",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.damageReduction.edr.skipEqCheck",
+                "mode": 5,
+                "value": "true",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>You no longer benefit from PDR and EDR.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768204989477,
+              "modifiedTime": 1768204993243,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
@@ -382,16 +496,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "0tgzjjNMvZEgT0mF": {
+        "name": "Acid Strikes",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes an Agility Save against your Save DC. </p><p><strong>Save Failure:</strong> The target is Hindered for 1 round.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -425,18 +539,18 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "agi",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "hindered",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -444,7 +558,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
-            "forXRounds": null,
+            "forXRounds": 1,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -471,9 +585,10 @@
     },
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "",
+      "copyFor": "system.actionType=[\"attack\"]&&system.attackFormula.checkType=[\"attack\"]",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": true
     },
     "range": {
       "melee": 1,
@@ -482,17 +597,17 @@
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
-      "type": "",
+      "type": "self",
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +699,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -603,11 +718,11 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,11 +747,15 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "corrosion": "Corrosion",
+      "enfeeble": "Enfeeble",
+      "hindered": "Hindered",
+      "strike": "Strike",
+      "weapon": "Weapon"
     }
   },
   "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +764,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768204918200,
+    "modifiedTime": 1768248198821,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
+  "_id": "Tz4WylZbg5HoAhYm",
   "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_key": "!items!Tz4WylZbg5HoAhYm"
 }

@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Primal Hide",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/defensive/armor-stone-skin.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You harden the skin of a creature within range. The target gains +2 PD for the duration.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration increases by 1 step (1 hour → 8 hours → until Long Rest).</p><p><strong>Armored: (1 MP)</strong> The target gain an additional +1 PD.</p><p><strong>Heavily Protected: (1 MP)</strong> The target gains EDR.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -46,9 +46,10 @@
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
-    "actionType": "check",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +69,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -91,7 +92,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,7 +125,7 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "oXVOLFAvCF0ffzbR": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +211,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "hkVLbc4s39f27c3t": {
+        "name": "Duration",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The duration increases by 1 step (1 hour → 8 hours → until Long Rest).</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,11 +297,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "h5i8KLM6QIItSVcC": {
+        "name": "Armored",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>The target gain an additional +1 PD.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -364,7 +365,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"primalHide\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.defences.precision.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -382,16 +383,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "9SJckX0VDBBetuPe": {
+        "name": "Heavily Protected",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>The target gains EDR.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -450,7 +451,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"primalHide\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.damageReduction.edr.active\",\n  mode: 5,\n  value: \"true\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -473,18 +474,19 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "hours"
     },
     "target": {
       "count": null,
@@ -492,7 +494,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +586,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -599,15 +601,15 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,11 +634,84 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "embolden": "Embolden",
+      "ward": "Ward"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Primal Hide",
+      "img": "icons/magic/defensive/armor-stone-skin.webp",
+      "origin": "Item.Z9R8IUHfaU7KLeli",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 102,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "Jw7nHpyNr7zLnDgL",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "primalHide",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.precision.bonuses.always",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "description": "<p>Your skin is hardened - PD increased.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!juaTzbWXUJBRZbmd.Jw7nHpyNr7zLnDgL"
+    }
+  ],
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +720,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768248639800,
+    "modifiedTime": 1768248639800,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "juaTzbWXUJBRZbmd",
+  "sort": 0,
+  "_key": "!items!juaTzbWXUJBRZbmd"
 }

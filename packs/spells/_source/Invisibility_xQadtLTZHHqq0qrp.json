@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Invisibility",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/control/debuff-energy-hold-blue-yellow.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You magically cloak a target within range for the duration. Make a DC 15 Spell Check.</p><ul><li><p><strong>Failure:</strong> The target is Invisible.</p></li><li><p><strong>Success:</strong> The target is Invisible and can immediately take the Hide Action for free.</p></li></ul><p>The Spell ends early if the target takes any Action or Reaction beside the Move, Dodge or Hide Actions.</p><p><em><strong>DC Tip:</strong> Being invisible makes you Unseen, but if you want to be fully Hidden from a creature you need to take the Hide action to also become Unheard.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration increases by 1 step (1 min → 10 min → 1 hour → 8 hours → Long Rest).</p><p><strong>Mass Invisibility: (1 AP and X MP)</strong> You can target X additional creatures within range.</p><p><strong>Greater Invisibility: (3 MP)</strong> Choose 1 target. The Spell no longer ends early when the target takes any Action or Reaction.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -46,7 +46,8 @@
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "check",
     "attackFormula": {
@@ -74,8 +75,8 @@
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
-      "checkDC": 10,
+      "againstDC": true,
+      "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -91,7 +92,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,7 +125,7 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "ypGrQnREqQzv9RYx": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +211,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "j3jVOH0PHzxrP1Kx": {
+        "name": "Duration",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The duration increases by 1 step (1 min → 10 min → 1 hour → 8 hours → Long Rest).</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,11 +297,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "ExFfUPNLdz7jHKLR": {
+        "name": "Mass Invisibility - AP Cost",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>Use this enhancement in tandem with <strong>Mass Invisibility</strong> enhancement.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "hxetLhysZyRSlUQZ": {
+        "name": "Mass Invisibility",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You can target X additional creatures within range.</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Mass Invisibility- AP Cost</strong> enhancement as well.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -382,11 +469,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "feZ6nvh7nStmpmgO": {
+        "name": "Greater Invisibility",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Choose 1 target. The Spell no longer ends early when the target takes any Action or Reaction.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -473,18 +560,19 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -492,7 +580,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +672,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -632,11 +720,153 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "illusion": "Illusion",
+      "invisible": "Invisible"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Invisibility",
+      "img": "icons/magic/control/debuff-energy-hold-blue-yellow.webp",
+      "origin": "Item.wdHU8FfJPqsNAnNv",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "9ZD8ZcdKxQMW8xOg",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "invisible",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Invisible (Enemy can't see you)\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are invisible.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "invisible"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!xQadtLTZHHqq0qrp.9ZD8ZcdKxQMW8xOg"
+    }
+  ],
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +875,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768248198792,
+    "modifiedTime": 1768248198821,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "xQadtLTZHHqq0qrp",
+  "sort": 200000,
+  "_key": "!items!xQadtLTZHHqq0qrp"
 }

@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Death",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/death/skeleton-glow-yellow-black.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You doom a creature within range. Make a Spell Check against the target’s Repeated Might Save.</p><p><strong>Check Success:</strong> The target is Doomed 2. When you Sustain the Spell, it gains an additional stack of Doomed. When the Spell ends, it loses all stacks of Doomed gained from this Spell.</p><p><strong>Death:</strong> If the number of Doomed stacks on a creature affected by this Spell is equal to or exceeds their current maximum HP, it immediately dies.</p><p><em><strong>Example:</strong> A creature has 10 HP max HP. When they reach Doomed 5, their max HP has been reduced to 5, at which point they die.</em></p><p><em><strong>System Tip:</strong> To add more stacks od Doomed use on demand macro. Make sure you are targeting character with <strong>Death</strong> effect.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Doomed: (1 MP, Repeatable)</strong> The target gains an additional stack of Doomed, both when it fails the original Save and when you Sustain the Spell.</p><p><strong>Exhaustion: (3 MP)</strong> Each time the target fails a Save against this Spell (including the original Save), it gains Exhaustion.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,7 +35,16 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "DfVaVCsNOAgJnsp1": {
+        "command": "let stacks = await DC20.dialog.SimplePopup.input(\"How many stacks should be added?\");\nstacks = parseInt(stacks);\nif (!stacks) return;\n\nfor (const token of game.user.targets) {\n  const actor = token.actor;\n  if (!actor) continue;\n  const effect = actor.getEffectByKey(\"death\");\n  if (!effect) return;\n\n  const changes = effect.changes;\n  changes[0].value = parseInt(changes[0].value) - stacks;\n  changes[1].value = parseInt(changes[1].value) + stacks;\n  effect.update({changes: changes});\n  DC20.dialog.SimplePopup.info(\"Doomed Increased\", [`Added ${stacks} stacks of Doomed to ${actor.name}.`]); \n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Increase Doomed Stacks",
+        "title": "Increase Doomed Stacks",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -91,7 +100,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -120,11 +129,34 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
+    "againstStatuses": {
+      "LdNujySCcDNEBhTm": {
+        "id": "doomed",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "ZGloxFSpGEjhGDiL": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "mig",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "2edzBVCFgETJ4Fp7": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +242,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "1ghruixaJvHXZYoy": {
+        "name": "Increased Doomed",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The target gains an additional stack of Doomed, both when it fails the original Save and when you Sustain the Spell.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -278,7 +310,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"death\");\nif (!effect) return;\n\neffect.changes[0].value = -2 - enh.number;\neffect.changes[1].value = 2 + enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -296,97 +328,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "Mi4Ed6zIDJxmIwbJ": {
+        "name": "Exhaustion",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Each time the target fails a Save against this Spell (including the original Save), it gains Exhaustion.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -434,9 +380,9 @@
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "exhaustion",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -450,7 +396,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"death\");\nif (!effect) return;\n\neffect.flags.dc20rpg.exhaustion = true;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -477,14 +423,14 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -492,7 +438,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +530,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "nullification",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -632,11 +578,101 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "curse": "Curse",
+      "death": "Death",
+      "doomed": "Doomed",
+      "exhaustion": "Exhaustion"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Death",
+      "img": "icons/magic/death/skeleton-glow-yellow-black.webp",
+      "origin": "Item.N6x3CGpcnU61GQpu",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "RBzRuxfxhp4617f7",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "death",
+        "macro": "if (effect.flags.dc20rpg?.exhaustion) {\n  actor.toggleStatusEffect(\"exhaustion\", { active: true });\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.resources.health.bonus",
+          "value": "-2",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.healingReduction.flat",
+          "value": "2",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Death - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"doomed\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain stacks of Doomed. You die if amount of stacks is higher than your max HP.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "doomed"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!OIEPoU5GxXHdXxF4.RBzRuxfxhp4617f7"
+    }
+  ],
+  "folder": "b0r4jNWftsRiK88T",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +681,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768077047399,
+    "modifiedTime": 1768123068770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "OIEPoU5GxXHdXxF4",
+  "sort": 100000,
+  "_key": "!items!OIEPoU5GxXHdXxF4"
 }

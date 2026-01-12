@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Radiant Beam",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/light/beam-rays-yellow-blue-large.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You create a 6 Space Tall, 2 Space Wide Cylinder of celestial light (sun, moon or star light) fills an area within range for the duration. When a creature enters the area for the first time on its turn, or starts its turn there, it makes a Might Save against your Save DC. <strong>Save Failure:</strong> The target takes 1 Radiant damage.</p><p><strong>Spell Cast:</strong> When you cast the Spell, make an Area Spell Attack against the AD of each target within the area.</p><p><strong>Hit:</strong> The target takes 1 Radiant damage.</p><p><strong>Moving the Cylinder:</strong> When you Sustain this Spell or by spending 1 AP, you can move the Cylinder up to 5 spaces to another Space within range.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Light</span></strong></span></p><p>The area is filled with Bright Light for the duration.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (2 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Cylinder increases by 1 Space and the height by 3 Spaces.</p><p><strong>Burning Radiance: (2 MP, Repeatable)</strong> A creature that fails its Save begins Burning for the duration. Burning damage from this Enhancement deals Radiant damage.</p><p><strong>Blinded: (4 MP)</strong> A creature that fails its Save becomes Blinded for 1 Round.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,11 +48,11 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "attack",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "area",
       "checkType": "spell",
-      "targetDefence": "precision",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -68,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -89,9 +89,9 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 1,
+        "ap": 2,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -122,9 +122,23 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "pLMb6AiamjbxoGuU": {
+        "formula": "1",
+        "type": "radiant",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "kETYVzGHWqrrIUVW": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +224,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "DICvkOOpZjJXAO0W": {
+        "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "The damage increases by 1.",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"radiantBeam\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.damageValue = enh.number + 1;",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "pzzdydMMq2TIKvKR": {
+        "name": "Area",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The diameter of the Cylinder increases by 1 Space and the height by 3 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,16 +396,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "mZXsA8nMr72Yo0ua": {
+        "name": "Burning Radiance",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>A creature that fails its Save begins Burning for the duration. Burning damage from this Enhancement deals Radiant damage.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -364,7 +464,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"radiantBeam\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.burning = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -382,16 +482,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "XJ4WU2KZ7oJ3hIFi": {
+        "name": "Blinded",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>A creature that fails its Save becomes Blinded for 1 Round.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 4,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -450,7 +550,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"radiantBeam\");\nif (!effect) return;\n\nif (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};\neffect.flags.dc20rpg.blinded = true;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -477,22 +577,22 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
       "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": 5,
+          "area": "cylinder",
+          "distance": 2,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -595,11 +695,11 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": ""
+      "addToTemplates": "all"
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -607,7 +707,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,10 +732,91 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "blinded": "Blinded",
+      "burning": "Burning",
+      "radiant": "Radiant",
+      "light": "Light"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Radiant Beam",
+      "img": "icons/magic/light/beam-rays-yellow-blue-large.webp",
+      "origin": "Item.sc6wRfCTsoKfUh3N",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "startRound": 80,
+        "startTurn": 0,
+        "seconds": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "XBrLANJ6Lrv0Fnqd",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "radiantBeam",
+        "macro": "const burning = effect.flags.dc20rpg?.burning || 0;\nconst blinded = effect.flags.dc20rpg?.blinded;\nconst dmgValue = effect.flags.dc20rpg?.damageValue || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Radiant Beam\",\n    type: \"radiant\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n\n  // Apply Burning effect\n  if (burning) {\n    const data = {...CONFIG.statusEffects.find(e => e.system.statusId === \"burning\")};\n    data.duration = {rounds: 1};\n    data.changes[0].value = `\"eventType\": \"damage\", \"label\": \"Burning\", \"trigger\": \"turnStart\", \"value\": ${burning}, \"type\": \"radiant\"`;\n    actor.applyEffect(data);\n  }\n\n  // Apply Blinded effect\n  if (blinded) {\n    actor.toggleStatusEffect(\"blinded\", { active: true, extras: {forXRounds: 1} });\n  }\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Radiant Beam\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Radiant Beam\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are inside of the Radiant Beam. You might take damage when you start your turn.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!lsyfrGh9FtwmAaB9.XBrLANJ6Lrv0Fnqd"
+    }
+  ],
   "folder": "qnapObjqhhvIHQEA",
   "flags": {},
   "_stats": {
@@ -645,15 +826,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768048328482,
+    "modifiedTime": 1768063621174,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "lsyfrGh9FtwmAaB9",
+  "sort": 900000,
+  "_key": "!items!lsyfrGh9FtwmAaB9"
 }

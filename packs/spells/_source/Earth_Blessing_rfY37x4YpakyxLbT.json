@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Earth Blessing",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/earth/strike-fist-stone.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You imbue a creature within range with earthen magic for the duration. Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> The target ignores Difficult Terrain on the ground and it gains Tremorsense 2.</p><p><strong>Success:</strong> The target gains Tremorsense 3 instead.</p><p><strong>Success (each 5):</strong> The range of the Tremorsense increases by 1.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Tremorsense: (1 MP, Repeatable)</strong> The range of Tremorsense increases by 2.</p><p><strong>Walk of Earth: (1 MP)</strong> The target can transform Spaces into Difficult Terrain when it enter them. Creatures can spend 1 AP to remove this Difficult Terrain from a Space.</p><p><strong>Burrow Speed: (2 MP)</strong> The target gains a Burrow Speed equal to half its Speed.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -46,7 +46,8 @@
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "check",
     "attackFormula": {
@@ -74,8 +75,8 @@
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
-      "checkDC": 10,
+      "againstDC": true,
+      "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -91,7 +92,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,7 +125,7 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "0R2z8ULEsInTprva": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +211,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "6V2IEPZa9SozJBV9": {
+        "name": "Increased Tremorsense",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The range of Tremorsense increases by 2.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"earthBlessing\");\nif (!effect) return;\n\neffect.flags.dc20rpg.bonusRange = enh.number * 2",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "wgLAHdB3m03XRd4z": {
+        "name": "Walk of Earth",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target can transform Spaces into Difficult Terrain when it enter them. Creatures can spend 1 AP to remove this Difficult Terrain from a Space.</p><p></p><p><em><strong>System Tip:</strong> Not automated.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,16 +383,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "jiyX9wrIR2QkzeeB": {
+        "name": "Burrow Speed",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>The target gains a Burrow Speed equal to half its Speed.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -364,93 +451,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 3,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"earthBlessing\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.movement.burrow.halfSpeed\",\n  mode: 5,\n  value: true\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -473,18 +474,19 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 10,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -492,7 +494,7 @@
       "areas": {
         "default": {
           "area": "",
-          "distance": 5,
+          "distance": null,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +586,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -599,15 +601,15 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,11 +634,97 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "embolden": "Embolden",
+      "earth": "Earth",
+      "sense": "Sense"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Earth Blessing",
+      "img": "icons/magic/earth/strike-fist-stone.webp",
+      "origin": "Item.1lGjZzmQYqkYbsiN",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 102,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "OHJPrHXmGq8dJj06",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "earthBlessing",
+        "macro": "const message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst total = message.system.chatFormattedRolls.core._total;\nlet base = 2;\nif (total >= 15) {\n  base = 3;\n  base += Math.floor((total - 15)/5);\n} \nconst bonus = effect.flags.dc20rpg?.bonusRange || 0;\nconst value = base + bonus;\n\neffect.changes[1].value = value;\neffect.update({changes: effect.changes});",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalModifier.ignore.difficultTerrain",
+          "value": "true",
+          "mode": 5,
+          "priority": null
+        },
+        {
+          "key": "system.senses.tremorsense.range",
+          "value": "2",
+          "mode": 4,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Earth Blessing\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You are imbued with earthen magic.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!rfY37x4YpakyxLbT.OHJPrHXmGq8dJj06"
+    }
+  ],
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +733,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768247595282,
+    "modifiedTime": 1768248198821,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "rfY37x4YpakyxLbT",
+  "sort": 300000,
+  "_key": "!items!rfY37x4YpakyxLbT"
 }

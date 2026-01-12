@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Muffle",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/unholy/orb-swirling-teal.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You create a 3 Space diameter Sphere within range. No sound can pass from the outside to the inside of the area or vice-versa (becoming Unheard).</p><p><strong>Relocate:</strong> When you Sustain this Spell or by spending 1 AP, you can move the area up to 5 Spaces within range.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Silence: (1 MP)</strong> The area becomes silent, no sound can be heard or produced in it. All creatures in the area are Deafened and Verbal Components can’t be performed in it.</p><p><strong>Disorient: (2 MP)</strong> Requires Silence. When a creature enters the area for the first time on its turn or starts its turn there, they make a Repeated Intelligence Save against your Save DC. <strong>Save Failure:</strong> The target is Disoriented until it leaves the area.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -68,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -89,9 +89,9 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 1,
+        "ap": 2,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -124,7 +124,7 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "R66kn4ngoVc6pkTu": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +210,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "I1KigSXxbR9Z901M": {
+        "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The diameter of the Sphere increases by 1 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,11 +296,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "1jVuYxbhON8nQn3d": {
+        "name": "Silence",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>The area becomes silent, no sound can be heard or produced in it. All creatures in the area are Deafened and Verbal Components can’t be performed in it.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -364,7 +364,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.statuses.add(\"deafened\");\nconst deafened = CONFIG.statusEffects.find(e => e.id === \"deafened\");\nfor (const change of deafened.changes) {\n  effect.changes.push(change)\n}",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -382,16 +382,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "gY8kOQcdS3kSv4lV": {
+        "name": "Disorient",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p><em>Requires Silence.</em></p><p>When a creature enters the area for the first time on its turn or starts its turn there, they make a Repeated Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Disoriented until it leaves the area.</p><p><em><strong>System Tip:</strong> Once target leaves the area you need to remove Disoriented effect manually.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -450,7 +450,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Disorient\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"'\n})\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Disorient\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -477,22 +477,22 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
       "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": 5,
+          "area": "sphere",
+          "distance": 2,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +584,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "nullification",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -595,7 +595,7 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": ""
+      "addToTemplates": "all"
     },
     "spellSource": {
       "arcane": {
@@ -632,11 +632,79 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "communication": "Communication",
+      "deafened": "Deafened",
+      "disoriented": "Disoriented",
+      "sound": "Sound"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Muffle",
+      "img": "icons/magic/unholy/orb-swirling-teal.webp",
+      "origin": "Item.3mg1NCPeKMSzBk9I",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 100,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "Dmygl8K8Ya3v65o0",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "muffle",
+        "macro": "actor.toggleStatusEffect(\"disoriented\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"int\", id: \"disoriented\", against: event.against}});",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [],
+      "description": "<p>You are inside of area created by Muffle spell. No sound can escape the area.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!qETOroCZ3KDFp5jy.Dmygl8K8Ya3v65o0"
+    }
+  ],
+  "folder": "b0r4jNWftsRiK88T",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +713,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768087780758,
+    "modifiedTime": 1768123068770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "qETOroCZ3KDFp5jy",
+  "sort": 400000,
+  "_key": "!items!qETOroCZ3KDFp5jy"
 }

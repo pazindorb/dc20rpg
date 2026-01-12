@@ -1,10 +1,10 @@
 {
-  "name": "Chaos Bomb",
+  "name": "Sphere of Death",
   "type": "spell",
-  "img": "icons/magic/light/explosion-star-teal.webp",
+  "img": "icons/magic/death/skeleton-skull-soul-blue.webp",
   "system": {
-    "itemKey": "chaosBomb",
-    "description": "<p>You conjure a Tiny sized Chaos Bomb in a Space within range. At the end of each of your turns, make a Fate Check. Result of 10 or above: The Chaos Bomb detonates.</p><p><em><strong>Beta Note:</strong> A Fate Check is a d20 roll where no modifier (numerical or otherwise) apply to the Check, no critical result apply and you can’t choose to fail.</em></p><p><span class=\"cf0\"><strong>Detonation:</strong> When the bomb detonates, roll a d12 to determine the bomb’s damage type. Make an Area Spell Attack as a Reaction for free against the AD of each target in a 3 Space diameter Sphere centered on the Bomb’s Space while they make an Intelligence Save.</span></p><p><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 damage of the rolled damage type.</span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target is subjected to the effects of the Save Failure column based on the result rolled.</span></p><table><tbody><tr><td data-colwidth=\"176\"><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Roll</span></strong></span></p></td><td data-colwidth=\"197\"><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Damage</span></strong></span></p></td><td><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Save Failure</span></strong></span></p></td></tr><tr><td data-colwidth=\"176\"><p>1.</p></td><td data-colwidth=\"197\"><p>Bludgeoning</p></td><td><p>The target is pushed 1 Space away. <strong>Failure (each 5)</strong>: The target is pushed 1 additional Space.</p></td></tr><tr><td data-colwidth=\"176\"><p>2.</p></td><td data-colwidth=\"197\"><p>Piercing</p></td><td><p>The target can’t take Reactions for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>3.</p></td><td data-colwidth=\"197\"><p>Slashing</p></td><td><p>The target begins <strong>Bleeding</strong> for 1 minute.</p></td></tr><tr><td data-colwidth=\"176\"><p>4.</p></td><td data-colwidth=\"197\"><p>Cold</p></td><td><p>The target is <strong>Slowed</strong> for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>5.</p></td><td data-colwidth=\"197\"><p>Corrosive</p></td><td><p>The target is <strong>Hindered</strong> for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>6.</p></td><td data-colwidth=\"197\"><p>Fire</p></td><td><p>The target begins <strong>Burning</strong> for 1 minute.</p></td></tr><tr><td data-colwidth=\"176\"><p>7.</p></td><td data-colwidth=\"197\"><p>Lightning</p></td><td><p>The target is <strong>Stunned</strong> until the start of their turn.</p></td></tr><tr><td data-colwidth=\"176\"><p>8.</p></td><td data-colwidth=\"197\"><p>Poison</p></td><td><p>The target is <strong>Impaired</strong> for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>9.</p></td><td data-colwidth=\"197\"><p>Psychic</p></td><td><p>The target is <strong>Dazed</strong> for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>10.</p></td><td data-colwidth=\"197\"><p>Radiant</p></td><td><p>Attacks made against the target add a d4 to the check for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>11.</p></td><td data-colwidth=\"197\"><p>Umbral</p></td><td><p>The target is <strong>Doomed</strong> for 1 round.</p></td></tr><tr><td data-colwidth=\"176\"><p>12.</p></td><td data-colwidth=\"197\"><p>True</p></td><td><p>The target is <strong>Exposed</strong> for 1 round.</p></td></tr></tbody></table><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Wild Magic Surge</span></strong></span></p><p>When you Critically Fail or Critically Succeed on a Check made to cast this Spell, you roll on the Wild Magic Table.</p><p></p><p><em><strong>System Tip:</strong> Use on demand macro to trigger Fate Roll.</em></p><p><em><strong>System Tip 2:</strong> Use on demand macro to trigger detonation. If you were using \"<strong>Damage</strong>\" enhancement on spell cast apply it to the detonation roll as well. This roll is configured to spend no resources.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Chaotic Expansion: (1 AP)</strong> When you roll for Detonation and it doesn’t detonate, the diameter of the Sphere increases by 1 Space.</p><p><strong>Controlled Entropy: (1 AP)</strong> When you roll the Fate Check, you roll twice and choose which result to use.</p><p><strong>Sticky: (1 AP)</strong> When you cast the Spell, you can attach the Chaos Bomb to an object or creature within range. If the target is not willing, make a Spell Check against the target’s Agility Save.<br><strong>Check Success:</strong> The Bomb is magically attached to the target. A creature can spend 1 AP to make a Trickery Check against your Save DC to remove it from a target within 1 Space (including themselves). <strong>Success:</strong> The Bomb is magically attached to the creature that removed it. <strong>Success (5):</strong> The Bomb stops magically sticking to objects or creatures.</p>",
+    "itemKey": "",
+    "description": "<p>You produce a burst of shadow magic that envelops a 2 Space diameter Sphere within range. Make an Area Spell Attack against the AD of every target within the area.</p><p><strong>Hit:</strong> The target takes 1 Umbral damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Obscure</span></strong></span></p><p>The Light level in the target’s Space decreases by 1 until the end of the turn.</p><p><em><strong>DC Tip:</strong> Magical effects such as Obscure don’t stack with themselves. You can only decrease the light level by 1 with the Obscure effect.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Doom: (X MP)</strong> Each target makes a Repeated Charisma Save. <strong>Failure:</strong> The target is Doomed X.</p><p><strong>Exhaustion: (3 MP)</strong> Each target makes a Might Save. <strong>Save Failure:</strong> The target gains Exhaustion.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,24 +35,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "Uwa9iffipJMFjXdU": {
-        "command": "const value = await DC20.dialog.SimplePopup.input(\"Fate Roll Value\");\nconst fateRoll = parseInt(value);\nif (!fateRoll) return;\n\nconst updateData = {\n  system: {\n    rollMenu: {free: true},\n    actionType: \"attack\",\n    formulas: {chaosBomb: _formula(fateRoll)},\n    againstStatuses: {},\n    rollRequests: {chaosBomb: _rollRequest()}\n  }\n}\nconst againstStatus = _status(fateRoll);\nif (againstStatus) updateData.system.againstStatuses.chaosBomb = againstStatus;\n\n// Radiant need its own effect\nif (fateRoll === 10) {\n  game.dc20rpg.effects.createEffectOn(_radiantEffectData(), item);\n}\n\nawait item.update(updateData);\nawait item.roll();\nconst chaosBombRadiant = item.getEffectByKey(\"chaosBombRadiant\");\nif (chaosBombRadiant) chaosBombRadiant.delete();\nitem.update({\n  [\"system.actionType\"]: \"check\",\n  [\"system.formulas.-=chaosBomb\"]: null,\n  [\"system.againstStatuses.-=chaosBomb\"]: null,\n  [\"system.rollRequests.-=chaosBomb\"]: null, \n})\n\nfunction _formula(fateRoll) {\n  const dmgTypes = [\n    \"bludgeoning\", \"piercing\", \"slashing\", \"cold\",\n    \"corrosion\", \"fire\", \"lightning\", \"poison\",\n    \"psychic\", \"radiant\", \"umbral\", \"true\"\n  ];\n  const formula = new DC20.Formula();\n  formula.formula = \"1\";\n  formula.type = dmgTypes[fateRoll - 1];\n  return formula;\n}\n\nfunction _status(fateRoll) {\n  const status = new DC20.AgainstStatus();\n  switch(fateRoll) {\n    case 1: \n      status.id = \"movement\";\n      break;\n    case 3: \n      status.id = \"bleeding\";\n      status.forOneMinute = true;\n      break;\n    case 4: \n      status.id = \"slowed\";\n      status.untilYourNextTurnEnd = true;\n      break;\n    case 5: \n      status.id = \"hindered\";\n      status.untilYourNextTurnEnd = true;\n      break;\n    case 6: \n      status.id = \"burning\";\n      status.forOneMinute = true;\n      break;\n    case 7: \n      status.id = \"stunned\";\n      status.untilYourNextTurnEnd = true;\n      break;\n    case 8: \n      status.id = \"impaired\";\n      status.untilYourNextTurnEnd = true;\n      break;\n    case 9: \n      status.id = \"dazed\";\n      status.untilYourNextTurnEnd = true;\n      break;\n    case 11: \n      status.id = \"doomed\";\n      status.untilYourNextTurnEnd = true;\n      break;\n    case 12: \n      status.id = \"exposed\";\n      status.untilYourNextTurnEnd = true;\n      break;\n  }\n  if (!status.id) return null;\n  return status;\n}\n\nfunction _rollRequest() {\n  const rollRequest = new DC20.RollRequest();\n  rollRequest.saveKey = \"int\";\n}\n\nfunction _radiantEffectData() {\n  const changes = [];\n  changes.push({\n    key: \"system.dynamicRollModifier.againstYou.martial.melee\",\n    mode: 2,\n    value: '\"label\": \"Chaos Bomb - Radiant\", \"modifier\": \"+ 1d4\"'\n  });\n  changes.push({\n    key: \"system.dynamicRollModifier.againstYou.martial.ranged\",\n    mode: 2,\n    value: '\"label\": \"Chaos Bomb - Radiant\", \"modifier\": \"+ 1d4\"'\n  });\n  changes.push({\n    key: \"system.dynamicRollModifier.againstYou.martial.area\",\n    mode: 2,\n    value: '\"label\": \"Chaos Bomb - Radiant\", \"modifier\": \"+ 1d4\"'\n  });\n  changes.push({\n    key: \"system.dynamicRollModifier.againstYou.spell.melee\",\n    mode: 2,\n    value: '\"label\": \"Chaos Bomb - Radiant\", \"modifier\": \"+ 1d4\"'\n  });\n  changes.push({\n    key: \"system.dynamicRollModifier.againstYou.spell.ranged\",\n    mode: 2,\n    value: '\"label\": \"Chaos Bomb - Radiant\", \"modifier\": \"+ 1d4\"'\n  });\n  changes.push({\n    key: \"system.dynamicRollModifier.againstYou.spell.area\",\n    mode: 2,\n    value: '\"label\": \"Chaos Bomb - Radiant\", \"modifier\": \"+ 1d4\"'\n  });\n\n  return {\n    flags: {dc20rpg: {}},\n    changes: changes,\n    img: \"icons/magic/light/explosion-star-teal.webp\",\n    name: \"Chaos Bomb - Radiant\",\n    description: \"Attacks made against you have a d4 bonus for 1 round.\",\n    duration: {\n      rounds: 1, \n    },\n    system: {\n      duration: {\n        useCounter: true,\n        onTimeEnd: \"delete\"\n      },\n      addToChat: true,\n      itemKey: \"chaosBombRadiant\"\n    },\n    transfer: false,\n  }\n}",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Roll Chaos Bomb",
-        "title": "Trigger Detonation",
-        "global": false
-      },
-      "ulbOlCYyvnTAzOuK": {
-        "command": "const fateRoll = new Roll(\"d12\", {});\nawait fateRoll.evaluate();\nfateRoll.toMessage();",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Fate Roll",
-        "title": "Fate Roll",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -65,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "attack",
     "attackFormula": {
       "rangeType": "area",
       "checkType": "spell",
@@ -85,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -108,7 +91,7 @@
         "actionPoint": null,
         "ap": 2,
         "stamina": null,
-        "mana": 1,
+        "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -139,9 +122,23 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "CUlaHdM8Mr2QDjwU": {
+        "formula": "1",
+        "type": "umbral",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
     "enhancements": {
-      "O5UoY7jO1mKxlTw8": {
+      "4QKMTOENi7YBO6Kb": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -203,6 +200,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -226,11 +224,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "LpxElbn0AH9oEf2f": {
+      "yTNizVbbxoG0MMjm": {
         "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The damage increases by 1.</p><p></p><p><em><strong>System Tip:</strong> Apply it to detonation roll as well.</em></p>",
+        "description": "The damage increases by 1.",
         "hide": false,
         "resources": {
           "ap": null,
@@ -288,6 +286,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -311,16 +310,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "lI031Oot90EpYm6s": {
-        "name": "Chaotic Expansion",
+      "JxU06oYOTTzYmOLM": {
+        "name": "Area ",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you roll for Detonation and it doesn’t detonate, the diameter of the Sphere increases by 1 Space.</p><p><em><strong>System Tip:</strong> Growth is not automated.</em></p>",
+        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
-          "mana": null,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -373,6 +372,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -396,101 +396,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "si1J6M12aqegy3YH": {
-        "name": "Controlled Entropy",
+      "uTlTV1LoZJRCXz4q": {
+        "name": "Doom",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you roll the Fate Check, you roll twice and choose which result to use.</p>",
+        "description": "<p>Each target makes a Repeated Charisma Save. </p><p><strong>Failure:</strong> The target is Doomed X.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "jDvUHnkiC6QRaNFx": {
-        "name": "Sticky",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>When you cast the Spell, you can attach the Chaos Bomb to an object or creature within range. If the target is not willing, make a Spell Check against the target’s Agility Save.</p><p><strong>Check Success:</strong> The Bomb is magically attached to the target. A creature can spend 1 AP to make a Trickery Check against your Save DC to remove it from a target within 1 Space (including themselves).</p><p><strong>Success:</strong> The Bomb is magically attached to the creature that removed it.</p><p><strong>Success (5):</strong> The Bomb stops magically sticking to objects or creatures.</p><p></p><p><em><strong>System Tip:</strong> Do not apply this enhancement if you roll for detonation.</em></p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -526,16 +441,16 @@
           },
           "addsNewRollRequest": true,
           "rollRequest": {
-            "category": "contest",
-            "saveKey": "",
-            "contestedKey": "agi",
+            "category": "save",
+            "saveKey": "cha",
+            "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "doomed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -543,6 +458,93 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": true,
+            "repeatedSaveKey": "cha"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "n5ej7yTJyPUlxy9W": {
+        "name": "Exhaustion",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Each target makes a Might Save. </p><p><strong>Save Failure:</strong> The target gains Exhaustion.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 3,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "mig",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "exhaustion",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -580,9 +582,9 @@
       "unit": ""
     },
     "duration": {
-      "value": 1,
-      "type": "continuous",
-      "timeUnit": "minutes"
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
     },
     "target": {
       "count": null,
@@ -590,7 +592,7 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 3,
+          "distance": 2,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -682,7 +684,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "conjuration",
+    "spellSchool": "nullification",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -701,7 +703,7 @@
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
@@ -730,11 +732,14 @@
       }
     },
     "spellTags": {
-      "chaos": "Chaos"
+      "death": "Death",
+      "doomed": "Doomed",
+      "exhaustion": "Exhaustion",
+      "umbral": "Umbral"
     }
   },
   "effects": [],
-  "folder": "oSwtE4idWkaIPpl6",
+  "folder": "b0r4jNWftsRiK88T",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -743,15 +748,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767534001102,
-    "modifiedTime": 1767633474828,
+    "createdTime": 1768122375742,
+    "modifiedTime": 1768123068770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "jIV05LQCmzlm9wQD",
-  "sort": 900000,
-  "_key": "!items!jIV05LQCmzlm9wQD"
+  "_id": "pgIECgwIKN1AH4Ex",
+  "sort": 600000,
+  "_key": "!items!pgIECgwIKN1AH4Ex"
 }

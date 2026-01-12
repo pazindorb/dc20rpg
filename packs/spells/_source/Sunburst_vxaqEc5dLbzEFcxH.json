@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Sunburst",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/magic/light/beam-rays-red-large.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You produce a flash of brilliant radiance in a 6 Space tall, 2 Space diameter Cylinder within range. Make an Area Spell Attack against the AD of every target within the area.</p><p><strong>Hit:</strong> The target takes 1 Radiant damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Illuminate</span></strong></span></p><p>The Light level of the area increases by 1 until the end of the turn.</p><p><em><strong>DC Tip:</strong> Magical effects such as Illuminate don’t stack with themselves. You can only increase the light level by 1 with the Illuminate effect.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Cylinder increases by 1 Space and the height by 3 Spaces.</p><p><strong>Expose: (2 MP)</strong> Each target makes a Physical Save. <strong>Save Failure:</strong> The target is Exposed for 1 Round.</p><p><strong>Blinding: (4 MP)</strong> Each target makes a Physical Save. <strong>Save Failure:</strong> The target is Blinded for 1 Round.</p><p></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -48,11 +48,11 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "attack",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "area",
       "checkType": "spell",
-      "targetDefence": "precision",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -68,13 +68,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": false,
+      "againstDC": true,
       "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
@@ -89,7 +89,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 1,
+        "ap": 2,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -122,9 +122,23 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "LeufFxy9qakcndRh": {
+        "formula": "1",
+        "type": "radiant",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "9Z9dbBM6cUNiUSgZ": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +224,97 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "7NTszcp95lBOwTcf": {
+        "name": "Damage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "The damage increases by 1.",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "XhYcDzXtvqun8IgF": {
+        "name": "Area",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The diameter of the Cylinder increases by 1 Space and the Height by 3 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,16 +396,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "YoUtz6pfIWtbfF1N": {
+        "name": "Expose",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>Each target makes a Physical Save. </p><p><strong>Save Failure:</strong> The target is Exposed for 1 Round.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 2,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -339,18 +439,18 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "phy",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "exposed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -358,7 +458,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
-            "forXRounds": null,
+            "forXRounds": 1,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -382,16 +482,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "WsD3PqRA7c2dCThn": {
+        "name": "Blinding",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>Each target makes a Physical Save. </p><p><strong>Save Failure:</strong> The target is Blinded for 1 Round.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 4,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -425,18 +525,18 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "phy",
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "blinded",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -444,7 +544,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
-            "forXRounds": null,
+            "forXRounds": 1,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -477,13 +577,13 @@
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
       "value": null,
-      "type": "",
+      "type": "instantaneous",
       "timeUnit": ""
     },
     "target": {
@@ -491,8 +591,8 @@
       "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": 5,
+          "area": "cylinder",
+          "distance": 2,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -599,7 +699,7 @@
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
@@ -632,7 +732,10 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "blinded": "Blinded",
+      "exposed": "Exposed",
+      "light": "Light",
+      "radiant": "Radiant"
     }
   },
   "effects": [],
@@ -645,15 +748,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768063845941,
+    "modifiedTime": 1768063845941,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "vxaqEc5dLbzEFcxH",
+  "sort": 0,
+  "_key": "!items!vxaqEc5dLbzEFcxH"
 }

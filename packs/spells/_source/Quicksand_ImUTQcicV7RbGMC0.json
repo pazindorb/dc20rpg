@@ -1,10 +1,10 @@
 {
-  "name": "Cleanse",
+  "name": "Quicksand",
   "type": "spell",
-  "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
+  "img": "icons/environment/wilderness/terrain-rocky-ground.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Choose a creature within range that’s subjected to 1 of the following Conditions: Dazed, Deafened, Exposed, Hindered, Impaired, Intimidated, Slowed, Stunned, or Taunted. Choose 1 of those Conditions and Make a Spell Check against its Save DC. If it doesn’t have a Save DC, the GM assigns it one.</p><p><strong>Success:</strong> 1 stack of the Condition ends on the creature.</p><p><em><strong>DC Tip:</strong> If the effect is applied continuously to the target (such as Slowed as a result of moving through Difficulty Terrain) this Spell has no effect on the target.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Additional Cleanse: (1 MP, Repeatable)</strong> You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p><p><strong>Moderate Cleanse: (1 MP)</strong> The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p><p><strong>Major Cleanse: (3 MP)</strong> The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+    "description": "<p>You turn 3 Space diameter Sphere of ground within range into quicksand for the duration. Creatures in the area are Slowed 2. When a creature enters the area for the first time on its turn or starts its turn there, it makes a Repeated Might Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Hindered for the duration or until it leaves the area.</p><p><strong>Spell Cast:</strong> When you cast the Spell, make a Spell Check against the Repeated Might Save of each target in the area.</p><p><strong>Check Success:</strong> The target is Hindered for the duration or until it leaves the area.</p><p></p><p><em><strong>System Tip:</strong> Hindered will not be automatically removed when you leave the area.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The area of the Sphere increases by 1 Spaces.</p><p><strong>Grasping Sand: (1 MP)</strong> Creatures Hindered by this Spell are also Tethered to the area. A creature can spend 1 AP to make a Repeated Might Save. <strong>Save Success: T</strong>he target is no longer Tethered to the area.</p><p><strong>False Appearance: (1 MP)</strong> The Spell lasts for 1 hour and the area appears as normal terrain. A creature can discern a Space has been altered with a successful Nature Check against your Save DC.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -46,7 +46,8 @@
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "check",
     "attackFormula": {
@@ -89,9 +90,9 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "ap": 1,
+        "ap": 2,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -120,11 +121,34 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
+    "againstStatuses": {
+      "YSXunzD9uxQJh75h": {
+        "id": "hindered",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": true,
+        "forXRounds": null,
+        "repeatedSave": true,
+        "repeatedSaveKey": "mig"
+      }
+    },
+    "rollRequests": {
+      "BrwMeApJ17WJhCSM": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "mig",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {},
     "enhancements": {
-      "1cYEhHh3bUo0B27Y": {
+      "x8UNh3VcPP0MXudu": {
         "name": "Range",
         "number": 0,
         "preventModification": false,
@@ -210,11 +234,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "3TLGbjCQHELca0Sc": {
-        "name": "Additional Cleanse",
+      "pPKR9BktpaO87Ram": {
+        "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can end 1 stack of an additional Condition from the list or an additional stack of a previously chosen Condition.</p>",
+        "description": "<p>The area of the Sphere increases by 1 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -296,11 +320,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "VYuhvnQbJ81j5SFt": {
-        "name": "Moderate Cleanse",
+      "Do0ZoNijQieXZbve": {
+        "name": "Grasping Sand",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Blinded, Charmed, Disoriented, Doomed, Frightened, Restrained, or Weakened.</p>",
+        "description": "<p>Creatures Hindered by this Spell are also Tethered to the area. A creature can spend 1 AP to make a Repeated Might Save. </p><p><strong>Save Success:</strong> The target is no longer Tethered to the area.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -348,9 +372,9 @@
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "tethered",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -364,7 +388,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const effect = item.getEffectByKey(\"quicksand\");\nif (!effect) return;\n\neffect.flags.dc20rpg.grasping = true;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -382,16 +406,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "eJ7ohJn1lZCaoP9O": {
-        "name": "Major Cleanse",
+      "Rs28iwUNvLMBnhy0": {
+        "name": "False Appearance",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The following Conditions are added to the list: Exhaustion, Paralyzed, Petrified, Terrified, or Unconscious.</p>",
+        "description": "<p>The Spell lasts for 1 hour and the area appears as normal terrain. A creature can discern a Space has been altered with a successful Nature Check against your Save DC.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 3,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -473,26 +497,27 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
       "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": 5,
+          "area": "sphere",
+          "distance": 3,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -584,7 +609,7 @@
     },
     "tip": "",
     "spellType": "spell",
-    "spellSchool": "invocation",
+    "spellSchool": "transmutation",
     "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
@@ -595,19 +620,19 @@
       "toggleItem": true,
       "active": false,
       "addToChat": false,
-      "addToTemplates": ""
+      "addToTemplates": "all"
     },
     "spellSource": {
       "arcane": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.arcane"
       },
       "divine": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": false,
+        "active": true,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -632,11 +657,101 @@
       }
     },
     "spellTags": {
-      "cleansing": "Cleansing"
+      "earth": "Earth",
+      "hindered": "Hindered",
+      "illusion": "Illusion",
+      "motion": "Motion",
+      "slowed": "Slowed",
+      "tethered": "Tethered"
     }
   },
-  "effects": [],
-  "folder": "qnapObjqhhvIHQEA",
+  "effects": [
+    {
+      "name": "Quicksand",
+      "img": "icons/environment/wilderness/terrain-rocky-ground.webp",
+      "origin": "Item.mnL3ZDnvMtuQ9BnU",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "1lT5ZUoXoq6yxVYu",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "quicksand",
+        "macro": "const grasping = effect.flags.dc20rpg?.grasping;\nif (actor.hasStatus(\"hindered\")) return;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"hindered\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.toggleStatusEffect(\"hindered\", { active: true, extras: {repeatedSave: true, repeatedSaveKey: \"mig\", id: \"hindered\", against: event.against } });\n  if (grasping) actor.toggleStatusEffect(\"tethered\", { active: true });\n}",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.moveCost",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Quicksand\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Quicksand\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are in the Quicksand area.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!ImUTQcicV7RbGMC0.1lT5ZUoXoq6yxVYu"
+    }
+  ],
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
@@ -645,15 +760,15 @@
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1767996194459,
-    "modifiedTime": 1768063286243,
+    "createdTime": 1768253864659,
+    "modifiedTime": 1768253864659,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "pGeAQqUC13SnL5xI",
-  "sort": 1200000,
-  "_key": "!items!pGeAQqUC13SnL5xI"
+  "_id": "ImUTQcicV7RbGMC0",
+  "sort": 0,
+  "_key": "!items!ImUTQcicV7RbGMC0"
 }
