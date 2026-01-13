@@ -1,4 +1,4 @@
-import { activateDefaultListeners, datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
+import { activateDefaultListeners, datasetOf, labelOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip } from "../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../helpers/utils.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "./browser-utils.mjs";
@@ -102,6 +102,19 @@ export class CompendiumBrowser extends Dialog {
     html.find(".show-item").click(ev => this._onItemShow(ev));
     html.find(".add-item").click(ev => this._onAddItem(ev));
     html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
+    html.find(".multi-select").change(ev => {
+      const value = getValueFromPath(this, datasetOf(ev).path);
+      const key = valueOf(ev);
+      const label = labelOf(ev);
+      value[key] = label;
+      this.render();
+    });
+    html.find(".remove-option").click(ev => {
+      const value = getValueFromPath(this, datasetOf(ev).path);
+      const key = datasetOf(ev).value;
+      delete value[key];
+      this.render();
+    });
 
     html.find('.item-tooltip').hover(async ev => {
       let position = null;

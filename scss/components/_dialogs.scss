@@ -2483,13 +2483,13 @@
           background-color: $secondary-lighter;
         }
 
-        .multi-select-wrapper {
+        .checkbox-wrapper {
           display: flex;
           flex-direction: column;
           font-size: 12px;
           padding: 0 5px;
 
-          .multi-select {
+          .checkbox {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -2515,6 +2515,34 @@
 
         border-radius: 3px;
         border: 3px solid var(--border-color);
+      }
+
+      .multi-select-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .selected-options {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        flex-flow: wrap;
+        gap: 2px;
+
+        .option {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          font-size: 10px;
+          font-weight: bold;
+
+          padding: 3px;
+          border-radius: 3px;
+          color: $secondary-darker;
+          border: 1px solid $secondary-darker;
+          background-color: $secondary-lighter;
+        }
       }
     }
   }

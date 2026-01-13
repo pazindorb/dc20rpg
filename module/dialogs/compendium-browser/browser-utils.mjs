@@ -105,7 +105,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
 
   return {
     name: _filter("name", "name", "text", parsedFilters["name"]),
-    compendium: _filter("fromPack", "compendium", "multi-select", {
+    compendium: _filter("fromPack", "compendium", "checkbox", {
       system: true,
       world: true,
       module: true
@@ -128,12 +128,12 @@ export function getDefaultItemFilters(preSelectedFilters) {
     spell: {
       spellType: _filter("system.spellType", "spell.spellType", "select", parsedFilters["spellType"], CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes),
       spellSchool: _filter("system.spellSchool", "spell.spellSchool", "select", parsedFilters["spellSchool"], CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools),
-      spellSource: _filter("system.spellSource", "spell.spellSource", "multi-select", parsedFilters["spellSource"] || {
+      spellSource: _filter("system.spellSource", "spell.spellSource", "checkbox", parsedFilters["spellSource"] || {
         arcane: true,
         divine: true,
         primal: true
       }),
-      // TODO: Add spell tags
+      spellTags: _filter("system.spellTags", "spell.spellTags", "multi-select", parsedFilters["spellTags"] || {}, CONFIG.DC20RPG.DROPDOWN_DATA.spellTags)
     },
     infusion: {
       power: {
@@ -143,7 +143,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
         updatePath: "power",
         nestedFilters: ["over", "under"]
       },
-      tags: _filter("system.infusion.tags", "infusion.tags", "multi-select-3-states", parsedFilters["tags"] || {
+      tags: _filter("system.infusion.tags", "infusion.tags", "checkbox-3-states", parsedFilters["tags"] || {
         artifact: null,
         attunement: null,
         cursed: null,
@@ -205,14 +205,14 @@ export function getDefaultActorFilters() {
       updatePath: "level",
       nestedFilters: ["over", "under"]
     },
-    type: _filter("type", "type", "multi-select", {
+    type: _filter("type", "type", "checkbox", {
       character: false,
       npc: true,
       companion: false
     }, "stringCheck"),
     role: _filter("system.details.role", "role", "text"),
     creatureType: _filter("system.details.creatureType", "creatureType", "text"),
-    compendium: _filter("fromPack", "compendium", "multi-select", {
+    compendium: _filter("fromPack", "compendium", "checkbox", {
       system: true,
       world: true,
       module: true
@@ -243,7 +243,18 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
     if (!documentValue) return false;
     return documentValue.toLowerCase().includes(value.toLowerCase());
   }
-  if (filterType === "multi-select") method = (document, expected) => {
+  if (filterType === "multi-select") method = (document, value) => {
+    if (!value) return true;
+    const expected = Object.keys(value);
+    if (expected.length === 0) return true;
+
+    const options = getValueFromPath(document, pathToCheck);
+    for (const key of expected) {
+      if (options[key]) return true;
+    }
+    return false;
+  }
+  if (filterType === "checkbox") method = (document, expected) => {
     if (!expected) return true;
     // We need to check if string value is one of the selected filter value
     if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];
@@ -258,7 +269,7 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
     }
     return mathing;
   }
-  if (filterType === "multi-select-3-states") method = (document, expected) => {
+  if (filterType === "checkbox-3-states") method = (document, expected) => {
     if (!expected) return true;
     // We need to check if string value is one of the selected filter value
     if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];

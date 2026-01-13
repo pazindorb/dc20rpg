@@ -4120,7 +4120,7 @@
   border: 1px solid var(--secondary-darker);
   background-color: var(--secondary-lighter);
 }
-.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper {
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .checkbox-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4131,7 +4131,7 @@
   font-size: 12px;
   padding: 0 5px;
 }
-.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper .multi-select {
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .checkbox-wrapper .checkbox {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4143,7 +4143,7 @@
   justify-content: space-between;
   margin-bottom: 2px;
 }
-.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper .multi-select span {
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .checkbox-wrapper .checkbox span {
   font-weight: bold;
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .over-under-wrapper {
@@ -4163,6 +4163,47 @@
   margin-left: -8px;
   border-radius: 3px;
   border: 3px solid var(--border-color);
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .multi-select-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .selected-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap;
+  gap: 2px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .selected-options .option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px;
+  border-radius: 3px;
+  color: var(--secondary-darker);
+  border: 1px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
 }
 .dc20rpg #initiative-slot-selector .selectable {
   width: 50px;
@@ -13226,9 +13267,7 @@
   -ms-flex-align: center;
   align-items: center;
   height: auto;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+  width: auto;
 }
 #tooltip-container .tooltip-header input {
   font-family: var(--font-h4);

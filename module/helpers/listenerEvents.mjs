@@ -19,6 +19,12 @@ export function valueOf(event) {
   return event.currentTarget.value;
 }
 
+export function labelOf(event) {
+  event.preventDefault();
+  const s = event.currentTarget;
+  return s.options[s.selectedIndex].innerHTML;
+}
+
 export function activateDefaultListeners(app, html) {
   const _onActivable = (path) => {
     const value = getValueFromPath(app, path);

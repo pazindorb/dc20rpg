@@ -56,8 +56,25 @@
         {{!-- Multi Select --}}
         {{#ifCond filterType '===' "multi-select"}} 
         <div class="multi-select-wrapper">
+          <div class="selected-options">
+            {{#each value as |label key|}} 
+            <div class="option" data-key="{{key}}">
+              <span>{{label}}</span>
+              <a class="remove fa-solid fa-xmark remove-option" data-path="filters.{{../updatePath}}.value" data-value="{{key}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.removeHelpDice"}}"></a>
+            </div>
+            {{/each}}
+          </div>
+          <select class="margin-top-2 multi-select" data-path="filters.{{updatePath}}.value">
+            {{selectOptions options selected="" blank=""}}
+          </select>
+        </div>
+        {{/ifCond}}
+
+        {{!-- Checkbox --}}
+        {{#ifCond filterType '===' "checkbox"}} 
+        <div class="checkbox-wrapper">
           {{#each value as |option optionKey|}}
-          <div class="multi-select">
+          <div class="checkbox">
             <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.ms.' optionKey ''}}</span>
             <a class="fa-lg activable {{#if option}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{../updatePath}}.value.{{optionKey}}"></a>
           </div>
@@ -65,11 +82,11 @@
         </div>
         {{/ifCond}}
 
-        {{!-- Multi Select 3 states --}}
-        {{#ifCond filterType '===' "multi-select-3-states"}} 
-        <div class="multi-select-wrapper">
+        {{!-- Checkbox 3 states --}}
+        {{#ifCond filterType '===' "checkbox-states"}} 
+        <div class="checkbox-wrapper">
           {{#each value as |option optionKey|}}
-          <div class="multi-select">
+          <div class="checkbox">
             <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.ms.' optionKey ''}}</span>
             <a data-path="filters.{{../updatePath}}.value.{{optionKey}}" class="fa-lg state-change 
               {{#ifCond option '===' null}}fa-regular fa-square{{/ifCond}} 

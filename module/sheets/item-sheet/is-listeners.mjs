@@ -1,5 +1,5 @@
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
-import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
+import { addToMultiSelect, datasetOf, labelOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey, getLabelFromKey } from "../../helpers/utils.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
@@ -71,9 +71,9 @@ export function activateCommonLinsters(html, item) {
 
   html.find('.multi-select').change(ev => {
     const path = datasetOf(ev).path;
-    const labels = path.includes("spellTags") ?  CONFIG.DC20RPG.DROPDOWN_DATA.spellTags : CONFIG.DC20RPG.ROLL_KEYS.allChecks; // Improve multi-select
     const key = valueOf(ev);
-    addToMultiSelect(item, path, key, getLabelFromKey(key, labels));
+    const label = labelOf(ev);
+    addToMultiSelect(item, path, key, label);
   });
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
