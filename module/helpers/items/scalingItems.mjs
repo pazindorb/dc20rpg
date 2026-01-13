@@ -41,6 +41,9 @@ export async function overrideScalingValue(item, index, mastery) {
 }
 
 export async function clearOverridenScalingValue(item, index) {
+  const hasPath = [false, true, false, true, false, true, false, true, false, false];
+  if (!hasPath[index]) return;
+
   const maneuversKnown = item.system.scaling.maneuversKnown.values;
   const bonusStamina = item.system.scaling.bonusStamina.values;
   const spellsKnown = item.system.scaling.spellsKnown.values;

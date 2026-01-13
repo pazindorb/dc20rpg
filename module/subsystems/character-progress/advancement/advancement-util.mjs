@@ -239,7 +239,7 @@ function _prepareCompendiumFilters(advancement, key) {
       break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";
-      // TODO 0.10.0: prepare school/tag filters
+      advancement.addItemsOptions.classSpellFilter = true;
       break;
     case "maneuvers":
       advancement.addItemsOptions.itemType = "maneuver";

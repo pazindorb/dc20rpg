@@ -326,8 +326,40 @@
         {{/ifCond}}
 
 
-        {{!-- TODO: Spell Filter --}}
+        {{!-- Spell Filter --}}
+        {{#ifCond advancement.addItemsOptions.itemType '===' "spell"}}
+          <div class="grid" style="margin: 0; width: 100%;">
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellType"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellType.value">
+                {{selectOptions suggestionFilters.spell.spellType.options selected=suggestionFilters.spell.spellType.value blank=""}}
+              </select>
+            </div>
 
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellSource"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellSource.value">
+                {{selectOptions suggestionFilters.spell.spellSource.options selected=suggestionFilters.spell.spellSource.value blank=""}}
+              </select>
+            </div>
+          </div>
+
+          <div class="grid" style="margin: 0; width: 100%;">
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellSchool"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellSchool.value">
+                {{selectOptions suggestionFilters.spell.spellSchool.options selected=suggestionFilters.spell.spellSchool.value blank=""}}
+              </select>
+            </div>
+
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellTag"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellTag.value">
+                {{selectOptions suggestionFilters.spell.spellTag.options selected=suggestionFilters.spell.spellTag.value blank=""}}
+              </select>   
+            </div>
+          </div>
+        {{/ifCond}}
 
       </div>
 

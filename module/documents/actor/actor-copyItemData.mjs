@@ -166,6 +166,9 @@ function _class(actor) {
 	// Maneuvers and Spells Known
 	known.spells.max = _getAllUntilIndex(classScaling.spellsKnown.values, level - 1);
 	known.maneuvers.max = _getAllUntilIndex(classScaling.maneuversKnown.values, level - 1);
+
+	// Class Filters
+	details.class.filters = clazz.system.filters;
 }
 
 function _ancestry(actor) {

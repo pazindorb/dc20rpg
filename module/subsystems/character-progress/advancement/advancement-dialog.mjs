@@ -96,7 +96,22 @@ export class ActorAdvancement extends Dialog {
         }
       },
       spell: {
-        // TODO after 0.10 spell implemented
+        spellType: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes
+        },
+        spellSource: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellSources
+        },
+        spellSchool: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools
+        },
+        spellTag: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellTags
+        }
       },
       infusion: {/**No filters for now*/}
     };
@@ -309,6 +324,7 @@ export class ActorAdvancement extends Dialog {
     const currentItem = this.currentItem;
     if (!currentItem) return [];
 
+    const classSpellFilter = advancement?.addItemsOptions?.classSpellFilter;
     const itemType = advancement?.addItemsOptions?.itemType;
     const hideOwned = advancement.hideOwned;
     const filters = this._collectCompendiumFilters();
@@ -323,7 +339,8 @@ export class ActorAdvancement extends Dialog {
       filters.push({check: (item) => this._maneuverType(item, this.suggestionFilters.maneuver.maneuverType.value)});
     }
     if (itemType === "spell") {
-      // TODO after 0.10 spell implemented
+      filters.push({check: (item) => this._spellFilterMethod(item)});
+      if (classSpellFilter) filters.push({check: (item) => this._classSpellFilterMethod(item)});
     }
     // Stamina/Flavor feature Filter
     filters.push({check: (item) => !item.system.staminaFeature && !item.system.flavorFeature});
@@ -395,6 +412,42 @@ export class ActorAdvancement extends Dialog {
     const type = item.system.maneuverType;
     if (!type) return false;
     return type === maneuverType;
+  }
+
+  _spellFilterMethod(item) {
+    if (item.type !== "spell") return false;
+
+    const spellFilter = this.suggestionFilters.spell;
+    const spellSchool = spellFilter.spellSchool.value;
+    const spellSource = spellFilter.spellSource.value;
+    const spellTag = spellFilter.spellTag.value;
+    const spellType = spellFilter.spellType.value;
+
+    let result = true;
+    const spellTags = Object.keys(item.system.spellTags);
+    if (spellSchool && item.system.spellSchool !== spellSchool) result = false;
+    if (spellType && item.system.spellType !== spellType) result = false;
+    if (spellSource && !item.system.spellSource[spellSource].active) result = false;
+    if (spellTag && !spellTags.includes(spellTag)) result = false;
+    return result;
+  }
+
+  _classSpellFilterMethod(item) {
+    const classFilters = this.actor.system.details.class.filters;
+
+    // If at least one spell tag match filters - Spell Match
+    const filterSpellTags = Object.keys(classFilters.spellTags);
+    const itemSpellTags = Object.keys(item.system.spellTags);
+    if (filterSpellTags.some(r=> itemSpellTags.includes(r))) return true;
+    
+    // If spell school and spell source match - Spell Match
+    let sourceMatch = false;
+    if (classFilters.spellSource.arcane && item.system.spellSource.arcane.active) sourceMatch = true;
+    if (classFilters.spellSource.divine && item.system.spellSource.divine.active) sourceMatch = true;
+    if (classFilters.spellSource.primal && item.system.spellSource.primal.active) sourceMatch = true;
+
+    const schoolMatch = classFilters.spellSchool[item.system.spellSchool];
+    return sourceMatch && schoolMatch;
   }
 
   _notCurrentItem(item) {

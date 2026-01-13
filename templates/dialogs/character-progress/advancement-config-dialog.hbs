@@ -44,6 +44,12 @@
           {{selectOptions compendiumTypes selected=addItemsOptions.itemType blank=""}}
         </select>
       </div>
+      {{#ifCond addItemsOptions.itemType "===" "spell"}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.classSpellFilter"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.classSpellFilter"}}</span>
+        <a class="activable" data-path="addItemsOptions.classSpellFilter"><i class="fa-2x {{#if addItemsOptions.classSpellFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
+      {{/ifCond}}
       {{#ifCond source "===" "class"}}
       <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.talentTooltip"}}">
         <span>{{localize "dc20rpg.dialog.advancement.talent"}}</span>

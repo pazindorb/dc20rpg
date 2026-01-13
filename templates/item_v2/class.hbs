@@ -104,6 +104,59 @@
           </div>
         </div>
       {{/each}}
+
+
+      {{!-- Spell Sources --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.spellSources"}}</span>
+      </div>
+      <div class="properties">
+        <div class="grid grid-3col grid-gap-5 margin-top-3">
+          {{#each system.filters.spellSource as |source key|}}
+          <a class="activable-box activable {{#if source}} active {{/if}}" data-path="system.filters.spellSource.{{key}}">
+            {{localize (concat "dc20rpg.spellSource." key '')}}
+          </a>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Spell Schools --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.spellSchools"}}</span>
+      </div>
+      <div class="properties">
+        <div class="grid grid-4col grid-gap-5 margin-top-3">
+          {{#each system.filters.spellSchool as |school key|}}
+          <a class="activable-box activable {{#if school}} active {{/if}}" data-path="system.filters.spellSchool.{{key}}">
+            {{localize (concat "dc20rpg.spellSchool." key '')}}
+          </a>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Spell Tags --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.spell.spellTags"}}</span>
+      </div>
+      <div class="row margin-top-5">
+        <select class="multi-select" data-path="system.filters.spellTags">
+          {{selectOptions @root.config.DROPDOWN_DATA.spellTags blank=""}}
+        </select>
+        <div class="selected-options margin-top-2" style="flex-wrap: wrap; gap:1px;">
+          {{#each system.filters.spellTags as |option key|}}
+            <div class="option">
+              <span>{{labelFromKey option @root.config.ROLL_KEYS.allChecks}}</span>
+              <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.filters.spellTags" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.spell.removeSpellTag"}}"></a>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Creation Macro --}}
+      <div class="sub-header margin-top-10">
+        <span>{{system.macros.creation.name}}</span>
+        <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg" title="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="creation"></a>
+      </div>
     </div>
 
     {{!-- Class Table --}}

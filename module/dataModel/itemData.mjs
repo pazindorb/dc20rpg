@@ -468,6 +468,34 @@ export class DC20ClassData extends DC20UniqueItemData {
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
       multiclass: new f.ObjectField({required: true}),
+      filters: new f.SchemaField({
+        spellSource: new f.SchemaField({
+          arcane: new f.BooleanField({required: true, initial: false}),
+          divine: new f.BooleanField({required: true, initial: false}),
+          primal: new f.BooleanField({required: true, initial: false})
+        }),
+        spellSchool: new f.SchemaField({
+          astromancy: new f.BooleanField({required: true, initial: false}),
+          conjuration: new f.BooleanField({required: true, initial: false}),
+          divination: new f.BooleanField({required: true, initial: false}),
+          elemental: new f.BooleanField({required: true, initial: false}),
+          enchantment: new f.BooleanField({required: true, initial: false}),
+          invocation: new f.BooleanField({required: true, initial: false}),
+          nullification: new f.BooleanField({required: true, initial: false}),
+          transmutation: new f.BooleanField({required: true, initial: false})
+        }),
+        spellTags: new f.ObjectField({required: true}),
+      }),
+      macros: new f.ObjectField({required: true, initial: {
+       creation: {
+        command: "",
+        trigger: "onCreate",
+        disabled: false,
+        name: "Class Creation Macro",
+        title: "",
+        global: false,
+       }
+      }}),
       scaling: new f.ObjectField({required: true, initial: {
         maxHpBonus: {
           label: "dc20rpg.scaling.maxHpBonus",

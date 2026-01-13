@@ -24,6 +24,7 @@ export function createNewAdvancement() {
 			preFilters: "",
 			helpText: "",
 			itemLimit: null,
+			classSpellFilter: false
  		},
 		macro: "",
 		items: {}
