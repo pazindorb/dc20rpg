@@ -433,21 +433,23 @@ export class ActorAdvancement extends Dialog {
   }
 
   _classSpellFilterMethod(item) {
+     if (item.type !== "spell") return false;
     const classFilters = this.actor.system.details.class.filters;
 
-    // If at least one spell tag match filters - Spell Match
+    // If at least one spell tag match - Spell Match
     const filterSpellTags = Object.keys(classFilters.spellTags);
     const itemSpellTags = Object.keys(item.system.spellTags);
     if (filterSpellTags.some(r=> itemSpellTags.includes(r))) return true;
-    
-    // If spell school and spell source match - Spell Match
-    let sourceMatch = false;
-    if (classFilters.spellSource.arcane && item.system.spellSource.arcane.active) sourceMatch = true;
-    if (classFilters.spellSource.divine && item.system.spellSource.divine.active) sourceMatch = true;
-    if (classFilters.spellSource.primal && item.system.spellSource.primal.active) sourceMatch = true;
 
-    const schoolMatch = classFilters.spellSchool[item.system.spellSchool];
-    return sourceMatch && schoolMatch;
+    // If spell school match - Spell Match
+    if (classFilters.spellSchool[item.system.spellSchool]) return true;
+    
+    // If spell spell source match - Spell Match
+    if (classFilters.spellSource.arcane && item.system.spellSource.arcane.active) return true;
+    if (classFilters.spellSource.divine && item.system.spellSource.divine.active) return true;
+    if (classFilters.spellSource.primal && item.system.spellSource.primal.active) return true;
+
+    return false;
   }
 
   _notCurrentItem(item) {

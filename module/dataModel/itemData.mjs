@@ -468,6 +468,7 @@ export class DC20ClassData extends DC20UniqueItemData {
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
       multiclass: new f.ObjectField({required: true}),
+      hasSpellList: new f.BooleanField({required: true, initial: false}),
       filters: new f.SchemaField({
         spellSource: new f.SchemaField({
           arcane: new f.BooleanField({required: true, initial: false}),
@@ -485,6 +486,11 @@ export class DC20ClassData extends DC20UniqueItemData {
           transmutation: new f.BooleanField({required: true, initial: false})
         }),
         spellTags: new f.ObjectField({required: true}),
+        canChoose: new f.SchemaField({
+          spellSource: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+          spellSchool: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+          spellTags: new f.NumberField({ required: true, nullable: true, integer: true, initial: null })
+        })
       }),
       macros: new f.ObjectField({required: true, initial: {
        creation: {

@@ -346,7 +346,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     }
   }
 
-  async runMacro(additionalFields) {
+  async runMacro(additionalFields) { // TODO: Rename to 'callmacro'
     const command = this.system.macro;
     if (!command) return;
     const actor = this.getOwningActor();

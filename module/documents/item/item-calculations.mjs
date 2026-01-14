@@ -127,8 +127,10 @@ function _checkFeatureSourceItem(item) {
   if (!CONFIG.DC20RPG.UNIQUE_ITEM_IDS) return;
 
   if (["class", "subclass", "ancestry", "background"].includes(system.featureType)) {
-    const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem];
-    if (newOrigin && newOrigin !== item.system.featureOrigin) item.update({["system.featureOrigin"]: newOrigin})
+    const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem]; 
+    if (newOrigin && newOrigin !== item.system.featureOrigin) {
+      if (!game.packs.get(item.pack)?.locked) item.update({["system.featureOrigin"]: newOrigin})
+    }
   }
 }
 

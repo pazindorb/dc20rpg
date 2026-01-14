@@ -105,10 +105,16 @@
         </div>
       {{/each}}
 
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.hasSpellList"}}</span>
+        <a class="fa-lg activable {{#if system.hasSpellList}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.hasSpellList"></a>
+      </div>
 
+      {{#if system.hasSpellList}}
       {{!-- Spell Sources --}}
       <div class="sub-header margin-top-10">
         <span>{{localize "dc20rpg.item.sheet.class.spellSources"}}</span>
+        <input type="text" data-dType="Number" style="width: 50px" name="system.filters.canChoose.spellSource" value="{{system.filters.canChoose.spellSource}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/>
       </div>
       <div class="properties">
         <div class="grid grid-3col grid-gap-5 margin-top-3">
@@ -123,6 +129,7 @@
       {{!-- Spell Schools --}}
       <div class="sub-header margin-top-10">
         <span>{{localize "dc20rpg.item.sheet.class.spellSchools"}}</span>
+        <input type="text" data-dType="Number" style="width: 50px" name="system.filters.canChoose.spellSchool" value="{{system.filters.canChoose.spellSchool}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/>
       </div>
       <div class="properties">
         <div class="grid grid-4col grid-gap-5 margin-top-3">
@@ -137,6 +144,7 @@
       {{!-- Spell Tags --}}
       <div class="sub-header margin-top-10">
         <span>{{localize "dc20rpg.item.sheet.spell.spellTags"}}</span>
+        {{!-- <input type="text" data-dType="Number" name="system.filters.canChoose.spellTags" value="{{system.filters.canChoose.spellTags}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/> --}}
       </div>
       <div class="row margin-top-5">
         <select class="multi-select" data-path="system.filters.spellTags">
@@ -151,11 +159,12 @@
           {{/each}}
         </div>
       </div>
+      {{/if}}
 
       {{!-- Creation Macro --}}
       <div class="sub-header margin-top-10">
-        <span>{{system.macros.creation.name}}</span>
-        <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg" title="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="creation"></a>
+        <span>{{localize "dc20rpg.item.sheet.class.creationMacro"}}</span>
+        <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg" data-key="creation"></a>
       </div>
     </div>
 

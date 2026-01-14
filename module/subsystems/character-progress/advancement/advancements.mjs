@@ -59,6 +59,87 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry, backg
 	actorAdvancementDialog(actor, advancements, oldSystem, (level === 3 && !subclassId));
 }
 
+export async function handleSpellList(toCheck, toUpdate) {
+	// If martial picks spellcaster path he can choose any spelllist.
+	// We have to handle that case - we check one class(spellcaster) but update the other(martial)
+	if (!toUpdate) toUpdate = toCheck; 
+
+	const filters = toCheck.system.filters;
+	if (!filters) return;
+	const choice = filters.canChoose;
+	if (!choice) return;
+
+	const selected = {
+		spellSchool: [],
+		spellSource: [],
+		spellTags: []
+	}
+
+	// Spell Source
+	if (choice.spellSource) {
+		selected.spellSource = await _chooseSpellList(["arcane", "divine", "primal"], `Select Spell Source (${choice.spellSource})`, "spellSource");
+	}
+	else {
+		selected.spellSource = Object.entries(filters.spellSource).filter(([key, value]) => value).map(([key, value]) => key);
+	}
+
+	// Spell School
+	if (choice.spellSchool) {
+		selected.spellSchool = await _chooseSpellList(["astromancy", "conjuration", "divination", "elemental", "enchantment", "invocation", "nullification", "transmutation"], `Select Spell School (${choice.spellSchool})`, "spellSchool");
+	}
+	else {
+		selected.spellSchool = Object.entries(filters.spellSchool).filter(([key, value]) => value).map(([key, value]) => key);
+	}
+
+	// Spell Tags
+	selected.spellTags = Object.keys(filters.spellTags);
+
+	// UPDATE
+	for (const key of selected.spellSource) {
+		await toUpdate.update({[`system.filters.spellSource.${key}`]: true});
+	}
+	for (const key of selected.spellSchool) {
+		await toUpdate.update({[`system.filters.spellSchool.${key}`]: true});
+	}
+	for (const key of selected.spellTags) {
+		const label = CONFIG.DC20RPG.DROPDOWN_DATA.spellTags[key];
+		await toUpdate.update({[`system.filters.spellTags.${key}`]: label});
+	}
+	return selected;
+}
+
+async function _chooseSpellList(options, header, type) {
+	const inputs = [];
+	for (const option of options) {
+		inputs.push({
+			type: "checkbox",
+			label: game.i18n.localize(`dc20rpg.${type}.${option}`)
+		})
+	}
+	const answers = await SimplePopup.open("input", {header: header, inputs: inputs});
+
+	const keys = [];
+	for (let i = 0; i < answers.length; i++) {
+		if (answers[i]) keys.push(options[i]);
+	}
+	return keys;
+}
+
+export async function clearSpellList(item, advancement) {
+	const spellList = advancement.providesSpellList;
+	for (const key of spellList.spellSource) {
+		await item.update({[`system.filters.spellSource.${key}`]: false});
+	}
+	for (const key of spellList.spellSchool) {
+		await item.update({[`system.filters.spellSchool.${key}`]: false});
+	}
+	for (const key of spellList.spellTags) {
+		await item.update({[`system.filters.spellTags.-=${key}`]: null});
+	}
+	delete advancement.providesSpellList;
+  item.update({["system.hasSpellList"]: false})
+}
+
 export function collectAdvancementsFromItem(level, item) {
 	const advancements = item.system.advancements;
 
@@ -92,6 +173,7 @@ async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 		});
 
 	for (const [key, advancement] of entries) {
+		if (advancement.providesSpellList) await clearSpellList(item, advancement);
 		await removeItemsFromActor(actor, advancement.items);
 		await removeMulticlassInfoFromActor(actor, key);
 		if (!itemDeleted) {
@@ -152,11 +234,15 @@ export async function registerUniqueSystemItems() {
 		background: {}
 	};
 	CONFIG.DC20RPG.SUBCLASS_CLASS_LINK = {};
+	CONFIG.DC20RPG.SPELLCASTERS = [];
+	CONFIG.DC20RPG.MARTIALS = [];
 
 	const clazz = await collectItemsForType("class");
 	clazz.forEach(item => {
 		CONFIG.DC20RPG.UNIQUE_ITEM_UUIDS.class[item.uuid] = item.name;
 		const itemKey = item.system.itemKey;
+		if (item.system.spellcaster) CONFIG.DC20RPG.SPELLCASTERS.push(item);
+		if (item.system.martial) CONFIG.DC20RPG.MARTIALS.push(item);
 		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[itemKey] = item.name;
 	});
 	const subclass = await collectItemsForType("subclass");

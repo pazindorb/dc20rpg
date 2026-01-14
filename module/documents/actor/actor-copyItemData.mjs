@@ -169,6 +169,7 @@ function _class(actor) {
 
 	// Class Filters
 	details.class.filters = clazz.system.filters;
+	details.class.hasSpellList = clazz.system.hasSpellList;
 }
 
 function _ancestry(actor) {

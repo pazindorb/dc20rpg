@@ -1,7 +1,7 @@
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
-import { createNewAdvancement, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
+import { clearSpellList, createNewAdvancement, handleSpellList, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
 import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
-import { generateKey } from "../../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, toSelectOptions } from "../../../helpers/utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 import { runTemporaryMacro } from "../../../helpers/macros.mjs";
@@ -118,6 +118,8 @@ async function _applyPathProgression(advancement, extraAdvancements, actor) {
       break;
 
     case "spellcaster":
+      const classData = actor.system.details.class;
+      if (!classData.hasSpellList) await _selectSpellList(parentItem, advancement);
       overrideScalingValue(parentItem, index, "spellcaster"); 
       break;
   }
@@ -229,6 +231,18 @@ async function _getSpellcasterStaminaAdvancement() {
   advancement.customTitle = advancement.name;
   advancement.img = spellcasterStamina.img;
   return advancement;
+}
+
+async function _selectSpellList(myClass, advancement) {
+  const spellcasters = CONFIG.DC20RPG.SPELLCASTERS;
+  const selected = await SimplePopup.select("Which Spellcaster spell list would you like to use?", toSelectOptions(spellcasters, "id", "name"));
+  const spellcaster = spellcasters.find(itm => itm.id === selected);
+  if (!spellcaster) {
+    ui.notifications.warn("Selected class not found. Skipping spell list preparation")
+    return;
+  }
+  advancement.providesSpellList = await handleSpellList(spellcaster, myClass);
+  myClass.update({["system.hasSpellList"]: true})
 }
 
 function _prepareCompendiumFilters(advancement, key) {
@@ -476,12 +490,17 @@ export async function collectSubclassesForClass(classKey) {
 
 export async function revertAdvancement(actor, advancement, collection) {
   if (advancement.progressPath) clearOverridenScalingValue(advancement.parentItem, advancement.level - 1);
+  if (advancement.providesSpellList) await clearSpellList(advancement.parentItem, advancement);
   await removeItemsFromActor(actor, advancement.items);
   await removeMulticlassInfoFromActor(actor, advancement.key);
 
   // Mark Advancement as not applied
   advancement.applied = false;
-  await advancement.parentItem.update({[`system.advancements.${advancement.key}.applied`]: false});
+  delete advancement.providesSpellList;
+  await advancement.parentItem.update({
+    [`system.advancements.${advancement.key}.applied`]: false,
+    [`system.advancements.${advancement.key}.-=providesSpellList`]: null
+  });
 
   const advancementsToDelete = collection.filter(adv => adv.createdBy === advancement.key);
   for (const adv of advancementsToDelete) {

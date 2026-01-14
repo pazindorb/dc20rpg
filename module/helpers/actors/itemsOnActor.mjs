@@ -1,5 +1,5 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { applyAdvancements, createNewAdvancement, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
+import { applyAdvancements, createNewAdvancement, handleSpellList, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
@@ -163,6 +163,7 @@ async function addUniqueItemToActor(item, actor) {
         const subclass = actor.items.get(details.subclass.id);
         const ancestry = actor.items.get(details.ancestry.id);
         const background = actor.items.get(details.background.id);
+        await handleSpellList(item);
         applyAdvancements(actor, 1, item, subclass, ancestry, background, oldActorData); // When we are putting class it will always be at 1st level
         break;
       case "subclass":
