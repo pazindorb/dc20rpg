@@ -5,7 +5,7 @@
   "_id": "NKuUuUyr0TkwO37A",
   "img": "icons/magic/light/explosion-glow-spiral-yellow.webp",
   "system": {
-    "description": "<p>You learn 1 Spell of your choice from the Divine Spell List (Holy & Restoration during the Alpha).</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p>",
+    "description": "<p>You learn 1 Spell of your choice from the Divine Spell Source.</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -145,7 +145,8 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">LR</strong>, you can cast the chosen Spell spending 1 less<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> MP</strong> than normal (minimum of<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> 0</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP</strong>).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Spells total <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP </strong>cost (before all reductions) still cannot exceed your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Mana Spend Limit</strong>.</span></p>",
         "hide": false,
@@ -241,16 +242,19 @@
         "addItemsOptions": {
           "itemType": "spell",
           "itemLimit": 1,
-          "helpText": "Add Celestial Magic Spell"
+          "helpText": "Add Celestial Magic Spell",
+          "preFilters": "{\"spellSource\": {\"arcane\": false, \"divine\": true, \"primal\": false}}"
         },
-        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Celestial Magic Spell not found - Add it manually by running Macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Celestial Magic Spell not found - Add it manually by running Macro\");\n}\nelse {\n  const celestialMagic = actor.items.find(item => item.system.itemKey === \"celestialMagic\");\n  if (celestialMagic) {\n    celestialMagic.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spell.createdItemId}\"`});\n    celestialMagic.updateShortInfo(`Selected Spell: ${spell.name}`);\n  }\n}"
+        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Celestial Magic Spell not found - Add it manually by running on demand macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Celestial Magic Spell not found - Add it manually by running on demand macro\");\n  return;\n}\nelse {\n  const celestialMagic = actor.getItemByKey(\"celestialMagic\");\n  if (celestialMagic) {\n    celestialMagic.update({\n      [\"system.copyEnhancements.copyFor\"]: `id=[\"${spell.createdItemId}\"]`,\n      [\"system.shortInfo\"]: `Selected Spell: ${spell.name}`,\n      [\"flags.dc20rpg.currentSpellId\"]: spell.createdItemId\n    });\n  }\n}",
+        "doNotAddToKnownLimit": true,
+        "key": "default"
       }
     },
     "macros": {
       "I2oxNQOghZGdmsCE": {
         "name": "Change Celestial Magic Spell",
         "trigger": "onDemand",
-        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Celestial Magic Spell\", options);\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
+        "command": "const options = actor.getAllItemsWithType([\"spell\"], [], true);\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Celestial Magic Spell\", options);\nif (!spellId) return;\n\nconst currentSpellId = item.flags.dc20rpg.currentSpellId;\nif (currentSpellId === spellId) return;\n\nconst currentSpell = actor.items.get(currentSpellId);\nif (currentSpell) currentSpell.update({[\"system.knownLimit\"]: true});\nconst newSpell = actor.items.get(spellId);\nif (newSpell) newSpell.update({[\"system.knownLimit\"]: false});\n\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${spellId}\"]`,\n  [\"system.shortInfo\"]: `Selected Spell: ${options[spellId]}`,\n  [\"flags.dc20rpg.currentSpellId\"]: spellId\n});",
         "disabled": false,
         "title": "Change Celestial Magic Spell"
       }
@@ -261,66 +265,7 @@
       "level": 0
     }
   },
-  "effects": [
-    {
-      "img": "icons/magic/light/explosion-glow-spiral-yellow.webp",
-      "origin": "Compendium.dc20rpg.ancestries.Item.NKuUuUyr0TkwO37A",
-      "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Celestial Magic",
-      "_id": "vAZ5tIfdsRX8eS0h",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
-      "description": "<p>You learn 1 Spell of your choice from the Divine Spell List (Holy &amp; Restoration during the Alpha).</p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": ""
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": 1734280901440,
-        "modifiedTime": 1750880257370,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!NKuUuUyr0TkwO37A.vAZ5tIfdsRX8eS0h"
-    }
-  ],
+  "effects": [],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -332,9 +277,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1720098982783,
-    "modifiedTime": 1761303731335,
+    "modifiedTime": 1768418571001,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

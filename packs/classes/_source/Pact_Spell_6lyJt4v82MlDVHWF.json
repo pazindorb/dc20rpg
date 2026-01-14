@@ -244,7 +244,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "name=\"CANTRIP NAME HERE\"",
+      "copyFor": "name=[\"SPELL NAME HERE\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -327,14 +327,14 @@
     },
     "macros": {
       "kUAVt5aTiQUVOins": {
-        "name": "Change Pact Cantrp",
+        "name": "Change Pact Spell",
         "trigger": "onDemand",
         "command": "item.callMacro(\"onCreate\", {}, true)",
         "disabled": false,
-        "title": "Change Pact Cantrp"
+        "title": "Change Pact Spell"
       },
       "0oYeZrVGI5arco5A": {
-        "name": "Select Pact Cantrp",
+        "name": "Select Pact Spell",
         "trigger": "onCreate",
         "command": "const cantripName = await DC20.dialog.SimplePopup.input(\"What is your Pact Cantrip name?\");\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
         "disabled": false,
@@ -409,7 +409,7 @@
       "csK0IUEZuFMIxzxY": {
         "name": "Death’s Toll",
         "condition": "target.hasAnyCondition([\"bloodied\"])",
-        "useFor": "name=\"CANTRIP NAME HERE\"",
+        "useFor": "name=[\"SPELL NAME HERE\"]",
         "linkWithToggle": false,
         "bonus": "1",
         "flags": {
@@ -451,7 +451,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1767181635889,
+    "modifiedTime": 1768416303545,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

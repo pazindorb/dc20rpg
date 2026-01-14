@@ -685,7 +685,16 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "creation": {
+        "command": "",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Creation Macro",
+        "title": "",
+        "global": false
+      }
+    },
     "classSpecialId": "sorcerer",
     "combatTraining": {
       "weapons": false,
@@ -695,7 +704,13 @@
       "heavyArmor": false,
       "spellFocuses": true
     },
-    "maneuversProvided": false
+    "maneuversProvided": false,
+    "hasSpellList": true,
+    "filters": {
+      "canChoose": {
+        "spellSource": 1
+      }
+    }
   },
   "effects": [],
   "folder": "x945cXwyu9NoJffj",
@@ -707,7 +722,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034994,
-    "modifiedTime": 1767054394063,
+    "modifiedTime": 1768415248603,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

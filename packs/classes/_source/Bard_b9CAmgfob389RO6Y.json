@@ -694,7 +694,16 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "creation": {
+        "command": "",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Creation Macro",
+        "title": "",
+        "global": false
+      }
+    },
     "classSpecialId": "bard",
     "combatTraining": {
       "weapons": false,
@@ -704,7 +713,20 @@
       "heavyArmor": false,
       "spellFocuses": true
     },
-    "maneuversProvided": false
+    "maneuversProvided": false,
+    "hasSpellList": true,
+    "filters": {
+      "spellSchool": {
+        "enchantment": true
+      },
+      "spellTags": {
+        "embolden": "Embolden",
+        "enfeeble": "Enfeeble",
+        "healing": "Healing",
+        "illusion": "Illusion",
+        "sound": "Sound"
+      }
+    }
   },
   "effects": [],
   "folder": "sozbG2LDJIG9YFHK",
@@ -716,7 +738,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350035472,
-    "modifiedTime": 1767053954014,
+    "modifiedTime": 1768415532959,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

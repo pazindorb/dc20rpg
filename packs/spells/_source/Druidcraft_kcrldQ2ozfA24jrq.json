@@ -1,10 +1,11 @@
 {
-  "name": "Psionic Hand",
-  "type": "feature",
-  "img": "icons/magic/light/orbs-hand-gray.webp",
+  "name": "Druidcraft",
+  "type": "spell",
+  "img": "icons/magic/nature/plant-sprout-hand-flower-pink.webp",
   "system": {
-    "itemKey": "psionicHand",
-    "description": "<p>You learn the Mage Hand Cantrip</p><p>When you cast the Spell, you can choose to make the hand Invisible.</p><p></p><p><em><strong>System Tip:</strong> Mage Hand is no longer a spell after 0.10. This advancement does nothing for now.</em></p>",
+    "itemKey": "",
+    "description": "<p>You reach out into nature and produce one of the following effects in up to a 1 Space cube within range:</p><ul><li><p>You target an area within range and produce a harmless natural smell (such as flowers, faint odor of skunk, etc.) or sound (rustling leaves, a small animal, etc.).</p></li><li><p>You target a living mundane plant and instantly accelerate the growth of the plant (flowers bloom, seeds open, etc.).</p></li><li><p>You target a wounded or dead mundane plant (smaller than a 1 Space cube) and bring it back to life.</p></li></ul><p><em><strong>DC Tip:</strong> Magical plant life might require a Spell Check to affect if the GM feels that it would be appropriate.</em></p>",
+    "shortInfo": "",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
@@ -12,25 +13,47 @@
       "level": 0,
       "items": ""
     },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
+    "usable": true,
     "isReaction": false,
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
-      "checkType": "attack",
-      "targetDefence": "physical",
+      "checkType": "spell",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -41,11 +64,12 @@
         "crit": false,
         "conditionals": false
       },
+      "ignoreCloseQuarters": false,
       "formulaMod": ""
     },
     "check": {
       "canCrit": false,
-      "checkKey": "att",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
@@ -58,7 +82,7 @@
     },
     "save": {
       "type": "phy",
-      "dc": null,
+      "dc": 0,
       "calculationKey": "spell",
       "addMastery": false,
       "failEffect": ""
@@ -66,6 +90,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
+        "ap": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -83,12 +108,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -108,7 +129,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
@@ -156,8 +178,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -170,15 +191,14 @@
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
-        "name": "Psionic Hand",
-        "mustChoose": false,
-        "pointAmount": 1,
-        "level": 0,
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
         "applied": false,
-        "talent": false,
+        "additionalAdvancement": false,
         "repeatable": false,
         "repeatAt": [
           0,
@@ -203,50 +223,27 @@
           0,
           0
         ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
         "allowToAddItems": false,
-        "additionalAdvancement": true,
-        "compendium": "",
-        "preFilters": "",
-        "items": {},
-        "customTitle": "Psionic Hand",
-        "key": "default"
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null,
+          "classSpellFilter": false
+        },
+        "macro": "",
+        "items": {}
       }
     },
-    "featureType": "ancestry",
-    "featureOrigin": "Psyborn",
-    "featureSourceItem": "psyborn",
-    "staminaFeature": false,
-    "flavorFeature": false,
-    "isResource": false,
-    "resource": {
-      "name": "",
-      "resourceKey": "key",
-      "reset": "",
-      "useStandardTable": true,
-      "customMaxFormula": "",
-      "values": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
-    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "transmutation",
+    "knownLimit": true,
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
@@ -257,33 +254,62 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
-    }
+    },
+    "spellSource": {
+      "arcane": {
+        "active": false,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": false,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": true,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {}
   },
   "effects": [],
-  "folder": "wJcCIYPuqUeQd5AC",
+  "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
-    "createdTime": 1745523547813,
-    "modifiedTime": 1768418007685,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": {
-      "worldId": "dc20",
-      "uuid": null,
-      "coreVersion": "12.331",
-      "systemId": "dc20rpg",
-      "systemVersion": "0.9.0"
-    }
+    "createdTime": 1768416428221,
+    "modifiedTime": 1768416428221,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "dwP7gnH9349mGPfs",
-  "sort": 300000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!dwP7gnH9349mGPfs"
+  "_id": "kcrldQ2ozfA24jrq",
+  "sort": 0,
+  "_key": "!items!kcrldQ2ozfA24jrq"
 }

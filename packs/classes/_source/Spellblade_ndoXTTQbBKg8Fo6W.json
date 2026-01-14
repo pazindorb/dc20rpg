@@ -667,7 +667,16 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "creation": {
+        "command": "",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Creation Macro",
+        "title": "",
+        "global": false
+      }
+    },
     "classSpecialId": "spellblade",
     "combatTraining": {
       "weapons": true,
@@ -716,7 +725,17 @@
       }
     },
     "maneuversProvided": false,
-    "martialExpansion": true
+    "martialExpansion": true,
+    "hasSpellList": true,
+    "filters": {
+      "canChoose": {
+        "spellSchool": 2
+      },
+      "spellTags": {
+        "ward": "Ward",
+        "weapon": "Weapon"
+      }
+    }
   },
   "effects": [],
   "folder": "W40bVnNvZKhXwNNw",
@@ -728,7 +747,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034012,
-    "modifiedTime": 1767054497107,
+    "modifiedTime": 1768415230935,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
