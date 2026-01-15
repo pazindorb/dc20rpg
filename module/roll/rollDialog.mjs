@@ -230,7 +230,7 @@ export class RollDialog extends DC20Dialog {
     }
     context.rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     context.rollMenu = this.updateObject.system.rollMenu;
-    context.helpDiceOptions = {
+    context.helpOptions = {
       "+ d8": "d8",
       "+ d6": "d6",
       "+ d4": "d4",
@@ -241,6 +241,10 @@ export class RollDialog extends DC20Dialog {
       "- d4": "-d4",
       "- d10": "-d10",
       "- d12": "-d12",
+      "+ 2": "+2",
+      "+ 5": "+5",
+      "- 2": "-2",
+      "- 5": "-5"
     };
     context.disableRollLevel = context.rollMenu.autoFail || context.rollMenu.autoCrit;
     context.DRMChecked = this.DRMChecked;

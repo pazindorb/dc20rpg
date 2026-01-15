@@ -54,6 +54,11 @@ function cleanHtml($html) {
     const $el = $html(el);
     $el.replaceWith($el.html());
   });
+  // Replace <div style="display:contents" dir="auto"> with its content
+  $html('div[style*="display:contents"]').each((_, el) => {
+    const $el = $html(el);
+    $el.replaceWith($el.html());
+  });
 
   const header = $html('header').html();
   const body = $html('div.page-body').html();
@@ -71,15 +76,14 @@ function parseToJournalJson(header, body) {
     const order = pages.length + 1;
     const content = hpg.content;
     const [name, level] = extractFromHeading(hpg.heading);
-    const id = generateId(name + journalName);
+    let id = generateId(name + journalName);
     if (createdIds.has(id)) {
       const alreadyCreated = createdIds.get(id);
-      console.warn(`[DUPLICATED PAGE ID] ${journalName}.${name} creates the same Id as ${journalName}.${alreadyCreated}`);
+      console.warn(`[DUPLICATED PAGE ID] ${journalName}.${name} creates the same Id as ${journalName}.${alreadyCreated} - Creating new randomized id`);
+      id = generateId(name + journalName + `${Math.random()}`);
     }
-    else {
-      createdIds.set(id, name);
-      pages.push(page(id, name, content, level, order));
-    }
+    createdIds.set(id, name);
+    pages.push(page(id, name, content, level, order));
   }
   return journal(journalName, pages);
 }

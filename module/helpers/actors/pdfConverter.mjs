@@ -455,7 +455,7 @@ function _prepareSpellsAndManeuvers(form, actor, itemCards) {
       description: _itemDescription(spell)
     });
   }
-  _text(form.getTextField("Spells and Maneuvers"), text);
+  _text(form.getTextField("Spells and Techniques"), text);
 }
 
 function _prepareInventory(form, actor, itemCards) {

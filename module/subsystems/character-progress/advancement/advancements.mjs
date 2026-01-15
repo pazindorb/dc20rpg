@@ -117,6 +117,7 @@ async function _chooseSpellList(options, header, type) {
 		})
 	}
 	const answers = await SimplePopup.open("input", {header: header, inputs: inputs});
+	if (!answers) return [];
 
 	const keys = [];
 	for (let i = 0; i < answers.length; i++) {

@@ -95,7 +95,7 @@ function _prepareAdvancementFromKnown(key, amount, item, level) {
 
 export async function shouldLearnNewSpellsOrManeuvers(actor, skipRefresh) {
   const shouldLearn = [];
-  if (!skipRefresh) actor = await refreshActor(actor); // TODO do we even need to do that? Test
+  if (!skipRefresh) await refreshActor(actor); // TODO do we even need to do that? Test
   for (const [key, known] of Object.entries(actor.system.known)) {
     if (known.max - known.current > 0) shouldLearn.push(key);
   }
@@ -463,7 +463,7 @@ export async function collectScalingValues(actor, oldSystemData) {
 
 export async function refreshActor(actor) {
   const counter = actor.flags.dc20rpg.advancementCounter + 1;
-  return await actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
+  await actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
 }
 
 export async function collectSubclassesForClass(classKey) {

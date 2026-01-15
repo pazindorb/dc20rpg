@@ -48,6 +48,7 @@ async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await migrateTechniqueToManeuver(item);
     await migrateWeaponStyleAndProperties(item);
+    await _migrateAddToChat(item);
     await _migrateEffects(item);
   }
 }
@@ -58,6 +59,7 @@ async function _migrateItems(migrateModules) {
   for (const item of game.items) {
     await migrateTechniqueToManeuver(item);
     await migrateWeaponStyleAndProperties(item);
+    await _migrateAddToChat(item);
     await _migrateEffects(item);
   }
 
@@ -71,6 +73,7 @@ async function _migrateItems(migrateModules) {
       for (const item of content) {
         await migrateTechniqueToManeuver(item);
         await migrateWeaponStyleAndProperties(item);
+        await _migrateAddToChat(item);
         await _migrateEffects(item);
       }
     }
@@ -114,5 +117,14 @@ async function _migrateEffects(object) {
       }
     }
     if (hasChanges) await effect.update({changes: effect.changes});
+  }
+}
+
+async function _migrateAddToChat(item) {
+  const addToChat = item.system.effectsConfig?.addToChat;
+  if (!addToChat) return;
+
+  for (const effect of item.effects) {
+    await effect.update({["system.addToChat"]: true});
   }
 }
