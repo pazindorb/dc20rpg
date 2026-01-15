@@ -160,7 +160,24 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
-    "macros": {},
+    "macros": {
+      "gUPxt4RE4MM4nvOw": {
+        "command": "const clazz = actor.class;\nif (!clazz) return;\n\nconst spellTags = CONFIG.DC20RPG.DROPDOWN_DATA.spellTags;\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Spell Tag you add to your Spell List\", spellTags);\nif (!selected) return;\n\nclazz.update({[`system.filters.spellTags.${selected}`]: spellTags[selected]});\nitem.update({[\"flags.dc20rpg.spellTag\"]: selected});",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Add Spell Tag",
+        "title": "",
+        "global": false
+      },
+      "AQomMYWaTGZzu0Wx": {
+        "command": "const clazz = actor.class;\nif (!clazz) return;\n\nconst spellTag = item.flags.dc20rpg?.spellTag;\nif (spellTag) clazz.update({[`system.filters.spellTags.-=${spellTag}`]: null});",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Spell Tag",
+        "title": "",
+        "global": false
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -220,7 +237,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "tip": "<p>You learn 1 Spell with the chosen Spell Tag, and when you learn a new Spell you can choose any Spell that also has the chosen Spell Tag.</p>"
   },
   "effects": [
     {
@@ -302,7 +320,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034758,
-    "modifiedTime": 1767126784038,
+    "modifiedTime": 1768430446224,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

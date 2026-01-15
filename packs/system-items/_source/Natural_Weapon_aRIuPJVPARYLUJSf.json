@@ -4,7 +4,7 @@
   "type": "weapon",
   "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
   "system": {
-    "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p>",
+    "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait). You can perform Martial Enhancements with your Natural Weapons.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -356,16 +356,16 @@
     "weaponType": "melee",
     "macros": {
       "GDr5gvgffwTqvgcp": {
-        "name": "onDemand",
+        "name": "Select Damage Type",
         "trigger": "onDemand",
         "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
         "disabled": false,
-        "title": ""
+        "title": "Select Damage Type"
       },
       "OJvuGASLWrzQuz9O": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});",
+        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});\n\nconst weaponStyle = actor.getItemByKey(\"naturalWeaponPassive\");\nif (weaponStyle) weaponStyle.callMacro(\"onCreate\");",
         "disabled": false,
         "title": ""
       }
@@ -481,7 +481,8 @@
       }
     },
     "tip": "",
-    "weaponStyleActive": false
+    "weaponStyleActive": false,
+    "combatTraining": true
   },
   "effects": [],
   "flags": {},
@@ -493,7 +494,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1760367104859,
-    "modifiedTime": 1765972082652,
+    "modifiedTime": 1768433769908,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "aRIuPJVPARYLUJSf",

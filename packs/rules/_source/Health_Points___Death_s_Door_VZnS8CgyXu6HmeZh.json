@@ -1,0 +1,280 @@
+{
+  "name": "Health Points & Death’s Door",
+  "pages": [
+    {
+      "_id": "56e35f249d748fab",
+      "name": "Health Points",
+      "sort": 1,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-8001-b088-e72e23dd88b9\">Health Points (HP) are a game statistic representing a creature’s ability to sustain damage. The stronger the creature the more HP it generally has, signifying the greater difficulty in defeating it.</p><p id=\"2be1b90a-e081-800f-896f-ddf9b7c1f3ee\" class=\"block-color-blue_background\"><strong>Example:</strong> A <strong>Commoner </strong>has <strong>4 HP</strong>, a <strong>Mastiff </strong>has <strong>3 HP, </strong>a <strong>Cat </strong>has <strong>2 HP</strong> and a <strong>Rat </strong>has <strong>1 HP</strong>.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 1,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.56e35f249d748fab"
+    },
+    {
+      "_id": "540b2f1bb5a71a4e",
+      "name": "Health Points at 1st Level",
+      "sort": 2,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-80f1-935e-cc76d7515f11\" class=\"block-color-default_background\">A PC has a number of Health Points equal to Class HP + Might. A PC might also gain additional HP from its Ancestry, such the Dwarf Trait <strong>Tough</strong> (+1 HP) or the Elf Trait <strong>Frail</strong> (-2 HP). </p><p id=\"2be1b90a-e081-80e9-a812-f5c9e7cc4d79\"><strong><span style=\"border-bottom:0.05em solid\">Health Point Formula</span></strong></p><p id=\"2be1b90a-e081-80ad-b819-c08ec5deec9d\"> Class HP + Might + Ancestry HP (if any)</p><p id=\"2be1b90a-e081-8076-8e28-fccd7597a0fd\" class=\"block-color-blue_background\"><strong>Example: </strong>A PC picks the Champion Class at Level 1 and starts with a Might of 3 (the highest possible at Level 1). The Champion Class grants a base of 8<strong> HP</strong>. The PC then adds <strong>+3 HP</strong> from their Might to get a total of <strong>11 HP</strong> (8 + 3). If any of their Ancestry Traits increase or decrease their HP, they would add those to the total to determine their starting HP.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.540b2f1bb5a71a4e"
+    },
+    {
+      "_id": "6f632e71b6949bc2",
+      "name": "Temporary Health Points",
+      "sort": 3,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-80f6-976f-e178d469fdde\">Temporary Health Points (Temp HP) are additional Health Points that persist for a limited duration. When you take damage, your Temp HP is reduced first, and then any remaining damage carries over to reduce your HP.</p><p id=\"2be1b90a-e081-80a9-add2-e1c5d026e370\"><em><strong>Stacking:</strong></em> Temp HP doesn’t stack. If you gain Temp HP from different effects, you choose which effect to gain Temp HP from, and ignore the Temp HP granted by the other effects.</p><p id=\"2be1b90a-e081-80a0-b603-de2638561033\"><em><strong>Duration:</strong></em> Temp HP lasts until you complete a Long Rest or its reduced to <strong>0</strong> by taking damage. An effect that grants Temp HP may state a shorter duration, such as 1 minute, until you complete a Quick Rest or Short Rest, or some other duration. When the duration expires, all Temp HP gained immediately vanish.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.6f632e71b6949bc2"
+    },
+    {
+      "_id": "cb4fe4f4f35d6275",
+      "name": "Health Thresholds",
+      "sort": 4,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-80fa-a094-e91d5aba95d0\" class=\"block-color-default_background\">Certain game mechanics affect creatures while their current HP is within certain thresholds. These HP thresholds are determined before any temporary changes to your HP maximum, such as from the <strong>Doomed </strong>Condition.</p><ul id=\"2be1b90a-e081-8088-b4a8-df78f4db5cd4\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Bloodied:</strong></em> HP is equal to or lower than 1/2 its maximum HP.</li></ul><ul id=\"2be1b90a-e081-80a6-b1cb-f7df9b0e2c00\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Well-Bloodied:</strong></em> HP is equal to or lower than 1/4 its maximum HP.</li></ul><ul id=\"2be1b90a-e081-80e5-aedd-d0e11efb4ce1\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Death’s Door:</strong></em> HP is equal to or lower than 0 HP, to a minimum of its Death Threshold.</li></ul><p id=\"2be1b90a-e081-8034-9860-c8d57741991d\" class=\"block-color-default_background\">A creature’s Death Threshold is equal to 0 HP minus its Prime Modifier and its Combat Mastery.</p><p id=\"2be1b90a-e081-809c-a13c-fe143f87f930\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> If a creature is on Death’s Door, they are still considered to be Bloodied and Well-Bloodied, because their HP is still below 1/2 their maximum (Bloodied) and 1/4 their maximum (Well-Bloodied).</p><p id=\"2be1b90a-e081-803e-a652-e9a4a408c062\" class=\"block-color-blue_background\"><strong>Example:</strong> A creature with a maximum HP of 8 is considered Bloodied when its HP is 4 or lower, Well-Bloodied when its HP is 2 or lower, and on Death’s Door when its HP is 0 or lower. If its Prime Modifier is 3 and its Combat Mastery is 1, the creature’s Death Threshold is <strong>-4 HP</strong>. That creature dies if its HP is ever reduced to <strong>-4 HP</strong> or lower.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1768518664427
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.cb4fe4f4f35d6275"
+    },
+    {
+      "_id": "000a46e5db7cb982",
+      "name": "Death’s Door",
+      "sort": 5,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-806b-b7ca-c50a3f64be4d\">When a PC is reduced to 0 HP they’re on “Death’s Door” and fighting for their life. This is represented in whatever way the player wants to describe this state looks like for their character. They are NOT unconscious, they are in a heavily weakened state about to die if something is not done SOON! They could be prone crawling on the ground, holding themselves up with their sword, or spitting out blood as they hold on for dear life.</p><p></p><h3>Entering Death’s Door</h3><p id=\"2be1b90a-e081-80ec-9801-db84bff88e2b\">When you’re reduced to<strong> 0 HP</strong> or lower, you gain <strong>Exhaustion 1</strong>. Until you are restored to <strong>1 HP </strong>or higher, you suffer the following effects:</p><ul id=\"2be1b90a-e081-8031-8253-e22c6ccc5ace\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Action Point Limit:</strong></em> Your current and maximum AP are reduced by 3.</li></ul><ul id=\"2be1b90a-e081-809e-81c7-e7288b2cb895\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Death Save:</strong></em> You must make a <strong>DC 10</strong> Death Save at the start of each of your turns.</li></ul><p id=\"2be1b90a-e081-802a-bed3-d7d0b15cff2d\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> You basically can only spend <strong>1 AP</strong> per round of Combat, either on your turn or as a Reaction. This usually happens while on Death’s Door.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1768510553906
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.000a46e5db7cb982"
+    },
+    {
+      "_id": "0c8db11c07bfdfdb",
+      "name": "Death Saves",
+      "sort": 7,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-80d0-84dd-e9665f4557e3\">When a creature makes a Death Save, it rolls a <strong>d20</strong> to determine if it Succeeds or Fails the Save.</p><p id=\"2be1b90a-e081-80cd-89a1-f717f8832f73\"><strong><span style=\"border-bottom:0.05em solid\">Success</span></strong></p><ul id=\"2be1b90a-e081-80c8-b29c-f58005a6c992\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Success: </strong>No change.</li></ul><ul id=\"2be1b90a-e081-803d-a61b-e5adefa8c47f\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Success (5): </strong>You regain <strong>1 HP</strong>.</li></ul><ul id=\"2be1b90a-e081-80b9-8a74-f94d313a3a31\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Critical Success:</strong> You are restored to <strong>1 HP</strong>.</li></ul><p id=\"2be1b90a-e081-800a-8610-e13d1015ae49\"><strong><span style=\"border-bottom:0.05em solid\">Failure</span></strong></p><ul id=\"2be1b90a-e081-8064-af89-ece91d4e5ac3\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Failure:</strong> You gain <strong>Bleeding 1</strong>.</li></ul><ul id=\"2be1b90a-e081-804c-b637-f2ad9192cca0\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Failure (5): </strong>You gain <strong>Bleeding 2</strong> instead.</li></ul><ul id=\"2be1b90a-e081-8051-a11a-ff4a973a68a8\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Critical Failure:</strong> You also fall <strong>Unconscious</strong> until you’re restored to <strong>1 HP</strong> or higher.</li></ul><p id=\"2be1b90a-e081-802e-a571-fed86f7bdbc6\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> If you are on Death’s Door outside of Combat, you repeat the Death Save every 12 seconds instead (5 times per minute).</p><figure class=\"block-color-teal_background callout\" style=\"white-space:pre-wrap;display:flex\" id=\"2be1b90a-e081-80a1-aeab-eca1d8f7144e\"><div style=\"width:100%\"><div style=\"display:contents\" dir=\"auto\"><h2 id=\"2be1b90a-e081-8072-94c3-ca45bc54eb96\">Death’s Door Sidebar</h2></div><div style=\"display:contents\" dir=\"auto\"><h3 id=\"2be1b90a-e081-807a-af59-eeb71595d285\">Bleeding X <strong>(Condition)</strong></h3></div><div style=\"display:contents\" dir=\"auto\"><p id=\"2be1b90a-e081-8011-8032-f5b6f2976f23\">You take <strong>X</strong> True damage at the start of each of your turns.</p></div><div style=\"display:contents\" dir=\"auto\"><p id=\"2be1b90a-e081-8046-b342-c2153bfd8048\"><em><strong>Ending Bleeding:</strong></em> All stacks of the Condition end when you’re subjected to an effect that restores your HP. Alternatively, a creature can attempt to remove 1 or more stacks of the Condition by taking the Medicine Action.</p></div><div style=\"display:contents\" dir=\"auto\"><h3 id=\"2be1b90a-e081-80c1-845c-eac0ebd324e0\">Medicine (Action)</h3></div><div style=\"display:contents\" dir=\"auto\"><p id=\"2be1b90a-e081-809c-9ab1-c1c52c6aa224\" class=\"block-color-default_background\">You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a <strong>DC 10</strong> Medicine Check. <strong>Success:</strong> You end 1 stack of <strong>Bleeding</strong> on the target. <strong>Success:</strong> You end 1 stack of <strong>Bleeding</strong> on the target. <strong>Success (each 5):</strong> You end an additional stack of <strong>Bleeding</strong>.</p></div><div style=\"display:contents\" dir=\"auto\"><h3 id=\"2be1b90a-e081-80bb-9142-ed578478102c\"><strong>First Aid Kit (Equipment)</strong></h3></div><div style=\"display:contents\" dir=\"auto\"><p id=\"2be1b90a-e081-800c-97f2-f6f66ed65bc0\">You can spend <strong>1</strong> Charge and take the Object Action to treat a <strong>Bloodied</strong> creature’s wounds (see <strong>First Aid Kit</strong> for more information). Make a <strong>DC 10</strong> Medicine Check. <strong>Success:</strong> Target creature regains <strong>1 HP</strong>. <strong>Success (each 5):</strong> The creature regains <strong>+1 HP</strong>.</p></div></div></figure>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.0c8db11c07bfdfdb"
+    },
+    {
+      "_id": "ad381d482b0023c2",
+      "name": "NPC’s on Death’s Door",
+      "sort": 8,
+      "text": {
+        "content": "<p id=\"2be1b90a-e081-80ca-a35e-f835ecfca46a\" class=\"block-color-default\">Monsters and NPCs normally die when they’re reduced to 0 HP, however the Game Master can choose to implement Death’s Door on special enemies. They would drop down to <strong>1 A</strong>P and be on Death’s Door in that same weakened state, leaving a window for them to still talk to the party and get out any last words before someone puts them out of their misery.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": -1
+      },
+      "_key": "!journal.pages!VZnS8CgyXu6HmeZh.ad381d482b0023c2"
+    }
+  ],
+  "folder": "CYDKz65zigVR8fuz",
+  "categories": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1768509181009,
+    "modifiedTime": 1768509438732,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "VZnS8CgyXu6HmeZh",
+  "sort": 600000,
+  "_key": "!journal!VZnS8CgyXu6HmeZh"
+}
