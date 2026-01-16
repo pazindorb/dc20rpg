@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
   "system": {
-    "description": "<p><span class=\"cf0\">Choose a Spell you know. The chosen Spell becomes your Pact Spell. </span></p><p><span class=\"cf0\">When you cast your Pact Spell, you gain the following benefits:</span></p><ul><li><p><span class=\"cf0\"><strong>Death’s Toll:</strong> If the Spell deals damage, it deals an extra</span><span class=\"cf1\"> </span><span class=\"cf0\">+1 damage to Bloodied targets.</span></p></li><li><p><span class=\"cf0\"><strong>Range Increase:</strong> If the Spell’s range is 1 , it increases by</span><span class=\"cf1\"> </span><span class=\"cf0\">1 Space, otherwise it increases by 5 Spaces.</span></p></li><li><p><span class=\"cf0\"><strong>Patron’s Favor:</strong> Once per Round, you can grant yourself</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on any Check you make to cast your Pact Spell.</span></p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
+    "description": "<p><span class=\"cf0\">Choose a Spell you know. The chosen Spell becomes your Pact Spell.</span></p><p><span class=\"cf0\">When you cast your Pact Spell, you gain the following benefits:</span></p><ul><li><p><span class=\"cf0\"><strong>Death’s Toll:</strong> If the Spell deals damage, it deals an extra</span><span class=\"cf1\"> </span><span class=\"cf0\">+1 damage to Bloodied targets.</span></p></li><li><p><span class=\"cf0\"><strong>Range Increase:</strong> If the Spell’s range is 1 , it increases by</span><span class=\"cf1\"> </span><span class=\"cf0\">1 Space, otherwise it increases by 5 Spaces.</span></p></li><li><p><span class=\"cf0\"><strong>Patron’s Favor:</strong> Once per Round, you can grant yourself</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on any Check you make to cast your Pact Spell.</span></p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p><p></p><p><em><strong>System Tip:</strong> You can change it with On Demand Macro.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -161,7 +161,7 @@
         "name": "Patron’s Favor",
         "number": 0,
         "preventModification": false,
-        "description": "",
+        "description": "<p><span class=\"cf0\">Once per Round, you can grant yourself</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on any Check you make to cast your Pact Spell.</span></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -329,16 +329,24 @@
       "kUAVt5aTiQUVOins": {
         "name": "Change Pact Spell",
         "trigger": "onDemand",
-        "command": "item.callMacro(\"onCreate\", {}, true)",
+        "command": "const spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Spell\", spells);\nif (!selected) return;\n\nconst spell = actor.items.get(selected);\nif (!spell) return;\n\nconst oldSpell = actor.items.get(item.flags?.dc20rpg?.pactSpell);\nif (oldSpell) oldSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});\n\nspell.update({[\"flags.dc20rpg.pactItem\"]: true});\nitem.update({\n  [\"flags.dc20rpg.pactSpell\"]: selected,\n  [\"system.conditional.useFor\"]: `id=[\"${selected}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${selected}\"]`,\n});",
         "disabled": false,
         "title": "Change Pact Spell"
       },
       "0oYeZrVGI5arco5A": {
         "name": "Select Pact Spell",
         "trigger": "onCreate",
-        "command": "const cantripName = await DC20.dialog.SimplePopup.input(\"What is your Pact Cantrip name?\");\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
+        "command": "const spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Spell\", spells);\nif (!selected) return;\n\nconst spell = actor.items.get(selected);\nif (!spell) return;\n\nspell.update({[\"flags.dc20rpg.pactItem\"]: true});\nitem.update({\n  [\"flags.dc20rpg.pactSpell\"]: selected,\n  [\"system.conditional.useFor\"]: `id=[\"${selected}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${selected}\"]`,\n});",
         "disabled": false,
         "title": ""
+      },
+      "KmuO5MPZPHhRNHFx": {
+        "command": "const oldSpell = actor.items.get(item.flags?.dc20rpg?.pactSpell);\nif (oldSpell) oldSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Pact Spell",
+        "title": "",
+        "global": false
       }
     },
     "itemKey": "pactCantrip",
@@ -451,7 +459,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1768416303545,
+    "modifiedTime": 1768589317831,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

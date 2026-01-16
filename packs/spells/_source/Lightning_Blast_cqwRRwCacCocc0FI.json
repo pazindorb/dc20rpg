@@ -471,7 +471,7 @@
               "startTime": 0,
               "combat": null,
               "seconds": null,
-              "startRound": 35,
+              "startRound": 1,
               "startTurn": 1
             },
             "disabled": false,
@@ -480,7 +480,7 @@
                 "enhKey": "HCJt8Fdxz0ByWLA3"
               }
             },
-            "_id": "FsIPVJhWy01sn3mQ",
+            "_id": "uMw6VbJuQOw7OMXe",
             "type": "base",
             "system": {
               "sustained": {
@@ -497,7 +497,7 @@
                 "onTimeEnd": ""
               },
               "effectKey": "",
-              "macro": "const dmgValue = effect.flags.dc20rpg?.staticDmg || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst roll = new Roll(\"d20\");\nawait roll.evaluate();\nif (roll.total <= 10) {\n  ui.notifications.notify(`Fate Roll failed with ${roll.total}. You take damage from 'Lightning Blast - Static'.`);\n  let dmg = {\n    value: dmgValue,\n    source: \"Lightning Blast - Static\",\n    type: \"lightning\"\n  };\n  dmg = game.dc20rpg.tools.calculateForTarget(actor, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified);\n}",
+              "macro": "const dmgValue = effect.flags.dc20rpg?.staticDmg || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst roll = new Roll(\"d20\");\nawait roll.evaluate();\nif (roll.total <= 10) {\n  ui.notifications.notify(`Fate Roll failed with ${roll.total}. You take damage from 'Lightning Blast - Static'.`);\n  let dmg = {\n    value: dmgValue,\n    source: \"Lightning Blast - Static\",\n    type: \"lightning\"\n  };\n  dmg = game.dc20rpg.tools.calculateForTarget(actor, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified);\n}",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -539,8 +539,8 @@
               "coreVersion": "13.350",
               "systemId": "dc20rpg",
               "systemVersion": "0.10.0.0",
-              "createdTime": 1767796043284,
-              "modifiedTime": 1767796043290,
+              "createdTime": 1768593674223,
+              "modifiedTime": 1768593680094,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             }
           },
@@ -741,7 +741,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767789874360,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1768593681100,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

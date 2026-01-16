@@ -122,7 +122,22 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "formulas": {},
+    "formulas": {
+      "05HAcwQHhie4NWNA": {
+        "formula": "3",
+        "type": "",
+        "label": "Dome's Health",
+        "category": "other",
+        "fail": true,
+        "failFormula": "2",
+        "dontModifyFailFormula": false,
+        "each5": true,
+        "each5Formula": "1",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
     "enhancements": {
       "hbydRCFMPDoZagcT": {
         "name": "Range",
@@ -295,10 +310,95 @@
         }
       },
       "Jyq3ZG09axffoVaG": {
-        "name": "Durable",
+        "name": "Durable (HP)",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The Resistance increases by 1 or the Forcefield has +2 HP.</p>",
+        "description": "<p>The Forcefield has +2 HP.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "2",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "aTXaQWd6v0qiQilm": {
+        "name": "Duralbe (Resistance)",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The Resistance increases by 1.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -379,7 +479,7 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "aTXaQWd6v0qiQilm": {
+      "8u083ccy1t2YJgnN": {
         "name": "Privacy",
         "number": 0,
         "preventModification": false,
@@ -464,7 +564,7 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "8u083ccy1t2YJgnN": {
+      "ISqaSC5ynRfQD1mK": {
         "name": "Full Lockdown",
         "number": 0,
         "preventModification": false,
@@ -497,6 +597,7 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -526,6 +627,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -729,7 +831,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767551881768,
-    "modifiedTime": 1767643457719,
+    "modifiedTime": 1768555169894,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

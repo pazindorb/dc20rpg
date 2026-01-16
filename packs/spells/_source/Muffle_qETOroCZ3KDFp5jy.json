@@ -450,7 +450,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Disorient\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"'\n})\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Disorient\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"'\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Disorient\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"actorId\": \"#SPEAKER_ID#\"'\n})\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Disorient\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"actorId\": \"#SPEAKER_ID#\"'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -672,7 +672,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "muffle",
-        "macro": "actor.toggleStatusEffect(\"disoriented\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"int\", id: \"disoriented\", against: event.against}});",
+        "macro": "// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, statuses: [\"disoriented\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.toggleStatusEffect(\"disoriented\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"int\", id: \"disoriented\", against: event.against}});\n}",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -699,7 +699,8 @@
         "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1768594221292
       },
       "_key": "!items.effects!qETOroCZ3KDFp5jy.Dmygl8K8Ya3v65o0"
     }
@@ -714,7 +715,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1768087780758,
-    "modifiedTime": 1768123068770,
+    "modifiedTime": 1768594171494,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

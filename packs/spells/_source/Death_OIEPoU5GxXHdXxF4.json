@@ -4,7 +4,7 @@
   "img": "icons/magic/death/skeleton-glow-yellow-black.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You doom a creature within range. Make a Spell Check against the target’s Repeated Might Save.</p><p><strong>Check Success:</strong> The target is Doomed 2. When you Sustain the Spell, it gains an additional stack of Doomed. When the Spell ends, it loses all stacks of Doomed gained from this Spell.</p><p><strong>Death:</strong> If the number of Doomed stacks on a creature affected by this Spell is equal to or exceeds their current maximum HP, it immediately dies.</p><p><em><strong>Example:</strong> A creature has 10 HP max HP. When they reach Doomed 5, their max HP has been reduced to 5, at which point they die.</em></p><p><em><strong>System Tip:</strong> To add more stacks od Doomed use on demand macro. Make sure you are targeting character with <strong>Death</strong> effect.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Doomed: (1 MP, Repeatable)</strong> The target gains an additional stack of Doomed, both when it fails the original Save and when you Sustain the Spell.</p><p><strong>Exhaustion: (3 MP)</strong> Each time the target fails a Save against this Spell (including the original Save), it gains Exhaustion.</p>",
+    "description": "<p>You doom a creature within range. Make a Spell Check against the target’s Repeated Might Save.</p><p><strong>Check Success:</strong> The target is Doomed 2. When you Sustain the Spell, it gains an additional stack of Doomed. When the Spell ends, it loses all stacks of Doomed gained from this Spell.</p><p><strong>Death:</strong> If the number of Doomed stacks on a creature affected by this Spell is equal to or exceeds their current maximum HP, it immediately dies.</p><p><em><strong>Example:</strong> A creature has 10 HP max HP. When they reach Doomed 5, their max HP has been reduced to 5, at which point they die.</em></p><p><em><strong>System Tip:</strong> To add more stacks of Doomed use on demand macro. Make sure you are targeting character with <strong>Death</strong> effect. This effect will apply effect of additional stacks of doomed but ui will still show Doomed 1.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Doomed: (1 MP, Repeatable)</strong> The target gains an additional stack of Doomed, both when it fails the original Save and when you Sustain the Spell.</p><p><strong>Exhaustion: (3 MP)</strong> Each time the target fails a Save against this Spell (including the original Save), it gains Exhaustion.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "DfVaVCsNOAgJnsp1": {
-        "command": "let stacks = await DC20.dialog.SimplePopup.input(\"How many stacks should be added?\");\nstacks = parseInt(stacks);\nif (!stacks) return;\n\nfor (const token of game.user.targets) {\n  const actor = token.actor;\n  if (!actor) continue;\n  const effect = actor.getEffectByKey(\"death\");\n  if (!effect) return;\n\n  const changes = effect.changes;\n  changes[0].value = parseInt(changes[0].value) - stacks;\n  changes[1].value = parseInt(changes[1].value) + stacks;\n  effect.update({changes: changes});\n  DC20.dialog.SimplePopup.info(\"Doomed Increased\", [`Added ${stacks} stacks of Doomed to ${actor.name}.`]); \n}",
+        "command": "let stacks = await DC20.dialog.SimplePopup.input(\"How many stacks should be added?\");\nstacks = parseInt(stacks);\nif (!stacks) return;\n\nfor (const token of game.user.targets) {\n  const actor = token.actor;\n  if (!actor) continue;\n  const effect = actor.getEffectByKey(\"death\");\n  if (!effect) return;\n\n  const changes = effect.changes;\n  changes[0].value = parseInt(changes[0].value) - stacks;\n  changes[1].value = parseInt(changes[1].value) + stacks;\n  await effect.update({changes: changes});\n  let message = `Added ${stacks} stacks of Doomed to ${actor.name}.`\n  if (actor.resources.health.max <= 0) {\n    message += \" Max HP reduced to 0 - Target is dead.\"\n    actor.toggleStatusEffect(\"dead\", { active: true });\n  }\n  DC20.dialog.SimplePopup.info(\"Doomed Increased\", [message]); \n}",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Increase Doomed Stacks",
@@ -682,7 +682,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1768077047399,
-    "modifiedTime": 1768123068770,
+    "modifiedTime": 1768575682457,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

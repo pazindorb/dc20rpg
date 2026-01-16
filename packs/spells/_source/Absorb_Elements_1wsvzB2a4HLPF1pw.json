@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "u58YGpziQjvt8ZLS": {
-        "command": "const trigger = await DC20.dialog.SimplePopup.select(\"Triggering Damage Type\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\nif (!trigger) return;\n\nconst success = item.getEffectByKey(\"absorbElementsSuccess\");\nif (success) success.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resist`;\n\nconst success10 = item.getEffectByKey(\"absorbElementsSuccess10\");\nif (success10) success10.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resist`;\n\nconst fail = item.getEffectByKey(\"absorbElementsFail\");\nif (fail) fail.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resist`;\n\nconst lingering = item.getEffectByKey(\"lingeringRetaliation\");\nif (lingering) lingering.system.macro = lingering.system.macro.replace('const dmgType = \"fire\"; // REPLACE', `const dmgType = \"${trigger}\";`)",
+        "command": "const trigger = await DC20.dialog.SimplePopup.select(\"Triggering Damage Type\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\nif (!trigger) return;\n\nconst success = item.getEffectByKey(\"absorbElements\");\nif (success) success.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resist`;\n\nconst lingering = item.getEffectByKey(\"lingeringRetaliation\");\nif (lingering) lingering.system.macro = lingering.system.macro.replace('const dmgType = \"fire\"; // REPLACE', `const dmgType = \"${trigger}\";`)",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Update damage type",
@@ -208,7 +208,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const success = item.getEffectByKey(\"absorbElementsSuccess\");\nif (success) success.changes[0].value = `${enh.number + 2}`;\n\nconst success10 = item.getEffectByKey(\"absorbElementsSuccess10\");\nif (success10) success10.changes[0].value = `${enh.number + 3}`;\n\nconst fail = item.getEffectByKey(\"absorbElementsFail\");\nif (fail) fail.changes[0].value = `${enh.number + 1}`;",
+            "preItemRoll": "const effect = item.getEffectByKey(\"absorbElements\");\nif (!effect) return;\n\neffect.flags.dc20rpg.amplify = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -566,222 +566,6 @@
   },
   "effects": [
     {
-      "name": "Absorb Elements (Success)",
-      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
-      "origin": "Item.lh7ZlFzZpJwuA9xp",
-      "duration": {
-        "rounds": 0,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": 1,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "flags": {
-        "dc20rpg": {}
-      },
-      "_id": "LMEZmTULn1MT1Whh",
-      "type": "base",
-      "system": {
-        "sustained": {
-          "isSustained": false,
-          "actorUuid": "",
-          "itemId": ""
-        },
-        "statusId": "",
-        "condition": false,
-        "fromStatus": false,
-        "duration": {
-          "useCounter": true,
-          "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
-        },
-        "effectKey": "absorbElementsSuccess",
-        "macro": "",
-        "addToChat": true,
-        "applyToTemplate": true,
-        "nonessential": false,
-        "disableWhen": {
-          "path": "",
-          "mode": "",
-          "value": ""
-        },
-        "enableStatusOnCreation": [],
-        "disableStatusOnRemoval": [],
-        "requireEnhancement": "",
-        "chatMessageId": ""
-      },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.fire.resist",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        }
-      ],
-      "description": "<p>You gain Resistance (2) to the triggering damage type until the end of the turn, this also applies to the triggering damage.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
-      },
-      "_key": "!items.effects!1wsvzB2a4HLPF1pw.LMEZmTULn1MT1Whh"
-    },
-    {
-      "name": "Absorb Elements (Fail)",
-      "img": "icons/magic/defensive/shield-barrier-glowing-triangle-purple-orange.webp",
-      "origin": "Item.lh7ZlFzZpJwuA9xp",
-      "duration": {
-        "rounds": 0,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": 1,
-        "startRound": 28,
-        "startTurn": 1
-      },
-      "disabled": false,
-      "flags": {
-        "dc20rpg": {}
-      },
-      "_id": "78eJoFhsemi5t7LG",
-      "type": "base",
-      "system": {
-        "sustained": {
-          "isSustained": false,
-          "actorUuid": "",
-          "itemId": ""
-        },
-        "statusId": "",
-        "condition": false,
-        "fromStatus": false,
-        "duration": {
-          "useCounter": true,
-          "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
-        },
-        "effectKey": "absorbElementsFail",
-        "macro": "",
-        "addToChat": true,
-        "applyToTemplate": true,
-        "nonessential": false,
-        "disableWhen": {
-          "path": "",
-          "mode": "",
-          "value": ""
-        },
-        "enableStatusOnCreation": [],
-        "disableStatusOnRemoval": [],
-        "requireEnhancement": "",
-        "chatMessageId": ""
-      },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.fire.resist",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p>You gain Resistance (1) to the triggering damage type until the end of the turn, this also applies to the triggering damage.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
-      },
-      "_key": "!items.effects!1wsvzB2a4HLPF1pw.78eJoFhsemi5t7LG"
-    },
-    {
-      "name": "Absorb Elements (Success 10)",
-      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-purple-orange.webp",
-      "origin": "Item.lh7ZlFzZpJwuA9xp",
-      "duration": {
-        "rounds": 0,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": 1,
-        "startRound": 28,
-        "startTurn": 1
-      },
-      "disabled": false,
-      "flags": {
-        "dc20rpg": {}
-      },
-      "_id": "qG9ZLUYL0ikyOKoR",
-      "type": "base",
-      "system": {
-        "sustained": {
-          "isSustained": false,
-          "actorUuid": "",
-          "itemId": ""
-        },
-        "statusId": "",
-        "condition": false,
-        "fromStatus": false,
-        "duration": {
-          "useCounter": true,
-          "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
-        },
-        "effectKey": "absorbElementsSuccess10",
-        "macro": "",
-        "addToChat": true,
-        "applyToTemplate": true,
-        "nonessential": false,
-        "disableWhen": {
-          "path": "",
-          "mode": "",
-          "value": ""
-        },
-        "enableStatusOnCreation": [],
-        "disableStatusOnRemoval": [],
-        "requireEnhancement": "",
-        "chatMessageId": ""
-      },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.fire.resist",
-          "value": "3",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p>You gain Resistance (3) to the triggering damage type until the end of the turn, this also applies to the triggering damage.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
-      },
-      "_key": "!items.effects!1wsvzB2a4HLPF1pw.qG9ZLUYL0ikyOKoR"
-    },
-    {
       "name": "Lingering Retaliation",
       "img": "icons/magic/fire/flame-burning-tree-stump.webp",
       "origin": "Item.lh7ZlFzZpJwuA9xp",
@@ -852,6 +636,86 @@
         "lastModifiedBy": null
       },
       "_key": "!items.effects!1wsvzB2a4HLPF1pw.ICoQnL1l8wNd50bF"
+    },
+    {
+      "name": "Absorb Elements",
+      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+      "origin": "Item.lh7ZlFzZpJwuA9xp",
+      "duration": {
+        "rounds": 0,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": 1,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "YoarmrrQUKGooV28",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "absorbElements",
+        "macro": "const message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst bonus = effect.flags.dc20rpg?.amplify || 0;\nconst rollValue = message.system.chatFormattedRolls.core._total;\nconst changes = effect.changes;\nif (rollValue < 15) changes[0].value = 1 + bonus;\nif (rollValue >= 15 && rollValue < 25) changes[0].value = 2 + bonus;\nif (rollValue >= 25) changes[0].value = 3 + bonus;\n\neffect.update({[\"changes\"]: changes});",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.fire.resist",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Absorb Elements\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Resistance (X) to the triggering damage type until the end of the turn, this also applies to the triggering damage.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.spells.Item.1wsvzB2a4HLPF1pw.ActiveEffect.LMEZmTULn1MT1Whh",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1768560085298,
+        "modifiedTime": 1768560547348,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!1wsvzB2a4HLPF1pw.YoarmrrQUKGooV28"
     }
   ],
   "folder": "cwDGEv0bc2Jc1rn4",
@@ -864,7 +728,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767649133243,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1768560870630,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

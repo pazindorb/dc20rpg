@@ -385,8 +385,8 @@
               "startTime": 0,
               "combat": null,
               "seconds": null,
-              "startRound": 96,
-              "startTurn": 0
+              "startRound": 1,
+              "startTurn": 1
             },
             "disabled": false,
             "flags": {
@@ -394,7 +394,7 @@
                 "enhKey": "iZr8Jf503glfJkBg"
               }
             },
-            "_id": "yFEmq6afVYrsQTm3",
+            "_id": "vNDg2OliZjZSZ8k3",
             "type": "base",
             "system": {
               "sustained": {
@@ -411,7 +411,7 @@
                 "onTimeEnd": ""
               },
               "effectKey": "",
-              "macro": "const reductionValue = effect.flags.dc20rpg?.reductionValue;\nconst creepingDeath = effect.flags.dc20rpg?.creepingDeath;\nif (!reductionValue) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"diseased\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.resources.health.spend(reductionValue);\n  const data = {\n    name: \"Disease - Disease Cloud\",\n    description: \"Your Max HP is reduced.\",\n    img: \"icons/magic/acid/dissolve-arm-flesh.webp\",\n    system: {\n      effectKey: \"diseaseCloudDisease\"\n    },\n    changes: [\n      {\n        key: \"system.resources.health.bonus\",\n        mode: 2,\n        value: (reductionValue * -1)\n      },\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"basic\", \"trigger\": \"rest\", \"label\": \"Disease - Disease Cloud\", \"postTrigger\": \"delete\", \"restType\": \"long\", \"actorId\": \"${event.actorId}\"`\n      },\n    ],\n  }\n\n  if (creepingDeath) data.changes.push({\n    key: \"system.globalModifier.prevent.hpRegeneration\",\n    mode: 5,\n    value: true\n  })\n  game.dc20rpg.effects.createEffectOn(data, actor);\n}",
+              "macro": "const reductionValue = effect.flags.dc20rpg?.reductionValue;\nconst creepingDeath = effect.flags.dc20rpg?.creepingDeath;\nif (!reductionValue) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"diseased\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.resources.health.spend(reductionValue);\n  const data = {\n    name: \"Disease - Disease Cloud\",\n    description: \"Your Max HP is reduced.\",\n    img: \"icons/magic/acid/dissolve-arm-flesh.webp\",\n    system: {\n      effectKey: \"diseaseCloudDisease\"\n    },\n    changes: [\n      {\n        key: \"system.resources.health.bonus\",\n        mode: 2,\n        value: (reductionValue * -1)\n      },\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"basic\", \"trigger\": \"rest\", \"label\": \"Disease - Disease Cloud\", \"postTrigger\": \"delete\", \"restType\": \"long\", \"actorId\": \"${event.actorId}\"`\n      },\n    ],\n  }\n\n  if (creepingDeath) data.changes.push({\n    key: \"system.globalModifier.prevent.hpRegeneration\",\n    mode: 5,\n    value: true\n  })\n  game.dc20rpg.effects.createEffectOn(data, actor);\n}",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -453,8 +453,8 @@
               "coreVersion": "13.350",
               "systemId": "dc20rpg",
               "systemVersion": "0.10.0.0",
-              "createdTime": 1768073048482,
-              "modifiedTime": 1768073052428,
+              "createdTime": 1768593802121,
+              "modifiedTime": 1768593809738,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             }
           },
@@ -744,7 +744,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1768072901626,
-    "modifiedTime": 1768123068770,
+    "modifiedTime": 1768593810828,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

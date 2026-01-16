@@ -309,7 +309,7 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     this.collectingSuggestedItems = true;
-    let type = advancement.addItemsOptions.itemType;
+    let type = advancement.addItemsOptions?.itemType || "feature";
     const preFilters = advancement.addItemsOptions.preFilters || "";
     if (!type || type === "ancestry" || type === "talent") type = "feature";
     this.itemSuggestions = await collectItemsForType(type);

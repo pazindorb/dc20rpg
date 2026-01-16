@@ -561,7 +561,7 @@
               "startTime": 0,
               "combat": null,
               "seconds": null,
-              "startRound": 12,
+              "startRound": 1,
               "startTurn": 1
             },
             "disabled": false,
@@ -570,7 +570,7 @@
                 "enhKey": "DIJnMDrhoEY65bcw"
               }
             },
-            "_id": "i3zsirLe1MFA8yQT",
+            "_id": "rvI5sXBBvIWQFvw7",
             "type": "base",
             "system": {
               "sustained": {
@@ -587,7 +587,7 @@
                 "onTimeEnd": ""
               },
               "effectKey": "",
-              "macro": "const details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
+              "macro": "// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"int\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  ui.notifications.notify(\"You suffer from temporary madness. You lost 1 AP.\");\n  actor.resources.ap.checkAndSpend(1);\n}",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -629,8 +629,8 @@
               "coreVersion": "13.350",
               "systemId": "dc20rpg",
               "systemVersion": "0.10.0.0",
-              "createdTime": 1767705140600,
-              "modifiedTime": 1767705140606,
+              "createdTime": 1768593528321,
+              "modifiedTime": 1768593535315,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             }
           },
@@ -920,7 +920,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1767635157382,
-    "modifiedTime": 1767741245479,
+    "modifiedTime": 1768593536341,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

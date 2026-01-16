@@ -72,100 +72,9 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {
-      "n99AxQuH1fRMU0c5": {
-        "name": "Arcane Sigil",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forOneMinute": false
-          },
-          "addsEffect": null,
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "macros": {
-            "postItemRoll": "",
-            "preItemRoll": ""
-          },
-          "changeManaSpendLimit": null,
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "changeStaminaSpendLimit": null
-        },
-        "description": "<p>While a creature is within the area of your Arcane Sigil, it has ADV on Spell Checks to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p>",
-        "hide": false,
-        "key": "n99AxQuH1fRMU0c5",
-        "sourceItemId": "rEg3QZXicTth7ktd",
-        "sourceItemName": "Arcane Sigil",
-        "sourceItemImg": "icons/magic/symbols/runes-star-magenta.webp",
-        "active": false
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
-      "copy": true,
+      "copy": false,
       "copyFor": "type=[\"spell\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": true
@@ -216,7 +125,8 @@
       "active": false,
       "addToChat": true,
       "linkWithToggle": false,
-      "toggleItem": true
+      "toggleItem": true,
+      "addToTemplates": "all"
     },
     "isResource": false,
     "resource": {
@@ -252,15 +162,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "eDtAhKiXopnmoie5": {
-        "name": "preItemRoll",
-        "trigger": "preItemRoll",
-        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Spell School\", selectOptions);\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
-        "disabled": false,
-        "title": ""
-      }
-    },
+    "macros": {},
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -323,7 +225,99 @@
     },
     "featureSourceItem": "wizard"
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Arcane Sigil",
+      "img": "icons/magic/symbols/runes-star-magenta.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.rEg3QZXicTth7ktd",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "Q1HGWARygSi74PkW",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Arcane Sigil\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Arcane Sigil\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Arcane Sigil\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.spe",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Arcane Sigil\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>While a creature is within the area of your Arcane Sigil, it has ADV on Spell Checks to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1768563577864,
+        "modifiedTime": 1768563811014,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!rEg3QZXicTth7ktd.Q1HGWARygSi74PkW"
+    }
+  ],
   "folder": "Vnj8VsHGDPyOtBbP",
   "flags": {},
   "_stats": {
@@ -333,7 +327,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350034142,
-    "modifiedTime": 1767183315676,
+    "modifiedTime": 1768563601716,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -709,7 +709,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "maelstrom",
-        "macro": "const increasedPull = effect.flags.dc20rpg?.increasedPull || 0;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"movement\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n    DC20.dialog.SimplePopup.info(\"Maelstrom - Save Failed\", [`${actor.name} is pulled ${1 + increasedPull} Space toward the center of the Maelstrom.`]);\n}",
+        "macro": "const increasedPull = effect.flags.dc20rpg?.increasedPull || 0;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"movement\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n    DC20.dialog.SimplePopup.info(\"Maelstrom - Save Failed\", [`${actor.name} is pulled ${1 + increasedPull} Space toward the center of the Maelstrom.`]);\n}",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -750,7 +750,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1767827410785
+        "modifiedTime": 1768593654683
       },
       "_key": "!items.effects!BwQTg1sbge61N9Fd.DVlewfKBp4rEj95Z"
     }

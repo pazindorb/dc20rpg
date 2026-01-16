@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/death/weapon-sword-skull-purple.webp",
   "system": {
-    "description": "<p>You can choose a Weapon in your possession and bond with it, making it your Pact Weapon.</p><p>You can only have <strong>1 Pact Weapon</strong> at a time. If the Weapon has the Ammo property, it manifests its own Ammo when you load it, which immediately vanishes once the Attack is resolved.</p><p>You gain the following benefits while wielding the Weapon:</p><ul><li><p><span class=\"cf0\"><strong>Weapon Training:</strong> You’re considered to have Combat Training with your Pact Weapon.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> Remember, Combat Training with a Weapon allows you to use Martial Enhancements on Attacks with it, including the one related to its Weapon’s Style.</em></span></p></li><li><p><strong>Maneuvers:</strong> <span class=\"cf0\">You learn 2 Attack Maneuvers of your choice.</span>.</p></li><li><p><strong>Spell Focus: </strong><span class=\"cf0\">Your Pact Weapon also counts as a Spell Focus with a 1 point Focus Property. If the Weapon has the Two-Handed Weapon Property, it instead has two 1 point Focus Properties or a 2 point Focus Property (your choice). You can change the chosen Focus Properties when you complete a Quick Rest.</span></p><p><em><strong>System Tip:</strong> Just use Spell Focus item to gain benefits of this benefit. </em></p></li></ul><p><strong>Pocket Dimension:</strong> Using a <strong>Minor</strong> <strong>Action</strong>, you can dismiss the Weapon into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. If you don’t have a free hand when you summon it, or you choose not to grab it, it appears at your feet in your Space.</p><p><strong>New Pact Weapon:</strong> Over the course of a <strong>Quick</strong> <strong>Rest</strong>, you can touch a Weapon in your possession, bond with it, and make it your new Pact Weapon, ending your bond with your previous Pact Weapon.</p><p></p>",
+    "description": "<p>You can choose a Weapon in your possession and bond with it, making it your Pact Weapon.</p><p>You can only have <strong>1 Pact Weapon</strong> at a time. If the Weapon has the Ammo property, it manifests its own Ammo when you load it, which immediately vanishes once the Attack is resolved.</p><p>You gain the following benefits while wielding the Weapon:</p><ul><li><p><span class=\"cf0\"><strong>Weapon Training:</strong> You’re considered to have Combat Training with your Pact Weapon.</span></p><p class=\"pf0\"><span class=\"cf0\"><em><strong>DC Tip:</strong> Remember, Combat Training with a Weapon allows you to use Martial Enhancements on Attacks with it, including the one related to its Weapon’s Style.</em></span></p></li><li><p><strong>Maneuvers:</strong> <span class=\"cf0\">You learn 2 Attack Maneuvers of your choice.</span>.</p></li><li><p><strong>Spell Focus: </strong><span class=\"cf0\">Your Pact Weapon also counts as a Spell Focus with a 1 point Focus Property. If the Weapon has the Two-Handed Weapon Property, it instead has two 1 point Focus Properties or a 2 point Focus Property (your choice). You can change the chosen Focus Properties when you complete a Quick Rest.</span></p><p><em><strong>System Tip:</strong> Just use Spell Focus item to gain benefits of this benefit.</em></p></li></ul><p><strong>Pocket Dimension:</strong> Using a <strong>Minor</strong> <strong>Action</strong>, you can dismiss the Weapon into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. If you don’t have a free hand when you summon it, or you choose not to grab it, it appears at your feet in your Space.</p><p><strong>New Pact Weapon:</strong> Over the course of a <strong>Quick</strong> <strong>Rest</strong>, you can touch a Weapon in your possession, bond with it, and make it your new Pact Weapon, ending your bond with your previous Pact Weapon.</p><p><em><strong>System Tip:</strong> You can change it with On Demand Macro.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -179,21 +179,21 @@
       "uOYP4gvcJpumln1h": {
         "name": "Change Pact Weapon",
         "trigger": "onDemand",
-        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = DC20.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Weapon\", selectOptions);\nif (!selected) return;\n\nconst weapon = actor.items.get(selected);\nif (!weapon) return;\n\n// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({[\"system.combatTraining\"]: false});\n}\n\n// Add training to new weapon\nweapon.update({[\"system.combatTraining\"]: true});\nitem.update({[\"flags.dc20rpg.pactWeapon\"]: weapon.id});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = DC20.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Weapon\", selectOptions);\nif (!selected) return;\n\nconst weapon = actor.items.get(selected);\nif (!weapon) return;\n\n// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({\n    [\"system.combatTraining\"]: false,\n    [\"flags.dc20rpg.-=pactItem\"]: null\n  });\n}\n\n// Add training to new weapon\nweapon.update({\n  [\"system.combatTraining\"]: true,\n  [\"flags.dc20rpg.pactItem\"]: true\n});\nitem.update({[\"flags.dc20rpg.pactWeapon\"]: weapon.id});",
         "disabled": false,
         "title": "Change Pact Weapon"
       },
       "xacpGh6lKjwkDuhl": {
         "name": "Select Pact Weapon",
         "trigger": "onCreate",
-        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = DC20.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Weapon\", selectOptions);\nif (!selected) return;\n\nconst weapon = actor.items.get(selected);\nif (!weapon) return;\n\n// Add training to new weapon\nweapon.update({[\"system.combatTraining\"]: true});\nitem.update({[\"flags.dc20rpg.pactWeapon\"]: weapon.id});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = DC20.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Weapon\", selectOptions);\nif (!selected) return;\n\nconst weapon = actor.items.get(selected);\nif (!weapon) return;\n\n// Add training to new weapon\nweapon.update({\n  [\"system.combatTraining\"]: true,\n  [\"flags.dc20rpg.pactItem\"]: true\n});\nitem.update({[\"flags.dc20rpg.pactWeapon\"]: weapon.id});",
         "disabled": false,
         "title": ""
       },
       "tTqHv7alZgJ1NLkV": {
         "name": "Remove Pact Weapon",
         "trigger": "preDelete",
-        "command": "// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({[\"system.combatTraining\"]: false});\n}",
+        "command": "// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({\n    [\"system.combatTraining\"]: false,\n    [\"flags.dc20rpg.-=pactItem\"]: null\n  });\n}",
         "disabled": false,
         "title": ""
       }
@@ -233,7 +233,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1739350035666,
-    "modifiedTime": 1767179063601,
+    "modifiedTime": 1768588708301,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },
