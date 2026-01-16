@@ -1432,6 +1432,11 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   deathsDoor: "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982",
   partiallyConcealed: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.UF2KEzkO87hJJBUM",
   fullyConcealed: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.3uPdQ6XTnGuJOTNM",
+  unseen: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.6396da38cde5e264",
+  unheard: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.8c1b9e075707a2ce",
+  hidden: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.38850187f9364dd3",
+  halfCover: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.ca148b2dc96f180b",
+  tqCover: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.ca148b2dc96f180b"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {

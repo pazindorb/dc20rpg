@@ -111,6 +111,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     for (let [key, token] of neighbours) {
       // Prone/Incapacitated tokens cannot flank
       if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) neighbours.delete(key);
+      if (token.actor.system.globalModifier.prevent?.flanking) neighbours.delete(key); // Some creatures cannot flank, ex. Familiar
       if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
     }
     if (neighbours.size <= 1) return false;

@@ -136,7 +136,9 @@ function _maxHp(actor) {
 	const might = actor.system.attributes.mig.value;
 	const hpFromClass = details.class?.maxHpBonus || 6;
 	
-	if (health.useFlat) return;
+	if (health.useFlat) {
+		health.max += health.bonus;
+	}
 	else {
 		health.max = hpFromClass + might + health.bonus;
 	}

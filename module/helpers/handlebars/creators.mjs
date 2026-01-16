@@ -472,7 +472,7 @@ export function registerHandlebarsCreators() {
     })
     let component = _formulas(dmg, "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
     component += _formulas(heal, "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-    component += _formulas(other, "fa-gear", {});
+    component += _formulas(other, "fa-gear");
     return component;
   });
 
@@ -507,7 +507,7 @@ export function registerHandlebarsCreators() {
       switch(mods.formula.category) {
         case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
         case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
-        case "other": component += _formulas([mods.formula], "fa-gear", {}); break;
+        case "other": component += _formulas([mods.formula], "fa-gear"); break;
       }
     }
     return component;
@@ -549,9 +549,11 @@ function _formulas(formulas, icon, types) {
   let description = '';
   for(let i = 0; i < formulas.length; i++) {
     if (i !== 0) description += '<br>+ ';
-    const type = getLabelFromKey(formulas[i].type, types);
-    const value = formulas[i].formula;
-    description += `${value} ${type}`;
+    let label = "";
+    const formula = formulas[i];
+    if (!types) label = formula.label;
+    else label = getLabelFromKey(formula.type, types);
+    description += `${formula.formula} ${label}`;
   }
   return _descriptionIcon(`<p>${description}</p>`, icon);
 }

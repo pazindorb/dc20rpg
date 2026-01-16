@@ -424,6 +424,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.prevent.goUnderAP": "Prevent from going under X AP",
     "system.globalModifier.prevent.hpRegeneration": "Prevent any HP regeneration", 
     "system.globalModifier.prevent.criticalHit": "Prevent Critical Hit benefits against you", 
+    "system.globalModifier.prevent.flanking": "This creature cannot flank",
     
     "system.globalModifier.martial.range.melee": "Martial Melee Range (bonus)",
     "system.globalModifier.martial.range.normal": "Martial Normal Range (bonus)",

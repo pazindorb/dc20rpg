@@ -231,7 +231,7 @@ function _matchingConditionals(target, data) {
   target.hasEffectWithName = (effectName, includeDisabled, selfOnly) => 
     target.effects.filter(effect => {
       const applierId = effect.flags.dc20rpg?.applierId;
-      if (selfOnly && applierId && applierId !== data.applierId) return false;
+      if (selfOnly && applierId !== data.applierId) return false;
 
       if (includeDisabled) return true;
       else return !effect.disabled;
@@ -239,7 +239,7 @@ function _matchingConditionals(target, data) {
   target.hasEffectWithKey = (effectKey, includeDisabled, selfOnly) => 
     target.effects.filter(effect => {
       const applierId = effect.flags.dc20rpg?.applierId;
-      if (selfOnly && applierId && applierId !== data.applierId) return false;
+      if (selfOnly && applierId !== data.applierId) return false;
 
       if (includeDisabled) return true;
       else return !effect.disabled;
