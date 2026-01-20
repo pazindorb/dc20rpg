@@ -189,6 +189,10 @@ export function getActorFromIds(actorId, tokenId) {
 export async function updateActorHp(actor, updateData) {
   if (updateData.system?.resources?.health) {
     const newHealth = updateData.system.resources.health;
+    if (newHealth.value) newHealth.value = parseInt(newHealth.value);
+    if (newHealth.current) newHealth.current = parseInt(newHealth.current);
+    if (newHealth.temp) newHealth.temp = parseInt(newHealth.temp);
+
     const actorsHealth = actor.system.resources.health;
     const maxHp = actorsHealth.max;
     const currentHp = actorsHealth.current;

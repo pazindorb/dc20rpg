@@ -17,67 +17,45 @@ export function updateResourceValues(item, index, value) {
   item.update({[`system.resource.values`]: currentArray});
 }
 
-export function overrideScalingValue(item, index, mastery) {
-  if (!item.system.talentMasteries) return;
-
-  const talentMasteriesPerLevel = item.system.talentMasteries;
-  talentMasteriesPerLevel[index] = mastery;
-  const numberOfTalents = talentMasteriesPerLevel.filter(elem => elem === mastery).length;
-  const overridenScalingValues = _overridenScalingValues(item, mastery, numberOfTalents, index, false);
-
-  const updateData = {
-    ...overridenScalingValues,
-    [`system.talentMasteries`]: talentMasteriesPerLevel
-  };
-  item.update(updateData);
-  return numberOfTalents;
+export async function overrideScalingValue(item, index, mastery) {
+  if (mastery === "martial") {
+    const maneuversKnown = item.system.scaling.maneuversKnown.values;
+    const bonusStamina = item.system.scaling.bonusStamina.values;
+    bonusStamina[index] = 1;
+    maneuversKnown[index] = 1;
+    await item.update({
+      [`system.scaling.bonusStamina.values`]: bonusStamina,
+      [`system.scaling.maneuversKnown.values`]: maneuversKnown,
+    });
+  }
+  if (mastery === "spellcaster") {
+    const spellsKnown = item.system.scaling.spellsKnown.values;
+    const bonusMana = item.system.scaling.bonusMana.values;
+    bonusMana[index] = 3;
+    spellsKnown[index] = 1;
+    await item.update({
+      [`system.scaling.bonusMana.values`]: bonusMana,
+      [`system.scaling.spellsKnown.values`]: spellsKnown,
+    });
+  }
 }
 
 export async function clearOverridenScalingValue(item, index) {
-    const talentMasteriesPerLevel = item.system.talentMasteries;
-    const mastery = talentMasteriesPerLevel[index];
-    const numberOfTalents = talentMasteriesPerLevel.filter(elem => elem === mastery).length;
-    talentMasteriesPerLevel[index] = "";
-    const clearedScalingValues = _overridenScalingValues(item, mastery, numberOfTalents, index, true);
+  const hasPath = [false, true, false, true, false, true, false, true, false, false];
+  if (!hasPath[index]) return;
 
-    const updateData = {
-      ...clearedScalingValues,
-      [`system.talentMasteries`]: talentMasteriesPerLevel
-    };
-    await item.update(updateData);
-}
-
-function _overridenScalingValues(item, mastery, talentNumber, index, clearOverriden) {
-  let operator = 1;
-  if (clearOverriden) operator = -1;
-
-  if (mastery === "martial") {
-    item.system.scaling.bonusStamina.values[index] += (operator * 1);
-    item.system.scaling.maneuversKnown.values[index] += (operator * 1);
-    item.system.scaling.techniquesKnown.values[index] += (operator * 1);
-
-    if (talentNumber % 2 === 0) return {
-      [`system.scaling.maneuversKnown.values`]: item.system.scaling.maneuversKnown.values,
-    }
-    else return {
-      [`system.scaling.bonusStamina.values`]: item.system.scaling.bonusStamina.values,
-      [`system.scaling.maneuversKnown.values`]: item.system.scaling.maneuversKnown.values,
-      [`system.scaling.techniquesKnown.values`]: item.system.scaling.techniquesKnown.values
-    }
-  }
-  if (mastery === "spellcaster") {
-    item.system.scaling.bonusMana.values[index] += (operator * 2);
-    item.system.scaling.cantripsKnown.values[index] += (operator * 1);
-    item.system.scaling.spellsKnown.values[index] += (operator * 1);
-
-    if (talentNumber % 2 === 0) return {
-      [`system.scaling.bonusMana.values`]: item.system.scaling.bonusMana.values,
-      [`system.scaling.spellsKnown.values`]: item.system.scaling.spellsKnown.values
-    }
-    else return {
-      [`system.scaling.bonusMana.values`]: item.system.scaling.bonusMana.values,
-      [`system.scaling.cantripsKnown.values`]: item.system.scaling.cantripsKnown.values,
-      [`system.scaling.spellsKnown.values`]: item.system.scaling.spellsKnown.values
-    }
-  }
+  const maneuversKnown = item.system.scaling.maneuversKnown.values;
+  const bonusStamina = item.system.scaling.bonusStamina.values;
+  const spellsKnown = item.system.scaling.spellsKnown.values;
+  const bonusMana = item.system.scaling.bonusMana.values;
+  bonusStamina[index] = 0;
+  maneuversKnown[index] = 0;
+  bonusMana[index] = 0;
+  spellsKnown[index] = 0;
+  await item.update({
+    [`system.scaling.bonusStamina.values`]: bonusStamina,
+    [`system.scaling.maneuversKnown.values`]: maneuversKnown,
+    [`system.scaling.bonusMana.values`]: bonusMana,
+    [`system.scaling.spellsKnown.values`]: spellsKnown,
+  })
 }

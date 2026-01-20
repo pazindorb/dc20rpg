@@ -7,9 +7,8 @@ export function itemDetailsToHtml(item) {
   content += _target(item);
   content += _duration(item);
   content += _weaponStyle(item);
-  content += _magicSchool(item);
   content += _props(item);
-  content += _components(item);
+  content += _spellDetails(item);
   content += _infusionDetails(item);
   return content;
 }
@@ -121,14 +120,6 @@ function _weaponStyle(item) {
   </div>`;
 }
 
-function _magicSchool(item) {
-  const magicSchool = item.system?.magicSchool;
-  if (!magicSchool) return "";
-  return `<div class='detail green-box box'> 
-    ${getLabelFromKey(magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools)}
-  </div>`;
-}
-
 function _props(item) {
   const properties =  item.system?.properties;
   let content = "";
@@ -148,24 +139,47 @@ function _props(item) {
   return content;
 }
 
-function _components(item) {
-  const components = item.system?.components;
+function _spellDetails(item) {
+  if (item.type !== "spell") return "";
+
+  const components = item.system.components;
+  const spellSource = item.system.spellSource;
+  const spellSchool = item.system.spellSchool;
+  const spellTags = item.system.spellTags;
+
   let content = "";
-  if (components) {
-    Object.entries(components).forEach(([key, comp]) => {
-      if (comp.active) {
-        content += `<div class='detail box'> ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components)}`;
-        if (key === "material") {
-          if (comp.description) {
-            const cost = comp.cost ? ` (${comp.cost} GP)` : "";
-            const consumed = comp.consumed ? " [Consumed]" : "";
-            content += `: ${comp.description}${cost}${consumed}`;
-          } 
-        }
-        content += "</div>";
+  // Spell School 
+  if (spellSchool) content += `<div class='detail box'> ${getLabelFromKey(spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools)}</div>`;
+
+  // Spell Sources
+  Object.entries(spellSource).forEach(([key, source]) => {
+    if (source.active) {
+      content += `<div class='detail green-box box journal-tooltip box-style'
+      data-uuid="${getLabelFromKey(key, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.spellSources)}"
+      data-header="${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources)}"> 
+      ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources)}
+      </div>`;
+    }
+  });
+
+  // Spell Tags
+  Object.values(spellTags).forEach(spellTag => content += `<div class='detail red-box box'> ${spellTag}</div>`)
+  
+  // Components
+  Object.entries(components).forEach(([key, comp]) => {
+    if (comp.active) {
+      content += `<div class='detail'> ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components)}`;
+      if (key === "material") {
+        if (comp.description) {
+          const cost = comp.cost ? ` (${comp.cost} GP)` : "";
+          const consumed = comp.consumed ? " [Consumed]" : "";
+          content += `: ${comp.description}${cost}${consumed}`;
+        } 
       }
-    });
-  }
+      content += "</div>";
+    }
+  });
+  
   return content;
 }
 

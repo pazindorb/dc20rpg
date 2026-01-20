@@ -142,7 +142,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
       if (!type || !distance) continue;  // We need those values to be present for templates 
 
       const width = area.width;
-      const angle = type === "arc" ? 180 : 53.13;
+      const angle = type === "arc" ? 180 : 90;
 
       if (type === "area") {
         measurementTemplates[key] = {
@@ -249,6 +249,11 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
     const angle = config.angle || CONFIG.MeasuredTemplate.defaults.angle;
     let width = config.width || 1;
     let distance = config.distance || 1;
+
+    // For sphere and cylinder we want to reduce distance by half to get radius value
+    if (config.type === "sphere" || config.type === "cylinder") {
+      distance = distance/2;
+    }
 
     // We want to replace rectangle with cube shapded ray as it suits better preview purposes
     if (type === "rect") {

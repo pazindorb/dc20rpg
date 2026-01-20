@@ -1,7 +1,7 @@
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
-import { createNewAdvancement, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
+import { clearSpellList, createNewAdvancement, handleSpellList, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
 import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
-import { generateKey } from "../../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, toSelectOptions } from "../../../helpers/utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 import { runTemporaryMacro } from "../../../helpers/macros.mjs";
@@ -18,21 +18,16 @@ export function canApplyAdvancement(advancement) {
   return true;
 }
 
-export async function applyAdvancement(advancement, actor) {
+export async function applyAdvancement(advancement, actor, talentType) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
   const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
-  
-  // Check for Martial Expansion that comes from the class, Martial Path or some other items
-  const martialExpansion = await _checkMartialExpansion(advancement, actor);
-  if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
-  
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement);
-  if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements);
+  if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
-  if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor, extraAdvancements);
+  if (advancement.talent) await _fillMulticlassInfo(advancement, actor, extraAdvancements, talentType);
   return [extraAdvancements.values(), tips];
 }
 
@@ -54,7 +49,7 @@ export async function addNewSpellTechniqueAdvancements(actor, item, collection, 
     const newKnownAmount = known.max - known.current;
     if (newKnownAmount > 0) {
       if (infuser && key === "spells") {
-        const answer = await SimplePopup.input(`Do you want to learn infusion instead of spells? If so, how many (Max ${newKnownAmount}).`);
+        const answer = await SimplePopup.input(`Do you want to learn infusion instead of spell? If so, how many (Max ${newKnownAmount}).`);
         let infusions = parseInt(answer) || 0;
         if (infusions > newKnownAmount) infusions = newKnownAmount;
         const spells = newKnownAmount - infusions;
@@ -98,31 +93,33 @@ function _prepareAdvancementFromKnown(key, amount, item, level) {
   return advancement;
 }
 
-export async function shouldLearnNewSpellsOrTechniques(actor, skipRefresh) {
+export async function shouldLearnNewSpellsOrManeuvers(actor, skipRefresh) {
   const shouldLearn = [];
-  if (!skipRefresh) actor = await refreshActor(actor); // TODO do we even need to do that? Test
+  if (!skipRefresh) await refreshActor(actor); // TODO do we even need to do that? Test
   for (const [key, known] of Object.entries(actor.system.known)) {
     if (known.max - known.current > 0) shouldLearn.push(key);
   }
   return shouldLearn;
 }
 
-async function _applyPathProgression(advancement, extraAdvancements) {
+async function _applyPathProgression(advancement, extraAdvancements, actor) {
   const parentItem = advancement.parentItem;
   const index = advancement.level -1;
   switch(advancement.mastery) {
     case "martial":
-      const numberOfMartialPaths = overrideScalingValue(parentItem, index, "martial"); 
-      if (numberOfMartialPaths === 2 && !parentItem.system.martial) {
+      if (!actor.system.details.staminaFeature) {
         const expansion = await _getSpellcasterStaminaAdvancement();
         expansion.level = advancement.level;
         expansion.key = "spellcasterStamina";
         expansion.parentItem = advancement.parentItem;
         extraAdvancements.set(expansion.key, expansion);
       }
+      overrideScalingValue(parentItem, index, "martial"); 
       break;
 
     case "spellcaster":
+      const classData = actor.system.details.class;
+      if (!classData.hasSpellList) await _selectSpellList(parentItem, advancement);
       overrideScalingValue(parentItem, index, "spellcaster"); 
       break;
   }
@@ -154,16 +151,8 @@ async function _addItemsToActor(items, actor, advancement) {
       extraAdvancements.set(extraAdvancement.key, extraAdvancement);
     }
 
-    const martialExpansion = await _martialExpansion(created, actor, parentItem);
-    if (martialExpansion) {
-      martialExpansion.level = advancement.level;
-      martialExpansion.parentItem = parentItem;
-      martialExpansion.createdBy = advancement.key;
-      extraAdvancements.set(martialExpansion.key, martialExpansion);
-    }
-
     // Add created id to advancement record
-    if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
+    if (record.ignoreKnown || advancement.doNotAddToKnownLimit) created.update({["system.knownLimit"]: false});
     record.createdItemId = created._id;
     advancement.items[key] = record;
   }
@@ -180,7 +169,6 @@ async function _markAdvancementAsApplied(advancement, actor) {
   await updateAdvancement(advancement.parentItem, advancement);
   
   if (advancement.macro) runTemporaryMacro(advancement.macro, advancement, {actor: actor, advancement: advancement});
-  if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
 
 function _extraAdvancement(item) {
@@ -190,36 +178,6 @@ function _extraAdvancement(item) {
     additional.key = generateKey();
     additional.img = item.img;
     return additional;
-  }
-  return null;
-}
-
-async function _martialExpansion(item, actor, parentItem) {
-  // Martial Expansion
-  if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !parentItem.martialExpansionProvided) {
-    const expansion = await _getMartialExpansionAdvancement();
-    expansion.key = "martialExpansion";
-    expansion.parentItem = parentItem;
-    parentItem.martialExpansionProvided = true;
-    return expansion;
-  }
-  return null;
-}
-
-async function _checkMartialExpansion(advancement, actor) {
-  const parentItem = advancement.parentItem;
-  if (actor.system.details.martialExpansionProvided || parentItem.martialExpansionProvided) return null;
-
-  const fromItem = parentItem.system.martialExpansion;
-  const fromMartialPath = advancement.progressPath && advancement.mastery === "martial";
-  if (fromItem || fromMartialPath) {
-    const expansion = await _getMartialExpansionAdvancement();
-    expansion.level = advancement.level;
-    expansion.key = "martialExpansion";
-    expansion.parentItem = parentItem;
-    expansion.createdBy = advancement.key;
-    parentItem.martialExpansionProvided = true;
-    return expansion;
   }
   return null;
 }
@@ -263,18 +221,6 @@ async function _addRepeatableAdvancement(oldAdv) {
   await updateAdvancement(parentItem, newAdv);
 }
 
-async function _getMartialExpansionAdvancement() {
-  const martialExpansion = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
-  if (!martialExpansion || !martialExpansion?.system) {
-    ui.notifications.warn("Martial Expansion Item cannot be found")
-    return;
-  }
-  const advancement = Object.values(martialExpansion.system.advancements)[0];
-  advancement.customTitle = advancement.name;
-  advancement.img = CONFIG.DC20RPG.ICONS["martialExpansion"];
-  return advancement;
-}
-
 async function _getSpellcasterStaminaAdvancement() {
   const spellcasterStamina = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina);
   if (!spellcasterStamina || !spellcasterStamina?.system) {
@@ -287,33 +233,36 @@ async function _getSpellcasterStaminaAdvancement() {
   return advancement;
 }
 
+async function _selectSpellList(myClass, advancement) {
+  const spellcasters = CONFIG.DC20RPG.SPELLCASTERS;
+  const selected = await SimplePopup.select("Which Spellcaster spell list would you like to use?", toSelectOptions(spellcasters, "id", "name"));
+  const spellcaster = spellcasters.find(itm => itm.id === selected);
+  if (!spellcaster) {
+    ui.notifications.warn("Selected class not found. Skipping spell list preparation")
+    return;
+  }
+  advancement.providesSpellList = await handleSpellList(spellcaster, myClass);
+  myClass.update({["system.hasSpellList"]: true})
+}
+
 function _prepareCompendiumFilters(advancement, key) {
   switch(key) {
-    case "cantrips":
-      advancement.addItemsOptions.itemType = "spell";
-      advancement.addItemsOptions.preFilters = '{"spellType": "cantrip"}'
-      break;
     case "infusions":
       advancement.addItemsOptions.itemType = "infusion";
-      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "cursed": false, "attunement": null, "charges": null, "uses": null, "consumable": null, "weapon": null, "shield": null, "armor": null}}'
+      advancement.addItemsOptions.preFilters = '{"tags": {"artifact": false, "cursed": false, "attunement": null, "charges": null, "uses": null, "consumable": null, "weapon": null, "spellFocus": null, "shield": null, "armor": null}}'
       break;
     case "spells":
       advancement.addItemsOptions.itemType = "spell";
-      advancement.addItemsOptions.preFilters = '{"spellType": "spell"}'
+      advancement.addItemsOptions.classSpellFilter = true;
       break;
     case "maneuvers":
-      advancement.addItemsOptions.itemType = "technique";
-      advancement.addItemsOptions.preFilters = '{"techniqueType": "maneuver"}'
-      break;
-    case "techniques":
-      advancement.addItemsOptions.itemType = "technique";
-      advancement.addItemsOptions.preFilters = '{"techniqueType": "technique"}'
+      advancement.addItemsOptions.itemType = "maneuver";
       break;
   }
 }
 
-async function _fillMulticlassInfo(advancement, actor, extraAdvancements) {
-  if (advancement.talentFilterType === "general" || advancement.talentFilterType === "class") return;
+async function _fillMulticlassInfo(advancement, actor, extraAdvancements, talentType) {
+  if (!talentType || talentType === "general" || talentType === "class") return;
 
   const multiclass = await _findSelectedMulticlassOption(advancement, actor);
   const clazz = actor.class;
@@ -391,29 +340,20 @@ async function _addFlavorFeatureAdvancement(multiclass, extraAdvancements, advan
 
   const label = `${multiclass.name} - Flavor Feature`;
   const key = generateKey();
-  extraAdvancements.set(key, {
-    img: img,
-    name: label,
-    customTitle: label,
-    mustChoose: true,
-    pointAmount: 1,
-    level: advancement.level,
-    parentItem: advancement.parentItem,
-    createdBy: advancement.key,
-    applied: false,
-    talent: false,
-    repeatable: false,
-    repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    allowToAddItems: false,
-    additionalAdvancement: true,
-    compendium: "",
-    preFilters: "",
-    tip: "",
-    items: flavorFeatures
-  });
+  const extra = createNewAdvancement();
+  extra.img = img;
+  extra.name = label,
+  extra.customTitle = label;
+  extra.mustChoose = true;
+  extra.level = advancement.level;
+  extra.parentItem = advancement.parentItem;
+  extra.createdBy = advancement.key;
+  extra.additionalAdvancement = true;
+  extra.items = flavorFeatures;
+  extraAdvancements.set(key, extra);
 }
 
-export function markItemRequirements(items, talentFilterType, actor) {
+export function markItemRequirements(items, talentType, actor) {
   for (const item of items) {
     const requirements = item.system.requirements;
     let requirementMissing = "";
@@ -438,7 +378,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
     const baseClassKey = actor.system.details.class.classKey;
     const multiclass = actor.class !== undefined ? Object.values(actor.class.system.multiclass) : [];
     // Subclass 3rd level feature requires at least one feature from Class or needs to be from your class
-    if (["expert", "master", "grandmaster", "legendary"].includes(talentFilterType)) {
+    if (["expert", "master", "grandmaster", "legendary"].includes(talentType)) {
       if (item.system.featureType === "subclass" && requirements.level === 3) {
         const subclassKey = item.system.featureSourceItem;
         const classKey = CONFIG.DC20RPG.SUBCLASS_CLASS_LINK[subclassKey];
@@ -450,7 +390,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
       }
     }
     // Subclass 6th level feature requires at least one feature from that Subclass 
-    if (["master", "grandmaster", "legendary"].includes(talentFilterType)) {
+    if (["master", "grandmaster", "legendary"].includes(talentType)) {
       if (item.system.featureType === "subclass" && requirements.level === 6) {
         const subclassKey = item.system.featureSourceItem;
         if (!multiclass.find(key => key === subclassKey)) {
@@ -461,7 +401,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
       }
     }
     // Class Capstone 8th level feature requires at least two features from that Class 
-    if (["grandmaster", "legendary"].includes(talentFilterType)) {
+    if (["grandmaster", "legendary"].includes(talentType)) {
       if (item.system.featureType === "class" && requirements.level === 8) {
         const classKey = item.system.featureSourceItem;
         if (multiclass.filter(key => key === classKey).length < 2) {
@@ -472,7 +412,7 @@ export function markItemRequirements(items, talentFilterType, actor) {
       }
     }
     // Subclass Capstone 9th level feature requires at least two features from that Subclass 
-    if (["legendary"].includes(talentFilterType)) {
+    if (["legendary"].includes(talentType)) {
       if (item.system.featureType === "subclass" && requirements.level === 9) {
         const subclassKey = item.system.featureSourceItem;
         if (multiclass.filter(key => key === subclassKey).length < 2) {
@@ -523,7 +463,7 @@ export async function collectScalingValues(actor, oldSystemData) {
 
 export async function refreshActor(actor) {
   const counter = actor.flags.dc20rpg.advancementCounter + 1;
-  return await actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
+  await actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
 }
 
 export async function collectSubclassesForClass(classKey) {
@@ -550,12 +490,17 @@ export async function collectSubclassesForClass(classKey) {
 
 export async function revertAdvancement(actor, advancement, collection) {
   if (advancement.progressPath) clearOverridenScalingValue(advancement.parentItem, advancement.level - 1);
+  if (advancement.providesSpellList) await clearSpellList(advancement.parentItem, advancement);
   await removeItemsFromActor(actor, advancement.items);
   await removeMulticlassInfoFromActor(actor, advancement.key);
 
   // Mark Advancement as not applied
   advancement.applied = false;
-  await advancement.parentItem.update({[`system.advancements.${advancement.key}.applied`]: false});
+  delete advancement.providesSpellList;
+  await advancement.parentItem.update({
+    [`system.advancements.${advancement.key}.applied`]: false,
+    [`system.advancements.${advancement.key}.-=providesSpellList`]: null
+  });
 
   const advancementsToDelete = collection.filter(adv => adv.createdBy === advancement.key);
   for (const adv of advancementsToDelete) {
@@ -569,11 +514,6 @@ export async function removeAdvancement(actor, advancement, collection) {
   if (index === -1) return;
   collection.splice(index, 1);
 
-  // Remove from DB
-  if (advancement.key === "martialExpansion") {
-    await actor.update({["system.details.martialExpansionProvided"]: false});
-    advancement.parentItem.martialExpansionProvided = false;
-  }
   await advancement.parentItem.update({[`system.advancements.-=${advancement.key}`]: null});
 }
 

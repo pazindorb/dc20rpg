@@ -1,6 +1,6 @@
 <form class="{{cssClass}} {{actor.type}} actor_v2" autocomplete="off">
   {{!-- Edit Mode Button --}}
-  <a class="edit-button activable {{#if flags.dc20rpg.editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="flags.dc20rpg.editMode">
+  <a class="edit-button activable {{#if editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="system.sheetData.editMode">
     <i class="fa fa-lg fa-square-pen fa-solid"></i> <span>{{localize "dc20rpg.sheet.edit"}}</span>
   </a> 
 
@@ -380,13 +380,13 @@
           <span>{{localize 'dc20rpg.sheet.checkSave.title'}}</span>
         </div>
         <div class="check-buttons">
-          <div class="roll-button rollable margin-right-2" data-key="att" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-type="check">
-            <span class="original">{{localize 'dc20rpg.sheet.checkSave.attack'}}</span>
-            <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
+          <div class="roll-button rollable margin-right-2" data-key="mar" data-type="check" title="{{localize 'dc20rpg.sheet.checkSave.martialCheckTitle'}}">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
+            <span class="hovered bigger">{{numberFormat system.checkMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          <div class="roll-button rollable margin-left-2" data-key="spe" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-type="check">
+          <div class="roll-button rollable margin-left-2" data-key="spe" data-type="check" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.spell'}}</span>
-            <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
+            <span class="hovered bigger">{{numberFormat system.checkMod.value.spell decimals=0 sign=true}}</span>
           </div>
         </div>
         <div class="check-buttons">
@@ -395,12 +395,11 @@
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.prime'}}</span>
             <span class="hovered bigger">{{numberFormat system.attributes.prime.check decimals=0 sign=true}}</span>
           </div>
-          {{#ifCond skills.allSkills.acr '&&' skills.allSkills.ath}}
-          <div class="roll-button rollable margin-left-2" data-key="mar" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-type="check">
-            <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
-            <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
+          {{!-- Attack Check --}}
+          <div class="roll-button rollable margin-left-2" data-key="att" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-type="check">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.attack'}}</span>
+            <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          {{/ifCond}}
         </div>
 
         {{!-- Initiative --}}
@@ -511,7 +510,7 @@
             {{else}}
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" name="flags.dc20rpg.headerFilters.main" value="{{flags.dc20rpg.headerFilters.main}}"/>
+              <input type="text" name="system.sheetData.header.filter.main" value="{{system.sheetData.header.filter.main}}"/>
             </div>
             {{/if}}
             <a class="base-action">
@@ -546,7 +545,7 @@
     <div class="tab effects-tab" data-group="primary" data-tab="effects">
       <div class="active-effects">
         <div class="letter-circle-icon clickable" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}">
-          {{{show-hide-toggle flags.dc20rpg.showInactiveEffects "flags.dc20rpg.showInactiveEffects"}}}
+          {{{show-hide-toggle system.sheetData.show.inactiveEffects "system.sheetData.show.inactiveEffects"}}}
         </div>
         <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}" style="top:-11px;right:20px;">
           <a class="effect-create fa-solid fa-hourglass-half" data-type="temporary" title="{{localize 'dc20rpg.item.sheet.effects.temporary'}}"></a>
@@ -555,8 +554,8 @@
           <a class="effect-create fa-solid fa-infinity" data-type="passive" title="{{localize 'dc20rpg.item.sheet.effects.passive'}}"></a>
         </div>
         <div class="grid grid-2col">
-          {{effects-table @root.editMode effects.temporary effects.disabled flags.dc20rpg.showInactiveEffects}}
-          {{effects-table @root.editMode effects.passive effects.inactive flags.dc20rpg.showInactiveEffects}}
+          {{effects-table @root.editMode effects.temporary effects.disabled system.sheetData.show.inactiveEffects}}
+          {{effects-table @root.editMode effects.passive effects.inactive system.sheetData.show.inactiveEffects}}
         </div>
       </div>
       {{PARTIAL "Statuses"}}

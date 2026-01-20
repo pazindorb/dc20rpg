@@ -191,19 +191,20 @@
         "statusId": "charmed",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
-          "key": "system.rollLevel.againstYou.checks.cha",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.checks.cha",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Charming Gaze - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"charmed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -227,11 +228,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": 1734564976064,
-        "modifiedTime": 1750880257396,
+        "modifiedTime": 1768466302892,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },

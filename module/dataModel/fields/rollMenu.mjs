@@ -11,6 +11,10 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
       gritCost: new f.NumberField(init0),
       autoCrit: new f.BooleanField({required: true, initial: false}),
       autoFail: new f.BooleanField({required: true, initial: false}),
+      coreFormula: new f.SchemaField({
+        modifier: new f.StringField({required: true, initial: ""}),
+        source: new f.StringField({required: true, initial: ""}),
+      }),
       help:new f.ArrayField(new f.StringField(), {required: true}),
       ignoreMCP: new f.BooleanField({required: true, initial: false}),
       ...fields
@@ -33,6 +37,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
 }
 
 export function enrichRollMenuObject(object) {
+  object.system.rollMenu.rollLevel = _rollLevel(object);
   object.system.rollMenu.clear = async () => await _clearRollMenu(object);
   object.system.rollMenu.helpDiceFormula = () => _helpDiceFormula(object);
   object.system.rollMenu.apForAdvUp = async () => await _resourceForAdv(object, "ap", true);
@@ -49,6 +54,10 @@ async function _clearRollMenu(object) {
     gritCost: 0,
     autoCrit: false,
     autoFail: false,
+    coreFormula: {
+      modifier: "",
+      source: ""
+    },
     help: [],
     ignoreMCP: false,
     free: false,
@@ -86,4 +95,9 @@ async function _resourceForAdv(object, key, up) {
       ['system.rollMenu.adv']: adv - 1
     });
   }
+}
+
+function _rollLevel(object) {
+  const rollMenu = object.system.rollMenu;
+  return rollMenu.adv - rollMenu.dis;
 }

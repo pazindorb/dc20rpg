@@ -3,10 +3,10 @@
 	<div class="menu">
 		<div class="buttons">
 			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.condImm.showEmptyConditions'}}">
-				{{{show-hide-toggle flags.dc20rpg.showEmptyConditions "flags.dc20rpg.showEmptyConditions"}}}
+				{{{show-hide-toggle system.sheetData.show.emptyConditions "system.sheetData.show.emptyConditions"}}}
 			</div>
 			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.condImm.showOnelinerModeCI'}}">
-				{{{show-hide-toggle flags.dc20rpg.onelinerModeCI "flags.dc20rpg.onelinerModeCI" "true"}}}
+				{{{show-hide-toggle system.sheetData.show.onelinerModeCI "system.sheetData.show.onelinerModeCI" "true"}}}
 			</div>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 </div>
 
 {{#each system.statusResistances as |condition key|}}
-{{#ifCond condition.notEmpty '||' @root.flags.dc20rpg.showEmptyConditions}}
+{{#ifCond condition.notEmpty '||' @root.system.sheetData.show.emptyConditions}}
 <div class="table-row condition-row" title="{{condition.label}}">
 	<div class="column icon">
 		<img src="systems/dc20rpg/images/statuses/{{key}}.svg"/>

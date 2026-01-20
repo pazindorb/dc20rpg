@@ -46,7 +46,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           type: event.type
         }
         dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
-        await applyDamage(actor, dmg.modified, {skipEventCall: event.trigger === "damageTaken" || event.tigger === "healingTaken"});
+        await applyDamage(actor, dmg.modified, {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"});
         break;
 
       case "healing":
@@ -56,7 +56,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           type: event.type
         };
         heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
-        await applyHealing(actor, heal.modified, {skipEventCall: event.trigger === "damageTaken" || event.tigger === "healingTaken"});
+        await applyHealing(actor, heal.modified, {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"});
         break;
 
       case "checkRequest":
@@ -152,9 +152,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
       case "runMacro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.system.macro;
-        if (!command) break;
-        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: true}});
+        await effect.runMacro({event: event, extras: {success: true}});
         break;
 
       default:
@@ -174,9 +172,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
       case "runMacro": 
         const effect = getEffectFrom(event.effectId, actor);
         if (!effect) break;
-        const command = effect.system.macro;
-        if (!command) break;
-        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: false}});
+        await effect.runMacro({event: event, extras: {success: false}});
         break;
   
       default:
@@ -205,7 +201,8 @@ async function _resourceManipulation(value, key, label, actor) {
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
   const label = event.label || event.effectName;
-  const confirmation = await SimplePopup.confirm(`Do you want to use "${label}" as a part of that action?`);
+  const message = event.preTrigger === "spendAP" ? `You need to spend 1 AP to trigger "${label}" event as part of that action. Proceed?` : `Do you want to trigger "${label}" event as a part of that action?`;
+  const confirmation = await SimplePopup.confirm(message);
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {
@@ -216,6 +213,17 @@ async function _runPreTrigger(event, actor) {
     if (event.preTrigger === "skip") {
       return false;
     }
+  }
+  if (event.preTrigger === "spendAP") {
+    if (confirmation) {
+      const canSpend = actor.resources.ap.checkAndSpend(1);
+      if (!canSpend) {
+        const effect = await _disableEffect(event.effectId, actor);
+        if (effect) preTriggerTurnedOffEvents.push(effect);
+      }
+      return canSpend;
+    }
+    else return false;
   }
   return true;
 }
@@ -319,7 +327,7 @@ async function _runCustomEventTypes(event, actor, effect) {
 //=================================
 //=        FILTER METHODS         =
 //=================================
-export function effectEventsFilters(effectName, statuses, effectKey) {
+export function effectEventsFilters(effectName, statuses, effectKey, effectId) {
   const filters = [];
   if (effectName !== undefined) {
     filters.push({
@@ -351,6 +359,16 @@ export function effectEventsFilters(effectName, statuses, effectKey) {
       }
     })
   }
+  if (effectId !== undefined) {
+    filters.push({
+      required: false,
+      eventField: "effectId",
+      filterMethod: (field) => {
+        if (!field) return true;
+        return field === effectId;
+      }
+    })
+  }
   return filters;
 }
 
@@ -361,6 +379,18 @@ export function minimalAmountFilter(amount) {
     filterMethod: (field) => {
       if (!field) return true;
       return amount >= field;
+    }
+  }
+  return [filter];
+}
+
+export function skipTempHpChangeOnlyFilter(tempHpChangeOnly) {
+  const filter = {
+    required: false,
+    eventField: "skipTempHpChangeOnly",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return !tempHpChangeOnly;
     }
   }
   return [filter];

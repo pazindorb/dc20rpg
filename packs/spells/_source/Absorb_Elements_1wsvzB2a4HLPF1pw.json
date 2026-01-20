@@ -1,0 +1,741 @@
+{
+  "name": "Absorb Elements",
+  "type": "spell",
+  "img": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>You conjure a protective elemental ward in response to damage.</p><p><strong>Trigger:</strong> When you take Elemental Damage.</p><p><strong>Reaction:</strong> Make a DC 15 Spell Check.</p><ul><li><p><strong>Failure:</strong> You gain Resistance (1) to the triggering damage type until the end of the turn, this also applies to the triggering damage.</p></li><li><p><strong>Success:</strong> Resistance (2).</p></li><li><p><strong>Success (10):</strong> Resistance (3).</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Amplified Shield: (1 AP, Repeatable)</strong> The Resistance increases by 1.</p><p><strong>Flow of Nature: (1 MP, Repeatable)</strong> You deal +2 damage of the triggering damage type on your next Attack made until the end of your next turn.</p><p><strong>Lingering Retaliation: (X MP)</strong> For the next minute, when a creature Hits you with a Melee Attack, it takes X damage of the triggering damage type.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "u58YGpziQjvt8ZLS": {
+        "command": "const trigger = await DC20.dialog.SimplePopup.select(\"Triggering Damage Type\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\nif (!trigger) return;\n\nconst success = item.getEffectByKey(\"absorbElements\");\nif (success) success.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resist`;\n\nconst lingering = item.getEffectByKey(\"lingeringRetaliation\");\nif (lingering) lingering.system.macro = lingering.system.macro.replace('const dmgType = \"fire\"; // REPLACE', `const dmgType = \"${trigger}\";`)",
+        "trigger": "preItemRoll",
+        "disabled": false,
+        "name": "Update damage type",
+        "title": "",
+        "global": false
+      },
+      "o8aT17QHT4JLgVv8": {
+        "command": "const trigger = await DC20.dialog.SimplePopup.select(\"Triggering Damage Type\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\nif (!trigger) return;\n\nfor (const token of game.user.targets) {\n  const actor = token.actor;\n  if (!actor) continue;\n  let dmg = {\n    value: 2,\n    source: \"Flow of Nature\",\n    type: trigger\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Apply Flow of Nature",
+        "title": "Apply Flow of Nature",
+        "global": false
+      }
+    },
+    "usable": true,
+    "isReaction": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 15,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {},
+    "enhancements": {
+      "oRjM69fkplXPj03N": {
+        "name": "Amplified Shield",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The Resistance increases by 1.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"absorbElements\");\nif (!effect) return;\n\neffect.flags.dc20rpg.amplify = enh.number;",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "LSii6bJohZJTUoyd": {
+        "name": "Flow of Nature",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You deal +2 damage of the triggering damage type on your next Attack made until the end of your next turn.</p><p></p><p><em><strong>System TIp:</strong> Use On Demand macro to apply that damage to your current target (You can press 'T' to target a token).</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "lAVB3zsr66mIwGYT": {
+        "name": "Lingering Retaliation",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>For the next minute, when a creature Hits you with a Melee Attack, it takes X damage of the triggering damage type.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"lingeringRetaliation\");\nif (effect) {\n  effect.system.macro = effect.system.macro.replace(\"const damage = 0; // REPLACE\", `const damage = ${enh.number};`);\n  effect.system.addToChat = true;\n}",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "self",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "elemental",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    },
+    "spellSource": {
+      "arcane": {
+        "active": false,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": false,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": true,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {
+      "embolden": "Embolden",
+      "ward": "Ward"
+    }
+  },
+  "effects": [
+    {
+      "name": "Lingering Retaliation",
+      "img": "icons/magic/fire/flame-burning-tree-stump.webp",
+      "origin": "Item.lh7ZlFzZpJwuA9xp",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null,
+        "turns": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "ICoQnL1l8wNd50bF",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "lingeringRetaliation",
+        "macro": "const damage = 0; // REPLACE\nconst dmgType = \"fire\"; // REPLACE\n\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst isMelee = await DC20.dialog.SimplePopup.confirm(\"Is that a Melee Attack?\");\nif (!isMelee) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Lingering Retaliation\",\n  type: dmgType\n}\nconst calculationTarget = {\n  system: {damageReduction: target.system.damageReduction}\n}\ndmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\ngame.dc20rpg.tools.applyDamage(target, dmg.modified, {fromEvent: true});",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Lingering Retaliation\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>For the next minute, when a creature Hits you with a Melee Attack, it takes X damage of the triggering damage type.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!1wsvzB2a4HLPF1pw.ICoQnL1l8wNd50bF"
+    },
+    {
+      "name": "Absorb Elements",
+      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+      "origin": "Item.lh7ZlFzZpJwuA9xp",
+      "duration": {
+        "rounds": 0,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "turns": 1,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "YoarmrrQUKGooV28",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": true,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "delete"
+        },
+        "effectKey": "absorbElements",
+        "macro": "const message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst bonus = effect.flags.dc20rpg?.amplify || 0;\nconst rollValue = message.system.chatFormattedRolls.core._total;\nconst changes = effect.changes;\nif (rollValue < 15) changes[0].value = 1 + bonus;\nif (rollValue >= 15 && rollValue < 25) changes[0].value = 2 + bonus;\nif (rollValue >= 25) changes[0].value = 3 + bonus;\n\neffect.update({[\"changes\"]: changes});",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.fire.resist",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Absorb Elements\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Resistance (X) to the triggering damage type until the end of the turn, this also applies to the triggering damage.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.spells.Item.1wsvzB2a4HLPF1pw.ActiveEffect.LMEZmTULn1MT1Whh",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.0",
+        "createdTime": 1768560085298,
+        "modifiedTime": 1768560547348,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!1wsvzB2a4HLPF1pw.YoarmrrQUKGooV28"
+    }
+  ],
+  "folder": "cwDGEv0bc2Jc1rn4",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1767649133243,
+    "modifiedTime": 1768560870630,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "1wsvzB2a4HLPF1pw",
+  "sort": 3800000,
+  "_key": "!items!1wsvzB2a4HLPF1pw"
+}

@@ -42,7 +42,7 @@ export function onSortItem(event, itemData, actor) {
   }
 
   // Perform the sort
-  const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+  const sortUpdates = foundry.utils.performIntegerSort(source, {target, siblings});
   const updateData = sortUpdates.map(u => {
     const update = u.update;
     update._id = u.target._id;
@@ -54,15 +54,13 @@ export function onSortItem(event, itemData, actor) {
 }
 
 export function prepareItemsForCharacter(context, actor) {
-  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  const headersOrdering = context.system.sheetData.header.order;
   if (!headersOrdering) return;
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
   const features = _sortAndPrepareTables(headersOrdering.features);
-  const techniques = _sortAndPrepareTables(headersOrdering.techniques);
-  const spells = _sortAndPrepareTables(headersOrdering.spells);
+  const known = _sortAndPrepareTables(headersOrdering.known);
   const favorites = _sortAndPrepareTables(headersOrdering.favorites);
-  const basic = _sortAndPrepareTables(headersOrdering.basic);
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
@@ -80,28 +78,27 @@ export function prepareItemsForCharacter(context, actor) {
       case 'container':
         containers.push(item);
         break;
-      case 'weapon': case 'equipment': case 'consumable': case 'loot':
-        _addItemToTable(item, inventory); 
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
+        _addItemToTable(item, inventory, "weapon"); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
         break;
       case 'feature': 
         _addItemToTable(item, features, item.system.featureType); 
         if (isFavorite) _addItemToTable(item, favorites, "feature");
         break;
-      case 'technique': 
-        _addItemToTable(item, techniques, item.system.techniqueType); 
-        if (isFavorite) _addItemToTable(item, favorites, "technique");
+      case 'maneuver': 
+        _addItemToTable(item, known, "maneuver"); 
+        if (isFavorite) _addItemToTable(item, favorites, "maneuver");
         break;
       case 'spell': 
-        _addItemToTable(item, spells, item.system.spellType); 
+        _addItemToTable(item, known, item.system.spellType); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
       case 'infusion': 
-        _addItemToTable(item, spells, "infusion"); 
+        _addItemToTable(item, known, "infusion"); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
       case 'basicAction': 
-        _addItemToTable(item, basic, item.system.category);
         if (isFavorite) _addItemToTable(item, favorites, "basic");
         break;
       
@@ -112,22 +109,20 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
+  const filters = actor.system.sheetData.header.filter;
   context.containers = containers;
-  context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
-  context.features = _filterItems(actor.flags.dc20rpg.headerFilters?.features, features);
-  context.techniques = _filterItems(actor.flags.dc20rpg.headerFilters?.techniques, techniques);
-  context.spells = _filterItems(actor.flags.dc20rpg.headerFilters?.spells, spells);
-  context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
-  context.favorites = _filterItems(actor.flags.dc20rpg.headerFilters?.favorites, favorites);
+  context.inventory = _filterItems(filters.inventory, inventory);
+  context.features = _filterItems(filters.features, features);
+  context.known = _filterItems(filters.known, known);
+  context.favorites = _filterItems(filters.favorites, favorites);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
 
 export function prepareItemsForNpc(context, actor) {
-  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  const headersOrdering = context.system.sheetData.header.order;
   if (!headersOrdering) return;
   const main = _sortAndPrepareTables(headersOrdering.main);
-  const basic = _sortAndPrepareTables(headersOrdering.basic);
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
@@ -139,33 +134,36 @@ export function prepareItemsForNpc(context, actor) {
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
-    if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
-      const itemCosts = item.system.costs;
-      if (itemCosts && itemCosts.resources.ap !== null) _addItemToTable(item, main, "action");
-      else _addItemToTable(item, main, "inventory");
-    }
-    else if (item.type === "container") {
-      containers.push(item);
-    }
-    else if (item.type === "basicAction") {
-      _addItemToTable(item, basic, item.system.category)
-      if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
-    }
-    else if (["class", "subclass", "ancestry", "background"].includes(item.type)) {} // NPCs shouldn't have those items anyway
-    else {
-      _addItemToTable(item, main); 
+    const hasApCost = item.system.costs?.resources?.ap != null;
+    switch (item.type) {
+      case 'container':
+        containers.push(item);
+        break;
+
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
+        if (hasApCost) _addItemToTable(item, main, "action");
+        else _addItemToTable(item, main, "inventory");
+        break;
+
+      case 'spell': case 'maneuver': case 'feature':
+        if (hasApCost) _addItemToTable(item, main, "action");
+        else _addItemToTable(item, main, "feature");
+        break;
+
+      case 'basicAction': 
+        if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
+        break;
     }
   }
  
   context.containers = containers;
-  context.main = _filterItems(actor.flags.dc20rpg.headerFilters?.main, main);
-  context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
+  context.main = _filterItems(actor.system.sheetData.header.filter.main, main);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
 
 export function prepareItemsForStorage(context, actor) {
-  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  const headersOrdering = context.system.sheetData.header.order;
   if (!headersOrdering) return;
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
@@ -179,7 +177,7 @@ export function prepareItemsForStorage(context, actor) {
 
     switch (item.type) {
       
-      case 'weapon': case 'equipment': case 'consumable': case 'loot':
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         break;
       case 'container':
@@ -188,7 +186,7 @@ export function prepareItemsForStorage(context, actor) {
     }
    }
    context.containers = containers;
-   context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
+   context.inventory = _filterItems(actor.system.sheetData.header.filter.inventory, inventory);
 }
 
 export function prepareCompanionTraits(context, actor) {

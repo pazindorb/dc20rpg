@@ -93,7 +93,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -200,37 +201,50 @@
         "statusId": "taunted",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
           "key": "system.events",
+          "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "key": "system.dynamicRollModifier.onYou.martial.area",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "priority": null
         }
       ],
@@ -254,11 +268,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": 1734563610353,
-        "modifiedTime": 1750880257543,
+        "modifiedTime": 1767438734312,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -284,67 +298,92 @@
         "statusId": "taunted",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.melee",
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.mig",
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.agi",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.att",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.att",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mar",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -369,11 +408,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": 1734564222018,
-        "modifiedTime": 1750880257544,
+        "modifiedTime": 1767438742063,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -399,73 +438,98 @@
         "statusId": "taunted",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.melee",
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.mig",
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
           "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.agi",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.att",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.att",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.checks.cha",
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
           "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.checks.cha",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mar",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -491,11 +555,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": 1734564327501,
-        "modifiedTime": 1750880257546,
+        "modifiedTime": 1767438746926,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -503,7 +567,7 @@
     }
   ],
   "folder": "czCH58aedZfapcMH",
-  "sort": 100000,
+  "sort": 1000000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
@@ -512,11 +576,11 @@
   "_stats": {
     "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
     "duplicateSource": "Item.5aV1c024MqxOEJFp",
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1760521818115,
+    "modifiedTime": 1765898618062,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

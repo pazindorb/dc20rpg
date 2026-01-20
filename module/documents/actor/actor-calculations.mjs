@@ -1,6 +1,5 @@
 import { companionShare } from "../../helpers/actors/companion.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
-import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function makeCalculations(actor) {
 	_skillModifiers(actor);
@@ -15,9 +14,8 @@ export function makeCalculations(actor) {
 
 		_skillPoints(actor);
 		_attributePoints(actor);
-		_spellsAndTechniquesKnown(actor);
-		_weaponStyles(actor);
-		_manaSpendLimit(actor);
+		_spellsAndManeuversKnown(actor);
+		_spendLimits(actor);
 	}
 	if (actor.type === "companion") {
 		_actionPoints(actor);
@@ -116,11 +114,6 @@ function _specialRollTypes(actor) {
 	const cha = data.attributes.cha;
 	special.menSave = Math.max(int.save, cha.save);
 
-	// Martial Check
-	const acr = data.skills.acr;
-	const ath = data.skills.ath;
-	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
-
 	// Language Check
 	special.languageCheck = Math.max(int.check, cha.check);
 
@@ -143,7 +136,9 @@ function _maxHp(actor) {
 	const might = actor.system.attributes.mig.value;
 	const hpFromClass = details.class?.maxHpBonus || 6;
 	
-	if (health.useFlat) return;
+	if (health.useFlat) {
+		health.max += health.bonus;
+	}
 	else {
 		health.max = hpFromClass + might + health.bonus;
 	}
@@ -192,29 +187,20 @@ function _attributePoints(actor) {
 	attributePoints.left = attributePoints.max - attributePoints.spent;
 }
 
-function _spellsAndTechniquesKnown(actor) {
+function _spellsAndManeuversKnown(actor) {
 	const items = actor.items;
 	if (items.size <= 0) return;
 
 	const known = actor.system.known;
-	const maxCantrips = known.cantrips.max;
 	const maxInfusions = known.infusions.max;
 	let spells = 0;
-	let cantrips = 0;
 	let infusions = 0;
 	let maneuvers = 0;
-	let techniques = 0;
 	actor.items
 		.filter(item => item.system.knownLimit)
 		.forEach(item => {
-			if (item.type === "technique") {
-				if (item.system.techniqueType === "maneuver") maneuvers++;
-				else techniques++;
-			}
-			else if (item.type === "spell") {
-				if (item.system.spellType === "cantrip" && cantrips < maxCantrips) cantrips++;
-				else spells++;
-			}
+			if (item.type === "maneuver") maneuvers++;
+			else if (item.type === "spell") spells++;
 			else if (item.type === "infusion") {
 				if (infusions < maxInfusions) infusions++;
 				else spells++;
@@ -222,10 +208,8 @@ function _spellsAndTechniquesKnown(actor) {
 		});
 
 	known.spells.current = spells;
-	known.cantrips.current = cantrips;
 	known.infusions.current = infusions;
 	known.maneuvers.current = maneuvers;
-	known.techniques.current = techniques;
 }
 
 function _collectSpentPoints(actor) {
@@ -382,10 +366,16 @@ function _deathsDoor(actor) {
 	else death.active = false;
 }
 
-function _manaSpendLimit(actor) {
+function _spendLimits(actor) {
 	const combatMastery = actor.system.details.combatMastery;
+	
+	// Mana
 	const msl = actor.system.details.manaSpendLimit;
 	msl.value = combatMastery + msl.bonus;
+
+	// Stamina
+	const ssl = actor.system.details.staminaSpendLimit;
+	ssl.value = combatMastery + ssl.bonus;
 }
 
 function _basicConditionals(actor) {
@@ -414,7 +404,6 @@ function _basicConditionals(actor) {
       dcCalculation: "",
       dc: 0,
       addMasteryToDC: true,
-      respectSizeRules: false,
     },
 	});
 
@@ -444,56 +433,7 @@ function _basicConditionals(actor) {
 				dcCalculation: "",
 				dc: 0,
 				addMasteryToDC: true,
-				respectSizeRules: false,
 			},
 		});
-	}
-}
-
-function _weaponStyles(actor) {
-	const conditionals = [
-		_conditionBuilder("axe", `target.hasAnyCondition(["bleeding"])`),
-		_conditionBuilder("bow", `target.hasAnyCondition(["slowed"])`),
-		_conditionBuilder("fist", `target.hasAnyCondition(["grappled"])`),
-		_conditionBuilder("hammer", `target.hasAnyCondition(["dazed", "petrified"])`),
-		_conditionBuilder("pick", `target.hasAnyCondition(["impaired"])`),
-		_conditionBuilder("staff", `target.hasAnyCondition(["hindered"])`),
-		_conditionBuilder("sword", `target.hasAnyCondition(["exposed"])`),
-		_conditionBuilder("chained", `target.system.details.armor.shieldEquipped`, "@target.system.details.armor.shieldBonus.ad", "@target.system.details.armor.shieldBonus.pd"),
-		_conditionBuilder("whip", `helpers.whipHelper("${actor.id}", target)`),
-		_conditionBuilder("crossbow", `helpers.crossbowHelper("${actor.id}", target)`),
-		_conditionBuilder("spear", `helpers.spearHelper(target)`),
-	];
-	conditionals.forEach(conditional => actor.system.conditionals.push(conditional));
-}
-
-function _conditionBuilder(weaponStyle, condition, reduceAd, reducePd) {
-	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
-	return {
-		condition: condition, 
-		bonus: '1', 
-		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 
-		name: `${weaponStyleLabel} Passive`,
-		linkWithToggle: false,
-		flags: {
-			ignorePdr: false,
-			ignoreEdr: false,
-			ignoreMdr: false,
-			ignoreResistance: {},
-			ignoreImmune: {},
-			reduceAd: reduceAd,
-			reducePd: reducePd
-		},
-		effect: null,
-		addsNewRollRequest: false,
-    rollRequest: {
-      category: "",
-      saveKey: "",
-      contestedKey: "",
-      dcCalculation: "",
-      dc: 0,
-      addMasteryToDC: true,
-      respectSizeRules: false,
-    },
 	}
 }

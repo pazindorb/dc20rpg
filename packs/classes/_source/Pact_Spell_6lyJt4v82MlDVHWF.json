@@ -1,0 +1,473 @@
+{
+  "name": "Pact Spell",
+  "type": "feature",
+  "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+  "system": {
+    "description": "<p><span class=\"cf0\">Choose a Spell you know. The chosen Spell becomes your Pact Spell.</span></p><p><span class=\"cf0\">When you cast your Pact Spell, you gain the following benefits:</span></p><ul><li><p><span class=\"cf0\"><strong>Death’s Toll:</strong> If the Spell deals damage, it deals an extra</span><span class=\"cf1\"> </span><span class=\"cf0\">+1 damage to Bloodied targets.</span></p></li><li><p><span class=\"cf0\"><strong>Range Increase:</strong> If the Spell’s range is 1 , it increases by</span><span class=\"cf1\"> </span><span class=\"cf0\">1 Space, otherwise it increases by 5 Spaces.</span></p></li><li><p><span class=\"cf0\"><strong>Patron’s Favor:</strong> Once per Round, you can grant yourself</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on any Check you make to cast your Pact Spell.</span></p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p><p></p><p><em><strong>System Tip:</strong> You can change it with On Demand Macro.</em></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
+      "bonus": "1",
+      "useFor": "name=\"CANTRIP NAME HERE\"",
+      "name": "Pact Cantrip",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {
+      "Mx0diqSuDu3hCZiX": {
+        "name": "Range Increase",
+        "number": 0,
+        "preventModification": false,
+        "description": "",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": 1,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "cWSJmh6qkxI61VsQ": {
+        "name": "Patron’s Favor",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p><span class=\"cf0\">Once per Round, you can grant yourself</span><span class=\"cf1\"> </span><span class=\"cf0\">ADV on any Check you make to cast your Pact Spell.</span></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": 1,
+          "fromOriginal": true
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": true,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "name=[\"SPELL NAME HERE\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": 1,
+        "max": null,
+        "maxChargesFormula": "1",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "inner",
+    "featureOrigin": "Pact Boon",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "macros": {
+      "kUAVt5aTiQUVOins": {
+        "name": "Change Pact Spell",
+        "trigger": "onDemand",
+        "command": "const spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Spell\", spells);\nif (!selected) return;\n\nconst spell = actor.items.get(selected);\nif (!spell) return;\n\nconst oldSpell = actor.items.get(item.flags?.dc20rpg?.pactSpell);\nif (oldSpell) oldSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});\n\nspell.update({[\"flags.dc20rpg.pactItem\"]: true});\nitem.update({\n  [\"flags.dc20rpg.pactSpell\"]: selected,\n  [\"system.conditional.useFor\"]: `id=[\"${selected}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${selected}\"]`,\n});",
+        "disabled": false,
+        "title": "Change Pact Spell"
+      },
+      "0oYeZrVGI5arco5A": {
+        "name": "Select Pact Spell",
+        "trigger": "onCreate",
+        "command": "const spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Spell\", spells);\nif (!selected) return;\n\nconst spell = actor.items.get(selected);\nif (!spell) return;\n\nspell.update({[\"flags.dc20rpg.pactItem\"]: true});\nitem.update({\n  [\"flags.dc20rpg.pactSpell\"]: selected,\n  [\"system.conditional.useFor\"]: `id=[\"${selected}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${selected}\"]`,\n});",
+        "disabled": false,
+        "title": ""
+      },
+      "KmuO5MPZPHhRNHFx": {
+        "command": "const oldSpell = actor.items.get(item.flags?.dc20rpg?.pactSpell);\nif (oldSpell) oldSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Pact Spell",
+        "title": "",
+        "global": false
+      }
+    },
+    "itemKey": "pactCantrip",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    },
+    "conditionals": {
+      "csK0IUEZuFMIxzxY": {
+        "name": "Death’s Toll",
+        "condition": "target.hasAnyCondition([\"bloodied\"])",
+        "useFor": "name=[\"SPELL NAME HERE\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "SDifcOAGjLwfwVrX",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1739350034565,
+    "modifiedTime": 1768589317831,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "exportSource": null
+  },
+  "_id": "6lyJt4v82MlDVHWF",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!6lyJt4v82MlDVHWF"
+}

@@ -293,8 +293,8 @@
         {{!-- Healing --}}
         {{#each target.heal as |roll rollKey|}}
           <div class="row">
-            <a class="activable margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
-                data-path="system.targets.{{ ../id}}.heal.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
+            <a class="activable-show-modified margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
+                data-key="{{ ../id}}#{{rollKey}}" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="healing">
               <div class="value" title="{{source}}">

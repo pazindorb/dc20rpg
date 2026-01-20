@@ -1,0 +1,757 @@
+{
+  "name": "Corpse Explosion",
+  "type": "spell",
+  "img": "icons/magic/death/projectile-skull-flaming-yellow.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p><strong>Trigger:</strong> A target within range you can see dies.</p><p><strong>Reaction:</strong> The target’s corpse explodes, make an Area Spell Attack against the AD of each target within 1 Space of the corpse.</p><p><strong>Hit:</strong> The target takes 1 Umbral Damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Disease Cloud: (X MP)</strong> A cloud forms in a 3 Space diameter Sphere centered on the corpse for 1 minute. When a creature enters the area for the first time on its turn or starts its turn there, it makes a Repeated Might Save against your Save DC. <strong>Save Failure:</strong> The target is Diseased for 1 minute. Creatures Diseased by this Spell have their current and maximum HP reduced by X at the start of each of their turns. The creature’s maximum HP returns to normal after taking a rest. This Disease can be removed by any effect that ends a Basic Disease.</p><p><strong>Creeping Death: (2 MP)</strong> Requires Disease Cloud. Creatures Diseased by this Spell can’t regain HP.</p><p><em><strong>Beta Note:</strong> A creature with a Medicine Kit can attempt to remove a Basic Disease from a creature within 1 Space (including themselves) by spending 1 AP and 1 charge from the Medicine Kit and make a Medicine Check against the effect’s Save DC, removing the Disease on a success.</em></p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "attack",
+    "attackFormula": {
+      "rangeType": "area",
+      "checkType": "spell",
+      "targetDefence": "area",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "mar",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {
+      "QWurPdBtq6LXh5Bz": {
+        "formula": "1",
+        "type": "umbral",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
+    "enhancements": {
+      "oCnrfqOQAveprWKE": {
+        "name": "Range",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "dzP9szzEoGvgss4M": {
+        "name": "Damage",
+        "number": 0,
+        "preventModification": false,
+        "description": "The damage increases by 1.",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "iZr8Jf503glfJkBg": {
+        "name": "Disease Cloud",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>A cloud forms in a 3 Space diameter Sphere centered on the corpse for 1 minute. When a creature enters the area for the first time on its turn or starts its turn there, it makes a Repeated Might Save against your Save DC. </p><p><strong>Save Failure:</strong> The target is Diseased for 1 minute. Creatures Diseased by this Spell have their current and maximum HP reduced by X at the start of each of their turns. The creature’s maximum HP returns to normal after taking a rest. This Disease can be removed by any effect that ends a Basic Disease.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "name": "Disease Cloud",
+            "img": "icons/magic/death/projectile-skull-flaming-yellow.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": 1,
+              "startTurn": 1
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "iZr8Jf503glfJkBg"
+              }
+            },
+            "_id": "vNDg2OliZjZSZ8k3",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "const reductionValue = effect.flags.dc20rpg?.reductionValue;\nconst creepingDeath = effect.flags.dc20rpg?.creepingDeath;\nif (!reductionValue) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, statuses: [\"diseased\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.resources.health.spend(reductionValue);\n  const data = {\n    name: \"Disease - Disease Cloud\",\n    description: \"Your Max HP is reduced.\",\n    img: \"icons/magic/acid/dissolve-arm-flesh.webp\",\n    system: {\n      effectKey: \"diseaseCloudDisease\"\n    },\n    changes: [\n      {\n        key: \"system.resources.health.bonus\",\n        mode: 2,\n        value: (reductionValue * -1)\n      },\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"basic\", \"trigger\": \"rest\", \"label\": \"Disease - Disease Cloud\", \"postTrigger\": \"delete\", \"restType\": \"long\", \"actorId\": \"${event.actorId}\"`\n      },\n    ],\n  }\n\n  if (creepingDeath) data.changes.push({\n    key: \"system.globalModifier.prevent.hpRegeneration\",\n    mode: 5,\n    value: true\n  })\n  game.dc20rpg.effects.createEffectOn(data, actor);\n}",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.events",
+                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Disease Cloud - Repeated Save\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.events",
+                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Disease Cloud - Repeated Save\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>Creatures Diseased by this effect have their current and maximum HP reduced by X at the start of each of their turns.</p>",
+            "tint": "#ffffff",
+            "transfer": false,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768593802121,
+              "modifiedTime": 1768593809738,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
+          "macros": {
+            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg.reductionValue = enh.number;",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "VFVcuKCtl3TUvWR7": {
+        "name": "Creeping Death",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p><em>Requires Disease Cloud.</em> </p><p>Creatures Diseased by this Spell can’t regain HP.</p><p><em><strong>Beta Note:</strong> A creature with a Medicine Kit can attempt to remove a Basic Disease from a creature within 1 Space (including themselves) by spending 1 AP and 1 charge from the Medicine Kit and make a Medicine Check against the effect’s Save DC, removing the Disease on a success.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const cloud = item.enhancements.all.get(\"iZr8Jf503glfJkBg\");\nif (!cloud) return;\n\ncloud.modifications.addsEffect.flags.dc20rpg.creepingDeath = true;",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": 5,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "sphere",
+          "distance": 3,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "nullification",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": "all"
+    },
+    "spellSource": {
+      "arcane": {
+        "active": true,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": true,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": false,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {
+      "ailment": "Ailment",
+      "death": "Death",
+      "enfeeble": "Enfeeble",
+      "umbral": "Umbral"
+    }
+  },
+  "effects": [],
+  "folder": "b0r4jNWftsRiK88T",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1768072901626,
+    "modifiedTime": 1768593810828,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "WlL5zakfJ4QSNgRJ",
+  "sort": 1100000,
+  "_key": "!items!WlL5zakfJ4QSNgRJ"
+}

@@ -11,6 +11,7 @@ import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollReques
 
 export function enrichWithHelpers(item) {
   enrichRollMenuObject(item);
+  _enrichEnhancementObject(item);
 
   if (item.system.usable) {
     item.use = {};
@@ -18,9 +19,6 @@ export function enrichWithHelpers(item) {
   }
   if (item.system.properties) {
     _enrichPropertiesObject(item);
-  }
-  if (item.system.enhancements) {
-    _enrichEnhancementObject(item);
   }
   if (item.system.usesWeapon?.weaponAttack) {
     _enrichUseWeaponObject(item);
@@ -547,6 +545,8 @@ function _enrichPropertiesObject(item) {
   _enhanceReload(item);
   _enhanceMultiFaceted(item);
   _enhanceAmmo(item);
+  _enhanceWeaponStyle(item);
+  _enrichDeftProperty(item);
 }
 
 //==================================
@@ -572,7 +572,14 @@ function _isLoaded(item, skipError=false) {
 async function _reloadItem(item, free) {
   const actor = item.actor;
   if (!free && actor) {
-    if (!actor.resources.ap.checkAndSpend(1)) return;
+    const result = await SimplePopup.open("confirm", {header: "Reload your weapon", message: "You can reload your weapon by spending 1 AP or 1 SP.", confirmLabel: "Spend 1 SP", denyLabel: "Spend 1 AP"})
+    if (result == null) return;
+    if (result === true) {
+      if (!actor.resources.stamina.checkAndSpend(1)) return;
+    }
+    if (result === false) {
+      if (!actor.resources.ap.checkAndSpend(1)) return;
+    }
   }
   await item.update({[`system.properties.reload.loaded`]: true});
 }
@@ -588,6 +595,7 @@ function _enhanceMultiFaceted(item) {
   const property = item.system?.properties?.multiFaceted;
   if (!property || !property.active) return;
 
+  if (!property.labelKey) property.labelKey = property.weaponStyle[property.selected];
   item.multiFaceted = {
     swap: () => _swapMultiFaceted(item)
   }
@@ -659,19 +667,57 @@ function _getActiveAmmo(item) {
   const ammoId = property?.active ? property.ammoId : null;
   return actor.items.get(ammoId);
 }
+
+//==================================
+//               DEFT              =
+//==================================
+function _enrichDeftProperty(item) {
+  if (!item.system.properties?.deft?.active) return;
+
+  const macro = new ItemMacro();
+  macro.name = "Deft Property";
+  macro.trigger = "onDRMCheck";
+  macro.command = `
+if (!actor.hasStatus("prone")) return;
+
+const rollMenu = item.system.rollMenu;
+const attackFormula = item.system.attackFormula;
+const rangeType = rollMenu.rangeType || attackFormula.rangeType;
+
+if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (counter prone status)", targetHash: actor.targetHash});
+  `;
+  item.system.macros["deft"] = macro;
+}
+
+//==================================
+//           WEAPON STYLE          =
+//==================================
+function _enhanceWeaponStyle(item) {
+  if (item.type !== "weapon") return;
+  
+  const weaponStyle = [item.system.weaponStyle];
+  const multiFaceted = item.system.properties.multiFaceted;
+  if (multiFaceted.active) {
+    weaponStyle.push(multiFaceted.weaponStyle.first);
+    weaponStyle.push(multiFaceted.weaponStyle.second);
+  }
+  item.weaponStyle = weaponStyle;
+}
  
 //==================================//==================================
 //                             ENHANCEMENTS                            =
 //==================================//==================================
 function _enrichEnhancementObject(item) {
+  const entries = item.system.enhancements ? Object.entries(item.system.enhancements) : [];
   const enhancements = {};
   enhancements.maintained = new Map();
-  for (const [key, enhancement] of Object.entries(item.system.enhancements)) {
+  for (const [key, enhancement] of entries) {
     enhancement.key = key;
     enhancement.sourceItemId = item.id;
     enhancement.sourceItemName = item.name;
     enhancement.sourceItemImg = item.img;
     enhancement.active = enhancement.number > 0
+    enhancement.drmCheck = _shouldRunDRMCheck(enhancement);
 
     enhancement.toggleUp = async () => await _enhancementToggle(enhancement, true, item);
     enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, item);
@@ -722,8 +768,10 @@ function _allEnhancements(item) {
       const itm = parent.items.get(itemWithCopyEnh.itemId);
       if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
       if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
-      if (itm && itm.system.copyEnhancements?.copy && toggleCheck(itm, itm.system.copyEnhancements?.linkWithToggle)) {
-        enhancements = new Map([...enhancements, ...itm.enhancements.all]);
+      const copyConfig = itm.system.copyEnhancements;
+      if (copyConfig?.copy && toggleCheck(itm, copyConfig?.linkWithToggle)) {
+        if (copyConfig?.onlyMaintained) enhancements = new Map([...enhancements, ...itm.enhancements.maintained]);
+        else enhancements = new Map([...enhancements, ...itm.enhancements.all]);
       }
     }
   }
@@ -742,6 +790,11 @@ function _activeEnhancements(item) {
   return active;
 }
 
+function _shouldRunDRMCheck(enhancement) {
+  const mod = enhancement.modifications
+  return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula;
+}
+
 //==================================//==================================
 //                              USE WEAPON                             =
 //==================================//==================================
@@ -751,17 +804,14 @@ function _enrichUseWeaponObject(item) {
   const weapon = owner.items.get(item.system.usesWeapon.weaponId);
   if (!weapon) return;
   
-  // We want to copy weapon attack range, weaponStyle and weaponType so we can make 
-  // conditionals work for techniques and features that are using weapons
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
-  item.system.weaponStyleActive = weapon.system.weaponStyleActive;
-  item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
-  item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
+  item.system.combatTraining = weapon.system.combatTraining;
+  item.system.attackFormula.rollBonus = weapon.system.attackFormula.rollBonus;
 
-  // We also want to copy weapon range and properties
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
+  item.system.macros = {...item.system.macros, ...weapon.system.macros};
 
   item.ammo = weapon.ammo || undefined;
   item.reloadable = weapon.reloadable || undefined;
@@ -808,7 +858,7 @@ function _enrichItemInfusions(item) {
 //==================================
 async function _applyInfusion(infusionItem, item, infuserUuid) {
   if (!infusionItem) return false;
-  if (!["weapon", "equipment", "consumable"].includes(item.type)) {
+  if (!["weapon", "equipment", "spellFocus", "consumable"].includes(item.type)) {
     ui.notifications.warn("Only inventory items can be infused.");
     return false;
   }
@@ -1091,7 +1141,8 @@ async function _clearTags(infusion, item) {
     updateData.system.toggle = {
       toggleable: false,
       toggledOn: false,
-      toggleOnRoll: false
+      toggleOnRoll: false,
+      offOnSustainDrop: false
     };
     updateData.system.quickRoll = false;
     updateData.system.effectsConfig = {
@@ -1168,7 +1219,6 @@ function _testRequirements(tags, item) {
   let anyCheckNeeded = false;
   let requirements = "";
   let fulfiled = false;
-  if (tags.weapon.active )
 
   // Weapon & Ammo
   if (tags.weapon.active) {
@@ -1194,6 +1244,13 @@ function _testRequirements(tags, item) {
         if (item.system.weaponType === "ranged") fulfiled = true;
         else requirements += "Ranged Weapon, ";
       }
+    }
+  }
+
+  if (tags.spellFocus.active) {
+    anyCheckNeeded = true;
+    if (item.type === "spellFocus") {
+      fulfiled = true;
     }
   }
 

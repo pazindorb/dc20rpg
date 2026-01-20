@@ -152,7 +152,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The creature can make an <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack</strong> with ADV. The creature cannot spend SP, MP, AP or any other resources on this Attack.</span></p>",
         "hide": false,
@@ -241,7 +242,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The creature can move up to their Speed without provoking Opportunity Attacks.</span></p>",
         "hide": false,
@@ -330,7 +332,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "<p>The creature can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Full Dodge}</strong> Action.</p>",
         "hide": false,
@@ -519,27 +522,27 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Commander’s Call\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Commander’s Call\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Commander’s Call\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Commander’s Call\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -568,11 +571,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256706,
+        "modifiedTime": 1766696771340,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -604,43 +607,55 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.againstYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.spell.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.spell.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Dodge\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.skills",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.skills",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grapple vs Dodge\", \"skill\": \"ath\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p>You <span>impose DisADV </span><span>on all Attacks or Grapples made against you until the start of your next turn.</span></p>",
+      "description": "<p>You <span>impose DisADV on all Attacks or Grapples made against you until the start of your next turn.</span></p>",
       "tint": "#e0bb00",
       "transfer": false,
       "statuses": [],
@@ -665,11 +680,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.system-items.Item.fvJRQv7oI9Pgoudk.ActiveEffect.q11dyOEQpnZF878I",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256708,
+        "modifiedTime": 1766696771343,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -683,9 +698,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034952,
-    "modifiedTime": 1761303729461,
+    "modifiedTime": 1768466459016,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

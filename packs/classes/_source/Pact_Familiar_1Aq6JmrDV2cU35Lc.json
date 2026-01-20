@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/magical/spirit-fear-energy-pink.webp",
   "system": {
-    "description": "<p>You can cast the @UUID[Compendium.dc20rpg.spells.Item.Bk1Jtb2GCzNdtGjL]{Find Familiar - Warlock Pact} Spell without spending <strong>MP</strong>.</p><p>When you cast the Spell, your Familiar gains 3 additional <strong>Familiar</strong> <strong>Traits</strong> of your choice for free.</p>",
+    "description": "<p>You learn the @UUID[Compendium.dc20rpg.spells.Item.JERedYTZKuMN5TAB]{Summon Familiar} Spell. </p><p>When you cast the Spell, your Familiar gains 3 additional Familiar Traits of your choice for free.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -160,19 +161,21 @@
       "default": {
         "name": "Pact Familiar",
         "items": {
-          "Bk1Jtb2GCzNdtGjL": {
-            "uuid": "Compendium.dc20rpg.spells.Item.Bk1Jtb2GCzNdtGjL",
+          "JERedYTZKuMN5TAB": {
+            "uuid": "Compendium.dc20rpg.spells.Item.JERedYTZKuMN5TAB",
             "createdItemId": "",
             "selected": false,
             "pointValue": 1,
             "mandatory": false,
             "canBeCounted": true,
             "ignoreKnown": true,
-            "img": "icons/creatures/mammals/bat-giant-tattered-purple.webp",
-            "name": "Find Familiar - Warlock Pact"
+            "img": "icons/creatures/birds/corvid-call-sound-glowing.webp",
+            "name": "Summon Familiar"
           }
         },
-        "customTitle": "Pact Familiar"
+        "customTitle": "You learn the Summon Familiar Spell",
+        "key": "default",
+        "allowToAddItems": false
       }
     },
     "itemKey": "pactFamiliar",
@@ -207,11 +210,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350033930,
-    "modifiedTime": 1745570063067,
+    "modifiedTime": 1768416570319,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,0 +1,836 @@
+{
+  "name": "Shatter Reality",
+  "type": "spell",
+  "img": "icons/magic/unholy/orb-stone-pink.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>You violently distort the perception of reality in a 2 Space Sphere within range. Make an Area Spell Attack against the AD of every creature in the area.</p><p><strong>Hit:</strong> The target takes 1 Psychic damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Untraceable</span></strong></span></p><p>Damage from this Spell leaves no visible trace on any affected creatures or the surrounding environment.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Dazed: (1 MP)</strong> Each target makes a Intelligence Save. Failure: The target is Dazed for 1 Round.</p><p><strong>Distorted Perception: (2 MP)</strong> Each target makes a Repeated Charisma Save against your Save DC. <strong>Save Failure:</strong> The target rolls a d4 to determine the Distortion Effect that alters its body or perception for 1 minute.</p><table><tbody><tr><td data-colwidth=\"153\"><p><strong>Roll</strong></p></td><td><p><strong>Distortion Effect</strong></p></td></tr><tr><td data-colwidth=\"153\"><p>1</p></td><td><p>It sees its body twist - it is Immobilized.</p></td></tr><tr><td data-colwidth=\"153\"><p>2</p></td><td><p>Its senses collapse inward - it is Blinded.</p></td></tr><tr><td data-colwidth=\"153\"><p>3</p></td><td><p>Its mind fractures - it is Stunned and can’t take Reactions.</p></td></tr><tr><td data-colwidth=\"153\"><p>4</p></td><td><p>It becomes confused - At the start of each of its turns, it must spend 1 AP to move up to its Speed in a random direction.</p></td></tr></tbody></table>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "attack",
+    "attackFormula": {
+      "rangeType": "area",
+      "checkType": "spell",
+      "targetDefence": "area",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "mar",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 2,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {
+      "gc7r7YWWJ3IAAA5Q": {
+        "formula": "1",
+        "type": "psychic",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "dontModifyFailFormula": false,
+        "each5": false,
+        "each5Formula": "",
+        "dontMerge": false,
+        "overrideDefence": "",
+        "perTarget": false
+      }
+    },
+    "enhancements": {
+      "XjF0HDBEXZMZ1AYj": {
+        "name": "Range",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "1jzgUzJm3X2JZblk": {
+        "name": "Damage",
+        "number": 0,
+        "preventModification": false,
+        "description": "The damage increases by 1.",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "hxD2fBEe5Cyj5YXQ": {
+        "name": "Area",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "J1VYgm36tmbT37rS": {
+        "name": "Dazed",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Each target makes a Intelligence Save. </p><p><strong>Failure:</strong> The target is Dazed for 1 Round.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "int",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "dazed",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": 1,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "MtVjEQvPGI7ASQLq": {
+        "name": "Distorted Perception",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Each target makes a Repeated Charisma Save against your Save DC.</p><p><strong>Save Failure:</strong> The target rolls a d4 to determine the Distortion Effect that alters its body or perception for 1 minute.</p><table><tbody><tr><td data-colwidth=\"153\"><p><strong>Roll</strong></p></td><td><p><strong>Distortion Effect</strong></p></td></tr><tr><td data-colwidth=\"153\"><p>1</p></td><td><p>It sees its body twist - it is Immobilized.</p></td></tr><tr><td data-colwidth=\"153\"><p>2</p></td><td><p>Its senses collapse inward - it is Blinded.</p></td></tr><tr><td data-colwidth=\"153\"><p>3</p></td><td><p>Its mind fractures - it is Stunned and can’t take Reactions.</p></td></tr><tr><td data-colwidth=\"153\"><p>4</p></td><td><p>It becomes confused - At the start of each of its turns, it must spend 1 AP to move up to its Speed in a random direction.</p></td></tr></tbody></table>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "cha",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "name": "Distorted Perception",
+            "img": "icons/magic/unholy/orb-stone-pink.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": 70,
+              "startTurn": 0
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "MtVjEQvPGI7ASQLq"
+              }
+            },
+            "_id": "MkddV9wzGU1Jz2v1",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "const roll = new Roll(\"1d4\", {});\nawait roll.evaluate();\nif (game.dice3d) await game.dice3d.showForRoll(roll, game.user, true, null, false);\n\nif (roll.total === 1) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"It sees your body twist - you are Immobilized.\"]);\n  actor.toggleStatusEffect(\"immobilized\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"cha\", against: event.against, id: \"immobilized\", forOneMinute: true}});\n}\nif (roll.total === 2) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"Your senses collapse inward - you are Blinded.\"]);\n  actor.toggleStatusEffect(\"blinded\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"cha\", against: event.against, id: \"blinded\", forOneMinute: true}});\n}\nif (roll.total === 3) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"Your mind fractures - you are Stunned and can’t take Reactions.\"]);\n  actor.toggleStatusEffect(\"stunned\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"cha\", against: event.against, id: \"stunned\", forOneMinute: true}});\n}\nif (roll.total === 4) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"You become confused - At the start of each of your turns, you must spend 1 AP to move up to your Speed in a random direction.\"]);\n  const data = {\n    name: \"Distorted Perception\",\n    img: \"icons/magic/control/fear-fright-white.webp\",\n    system: {\n      duration: {\n        useCounter: true,\n        onTimeEnd: \"delete\"\n      },\n      macro: `\n      DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"You must spend 1 AP to move up to your Speed in a random direction.\"]);\n      `\n    },\n    duration: {rounds: 5},\n    changes: [\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Distorted Perception\", \"actorId\": \"${event.actorId}\"`\n      },\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Distorted Perception\", \"checkKey\": \"cha\", \"against\": \"${event.against}\", \"onSuccess\": \"delete\", \"actorId\": \"${event.actorId}\"`\n      },\n    ]\n  }\n  await actor.applyEffect(data)\n}\neffect.delete();",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.events",
+                "mode": 2,
+                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Distorted Perception\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>Distorted Perception Helper.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1767977394532,
+              "modifiedTime": 1767977401303,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": 5,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "enchantment",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    },
+    "spellSource": {
+      "arcane": {
+        "active": true,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": true,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": false,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {
+      "chaos": "Chaos",
+      "dazed": "Dazed",
+      "madness": "Madness",
+      "psychic": "Psychic"
+    }
+  },
+  "effects": [],
+  "folder": "Hb8UnD0bunkWVR3a",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1767975141778,
+    "modifiedTime": 1767977402399,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "Q0VgHggaS9DbYDjM",
+  "sort": 0,
+  "_key": "!items!Q0VgHggaS9DbYDjM"
+}

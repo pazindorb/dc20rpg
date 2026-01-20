@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -176,10 +177,10 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "hasAdvancement": false,
+    "hasAdvancement": true,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
+        "name": "Remarkable Repertoire",
         "mustChoose": false,
         "pointAmount": 1,
         "level": 0,
@@ -209,11 +210,18 @@
           0,
           0
         ],
-        "allowToAddItems": false,
+        "allowToAddItems": true,
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
-        "items": {}
+        "items": {},
+        "addItemsOptions": {
+          "itemLimit": 2,
+          "itemType": "spell",
+          "helpText": "You learn any 2 Spells of your choice from any Spell List."
+        },
+        "doNotAddToKnownLimit": true,
+        "key": "default"
       }
     },
     "help": {
@@ -251,12 +259,6 @@
           "mode": 2,
           "value": "2",
           "priority": null
-        },
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "2",
-          "priority": null
         }
       ],
       "description": "<ul><li><p><strong>Jack of All Trades:</strong> You gain 2 Skill Points.</p></li><li><p><strong>Magical Secrets:</strong> You learn any 2 Spells of your choice from any Spell List.</p></li></ul>",
@@ -282,11 +284,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256601,
+        "modifiedTime": 1768597074379,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -298,11 +300,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035888,
-    "modifiedTime": 1747998784695,
+    "modifiedTime": 1768597117928,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -60,98 +60,7 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {
-      "QdpythsgPdfhdqKN": {
-        "name": "Natural Weapon Style Passive",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "ignoreDR": false,
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": null,
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          }
-        },
-        "description": "",
-        "hide": false,
-        "key": "QdpythsgPdfhdqKN",
-        "sourceItemId": "x9iHhn5bMFdl2UHu",
-        "sourceItemName": "Natural Weapon Passive",
-        "sourceItemImg": "icons/creatures/abilities/paw-glowing-yellow.webp",
-        "active": false
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
       "copy": false,
       "copyFor": "system.itemKey=[\"naturalWeapon\"]"
@@ -228,16 +137,24 @@
       "AHf8Dv5BdkCIqqJb": {
         "name": "Select Natural Weapon Passive ",
         "trigger": "onCreate",
-        "command": "const weaponStyle = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles);\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditionals.Ksr27Rf3uqxNBC4O.condition\"]: \"false\",\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
         "disabled": false,
         "title": ""
       },
       "1N3CzZhu9xSex1Zy": {
         "name": "Change Natural Weapon Passive",
         "trigger": "onDemand",
-        "command": "await game.dc20rpg.macros.runTemporaryItemMacro(item, \"onCreate\", actor);",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
         "disabled": false,
         "title": "Change Natural Weapon Passive"
+      },
+      "5OaWxjNLGI4Laxtf": {
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: \"\"});",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Weapon Style",
+        "title": "",
+        "global": false
       }
     },
     "itemKey": "naturalWeaponPassive",
@@ -245,43 +162,7 @@
     "requirements": {
       "level": 0
     },
-    "conditionals": {
-      "Ksr27Rf3uqxNBC4O": {
-        "name": "Natural Weapon Style Passive",
-        "condition": "false",
-        "useFor": "system.itemKey=[\"naturalWeapon\"]",
-        "linkWithToggle": false,
-        "bonus": "1",
-        "flags": {
-          "ignorePdr": false,
-          "ignoreEdr": false,
-          "ignoreMdr": false,
-          "ignoreResistance": {},
-          "ignoreImmune": {},
-          "reduceAd": "",
-          "reducePd": ""
-        },
-        "effect": null,
-        "addsNewRollRequest": false,
-        "rollRequest": {
-          "category": "",
-          "saveKey": "phy",
-          "contestedKey": "",
-          "dcCalculation": "",
-          "dc": 0,
-          "addMasteryToDC": true,
-          "respectSizeRules": false
-        },
-        "addsNewFormula": false,
-        "formula": {
-          "formula": "",
-          "type": "",
-          "category": "damage",
-          "dontMerge": false,
-          "overrideDefence": ""
-        }
-      }
-    }
+    "conditionals": {}
   },
   "effects": [],
   "flags": {},
@@ -290,9 +171,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1720112470033,
-    "modifiedTime": 1761303731905,
+    "modifiedTime": 1768433426768,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

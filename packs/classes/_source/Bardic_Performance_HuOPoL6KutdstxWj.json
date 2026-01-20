@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/trades/music-singing-voice-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to start a performance that lasts for 1 minute.</p><p>Choose 1 of the performances below. Creatures of your choice within <strong>10 Spaces</strong> that can see or hear you benefit from your performance.</p><ul><li><p><strong>Battle Ballad:</strong> Once on each of their turns, the chosen creatures deal <strong>+1 damage</strong> against 1 target of their choice on an Attack they make.</p></li><li><p><strong>Fast Tempo:</strong> The chosen creatures gain <strong>+1 Speed</strong>.</p></li><li><p><strong>Inspiring:</strong> The chosen creatures gain <strong>1 Temp HP</strong> at the start of each of their turns.</p></li><li><p><strong>Emotional:</strong> Choose 1 of the following Conditions: <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0f27a9c67ee55f2c]{Charmed}, @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.f2d19e12af30f93d]{Frightened}, @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.UkBt66vXWP3eyEOj]{Turned}</strong>. The chosen creatures have Resistance against the chosen <strong>Condition</strong>. <br>If a target is effected by the chosen <strong>Condition</strong> at the start of its turn, it can immediately attempt to end the Condition on itself by Repeating its Save.</p></li></ul><p></p><p><strong>Changing Performances:</strong> Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p><p><strong>Ending Early:</strong> The performance ends early if you become <strong>Incapacitated</strong>, you die, or choose to end it for free.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to start a performance that lasts for 1 minute.</p><p>Choose 1 of the performances below. Creatures of your choice within <strong>10 Spaces</strong> that can see or hear you benefit from your performance.</p><ul><li><p><strong>Battle Ballad:</strong> The chosen creatures gain a d4 bonus to the first Attack Check they make on each of their turns.</p></li><li><p><strong>Fast Tempo:</strong> The chosen creatures gain <strong>+1 Speed</strong>.</p></li><li><p><strong>Inspiring:</strong> The chosen creatures gain <strong>1 Temp HP</strong> at the start of each of their turns.</p></li><li><p><strong>Emotional:</strong> Choose 1 of the following Conditions: Charmed, Frightened, Intimidated, or Taunted. The chosen creatures have Resistance against the chosen <strong>Condition</strong>. <br>If a target is effected by the chosen <strong>Condition</strong> at the start of its turn, it can immediately attempt to end the Condition on itself by Repeating its Save.</p></li></ul><p></p><p><strong>Changing Performances:</strong> Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p><p><strong>Ending Early:</strong> The performance ends early if you become <strong>Incapacitated</strong>, you die, or choose to end it for free.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -154,7 +154,8 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
         "description": "<p>Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p>",
         "hide": false,
@@ -225,7 +226,123 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Battle Ballad",
+            "img": "icons/skills/melee/spear-tips-quintuple-orange.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "GL3MZ5TT0EA8vcbf"
+              }
+            },
+            "_id": "WU9VMY0wjBpSS2L4",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.events",
+                "mode": 2,
+                "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"reenable\": \"turnStart\", \"actorId\": \"#SPEAKER_ID#\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.martial.melee",
+                "mode": 2,
+                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.martial.ranged",
+                "mode": 2,
+                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.martial.area",
+                "mode": 2,
+                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.spell.melee",
+                "mode": 2,
+                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.spell.ranged",
+                "mode": 2,
+                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.spell.area",
+                "mode": 2,
+                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>The chosen creatures gain a d4 bonus to the first Attack Check they make on each of their turns.</p>",
+            "tint": "#ffffff",
+            "transfer": false,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768467129757,
+              "modifiedTime": 1768467233249,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
@@ -243,7 +360,8 @@
           },
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
-          "targetDefenceType": "area"
+          "targetDefenceType": "area",
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">Once on each of their turns, the chosen creatures deal <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">+1 damage</strong> against 1 target of their choice on an Attack they make.</span></p>",
         "hide": false,
@@ -314,7 +432,81 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Fast Tempo",
+            "img": "icons/skills/movement/feet-winged-boots-glowing-yellow.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "v0YjX5gvDi9OPeLq"
+              }
+            },
+            "_id": "esbNh1VWchXKLMfw",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.movement.ground.bonus",
+                "mode": 2,
+                "value": "1",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>You gain +1 Speed.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768467243988,
+              "modifiedTime": 1768467278757,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
@@ -332,7 +524,8 @@
           },
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
-          "targetDefenceType": "area"
+          "targetDefenceType": "area",
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures gain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">+1 Speed</strong>.</span></p>",
         "hide": false,
@@ -403,7 +596,81 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Inspiring",
+            "img": "icons/magic/air/wind-tornado-cyclone-purple-pink.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "YmRa89r1AW92xlms"
+              }
+            },
+            "_id": "WKWzVRoF7mtNwAx8",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.events",
+                "mode": 2,
+                "value": "\"eventType\":\"healing\", \n\"trigger\":\"turnStart\", \n\"value\":\"1\",\n\"type\": \"temporary\",\n\"label\": \"Inspiring\"",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>You gain 1 Temp HP at the start of each of your turn.</p>",
+            "tint": "#ffffff",
+            "transfer": false,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768467310223,
+              "modifiedTime": 1768467325408,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
@@ -421,7 +688,8 @@
           },
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
-          "targetDefenceType": "area"
+          "targetDefenceType": "area",
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures gain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 Temp HP</strong> at the start of each of their turns</span></p>",
         "hide": false,
@@ -432,7 +700,7 @@
         "active": false
       },
       "Ouwdlwkqsy5xFbj7": {
-        "name": "Emotional - Charmed",
+        "name": "Emotional",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -492,9 +760,83 @@
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
-          "addsEffect": null,
+          "addsEffect": {
+            "name": "Emotional",
+            "img": "icons/magic/control/fear-fright-white.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "Ouwdlwkqsy5xFbj7"
+              }
+            },
+            "_id": "kvwDeI4CW4kV7cRn",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.statusResistances.charmed.resistance",
+                "mode": 2,
+                "value": "1",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>You have ADV on Saves to resist and end X Condition. If you are affected by the Condition at the start of your turn, you can immediately attempt to end the Condition by repeating its Save.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768467450880,
+              "modifiedTime": 1768467460431,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", {\n  charmed: \"Charmed\",\n  intimidated: \"Intimidated\",\n  frightened: \"Frightened\",\n  taunted: \"Taunted\"\n});\nif (!selected) return;\n\nenh.modifications.addsEffect.changes[0].key = `system.statusResistances.${selected}.resistance`;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -510,189 +852,12 @@
           },
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
-          "targetDefenceType": "area"
+          "targetDefenceType": "area",
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Saves</strong> to resist and end Charmed Condition.</span></p>",
+        "description": "<p>Choose 1 of the following Conditions: Charmed, Frightened, Intimidated, or Taunted.</p><p>The chosen creatures have Resistance against the chosen Condition. If a target is effected by the chosen Condition at the start of its turn, it can immediately attempt to end the Condition on itself by Repeating its Save.</p>",
         "hide": false,
         "key": "Ouwdlwkqsy5xFbj7",
-        "sourceItemId": "HuOPoL6KutdstxWj",
-        "sourceItemName": "Bardic Performance",
-        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
-      },
-      "i6A1A28SNF80D9ec": {
-        "name": "Emotional - Frightened",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": null,
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area"
-        },
-        "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Saves</strong> to resist and end Frightened Condition.</span></p>",
-        "hide": false,
-        "key": "i6A1A28SNF80D9ec",
-        "sourceItemId": "HuOPoL6KutdstxWj",
-        "sourceItemName": "Bardic Performance",
-        "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
-      },
-      "TyLSlDlYCdNUIXVT": {
-        "name": "Emotional - Taunted",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": null,
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area"
-        },
-        "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Saves</strong> to resist and end Taunted Condition.</span></p>",
-        "hide": false,
-        "key": "TyLSlDlYCdNUIXVT",
         "sourceItemId": "HuOPoL6KutdstxWj",
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
@@ -854,434 +1019,7 @@
       "level": 2
     }
   },
-  "effects": [
-    {
-      "origin": "Item.eMVSsCzJqYu14tT2",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Battle Ballad",
-      "img": "icons/skills/melee/spear-tips-quintuple-orange.webp",
-      "_id": "OPSo0lrfuAxf4C1K",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "requireEnhancement": "GL3MZ5TT0EA8vcbf"
-      },
-      "changes": [
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\":\"basic\", \n\"trigger\":\"attack\", \n\"effectName\":\"Battle Ballad\", \n\"preTrigger\":\"disable\", \n\"postTrigger\":\"disable\", \n\"reenable\":\"turnStart\"",
-          "priority": null
-        }
-      ],
-      "description": "<p><span>Once on each of your turn, you deal <strong>+1 damage</strong></span> against 1 target of your choice on an Attack you make.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "effectKey": "",
-          "requireEnhancement": "GL3MZ5TT0EA8vcbf",
-          "addToChat": false,
-          "nonessential": false,
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256655,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!HuOPoL6KutdstxWj.OPSo0lrfuAxf4C1K"
-    },
-    {
-      "origin": "Item.eMVSsCzJqYu14tT2",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Fast Tempo",
-      "img": "icons/skills/movement/feet-winged-boots-glowing-yellow.webp",
-      "_id": "50RAaGs9OdNDwrqv",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "requireEnhancement": "v0YjX5gvDi9OPeLq"
-      },
-      "changes": [
-        {
-          "key": "system.movement.ground.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
-      "description": "<p><span>You gain <strong>+1 Speed</strong></span>.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "effectKey": "",
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "v0YjX5gvDi9OPeLq",
-          "addToChat": false,
-          "nonessential": false,
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256658,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!HuOPoL6KutdstxWj.50RAaGs9OdNDwrqv"
-    },
-    {
-      "origin": "Item.eMVSsCzJqYu14tT2",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Inspiring",
-      "img": "icons/magic/air/wind-tornado-cyclone-purple-pink.webp",
-      "_id": "bHWzfqZZrYhtLh9o",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "requireEnhancement": "YmRa89r1AW92xlms"
-      },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\":\"healing\", \n\"trigger\":\"turnStart\", \n\"value\":\"1\",\n\"type\": \"temporary\",\n\"label\": \"Inspiring\"",
-          "priority": null
-        }
-      ],
-      "description": "<p><span>You gain <strong>1 Temp HP</strong></span> at the start of each of your turn.</p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "YmRa89r1AW92xlms",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          },
-          "effectKey": "",
-          "addToChat": false,
-          "nonessential": false
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256661,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!HuOPoL6KutdstxWj.bHWzfqZZrYhtLh9o"
-    },
-    {
-      "origin": "Item.eMVSsCzJqYu14tT2",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Emotional - Charmed",
-      "img": "icons/magic/perception/eye-slit-pink.webp",
-      "_id": "7vBV02aXYp62rlnv",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "requireEnhancement": "Ouwdlwkqsy5xFbj7"
-      },
-      "changes": [
-        {
-          "key": "system.statusResistances.charmed.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p><span>You have <strong>ADV</strong> on <strong>Saves</strong> to resist and end <strong>Charmed</strong> Condition. If you are affected by the <strong>Condition</strong> at the start of your turn, you can immediately attempt to end the <strong>Condition</strong> by repeating its <strong>Save</strong>.</span></p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "Ouwdlwkqsy5xFbj7",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          },
-          "effectKey": "",
-          "addToChat": false,
-          "nonessential": false
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256664,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!HuOPoL6KutdstxWj.7vBV02aXYp62rlnv"
-    },
-    {
-      "origin": "Item.eMVSsCzJqYu14tT2",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Emotional - Frightened",
-      "img": "icons/magic/control/fear-fright-white.webp",
-      "_id": "w44ObOrQ7X9uLI30",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "requireEnhancement": "i6A1A28SNF80D9ec"
-      },
-      "changes": [
-        {
-          "key": "system.statusResistances.frightened.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p><span>You have <strong>ADV</strong> on <strong>Saves</strong> to resist and end <strong>Frightened </strong>Condition. If you are affected by the <strong>Condition</strong> at the start of your turn, you can immediately attempt to end the <strong>Condition</strong> by repeating its <strong>Save</strong>.</span></p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "i6A1A28SNF80D9ec",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          },
-          "effectKey": "",
-          "addToChat": false,
-          "nonessential": false
-        }
-      },
-      "_stats": {
-        "compendiumSource": "Compendium.dc20rpg.classes.Item.eMVSsCzJqYu14tT2.ActiveEffect.7vBV02aXYp62rlnv",
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256667,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!HuOPoL6KutdstxWj.w44ObOrQ7X9uLI30"
-    },
-    {
-      "origin": "Item.eMVSsCzJqYu14tT2",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Emotional - Taunted",
-      "img": "icons/magic/control/fear-fright-monster-red.webp",
-      "_id": "OcoUUfHZCzUWZQXn",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "requireEnhancement": "TyLSlDlYCdNUIXVT"
-      },
-      "changes": [
-        {
-          "key": "system.statusResistances.taunted.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p><span>You have <strong>ADV</strong> on <strong>Saves</strong> to resist and end <strong>Taunted</strong> Condition. If you are affected by the <strong>Condition</strong> at the start of your turn, you can immediately attempt to end the <strong>Condition</strong> by repeating its <strong>Save</strong>.</span></p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "TyLSlDlYCdNUIXVT",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          },
-          "effectKey": "",
-          "addToChat": false,
-          "nonessential": false
-        }
-      },
-      "_stats": {
-        "compendiumSource": "Compendium.dc20rpg.classes.Item.eMVSsCzJqYu14tT2.ActiveEffect.7vBV02aXYp62rlnv",
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256670,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!HuOPoL6KutdstxWj.OcoUUfHZCzUWZQXn"
-    }
-  ],
+  "effects": [],
   "folder": "sUOn6RSAnOYaNOeW",
   "flags": {},
   "_stats": {
@@ -1289,9 +1027,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035250,
-    "modifiedTime": 1761303729007,
+    "modifiedTime": 1768467645013,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -73,15 +73,15 @@ export class SystemsBuilder extends Dialog {
         }
       }
     }
-    // Roll Level
-    if (type === "rollLevel") {
+    // Dynamic Roll Modifier
+    if (type === "dynamicRollModifier") {
       return {
         value: {
-          value: "1",
+          value: "0",
           format: "number"
         },
         type: {
-          value: "adv",
+          value: "",
           format: "string",
           selectOptions: {
             "": "",
@@ -90,6 +90,10 @@ export class SystemsBuilder extends Dialog {
           }
         },
         label: {
+          value: "",
+          format: "string"
+        },
+        modifier: {
           value: "",
           format: "string"
         },
@@ -151,7 +155,8 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "skip": "Skip Effect for that Roll"
+            "skip": "Skip Event for that Roll",
+            "spendAP": "Spend 1 AP to Activate"
           }
         },
         postTrigger: {
@@ -283,6 +288,14 @@ export class SystemsBuilder extends Dialog {
           skip: {
             key: "trigger",
             dontSkipFor: ["resourceChange"]
+          }
+        },
+        skipTempHpChangeOnly: {
+          value: false,
+          format: "boolean",
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["healingTaken"]
           }
         },
         operation: {

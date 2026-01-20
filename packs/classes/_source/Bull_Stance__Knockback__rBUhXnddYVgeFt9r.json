@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
   "system": {
-    "description": "<ul><li><p>You deal <strong>1 Bludgeoning</strong> damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.97f79c465003e1ae]{Shove}</strong> or <strong>@UUID[Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz]{Knockback Maneuver}</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no <strong>AP</strong> and does not provoke Opportunity Attacks.</p></li></ul>",
+    "description": "<ul><li><p><span class=\"cf0\">When you Succeed on a Physical Check to push a target, it also takes <strong>1</strong> Bludgeoning damage.</span></p></li><li><p><span class=\"cf0\">When you push a target, it’s pushed 1 additional Space. Additionally, you can choose to move in a straight line with the target an amount of Spaces equal to how far they’re pushed. This movement doesn’t provoke Opportunity Attacks or require spending your movement</span></p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -162,7 +163,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 Bludgeoning</strong> damage whenever you push a target or knock them back</span></p>",
         "hide": false,
@@ -341,7 +343,7 @@
       "type": "base",
       "system": {},
       "changes": [],
-      "description": "<ul><li>You deal 1 Bludgeoning damage whenever you push a target or knock them back.</li><li>When you take the <strong>Shove Action </strong>or <strong>Knockback</strong> <strong>Maneuver</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no <strong>AP </strong>and does not provoke <strong>Opportunity Attacks</strong>.</li></ul>",
+      "description": "<ul><li><p><span class=\"cf0\">When you Succeed on a Physical Check to push a target, it also takes <strong>1</strong> Bludgeoning damage.</span></p></li><li><p><span class=\"cf0\">When you push a target, it’s pushed 1 additional Space. Additionally, you can choose to move in a straight line with the target an amount of Spaces equal to how far they’re pushed. This movement doesn’t provoke Opportunity Attacks or require spending your movement</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -350,12 +352,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "modifiedTime": 1767170100377,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "_key": "!items.effects!rBUhXnddYVgeFt9r.X8EX7mSnG98qcI62"
@@ -368,9 +370,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034210,
-    "modifiedTime": 1761303729659,
+    "modifiedTime": 1767170095823,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

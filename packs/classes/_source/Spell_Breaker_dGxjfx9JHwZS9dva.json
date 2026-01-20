@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/strike-sword-slashing-red.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to initiate a <strong>Spell</strong> <strong>Duel</strong> against a Spell Attack using a Weapon instead of casting a Spell, provided the target of the Spell is within the range of your Weapon. </p><p>When you do, you make an <strong>Attack Check</strong> and you can spend <strong>SP</strong> and <strong>MP</strong> (for a total up to your Mana Spend Limit) to gain a bonus on your Check equal to the <strong>SP</strong> and <strong>MP</strong> spent. </p><p>You have ADV on your Check if you’re within 1 Space of the caster.</p>",
+    "description": "<p class=\"pf0\"><span class=\"cf0\">You can initiate a <strong>Spell Duel</strong> as the Challenger without spending MP using a Weapon you’re wielding, provided the Caster or a target is within your Weapon’s range or you’re in a Space between them. When you do, you make a Martial Check instead of a Spell Check.</span></p><p class=\"pf0\"><span class=\"cf0\">You can also spend 1 or more SP to gain a +1 bonus on your Check per SP spent (you can still spend MP as normal to gain +2 on your Check per MP spent). You have ADV on your Check if you are within 1 Space of the Caster.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -160,7 +160,7 @@
       "eSqw39wQihuKdOsC": {
         "name": "Trigger Spell Duel",
         "trigger": "preItemRoll",
-        "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourStaminaSpent = \"Your Stamina Spent\";\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\") + \" - Spell Breaker\";\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent},\n  {type: \"input\", label: yourStaminaSpent},\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + intValues[1];\nconst rollBonus = intValues[2] + intValues[3];\n\nconst rollFormula = `d20 + @attackMod.value.martial + ${rollBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"att\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"roll\": rollFormula,\n  \"type\": \"attackCheck\",\n  \"description\": item.system.description,\n  \"costs\": {ap: 2, mana: intValues[2], stamina: intValues[3]}\n}\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails);\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
+        "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourStaminaSpent = \"Your Stamina Spent\";\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\") + \" - Spell Breaker\";\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent},\n  {type: \"input\", label: yourStaminaSpent},\n  {type: \"checkbox\", label: \"You are within 1 Space of the Caster\"}\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nif (!answers) return;\n\nconst intValues = [];\nfor (let i = 0; i < answers.length - 1; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + (2*intValues[1]);\nconst manaBonus = intValues[2];\nconst staminaBonus = intValues[3];\nconst inMelee = answers[4];\n\nconst rollFormula = `d20 + @check.martial + ${(manaBonus * 2)} + ${staminaBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"mar\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"customFormula\": rollFormula,\n  \"type\": \"martialCheck\",\n  \"description\": item.system.description,\n  \"costs\": {ap: 2, mana: manaBonus, stamina: staminaBonus}\n}\n\n// Check for Reactive Spell Focus property\nconst initialRollMenuValue = {adv: 0, dis: 0};\nlet reactive = false;\nfor (const item of actor.getAllItemsWithType([\"spellFocus\"])) {\n  if (item.system.statuses.equipped && item.system.properties.reactive.active) reactive = true;\n}\nif (reactive) initialRollMenuValue.adv += 1;\nif (inMelee) initialRollMenuValue.adv += 1;\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails, options={initialRollMenuValue: initialRollMenuValue});\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
         "disabled": false,
         "title": ""
       }
@@ -236,11 +236,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034668,
-    "modifiedTime": 1760910352915,
+    "modifiedTime": 1767172936657,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

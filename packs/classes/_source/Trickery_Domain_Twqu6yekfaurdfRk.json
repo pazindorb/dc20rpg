@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -242,29 +243,30 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
-          "key": "system.rollLevel.againstYou.martial.melee",
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.martial.ranged",
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.spell.melee",
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.spell.ranged",
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
@@ -272,6 +274,18 @@
         {
           "key": "system.events",
           "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Trickery Domain\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         }
@@ -299,11 +313,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256695,
+        "modifiedTime": 1768466302387,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -315,11 +329,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034708,
-    "modifiedTime": 1747998784699,
+    "modifiedTime": 1765897824658,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

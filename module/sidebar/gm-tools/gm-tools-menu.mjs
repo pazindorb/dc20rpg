@@ -3,7 +3,6 @@ import { createConditionManager } from "./condition-manager.mjs";
 import { openAdventurersRegister } from "./adventurers-register.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
-import { prepareHelpAction } from "../../helpers/actors/actions.mjs";
 import { DamageCalculator } from "./dmg-calculator.mjs";
 
 export async function createGmToolsMenu() {
@@ -73,7 +72,7 @@ function _helpManager() {
   helpManager.addEventListener('click', async ev => {
     ev.preventDefault();
     const tokens = getSelectedTokens();
-    if (tokens.lenght === 0) return;
+    if (tokens.length === 0) return;
     
     const data = {
       header: "Help Manager",
@@ -100,11 +99,7 @@ function _helpManager() {
 
     const duration = selected[1];
     for (const token of tokens) {
-      if (token.actor) prepareHelpAction(token.actor, {
-        diceValue: Math.abs(value), 
-        subtract: value < 0,
-        duration: duration
-      });
+      if (token.actor) token.actor.help.prepare({diceValue: Math.abs(value), subtract: value < 0, duration: duration});
     }
   });
 
@@ -125,7 +120,6 @@ function _adventurersRegister() {
   return wrapper;
 }
 
-// TODO: Improve before you move it back
 function _dmgCalculator() {
   const dmgCalculator = _getButton("dmg-calculator", "fa-calculator", game.i18n.localize("dc20rpg.ui.sidebar.dmgCalculator"));
   dmgCalculator.addEventListener('click', ev => {

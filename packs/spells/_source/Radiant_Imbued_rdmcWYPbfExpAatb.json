@@ -1,0 +1,791 @@
+{
+  "name": "Radiant Imbued",
+  "type": "spell",
+  "img": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>For the duration, you deal +1 Radiant damage on Martial Attacks.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (2 MP, Repeatable)</strong> Your Attacks affected by this Spell deal +1 Radiant damage.</p><p><strong>Effortless: (1 MP)</strong> You no longer need to Sustain the Spell.</p><p><strong>Illuminating Strikes: (1 MP)</strong> Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. <strong>Save Failure:</strong> The target sheds Dim Light in a 1 Space Aura and can’t benefit from 1/2 Cover or being Invisible.</p><p><strong>Guiding Strikes: (2 MP)</strong> Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. <strong>Save Failure:</strong> Attacks made against the target add a d4 to the Check for 1 round.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "NAW3UGqsTQuVHlOD": {
+        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"M3kqvvdUP8iOx4PG\"];\nconst illuminating = enhancements[\"YbloHZiXtY6KLTaD\"];\nconst guiding = enhancements[\"DGBpMC90MFNKfzP2\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"radiant\";\n\nconst radiantImbued = new DC20.Enhancement();\nradiantImbued.name = \"Radiant Imbued\";\nradiantImbued.modifications.formula = dmgFormula;\nradiantImbued.modifications.addsNewFormula = true;\nradiantImbued.description = `You deal ${1 + damage.number} Radiant damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=M3kqvvdUP8iOx4PG\"]: null,\n  [\"-=DTrQ4xeKIgCAiWNE\"]: null,\n  [\"-=YbloHZiXtY6KLTaD\"]: null,\n  [\"-=DGBpMC90MFNKfzP2\"]: null,\n  radiantImbued: radiantImbued\n}\nif (illuminating.number > 0) {\n  const blueprint = foundry.utils.deepClone(illuminating);\n  blueprint.name = \"Radiant Imbued - Illuminating Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.illuminating = blueprint;\n}\nif (guiding.number > 0) {\n  const blueprint = foundry.utils.deepClone(guiding);\n  blueprint.name = \"Radiant Imbued - Guiding Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.guiding = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
+        "trigger": "postChatMessageCreated",
+        "disabled": false,
+        "name": "Prepare Item after roll",
+        "title": "",
+        "global": false
+      },
+      "e6IkO37w32WuITI6": {
+        "command": "if (!off) return;\n\nconst oldEnhancements = item.flags.dc20rpg.enhancements;\nif (!oldEnhancements) return;\nfor (const enh of Object.values(oldEnhancements)) {\n  enh.number = 0;\n}\n\noldEnhancements[\"-=radiantImbued\"] = null;\noldEnhancements[\"-=illuminating\"] = null;\noldEnhancements[\"-=guiding\"] = null;\nitem.update({\n  [\"flags.dc20rpg.-=enhancements\"]: null,\n  [\"system.copyEnhancements.copy\"]: false,\n  [\"system.enhancements\"]: oldEnhancements\n})",
+        "trigger": "onItemToggle",
+        "disabled": false,
+        "name": "Reset Item on toggle off",
+        "title": "",
+        "global": false
+      }
+    },
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": true,
+      "offOnSustainDrop": true
+    },
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "mar",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "ap": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {},
+    "enhancements": {
+      "M3kqvvdUP8iOx4PG": {
+        "name": "Damage",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Your Attacks affected by this Spell deal +1 Radiant damage.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "DTrQ4xeKIgCAiWNE": {
+        "name": "Effortless",
+        "number": 0,
+        "preventModification": false,
+        "description": "",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "item.system.duration.type = \"continuous\"",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "YbloHZiXtY6KLTaD": {
+        "name": "Illuminating Strikes",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. </p><p><strong>Save Failure:</strong> The target sheds Dim Light in a 1 Space Aura and can’t benefit from 1/2 Cover or being Invisible.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "DGBpMC90MFNKfzP2": {
+        "name": "Guiding Strikes",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. </p><p><strong>Save Failure:</strong> Attacks made against the target add a d4 to the Check for 1 round.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "name": "Guiding Strikes",
+            "img": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": 101,
+              "startTurn": 1,
+              "turns": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "DGBpMC90MFNKfzP2"
+              }
+            },
+            "_id": "mY9ONOqwAUbMqnPk",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": true,
+                "resetWhenEnabled": false,
+                "onTimeEnd": "delete"
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.dynamicRollModifier.againstYou.martial.melee",
+                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.martial.area",
+                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.spell.melee",
+                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.spell.area",
+                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                "mode": 2,
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>Attack rolls made against you have a d4 bonus.</p>",
+            "tint": "#ffffff",
+            "transfer": false,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.350",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.0",
+              "createdTime": 1768215864917,
+              "modifiedTime": 1768215885582,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "system.actionType=[\"attack\"]&&system.attackFormula.checkType=[\"attack\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": true
+    },
+    "range": {
+      "melee": 1,
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "sustain",
+      "timeUnit": "minutes"
+    },
+    "target": {
+      "count": null,
+      "type": "self",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "spellType": "spell",
+    "spellSchool": "transmutation",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    },
+    "spellSource": {
+      "arcane": {
+        "active": false,
+        "label": "dc20rpg.spellSource.arcane"
+      },
+      "divine": {
+        "active": true,
+        "label": "dc20rpg.spellSource.divine"
+      },
+      "primal": {
+        "active": false,
+        "label": "dc20rpg.spellSource.primal"
+      }
+    },
+    "components": {
+      "verbal": {
+        "active": true,
+        "char": "V",
+        "label": "dc20rpg.spellComponent.verbal"
+      },
+      "somatic": {
+        "active": true,
+        "char": "S",
+        "label": "dc20rpg.spellComponent.somatic"
+      },
+      "material": {
+        "active": false,
+        "char": "M",
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "label": "dc20rpg.spellComponent.material"
+      }
+    },
+    "spellTags": {
+      "light": "Light",
+      "radiant": "Radiant",
+      "strike": "Strike",
+      "weapon": "Weapon"
+    }
+  },
+  "effects": [],
+  "folder": "95Xyqk3Qy7lOK92w",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1768215926358,
+    "modifiedTime": 1768415916940,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "rdmcWYPbfExpAatb",
+  "sort": 1200000,
+  "_key": "!items!rdmcWYPbfExpAatb"
+}

@@ -111,6 +111,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     for (let [key, token] of neighbours) {
       // Prone/Incapacitated tokens cannot flank
       if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) neighbours.delete(key);
+      if (token.actor.system.globalModifier.prevent?.flanking) neighbours.delete(key); // Some creatures cannot flank, ex. Familiar
       if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
     }
     if (neighbours.size <= 1) return false;
@@ -211,7 +212,13 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
       for (const token of selected) {
         const actor = token?.actor;
-        if (actor) await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+        if (actor) {
+          const itemData = this.document.flags.dc20rpg.itemData;
+          if (itemData.system.properties?.cumbersome?.active) {
+            if (!actor.resources.ap.checkAndSpend(1)) return;
+          }
+          await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+        }
       }
       await deleteToken(this.id);
     }
@@ -585,7 +592,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
             }
           }
 
-          const applyEffects = getMesuredTemplateEffects(item);
+          const applyEffects = getMesuredTemplateEffects(item, [], this.actor);
           const itemData = {
             itemId: item.id, 
             actorId: this.actor.id, 

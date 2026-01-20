@@ -189,7 +189,7 @@ function _setValues(form, actor, itemCards) {
 
   // =================== ITEMS ====================
   _prepareFeatures(form, actor, itemCards);
-  _prepareSpellsAndTechniques(form, actor, itemCards);
+  _prepareSpellsAndManeuvers(form, actor, itemCards);
   _prepareInventory(form, actor, itemCards);
   // =================== ITEMS ====================
 }
@@ -425,21 +425,21 @@ function _prepareFeatures(form, actor, itemCards) {
   _text(form.getTextField("Features"), text);
 }
 
-function _prepareSpellsAndTechniques(form, actor, itemCards) {
+function _prepareSpellsAndManeuvers(form, actor, itemCards) {
   const spells = actor.items.filter(item => item.type === "spell");
-  const techniques = actor.items.filter(item => item.type === "technique");
+  const maneuvers = actor.items.filter(item => item.type === "maneuver");
 
   let text = "";
-  for (const technique of techniques) {
-    const name = technique.name;
-    const cost = _itemUseCost(technique, actor)
-    const details = _itemDetails(technique);
+  for (const maneuver of maneuvers) {
+    const name = maneuver.name;
+    const cost = _itemUseCost(maneuver, actor)
+    const details = _itemDetails(maneuver);
 
     text += `== ${name}${cost}: ${details}\n`;
     itemCards.push({
       name: `${name}${cost}`,
       details: details,
-      description: _itemDescription(technique)
+      description: _itemDescription(maneuver)
     });
   }
 
@@ -459,7 +459,7 @@ function _prepareSpellsAndTechniques(form, actor, itemCards) {
 }
 
 function _prepareInventory(form, actor, itemCards) {
-  const inventory = actor.items.filter(item => ["weapon", "equipment", "consumable"].includes(item.type));
+  const inventory = actor.items.filter(item => ["weapon", "equipment", "spellFocus", "consumable"].includes(item.type));
 
   let text = "";
   for (const item of inventory) {

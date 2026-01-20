@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/equipment/head/mask-tiger-silver.webp",
   "system": {
-    "description": "<p>You can choose an Armor in your possession and bond with it, making it your <strong>Pact</strong> <strong>Armor</strong>.</p><p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You learn 3 Defensive Maneuvers of your choice.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain MDR.</p></li></ul><p><strong>Pocket Dimension:</strong> Using a<strong> Minor</strong> <strong>Action</strong>, you can dismiss the Armor into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. If you aren’t able to wear the Armor when you summon it, or you choose not to wear it, it appears in your Space at your feet.</p><p><strong>New Pact Armor:</strong> Over the course of a <strong>Quick</strong> <strong>Rest</strong>, you can touch an Armor in your possession, bond with it, and make it your new Pact Armor, ending your bond with your previous Pact Armor.</p>",
+    "description": "<p>You can choose an Armor in your possession and bond with it, making it your <strong>Pact</strong> <strong>Armor</strong>.</p><p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor </strong><span class=\"cf0\"><strong>Training:</strong> You’re considered to have Training with your Pact Armor.</span></p></li><li><p><span class=\"cf0\"><strong>Maneuvers:</strong> You learn 2 Defensive Maneuvers of your choice.</span></p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain +1 AD and MDR.</p></li></ul><p><strong>Pocket Dimension:</strong> Using a<strong> Minor</strong> <strong>Action</strong>, you can dismiss the Armor into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. If you aren’t able to wear the Armor when you summon it, or you choose not to wear it, it appears in your Space at your feet.</p><p><strong>New Pact Armor:</strong> Over the course of a <strong>Quick</strong> <strong>Rest</strong>, you can touch an Armor in your possession, bond with it, and make it your new Pact Armor, ending your bond with your previous Pact Armor.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -160,19 +160,19 @@
       "e4fK27t6bHGpXFx3": {
         "name": "Select Pact Armor",
         "trigger": "onCreate",
-        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}",
+        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}\n// Add training to new armor\narmor.update({[\"system.combatTraining\"]: true});",
         "disabled": false,
         "title": ""
       },
       "eLXqYMgHAUbwSlws": {
         "name": "Remove Pact Armor",
         "trigger": "preDelete",
-        "command": "// Remove buff from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n}",
+        "command": "// Remove buff and training from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n  oldArmor.update({[\"system.combatTraining\"]: false});\n}",
         "disabled": false,
         "title": ""
       },
       "lfcJOR8JHb84qbs4": {
-        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Remove buff from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n}\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}",
+        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Remove buff and training from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n  oldArmor.update({[\"system.combatTraining\"]: false});\n}\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}\n// Add training to new armor\narmor.update({[\"system.combatTraining\"]: true});",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Change Pact Armor",
@@ -184,77 +184,19 @@
     "advancements": {
       "default": {
         "name": "Pact Armor",
-        "items": {
-          "pX0tbCVgA42N6pfp": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.pX0tbCVgA42N6pfp",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": true,
-            "img": "icons/skills/melee/swords-parry-block-blue.webp",
-            "name": "Parry"
-          },
-          "h2EW2TiqRd1rHale": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.h2EW2TiqRd1rHale",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": true,
-            "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
-            "name": "Protect"
-          },
-          "E8p0nKbdW8dhVVhB": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.E8p0nKbdW8dhVVhB",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": true,
-            "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
-            "name": "Raise Shield"
-          },
-          "oKuJ9hsPoWPAirjx": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.oKuJ9hsPoWPAirjx",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": true,
-            "img": "icons/skills/movement/feet-winged-boots-brown.webp",
-            "name": "Side Step"
-          },
-          "2nr63iF95S3bdAtR": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.2nr63iF95S3bdAtR",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": true,
-            "img": "icons/skills/social/diplomacy-handshake.webp",
-            "name": "Swap"
-          },
-          "boasVAX30C1MlZBY": {
-            "uuid": "Compendium.dc20rpg.techniques.Item.boasVAX30C1MlZBY",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": true,
-            "ignoreKnown": true,
-            "img": "icons/skills/wounds/injury-face-impact-orange.webp",
-            "name": "Taunt"
-          }
+        "items": {},
+        "customTitle": "Pact Armor - Maneuvers",
+        "mustChoose": false,
+        "pointAmount": 3,
+        "allowToAddItems": true,
+        "addItemsOptions": {
+          "itemType": "maneuver",
+          "preFilters": "{\"maneuverType\": \"defense\"}",
+          "itemLimit": 2,
+          "helpText": "Add Defense Maneuver"
         },
-        "customTitle": "Pact Armor - Defensive Maneuvers",
-        "mustChoose": true,
-        "pointAmount": 3
+        "key": "default",
+        "macro": "const maneuvers = Object.values(advancement.items);\nfor (const maneuver of maneuvers) {\n  const item = actor.items.get(maneuver.createdItemId);\n  if (item) await item.update({[\"system.knownLimit\"]: false});\n}"
       }
     },
     "toggle": {
@@ -308,25 +250,19 @@
       },
       "changes": [
         {
-          "key": "system.combatTraining.lightArmor",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.combatTraining.heavyArmor",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
           "key": "system.damageReduction.mdr.active",
           "mode": 5,
           "value": "true",
           "priority": null
+        },
+        {
+          "key": "system.defences.area.bonuses.always",
+          "mode": 2,
+          "value": "1",
+          "priority": null
         }
       ],
-      "description": "<p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You gain access to all Defensive Maneuvers.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain MDR.</p></li></ul>",
+      "description": "<p>You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor </strong><span class=\"cf0\"><strong>Training:</strong> You’re considered to have Training with your Pact Armor.</span></p></li><li><p><span class=\"cf0\"><strong>Maneuvers:</strong> You learn 2 Defensive Maneuvers of your choice.</span></p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain +1 AD and MDR.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -352,11 +288,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.347",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.8.0",
         "createdTime": null,
-        "modifiedTime": 1760697538818,
+        "modifiedTime": 1767180976461,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -368,11 +304,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350033944,
-    "modifiedTime": 1760698419193,
+    "modifiedTime": 1767181182123,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

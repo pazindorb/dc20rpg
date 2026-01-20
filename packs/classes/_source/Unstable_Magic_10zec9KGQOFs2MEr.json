@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/sonic/explosion-shock-wave-teal.webp",
   "system": {
-    "description": "<p>When you Critically Succeed or Fail on a <strong>Spell</strong> <strong>Check</strong>, roll on the <strong>@UUID[Compendium.dc20rpg.roll-tables.RollTable.HxkcpDT6pEOIfYUk]{Wild Magic Table}</strong>.</p><p>If it’s a Critical Success you roll with ADV, if it’s a Critical Failure you roll with DisADV.</p><p>The effect lasts until the end of your next turn, unless otherwise stated. When yo<span  data-token-index=\"1\" class=\"notion-enable-hover\">u roll on the Wild Magic Table in this way, yo</span>u gain ADV on the next <strong>Spell</strong> <strong>Check</strong> you make before the end of your n<span  data-token-index=\"3\" class=\"notion-enable-hover\">ext turn.</span></p>",
+    "description": "<p>When you Critically Succeed or Fail on a  <strong>Spell Attack</strong> or a <strong>Spell</strong> <strong>Check</strong>, roll on the <strong>@UUID[Compendium.dc20rpg.roll-tables.RollTable.HxkcpDT6pEOIfYUk]{Wild Magic Table}</strong>.</p><p>If it’s a Critical Success you roll with ADV, if it’s a Critical Failure you roll with DisADV.</p><p>The effect lasts until the end of your next turn, unless otherwise stated. When yo<span data-token-index=\"1\" class=\"notion-enable-hover\">u roll on the Wild Magic Table in this way, yo</span>u gain ADV on the next <strong>Spell</strong> <strong>Check</strong> you make before the end of your n<span data-token-index=\"3\" class=\"notion-enable-hover\">ext turn.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -247,30 +248,36 @@
       "changes": [
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"basic\", \"trigger\": \"nextTurnEnd\", \"label\": \"Unstable Magic\", \"postTrigger\": \"disable\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unstable Magic\", \"afterRoll\": \"disable\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unstable Magic\", \"afterRoll\": \"disable\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.spe",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.spe",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unstable Magic\", \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unstable Magic\", \"afterRoll\": \"disable\"",
+          "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p><span>You gain ADV on the next </span><span><strong>Spell</strong></span> <span><strong>Check</strong></span> you make before the end of your next turn.</p>",
+      "description": "<p><span>You gain ADV on the next <strong>Spell</strong></span> <span><strong>Check</strong></span> you make before the end of your next turn.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -293,11 +300,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256569,
+        "modifiedTime": 1766696771308,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -309,11 +316,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035786,
-    "modifiedTime": 1747998784692,
+    "modifiedTime": 1767175490913,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

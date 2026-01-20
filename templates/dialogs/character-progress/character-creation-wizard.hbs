@@ -171,9 +171,9 @@
                   <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="weapon" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.weapon"}}"><i class="fa-solid fa-sword"></i><i class="fa-solid fa-plus"></i></a>
                   <a class="margin-left-5 open-item-creator" data-key="{{key}}" data-slot="weapon" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.weapon"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-sword"></i></i></a>
                 {{/if}}
-                {{#if equipment.ranged}}
-                  <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="ranged" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.ranged"}}"><i class="fa-solid fa-bow-arrow"></i><i class="fa-solid fa-plus"></i></a>
-                  <a class="margin-left-5 open-item-creator" data-key="{{key}}" data-slot="ranged" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.ranged"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-bow-arrow"></i></i></a>
+                {{#if equipment.spellFocus}}
+                  <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="spellFocus" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.spellFocus"}}"><i class="fa-solid fa-book-sparkles"></i><i class="fa-solid fa-plus"></i></a>
+                  <a class="margin-left-5 open-item-creator" data-key="{{key}}" data-slot="spellFocus" title="{{localize "dc20rpg.dialog.creationWizard.createToSlot.spellFocus"}}"><i class="fa-solid fa-hammer-crash"><i class="fa-solid fa-book-sparkles"></i></i></a>
                 {{/if}}
                 {{#if equipment.shield}}
                   <a class="margin-left-5 open-compendium" data-key="{{key}}" data-slot="shield" title="{{localize "dc20rpg.dialog.creationWizard.addToSlot.shield"}}"><i class="fa-solid fa-shield"></i><i class="fa-solid fa-plus"></i></a>

@@ -26,6 +26,11 @@
         <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
       </a>
       {{/if}}
+      {{#if effect.manualTrigger}} 
+      <a class="margin-left-3 manual-event" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectManualTrigger'}}">
+        <i class="fa-solid fa-play"></i>
+      </a>
+      {{/if}}
     {{/if}}
   </div>
 </div>

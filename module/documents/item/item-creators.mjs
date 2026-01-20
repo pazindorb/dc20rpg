@@ -25,6 +25,7 @@ export class Enhancement {
     targetDefenceType: "area",
     hasAdditionalFormula: false,
     additionalFormula: "",
+    specificFormulaKey: "",
     overrideDamageType: false,
     damageType: "",
     addsNewFormula: false,
@@ -49,7 +50,8 @@ export class Enhancement {
       normal: null,
       max: null
     },
-    changeManaSpendLimit: 0
+    changeManaSpendLimit: 0,
+    changeStaminaSpendLimit: 0
   };
 
 
@@ -81,9 +83,11 @@ export class Enhancement {
 export class Formula {
   formula = "";
   type = "";
+  label = "";
   category = "damage";
   fail = false;
   failFormula = "";
+  dontModifyFailFormula = false;
   each5 = false;
   each5Formula = "";
   dontMerge = false;
@@ -168,7 +172,6 @@ export class RollRequest {
   dcCalculation = "spell";
   dc = 0;
   addMasteryToDC = true;
-  respectSizeRules = false;
 
   static async create(data={}, options={}) {
     const item = options.parent;
@@ -193,6 +196,7 @@ export class AgainstStatus {
   untilTargetNextTurnEnd = false;
   untilFirstTimeTriggered = false;
   forOneMinute = false;
+  forXRounds = null;
   repeatedSave = false;
   repeatedSaveKey = "phy";
 

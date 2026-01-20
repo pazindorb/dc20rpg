@@ -44,7 +44,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       },
       "area": "",
@@ -164,7 +165,7 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.initiative",
+          "key": "system.dynamicRollModifier.onYou.initiative",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\"",
           "mode": 2,
           "priority": null
@@ -193,11 +194,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1737845975890,
-        "modifiedTime": 1750880257472,
+        "modifiedTime": 1766696771798,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -227,25 +228,25 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.martial.melee",
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
           "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
           "mode": 2,
           "priority": null
@@ -253,6 +254,18 @@
         {
           "key": "system.events",
           "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"label\": \"Fast Reflexes\", \"reenable\": \"combatStart\", \"alwaysActive\": true, \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
           "mode": 2,
           "priority": null
         }
@@ -280,11 +293,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1737846069087,
-        "modifiedTime": 1750880257474,
+        "modifiedTime": 1766696771800,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -300,11 +313,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.X8caTHh2OHvbGDmW",
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1745412762447,
+    "modifiedTime": 1765897567600,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

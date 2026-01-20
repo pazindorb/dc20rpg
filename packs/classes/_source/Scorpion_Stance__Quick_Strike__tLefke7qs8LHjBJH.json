@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/stinger-poison-scorpion-brown.webp",
   "system": {
-    "description": "<ul><li><p>When a creature enters your <strong>Melee Range</strong>, you can make an <strong>Opportunity</strong> <strong>Attack</strong> against them with a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong>, you can spend <strong>1 AP</strong> to deal <strong>+1 damage</strong> and force the target to make a <strong>Physical Save</strong> against your <strong>Save DC</strong>. <br><strong>Failure:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> on the next Physical Check it makes before the end of your next turn.</p></li></ul>",
+    "description": "<ul><li><p><span class=\"cf0\">Creatures provoke Opportunity Attacks from you when they enter your Melee Range.</span></p></li><li><p><span class=\"cf0\">When you make a Melee Martial Attack, you can spend <strong>1 AP</strong> to deal +1 damage and force the target to make a Physical Save against your Save DC. </span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target is Impaired on the next Physical Check it makes before the end of your next turn.</span></p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -145,9 +146,11 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null,
+          "specificFormulaKey": ""
         },
-        "description": "<p>When you make a <strong>Melee Martial Attack</strong>, you can spend <strong>1 AP</strong> to deal <strong>+1 damage</strong> and force the target to make a <strong>Physical Save</strong> against your <strong>Save DC</strong>. <br><strong>Failure:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired}</strong> on the next Physical Check it makes before the end of your next turn.</p>",
+        "description": "<p><span class=\"cf0\">When you make a Melee Martial Attack, you can spend <strong>1 AP</strong> to deal +1 damage and force the target to make a Physical Save against your Save DC. </span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target is Impaired on the next Physical Check it makes before the end of your next turn.</span></p>",
         "hide": false,
         "charges": {
           "subtract": null,
@@ -162,7 +165,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponType=\"melee\"",
+      "copyFor": "system.attackFormula.rangeType=[\"melee\"]&&system.attackFormula.checkType=[\"attack\"]",
       "linkWithToggle": true,
       "hideFromRollMenu": false
     },
@@ -376,9 +379,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034157,
-    "modifiedTime": 1761303729750,
+    "modifiedTime": 1767170753042,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

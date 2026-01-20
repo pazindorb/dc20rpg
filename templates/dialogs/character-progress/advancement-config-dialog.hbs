@@ -34,22 +34,28 @@
         <span>{{localize "dc20rpg.dialog.advancement.itemLimit"}}</span>
         <input class="numeric-input-nullable" type="text" value="{{addItemsOptions.itemLimit}}" data-path="addItemsOptions.itemLimit"/>
       </div>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.doNotAddToKnownLimitTitle"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.doNotAddToKnownLimit"}}</span>
+        <a class="activable" data-path="doNotAddToKnownLimit"><i class="fa-2x {{#if doNotAddToKnownLimit}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.dialog.advancement.compendium"}}</span>
         <select class="selectable" data-path="addItemsOptions.itemType">
           {{selectOptions compendiumTypes selected=addItemsOptions.itemType blank=""}}
         </select>
       </div>
-      {{#ifCond source "===" "class"}}
-      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.talentFilterTooltip"}}">
-        <span>{{localize "dc20rpg.dialog.advancement.talentFilter"}}</span>
-        <a class="activable" data-path="addItemsOptions.talentFilter"><i class="fa-2x {{#if addItemsOptions.talentFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      {{#ifCond addItemsOptions.itemType "===" "spell"}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.classSpellFilter"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.classSpellFilter"}}</span>
+        <a class="activable" data-path="addItemsOptions.classSpellFilter"><i class="fa-2x {{#if addItemsOptions.classSpellFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
       </div>
       {{/ifCond}}
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.dialog.advancement.ancestryFilter"}}</span>
-        <a class="activable" data-path="addItemsOptions.ancestryFilter"><i class="fa-2x {{#if addItemsOptions.ancestryFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      {{#ifCond source "===" "class"}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.talentTooltip"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.talent"}}</span>
+        <a class="activable" data-path="talent"><i class="fa-2x {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
       </div>
+      {{/ifCond}}
       <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.preFiltersTitle"}}">
         <span>{{localize "dc20rpg.dialog.advancement.preFilters"}}</span>
         <textarea class="input" type="text" data-path="addItemsOptions.preFilters">{{addItemsOptions.preFilters}}</textarea>

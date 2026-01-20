@@ -41,7 +41,8 @@
           "hshield",
           "light",
           "heavy",
-          "other"
+          "other",
+          "spellFocus"
         ],
         "cost": 0
       },
@@ -52,7 +53,8 @@
         "for": [
           "ranged"
         ],
-        "cost": 0
+        "cost": 0,
+        "ammoId": ""
       },
       "concealable": {
         "active": false,
@@ -80,14 +82,16 @@
           "melee",
           "ranged"
         ],
-        "cost": 2
+        "cost": 2,
+        "disabled": false
       },
       "impact": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.properties.impact",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY",
         "for": [
-          "melee"
+          "melee",
+          "ranged"
         ],
         "cost": 1
       },
@@ -101,21 +105,22 @@
         "cost": 1
       },
       "multiFaceted": {
-        "active": false,
+        "active": true,
         "selected": "first",
-        "labelKey": "hammer",
+        "labelKey": "",
         "weaponStyle": {
           "first": "hammer",
-          "second": "pick"
+          "second": "whip"
         },
         "damageType": {
           "first": "bludgeoning",
-          "second": "piercing"
+          "second": "slashing"
         },
         "label": "dc20rpg.properties.multiFaceted",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
         "for": [
-          "melee"
+          "melee",
+          "ranged"
         ],
         "cost": 1
       },
@@ -137,7 +142,8 @@
         "for": [
           "ranged"
         ],
-        "cost": 0
+        "cost": -1,
+        "loaded": true
       },
       "silent": {
         "active": false,
@@ -165,7 +171,8 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "disabled": true
       },
       "twoHanded": {
         "active": true,
@@ -182,8 +189,7 @@
         "label": "dc20rpg.properties.unwieldy",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w",
         "for": [
-          "melee",
-          "ranged"
+          "melee"
         ],
         "cost": -1
       },
@@ -203,7 +209,8 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "disabled": true
       },
       "capture": {
         "active": false,
@@ -213,6 +220,24 @@
           "melee"
         ],
         "cost": 1
+      },
+      "cumbersome": {
+        "label": "dc20rpg.properties.cumbersome",
+        "for": [
+          "ranged"
+        ],
+        "cost": -1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.s5koKAxjBv26tHHV",
+        "active": false
+      },
+      "deft": {
+        "label": "dc20rpg.properties.deft",
+        "for": [
+          "ranged"
+        ],
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oiJStOGltgWyJiUL",
+        "active": false
       }
     },
     "isReaction": false,
@@ -232,8 +257,8 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 0,
-      "max": 0,
+      "normal": null,
+      "max": null,
       "unit": ""
     },
     "target": {
@@ -247,7 +272,7 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "att",
+      "checkKey": "mar",
       "contestedKey": "phy",
       "checkDC": 10
     },
@@ -260,7 +285,8 @@
         "failFormula": "",
         "each5": false,
         "each5Formula": "",
-        "overrideDefence": ""
+        "overrideDefence": "",
+        "dontMerge": false
       }
     },
     "enhancements": {},
@@ -270,7 +296,7 @@
     },
     "save": {
       "type": "phy",
-      "dc": null,
+      "dc": 0,
       "calculationKey": "spell",
       "addMastery": false
     },
@@ -298,25 +324,25 @@
         "consumeCharge": true
       }
     },
-    "weaponStyle": "chained",
+    "weaponStyle": "hammer",
     "weaponType": "melee",
     "secondWeaponStyle": "axe"
   },
   "effects": [],
-  "sort": 100000,
+  "sort": 150000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
   "flags": {},
   "_stats": {
-    "compendiumSource": "Item.Dtcerphyw5mqINjq",
-    "duplicateSource": "Item.xwmZWI5qbpZUyKFI",
+    "compendiumSource": null,
+    "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1719920384377,
-    "modifiedTime": 1761242840834,
+    "modifiedTime": 1767299473695,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

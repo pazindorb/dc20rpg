@@ -19,14 +19,14 @@
 					</div>
 					{{/if}}
 					<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.showHideUnknown'}}">
-						{{{show-hide-toggle flags.dc20rpg.showUnknownSkills "flags.dc20rpg.showUnknownSkills"}}}
+						{{{show-hide-toggle system.sheetData.show.unknownSkills "system.sheetData.show.unknownSkills"}}}
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="skills">
 			{{#each skills.skills as |skill key|}}
-			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownSkills}}
+			{{#ifCond skill.mastery '||' @root.system.sheetData.show.unknownSkills}}
 			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
 				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-type="skills" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
 				<div class="skill-mastery">
@@ -77,14 +77,14 @@
 					</div>
 					{{/if}}
 					<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.showHideUnknown'}}">
-						{{{show-hide-toggle flags.dc20rpg.showUnknownTrades "flags.dc20rpg.showUnknownTrades"}}}
+						{{{show-hide-toggle system.sheetData.show.unknownTrades "system.sheetData.show.unknownTrades"}}}
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="skills">
 			{{#each skills.trades as |skill key|}}
-			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownTrades}}
+			{{#ifCond skill.mastery '||' @root.system.sheetData.show.unknownTrades}}
 			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.tradesJournal}}">
 				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-type="trades" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
 				<div class="skill-mastery">
@@ -132,14 +132,14 @@
 					</div>
 					{{/if}}
 					<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.showHideUnknown'}}">
-						{{{show-hide-toggle flags.dc20rpg.showUnknownLanguages "flags.dc20rpg.showUnknownLanguages"}}}
+						{{{show-hide-toggle system.sheetData.show.unknownLanguages "system.sheetData.show.unknownLanguages"}}}
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="skills">
 			{{#each skills.languages as |skill key|}}
-			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownLanguages}}
+			{{#ifCond skill.mastery '||' @root.system.sheetData.show.unknownLanguages}}
 			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">

@@ -17,7 +17,6 @@ import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser
 import { createTransferDialog } from "../../dialogs/transfer.mjs";
 import { getActorsForUser, userSelector } from "../../helpers/users.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
-import { clearHelpDice, prepareHelpAction } from "../../helpers/actors/actions.mjs";
 import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
 import { ActionSelect } from "../../dialogs/action-select.mjs";
@@ -48,14 +47,14 @@ export function activateCommonLinsters(html, actor) {
   });
   html.find('.recharge-item').click(ev => getItemFromActor(datasetOf(ev).itemId, actor).use.regainCharges());
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
-  html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) prepareHelpAction(actor)});
+  html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) actor.help.prepare()});
   html.find('.help-dice').mousedown(async ev => {
     if (ev.which !== 3) return;
     const key = ev.currentTarget.dataset?.key;
     const owner = getActorFromIds(actor.id, actor.token?.id);
     if (owner) {
       const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
-      if (confirmed) clearHelpDice(owner, key);
+      if (confirmed) owner.help.clear(key);
     }
   });
 
@@ -115,6 +114,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
+  html.find('.manual-event').click(ev => {
+    const effect = actor.effects.get(datasetOf(ev).effectId);
+    if (effect) effect.runManualEvent();
+  });
   
   // Skills
   html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
@@ -211,8 +214,7 @@ async function _onItemCreate(tab, actor) {
   switch(tab) {
     case "inventory":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes; break;
     case "features":    selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes; break;
-    case "techniques":  selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.techniquesTypes; break;
-    case "spells":      selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes; break; 
+    case "known":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.knownTypes; break;
   }
 
   const itemType = await SimplePopup.select(game.i18n.localize("dc20rpg.dialog.create.itemType"), selectOptions);
@@ -255,7 +257,7 @@ async function _onInfusionRoll(actor, infusion) {
     return;
   }
 
-  const items = actor.getAllItemsWithType(["weapon", "consumable", "equipment"]);
+  const items = actor.getAllItemsWithType(["weapon", "spellFocus", "consumable", "equipment"]);
   const itemId = await SimplePopup.select("Select Item to Infuse", toSelectOptions(items, "id", "name"));
   const item = actor.items.get(itemId);
   if (!item) return;

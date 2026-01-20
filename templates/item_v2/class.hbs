@@ -43,10 +43,6 @@
         <span>{{localize "dc20rpg.item.sheet.uniqueItemKey"}}</span>
         <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
       </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.class.martialExpanison"}}</span>
-        <a class="fa-lg activable {{#if system.martialExpansion}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.martialExpansion"></a>
-      </div>
 
       {{!-- Class Category --}}
       <div class="sub-header margin-top-5">
@@ -68,7 +64,7 @@
         <span>{{localize "dc20rpg.item.sheet.class.combatTraining"}}</span>
       </div>
       <div class="properties">
-        <div class="grid grid-5col grid-gap-5 margin-top-3">
+        <div class="grid grid-4col grid-gap-5 margin-top-3">
           {{#each system.combatTraining as |mastery key|}}
           <a class="activable-box activable {{#if mastery}} active {{/if}}" data-path="system.combatTraining.{{key}}">
             {{labelFromKey key @root.config.TRANSLATION_LABELS.combatTraining}}
@@ -93,8 +89,8 @@
             <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.weapon"}}">
               <a class="activable fa-lg fa-sword fa-solid {{#if equipment.weapon}}active{{/if}}" data-path="system.startingEquipment.{{key}}.weapon" ></a>
             </div>
-            <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.ranged"}}">
-              <a class="activable fa-lg fa-bow-arrow fa-solid {{#if equipment.ranged}}active{{/if}}" data-path="system.startingEquipment.{{key}}.ranged" ></a>
+            <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.spellFocus"}}">
+              <a class="activable fa-lg fa-book-sparkles fa-solid {{#if equipment.spellFocus}}active{{/if}}" data-path="system.startingEquipment.{{key}}.spellFocus" ></a>
             </div>
             <div class="letter-circle-icon clickable" title="{{localize "dc20rpg.item.sheet.startingEquipment.shield"}}">
               <a class="activable fa-lg fa-shield fa-solid {{#if equipment.shield}}active{{/if}}" data-path="system.startingEquipment.{{key}}.shield" ></a>
@@ -108,6 +104,68 @@
           </div>
         </div>
       {{/each}}
+
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.hasSpellList"}}</span>
+        <a class="fa-lg activable {{#if system.hasSpellList}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.hasSpellList"></a>
+      </div>
+
+      {{#if system.hasSpellList}}
+      {{!-- Spell Sources --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.spellSources"}}</span>
+        <input type="text" data-dType="Number" style="width: 50px" name="system.filters.canChoose.spellSource" value="{{system.filters.canChoose.spellSource}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/>
+      </div>
+      <div class="properties">
+        <div class="grid grid-3col grid-gap-5 margin-top-3">
+          {{#each system.filters.spellSource as |source key|}}
+          <a class="activable-box activable {{#if source}} active {{/if}}" data-path="system.filters.spellSource.{{key}}">
+            {{localize (concat "dc20rpg.spellSource." key '')}}
+          </a>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Spell Schools --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.spellSchools"}}</span>
+        <input type="text" data-dType="Number" style="width: 50px" name="system.filters.canChoose.spellSchool" value="{{system.filters.canChoose.spellSchool}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/>
+      </div>
+      <div class="properties">
+        <div class="grid grid-4col grid-gap-5 margin-top-3">
+          {{#each system.filters.spellSchool as |school key|}}
+          <a class="activable-box activable {{#if school}} active {{/if}}" data-path="system.filters.spellSchool.{{key}}">
+            {{localize (concat "dc20rpg.spellSchool." key '')}}
+          </a>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Spell Tags --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.spell.spellTags"}}</span>
+        {{!-- <input type="text" data-dType="Number" name="system.filters.canChoose.spellTags" value="{{system.filters.canChoose.spellTags}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/> --}}
+      </div>
+      <div class="row margin-top-5">
+        <select class="multi-select" data-path="system.filters.spellTags">
+          {{selectOptions @root.config.DROPDOWN_DATA.spellTags blank=""}}
+        </select>
+        <div class="selected-options margin-top-2" style="flex-wrap: wrap; gap:1px;">
+          {{#each system.filters.spellTags as |option key|}}
+            <div class="option">
+              <span>{{labelFromKey option @root.config.ROLL_KEYS.allChecks}}</span>
+              <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.filters.spellTags" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.spell.removeSpellTag"}}"></a>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+
+      {{!-- Creation Macro --}}
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.class.creationMacro"}}</span>
+        <a class="macro-edit margin-right-3 fa-pen-to-square fa-solid fa-lg" data-key="creation"></a>
+      </div>
     </div>
 
     {{!-- Class Table --}}

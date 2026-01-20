@@ -106,7 +106,7 @@ function _handleHealing(data, token) {
 //==========================================
 //=               AUTO LINK                =
 //==========================================
-const EXCLUDE = new Set(["attack","object","spell","move","jump"]);
+const EXCLUDE = new Set(["attack","object","spell","move","jump","throw"]);
 const UUID_TOKEN_RE = /@UUID\[[^\]]+]\{[^}]*}/g;
 
 const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -118,7 +118,7 @@ let CAPTURE_TO_LINK = [];
 export function initJournalLinker() {
   const raw = {
     ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal,
-    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems
+    ...CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems
   };
 
   const entries = Object.entries(raw).filter(([k]) => !EXCLUDE.has(k));

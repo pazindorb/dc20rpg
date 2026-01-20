@@ -1,4 +1,3 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 
 export function isStackable(statusId) {
@@ -42,7 +41,7 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     effect.description += extras.mergeDescription;
   }
   if (extras.untilFirstTimeTriggered) {
-    changes.forEach(change => _enhnanceRollLevel(change));
+    changes.forEach(change => _enhnanceDynamicRollModifier(change));
     changes.push(_newEvent("targetConfirm", effect.name, extras.actorId)); 
   }
   if (extras.untilTargetNextTurnStart) {
@@ -68,12 +67,16 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   if (extras.repeatedSave && extras.repeatedSaveKey !== "") {
     changes.push(_repeatedSave(effect.name, extras.repeatedSaveKey, extras.against, extras.id))
   }
+  if (extras.sustain) {
+    effect.system.sustained = extras.sustain;
+  }
+
   if (extras.forOneMinute) {
     effect.duration.rounds = 5;
     effect.system.duration.useCounter = true;
     effect.system.duration.onTimeEnd = "delete";
   }
-  if (extras.forXRounds) {
+  else if (extras.forXRounds) {
     effect.duration.rounds = extras.forXRounds;
     effect.system.duration.useCounter = true;
     effect.system.duration.onTimeEnd = "delete";
@@ -134,8 +137,8 @@ function _repeatedSave(label, checkKey, against, statusId) {
   }
 }
 
-function _enhnanceRollLevel(change) {
-  if (change.key.includes("system.rollLevel.")) {
+function _enhnanceDynamicRollModifier(change) {
+  if (change.key.includes("system.dynamicRollModifier.")) {
     change.value = '"afterRoll": "delete", ' + change.value;
   }
 }

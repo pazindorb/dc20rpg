@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/social/intimidation-impressing.webp",
   "system": {
-    "description": "<p>You stand ready for Combat at any moment, granting you the following benefits:</p><ul><li><p><strong>Combat Readiness:</strong> At the start of your first turn in Combat, you gain one of the following benefits:</p><ul><li><p><strong>Brace:</strong> You gain the benefits of the Dodge Action and ADV on the next Save you make.</p></li><li><p><strong>Advance:</strong> You gain the benefits of the Move Action and ADV on the next Physical Check you make.</p></li></ul></li><li><p><strong>Second Wind:</strong> Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 1 SP.</p></li></ul><p></p><p><em><strong>System Tip:</strong> Roll this item to trigger <strong>Combat Readiness.</strong></em></p>",
+    "description": "<p>You stand ready for Combat at any moment, granting you the following benefits:</p><ul><li><p><strong>Combat Readiness:</strong> At the start of your first turn in Combat, you gain one of the following benefits:</p><ul><li><p><strong>Brace:</strong> You gain the benefits of the Dodge Action and ADV on the next Save you make.</p></li><li><p><strong>Advance:</strong> You gain the benefits of the Move Action and ADV on the next Physical Check you make.</p></li></ul></li><li><p><strong>Second Wind:</strong> Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 2 SP.</p></li></ul><p></p><p><em><strong>System Tip:</strong> Roll this item to trigger <strong>Combat Readiness.</strong></em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -162,7 +162,7 @@
     "quickRoll": true,
     "macros": {
       "MWR4SWwQdnR1rWjz": {
-        "name": "preItemRoll",
+        "name": "Combat Readiness",
         "trigger": "preItemRoll",
         "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
         "disabled": false,
@@ -254,7 +254,7 @@
           "mode": "=="
         },
         "effectKey": "secondWind",
-        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await DC20.dialog.SimplePopup.confirm(\"Do you want to use Second Wind to regain 1 SP and 2 HP?\", {actor: actor});\nif (!confirmed) return;\n\nawait actor.resources.stamina.regain(1);\nawait actor.resources.health.regain(2);\nawait effect.disable()"
+        "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await DC20.dialog.SimplePopup.confirm(\"Do you want to use Second Wind to regain 2 SP and 2 HP?\", {actor: actor});\nif (!confirmed) return;\n\nawait actor.resources.stamina.regain(2);\nawait actor.resources.health.regain(2);\nawait effect.disable()"
       },
       "changes": [
         {
@@ -264,7 +264,7 @@
           "priority": null
         }
       ],
-      "description": "<p>Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 1 SP.</p>",
+      "description": "<p>Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 2 SP.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -289,11 +289,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.347",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.8.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1760988538576,
+        "modifiedTime": 1767119035117,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -311,7 +311,7 @@
         "startTurn": null
       },
       "disabled": false,
-      "description": "<p>You have ADV on the next Physical Check<span> </span><span>you make.</span></p>",
+      "description": "<p>You have ADV on the next Physical Check<span> you make.</span></p>",
       "flags": {
         "dc20rpg": {
           "duration": {
@@ -330,33 +330,45 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.checks.mig",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.agi",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.checks.att",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.checks.att",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mar",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -378,11 +390,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.sIxJsqtrjssed4Y1",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256731,
+        "modifiedTime": 1766696771350,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -419,27 +431,27 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.saves.mig",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.saves.mig",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.saves.agi",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.saves.agi",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.saves.int",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.saves.int",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.saves.cha",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.saves.cha",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -461,11 +473,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.5aMwjGU6cgMn9LWQ",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256733,
+        "modifiedTime": 1766696771353,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -496,39 +508,51 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.againstYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.spell.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.spell.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Brace: Dodge\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.againstYou.skills",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.againstYou.skills",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -556,11 +580,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.Item.KzYJlGDFQVxuw2UF.ActiveEffect.q11dyOEQpnZF878I",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256735,
+        "modifiedTime": 1766696771355,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -595,7 +619,7 @@
         "effectKey": "",
         "macro": "",
         "addToChat": false,
-        "nonessential": false,
+        "nonessential": true,
         "disableWhen": {
           "path": "",
           "mode": "",
@@ -620,11 +644,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": 1750883414702,
-        "modifiedTime": 1751009350612,
+        "modifiedTime": 1765913135669,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!o3A1c3BNoF3vnlwI.0dL58g6MuN63kUss"
@@ -635,11 +659,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034491,
-    "modifiedTime": 1760620666931,
+    "modifiedTime": 1767119061027,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

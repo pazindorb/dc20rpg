@@ -2820,7 +2820,7 @@
   padding: 5px;
   color: var(--text-color-3);
 }
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit {
+.dc20rpg #roll-prompt .expected-cost .spend-limit {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2830,18 +2830,18 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit .cost-printer {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit .cost-printer b {
   white-space: nowrap;
   text-shadow: none;
   color: var(--text-color);
+  border-right: 2px solid var(--border-color);
 }
-.dc20rpg #roll-prompt .expected-cost .mana-spend-limit.exceeds .mana, .dc20rpg #roll-prompt .expected-cost .mana-spend-limit.exceeds .fa-gauge-max {
+.dc20rpg #roll-prompt .expected-cost .spend-limit .cost-printer {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-right: 0;
+}
+.dc20rpg #roll-prompt .expected-cost .spend-limit .cost-printer .exceeds {
   color: var(--dark-red);
 }
 .dc20rpg #roll-prompt .expected-cost .extra-buttons {
@@ -2880,6 +2880,34 @@
   font-size: 34px;
   margin-left: -3px;
   margin-top: -5px;
+}
+.dc20rpg #roll-prompt .formula-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #roll-prompt .formula-wrapper input {
+  width: 100%;
+  border: 0;
+  text-align: center;
+  background-color: transparent;
+  padding: 4px;
+}
+.dc20rpg #roll-prompt .formula-wrapper .formula-partial {
+  padding: 3px;
+}
+.dc20rpg #roll-prompt .formula-wrapper .formula-partial:hover {
+  border: 1px solid var(--text-color-2);
+  border-radius: 3px;
+  padding: 6px;
+  -webkit-box-shadow: 0 0 8px var(--activable-off) inset;
+  box-shadow: 0 0 8px var(--activable-off) inset;
 }
 .dc20rpg #roll-prompt .roll-menu {
   display: grid;
@@ -4092,7 +4120,7 @@
   border: 1px solid var(--secondary-darker);
   background-color: var(--secondary-lighter);
 }
-.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper {
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .checkbox-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4103,7 +4131,7 @@
   font-size: 12px;
   padding: 0 5px;
 }
-.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper .multi-select {
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .checkbox-wrapper .checkbox {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4115,7 +4143,7 @@
   justify-content: space-between;
   margin-bottom: 2px;
 }
-.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper .multi-select span {
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .checkbox-wrapper .checkbox span {
   font-weight: bold;
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .over-under-wrapper {
@@ -4135,6 +4163,47 @@
   margin-left: -8px;
   border-radius: 3px;
   border: 3px solid var(--border-color);
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .multi-select-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .selected-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap;
+  gap: 2px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .selected-options .option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px;
+  border-radius: 3px;
+  color: var(--secondary-darker);
+  border: 1px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
 }
 .dc20rpg #initiative-slot-selector .selectable {
   width: 50px;
@@ -4591,6 +4660,44 @@
 }
 .dc20rpg #adventurers-register .item-list .name:hover {
   cursor: pointer;
+}
+.dc20rpg #drm-dialog .result-wrapper {
+  -webkit-box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+  box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row {
+  padding: 10px 5px;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: bold;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  text-align: end;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .fa-solid {
+  text-shadow: -1px 0 var(--border-color), 0 1px var(--border-color), 1px 0 var(--border-color), 0 -1px var(--border-color);
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .green {
+  color: #016b01;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .red {
+  color: #8f0404;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .purple {
+  color: #8f0288;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row .gold {
+  color: #c7b511;
+  text-shadow: -1px 0 #8f0404, 0 1px #8f0404, 1px 0 #8f0404, 0 -1px #8f0404;
+}
+.dc20rpg #drm-dialog .result-wrapper .result-row:last-child {
+  border-bottom: none;
 }
 .dc20rpg .item-list {
   margin-bottom: 10px;
@@ -13160,9 +13267,7 @@
   -ms-flex-align: center;
   align-items: center;
   height: auto;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+  width: auto;
 }
 #tooltip-container .tooltip-header input {
   font-family: var(--font-h4);

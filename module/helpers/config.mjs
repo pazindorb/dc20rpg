@@ -22,7 +22,7 @@ import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getTokenForActor } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
-import { calculateForTarget, tokenToTarget } from "./targets.mjs";
+import { calculateForTarget, getActorFromTargetHash, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
@@ -31,7 +31,8 @@ import { RollSelect } from "../dialogs/roll-select.mjs";
 export function prepareDC20tools() {
   window.DC20 = {
     tools: {
-      toSelectOptions
+      toSelectOptions,
+      getActorFromTargetHash
     },
     dialog: {
       SimplePopup,
@@ -172,17 +173,12 @@ export function initDC20Config() {
 
   // Prepare Basic Checks
   CONFIG.DC20RPG.ROLL_KEYS.baseChecks = {
-    att: "Attack Check",
+    mar: "Martial Check",
     spe: "Spell Check",
   }
 
   // Prepare Skill Checks
   const skillChecks = {};
-
-  // Martial Check requires acrobatic and athletics skills
-  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
-    skillChecks.mar = "Martial Check";
-  }
   // Prepare Skills
   Object.entries(CONFIG.DC20RPG.skills).forEach(([key, label]) => {
     skillChecks[key] = `${label} Check`;
@@ -257,13 +253,14 @@ DC20RPG.allEventTriggers = {
   effectDisabled: "Effect Disabled",
   rollSave: "Save Roll",
   rollCheck: "Check Roll",
+  attack: "Attack Roll",
   rollItem: "Any Item Roll",
-  attack: "Item Attack Roll",
-  move: "Actor Move",
+  move: "Movement",
   crit: "On Nat 20",
   critFail: "On Nat 1",
   never: "Never",
   instant: "Instant",
+  manual: "Manual Trigger",
   rest: "On Rest End",
 }
 
@@ -278,6 +275,7 @@ DC20RPG.reenableTriggers = {
   effectRemoved: "Effect Removed",
   effectEnabled: "Effect Enabled",
   effectDisabled: "Effect Disabled",
+  manual: "Manual Trigger"
 }
 
 DC20RPG.macroTriggers = {
@@ -286,7 +284,7 @@ DC20RPG.macroTriggers = {
   preDelete: "Before Deletion",
   onItemToggle: "On Item Toggle/Equip",
   onRollPrompt: "On Roll Dialog Open",
-  rollLevelCheck: "On Roll Level Check",
+  onDRMCheck: "On Dynamic Roll Modifier Check",
   preItemCost: "Before Item Cost Check",
   preItemRoll: "Before Item Roll",
   postItemRoll: "After Item Roll",
@@ -380,6 +378,7 @@ DC20RPG.TRANSLATION_LABELS.attributes = {
 
 DC20RPG.TRANSLATION_LABELS.combatTraining = {
   weapons: "Weapons",
+  spellFocuses: "Spell Focuses",
   lightShield: "Light Shield",
   heavyShield: "Heavy Shield",
   lightArmor: "Light Armor",
@@ -448,7 +447,9 @@ DC20RPG.DROPDOWN_DATA.basicActionsCategories = {
   defensive: "Defensive",
   utility: "Utility",
   reaction: "Reaction",
-  skillBased: "Skill Based"
+  skillBased: "Skill Based",
+  weaponStyles: "Weapon Styles",
+  basic: "Basic"
 }
 
 DC20RPG.DROPDOWN_DATA.weaponTypes = {
@@ -485,6 +486,7 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   wand: "Wand",
   bomb: "Bomb",
   trap: "Trap",
+  kit: "Kit",
   trinket: "Trinket",
   other: "Other"
 },
@@ -502,34 +504,38 @@ DC20RPG.DROPDOWN_DATA.equipmentSlots = {
   weapon: "Held",
 }
 
-DC20RPG.DROPDOWN_DATA.techniqueTypes = {
+DC20RPG.DROPDOWN_DATA.knownTypes = {
   maneuver: "Maneuver",
-  technique: "Technique"
+  spell: "Spell",
+  infusion: "Infusion"
+}
+
+DC20RPG.DROPDOWN_DATA.maneuverTypes = {
+  attack: "Attack",
+  defense: "Defense",
+  grapple: "Grapple",
+  utility: "Utility"
 }
 
 DC20RPG.DROPDOWN_DATA.spellTypes = {
-  cantrip: "Cantrip",
   spell: "Spell",
   ritual: "Ritual"
 }
 
-DC20RPG.DROPDOWN_DATA.spellLists = {
+DC20RPG.DROPDOWN_DATA.spellSources = {
   arcane: "Arcane",
   divine: "Divine",
   primal: "Primal"
 }
 
-DC20RPG.DROPDOWN_DATA.magicSchools = {
+DC20RPG.DROPDOWN_DATA.spellSchools = {
   astromancy: "Astromancy",
-  chronomancy: "Chronomancy",
   conjuration: "Conjuration",
-  destruction: "Destruction",
   divination: "Divination",
+  elemental: "Elemental",
   enchantment: "Enchantment",
-  illusion: "Illusion",
-  necromancy: "Necromancy",
-  protection: "Protection",
-  restoration: "Restoration",
+  invocation: "Invocation",
+  nullification: "Nullification",
   transmutation: "Transmutation"
 }
 
@@ -546,9 +552,6 @@ DC20RPG.DROPDOWN_DATA.defences = {
 
 DC20RPG.DROPDOWN_DATA.precisionDefenceFormulasLabels = {
   standard: "Standard Formula",
-  standardMaxAgi: "Max Agility Limit",
-  berserker: "Berserker Defense",
-  patient: "Patient Defense",
   custom: "Custom Formula",
   flat: "Flat",
 }
@@ -556,7 +559,6 @@ DC20RPG.DROPDOWN_DATA.precisionDefenceFormulasLabels = {
 DC20RPG.DROPDOWN_DATA.areaDefenceFormulasLabels = {
   standard: "Standard Formula",
   custom: "Custom Formula",
-  patient: "Patient Defense",
   flat: "Flat"
 }
 
@@ -602,7 +604,6 @@ DC20RPG.DROPDOWN_DATA.elementalDamageTypes = {
   fire: "Fire",
   lightning: "Lightning",
   poison: "Poison",
-  sonic: "Sonic",
 }
 
 DC20RPG.DROPDOWN_DATA.mysticalDamageTypes = {
@@ -632,6 +633,7 @@ DC20RPG.DROPDOWN_DATA.healingTypes = {
 DC20RPG.DROPDOWN_DATA.inventoryTypes = {
   weapon: "Weapon",
   equipment: "Equipment",
+  spellFocus: "Spell Focus",
   consumable: "Consumable",
   container: "Container",
   loot: "Loot"
@@ -642,32 +644,25 @@ DC20RPG.DROPDOWN_DATA.spellsTypes = {
   infusion: "Infusion",
 }
 
-DC20RPG.DROPDOWN_DATA.techniquesTypes = {
-  technique: "Technique"
-}
-
 DC20RPG.DROPDOWN_DATA.featuresTypes = {
   feature: "Feature"
 }
 
 DC20RPG.DROPDOWN_DATA.advancementItemTypes = {
-  any: "Any Type",
-  ...DC20RPG.DROPDOWN_DATA.featuresTypes,
-  ...DC20RPG.DROPDOWN_DATA.spellsTypes,
-  ...DC20RPG.DROPDOWN_DATA.techniquesTypes
+  talent: "Talent",
+  ancestry: "Ancestry",
+  ...DC20RPG.DROPDOWN_DATA.knownTypes
 }
 
 DC20RPG.DROPDOWN_DATA.creatableTypes = {
   ...DC20RPG.DROPDOWN_DATA.inventoryTypes,
-  ...DC20RPG.DROPDOWN_DATA.spellsTypes,
-  ...DC20RPG.DROPDOWN_DATA.techniquesTypes,
+  ...DC20RPG.DROPDOWN_DATA.knownTypes,
   ...DC20RPG.DROPDOWN_DATA.featuresTypes
 }
 
 DC20RPG.DROPDOWN_DATA.allItemTypes = {
   ...DC20RPG.DROPDOWN_DATA.inventoryTypes,
-  ...DC20RPG.DROPDOWN_DATA.spellsTypes,
-  ...DC20RPG.DROPDOWN_DATA.techniquesTypes,
+  ...DC20RPG.DROPDOWN_DATA.knownTypes,
   ...DC20RPG.DROPDOWN_DATA.featuresTypes,
   class: "Class",
   subclass: "Subclass",
@@ -717,12 +712,13 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   weakened: "Weakened",
 }
 
-DC20RPG.DROPDOWN_DATA.statusResistances = {
+DC20RPG.DROPDOWN_DATA.allStatuses = {
   magical: "Magical Effect",
-  curse: "Curse",
+  cursed: "Cursed",
   movement: "Forced Movement",
   prone: "Prone",
   grappled: "Grappled",
+  diseased: "Diseased",
   ...DC20RPG.DROPDOWN_DATA.conditions
 }
 
@@ -834,13 +830,14 @@ DC20RPG.DROPDOWN_DATA.actionTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.attackTypes = {
-  attack: "Attack Check",
-  spell: "Spell Check"
+  attack: "Martial Attack",
+  spell: "Spell Attack"
 }
 
 DC20RPG.DROPDOWN_DATA.rangeTypes = {
   melee: "Melee Attack",
-  ranged: "Range Attack"
+  ranged: "Range Attack",
+  area: "Area Attack"
 }
 
 DC20RPG.DROPDOWN_DATA.rollRequestCategory = {
@@ -849,15 +846,16 @@ DC20RPG.DROPDOWN_DATA.rollRequestCategory = {
 }
 
 DC20RPG.DROPDOWN_DATA.checkRangeType = {
-  attackmelee: "Melee Attack",
-  attackranged: "Range Attack",
-  spellmelee: "Melee Spell",
-  spellranged: "Range Spell",
+  attackmelee: "Melee Martial Attack",
+  attackranged: "Range Martial Attack",
+  attackarea: "Area Martial Attack",
+  spellmelee: "Melee Spell Attack",
+  spellranged: "Range Spell Attack",
+  spellarea: "Area Spell Attack",
 }
 
 DC20RPG.DROPDOWN_DATA.meleeWeaponStyles = {
   axe: "Axe Style",
-  chained: "Chained Style",
   hammer: "Hammer Style",
   pick: "Pick Style",
   spear: "Spear Style",
@@ -869,7 +867,8 @@ DC20RPG.DROPDOWN_DATA.meleeWeaponStyles = {
 
 DC20RPG.DROPDOWN_DATA.rangedWeaponStyles = {
   bow: "Bow Style",
-  crossbow: "Crossbow Style"
+  crossbow: "Crossbow Style",
+  sling: "Sling Style"
 }
 
 DC20RPG.DROPDOWN_DATA.weaponStyles = {
@@ -903,13 +902,60 @@ DC20RPG.DROPDOWN_DATA.helpDiceDuration = {
   infinity: "Infinity"
 }
 
+DC20RPG.DROPDOWN_DATA.spellTags = {
+  ailment: "Ailment",
+  air: "Air",
+  antimagic: "Antimagic",
+  blood: "Blood",
+  chaos: "Chaos",
+  cleansing: "Cleansing",
+  communication: "Communication",
+  curse: "Curse",
+  death: "Death",
+  earth: "Earth",
+  embolden: "Embolden",
+  emotions: "Emotions",
+  enfeeble: "Enfeeble",
+  forge: "Forge",
+  gravity: "Gravity",
+  healing: "Healing",
+  illusion: "Illusion",
+  invisible: "Invisible",
+  knowledge: "Knowledge",
+  light: "Light",
+  madness: "Madness",
+  metamorphosis: "Metamorphosis",
+  motion: "Motion",
+  plants: "Plants",
+  planes: "Planes",
+  resurrection: "Resurrection",
+  scent: "Scent",
+  sense: "Sense",
+  shadow: "Shadow",
+  sound: "Sound",
+  spirit: "Spirit",
+  strike: "Strike",
+  summoning: "Summoning",
+  teleportation: "Teleportation",
+  thoughts: "Thoughts",
+  time: "Time",
+  trap: "Trap",
+  ward: "Ward",
+  water: "Water",
+  weapon: "Weapon",
+  ...DC20RPG.DROPDOWN_DATA.damageTypes,
+  ...DC20RPG.DROPDOWN_DATA.conditions,
+  ...DC20RPG.DROPDOWN_DATA.creatureTypes,
+}
+
+
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================
 DC20RPG.PROPERTIES = {
   attunement: {
     label: "dc20rpg.properties.attunement",
-    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other"],
+    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other", "spellFocus"],
     cost: 0,
     journalUuid: ""
   },
@@ -926,6 +972,18 @@ DC20RPG.PROPERTIES = {
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J"
   },
+  cumbersome: {
+    label: "dc20rpg.properties.cumbersome",
+    for: ["ranged"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.s5koKAxjBv26tHHV"
+  },
+  deft: {
+    label: "dc20rpg.properties.deft",
+    for: ["ranged"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oiJStOGltgWyJiUL"
+  },
   guard: {
     label: "dc20rpg.properties.guard",
     for: ["melee"],
@@ -940,7 +998,7 @@ DC20RPG.PROPERTIES = {
   },
   impact: {
     label: "dc20rpg.properties.impact",
-    for: ["melee"],
+    for: ["melee", "ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY"
   },
@@ -952,7 +1010,7 @@ DC20RPG.PROPERTIES = {
   },
   multiFaceted: {
     label: "dc20rpg.properties.multiFaceted",
-    for: ["melee"],
+    for: ["melee", "ranged"],
     cost: 1,
     selected: "first",
     weaponStyle: {
@@ -976,7 +1034,7 @@ DC20RPG.PROPERTIES = {
   reload: {
     label: "dc20rpg.properties.reload",
     for: ["ranged"],
-    cost: 0,
+    cost: -1,
     loaded: true,
     value: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv"
@@ -1007,7 +1065,7 @@ DC20RPG.PROPERTIES = {
   },
   unwieldy: {
     label: "dc20rpg.properties.unwieldy",
-    for: ["melee", "ranged"],
+    for: ["melee"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w"
   },
@@ -1022,12 +1080,6 @@ DC20RPG.PROPERTIES = {
     for: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog"
-  },
-  capture: {
-    label: "dc20rpg.properties.capture",
-    for: ["melee"],
-    cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.si6CLG1mtdRSJgdV"
   },
 
   adIncrease: {
@@ -1082,14 +1134,78 @@ DC20RPG.PROPERTIES = {
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
   },
+
+  channeling: {
+    label: "dc20rpg.properties.channeling",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.mBflttRgeLdylTZZ"
+  },
+  closeQuarters: {
+    label: "dc20rpg.properties.closeQuarters",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Xg0AwLlGx03Vdnih"
+  },
+  longRangedSF: {
+    label: "dc20rpg.properties.longRangedSF",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.wDGeoUrkQvn3th35"
+  },
+  muffled: {
+    label: "dc20rpg.properties.muffled",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.ISzf2phZTZvwiHsq"
+  },
+  powerful: {
+    label: "dc20rpg.properties.powerful",
+    for: ["spellFocus"],
+    cost: 2,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Udv5sCjHaa4Bx2Zp"
+  },
+  protective: {
+    label: "dc20rpg.properties.protective",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.uoFaMh6q92dSSldr"
+  },
+  reachSF: {
+    label: "dc20rpg.properties.reachSF",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.J1ESWCD4Ru9UqIzw"
+  },
+  reactive: {
+    label: "dc20rpg.properties.reactive",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.sURvDJvKs1wdvY9t"
+  },
+  twoHandedSF: {
+    label: "dc20rpg.properties.twoHandedSF",
+    for: ["spellFocus"],
+    cost: -1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.0H6XuLWBPDKvgaD0"
+  },
+  vicious: {
+    label: "dc20rpg.properties.vicious",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL"
+  },
+  warded: {
+    label: "dc20rpg.properties.warded",
+    for: ["spellFocus"],
+    cost: 1,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.u7S4lYMKvBrydwcM"
+  },
 }
 
 DC20RPG.ICONS = {
-  martialExpansion: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
-  cantrips: "icons/sundries/scrolls/scroll-bound-blue-white.webp",
   spells: "icons/skills/trades/academics-book-study-runes.webp",
-  maneuvers: "icons/skills/melee/shield-block-bash-blue.webp",
-  techniques: "icons/skills/melee/spear-tips-quintuple-orange.webp",
+  maneuvers: "icons/skills/melee/weapons-crossed-swords-yellow.webp",
   attributes: "icons/skills/trades/academics-investigation-puzzles.webp",
   infusions: "icons/commodities/tech/tube-chamber-lightning.webp"
 }
@@ -1138,83 +1254,80 @@ DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas = {
 DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
   standard: "8 + @combatMastery + @migValue + @chaValue + @ad.bonus",
 }
-
-DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
 DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina = "Compendium.dc20rpg.system-items.Item.y7T8fH64IizcTw0K";
 
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw"
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982"
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal = {
-  awa: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.e8d158aa79d9386e",
-  ath: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.79561601ab4fde28",
-  inm: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.b1b3452377f4d08c",
-  acr: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.1dca3f8a2cf5a0f1",
-  tri: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.ac98ee68ee06c485",
-  ste: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.ec19af19bb7b55ef",
-  inv: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.8fbe08ada0130e47",
-  med: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.da6ce05121f5034e",
-  sur: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.8c33adc637b3a1eb",
-  ani: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.0ef16eb14c1a1949",
-  ins: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.58253539b0e00f1d",
-  inf: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2988a8b8837f8347",
+  awa: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.e8d158aa79d9386e",
+  ath: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.79561601ab4fde28",
+  inm: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.b1b3452377f4d08c",
+  acr: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.1dca3f8a2cf5a0f1",
+  tri: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.ac98ee68ee06c485",
+  ste: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.ec19af19bb7b55ef",
+  inv: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.8fbe08ada0130e47",
+  med: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.da6ce05121f5034e",
+  sur: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.8c33adc637b3a1eb",
+  ani: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.0ef16eb14c1a1949",
+  ins: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.58253539b0e00f1d",
+  inf: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.2988a8b8837f8347",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradesJournal = {
-  ill: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.44af238d059dc591",
-  mus: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2c03a393671adfab",
-  the: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.80d0246ffad3fc76",
+  ill: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.44af238d059dc591",
+  mus: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.2c03a393671adfab",
+  the: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.80d0246ffad3fc76",
 
-  alc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2f1acce4ff8ae20e",
-  bla: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.21198676e164533a",
-  gla: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.3b0902b29165ffa4",
-  her: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.c5e2ba07c7e317ac",
-  jew: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.209ab0fce5b680e2",
-  lea: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.b0446a7cd986ad04",
-  scu: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.c6bc766b1646e931",
-  tin: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.cc55cb96554dcf45",
-  wea: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.193188c92ecf500c",
+  alc: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.2f1acce4ff8ae20e",
+  bla: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.21198676e164533a",
+  gla: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.3b0902b29165ffa4",
+  her: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.c5e2ba07c7e317ac",
+  jew: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.209ab0fce5b680e2",
+  lea: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.b0446a7cd986ad04",
+  scu: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.c6bc766b1646e931",
+  tin: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.cc55cb96554dcf45",
+  wea: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.193188c92ecf500c",
 
-  bre: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.27093a368b6f7506",
-  cap: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.5ffdb6f1879759c4",
-  car: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.9601364d226e6bea",
-  coo: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.d891f747ed539da6",
-  mas: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.d547a198159fa5b5",
-  veh: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.34ad7b0124f6cf1f",
+  bre: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.27093a368b6f7506",
+  cap: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.5ffdb6f1879759c4",
+  car: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.9601364d226e6bea",
+  coo: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.d891f747ed539da6",
+  mas: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.d547a198159fa5b5",
+  veh: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.34ad7b0124f6cf1f",
 
-  cry: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.821e481d694886da",
-  dis: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.9d9eb42b43776bba",
-  gam: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.0571b52f61d4a44e",
-  loc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.524e18ef64bf65c5",
+  cry: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.821e481d694886da",
+  dis: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.9d9eb42b43776bba",
+  gam: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.0571b52f61d4a44e",
+  loc: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.524e18ef64bf65c5",
 
-  eng: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.GzTqr5DjfMF1Lqni",
-  nat: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.9lx5NFMGbKa6wOug",
-  his: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.3mvCqsfRkrGoNHAL",
-  arc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2yu7rx90wveBO7W0",
-  rel: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.PVUfWyrhkbBrn79q",
-  occ: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.3Pq6ozSK8IoRO98l"
+  eng: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.GzTqr5DjfMF1Lqni",
+  nat: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.9lx5NFMGbKa6wOug",
+  his: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.3mvCqsfRkrGoNHAL",
+  arc: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.2yu7rx90wveBO7W0",
+  rel: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.PVUfWyrhkbBrn79q",
+  occ: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.3Pq6ozSK8IoRO98l"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal = {
-  com: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.5533596a44ec5abe",
-  hum: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.5c5b070fd21c5dc4",
-  dwa: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.b19668b820dce96e",
-  elv: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.b24421fab355d18a",
-  gno: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.3bddc67a463a2d4e",
-  hal: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.c23a0811a9f258bf",
-  sig: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.8252c71478125e56",
-  gia: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.1d58911794446212",
-  dra: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.4c451028e49dbba2",
-  orc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.cb00684b434793b9",
-  fey: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.bd5baac08689fbf5",
-  ele: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.db7bc5ab07d6aa49",
-  cel: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.9e5e2ff0591520d4",
-  fie: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.51a47d9b7407f9e6",
-  dee: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.876e8847369cd29c"
+  com: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.5533596a44ec5abe",
+  hum: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.5c5b070fd21c5dc4",
+  dwa: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.b19668b820dce96e",
+  elv: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.b24421fab355d18a",
+  gno: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.3bddc67a463a2d4e",
+  hal: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.c23a0811a9f258bf",
+  sig: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.8252c71478125e56",
+  gia: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.1d58911794446212",
+  dra: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.4c451028e49dbba2",
+  orc: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.cb00684b434793b9",
+  fey: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.bd5baac08689fbf5",
+  ele: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.db7bc5ab07d6aa49",
+  cel: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.9e5e2ff0591520d4",
+  fie: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.51a47d9b7407f9e6",
+  dee: "Compendium.dc20rpg.rules.JournalEntry.8br9jjnIH6HhZ3es.JournalEntryPage.876e8847369cd29c"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal = {
   axe: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.mAcVFce6zbhRTnhT",
-  chained: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.InTw8G1qVIu0Dp3v",
   hammer: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Gfy8diDLkPtI8gDu",
   pick: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.tDkThSS22AdDCQns",
   spear: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.HNZkdDlCaaGo4IhU",
@@ -1223,15 +1336,17 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal = {
   fist: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.qfjN63bCAeQ2u6EM",
   whip: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.seYjPL2iUDDmUjkx",
   bow: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oUiUr8lUymzGgi1Q",
-  crossbow: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.InTw8G1qVIu0Dp2v"
+  crossbow: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.InTw8G1qVIu0Dp2v",
+  sling: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.xAslrZ732IcB9fib"
 }
 
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems = {
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems = {
   attack: "Compendium.dc20rpg.system-items.Item.hN1j1N0Bh8gTy0pG",
   disarm: "Compendium.dc20rpg.system-items.Item.Ks9SnrRBfRhVWgWo",
   grapple: "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
   shove: "Compendium.dc20rpg.system-items.Item.QDPNjfb8u5Jn3XPL",
   tackle: "Compendium.dc20rpg.system-items.Item.IolKDTVBEKdYMiGQ",
+  throw: "Compendium.dc20rpg.system-items.Item.stkxBrB4D0xrUPuc",
   disengage: "Compendium.dc20rpg.system-items.Item.ZK9sD2F2Sq7Jt3Kz",
   fullDisengage: "Compendium.dc20rpg.system-items.Item.KyNqnZf5DBLasmon",
   dodge: "Compendium.dc20rpg.system-items.Item.Y6oevdLqA31GPcbt",
@@ -1253,61 +1368,86 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems = {
   mountedDefence: "Compendium.dc20rpg.system-items.Item.1KXLpI788cdgbe4O",
   passThrough: "Compendium.dc20rpg.system-items.Item.9KgyzSQbC5xbOwZ4",
   search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
+  taunt: "Compendium.dc20rpg.system-items.Item.mvAPxXcDZlQzjamb",
   attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
+  sustain: "Compendium.dc20rpg.system-items.Item.BWX0CWhJE1S1PY9x"
+}
+
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems = {
+  axe: "Compendium.dc20rpg.system-items.Item.cu5r0FkZ1ziDFDTp",
+  bow: "Compendium.dc20rpg.system-items.Item.oNNORgKXm8nhSytk",
+  crossbow: "Compendium.dc20rpg.system-items.Item.DPhsG8KoA14wmhnu",
+  fist: "Compendium.dc20rpg.system-items.Item.H4qzpwj1XjcsMjCX",
+  hammer: "Compendium.dc20rpg.system-items.Item.7onvgWlf2H2W2T8o",
+  pick: "Compendium.dc20rpg.system-items.Item.TJ12va8JqLDlTtYF",
+  sling: "Compendium.dc20rpg.system-items.Item.n7UBa5Xcek34FqVR",
+  spear: "Compendium.dc20rpg.system-items.Item.1nDJHk7JjVcDEaNQ",
+  staff: "Compendium.dc20rpg.system-items.Item.FBjGIg7JZ7YDgTXj",
+  sword: "Compendium.dc20rpg.system-items.Item.fpQ90Eqdkdw4kFXm",
+  whip: "Compendium.dc20rpg.system-items.Item.oEV39co428ZiXmQC",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike = "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4";
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.martialEnhancements = "Compendium.dc20rpg.system-items.Item.r6Lzh5dG0sJ0DgBu";
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters = {
+  spToAp: "Compendium.dc20rpg.system-items.Item.myVD8OrciokDai2s",
+  mpToAp: "Compendium.dc20rpg.system-items.Item.fZJ3BxmAjAW6rpYs"
+}
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
-  bleeding: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820",
-  blinded: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3d20d56dae98e774",
-  burning: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.4a7c7ed21c99f0d5",
-  charmed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0f27a9c67ee55f2c",
-  dazed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b",
-  disoriented: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.aiyTcZJdK1Qjbmxe",
-  deafened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5fa74b85758bd263",
-  doomed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.89c5df57ec2d8d0e",
-  exhaustion: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb",
-  exposed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73d26b54fce004a0",
-  frightened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.f2d19e12af30f93d",
-  grappled: "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.TfenWPpkGi8scnt2",
-  immobilized: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk",
-  hindered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3be8114c415718d2",
-  impaired: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a",
-  weakened: "Compendium.world.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0qADnucZuuZHI9XW",
-  incapacitated: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.e49439b5f79839d3",
-  intimidated: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f",
-  invisible: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2226eef8173ad6f0",
-  paralyzed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.229ca0b7af175638",
-  petrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.60baaa6572e920ef",
-  poisoned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.d91b084c66aa513d",
-  prone: "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.0wgHQIXjhxgu9i0s",
-  tethered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.w9QjKl0BzncI1DRv",
-  terrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.UkBt66vXWP3eyEOj",
-  restrained: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a",
-  slowed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e",
-  stunned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2939ce776edfd6fa",
-  fullyStunned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2939ce776edfd6fa",
-  surprised: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.9b127a80c6770c71",
-  taunted: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5b8703add31783de",
-  unconscious: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.e4b6147dfec70860",
-  bloodied: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.cb4fe4f4f35d6275",
-  wellBloodied: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.cb4fe4f4f35d6275",
-  deathsDoor: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.000a46e5db7cb982",
-  partiallyConcealed: "Compendium.dc20rpg.rules.JournalEntry.UgSNzjIdhqUjQ9Yo.JournalEntryPage.da1f84c1f010eae2",
-  fullyConcealed: "Compendium.dc20rpg.rules.JournalEntry.UgSNzjIdhqUjQ9Yo.JournalEntryPage.da1f84c1f010eae2",
+  bleeding: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.5e2e6ee71b9c8c9d",
+  blinded: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.3d20d56dae98e774",
+  burning: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.395a26d706b1729b",
+  charmed: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.0f27a9c67ee55f2c",
+  dazed: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.fcb140b323e75499",
+  disoriented: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.aa230683806b229a",
+  deafened: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.5fa74b85758bd263",
+  doomed: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.89c5df57ec2d8d0e",
+  exhaustion: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.5c530bfaa0e69dbb",
+  exposed: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.be716252f3e119c8",
+  frightened: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.f2d19e12af30f93d",
+  grappled: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.a2ccc3f24b86e78f",
+  immobilized: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.6f3a02f4e0e5541d",
+  hindered: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.9e4d9fc9b9ae7269",
+  impaired: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.a9a650a925fbfb0f",
+  weakened: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.724275d7b048010b",
+  incapacitated: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.e49439b5f79839d3",
+  intimidated: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.25a5c54b07df5a3f",
+  invisible: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.2226eef8173ad6f0",
+  paralyzed: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.229ca0b7af175638",
+  petrified: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.60baaa6572e920ef",
+  prone: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.9d2dd7e2fc30304c",
+  tethered: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.2a75be45d0f0727b",
+  terrified: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.78886ebc3de1ed0e",
+  restrained: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.73e24193c57aeb8a",
+  slowed: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.0c90e41833ef9f22",
+  stunned: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.2939ce776edfd6fa",
+  fullyStunned: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.2939ce776edfd6fa",
+  surprised: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.9b127a80c6770c71",
+  taunted: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.5b8703add31783de",
+  unconscious: "Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.e4b6147dfec70860",
+  bloodied: "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.cb4fe4f4f35d6275",
+  wellBloodied: "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.cb4fe4f4f35d6275",
+  deathsDoor: "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982",
+  partiallyConcealed: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.UF2KEzkO87hJJBUM",
+  fullyConcealed: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.3uPdQ6XTnGuJOTNM",
+  unseen: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.6396da38cde5e264",
+  unheard: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.8c1b9e075707a2ce",
+  hidden: "Compendium.dc20rpg.rules.JournalEntry.r4i5rFZUOSBTL1CZ.JournalEntryPage.38850187f9364dd3",
+  halfCover: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.ca148b2dc96f180b",
+  tqCover: "Compendium.dc20rpg.rules.JournalEntry.iWchN5fs0FYIQSvH.JournalEntryPage.ca148b2dc96f180b"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {
-  martial: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.0964d3cdbf002a1f",
-  spellcaster: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.60d02227dff91b93",
-  basic: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.3110b5966d24d4c0",
-  adept: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.9125c9f4869ec1c6",
-  expert: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.99d9c79cd150de60",
-  master: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.2665cabf5cd235fa",
-  grandmaster: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.e4e18eee9d6f8ac2",
-  legendary: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.8f1ea8b9912b1fe3"
+  martial: "Compendium.dc20rpg.rules.JournalEntry.qks6CFmQk24vvElJ.JournalEntryPage.292488514052f45f",
+  spellcaster: "Compendium.dc20rpg.rules.JournalEntry.qks6CFmQk24vvElJ.JournalEntryPage.rNnHu1JWGePboKhQ",
+  basic: "Compendium.dc20rpg.rules.JournalEntry.sviChkyOFUp6vUgP.JournalEntryPage.e14313b3631d7404",
+  adept: "Compendium.dc20rpg.rules.JournalEntry.sviChkyOFUp6vUgP.JournalEntryPage.9125c9f4869ec1c6",
+  expert: "Compendium.dc20rpg.rules.JournalEntry.sviChkyOFUp6vUgP.JournalEntryPage.99d9c79cd150de60",
+  master: "Compendium.dc20rpg.rules.JournalEntry.sviChkyOFUp6vUgP.JournalEntryPage.2665cabf5cd235fa",
+  grandmaster: "Compendium.dc20rpg.rules.JournalEntry.sviChkyOFUp6vUgP.JournalEntryPage.e4e18eee9d6f8ac2",
+  legendary: "Compendium.dc20rpg.rules.JournalEntry.sviChkyOFUp6vUgP.JournalEntryPage.8f1ea8b9912b1fe3"
 }
 
-DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.000a46e5db7cb982"
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982"

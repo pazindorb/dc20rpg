@@ -2,7 +2,10 @@
   <div class="sub-header">
     <span>{{localize "dc20rpg.item.sheet.advancements.title"}}</span>
     {{#unless @root.hasOwner}}
-    <a class="create-advancement fa-lg fa-plus fa-solid" title="{{localize "dc20rpg.item.sheet.advancements.newAdv"}}"></a>
+    <div style="display:flex; align-items:center;">
+      <a class="blueprint-advancement fa-lg fa-file-circle-plus fa-solid margin-right-5" title="{{localize "dc20rpg.item.sheet.advancements.fromBlueprint"}}"></a>
+      <a class="create-advancement fa-lg fa-plus fa-solid" title="{{localize "dc20rpg.item.sheet.advancements.newAdv"}}"></a>
+    </div>
     {{else}}
     <span><i style="font-size: 9px; color: black; text-shadow: none;">{{localize "dc20rpg.item.sheet.advancements.nonEditable"}}</i></span>
     {{/unless}}

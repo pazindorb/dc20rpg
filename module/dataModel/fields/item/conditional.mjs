@@ -25,7 +25,6 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
         dcCalculation: new f.StringField({required: true, initial: ""}),
         dc: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         addMasteryToDC: new f.BooleanField({required: true, initial: true}),
-        respectSizeRules: new f.BooleanField({required: true, initial: false}),
       }),
       addsNewFormula: new f.BooleanField({required: true, initial: false}),
       formula: new f.SchemaField({

@@ -42,7 +42,7 @@
 
       {{!-- CHECKBOX --}}
       {{#ifCond input.type '===' "checkbox"}}
-      <input type="checkbox" data-cType="activable" data-path="data.inputs.{{index}}.value" {{checked input.value}}/>
+      <input type="checkbox" data-cType="activable" data-path="data.inputs.{{index}}.value" {{checked input.value}} style="justify-content: end; display:flex;"/>
       {{/ifCond}}
 
       {{#if input.hint}}<p class="hint">{{input.hint}}</p>{{/if}}

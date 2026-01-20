@@ -2,10 +2,10 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHelpDice, getActiveHelpDice, makeMoveAction, prepareHelpAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
+import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
@@ -286,9 +286,9 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const checkType = item.system?.check?.checkKey;
 
     let color = "";
-    if (actionType === "attack" && attackCheckType === "attack") color = "martial-attack";
+    if (actionType === "attack" && attackCheckType === "martial") color = "martial-attack";
     else if (actionType === "attack" && attackCheckType === "spell") color = "spell-attack";
-    else if (actionType === "check" && checkType === "att") color = "martial-attack";
+    else if (actionType === "check" && checkType === "mar") color = "martial-attack";
     else if (actionType === "check" && checkType === "spe") color = "spell-check";
     else if (actionType === "check") color = "skill-check";
     item.borderColor = color;
@@ -443,6 +443,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           else effect.itemId = ""; 
         }
 
+        effect.manualTrigger = effect.hasManualEvent;
         if(effect.disabled) disabled.push(effect);
         else active.push(effect);
       }
@@ -500,7 +501,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       rowSize: helpConfig.rowSize,
     }
 
-    const helpDice = getActiveHelpDice(this.actor);
+    const helpDice = this.actor.help.active;
     this.helpDice = helpDice;
     helpData.dice = helpDice;
     return helpData;
@@ -514,7 +515,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   // ==================== CONTEXT =====================
 
   async _onRender(context, options) {
-    if (context.tokenHotbar) {
+    if (context.tokenHotbar && context.showTokenHotbar) {
       this.element.classList.add("token-hotbar");
     }
     await super._onRender(context, options);
@@ -522,7 +523,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     this.element.firstChild.classList.add(`theme-${colorTheme}`);
 
     // Override drop behavior
-    if (context.tokenHotbar) {
+    if (context.tokenHotbar && context.showTokenHotbar) {
       new foundry.applications.ux.DragDrop.implementation({
         dragSelector: ".slot.full, .help-dice",
         dropSelector: ".slot",
@@ -610,7 +611,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   async _onHelp(evnet, target) {
     const subtracted = this.actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
-    await prepareHelpAction(this.actor);
+    await this.actor.help.prepare();
     this.render();
   }
 
@@ -763,10 +764,16 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       if (owner) {
         if (dataset.itemId) {
           const item = getItemFromActor(dataset.itemId, owner);
-          if (item) changeActivableProperty("system.toggle.toggledOn", item);
+          if (item) item.toggle();
         }
         else {
-          toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+          if (event.shiftKey) {
+            const effect = getEffectFrom(dataset.effectId, owner);
+            effect.runManualEvent();
+          }
+          else {
+            toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+          }
         }
       }
     }
@@ -800,7 +807,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
-        if (confirmed) clearHelpDice(owner, key);
+        if (confirmed) owner.help.clear(key);
       }
     }
   }
@@ -851,7 +858,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   _onDragStart(event) {
     if (event.target.classList.contains('help-dice')) this._onDragHelpDice(event);
     else if (event.target.classList.contains('item-slot')) this._onDragItem(event);
-    else super._onDragStart(event);
   }
 
   _onDragItem(event) {

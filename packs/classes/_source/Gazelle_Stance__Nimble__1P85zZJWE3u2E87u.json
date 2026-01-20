@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/deer-movement-leap-green.webp",
   "system": {
-    "description": "<ul><li><p>+1 Movement Speed and Jump Distance.</p></li><li><p>Ignore Difficult Terrain.</p></li><li><p>ADV on <strong>Agility Saves</strong> and <strong>Acrobatics</strong> <strong>Checks</strong>.</p></li></ul>",
+    "description": "<ul><li><p>Your Speed and Jump Distance increase by 1.</p></li><li><p>Ignore Difficult Terrain.</p></li><li><p>ADV on <strong>Agility Saves</strong> and <strong>Acrobatics</strong> <strong>Checks</strong>.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -258,7 +259,7 @@
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.saves.agi",
+          "key": "system.dynamicRollModifier.onYou.saves.agi",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Gazelle Stance\"",
           "mode": 2,
           "priority": null
@@ -270,13 +271,13 @@
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.skills",
+          "key": "system.dynamicRollModifier.onYou.skills",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Gazelle Stance\", \"skill\": \"acr\"",
           "mode": 2,
           "priority": null
         }
       ],
-      "description": "<ul><li><p>+1 Movement Speed and Jump Distance.</p></li><li><p>Ignore Difficult Terrain.</p></li><li><p>ADV on <strong>Agility Saves</strong> and <strong>Acrobatics</strong> <strong>Checks</strong>.</p></li></ul>",
+      "description": "<ul><li><p>Your Speed and Jump Distance increase by 1.</p></li><li><p>Ignore Difficult Terrain.</p></li><li><p>ADV on <strong>Agility Saves</strong> and <strong>Acrobatics</strong> <strong>Checks</strong>.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -294,11 +295,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256581,
+        "modifiedTime": 1767170300419,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -310,11 +311,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035205,
-    "modifiedTime": 1745412525152,
+    "modifiedTime": 1767170293122,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

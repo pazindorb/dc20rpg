@@ -4,7 +4,7 @@ import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../
 import { getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
-import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrTechniques } from "./advancement-util.mjs";
+import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrManeuvers } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { collectAdvancementsFromItem } from "./advancements.mjs";
@@ -62,7 +62,59 @@ export class ActorAdvancement extends Dialog {
 
     this.currentAdvancement = currentAdvancement;
     this.index = 0;
+    this._prepareSuggestionFilters();
     this._prepareItemSuggestions();
+  }
+
+  _prepareSuggestionFilters() {
+    const multiclass = this._getLevelMulticlassOption();
+    this.suggestionFilters = {
+      talent: {
+        talentType: {
+          value: "general",
+          options: {
+            general: "General Talent",
+            class: "Class Talent",
+            ...multiclass
+          }
+        },
+        featureSource: {
+          value: "",
+          options: this._prepareFeatureSourceItems(multiclass)
+        }
+      },
+      ancestry: {
+        featureSource: {
+          value: "",
+          options: CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry
+        }
+      },
+      maneuver: {
+        maneuverType: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes
+        }
+      },
+      spell: {
+        spellType: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes
+        },
+        spellSource: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellSources
+        },
+        spellSchool: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools
+        },
+        spellTag: {
+          value: "",
+          options: CONFIG.DC20RPG.DROPDOWN_DATA.spellTags
+        }
+      },
+      infusion: {/**No filters for now*/}
+    };
   }
 
   hasNext() {
@@ -97,11 +149,6 @@ export class ActorAdvancement extends Dialog {
       skillPoints: this.actor.system.skillPoints,
     }
     const multiclass = this._getLevelMulticlassOption();
-    const talentFilterTypes = {
-      general: "General Talent",
-      class: "Class Talent",
-      ...multiclass
-    }
     const multiclassTooltip = {
       key: Object.keys(multiclass)[0],
       header: Object.values(multiclass)[0]
@@ -114,8 +161,7 @@ export class ActorAdvancement extends Dialog {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
       showItemSuggestions: showItemSuggestions,
-      talentFilterTypes: talentFilterTypes,
-      featureSourceItems: this._prepareFeatureSourceItems(multiclass),
+      suggestionFilters: this.suggestionFilters,
       multiclassTooltip: multiclassTooltip,
       applyingAdvancement: this.applyingAdvancement,
       revertingEnhancement: this.revertingEnhancement,
@@ -153,7 +199,7 @@ export class ActorAdvancement extends Dialog {
   }
 
   _prepareFeatureSourceItems(multiclass) {
-    if (this.currentItem?.type === "class") {
+    if (this.currentItem.type === "class") {
       const multiclassType = Object.keys(multiclass);
       if (["basic", "adept"].includes(multiclassType[0])) return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class;
       
@@ -166,11 +212,7 @@ export class ActorAdvancement extends Dialog {
       });
       return list;
     }
-    if (this.currentAdvancement?.addItemsOptions?.ancestryFilter) {
-      this.currentAdvancement.ancestryFilter = true;
-      return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry;
-    }
-    return null;
+    return {};
   }
 
   async _getCurrentAdvancementData() {
@@ -237,9 +279,9 @@ export class ActorAdvancement extends Dialog {
       });
     }
 
-    // Add spell/techniques selector (before those were added already)
+    // Add spell/maneuvers selector (before those were added already)
     if (!this.knownApplied) {
-      const shouldLearn = await shouldLearnNewSpellsOrTechniques(this.actor, true);
+      const shouldLearn = await shouldLearnNewSpellsOrManeuvers(this.actor, true);
       for (const known of shouldLearn) {
         progress.push({
           img: CONFIG.DC20RPG.ICONS[known],
@@ -267,12 +309,11 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     this.collectingSuggestedItems = true;
-    let type = advancement.addItemsOptions?.itemType;
-    const preFilters = advancement.addItemsOptions?.preFilters || "";
-    if (!type || type === "any") type = "feature";
+    let type = advancement.addItemsOptions?.itemType || "feature";
+    const preFilters = advancement.addItemsOptions.preFilters || "";
+    if (!type || type === "ancestry" || type === "talent") type = "feature";
     this.itemSuggestions = await collectItemsForType(type);
     this.currentAdvancement.filters = getDefaultItemFilters(preFilters);
-    this.currentAdvancement.talentFilterType = this.currentAdvancement.talentFilterType || "general";
     this.collectingSuggestedItems = false;
   }
 
@@ -283,19 +324,23 @@ export class ActorAdvancement extends Dialog {
     const currentItem = this.currentItem;
     if (!currentItem) return [];
 
-    const talentFilter = advancement.addItemsOptions?.talentFilter;
+    const classSpellFilter = advancement?.addItemsOptions?.classSpellFilter;
+    const itemType = advancement?.addItemsOptions?.itemType;
     const hideOwned = advancement.hideOwned;
-
-    const filters = this._prepareItemSuggestionsFilters();
-    if (currentItem.type === "class" && talentFilter && advancement.talentFilterType) {
-      filters.push({
-        check: (item) => this._talentFilterMethod(item)
-      })
+    const filters = this._collectCompendiumFilters();
+    if (itemType === "talent") {
+      filters.push({check: (item) => this._talentFilterMethod(item)})
     }
-    if (currentItem.type === "ancestry") {
-      filters.push({
-        check: (item) => this._featureSource(item, advancement.featureSourceItem)
-      })
+    if (itemType === "ancestry") {
+      filters.push({check: (item) => item.system.featureType === "ancestry"});
+      filters.push({check: (item) => this._featureSource(item, this.suggestionFilters.ancestry.featureSource.value)});
+    }
+    if (itemType === "maneuver") {
+      filters.push({check: (item) => this._maneuverType(item, this.suggestionFilters.maneuver.maneuverType.value)});
+    }
+    if (itemType === "spell") {
+      filters.push({check: (item) => this._spellFilterMethod(item)});
+      if (classSpellFilter) filters.push({check: (item) => this._classSpellFilterMethod(item)});
     }
     // Stamina/Flavor feature Filter
     filters.push({check: (item) => !item.system.staminaFeature && !item.system.flavorFeature});
@@ -312,31 +357,32 @@ export class ActorAdvancement extends Dialog {
     let filtered = filterDocuments(this.itemSuggestions, filters);
     if (hideOwned) filtered = filtered.filter(item => this.actor.items.getName(item.name) === undefined);
 
-    markItemRequirements(filtered, advancement.talentFilterType, this.actor);
+    markItemRequirements(filtered, this.suggestionFilters.talent.talentType.value, this.actor);
     if (advancement.hideRequirementMissing) return filtered.filter(item => !item.requirementMissing)
     else return filtered;
   }
 
   _talentFilterMethod(item) {
     const advancement = this.currentAdvancement;
-    const type = advancement.talentFilterType;
+    const featureSource = this.suggestionFilters.talent.featureSource.value;
+    const type = this.suggestionFilters.talent.talentType.value;
     switch (type) {
       case "general": 
         return this._featureType(item, "talent") && this._minLevel(item, advancement.level);
       case "class":
         return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, advancement.level) && this._featureSource(item, this.currentItem.system.itemKey);
       case "basic":
-        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
+        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureSource(item, featureSource) && this._notCurrentItem(item);
       case "adept":
-        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
+        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureSource(item, featureSource) && this._notCurrentItem(item);
       case "expert":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureSource(item, featureSource) && this._notCurrentItem(item);
       case "master":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureSource(item, featureSource) && this._notCurrentItem(item);
       case "grandmaster":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureSource(item, featureSource) && this._notCurrentItem(item);
       case "legendary":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureSource(item, featureSource) && this._notCurrentItem(item);
       default:
         return false;
     }
@@ -361,6 +407,51 @@ export class ActorAdvancement extends Dialog {
     return false;
   }
 
+  _maneuverType(item, maneuverType) {
+    if (!maneuverType) return true;
+    const type = item.system.maneuverType;
+    if (!type) return false;
+    return type === maneuverType;
+  }
+
+  _spellFilterMethod(item) {
+    if (item.type !== "spell") return false;
+
+    const spellFilter = this.suggestionFilters.spell;
+    const spellSchool = spellFilter.spellSchool.value;
+    const spellSource = spellFilter.spellSource.value;
+    const spellTag = spellFilter.spellTag.value;
+    const spellType = spellFilter.spellType.value;
+
+    let result = true;
+    const spellTags = Object.keys(item.system.spellTags);
+    if (spellSchool && item.system.spellSchool !== spellSchool) result = false;
+    if (spellType && item.system.spellType !== spellType) result = false;
+    if (spellSource && !item.system.spellSource[spellSource].active) result = false;
+    if (spellTag && !spellTags.includes(spellTag)) result = false;
+    return result;
+  }
+
+  _classSpellFilterMethod(item) {
+     if (item.type !== "spell") return false;
+    const classFilters = this.actor.system.details.class.filters;
+
+    // If at least one spell tag match - Spell Match
+    const filterSpellTags = Object.keys(classFilters.spellTags);
+    const itemSpellTags = Object.keys(item.system.spellTags);
+    if (filterSpellTags.some(r=> itemSpellTags.includes(r))) return true;
+
+    // If spell school match - Spell Match
+    if (classFilters.spellSchool[item.system.spellSchool]) return true;
+    
+    // If spell spell source match - Spell Match
+    if (classFilters.spellSource.arcane && item.system.spellSource.arcane.active) return true;
+    if (classFilters.spellSource.divine && item.system.spellSource.divine.active) return true;
+    if (classFilters.spellSource.primal && item.system.spellSource.primal.active) return true;
+
+    return false;
+  }
+
   _notCurrentItem(item) {
     const featureOrigin = item.system.featureOrigin;
     if (!featureOrigin) return false;
@@ -371,9 +462,9 @@ export class ActorAdvancement extends Dialog {
     return true;
   }
 
-  _prepareItemSuggestionsFilters() {
-    const itemType = this.currentAdvancement.addItemsOptions?.itemType;
-    if (!itemType) return [];
+  _collectCompendiumFilters() {
+    let type = this.currentAdvancement?.addItemsOptions?.itemType;
+    if (!type || type === "ancestry" || type === "talent") type = "feature";
     
     const filterObject = this.currentAdvancement.filters;
     if (!filterObject) return [];
@@ -381,7 +472,7 @@ export class ActorAdvancement extends Dialog {
       filterObject.name,
       filterObject.compendium,
       filterObject.sourceName,
-      ...Object.values(filterObject[itemType])
+      ...Object.values(filterObject[type])
     ];
     return filters;
   }
@@ -433,8 +524,12 @@ export class ActorAdvancement extends Dialog {
     html.find('.open-compendium-browser').click(() => {
       const itemType = this.currentAdvancement.addItemsOptions.itemType;
       const preFilters = this.currentAdvancement.addItemsOptions.preFilters;
-      if (!itemType || itemType === "any") createItemBrowser("advancement", false, this, preFilters);
-      else createItemBrowser(itemType, true, this, preFilters);
+      if (!itemType || itemType === "talent" || itemType === "ancestry") {
+        createItemBrowser("advancement", false, this, preFilters);
+      }
+      else {
+        createItemBrowser(itemType, true, this, preFilters);
+      }
     });
     html.find('.open-item-suggestions').click(() => this._onOpenSuggestions());
     html.find('.close-item-suggestions').click(() => {this.suggestionsOpen = false; this.render()});
@@ -527,7 +622,8 @@ export class ActorAdvancement extends Dialog {
   }
 
   _onValueChange(pathToValue, value) {
-    setValueForPath(this.currentAdvancement, pathToValue, value);
+    if (pathToValue.includes("suggestionFilters")) setValueForPath(this, pathToValue, value);
+    else setValueForPath(this.currentAdvancement, pathToValue, value);
     this.render();
   }
 
@@ -553,7 +649,8 @@ export class ActorAdvancement extends Dialog {
     }
     await this.render();
 
-    const [extraAdvancements, itemTips] = await applyAdvancement(this.currentAdvancement, this.actor, this.currentItem);
+    const talentType = this.suggestionFilters.talent.talentType.value;
+    const [extraAdvancements, itemTips] = await applyAdvancement(this.currentAdvancement, this.actor, talentType);
     if (this.currentAdvancement.tip) this.tips.push({
       name: this.currentAdvancement.name || this.currentItem.name,
       img: this.currentAdvancement.img || this.currentItem.img, 
@@ -573,7 +670,7 @@ export class ActorAdvancement extends Dialog {
       this.next();
     }
     else {
-      const toLearn = await shouldLearnNewSpellsOrTechniques(this.actor);
+      const toLearn = await shouldLearnNewSpellsOrManeuvers(this.actor);
       if (toLearn.length === 0 || this.knownApplied) this.showFinal = true;
       else {
         const addedAdvancements = await addNewSpellTechniqueAdvancements(this.actor, this.currentItem, this.advancements, this.currentAdvancement.level);
@@ -631,10 +728,10 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     const item = await fromUuid(itemUuid);
-    if (!["feature", "technique", "spell", "infusion", "weapon", "equipment", "consumable"].includes(item.type)) return;
+    if (!["feature", "maneuver", "spell", "infusion", "weapon", "equipment", "consumable", "spellFocus"].includes(item.type)) return;
 
-    // Can be countent towards known spell/techniques
-    const canBeCounted = ["technique", "spell", "infusion"].includes(item.type);
+    // Can be countent towards known spell/maneuvers
+    const canBeCounted = ["maneuver", "spell", "infusion"].includes(item.type);
 
     // Get item
     advancement.items[item.id] = {

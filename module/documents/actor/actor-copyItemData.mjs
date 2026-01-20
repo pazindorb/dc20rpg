@@ -7,17 +7,23 @@ import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 export function prepareDataFromItems(actor) {
 	const weapon = [];
 	const equipment = [];
+	const spellFocus = [];
 	const customResources = []; 
 	const conditionals = [];
 	const itemsWithEnhancementsToCopy = [];
+	let staminaFeature = false;
 
 	actor.items.forEach(item => {
 		// Inventory
 		if (item.type === 'weapon') weapon.push(item);
 		if (item.type === 'equipment') equipment.push(item);
+		if (item.type === "spellFocus") spellFocus.push(item);
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
+
+		// Mark Stamina Feature
+		if (item.system.staminaFeature) staminaFeature = true;
 
 		// Conditionals
 		const conds = item.system.conditionals;
@@ -31,10 +37,12 @@ export function prepareDataFromItems(actor) {
 	});
 
 	_weapon(weapon, actor);
+	_spellFocus(spellFocus, actor);
 	_equipment(equipment, actor);
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
 	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
+	actor.system.details.staminaFeature = staminaFeature;
 }
 
 export function prepareUniqueItemData(actor) {
@@ -94,7 +102,7 @@ export function prepareEquippedItemsFlags(actor) {
 export function prepareRollDataForItems(actor) {
 	_combatMatery(actor);
 	_coreAttributes(actor);
-	_attackModAndSaveDC(actor);
+	_modifierAndSaveDC(actor);
 	_combatTraining(actor);
 }
 
@@ -155,11 +163,13 @@ function _class(actor) {
 	// Attribute Point from class
 	attributePoints.max += _getAllUntilIndex(classScaling.attributePoints.values, level - 1);
 
-	// Techniques and Spells Known
-	known.cantrips.max = _getAllUntilIndex(classScaling.cantripsKnown.values, level - 1);
+	// Maneuvers and Spells Known
 	known.spells.max = _getAllUntilIndex(classScaling.spellsKnown.values, level - 1);
 	known.maneuvers.max = _getAllUntilIndex(classScaling.maneuversKnown.values, level - 1);
-	known.techniques.max = _getAllUntilIndex(classScaling.techniquesKnown.values, level - 1);
+
+	// Class Filters
+	details.class.filters = clazz.system.filters;
+	details.class.hasSpellList = clazz.system.hasSpellList;
 }
 
 function _ancestry(actor) {
@@ -182,13 +192,73 @@ function _subclass(actor) {
 function _weapon(items, actor) {
 	let bonusPD = 0;
 	items.forEach(item => {
-		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD++;
+		if (item.system.properties.guard.active && item.system.statuses.equipped) bonusPD++;
 	});
 	actor.system.defences.precision.bonuses.always += bonusPD;
 } 
 
+function _spellFocus(items, actor) {
+	const data = {
+		channeling: 0,
+		vicious: 0,
+		powerful: 0,
+		protective: 0,
+		ignoreCloseQuarters: false,
+		longRanged: false,
+		reach: false,
+		warded: false,
+	}
+	
+	// Collect item data
+	items.forEach(item => {
+		if (!item.system.combatTraining) return;
+		const properties = item.system.properties;
+		if (!item.system.statuses.equipped) return;
+		
+		if (properties.channeling.active) data.channeling++;
+		if (properties.vicious.active) data.vicious++;
+		if (properties.powerful.active) data.powerful++;
+		if (properties.protective.active) data.protective++;
+
+		if (properties.closeQuarters.active) data.ignoreCloseQuarters = true;
+		if (properties.longRangedSF.active) data.longRanged = true;
+		if (properties.reachSF.active) data.reach = true;
+		if (properties.warded.active) data.warded = true;
+	})
+
+	// Implement item data
+	if (data.channeling) {
+		actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${data.channeling}", "label": "Channeling Property"`);
+	}
+	if (data.vicious) {
+		actor.system.dynamicRollModifier.onYou.spell.melee.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
+		actor.system.dynamicRollModifier.onYou.spell.ranged.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
+		actor.system.dynamicRollModifier.onYou.spell.area.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
+	}
+	if (data.powerful) {
+		actor.system.globalFormulaModifiers.damage.spell.melee.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
+		actor.system.globalFormulaModifiers.damage.spell.ranged.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
+		actor.system.globalFormulaModifiers.damage.spell.area.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
+	}
+	if (data.protective) {
+		actor.system.defences.area.bonuses.always += data.protective;
+	}
+	if (data.ignoreCloseQuarters) {
+		actor.system.globalModifier.spell.ignore.closeQuarters = true;
+	}
+	if (data.longRanged) {
+		actor.system.globalModifier.spell.range.normal += 5
+	}
+	if (data.reach) {
+		actor.system.globalModifier.spell.range.melee += 1
+	}
+	if (data.warded && !actor.system.damageReduction.mdr.skipEqCheck) {
+		actor.system.damageReduction.mdr.active = true;
+	}
+}
+
 function _equipment(items, actor) {
-	let collectedData = {
+	const data = {
 		adBonus: 0,
 		pdBonus: 0,
 		shieldBonus: {
@@ -203,14 +273,13 @@ function _equipment(items, actor) {
 		lackArmorTraining: false,
 		lackShieldTraining: false,
 	}
-	items.forEach(item => _armorData(item, collectedData, actor));
-	_implementEquipmentData(actor, collectedData);
+	items.forEach(item => _armorData(item, data));
+	_implementEquipmentData(actor, data);
 }
 
-function _armorData(item, data, actor) {
+function _armorData(item, data) {
 	if (!item.system.statuses.equipped) return data;
 
-	const combatTraining = actor.system.combatTraining;
 	const properties = item.system.properties;
 	const equipmentType = item.system.equipmentType;
 
@@ -220,24 +289,14 @@ function _armorData(item, data, actor) {
 	if (properties.rigid.active) data.agiCheckDis++;
 
 	if (["light", "heavy"].includes(equipmentType)) {
-		if (equipmentType === "heavy") {
-			if (!combatTraining.heavyArmor) data.lackArmorTraining = true;
-		}
-		else {
-			if (!combatTraining.lightArmor) data.lackArmorTraining = true;
-		}
+		if (!item.system.combatTraining) data.lackArmorTraining = true;
 	}
 	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
 		if (properties.pdIncrease.active) data.shieldBonus.pdBonus = properties.pdIncrease.value;
 		if (properties.adIncrease.active) data.shieldBonus.adBonus = properties.adIncrease.value;
 		data.shieldBonus.shieldsWielded++;
 
-		if (equipmentType === "hshield") {
-			if (!combatTraining.heavyShield) data.lackShieldTraining = true;
-		}
-		else {
-			if (!combatTraining.lightShield) data.lackShieldTraining = true;
-		}
+		if (!item.system.combatTraining) data.lackShieldTraining = true;
 	}
 	else {
 		if (properties.pdIncrease.active) data.pdBonus += properties.pdIncrease.value;
@@ -249,31 +308,36 @@ function _armorData(item, data, actor) {
 function _implementEquipmentData(actor, collectedData) {
 	const pd = actor.system.defences.precision;
 	const ad = actor.system.defences.area;
-	const details = actor.system.details;
 
 	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
 	for (let i = 0; i < collectedData.agiCheckDis; i++) {
-		actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
 	}
 
 	// Lack Shield Training
 	if (collectedData.lackShieldTraining) {
-		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 	}
 
 	// Lack Armor Training
 	if (collectedData.lackArmorTraining) {
-		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
 	// Armor bonus
@@ -286,8 +350,10 @@ function _implementEquipmentData(actor, collectedData) {
 	}
 
 	// PDR and EDR
-	if (collectedData.pdr) actor.system.damageReduction.pdr.active = true;
-	if (collectedData.edr) actor.system.damageReduction.edr.active = true;
+	const pdr = actor.system.damageReduction.pdr;
+	const edr = actor.system.damageReduction.edr;
+	if (collectedData.pdr && !pdr.skipEqCheck) pdr.active = true;
+	if (collectedData.edr && !edr.skipEqCheck) edr.active = true;
 }
 
 function _customResources(items, actor) {
@@ -387,24 +453,38 @@ function _coreAttributes(actor) {
 	}
 }
 
-function _attackModAndSaveDC(actor) {
+function _modifierAndSaveDC(actor) {
 	const exhaustion = actor.exhaustion;
 	const prime = actor.system.attributes.prime.value;
 	const CM = actor.system.details.combatMastery;
 
 	// Attack Modifier
 	const attackMod = actor.system.attackMod;
-	const mod = attackMod.value;
+	const attack = attackMod.value;
 	if (companionShare(actor, "attackMod")) {
-		mod.martial = actor.companionOwner.system.attackMod.value.martial + attackMod.bonus.martial;
-		mod.spell = actor.companionOwner.system.attackMod.value.spell + attackMod.bonus.spell;
+		attack.martial = actor.companionOwner.system.attackMod.value.martial + attackMod.bonus.martial;
+		attack.spell = actor.companionOwner.system.attackMod.value.spell + attackMod.bonus.spell;
 	}
 	else if (!attackMod.flat) {
-		mod.martial = prime + CM + attackMod.bonus.martial;
-		mod.spell = prime + CM + attackMod.bonus.spell;
+		attack.martial = prime + CM + attackMod.bonus.martial;
+		attack.spell = prime + CM + attackMod.bonus.spell;
 	}
-	mod.martial -= exhaustion;
-	mod.spell -= exhaustion;
+	attack.martial -= exhaustion;
+	attack.spell -= exhaustion;
+
+	// Check Modifier
+	const checkMod = actor.system.checkMod;
+	const check = checkMod.value;
+	if (companionShare(actor, "checkMod")) {
+		check.martial = actor.companionOwner.system.checkMod.value.martial + checkMod.bonus.martial;
+		check.spell = actor.companionOwner.system.checkMod.value.spell + checkMod.bonus.spell;
+	}
+	else if (!checkMod.flat) {
+		check.martial = prime + CM + checkMod.bonus.martial;
+		check.spell = prime + CM + checkMod.bonus.spell;
+	}
+	check.martial -= exhaustion;
+	check.spell -= exhaustion;
 
 	// Save DC
 	const saveDC = actor.system.saveDC;

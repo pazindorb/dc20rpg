@@ -7,16 +7,9 @@ export function duplicateItemData(context, item) {
   context.system = item.system;
   context.flags = item.flags;
 
-  context.itemsWithChargesIds = {};
-  context.consumableItemsIds = {};
   context.hasOwner = false;
   let actor = item.actor ?? null;
-  if (actor) {
-    context.hasOwner = true;
-    const itemIds = actor.getOwnedItemsIds(item.id);
-    context.itemsWithChargesIds = itemIds.withCharges;
-    context.consumableItemsIds = itemIds.consumable;
-  }
+  if (actor) context.hasOwner = true;
 }
 
 export function prepareItemData(context, item) {
@@ -29,18 +22,18 @@ export function preprareSheetData(context, item) {
   context.sheetData = {};
   _prepareTypesAndSubtypes(context, item);
   _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "consumable", "feature", "technique", "spell", "infusion", "basicAction"].includes(item.type)) {
+  if (["weapon", "equipment", "spellFocus", "consumable", "feature", "maneuver", "spell", "infusion", "basicAction"].includes(item.type)) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
   if (item.type === "weapon") {
-    let propertyCost = item.system.weaponType === "ranged" ? 2 : 0;
+    let propertyCost = item.system.weaponType === "ranged" ? 1 : 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
       if (prop.active) propertyCost += prop.cost;
     })
     context.propertyCost = propertyCost;
   }
-  if (item.type === "equipment") {
+  if (item.type === "equipment" || item.type === "spellFocus") {
     let propertyCost = 0;
     Object.entries(item.system.properties).forEach(([key, prop]) => {
       const propValue = prop.value || 1;
@@ -58,7 +51,7 @@ function _prepareDetailsBoxes(context, item) {
   const infoBoxes = {};
   infoBoxes.rollDetails = _prepareRollDetailsBoxes(context);
   infoBoxes.properties = _preparePropertiesBoxes(context);
-  infoBoxes.spellLists = _prepareSpellLists(context);
+  infoBoxes.spellSources = _prepareSpellSources(context);
   infoBoxes.spellProperties = _prepareSpellPropertiesBoxes(context);
 
   context.sheetData.infoBoxes = infoBoxes;
@@ -131,15 +124,14 @@ function _preparePropertiesBoxes(context) {
   return properties;
 }
 
-function _prepareSpellLists(context) {
+function _prepareSpellSources(context) {
   const properties = {};
-  const spellLists = context.system.spellLists;
+  const spellSource = context.system.spellSource;
+  if (!spellSource) return properties;
 
-  if (!spellLists) return properties;
-
-  for (const [key, prop] of Object.entries(spellLists)) {
+  for (const [key, prop] of Object.entries(spellSource)) {
     if (prop.active) {
-      properties[key] = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellLists);
+      properties[key] = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources);
     }
   }
 
@@ -215,6 +207,10 @@ function _prepareTypesAndSubtypes(context, item) {
       context.sheetData.subtype = getLabelFromKey(item.system.statuses.slotLink.predefined, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots) || "?";
       break;
     }
+    case "spellFocus": {
+      context.sheetData.type = "";
+      context.sheetData.subtype = game.i18n.localize("TYPES.Item.spellFocus");
+    }
     case "consumable": {
       context.sheetData.type = getLabelFromKey(item.system.consumableType, CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes);
       context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes);
@@ -225,14 +221,14 @@ function _prepareTypesAndSubtypes(context, item) {
       context.sheetData.subtype = item.system.featureOrigin;
       break;
     }
-    case "technique": {
-      context.sheetData.type = getLabelFromKey(item.system.techniqueType, CONFIG.DC20RPG.DROPDOWN_DATA.techniqueTypes);
-      context.sheetData.subtype = item.system.techniqueOrigin;
+    case "maneuver": {
+      context.sheetData.type = getLabelFromKey(item.system.maneuverType, CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes);
+      context.sheetData.subtype = game.i18n.localize("TYPES.Item.maneuver");
       break;
     }
     case "spell": {
       context.sheetData.type = getLabelFromKey(item.system.spellType, CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes);
-      context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools);
+      context.sheetData.subtype = getLabelFromKey(item.system.spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools);
       break;
     }
     case "infusion": {
@@ -305,7 +301,7 @@ export function prepareContainer(item, context) {
     container: {label: "Containers", items: {}},
     loot: {label: "Loot", items: {}},
     feature: {label: "Features", items: {}},
-    technique: {label: "Techniques", items: {}},
+    maneuver: {label: "Maneuvers", items: {}},
     spell: {label: "Spells", items: {}},
     other: {label: "Others", items: {}},
   };

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/control/orb-web-hold.webp",
   "system": {
-    "description": "<p>When you complete a <strong>Long Rest</strong>, choose 1 Spell you know. The chosen Spell becomes your <strong>Prepared Spell</strong> until your next <strong>Long Rest</strong>.</p><p>Your Prepared Spell gains the following benefits:</p><ul><li><p><strong>Mana Limit Break:</strong> When you cast this Spell, you can increase your Mana Spend Limit by 1. You can use this Feature once per <strong>Long Res</strong>t, but you regain the ability to use it when you roll for <strong>Initiative</strong>.</p></li><li><p><strong>Rehearsed Casting:</strong> During a Spell Duel, Challengers have <strong>DisADV</strong> on <strong>Spell</strong> <strong>Checks</strong> to stop your Spell.</p></li></ul>",
+    "description": "<p><span class=\"cf0\">When you complete a Long Rest, choose 1 Spell you know. The chosen Spell becomes your Prepared Spell until your next Long Rest.</span></p><p>Your Prepared Spell gains the following benefits:</p><ul><li><p><strong>Mana Limit Break:</strong> <span class=\"cf0\">When you cast your Prepared Spell, you can increase your Mana Spend Limit by 1 for the casting.</span></p><p><span class=\"cf0\">You can use this Feature once per Long Rest, but you regain the ability to use it when you roll for Initiative.</span></p></li><li><p><strong>Rehearsed Casting:</strong> During a Spell Duel, Challengers have DisADV on Spell Checks to stop your Spell.</p><p><em><strong>System Tip:</strong> This is not automated.</em></p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -151,9 +151,10 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast this Spell, you can increase your Mana Spend Limit by 1. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use this Feature once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Long Res</strong>t, but you regain the ability to use it when you roll for <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Initiative</strong>.</span></p>",
+        "description": "<p><span class=\"cf0\">When you cast your Prepared Spell, you can increase your Mana Spend Limit by 1 for the casting.</span></p><p><span class=\"cf0\">You can use this Feature once per Long Rest, but you regain the ability to use it when you roll for Initiative.</span></p>",
         "hide": false,
         "key": "DC6dzzjscncyaT7f",
         "sourceItemId": "L7OIKkLCNJyCPjf8",
@@ -338,9 +339,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035266,
-    "modifiedTime": 1761303729078,
+    "modifiedTime": 1768562878687,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

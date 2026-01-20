@@ -1,0 +1,174 @@
+{
+  "folder": "9MSiB2UR8Xb8T1Ot",
+  "name": "Medicine Kit",
+  "type": "consumable",
+  "_id": "xaBJRsRdVEYEqbko",
+  "img": "icons/containers/bags/pack-leather-strapped-tan.webp",
+  "system": {
+    "description": "<p>A Medicine Kit can take many forms based on your PC’s theme or expression and is full of supplies and tools such as ointments, tinctures, bandages, and other medicinal reagents.</p><p><strong>Uses:</strong> A fully stocked kit contains 5 uses.</p><p><strong>Using A Kit:</strong> You can take the Object Action and spend 1 use of this kit to treat the wounds of a creature within 1 Space, or cure a Poison affecting it.</p><p></p><p><strong><span style=\"text-decoration: underline;\">Treating A Wound</span></strong></p><p>You treat a creature’s wounds. Make a DC 10 Medicine Check. </p><ul><li><p><strong>Success:</strong> Target regains 1 HP. </p></li><li><p><strong>Success (each 5):</strong> Target regains +1 HP.</p></li></ul><p><strong>Limited Healing:</strong> Healing from this kit can’t restore a creature's HP above its Bloodied threshold.</p><p></p><p><strong><span style=\"text-decoration: underline;\">Treating A Poison or Disease</span></strong></p><p>You treat one Basic Poison or Disease afflicting the target. Make a Medicine Check against the DC of the effect. </p><ul><li><p><strong>Success:</strong> Target is cured of that Poison or Disease and no longer suffers its effect. </p></li><li><p><strong>Success (each 5):</strong> The creature regains +1 HP.</p></li></ul><p><strong>Advanced Poisons:</strong> You can treat one Advanced Poison instead, provided you have its unique additive. One use of that additive is lost every time you attempt to do so.</p><p><em><strong>Beta Note:</strong> Diseases are still a work in progress. If they’re included in adventures or monsters at a later date, these rules will suffice for treating them as if they were poisons, or those materials will detail how a PC could treat presented Diseases.</em></p><p></p><p><strong><span style=\"text-decoration: underline;\">Resupplying A Medicine Kit</span></strong></p><p><strong>Buying Supplies:</strong> The various supplies contained within this kit can be found in most towns and climates. Enough supplies for 1 use can be bought for 5 gold at a general store.</p><p><strong>Gathering Supplies:</strong> You can scavenge from an appropriate climate (GM’s discretion) with a DC 15 Survival Check. </p><ul><li><p><strong>Success:</strong> The kit regains 1 use. </p></li><li><p><strong>Success (each 5):</strong> +1 use.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": "",
+      "connectedToEffects": false
+    },
+    "quantity": 1,
+    "weight": 0,
+    "price": {
+      "value": 0,
+      "currency": "gp"
+    },
+    "rarity": "",
+    "statuses": {
+      "attuned": false,
+      "equipped": false,
+      "identified": true
+    },
+    "properties": {
+      "attunement": {
+        "active": false,
+        "label": "dc20rpg.properties.attunement",
+        "journalUuid": "",
+        "for": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy",
+          "other"
+        ],
+        "cost": 0
+      }
+    },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false
+    },
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "med",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": ""
+    },
+    "formulas": {
+      "jZOxBPcpLbnvHxyg": {
+        "formula": "1",
+        "type": "heal",
+        "category": "healing",
+        "fail": true,
+        "failFormula": "0",
+        "each5": true,
+        "each5Formula": "1",
+        "types": {
+          "heal": "Health",
+          "temporary": "Temporary"
+        }
+      }
+    },
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "ap": 1
+      },
+      "charges": {
+        "current": 5,
+        "max": null,
+        "maxChargesFormula": "5",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "consumableType": "kit",
+    "consume": false,
+    "deleteOnZero": false,
+    "showAsResource": false
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1719920387771,
+    "modifiedTime": 1765901591837,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "exportSource": null
+  },
+  "_key": "!items!xaBJRsRdVEYEqbko"
+}

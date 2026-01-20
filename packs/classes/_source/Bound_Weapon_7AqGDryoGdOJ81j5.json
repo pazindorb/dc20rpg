@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/light/swords-light-glowing-white.webp",
   "system": {
-    "description": "<p>During a Quick Rest, you can magically bond with <strong>1 Weapon</strong> and choose an <strong>Elemental</strong> or <strong>Mystical</strong> damage type, this becomes your “Bound Damage”.</p><p>While you hold the Bound Weapon, it gains the following properties:</p><ul><li><p><strong>Illuminate:</strong> You can spend <strong>1 AP</strong> to cause it to emit Dim or Bright Light (you choose the light’s appearance) in a 5 Space radius. The light is extinguished if you release the Weapon or choose to do so for free.</p></li><li><p><strong>Smite:</strong> When you make a Martial Attack with the Weapon, you can spend 1 or more <strong>SP</strong> to deal +2 Bound Damage per <strong>SP</strong> spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p></li><li><p><strong>Recall:</strong> While the Weapon is within 20 Spaces, unheld, and unsecured, you can call your Weapon back to you for free, causing it to fly to you. If you don’t have a free hand when you call it, or you choose not to grab it, it falls in your Space at your feet.</p></li></ul><p><strong>Ending Early:</strong> Your bond with the Weapon ends early if you use this Feature again or you choose to end it for free.</p>",
+    "description": "<p><span class=\"cf0\">During a Quick Rest, you can magically bond with 1 Weapon and choose an Elemental or Mystical damage type to become your Bound Damage type. This bond lasts until you end it for free or use this feature again.</span></p><p class=\"pf0\"><span class=\"cf0\">Your Bound Weapon gains the following properties:</span></p><ul><li><p><span class=\"cf0\"><strong>Smite:</strong> When you make a Martial Attack with the</span><span class=\"cf1\"> </span><span class=\"cf0\">Weapon, you can spend 1 or more SP to deal <strong>+1</strong> Bound</span><span class=\"cf1\"> </span><span class=\"cf0\">Damage per SP spent. When you do, you also gain the</span><span class=\"cf1\"> </span><span class=\"cf0\">benefits of 1 Martial Enhancement of your choice for free.</span></p></li><li><p><span class=\"cf0\"><strong>Somatic Weapon:</strong> You can use your Bound Weapon to</span><span class=\"cf1\"> </span><span class=\"cf0\">perform the Somatic Components of a Spell.</span></p></li><li><p><span class=\"cf0\"><strong>Illuminate:</strong> You can cause the Weapon to emit a 5</span><span class=\"cf1\"> </span><span class=\"cf0\">Spaces of Dim or Bright Light (you choose the light’s</span><span class=\"cf1\"> </span><span class=\"cf0\">appearance). You can extinguish,</span><span class=\"cf1\"> </span><span class=\"cf0\">produce, or adjust the</span><span class=\"cf1\"> </span><span class=\"cf0\">level of this illumination at any time for free.</span></p></li><li><p><span class=\"cf0\"><strong>Recall:</strong> While the Weapon is within 20 Spaces and isn’t</span><span class=\"cf1\"> </span><span class=\"cf0\">being held or secured, you can call your Weapon back to</span><span class=\"cf1\"> </span><span class=\"cf0\">you for free, causing it to fly to you. If you don’t have a</span><span class=\"cf1\"> </span><span class=\"cf0\">free hand when you call it, or you choose not to grab it, it</span><span class=\"cf1\"> </span><span class=\"cf0\">falls in your Space at your feet</span><span class=\"cf1\">.</span></p></li></ul><p><strong>Ending Early:</strong> Your bond with the Weapon ends early if you use this Feature again or you choose to end it for free.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -97,7 +97,7 @@
           "ignoreDR": false,
           "addsNewFormula": true,
           "formula": {
-            "formula": "2",
+            "formula": "1",
             "type": "radiant",
             "category": "damage",
             "overrideDefence": "",
@@ -153,9 +153,10 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p>When you make a <strong>Martial Attack</strong> with the Weapon, you can spend 1 or more SP to deal +2 Bound Damage per SP spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p>",
+        "description": "<p><span class=\"cf0\">When you make a Martial Attack with the</span><span class=\"cf1\"> </span><span class=\"cf0\">Weapon, you can spend 1 or more SP to deal <strong>+1</strong> Bound</span><span class=\"cf1\"> </span><span class=\"cf0\">Damage per SP spent. When you do, you also gain the</span><span class=\"cf1\"> </span><span class=\"cf0\">benefits of 1 Martial Enhancement of your choice for free.</span></p>",
         "hide": false,
         "key": "tXOWadltDwewJwss",
         "sourceItemId": "7AqGDryoGdOJ81j5",
@@ -164,7 +165,7 @@
         "active": false
       },
       "AF8IpxNcnblXbdyh": {
-        "name": "Free Attack Maneuver",
+        "name": "Free Martial Enhancement",
         "number": 0,
         "resources": {
           "health": null,
@@ -241,9 +242,10 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p>When you use your Smite you gain benefits of 1 Attack Maneuver of your choice for free.</p><p></p><p><em><strong>System Tip:</strong> Just use the maneuver and this enhancement to remove its AP cost.</em></p>",
+        "description": "<p><span class=\"cf0\">When you make a Martial Attack with the</span><span class=\"cf1\"> </span><span class=\"cf0\">Weapon, you can spend 1 or more SP to deal <strong>+1</strong> Bound</span><span class=\"cf1\"> </span><span class=\"cf0\">Damage per SP spent. When you do, you also gain the</span><span class=\"cf1\"> </span><span class=\"cf0\">benefits of 1 Martial Enhancement of your choice for free.</span></p>",
         "hide": false,
         "key": "AF8IpxNcnblXbdyh",
         "sourceItemId": "7AqGDryoGdOJ81j5",
@@ -254,7 +256,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "name=\"BOUNDED WEAPON NAME\"",
+      "copyFor": "name=[\"BOUNDED WEAPON NAME\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -406,9 +408,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034896,
-    "modifiedTime": 1761303728789,
+    "modifiedTime": 1767180451112,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

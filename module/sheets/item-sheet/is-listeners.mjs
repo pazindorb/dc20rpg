@@ -1,5 +1,5 @@
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
-import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
+import { addToMultiSelect, datasetOf, labelOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey, getLabelFromKey } from "../../helpers/utils.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
@@ -7,7 +7,7 @@ import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
-import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
+import { blueprintAdvancements, configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
@@ -51,6 +51,7 @@ export function activateCommonLinsters(html, item) {
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
+  html.find('.blueprint-advancement').click(() => blueprintAdvancements(item));
   html.find('.advancement-edit').click(ev => configureAdvancementDialog(item, datasetOf(ev).key));
   html.find('.editable-advancement').mousedown(ev => ev.which === 2 ? configureAdvancementDialog(item, datasetOf(ev).key) : ()=>{});
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
@@ -68,7 +69,12 @@ export function activateCommonLinsters(html, item) {
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
-  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.allChecks)));
+  html.find('.multi-select').change(ev => {
+    const path = datasetOf(ev).path;
+    const key = valueOf(ev);
+    const label = labelOf(ev);
+    addToMultiSelect(item, path, key, label);
+  });
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
@@ -101,6 +107,7 @@ export function activateCommonLinsters(html, item) {
       label: "Starting Equipment",
       weapon: false,
       ranged: false,
+      spellFocus: false,
       armor: false,
       shield: false,
       itemData: {},
@@ -150,7 +157,6 @@ function _onRollTemplateSelect(selected, item) {
     dcCalculation: "spell",
     dc: 0,
     addMasteryToDC: true,
-    respectSizeRules: false,
   };
   const contestRequest = {
     category: "contest",
@@ -159,7 +165,6 @@ function _onRollTemplateSelect(selected, item) {
     dcCalculation: "spell",
     dc: 0,
     addMasteryToDC: true,
-    respectSizeRules: false,
   };
 
   // Set action type

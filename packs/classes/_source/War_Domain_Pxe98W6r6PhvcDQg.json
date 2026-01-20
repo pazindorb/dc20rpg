@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/strike-weapons-orange.webp",
   "system": {
-    "description": "<p>You gain Combat Training with Weapons and access to Attack Maneuvers.</p>",
+    "description": "<p>You gain Combat Training with Weapons and learn 1 Attack Maneuver of your choice.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -177,10 +177,10 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "hasAdvancement": false,
+    "hasAdvancement": true,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
+        "name": "War Domain",
         "mustChoose": false,
         "pointAmount": 1,
         "level": 0,
@@ -210,12 +210,21 @@
           0,
           0
         ],
-        "allowToAddItems": false,
+        "allowToAddItems": true,
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
         "items": {},
-        "customTitle": ""
+        "customTitle": "",
+        "addItemsOptions": {
+          "itemType": "maneuver",
+          "preFilters": "{\"maneuverType\": \"attack\"}",
+          "helpText": "Add Attack Maneuver",
+          "itemLimit": 1
+        },
+        "key": "default",
+        "macro": "const data = Object.values(advancement.items)[0];\nif (!data) return;\n\nconst item = actor.items.get(data.createdItemId);\nif (item) item.update({[\"system.knownLimit\"]: false});",
+        "tip": "War Domain - Maneuvers"
       }
     },
     "help": {
@@ -294,11 +303,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035142,
-    "modifiedTime": 1750925689788,
+    "modifiedTime": 1767178809064,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

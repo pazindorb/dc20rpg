@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/water/pseudopod-teal.webp",
   "system": {
-    "description": "<p>When you Cast a Spell that targets an Area of Effect, you can choose to protect some of the creatures from the spell’s full force.</p><p>Spend <strong>1 MP</strong> and choose a number of creatures up to your <strong>Prime Modifier</strong>. All chosen creatures are immune to the Spell’s damage and effects.</p>",
+    "description": "<p class=\"pf0\"><span class=\"cf0\">When you Cast a Spell that targets an area (such as a Line, Cone, or Sphere), you can choose to exclude creatures of your choice from the Spell’s damage and effects.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -147,9 +147,10 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
-        "description": "<p>When you Cast a Spell that targets an Area of Effect, you can choose to protect some of the creatures from the spell’s full force.</p><p>Spend <strong>1 MP</strong> and choose a number of creatures up to your <strong>Prime Modifier</strong>. All chosen creatures are immune to the Spell’s damage and effects.</p><p><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>You can only use 1 Meta Magic Enhancement per Spell</strong></span></p>",
+        "description": "<p class=\"pf0\"><span class=\"cf0\">When you Cast a Spell that targets an area (such as a Line, Cone, or Sphere), you can choose to exclude creatures of your choice from the Spell’s damage and effects.</span></p>",
         "charges": {
           "subtract": null,
           "fromOriginal": false
@@ -319,9 +320,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035219,
-    "modifiedTime": 1761303729177,
+    "modifiedTime": 1767175705912,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -5,6 +5,7 @@ import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
@@ -24,7 +25,7 @@ export class DC20RpgItem extends Item {
 
   get checkKey() {
     const actionType = this.system.actionType;
-    if (actionType === "attack") return this.system.attackFormula.checkType.substr(0, 3);
+    if (actionType === "attack") return "att";
     if (actionType === "check") return this.system.check.checkKey;
     return null;
   }
@@ -38,10 +39,12 @@ export class DC20RpgItem extends Item {
   }
 
   get allEnhancements() {
+    // TODO - replace with "enhancements.all" - leave depracated message?
     return this.enhancements.all;
   }
 
   get activeEnhancements() {
+    // TODO - replace with "enhancements.active" - leave depracated message?
     return this.enhancements.active;
   }
 
@@ -81,6 +84,10 @@ export class DC20RpgItem extends Item {
   getRollData() {
     const data = {...super.getRollData()}
     return prepareRollData(this, data);
+  }
+
+  async roll(options={}) {
+    return await RollDialog.open(this.actor, this, options);
   }
 
   getEffectWithName(effectName) {
@@ -285,6 +292,7 @@ export class DC20RpgItem extends Item {
     let newState = !this.system.toggle.toggledOn;
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
+    await runTemporaryItemMacro(this, "onItemToggle", this.actor, {on: newState, off: !newState, equipping: false});
     await this.update({["system.toggle.toggledOn"]: newState});
     this.#createLinkedAura(newState);
   }
@@ -299,7 +307,7 @@ export class DC20RpgItem extends Item {
       for (const template of Object.values(templates)) {
         if (this.#getLinkedTemplate(token)) continue;
         if (template.passiveAura || (template.linkWithToggle && this.toggledOn)) {
-          const applyEffects = getMesuredTemplateEffects(this);
+          const applyEffects = getMesuredTemplateEffects(this, [], this.actor);
           const itemData = {
             itemId: this.id, 
             actorId: this.actor.id, 
@@ -349,7 +357,16 @@ export class DC20RpgItem extends Item {
       else await slot.unequip();
     }
     else {
+      // Cumbersome: It takes 1 AP to draw, stow, or pick up this Weapon.
+      if (this.system.properties?.cumbersome?.active) {
+        if (!this.actor.resources.ap.checkAndSpend(1)) return;
+      }
+      // Reload: Weapon gets unloaded when you take it of
+      if (this.system.properties?.reload?.active && newState === false) {
+        await this.reloadable.unload();
+      }
       // Update equipped stataus
+      await runTemporaryItemMacro(this, "onItemToggle", this.actor, {on: newState, off: !newState, equipping: true});
       await this.update({["system.statuses.equipped"]: newState});
     }
   }

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/death/skull-humanoid-white-red.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to Curse a creature within 10 Spaces for 1 minute.</p><p>You make a <strong>Spell</strong> <strong>Check</strong> against the target’s <strong>Repeated</strong> <strong>Physical</strong> <strong>Save</strong>.</p><p><strong>Save Failure: </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.6f64926856e0375b]{Dazed}</strong> or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired} </strong>(your choice) and takes 1 Umbral damage at the start of each of their turns. Additionally, they’re prevented from regaining HP.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to Curse a creature within 10 Spaces for 1 minute.</p><p>You make a <strong>Spell</strong> <strong>Check</strong> against the target’s <strong>Repeated</strong> <strong>Physical</strong> <strong>Save</strong>.</p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target is Cursed for the duration. While Cursed in this way, the target can’t regain HP, becomes Dazed or Impaired (your choice), and takes 1 Umbral damage at the start of each of their turns.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -253,53 +254,60 @@
         "statusId": "dazed",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.checks.int",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.cha",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.spe",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
           "key": "system.events",
+          "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex Warrior's Curse - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
-          "value": "\"eventType\": \"damage\", \"label\": \"Hex Warrior's Curse\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"umbral\", \"continuous\": \"true\"",
           "mode": 2,
+          "value": "\"eventType\": \"damage\", \"label\": \"Hex Warrior's Curse\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"umbral\", \"continuous\": \"true\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.int",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.cha",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.spe",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
           "priority": null
         }
       ],
-      "description": "<p><span>You are <strong>Dazed</strong> or <strong>Impaired</strong> and take 1 Umbral damage at the start of each of your turns. Additionally, you are prevented from regaining HP.</span></p>",
+      "description": "<p><span class=\"cf0\">You can’t regain HP, are Dazed and take 1 Umbral damage at the start of each of your turns.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [
@@ -324,11 +332,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256713,
+        "modifiedTime": 1768466302391,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -354,53 +362,66 @@
         "statusId": "impaired",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.checks.mig",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.agi",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.att",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-          "priority": null
-        },
-        {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex Warrior's Curse - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
-          "mode": 2,
           "value": "\"eventType\": \"damage\", \"label\": \"Hex Warrior's Curse\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"umbral\", \"continuous\": \"true\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.att",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.att",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p><span>You are <strong>Impaired</strong> and take 1 Umbral damage at the start of each of your turns. Additionally, you are prevented from regaining HP.</span></p>",
+      "description": "<p><span class=\"cf0\">You can’t regain HP, are Impaired and take 1 Umbral damage at the start of each of your turns.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [
@@ -425,11 +446,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.classes.Item.4u9hKWL0D3ZQqLj3.ActiveEffect.CuMtwGBuzcNxoC4v",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256715,
+        "modifiedTime": 1768466302393,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -441,11 +462,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034026,
-    "modifiedTime": 1760521814351,
+    "modifiedTime": 1767172262288,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

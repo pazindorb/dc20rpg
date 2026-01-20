@@ -17,11 +17,12 @@
     <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
     <a class="fa-lg activable {{#if system.copyEnhancements.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.linkWithToggle"></a>
   </div>
-  {{/if}}
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.item.sheet.config.hideFromRollMenu"}}</span>
-    <a class="fa-lg activable {{#if system.copyEnhancements.hideFromRollMenu}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.hideFromRollMenu"></a>
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.enh.onlyMaintainedTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.enh.onlyMaintained"}}</span>
+    <a class="fa-lg activable {{#if system.copyEnhancements.onlyMaintained}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.onlyMaintained"></a>
   </div>
+  
+  {{/if}}
 
   {{#each enhancements as |enhancement enhancementKey|}}
   <div class="big-table margin-top-10">
@@ -123,6 +124,13 @@
         <input type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.changeManaSpendLimit" value="{{enhancement.modifications.changeManaSpendLimit}}" placeholder="-">
       </div>
 
+      {{!-- Changes Stamina Spend Limit --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.changeStaminaSpendLimit"}}</span>
+        <input type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.changeStaminaSpendLimit" value="{{enhancement.modifications.changeStaminaSpendLimit}}" placeholder="-">
+      </div>
+
       {{!-- Modifies Core Formula --}}
       <hr class="margin-top-5" />
       <div class="row margin-top-5">
@@ -161,6 +169,10 @@
       <div class="row margin-top-3">
         <span>{{localize "dc20rpg.item.sheet.enh.additionalFormula"}}</span>
         <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" placeholder="-">
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.enh.specificFormulaKey"}}</span>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.specificFormulaKey" value="{{enhancement.modifications.specificFormulaKey}}" placeholder="-">
       </div>
       {{/if}}
 
@@ -273,10 +285,6 @@
             {{selectOptions @root.config.ROLL_KEYS.contests selected=enhancement.modifications.rollRequest.contestedKey blank=""}}
           </select>
         </div>
-        <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRulesTitle"}}">
-          <span>{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRules"}}</span>
-          <a class="activable fa-lg {{#if enhancement.modifications.rollRequest.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.rollRequest.respectSizeRules"></a>
-        </div>
         {{/ifCond}}
 
         {{!-- Save --}}
@@ -319,8 +327,9 @@
         </div>
         <div class="right-part-row">
           <select name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.id">
-            {{selectOptions @root.config.DROPDOWN_DATA.statusResistances selected=enhancement.modifications.againstStatus.id blank=""}}
+            {{selectOptions @root.config.DROPDOWN_DATA.allStatuses selected=enhancement.modifications.againstStatus.id blank=""}}
           </select>
+          {{!-- Triggers --}}
           <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
           <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
@@ -331,15 +340,30 @@
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
           <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
-          <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-              data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
-          <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-              data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+        </div>
+      </div>
+      {{!-- Repeated Save --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.repeatedSave"}}</span>
+        <div class="right-part-row">
           {{#if enhancement.modifications.againstStatus.repeatedSave}}
-          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSaveKey">
+          <select class="margin-left-5" name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSaveKey">
             {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=enhancement.modifications.againstStatus.repeatedSaveKey blank=""}}
           </select>
           {{/if}}
+          <a class="activable margin-left-5 fa-lg {{#if enhancement.modifications.againstStatus.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+              data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+        </div>
+      </div>
+      {{!-- Duration (Rounds) --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.duration"}}</span>
+        <div class="right-part-row">
+          {{#unless enhancement.modifications.againstStatus.forOneMinute}}
+          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.forXRounds" value="{{enhancement.modifications.againstStatus.forXRounds}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.forXRounds"}}">
+          {{/unless}}
+          <a class="activable margin-left-5 fa-lg {{#if enhancement.modifications.againstStatus.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+              data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
         </div>
       </div>
       {{/if}}

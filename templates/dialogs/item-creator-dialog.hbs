@@ -1,6 +1,7 @@
 <form id="item-creator" class="dialog-v13 dialog-content standard-form {{cssClass}}">
   <h4 class="divider">{{varLocalize "dc20rpg.dialog.itemCreator.title." itemType ""}}</h4>
 
+  {{#if itemSubTypes}}
   <div class="form-group margin-top-10">
     <label>{{localize 'dc20rpg.dialog.itemCreator.type'}}</label>
     <div class="form-fields">
@@ -9,6 +10,7 @@
       </select>
     </div>
   </div>
+  {{/if}}
 
   {{!-- Weapon Specific --}}
   {{#ifCond blueprint.type "===" "weapon"}}{{#if subType}}
@@ -86,7 +88,7 @@
     <legend>{{localize "dc20rpg.dialog.itemCreator.itemSummary"}}</legend>
     <div class="item-display">
       <img src="{{blueprint.img}}"/>
-      <input class="item-name" data-path="blueprint.name" type="text" cType="string" value="{{blueprint.name}}"/>
+      <input class="item-name" data-path="blueprint.name" type="text" data-cType="string" value="{{blueprint.name}}"/>
     </div>
 
     {{#ifCond blueprint.type "===" "weapon"}}

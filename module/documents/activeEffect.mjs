@@ -1,5 +1,6 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
+import { runTemporaryMacro } from "../helpers/macros.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 
 /**
@@ -36,6 +37,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         effectKey: new fields.StringField({required: true}),
         macro: new fields.StringField({required: true}),
         addToChat: new fields.BooleanField({required: true, initial: false}),
+        applyToTemplate: new fields.BooleanField({required: true, initial: true}),
         nonessential: new fields.BooleanField({required: true, initial: false}),
         disableWhen: new fields.SchemaField({
           path: new fields.StringField({required: true}),
@@ -45,6 +47,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         enableStatusOnCreation: new fields.ArrayField(new fields.StringField()),
         disableStatusOnRemoval: new fields.ArrayField(new fields.StringField()),
         requireEnhancement: new fields.StringField({required: true}),
+        chatMessageId: new fields.StringField({required: true, initial: ""})
       })
     })
   }
@@ -112,6 +115,15 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return this.system.fromStatus;
   }
 
+  get hasManualEvent() {
+    for (const change of this.changes) {
+      if (change.key === "system.events") {
+        if (change.value.includes('"trigger": "manual"') || change.value.includes('"reenable": "turnStart"')) return true;
+      } 
+    }
+    return false;
+  }
+
   async disable({ignoreStateChangeLock}={}) {
     if (this.disabled) return;
     if (this.isLinkedToItem) {
@@ -171,7 +183,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (!effect) return;
 
     // We want to inject effect id only for events and roll levels
-    if (change.key.includes("system.events") || change.key.includes("system.rollLevel") || change.key.includes("system.globalFormulaModifiers")) {
+    if (change.key.includes("system.events") || change.key.includes("system.dynamicRollModifier") || change.key.includes("system.globalFormulaModifiers")) {
       change.value = `"effectId": "${effect.id}", ` + change.value;
     }
   }
@@ -200,6 +212,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       return this.parent;
     }
     return null;
+  }
+
+  async runManualEvent() {
+    const actor = this.getOwningActor();
+    if (actor) {
+      await runEventsFor("manual", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey, this.id));
+      await reenableEventsOn("manual", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey, this.id)); 
+    }
   }
 
   //======================================
@@ -251,9 +271,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     super._onCreate(data, options, userId);
     if (userId === game.user.id) {
       // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
-      if (data.duration.startTime === null) {
-        this.update(this.constructor.getInitialDuration());
-      }
+      this.update(this.constructor.getInitialDuration());
       runInstantEvents(this, this.parent);
       this._shouldAddToSustainList(data.system.sustained);
     }
@@ -275,8 +293,9 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if(oldStatusId) {
       const oldStatus = CONFIG.statusEffects.find(e => e.id === oldStatusId);
       if (oldStatus) {
+        const oldChanges = updateData.changes || [];
         const newChanges = [];
-        updateData.changes.forEach(change => {
+        oldChanges.forEach(change => {
           if (!this.isChangeFromStatus(change, oldStatus)) newChanges.push(change);
         });
         updateData.changes = newChanges;
@@ -322,5 +341,16 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       sendEffectRemovedMessage(this.parent, this);
       await this.delete();
     }
+    if (onTimeEnd === "runMacro") {
+      await this.runMacro({timer: true});
+    }
+  }
+
+  async runMacro(additionalFields) { // TODO: Rename to 'callmacro'
+    const command = this.system.macro;
+    if (!command) return;
+    const actor = this.getOwningActor();
+    if (!actor) return;
+    await runTemporaryMacro(command, this, {actor: actor, effect: this, ...additionalFields});
   }
 }

@@ -54,6 +54,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         toggleable: new f.BooleanField({required: true, initial: false}),
         toggledOn: new f.BooleanField({required: true, initial: false}),
         toggleOnRoll: new f.BooleanField({required: true, initial: false}),
+        offOnSustainDrop: new f.BooleanField({required: true, initial: false}),
       }),
       actionType: new f.StringField({required: true, initial: ""}),
       attackFormula: new AttackFormulaFields(),
@@ -78,6 +79,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         copyFor: new f.StringField({required: true, initial: ""}),
         linkWithToggle: new f.BooleanField({required: true, initial: false}),
         hideFromRollMenu: new f.BooleanField({required: true, initial: false}), // TODO: backward compatibility remove as part of 0.10
+        onlyMaintained: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
         melee: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
@@ -106,7 +108,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       conditional: new ConditionalFields(), // Left for backward compatibility remove as part of 0.10
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
-      provideMartialExpansion: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
       tip: new f.StringField({required: true, initial: ""}),
     })
@@ -176,9 +177,9 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      combatTraining: new f.BooleanField({required: true, initial: false}),
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
-      weaponStyleActive: new f.BooleanField({required: true, initial: false}),
       actionType: new f.StringField({required: true, initial: "attack"}),
       properties: new PropertyFields("weapon"),
       formulas: new f.ObjectField({required: true, initial: {
@@ -198,11 +199,23 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
   }
 }
 
+export class DC20SpellFocusData extends DC20ItemUsableMergeData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      combatTraining: new f.BooleanField({required: true, initial: false}),
+      properties: new PropertyFields("spellFocus")
+    })
+  }
+}
+
 export class DC20EquipmentData extends DC20ItemUsableMergeData {
   static defineSchema() {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      combatTraining: new f.BooleanField({required: true, initial: false}),
       equipmentType: new f.StringField({required: true, initial: ""}),
       properties: new PropertyFields("equipment"),
     })
@@ -290,13 +303,26 @@ export class DC20BasicActionData extends DC20UsableItemData {
   }
 }
 
-export class DC20TechniqueData extends DC20UsableItemData {
+export class DC20TechniqueData extends DC20UsableItemData { // TODO: Remove as part of 0.10.5
   static defineSchema() {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
       techniqueType: new f.StringField({required: true, initial: ""}),
       techniqueOrigin: new f.StringField({required: true, initial: ""}),
+      knownLimit: new f.BooleanField({required: true, initial: true}),
+      usesWeapon: new UsesWeaponFields(),
+      effectsConfig: new EffectsConfigFields()
+    })
+  }
+}
+
+export class DC20ManeuverData extends DC20UsableItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      maneuverType: new f.StringField({required: true, initial: ""}),
       knownLimit: new f.BooleanField({required: true, initial: true}),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()
@@ -339,6 +365,10 @@ export class DC20InfusionData extends DC20UsableItemData {
             ranged: new f.BooleanField({required: true, initial: true}),
             ammo: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.weapon"}),
+          }),
+          spellFocus: new f.SchemaField({
+            active: new f.BooleanField({required: true, initial: false}),
+            label: new f.StringField({initial: "dc20rpg.infusion.tags.spellFocus"}),
           }),
           shield: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
@@ -383,34 +413,33 @@ export class DC20SpellData extends DC20UsableItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       spellType: new f.StringField({required: true, initial: ""}),
-      spellOrigin: new f.StringField({required: true, initial: ""}),
-      magicSchool: new f.StringField({required: true, initial: ""}),
+      spellSchool: new f.StringField({required: true, initial: ""}),
       knownLimit: new f.BooleanField({required: true, initial: true}),
       attackFormula: new AttackFormulaFields({checkType: new f.StringField({required: true, initial: "spell"})}),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields(),
-      spellLists: new f.SchemaField({
+      spellSource: new f.SchemaField({
         arcane: new f.SchemaField({
           active: new f.BooleanField({required: true, initial: false}),
-          label: new f.StringField({initial: "dc20rpg.spellList.arcane"})
+          label: new f.StringField({initial: "dc20rpg.spellSource.arcane"})
         }),
         divine: new f.SchemaField({
           active: new f.BooleanField({required: true, initial: false}),
-          label: new f.StringField({initial: "dc20rpg.spellList.divine"})
+          label: new f.StringField({initial: "dc20rpg.spellSource.divine"})
         }),
         primal: new f.SchemaField({
           active: new f.BooleanField({required: true, initial: false}),
-          label: new f.StringField({initial: "dc20rpg.spellList.primal"})
+          label: new f.StringField({initial: "dc20rpg.spellSource.primal"})
         }),
       }),
       components: new f.SchemaField({
         verbal: new f.SchemaField({
-          active: new f.BooleanField({required: true, initial: false}),
+          active: new f.BooleanField({required: true, initial: true}),
           char: new f.StringField({required: true, initial: "V"}),
           label: new f.StringField({initial: "dc20rpg.spellComponent.verbal"})
         }),
         somatic: new f.SchemaField({
-          active: new f.BooleanField({required: true, initial: false}),
+          active: new f.BooleanField({required: true, initial: true}),
           char: new f.StringField({required: true, initial: "S"}),
           label: new f.StringField({initial: "dc20rpg.spellComponent.somatic"})
         }),
@@ -423,12 +452,7 @@ export class DC20SpellData extends DC20UsableItemData {
           label: new f.StringField({initial: "dc20rpg.spellComponent.material"})
         })
       }),
-      tags: new f.SchemaField({
-        fire: new f.SchemaField({
-          active: new f.BooleanField({required: true, initial: true}),
-          label: new f.StringField({initial: "dc20rpg.spellTags.fire"})
-        }),
-      }),
+      spellTags: new f.ObjectField({required: true}),
     })
   }
 }
@@ -443,13 +467,41 @@ export class DC20ClassData extends DC20UniqueItemData {
       bannerImg: new f.StringField({required: true, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
-      martialExpansion: new f.BooleanField({required: true, initial: false}),
       multiclass: new f.ObjectField({required: true}),
-      talentMasteries: new f.ArrayField(
-        new f.StringField({required: true, initial: ""}), {
-          required: true,
-          initial: ["","","","","","","","","","","","","","","","","","","",""]
+      hasSpellList: new f.BooleanField({required: true, initial: false}),
+      filters: new f.SchemaField({
+        spellSource: new f.SchemaField({
+          arcane: new f.BooleanField({required: true, initial: false}),
+          divine: new f.BooleanField({required: true, initial: false}),
+          primal: new f.BooleanField({required: true, initial: false})
+        }),
+        spellSchool: new f.SchemaField({
+          astromancy: new f.BooleanField({required: true, initial: false}),
+          conjuration: new f.BooleanField({required: true, initial: false}),
+          divination: new f.BooleanField({required: true, initial: false}),
+          elemental: new f.BooleanField({required: true, initial: false}),
+          enchantment: new f.BooleanField({required: true, initial: false}),
+          invocation: new f.BooleanField({required: true, initial: false}),
+          nullification: new f.BooleanField({required: true, initial: false}),
+          transmutation: new f.BooleanField({required: true, initial: false})
+        }),
+        spellTags: new f.ObjectField({required: true}),
+        canChoose: new f.SchemaField({
+          spellSource: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+          spellSchool: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+          spellTags: new f.NumberField({ required: true, nullable: true, integer: true, initial: null })
+        })
       }),
+      macros: new f.ObjectField({required: true, initial: {
+       creation: {
+        command: "",
+        trigger: "onCreate",
+        disabled: false,
+        name: "Class Creation Macro",
+        title: "",
+        global: false,
+       }
+      }}),
       scaling: new f.ObjectField({required: true, initial: {
         maxHpBonus: {
           label: "dc20rpg.scaling.maxHpBonus",
@@ -463,6 +515,14 @@ export class DC20ClassData extends DC20UniqueItemData {
           label: "dc20rpg.scaling.bonusMana",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         },
+        maneuversKnown: {
+          label: "dc20rpg.scaling.maneuversKnown",
+          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        },
+        spellsKnown: {
+          label: "dc20rpg.scaling.spellsKnown",
+          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        },
         skillPoints: {
           label: "dc20rpg.scaling.skillPoints",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -473,22 +533,6 @@ export class DC20ClassData extends DC20UniqueItemData {
         },
         attributePoints: {
           label: "dc20rpg.scaling.attributePoints",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        maneuversKnown: {
-          label: "dc20rpg.scaling.maneuversKnown",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        techniquesKnown: {
-          label: "dc20rpg.scaling.techniquesKnown",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        cantripsKnown: {
-          label: "dc20rpg.scaling.cantripsKnown",
-          values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        },
-        spellsKnown: {
-          label: "dc20rpg.scaling.spellsKnown",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         }
       }}),

@@ -151,7 +151,8 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
         "description": "<p>You take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Action}</strong> to aid the target with an Attack. You can also do so as a <strong>Reaction</strong> whenever a valid target makes an Attack.</p>",
         "hide": false,
@@ -239,7 +240,8 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You grant creatures of your choice (including yourself) <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 Temp HP</strong>.</span></p>",
         "hide": false,
@@ -327,7 +329,8 @@
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
-          }
+          },
+          "changeStaminaSpendLimit": null
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When a creature in your aura is targeted by an Attack, you can impose <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">DisADV</strong> on the Attack against the creature as a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Reaction</strong>.</span></p>",
         "hide": false,
@@ -533,27 +536,39 @@
       },
       "changes": [
         {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.melee",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.spell.ranged",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -582,11 +597,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.Item.p8b1v0E6M7SvDIe3.ActiveEffect.nnKpvUwDmwMrPMOe",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256680,
+        "modifiedTime": 1766696771336,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -622,9 +637,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034114,
-    "modifiedTime": 1761303729152,
+    "modifiedTime": 1768466514596,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

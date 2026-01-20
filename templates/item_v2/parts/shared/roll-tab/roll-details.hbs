@@ -34,10 +34,6 @@
         </select>
       </div>
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.attack.combatMastery"}}</span>
-        <a class="activable fa-lg {{#if system.attackFormula.combatMastery}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.combatMastery"></a>
-      </div>
-      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.attack.rollBonus"}}</span>
         <input type="text" name="system.attackFormula.rollBonus" value="{{system.attackFormula.rollBonus}}" placeholder="-" data-dtype="Number">
       </div>
@@ -46,10 +42,6 @@
         <select name="system.attackFormula.targetDefence">
           {{selectOptions @root.config.DROPDOWN_DATA.defences selected=system.attackFormula.targetDefence}}
         </select>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.attack.halfDmgOnMiss"}}</span>
-        <a class="activable fa-lg {{#if system.attackFormula.halfDmgOnMiss}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.halfDmgOnMiss"></a>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.title"}}</span>
@@ -116,6 +108,10 @@
         <a class="activable fa-lg {{#if system.check.canCrit}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.canCrit"></a>
       </div>
       {{/if}}
+      <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.check.respectSizeRulesTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.check.respectSizeRules"}}</span>
+        <a class="activable fa-lg {{#if system.check.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.respectSizeRules"></a>
+      </div>
     </div>
   {{/ifCond}}
 
@@ -163,10 +159,6 @@
         {{selectOptions @root.config.ROLL_KEYS.contests selected=request.contestedKey blank=""}}
       </select>
     </div>
-    <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRulesTitle"}}">
-      <span>{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRules"}}</span>
-      <a class="activable fa-lg {{#if request.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollRequests.{{key}}.respectSizeRules"></a>
-    </div>
     {{/ifCond}}
 
     {{!-- Save --}}
@@ -205,10 +197,11 @@
     <div class="row">
       <div class="left-part-row">
         <select name="system.againstStatuses.{{key}}.id">
-          {{selectOptions @root.config.DROPDOWN_DATA.statusResistances selected=status.id blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.allStatuses selected=status.id blank=""}}
         </select>
         <a class="remove-against-status margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-key="{{key}}"></a>
       </div>
+      {{!-- Triggers --}}
       <div class="right-part-row">
         <a class="activable margin-left-5 fa-lg {{#if status.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" 
             data-path="system.againstStatuses.{{key}}.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
@@ -222,15 +215,30 @@
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
         <a class="activable margin-left-5 fa-lg {{#if status.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
-        <a class="activable margin-left-5 fa-lg {{#if status.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-            data-path="system.againstStatuses.{{key}}.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
-        <a class="activable margin-left-5 fa-lg {{#if status.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-            data-path="system.againstStatuses.{{key}}.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+      </div>
+    </div>
+    {{!-- Repeated Save --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.repeatedSave"}}</span>
+      <div class="right-part-row">
         {{#if status.repeatedSave}}
         <select class="margin-left-5" name="system.againstStatuses.{{key}}.repeatedSaveKey">
           {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=status.repeatedSaveKey blank=""}}
         </select>
         {{/if}}
+        <a class="activable margin-left-5 fa-lg {{#if status.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+      </div>
+    </div>
+    {{!-- Duration (Rounds) --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.duration"}}</span>
+      <div class="right-part-row">
+        {{#unless status.forOneMinute}}
+        <input type="text" name="system.againstStatuses.{{key}}.forXRounds" value="{{status.forXRounds}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.forXRounds"}}">
+        {{/unless}}
+        <a class="activable margin-left-5 fa-lg {{#if status.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
       </div>
     </div>
   </div>
@@ -311,6 +319,7 @@
             </div>
             <div class="buttons">
               <a class="activable fail-formula fa-solid fa-square-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.fail"></a>
+              <a class="activable {{#if formula.dontModifyFailFormula}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.dontModifyFailFormula"}}" data-path="system.formulas.{{key}}.dontModifyFailFormula"></a>
             </div>
           </div>
           <div class="right-part-row">

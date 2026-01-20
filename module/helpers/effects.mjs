@@ -4,7 +4,7 @@ import { evaluateDicelessFormula } from "./rolls.mjs";
 import { emitEventToGM } from "./sockets.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
-  const hideNonessentialEffects = owner.flags.dc20rpg?.hideNonessentialEffects;
+  const hideNonessentialEffects = !owner.system.sheetData.show.nonessentialEffects;
   // Prepare all statuses 
   const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 
@@ -35,6 +35,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
+      effect.manualTrigger = effect.hasManualEvent;
       if (effect.system.nonessential && hideNonessentialEffects) continue;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
@@ -187,7 +188,7 @@ export async function createOrDeleteEffect(effectData, owner) {
   else return await createEffectOn(effectData, owner);
 }
 
-export async function effectsToRemovePerActor(toRemove) {
+export async function handleAfterRollEffectModification(toRemove) {
   const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
   if (actor) {
     const effect = getEffectFrom(toRemove.effectId, actor);
@@ -208,6 +209,12 @@ export async function addFlatDamageReductionEffect(actor) {
     img: "icons/svg/mage-shield.svg",
     description: "<p>You are spending Grit to reduce incoming damage</p>",
     duration: {rounds: 1},
+    system: {
+      duration: {
+        useCounter: true,
+        onTimeEnd: "delete"
+      }
+    },
     changes: [
       {
         key: "system.damageReduction.flat",
@@ -238,7 +245,7 @@ export function injectFormula(effect, effectOwner) {
     const value = change.value;
     
     // formulas start with "<#" and end with "#>"
-    if (value.includes("<#") && value.includes("#>")) {
+    if (typeof value === "string" && value.includes("<#") && value.includes("#>")) {
       // We want to calculate that formula and repleace it with value calculated
       const formulaRegex = /<#(.*?)#>/g;
       const formulasFound = value.match(formulaRegex);
@@ -252,14 +259,24 @@ export function injectFormula(effect, effectOwner) {
   }
 }
 
-export function getMesuredTemplateEffects(item, applicableEffects) {
+export function getMesuredTemplateEffects(item, applicableEffects=[], actor) {
   if (!item) return {applyFor: "", effects: []};
-  if (item.effects.size === 0) return {applyFor: "", effects: []};
+  if (item.effects.size === 0 && applicableEffects.length === 0) return {applyFor: "", effects: []};
   if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
+
+  let effects = applicableEffects.length > 0 ? applicableEffects : item.effects.toObject();
+  effects = effects.filter(effect => effect.system.applyToTemplate);
+  if (actor) {
+    for (const effect of effects) {
+      if (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};
+      effect.flags.dc20rpg.templateCallTime = Date.now();
+      injectFormula(effect, actor);
+    }
+  }
 
   return {
     applyFor: item.system.effectsConfig.addToTemplates,
-    effects: applicableEffects || item.effects.toObject()
+    effects: effects
   }
 }
 
@@ -282,9 +299,12 @@ export function getEffectModifiableKeys() {
     "system.defences.area.customFormula": "Area Defence: Custom Calculation Formula",
 
     // Damage reduction
-    "system.damageReduction.pdr.active": "Physical Damage Reduction",
-    "system.damageReduction.edr.active": "Elemental Damage Reduction",
-    "system.damageReduction.mdr.active": "Mystical Damage Reduction",
+    "system.damageReduction.pdr.active": "PDR",
+    "system.damageReduction.pdr.skipEqCheck": "PDR - Ignore Equipment Bonus",
+    "system.damageReduction.edr.active": "EDR",
+    "system.damageReduction.edr.skipEqCheck": "EDR - Ignore Equipment Bonus",
+    "system.damageReduction.mdr.active": "MDR",
+    "system.damageReduction.mdr.skipEqCheck": "MDR - Ignore Equipment Bonus",
     ..._damageReduction(),
 
     // Flat Damage/healing Modification
@@ -298,19 +318,20 @@ export function getEffectModifiableKeys() {
     "system.customCondition": "Custom Condition",
 
     // Resources
-    "system.resources.health.bonus": "Health - Max Value Bonus",
-    "system.resources.mana.bonus": "Mana - Max Value Bonus",
-    "system.resources.mana.maxFormula" : "Mana - Calculation Formula",
+    "system.resources.health.bonus": "Health: Max Value Bonus",
+    "system.resources.mana.bonus": "Mana: Max Value Bonus",
+    "system.resources.mana.maxFormula" : "Mana: Calculation Formula",
     "system.details.manaSpendLimit.bonus": "Mana Spend Limit Bonus",
-    "system.resources.stamina.bonus": "Stamina - Max Value Bonus",
-    "system.resources.stamina.maxFormula" : "Stamina - Calculation Formula",
-    "system.resources.grit.bonus": "Grit - Max Value Bonus",
-    "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
-    "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
-    "system.resources.restPoints.regenerationFormula" : "Rest Points - Regeneration Formula",
+    "system.resources.stamina.bonus": "Stamina: Max Value Bonus",
+    "system.resources.stamina.maxFormula" : "Stamina: Calculation Formula",
+    "system.details.staminaSpendLimit.bonus": "Stamina Spend Limit Bonus",
+    "system.resources.grit.bonus": "Grit: Max Value Bonus",
+    "system.resources.grit.maxFormula" : "Grit: Calculation Formula",
+    "system.resources.restPoints.bonus" : "Rest Points: Max Value Bonus",
+    "system.resources.restPoints.regenerationFormula" : "Rest Points: Regeneration Formula",
     
     // Help Dice
-    "system.help.maxDice": "Help Dice - Max Dice",
+    "system.help.maxDice": "Help Dice: Max Dice",
 
     // Death
     "system.death.bonus": "Death's Door Threshold Bonus",
@@ -338,30 +359,32 @@ export function getEffectModifiableKeys() {
     "system.jump.key": "Jump Attribute",
 
     // Senses
-    "system.senses.darkvision.range": "Darkvision - Base range (always)",
-    "system.senses.darkvision.bonus": "Darkvision - Bonus (always)",
-    "system.senses.darkvision.orOption.range": "Darkvision - Base range (if no other source)",
-    "system.senses.darkvision.orOption.bonus": "Darkvision - Bonus (if other source exist)",
-    "system.senses.tremorsense.range": "Tremorsense - Base range (always)",
-    "system.senses.tremorsense.bonus": "Tremorsense - Bonus (always)",
-    "system.senses.tremorsense.orOption.range": "Tremorsense - Base range (if no other source)",
-    "system.senses.tremorsense.orOption.bonus": "Tremorsense - Bonus (if other source exist)",
-    "system.senses.blindsight.range": "Blindsight - Base range (always)",
-    "system.senses.blindsight.bonus": "Blindsight - Bonus (always)",
-    "system.senses.blindsight.orOption.range": "Blindsight - Base range (if no other source)",
-    "system.senses.blindsight.orOption.bonus": "Blindsight - Bonus (if other source exist)",
-    "system.senses.truesight.range": "Truesight - Base range (always)",
-    "system.senses.truesight.bonus": "Truesight - Bonus (always)",
-    "system.senses.truesight.orOption.range": "Truesight - Base range (if no other source)",
-    "system.senses.truesight.orOption.bonus": "Truesight - Bonus (if other source exist)",
+    "system.senses.darkvision.range": "Darkvision: Base range (always)",
+    "system.senses.darkvision.bonus": "Darkvision: Bonus (always)",
+    "system.senses.darkvision.orOption.range": "Darkvision: Base range (if no other source)",
+    "system.senses.darkvision.orOption.bonus": "Darkvision: Bonus (if other source exist)",
+    "system.senses.tremorsense.range": "Tremorsense: Base range (always)",
+    "system.senses.tremorsense.bonus": "Tremorsense: Bonus (always)",
+    "system.senses.tremorsense.orOption.range": "Tremorsense: Base range (if no other source)",
+    "system.senses.tremorsense.orOption.bonus": "Tremorsense: Bonus (if other source exist)",
+    "system.senses.blindsight.range": "Blindsight: Base range (always)",
+    "system.senses.blindsight.bonus": "Blindsight: Bonus (always)",
+    "system.senses.blindsight.orOption.range": "Blindsight: Base range (if no other source)",
+    "system.senses.blindsight.orOption.bonus": "Blindsight: Bonus (if other source exist)",
+    "system.senses.truesight.range": "Truesight: Base range (always)",
+    "system.senses.truesight.bonus": "Truesight: Bonus (always)",
+    "system.senses.truesight.orOption.range": "Truesight: Base range (if no other source)",
+    "system.senses.truesight.orOption.bonus": "Truesight: Bonus (if other source exist)",
 
     // Creature size
     "system.size.size": "Size (Category)",
     "system.size.spaceOccupation": "Size (Occupied Spaces)",
 
     // Attack and Save
-    "system.attackMod.bonus.spell": "Spell Check Bonus",
-    "system.attackMod.bonus.martial": "Attack Check Bonus",
+    "system.attackMod.bonus.spell": "Spell Attack Bonus",
+    "system.attackMod.bonus.martial": "Martial Attack Bonus",
+    "system.checkMod.bonus.spell": "Spell Check Bonus",
+    "system.checkMod.bonus.martial": "Martial Check Bonus",
     "system.saveDC.bonus.spell": "Spell Save DC Bonus",
     "system.saveDC.bonus.martial": "Martial Save DC Bonus",
 
@@ -381,84 +404,90 @@ export function getEffectModifiableKeys() {
     "system.skillPoints.trade.bonus": "Trade Points",
     "system.skillPoints.language.bonus": "Language Points",
 
-    "system.known.cantrips.max": "Cantrips Known",
     "system.known.spells.max": "Spells Known",
     "system.known.infusions.max": "Infusions Known",
     "system.known.maneuvers.max": "Maneuvers Known",
-    "system.known.techniques.max": "Techniques Known",
 
     // Combat Training
     ..._combatTraining(),
 
     // Global Modifiers
-    "system.globalModifier.range.melee": "Global Modifier: Melee Range",
-    "system.globalModifier.range.normal": "Global Modifier: Normal Range",
-    "system.globalModifier.range.max": "Global Modifier: Max Range",
-    "system.globalModifier.ignore.difficultTerrain": "Global Modifier: Ignore Difficult Terrain",
-    "system.globalModifier.ignore.closeQuarters": "Global Modifier: Ignore Close Quarters",
-    "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
-    "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
-    "system.globalModifier.provide.halfCover": "Global Modifier: Provide Half Cover",
-    "system.globalModifier.provide.tqCover": "Global Modifier: Provide 3/4 Cover",
-    "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
-    "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
-    "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 
-    "system.globalModifier.prevent.criticalHit": "Global Modifier: Prevent Critical Hit benefits against you", 
+    "system.globalModifier.ignore.difficultTerrain": "Ignore Difficult Terrain",
+    "system.globalModifier.ignore.flanking": "Ignore being Flanked",
+    "system.globalModifier.martial.ignore.closeQuarters": "Ignore Close Quarters (Martial Attack)",
+    "system.globalModifier.spell.ignore.closeQuarters": "Ignore Close Quarters (Spell Attack)",
+    "system.globalModifier.martial.ignore.longRange": "Ignore Long Range Disadvantage (Martial Attack)",
+    "system.globalModifier.spell.ignore.longRange": "Ignore Long Range Disadvantage (Spell Attack)",
+    "system.globalModifier.provide.halfCover": "Provide Half Cover",
+    "system.globalModifier.provide.tqCover": "Provide 3/4 Cover",
+    "system.globalModifier.allow.overheal": "Convert overheal you done to Temp HP",
+    "system.globalModifier.prevent.goUnderAP": "Prevent from going under X AP",
+    "system.globalModifier.prevent.hpRegeneration": "Prevent any HP regeneration", 
+    "system.globalModifier.prevent.criticalHit": "Prevent Critical Hit benefits against you", 
+    "system.globalModifier.prevent.flanking": "This creature cannot flank",
     
-    // Global Formula modifier
-    "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
-    "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",
-    "system.globalFormulaModifiers.attributeCheck": "Formula Modifier: Attribute Check",
-    "system.globalFormulaModifiers.save": "Formula Modifier: Save",
-    "system.globalFormulaModifiers.skillCheck": "Formula Modifier: Skill Check",
-    "system.globalFormulaModifiers.healing": "Formula Modifier: Healing",
-    "system.globalFormulaModifiers.attackDamage.martial.melee": "Formula Modifier: Melee Martial Damage",
-    "system.globalFormulaModifiers.attackDamage.martial.ranged": "Formula Modifier: Ranged Martial Damage",
-    "system.globalFormulaModifiers.attackDamage.spell.melee": "Formula Modifier: Melee Spell Damage",
-    "system.globalFormulaModifiers.attackDamage.spell.ranged": "Formula Modifier: Ranged Spell Damage",
+    "system.globalModifier.martial.range.melee": "Martial Melee Range (bonus)",
+    "system.globalModifier.martial.range.normal": "Martial Normal Range (bonus)",
+    "system.globalModifier.martial.range.max": "Martial Max Range (bonus)",
+    "system.globalModifier.spell.range.melee": "Spell Melee Range (bonus)",
+    "system.globalModifier.spell.range.normal": "Spell Normal Range (bonus)",
+    "system.globalModifier.spell.range.max": "Spell Max Range (bonus)",
 
-    // Roll Level
-    "system.rollLevel.onYou.martial.melee": "Roll Level with Melee Martial Attack",
-    "system.rollLevel.onYou.martial.ranged": "Roll Level with Ranged Martial Attack",
-    "system.rollLevel.onYou.spell.melee": "Roll Level with Melee Spell Attack",
-    "system.rollLevel.onYou.spell.ranged": "Roll Level with Ranged Spell Attack",
+    "system.globalFormulaModifiers.damage.martial.melee": "GFM: Melee Martial Damage",
+    "system.globalFormulaModifiers.damage.martial.ranged": "GFM: Ranged Martial Damage",
+    "system.globalFormulaModifiers.damage.martial.area": "GFM: Area Martial Damage",
+    "system.globalFormulaModifiers.damage.spell.melee": "GFM: Melee Spell Damage",
+    "system.globalFormulaModifiers.damage.spell.ranged": "GFM: Ranged Spell Damage",
+    "system.globalFormulaModifiers.damage.spell.area": "GFM: Area Spell Damage",
+    "system.globalFormulaModifiers.damage.any": "GFM: Any Damage",
+    "system.globalFormulaModifiers.healing": "GFM: Healing",
 
-    "system.rollLevel.onYou.checks.mig": "Roll Level with Might Checks",
-    "system.rollLevel.onYou.checks.agi": "Roll Level with Agility Checks",
-    "system.rollLevel.onYou.checks.cha": "Roll Level with Charisma Checks",
-    "system.rollLevel.onYou.checks.int": "Roll Level with Intelligence Checks",
-    "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
-    "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
-    "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
+    // Dynamic Roll Modifier
+    "system.dynamicRollModifier.onYou.martial.melee": "DRM: Melee Martial Attack",
+    "system.dynamicRollModifier.onYou.martial.ranged": "DRM: Ranged Martial Attack",
+    "system.dynamicRollModifier.onYou.martial.area": "DRM: Area Martial Attack",
+    "system.dynamicRollModifier.onYou.spell.melee": "DRM: Melee Spell Attack",
+    "system.dynamicRollModifier.onYou.spell.ranged": "DRM: Ranged Spell Attack",
+    "system.dynamicRollModifier.onYou.spell.area": "DRM: Area Spell Attack",
 
-    "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
-    "system.rollLevel.onYou.trades": "Roll Level with Trade Check",
+    "system.dynamicRollModifier.onYou.checks.mig": "DRM: Might Check",
+    "system.dynamicRollModifier.onYou.checks.agi": "DRM: Agility Check",
+    "system.dynamicRollModifier.onYou.checks.cha": "DRM: Charisma Check",
+    "system.dynamicRollModifier.onYou.checks.int": "DRM: Intelligence Check",
+    "system.dynamicRollModifier.onYou.checks.att": "DRM: Attack Check",
+    "system.dynamicRollModifier.onYou.checks.mar": "DRM: Martial Check",
+    "system.dynamicRollModifier.onYou.checks.spe": "DRM: Spell Check",
+    "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
+    "system.dynamicRollModifier.onYou.skills": "DRM: Skill Check",
 
-    "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
-    "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
-    "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
-    "system.rollLevel.onYou.saves.int": "Roll Level with Intelligence Saves",
-    "system.rollLevel.onYou.deathSave": "Roll Level with Death Save",
+    "system.dynamicRollModifier.onYou.saves.mig": "DRM: Might Save",
+    "system.dynamicRollModifier.onYou.saves.agi": "DRM: Agility Save",
+    "system.dynamicRollModifier.onYou.saves.cha": "DRM: Charisma Save",
+    "system.dynamicRollModifier.onYou.saves.int": "DRM: Intelligence Save",
+    "system.dynamicRollModifier.onYou.deathSave": "DRM: Death Save",
 
-    "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
-    "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
-    "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
-    "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
+    "system.dynamicRollModifier.againstYou.martial.melee": "DRM (Against): Melee Martial Attack ",
+    "system.dynamicRollModifier.againstYou.martial.ranged": "DRM (Against): Ranged Martial Attack",
+    "system.dynamicRollModifier.againstYou.martial.area": "DRM (Against): Area Martial Attack",
+    "system.dynamicRollModifier.againstYou.spell.melee": "DRM (Against): Melee Spell Attack",
+    "system.dynamicRollModifier.againstYou.spell.ranged": "DRM (Against): Ranged Spell Attack",
+    "system.dynamicRollModifier.againstYou.spell.area": "DRM (Against): Area Spell Attack",
 
-    "system.rollLevel.againstYou.checks.mig": "Against You: Roll Level with Might Checks",
-    "system.rollLevel.againstYou.checks.agi": "Against You: Roll Level with Agility Checks",
-    "system.rollLevel.againstYou.checks.cha": "Against You: Roll Level with Charisma Checks",
-    "system.rollLevel.againstYou.checks.int": "Against You: Roll Level with Intelligence Checks",
-    "system.rollLevel.againstYou.checks.att": "Against You: Roll Level with Attack Check",
-    "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
+    "system.dynamicRollModifier.againstYou.checks.mig": "DRM (Against): Might Check",
+    "system.dynamicRollModifier.againstYou.checks.agi": "DRM (Against): Agility Check",
+    "system.dynamicRollModifier.againstYou.checks.cha": "DRM (Against): Charisma Check",
+    "system.dynamicRollModifier.againstYou.checks.int": "DRM (Against): Intelligence Check",
+    "system.dynamicRollModifier.againstYou.checks.att": "DRM (Against): Attack Check",
+    "system.dynamicRollModifier.againstYou.checks.mar": "DRM (Against): Martial Check",
+    "system.dynamicRollModifier.againstYou.checks.spe": "DRM (Against): Spell Check",
 
-    "system.rollLevel.againstYou.skills": "Against You: Roll Level with Skill Check",
-    "system.rollLevel.againstYou.trades": "Against You: Roll Level with Trade Check",
+    "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",
+    "system.dynamicRollModifier.againstYou.trades": "DRM (Against): Trade Check",
 
-    "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
-    "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
-    "system.rollLevel.againstYou.saves.cha": "Against You: Roll Level with Charisma Saves",
-    "system.rollLevel.againstYou.saves.int": "Against You: Roll Level with Intelligence Saves",
+    "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Save",
+    "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Save",
+    "system.dynamicRollModifier.againstYou.saves.cha": "DRM (Against): Charisma Save",
+    "system.dynamicRollModifier.againstYou.saves.int": "DRM (Against): Intelligence Save",
 
     // Events
     "system.events": "Events",
@@ -469,11 +498,11 @@ function _damageReduction() {
   const reduction = {};
   Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes).forEach(([key, dmgLabel]) => {
     if (key !== "true") {
-      reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel} - Resistance (X)`
-      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel} - Resistance (Half)`
-      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel} - Resistance (Immune)`
-      reduction[`system.damageReduction.damageTypes.${key}.vulnerable`] = `${dmgLabel} - Vulnerable (X)`
-      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel} - Vulnerability (Double)`
+      reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel}: Resistance (X)`
+      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel}: Resistance (Half)`
+      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel}: Resistance (Immune)`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerable`] = `${dmgLabel}: Vulnerable (X)`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel}: Vulnerability (Double)`
     } 
   });
   return reduction;
@@ -481,7 +510,7 @@ function _damageReduction() {
 
 function _statusResistances() {
   const statusResistances = {};
-  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses).forEach(([key, condLabel]) => {
     statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} Immunity`
     statusResistances[`system.statusResistances.${key}.resistance`] = `${condLabel} Resistance`
     statusResistances[`system.statusResistances.${key}.vulnerability`] = `${condLabel} Vulnerability`
@@ -504,10 +533,10 @@ function _attributeBonuses() {
 function _skillBonuses() {
   const skills = {};
   Object.entries(CONFIG.DC20RPG.skills)
-    .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} - Skill Check Bonus`);
+    .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel}: Skill Check Bonus`);
 
   Object.entries(CONFIG.DC20RPG.trades)
-    .forEach(([key, skillLabel]) => skills[`system.trades.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
+    .forEach(([key, skillLabel]) => skills[`system.trades.${key}.bonus`] = `${skillLabel}: Trade Skill Check Bonus`);
 
   return skills;
 }

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/death/skull-energy-light-purple.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to release a shout of your choice listed below.</p><p>Until the start of your next turn, you and creatures of your choice within 10 Spaces that can see or hear you are subjected to the effects of your shout. </p><p>A creature can only benefit from the same type of shout once at a time.</p><ul><li><p><strong>Fortitude Shout:</strong> Each creature gains Resistance (1) against the next source of Physical or Elemental damage.</p></li><li><p><strong>Fury Shout:</strong> Each creature deals +1 damage on their next Attack against 1 target.</p></li><li><p><strong>Urgent Shout:</strong> Each creature gains +1 Speed until the start of your next turn.</p></li></ul>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to release a shout of your choice listed below.</p><p>Until the start of your next turn, you and creatures of your choice within 5 Spaces that can see or hear you are subjected to the effects of your shout.</p><p>A creature can only benefit from the same type of shout once at a time.</p><ul><li><p><strong>Fortitude Shout:</strong> Each creature gains Resistance (1) against the next source of Physical or Elemental damage.</p></li><li><p><strong>Fury Shout:</strong> Each creature deals +1 damage on their next Attack against 1 target.</p></li><li><p><strong>Urgent Shout:</strong> Each creature gains +1 Speed until the start of your next turn.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -51,7 +51,7 @@
       "areas": {
         "default": {
           "area": "radius",
-          "distance": 10,
+          "distance": 5,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -248,7 +248,8 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
@@ -330,11 +331,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256762,
+        "modifiedTime": 1768466302412,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -360,33 +361,10 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
-          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
-          "mode": 2,
-          "priority": null
-        },
         {
           "key": "system.events",
           "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Battlecry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
@@ -394,8 +372,8 @@
           "priority": null
         },
         {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Fury Shout\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "key": "system.globalFormulaModifiers.damage.any",
+          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         }
@@ -418,11 +396,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256764,
+        "modifiedTime": 1768466302414,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -448,7 +426,8 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
@@ -482,11 +461,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256766,
+        "modifiedTime": 1768466302416,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -498,11 +477,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034721,
-    "modifiedTime": 1760521814743,
+    "modifiedTime": 1767114530360,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

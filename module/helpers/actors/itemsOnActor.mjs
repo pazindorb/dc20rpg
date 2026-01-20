@@ -1,7 +1,6 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
+import { applyAdvancements, createNewAdvancement, handleSpellList, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { runTemporaryItemMacro } from "../macros.mjs";
 import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
 
@@ -105,17 +104,6 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
     if(updateData.system.isResource) _createNewCustomResourceFromItem(item, actor);
     else actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
-
-  // Check if on item toggle macro should be runned 
-  if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
-    const toggledOn = updateData.system.toggle.toggledOn;
-    await runTemporaryItemMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn, equipping: false});
-  }
-  // Check if on item toggle macro should be runned when item is equipped
-  if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
-    const equipped = updateData.system.statuses.equipped;
-    await runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped, equipping: true});
-  }
 }
 
 export async function removeItemFromActorInterceptor(item, actor) {
@@ -128,6 +116,9 @@ export async function removeItemFromActorInterceptor(item, actor) {
   if (item.system.isResource) {
     actor.resources.removeCustomResource(item.system.resource.resourceKey);
   }
+
+  // Unequip item
+  if (item.equipped) await item.equip({forceUneqip: true});
 }
 
 async function _createNewCustomResourceFromItem(item, actor) {
@@ -172,6 +163,7 @@ async function addUniqueItemToActor(item, actor) {
         const subclass = actor.items.get(details.subclass.id);
         const ancestry = actor.items.get(details.ancestry.id);
         const background = actor.items.get(details.background.id);
+        await handleSpellList(item);
         applyAdvancements(actor, 1, item, subclass, ancestry, background, oldActorData); // When we are putting class it will always be at 1st level
         break;
       case "subclass":
@@ -298,6 +290,7 @@ function _fillBefore(level, advByLevel) {
   }
 }
 
+// TODO REWORK IT (OUTDATED!)
 function _mergeAdvancements(first, second) {
   if (!first && !second) return;
   if (!second) return first;
@@ -308,20 +301,20 @@ function _mergeAdvancements(first, second) {
     ..._mergeItems(second.items)
   };
 
-  return {
-    name: `Merged: ${first.name} + ${second.name}`,
-    mustChoose: first.mustChoose || second.mustChoose,
-    pointAmount: first.pointAmount,
-    level: first.level,
-    applied: first.applied || second.applied,
-    talent: first.talent || second.talent,
-    repeatable: first.repeatable,
-    repeatAt: first.repeatAt,
-    allowToAddItems: first.allowToAddItems || second.allowToAddItems,
-    compendium: first.compendium,
-    preFilters: first.preFilters,
-    items: items,
-  }
+  const advancement = createNewAdvancement();
+  advancement.name = `Merged: ${first.name} + ${second.name}`;
+  advancement.level = 0;
+  advancement.customTitle = "Select Your Ancestry Traits";
+  advancement.allowToAddItems = true;
+  advancement.addItemsOptions.itemType = "ancestry";
+  advancement.addItemsOptions.preFilters = '{"featureType": "ancestry"}';
+  advancement.addItemsOptions.helpText = "Add more Ancestry Traits";
+  advancement.mustChoose = true;
+  advancement.pointAmount = 5;
+  advancement.repeatable = true;
+  advancement.repeatAt = [0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  advancement.items = items;
+  return advancement;
 }
 
 function _mergeItems(items) {
@@ -384,32 +377,22 @@ export async function createScrollFromSpell(spell) {
   spell.sheet.close();
 }
 
-export function collectWeaponsFromActor(actor) {
-  const weapons = {};
-  actor.items.forEach(item => {
-    const identified = item.system.statuses ? item.system.statuses.identified : true;
-    if (item.type === "weapon" && identified) 
-      weapons[item.id] = item.name;
-  });
-  return weapons;
-}
-
 //======================================
 //             Item Tables             =
 //======================================
-export function reorderTableHeaders(tab, current, swapped, actor) { // TODO - MOVE TO ACTOR SYSTEM INSTEAD?
-  const headersOrdering = actor.flags.dc20rpg.headersOrdering;
+export function reorderTableHeaders(tab, current, swapped, actor) {
+  const headersOrdering = actor.system.sheetData.header.order;
 
   const currentOrder = headersOrdering[tab][current].order;
   const swappedOrder = headersOrdering[tab][swapped].order;
   headersOrdering[tab][current].order = swappedOrder;
   headersOrdering[tab][swapped].order = currentOrder;
 
-  actor.update({[`flags.dc20rpg.headersOrdering`]: headersOrdering });
+  actor.update({[`system.sheetData.header.order`]: headersOrdering });
 }
 
 export function createNewTable(tab, actor) {
-  const headers = actor.flags.dc20rpg.headersOrdering[tab];
+  const headers = actor.system.sheetData.header.order[tab];
   const order = Object.entries(headers)
                 .sort((a, b) => a[1].order - b[1].order)
                 .map(([a, b]) => b.order)
@@ -426,11 +409,11 @@ export function createNewTable(tab, actor) {
     order: last + 1
   }
 
-  actor.update({[`flags.dc20rpg.headersOrdering.${tab}.${key}`] : newTable});
+  actor.update({[`system.sheetData.header.order.${tab}.${key}`] : newTable});
 }
 
 export function removeCustomTable(tab, table, actor) {
-  actor.update({[`flags.dc20rpg.headersOrdering.${tab}.-=${table}`]: null});
+  actor.update({[`system.sheetData.header.order.${tab}.-=${table}`]: null});
 }
 
 //======================================

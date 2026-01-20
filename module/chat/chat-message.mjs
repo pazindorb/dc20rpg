@@ -9,7 +9,6 @@ import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
-import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -359,6 +358,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (targetIds[0] === undefined) targetIds = [];
     // We dont want to modify original effect so we copy its data.
     const effectData = {...effect};
+    effectData.system.chatMessageId = this.id;
     this._replaceWithSpeakerId(effectData);
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
@@ -384,6 +384,7 @@ export class DC20ChatMessage extends ChatMessage {
 
       const effects = index === -1 ? target.effects : [target.effects[index]]
       for (const effectData of effects) {
+        effectData.system.chatMessageId = this.id;
         this._replaceWithSpeakerId(effectData);
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
         injectFormula(effectData, rollingActor);
@@ -400,7 +401,8 @@ export class DC20ChatMessage extends ChatMessage {
 
     if (targetIds[0] === undefined) targetIds = [];
     const againstStatus = this.system.againstStatuses.find(eff => eff.id === statusId);
-    const extras = {...againstStatus, actorId: this.speaker.actor, ...this._repeatedSaveExtras()};
+    const extras = {...againstStatus, actorId: this.speaker.actor, ...this._repeatedSaveExtras() };
+    if (this.system.sustain) extras.sustain = this._sustainExtras();
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
@@ -415,11 +417,20 @@ export class DC20ChatMessage extends ChatMessage {
       against: Math.max(saveDC.spell, saveDC.martial),
     }
   }
+  
+  _sustainExtras() {
+    const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    return {
+      itemId: this.system.itemId,
+      actorUuid: rollingActor.uuid,
+      isSustained: true
+    }
+  }
 
   _replaceWithSpeakerId(effect) {
     for (let i = 0; i < effect.changes.length; i++) {
       let changeValue = effect.changes[i].value;
-      if (changeValue.includes("#SPEAKER_ID#")) {
+      if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }
@@ -522,6 +533,7 @@ export class DC20ChatMessage extends ChatMessage {
     this._onApplyTargetSpecificEffect(-1, targetIds);
     // Apply Statuses
     for (const status of this.system.againstStatuses) {
+      if (status.supressFromChatMessage) continue;
       this._onApplyStatus(status.id, targetIds);
     }
   }
@@ -569,7 +581,8 @@ export class DC20ChatMessage extends ChatMessage {
 
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
     const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
-    const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects);
+    this.system.applicableEffects.forEach(effect => effect.system.chatMessageId = this.id);
+    const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects, actor);
     const itemData = {
       itemId: this.flags.dc20rpg.itemId, 
       actorId: this.speaker.actor, 
@@ -697,11 +710,13 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.success = true;
       rollOutcome.label = "Critical Success";
       rollOutcome.total = roll._total;
+      rollOutcome.against = details.against;
     }
     else if (roll.fail) {
       rollOutcome.success = false;
       rollOutcome.label = "Critical Fail";
       rollOutcome.total = roll._total;
+      rollOutcome.against = details.against;
     }
     else {
       const rollTotal = roll._total;
@@ -709,6 +724,7 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.success = rollSuccess;
       rollOutcome.label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
       rollOutcome.total = rollTotal;
+      rollOutcome.against = details.against;
     }
     this.rollOutcomeStore.set(target.id, rollOutcome);
     ui.chat.updateMessage(this);
@@ -831,7 +847,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const messageTitle = helpDice.customTitle || game.i18n.localize("dc20rpg.sheet.help.help");
     const success = await this.modifyCoreRoll(helpDice.formula, helpDiceOwner, messageTitle);
-    if (success) await clearHelpDice(helpDiceOwner, helpDice.key);
+    if (success) await helpDiceOwner.help.clear(helpDice.key);
   }
 
   async _addRoll(rollType) {

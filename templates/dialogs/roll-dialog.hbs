@@ -128,6 +128,7 @@
 
     {{!-- Enhancements --}}
     {{#each enhancements as |enhancement key|}}
+      {{#unless enhancement.hide}}
       <div class="enh-row">
         <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceItemName}}">
           <img class="img" src="{{enhancement.sourceItemImg}}"/>
@@ -143,12 +144,13 @@
           {{#ifCond @root.rollsHeldAction '||' enhancement.preventModification}}
           <i>{{enhancement.number}}</i>
           {{else}}
-          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-check={{#ifCond enhancement.modifications.rollLevelChange '||' enhancement.modifications.addsRange}}"true"{{else}}"false"{{/ifCond}} data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
             {{enhancement.number}}
           </a>
           {{/ifCond}}
         </div>
       </div>
+      {{/unless}}
     {{/each}}
   </fieldset>
 
@@ -209,15 +211,15 @@
       </div>
 
       <div class="row margin-top-5">
-        <div class="letter-circle-icon small clickable" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}" data-action="rollLevel">
-          <a class="fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
+        <div class="letter-circle-icon small clickable" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.runDRMCheck'}}" data-action="drm">
+          <a class="fa-solid fa-magnifying-glass fa-lg {{#unless DRMChecked}}not-used{{/unless}}"></a>    
         </div>
       </div>
 
       {{#if rollMenu.rangeType}}
       <div class="row margin-top-5">
         <div class="row">
-          <a class="toggle fa-solid fa-lg {{#ifCond rollMenu.rangeType '===' "melee"}}fa-gavel{{else}}fa-crosshairs{{/ifCond}}" style="height:30px" data-action="rangeChange" data-path="system.rollMenu.halfCover" data-tooltip="{{localize (concat 'dc20rpg.sheet.rollMenu.rangeType.' item.system.rollMenu.rangeType '')}}"></a>
+          <a class="toggle fa-solid fa-lg {{rangeIcon}}" style="height:30px" data-action="rangeChange" data-path="system.rollMenu.halfCover" data-tooltip="{{localize (concat 'dc20rpg.sheet.rollMenu.rangeType.' item.system.rollMenu.rangeType '')}}"></a>
         </div>
       </div>
       {{/if}}
@@ -252,7 +254,7 @@
             {{/each}}
           </div>
           <select class="margin-top-2" data-cType="multi-select" data-path="system.rollMenu.help" data-duplicates="allow">
-            {{selectOptions helpDiceOptions selected="" blank=""}}
+            {{selectOptions helpOptions selected="" blank=""}}
           </select>
         </div>
       </div>
@@ -264,17 +266,31 @@
   {{#if item}}
   <fieldset class="expected-cost">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
-    {{#if expectedCost.resources.mana}}
-    <div class="mana-spend-limit margin-left-5 {{#if manaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.manaLimit'}}">
+    {{#ifCond expectedCost.resources.mana '||' expectedCost.resources.stamina}}
+    <div class="spend-limit">
       <i class="fa-solid fa-gauge-max fa-2x margin-right-10"></i>
+
+      {{!-- Mana Spend Limit --}}
+      {{#if expectedCost.resources.mana}}
       <ul class="cost-printer">
-        <li class="cost mana" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.manaLimit"}}">
+        <li class="cost mana {{#if manaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.manaLimit"}}{{#if manaSpendLimit.modified}} {{localize "dc20rpg.dialog.rollDialog.modifiedLimit"}}{{/if}}">
           <b>{{manaSpendLimit.amount}}</b>
           <i class="mp fa-star cost-icon fa-solid"></i>
         </li>
       </ul>
+      {{/if}}
+
+      {{!-- Stamina Spend Limit --}}
+      {{#if expectedCost.resources.stamina}}
+      <ul class="cost-printer">
+        <li class="cost stamina {{#if staminaSpendLimit.exceeds}}exceeds{{/if}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.staminaLimit"}}{{#if staminaSpendLimit.modified}} {{localize "dc20rpg.dialog.rollDialog.modifiedLimit"}}{{/if}}">
+          <b>{{staminaSpendLimit.amount}}</b>
+          <i class="sp fa-hand-fist cost-icon fa-solid"></i>
+        </li>
+      </ul>
+      {{/if}}
     </div>
-    {{/if}}
+    {{/ifCond}}
 
     <div style="width: 100%;">
       {{{cost-printer expectedCost true true false false}}}
@@ -288,6 +304,27 @@
       {{#if hasModifications}}
       <a class="toggle fa-2x {{#if rollMenu.free}}fa-solid{{else}}fa-light{{/if}} fa-piggy-bank" data-cType="activable" data-path="system.rollMenu.free" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.free'}}"></a>
       {{/if}}
+    </div>
+  </fieldset>
+  {{/if}}
+
+  {{!-- Core Roll Formula --}}
+  {{#if coreFormula.length}}
+  <fieldset class="expected-cost">
+    <legend>{{localize "dc20rpg.dialog.rollDialog.coreFormula"}}</legend>
+
+    <div class="formula-wrapper" style="width: 100%;">
+      {{#if modifyFormula}}
+      <input data-cType="modify-formula" value="{{modifyFormula}}">
+      {{else}}
+      {{#each coreFormula}}
+      <div class="formula-partial" data-tooltip="{{source}}">{{value}}</div>
+      {{/each}}
+      {{/if}}
+    </div>
+
+    <div class="extra-buttons margin-right-10">
+      <a class="toggle fa-2x {{#if modifyFormula}}fa-solid{{else}}fa-light{{/if}} fa-square-pen" data-action="modifyFormula" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.modifyFormula'}}"></a>
     </div>
   </fieldset>
   {{/if}}

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/magical/construct-golem-stone-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>AD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes Divine Damage equal to your Prime Modifier.</p><p><strong>Save Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.25a5c54b07df5a3f]{Intimidated}</strong> of you for 1 minute or until it takes damage.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a Spell Check against each target’s AD, and each target makes a Repeated Mental Save against your Save DC.</p><p>Attack Hit: The target takes Divine Damage equal to your Prime Modifier.</p><p>Save Failure: The target becomes Intimidated by you for 1 minute or until it takes damage again.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -235,7 +235,8 @@
         "untilTargetNextTurnEnd": false,
         "untilFirstTimeTriggered": false,
         "repeatedSave": false,
-        "repeatedSaveKey": "men"
+        "repeatedSaveKey": "men",
+        "forOneMinute": true
       }
     },
     "itemKey": "divineRebuke",
@@ -314,69 +315,10 @@
         "disableWhen": {
           "mode": "=="
         },
-        "effectKey": "divineRebuke"
+        "effectKey": "divineRebuke",
+        "addToChat": true
       },
       "changes": [
-        {
-          "key": "system.rollLevel.onYou.checks.mig",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.agi",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.int",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.cha",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.att",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.checks.spe",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.rollLevel.onYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Divine Rebuke - Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
         {
           "key": "system.events",
           "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Divine Rebuke\", \"postTrigger\": \"delete\", \"minimum\": 1, \"actorId\": \"#SPEAKER_ID#\"",
@@ -388,9 +330,87 @@
           "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Divine Rebuke\", \"checkKey\": \"men\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"intimidated\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
           "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mig",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.agi",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.int",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.cha",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.att",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.spe",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.spell.area",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.checks.mar",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
         }
       ],
-      "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong> of caster for 1 minute or until you take damage.</p>",
+      "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong> for 1 minute or until you take damage.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [
@@ -417,11 +437,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256648,
+        "modifiedTime": 1768033642359,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -435,9 +455,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.1",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034037,
-    "modifiedTime": 1763500139695,
+    "modifiedTime": 1767128235343,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

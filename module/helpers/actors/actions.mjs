@@ -1,77 +1,14 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
-import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey, roundFloat } from "../utils.mjs";
+import { roundFloat } from "../utils.mjs";
 import { resetEnhancements } from "./rollsFromActor.mjs";
 
-//===================================
-//            HELP ACTION           =
-//===================================
-/**
- * Performs a help action for the actor. 
- * "options" - all are optional: {
- *  "diceValue": Number - value on a dice (ex 8). If provided MHP will also be skipped.
- *  "ignoreMHP": Boolean - If provided MHP will be skipped.
- *  "subtract": Boolean - If provided help dice will be subtracted from the roll instead.
- *  "duration": String - When should this dice expire.
- * }
- */
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function prepareHelpAction(actor, options={}) {
-  const activeDice = actor.system.help.active; 
-  let maxDice = actor.system.help.maxDice;
-  if (options.diceValue) maxDice = options.diceValue;
-  else if (actor.inCombat && !options.ignoreMHP) {
-    maxDice = Math.max(applyMultipleHelpPenalty(actor, maxDice), 4); 
-  }
-  const subtract = options.subtract ? "-" : "";
-  activeDice[generateKey()] = {
-    value: `${subtract}d${maxDice}`,
-    duration: options.duration || "round"
-  }
-  actor.update({["system.help.active"]: activeDice});
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.prepareHelpAction' method is deprecated, and will be removed in the later system version. Use 'actor.help.prepare' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+	actor.help.prepare(options);
 }
-
-export async function clearHelpDice(actor, key, duration="round") {
-  if (key) {
-    await actor.update({[`system.help.active.-=${key}`]: null});
-  }
-  else {
-    for (const [key, help] of Object.entries(actor.system.help.active)) {
-      if (help.duration === duration) await actor.update({[`system.help.active.-=${key}`]: null})
-    }
-  }
-}
-
-export function getActiveHelpDice(actor) {
-  const dice = {};
-  for (const [key, help] of Object.entries(actor.system.help.active)) {
-    let icon = "fa-dice";
-    switch (help.value) {
-      case "d20": case "-d20": icon = "fa-dice-d20"; break;
-      case "d12": case "-d12": icon = "fa-dice-d12"; break; 
-      case "d10": case "-d10": icon = "fa-dice-d10"; break; 
-      case "d8": case "-d8": icon = "fa-dice-d8"; break; 
-      case "d6": case "-d6": icon = "fa-dice-d6"; break; 
-      case "d4": case "-d4": icon = "fa-dice-d4"; break; 
-    }
-    dice[key] = {
-      formula: help.value,
-      icon: icon,
-      subtraction: help.value.includes("-"),
-      duration: help.duration,
-      tooltip: _helpDiceTooltip(help)
-    }
-  }
-  return dice;
-}
-
-function _helpDiceTooltip(help) {
-  const header = `${game.i18n.localize("dc20rpg.sheet.help.helpDice")} (${help.value})`
-  const duration = `${game.i18n.localize("dc20rpg.sheet.help.duration")}: ${game.i18n.localize(`dc20rpg.help.${help.duration}`)}`;
-  const icon = "<i class='fa-solid fa-stopwatch margin-right'></i>";
-  return `<h4 class='margin-top-5'>${header}</h4> <div class='middle-section'><p>${icon} ${duration}</p></div><hr/>${game.i18n.localize("dc20rpg.sheet.help.dropOnChat")}`;
-}        
-
+       
 //===================================
 //            MOVE ACTION           =
 //===================================
@@ -88,7 +25,20 @@ export async function makeMoveAction(actor, options={}) {
   
   let movePoints = options.movePoints;
   if (!movePoints) {
-    const moveKey = options.moveType || "ground";
+    let moveKey = options.moveType;
+    if (!moveKey) {
+      if (actor.hasOtherMoveOptions) {
+        moveKey = await SimplePopup.open("input", {
+          header: game.i18n.localize("dc20rpg.dialog.movementType.title"),
+          inputs: [{
+            type: "select",
+            options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,
+            preselected: "ground"
+          }]
+        });
+      }
+      else moveKey = "ground";
+    }
     movePoints = actor.system.movement[moveKey].current;
   }
 

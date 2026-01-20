@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/nature/tree-spirit-black.webp",
   "system": {
-    "description": "<p>When a creature within 10 spaces of you takes Elemental damage, you can spend <strong>1</strong> <strong>AP</strong> as a <strong>Reaction</strong> to summon a torrent of nature.</p><p>The torrent fills a 1 Space Radius Sphere centered on the target that lasts for 1 minute.</p><p>While creatures are within the area, they are have <strong>Vulnerable 1</strong> against the triggering damage type and have <strong>DisADV</strong> on Checks and Saves to resist being moved or knocked <strong>Prone</strong>.</p><p><strong>Ending Early:</strong> The torrent ends early if you use this Feature again, become Incapacitated, die, or choose to end it for free at anytime.</p>",
+    "description": "<p>When a creature within 10 spaces of you takes Elemental damage, you can spend <strong>1</strong> <strong>AP</strong> as a <strong>Reaction</strong> to summon a torrent of nature.</p><p>The torrent fills a 3 Spaces Diameter Sphere centered on the target that lasts for 1 minute.</p><p>While creatures are within the area, they are have <strong>Vulnerable 1</strong> against the triggering damage type and have <strong>DisADV</strong> on Checks and Saves to resist being moved or knocked <strong>Prone</strong>.</p><p><strong>Ending Early:</strong> The torrent ends early if you use this Feature again, become Incapacitated, die, or choose to end it for free at anytime.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -51,9 +51,10 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 1,
+          "distance": 1.5,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -151,7 +152,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -240,7 +242,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -329,7 +332,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -418,7 +422,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -507,7 +512,8 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": null
         },
         "description": "",
         "hide": false,
@@ -694,7 +700,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "qm6nYDJLhFehWi4q"
+        "requireEnhancement": "qm6nYDJLhFehWi4q",
+        "addToChat": true
       },
       "changes": [
         {
@@ -727,11 +734,11 @@
       "_stats": {
         "compendiumSource": "Item.ypUqRLngYwtwxljM.ActiveEffect.iSZPsAIX8jsMNaxL",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256742,
+        "modifiedTime": 1768466302397,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -758,7 +765,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "ssUbQAlZK2n6ijjs"
+        "requireEnhancement": "ssUbQAlZK2n6ijjs",
+        "addToChat": true
       },
       "changes": [
         {
@@ -791,11 +799,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256745,
+        "modifiedTime": 1768466302400,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -822,7 +830,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "iK4AyfN8XPZiq8kQ"
+        "requireEnhancement": "iK4AyfN8XPZiq8kQ",
+        "addToChat": true
       },
       "changes": [
         {
@@ -855,11 +864,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256748,
+        "modifiedTime": 1768466302402,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -885,7 +894,8 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "addToChat": true
       },
       "changes": [
         {
@@ -924,11 +934,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256750,
+        "modifiedTime": 1768466302405,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -955,7 +965,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "pJzsmejzcxlzFVqf"
+        "requireEnhancement": "pJzsmejzcxlzFVqf",
+        "addToChat": true
       },
       "changes": [
         {
@@ -988,11 +999,11 @@
       "_stats": {
         "compendiumSource": "Item.ypUqRLngYwtwxljM.ActiveEffect.iSZPsAIX8jsMNaxL",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256753,
+        "modifiedTime": 1768466302408,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1019,7 +1030,8 @@
         "disableWhen": {
           "mode": "=="
         },
-        "requireEnhancement": "Cs3HLCM14kuyAF8a"
+        "requireEnhancement": "Cs3HLCM14kuyAF8a",
+        "addToChat": true
       },
       "changes": [
         {
@@ -1052,11 +1064,11 @@
       "_stats": {
         "compendiumSource": "Item.ypUqRLngYwtwxljM.ActiveEffect.iSZPsAIX8jsMNaxL",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.0",
         "createdTime": null,
-        "modifiedTime": 1750880256755,
+        "modifiedTime": 1768466302410,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -1070,9 +1082,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350035127,
-    "modifiedTime": 1761303729803,
+    "modifiedTime": 1767130921936,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

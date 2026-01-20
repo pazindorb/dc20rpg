@@ -215,21 +215,16 @@ export function registerHandlebarsCreators() {
     if (!actionType) return '';
 
     let content = '';
-    let attackIcon = 'fa-question';
     const attackCheck = item.system.attackFormula.checkType;
     const attackRange = item.system.attackFormula.rangeType;
-    if (attackCheck === "attack" && attackRange === "melee") attackIcon = 'fa-gavel';
-    if (attackCheck === "attack" && attackRange === "ranged") attackIcon = 'fa-crosshairs';
-    if (attackCheck === "spell" && attackRange === "melee") attackIcon = 'fa-hand-sparkles';
-    if (attackCheck === "spell" && attackRange === "ranged") attackIcon = 'fa-wand-magic-sparkles';
-    const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
+    const rollMod = item.system.attackFormula.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
     const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
 
     switch (actionType) {    
       case "attack": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${_attackIcon(attackCheck, attackRange)}"></i><p> ${rollMod}</p></div>`;
         break;
 
       case "check": 
@@ -349,7 +344,7 @@ export function registerHandlebarsCreators() {
                           ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`)
                           : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
       
-      component += `<a class="item-equip ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
+      component += `<a class="item-equip ${equipped} fa-suitcase-rolling" data-tooltip="${equippedTitle}" data-item-id="${item._id}"></a>`
 
       if (item.system.properties.attunement.active) {
         const attuned = statuses.attuned ? 'fa-solid' : 'fa-regular';
@@ -365,8 +360,8 @@ export function registerHandlebarsCreators() {
     if (config.includes("known")) {
       const knownLimit = item.system.knownLimit;
       const active = knownLimit ? 'fa-solid' : 'fa-regular';
-      const title = data.navTab === "techniques" 
-                    ? game.i18n.localize("dc20rpg.item.sheet.technique.countToLimitTitle")
+      const title = data.navTab === "known" 
+                    ? game.i18n.localize("dc20rpg.item.sheet.maneuver.countToLimitTitle")
                     : game.i18n.localize("dc20rpg.item.sheet.spell.countToLimitTitle")
       component += `<a class="item-activable ${active} fa-book" data-tooltip="${title}" data-item-id="${item._id}" data-path="system.knownLimit"></a>` 
     }
@@ -477,7 +472,7 @@ export function registerHandlebarsCreators() {
     })
     let component = _formulas(dmg, "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
     component += _formulas(heal, "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-    component += _formulas(other, "fa-gear", {});
+    component += _formulas(other, "fa-gear");
     return component;
   });
 
@@ -490,7 +485,7 @@ export function registerHandlebarsCreators() {
         case "contest": component += _contest([mods.rollRequest]); break;
       }
     }
-    if (mods.hasAdditionalFormula) {
+    if (mods.hasAdditionalFormula && !mods.specificFormulaKey) { // TODO: Rework this tooltip generation
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       let char = mods.additionalFormula.replace(" ", "");
       if (!(char.includes("+") || char.includes("-"))) char = `+${char}`;
@@ -512,7 +507,7 @@ export function registerHandlebarsCreators() {
       switch(mods.formula.category) {
         case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
         case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
-        case "other": component += _formulas([mods.formula], "fa-gear", {}); break;
+        case "other": component += _formulas([mods.formula], "fa-gear"); break;
       }
     }
     return component;
@@ -520,13 +515,8 @@ export function registerHandlebarsCreators() {
 }
 
 function _attack(attack) {
-  let icon = "fa-question";
-  if (attack.checkType === "attack" && attack.rangeType === "melee") icon = 'fa-gavel';
-  if (attack.checkType === "attack" && attack.rangeType === "ranged") icon = 'fa-crosshairs';
-  if (attack.checkType === "spell" && attack.rangeType === "melee") icon = 'fa-hand-sparkles';
-  if (attack.checkType === "spell" && attack.rangeType === "ranged") icon = 'fa-wand-magic-sparkles';
   const description = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
-  return _descriptionIcon(`<p>${description}</p>`, icon);
+  return _descriptionIcon(`<p>${description}</p>`, _attackIcon(attack.checkType, attack.rangeType));
 }
 
 function _save(saves) {
@@ -559,9 +549,11 @@ function _formulas(formulas, icon, types) {
   let description = '';
   for(let i = 0; i < formulas.length; i++) {
     if (i !== 0) description += '<br>+ ';
-    const type = getLabelFromKey(formulas[i].type, types);
-    const value = formulas[i].formula;
-    description += `${value} ${type}`;
+    let label = "";
+    const formula = formulas[i];
+    if (!types) label = formula.label;
+    else label = getLabelFromKey(formula.type, types);
+    description += `${formula.formula} ${label}`;
   }
   return _descriptionIcon(`<p>${description}</p>`, icon);
 }
@@ -625,4 +617,14 @@ function _toCost(key, icon, amount, title) {
   const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
   const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
   return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
+}
+
+function _attackIcon(attackCheck, attackRange) {
+  if (attackCheck === "attack" && attackRange === "melee") return 'fa-sword';
+  if (attackCheck === "attack" && attackRange === "ranged") return 'fa-bow-arrow';
+  if (attackCheck === "attack" && attackRange === "area") return 'fa-bullseye';
+  if (attackCheck === "spell" && attackRange === "melee") return 'fa-hand-sparkles';
+  if (attackCheck === "spell" && attackRange === "ranged") return 'fa-wand-magic-sparkles';
+  if (attackCheck === "spell" && attackRange === "area") return 'fa-meteor';
+  return 'fa-question';
 }

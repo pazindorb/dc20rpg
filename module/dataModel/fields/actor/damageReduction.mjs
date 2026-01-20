@@ -18,14 +18,17 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
       pdr: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         label: new f.StringField({initial: "dc20rpg.damageReduction.pdr"}),
+        skipEqCheck: new f.BooleanField({required: true, initial: false}),
       }),
       edr: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         label: new f.StringField({initial: "dc20rpg.damageReduction.edr"}),
+        skipEqCheck: new f.BooleanField({required: true, initial: false}),
       }),
       mdr: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         label: new f.StringField({initial: "dc20rpg.damageReduction.mdr"}),
+        skipEqCheck: new f.BooleanField({required: true, initial: false}),
       }),
       damageTypes: new f.SchemaField({
         corrosion: new f.SchemaField({
@@ -55,10 +58,6 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
         psychic: new f.SchemaField({
           ...dmgType("mystical"),
           label: new f.StringField({initial: "dc20rpg.reductions.psychic"})
-        }),
-        sonic: new f.SchemaField({
-          ...dmgType("mystical"),
-          label: new f.StringField({initial: "dc20rpg.reductions.sonic"})
         }),
         umbral: new f.SchemaField({
           ...dmgType("mystical"),

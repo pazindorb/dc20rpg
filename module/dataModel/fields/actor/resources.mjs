@@ -26,7 +26,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.stamina"}),
           maxFormula: new f.StringField({ required: true, initial: "@resources.stamina.bonus + @details.class.bonusStamina"}),
-          reset: new f.StringField({initial: "combat"}),
+          reset: new f.StringField({initial: "combatEnd"}),
         }),
         mana: new f.SchemaField({
           ...resource(), 

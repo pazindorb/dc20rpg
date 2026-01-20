@@ -1,4 +1,3 @@
-import { getActiveHelpDice } from "../../helpers/actors/actions.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
@@ -6,7 +5,7 @@ export function duplicateData(context, actor) {
   context.type = actor.type;
   context.system = foundry.utils.deepClone(actor.system);
   context.flags = foundry.utils.deepClone(actor.flags);
-  context.editMode = context.flags.dc20rpg?.editMode;
+  context.editMode = context.system.sheetData.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.help = _help(actor);
   context.items = actor.items.contents;
@@ -14,7 +13,7 @@ export function duplicateData(context, actor) {
 
 function _help(actor) {
   return {
-    dice: getActiveHelpDice(actor),
+    dice: actor.help.active,
     rowSize: 5
   }
 }

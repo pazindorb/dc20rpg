@@ -3,10 +3,10 @@ import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
+import { runHealthChangeEvent, runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
-import { deleteEffectFrom } from "../helpers/effects.mjs";
+import { createEffectOn, deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { emitEventToGM } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
@@ -28,6 +28,12 @@ export class DC20RpgActor extends Actor {
 
   get class() {
     return this.items.get(this.system.details.class.id);
+  }
+
+  get targetHash() {
+    const token = this.getActiveTokens()[0];
+    const tokenId = token?.id || "";
+    return `${this.id}#${tokenId}`;
   }
 
   get exhaustion() {
@@ -136,6 +142,14 @@ export class DC20RpgActor extends Actor {
     if (this.type !== "companion") return false;
     if (!this.companionOwner) return false;
     return getValueFromPath(this, `system.shareWithCompanionOwner.${key}`);
+  }
+
+  getItemByKey(itemKey) {
+    return this.items.find(item => item.system.itemKey === itemKey);
+  }
+
+  getEffectByKey(effectKey) {
+    return this.allEffects.find(effect => effect.system.effectKey === effectKey);
   }
 
   /** @override */
@@ -361,31 +375,6 @@ export class DC20RpgActor extends Actor {
     return options;
   }
 
-  /**
-   * Returns object containing items owned by actor that have charges or are consumable.
-   */
-  getOwnedItemsIds(excludedId) {
-    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot"];
-
-    const itemsWithCharges = {};
-    const consumableItems = {};
-    const weapons = {};
-    const items = this.items;
-    items.forEach(item => {
-      if (item.id !== excludedId && !excludedTypes.includes(item.type)) {
-        const maxChargesFormula = item.system.costs?.charges?.maxChargesFormula;
-        if (maxChargesFormula) itemsWithCharges[item.id] = item.name; 
-        if (item.type === "consumable") consumableItems[item.id] = item.name;
-        if (item.type === "weapon") weapons[item.id] = item.name;
-      }
-    });
-    return {
-      withCharges: itemsWithCharges,
-      consumable: consumableItems,
-      weapons: weapons
-    }
-  }
-
   hasStatus(statusId) {
     return this.statusIds.has(statusId);
   }
@@ -493,6 +482,10 @@ export class DC20RpgActor extends Actor {
     return created;
   }
 
+  async applyEffect(effectData) {
+    return await createEffectOn(effectData, this);
+  }
+
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   /** @override */
   async rollInitiative({createCombatants=false, rerollInitiative=false, initiativeOptions={}}={}) {
@@ -598,25 +591,16 @@ export class DC20RpgActor extends Actor {
     // HP change check
     if (userId === game.user.id) {
       if (changed.system?.resources?.health) {
-        const newHP = changed.system.resources.health;
-        const previousHP = this.hpBeforeUpdate;
-        const tempHpChange = newHP.temp > 0 && !newHP.current;
-        
-        const newValue = newHP.value;
-        const oldValue = previousHP.value;
-        healthThresholdsCheck(newHP.current, this);
-        
-        const hpDif = oldValue - newValue;
+        healthThresholdsCheck(changed.system.resources.health.current, this);
         const tokens = getAllTokensForActor(this);
-        if (hpDif < 0) {
-          const text = `+${Math.abs(hpDif)}`;
+        const hpChange = options.hpChange;
+        if (hpChange > 0) {
+          const text = `+${Math.abs(hpChange)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.skipEventCall && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
         }
-        else if (hpDif > 0) {
-          const text = `-${Math.abs(hpDif)}`;
+        else if (hpChange < 0) {
+          const text = `-${Math.abs(hpChange)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.skipEventCall) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); 
         }
       }
     }
@@ -643,25 +627,34 @@ export class DC20RpgActor extends Actor {
   /** @inheritDoc */
   async _preUpdate(changes, options, user) {
     await updateActorHp(this, changes);
-    if (changes.system?.resources?.health) {
-      this.skipEventCall = changes.skipEventCall;
-      this.messageId = changes.messageId;
-      this.hpBeforeUpdate = this.system.resources.health;
-    }
 
-    // Run resource change event
+    // Run resource change events
+    const preventChangeFor = [];
     if (changes.system?.resources) {
       const before = this.system.resources;
       for (const [key, resource] of Object.entries(changes.system.resources)) {
-        if (key === "health") continue;
+        if (key === "health") {
+          const hpChange = await runHealthChangeEvent(resource, before.health, changes.messageId, this, changes.skipEventCall);
+          options.hpChange = hpChange;
+          if (hpChange === 0) preventChangeFor.push({custom: false, key: "health"});
+        }
         if (key === "custom") {
           for (const [customKey, customRes] of Object.entries(resource)) {
-            await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+            const preventChange = await runResourceChangeEvent(customKey, customRes, before.custom[customKey], this, true);
+            if (preventChange) preventChangeFor.push({custom: true, key: customKey});
           }
         }
-        await runResourceChangeEvent(key, resource, before[key], this, false);
+        const preventChange = await runResourceChangeEvent(key, resource, before[key], this, false);
+        if (preventChange) preventChangeFor.push({custom: false, key: key});
       }
     }
+
+    // If event wants to stop some changes we remove it from the change list
+    for (const toStop of preventChangeFor) {
+      if (toStop.custom) delete changes.system.resources.custom[toStop.key];
+      else delete changes.system.resources[toStop.key];
+    }
+
     return await super._preUpdate(changes, options, user);
   }
 
@@ -672,28 +665,46 @@ export class DC20RpgActor extends Actor {
     if (this.type === "storage") return;
 
     // Remove all basic actions
-    const basicActionIds = this.items.filter(item => item.type === "basicAction" || item.system?.itemKey === "unarmedStrike").map(item => item.id);
+    const basicActionIds = this.items.filter(item => item.type === "basicAction").map(item => item.id);
     await this.deleteEmbeddedDocuments("Item", basicActionIds);
 
     // Add basic actions
     const actionsData = [];
-    for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
-      const action = await fromUuid(uuid);
-      const data = action.toObject();
-      data.flags.dc20BasicActionsSource = uuid;
-      data.flags.dc20BasicActionKey = key;
+    for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems)) {
+      const data = await this._basicActionData(uuid, key);
       actionsData.push(data);
     }
 
     if (this.type === "character") {
-      const uuid = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike;
-      const action = await fromUuid(uuid);
-      const data = action.toObject();
-      data.flags.dc20BasicActionsSource = uuid;
-      data.flags.dc20BasicActionKey = "unarmedStrike";
-      actionsData.push(data);
+      // We should not remove unarmed strike each time - it might break some features
+      if (!this.getItemByKey("unarmedStrike")) {
+        const unarmedStrike = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike, "unarmedStrike");
+        actionsData.push(unarmedStrike);
+      }
+
+      // Add mp/sp on ap converters and martial enhancements
+      const mpToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.mpToAp, "mpToAp");
+      actionsData.push(mpToAp);
+      const spToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.spToAp, "spToAp");
+      actionsData.push(spToAp);
+      const martialEnhancements = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.martialEnhancements, "martialEnhancements");
+      actionsData.push(martialEnhancements);
+
+      // Add weapon styles
+      for (const [key, uuid] of Object.entries(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems)) {
+        const data = await this._basicActionData(uuid, key);
+        actionsData.push(data);
+      }
     }
     await this.createEmbeddedDocuments("Item", actionsData);
+  }
+
+  async _basicActionData(uuid, key) {
+    const action = await fromUuid(uuid);
+    const data = action.toObject();
+    data.flags.dc20BasicActionsSource = uuid;
+    data.flags.dc20BasicActionKey = key;
+    return data;
   }
 
   /**
@@ -728,7 +739,7 @@ export class DC20RpgActor extends Actor {
   //=               SUSTAIN              =
   //======================================
   shouldSustain(item) {
-    if (item.system.duration.type !== "sustain") return false;
+    if (item.system.duration?.type !== "sustain") return false;
 
     const activeCombat = game.combats.active;
     const notInCombat = !(activeCombat && activeCombat.started && this.inCombat);
@@ -742,7 +753,8 @@ export class DC20RpgActor extends Actor {
       img: item.img,
       itemId: item.id,
       description: item.system.description,
-      linkedEffects: []
+      linkedEffects: [],
+      toggleOff: item.system?.toggle?.offOnSustainDrop
     }});
   }
 
@@ -754,10 +766,19 @@ export class DC20RpgActor extends Actor {
     await this.gmUpdate({[`system.sustain.${key}.linkedEffects`]: linkedEffects});
   }
 
+  async addTemplateToSustain(key, templateUuid) {
+    // TODO
+  }
+
+  async addAuraToSustain(key, auraUuid) {
+    // TODO
+  }
+
   async dropSustain(key, message) {
     const sustain = this.system.sustain[key];
     if (!sustain) return;
 
+    // Drop effects when sustain drops
     for (const effectUuid of sustain.linkedEffects) {
       const effect = await fromUuid(effectUuid);
       if (!effect) continue;
@@ -765,6 +786,12 @@ export class DC20RpgActor extends Actor {
       if (!owner) continue;
       deleteEffectFrom(effect.id, owner);
     }
+    // Toggle item off when sustain drops
+    if (sustain.toggleOff) {
+      const item = this.items.get(sustain.itemId);
+      if (item) item.toggle({forceOff: true});
+    }
+
     await this.update({[`system.sustain.-=${key}`]: null});
 
     if (message) {

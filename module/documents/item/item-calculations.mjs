@@ -7,28 +7,21 @@ export function makeCalculations(item) {
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
   if (item.system.infusions) _calculateMagicPower(item);
-  if (item.type === "weapon") _runWeaponStyleCheck(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
+  _combatTraining(item);
 }
 
-// TODO: Rework this shit
 function _calculateRollModifier(item) {
   const attackFormula = item.system.attackFormula;
-  let formulaModifier = "";
+  if (!attackFormula.checkType) {
+    attackFormula.rollModifier = 0;
+    return;
+  }
+  
+  const attackKey = attackFormula.checkType === "attack" ? "martial" : attackFormula.checkType;
+  let formulaModifier = ` + @attack.${attackKey}`;
 
-  // Determine if it is a spell or attack check or has a custom modifer
-  if (attackFormula.customModifier) {
-    formulaModifier = attackFormula.customModifier;
-  }
-  else if (attackFormula.checkType === "attack") {
-    if (attackFormula.combatMastery) formulaModifier += " + @attack";
-    else formulaModifier += " + @attackNoCM";
-  }
-  else if (attackFormula.checkType === "spell") formulaModifier += " + @spell";
-
-  if (attackFormula.rollBonus) {
-     formulaModifier +=  " + @rollBonus";
-  }
+  if (attackFormula.rollBonus) formulaModifier +=  " + @rollBonus";
   attackFormula.formulaMod = formulaModifier;
 
   // Calculate roll modifier for formula
@@ -102,14 +95,31 @@ function _calculateMaxCharges(item) {
   if (charges.current === null) charges.current = charges.max;
 }
 
-function _runWeaponStyleCheck(item) {
+function _combatTraining(item) {
   const owner = item.actor;
   if (!owner) return;
+  if (!item.system.hasOwnProperty("combatTraining")) return;
 
-  const weaponStyleActive = item.system.weaponStyleActive;
-  // If it is not true then we want to check if actor has "weapons" Combat Training.
-  // If it is true, then we assume that some feature made it that way and we dont care about the actor
-  if (!weaponStyleActive) item.system.weaponStyleActive = owner.system.combatTraining.weapons;
+  const combatTraining = item.system.combatTraining;
+  if (combatTraining) return // Item has Combat Training from some other source (Pact Weapon for example) and we dont have to check the actor's training
+
+  // We need to check if actor has training for that item type
+  const trainingKey = _trainingKey(item);
+  if (!trainingKey) return;
+  item.system.combatTraining = owner.system.combatTraining[trainingKey];
+}
+
+function _trainingKey(item) {
+  if (item.type === "weapon") return "weapons";
+  if (item.type === "spellFocus") return "spellFocuses";
+  if (item.type === "equipment") {
+    switch (item.system.equipmentType) {
+      case "light": return "lightArmor";
+      case "heavy": return "heavyArmor";
+      case "lshield": return "lightShield";
+      case "hshield": return "heavyShield"
+    }
+  }
 }
 
 function _checkFeatureSourceItem(item) {
@@ -117,8 +127,10 @@ function _checkFeatureSourceItem(item) {
   if (!CONFIG.DC20RPG.UNIQUE_ITEM_IDS) return;
 
   if (["class", "subclass", "ancestry", "background"].includes(system.featureType)) {
-    const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem];
-    if (newOrigin && newOrigin !== item.system.featureOrigin) item.update({["system.featureOrigin"]: newOrigin})
+    const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem]; 
+    if (newOrigin && newOrigin !== item.system.featureOrigin) {
+      if (!game.packs.get(item.pack)?.locked) item.update({["system.featureOrigin"]: newOrigin})
+    }
   }
 }
 

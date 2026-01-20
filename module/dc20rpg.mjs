@@ -34,7 +34,6 @@ import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
-import { registerDC20ConditionalHelpers } from "./helpers/conditionals.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
@@ -48,9 +47,9 @@ Hooks.once('init', async function() {
   prepareColorPalette(); // Prepare Color Palette
   
   CONFIG.DC20RPG = DC20RPG;
+  CONFIG.DC20ConditionalHelpers = {};
   initDC20Config();
   prepareDC20tools();
-  registerDC20ConditionalHelpers();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";
@@ -87,12 +86,14 @@ Hooks.once('init', async function() {
   CONFIG.Actor.dataModels.storage = DC20StorageData;
   CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
+  CONFIG.Item.dataModels.spellFocus = itemDM.DC20SpellFocusData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
   CONFIG.Item.dataModels.container = itemDM.DC20ContainerData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
+  CONFIG.Item.dataModels.maneuver = itemDM.DC20ManeuverData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
   CONFIG.Item.dataModels.infusion = itemDM.DC20InfusionData;
   CONFIG.Item.dataModels.class = itemDM.DC20ClassData;
@@ -126,8 +127,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.9.8.1", "0.9.8.2", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
-  // await testMigration("0.9.8.1", "0.9.8.2");
+  // await testMigration("0.9.8.2", "0.10.0.0", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
+  // await testMigration("0.9.8.2", "0.10.0.0");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -176,6 +177,8 @@ Hooks.on("renderDialogV2", (app, element, context, option) => {
   if (selector) {
     const basicActionOption = selector.querySelector('[value="basicAction"]');
     if (basicActionOption) selector.removeChild(basicActionOption);
+    const techniqueOption = selector.querySelector('[value="technique"]');
+    if (techniqueOption) selector.removeChild(techniqueOption);
   }
 });
 Hooks.on("createScene", async (scene, options, userId) => {

@@ -9,7 +9,7 @@ export default class AttackFormulaFields extends foundry.data.fields.SchemaField
       rollBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       combatMastery: new f.BooleanField({required: true, initial: true}),
       critThreshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 20 }),
-      halfDmgOnMiss: new f.BooleanField({required: true, initial: false}),
+      halfDmgOnMiss: new f.BooleanField({required: true, initial: false}), // TODO remove after maing sure there is no more half on miss things 
       skipBonusDamage: new f.SchemaField({
         heavy: new f.BooleanField({required: true, initial: false}),
         brutal: new f.BooleanField({required: true, initial: false}),
@@ -18,7 +18,6 @@ export default class AttackFormulaFields extends foundry.data.fields.SchemaField
       }),
       ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
       formulaMod: new f.StringField({required: true, initial: ""}),
-      customModifier: new f.StringField({required: true, initial: ""}),
       ...fields
     };
     super(fields, options);

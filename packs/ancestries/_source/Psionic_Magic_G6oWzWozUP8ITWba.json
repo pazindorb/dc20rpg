@@ -177,7 +177,8 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": -1
+          "changeManaSpendLimit": -1,
+          "changeStaminaSpendLimit": null
         },
         "key": "Qon7mAFHtBgLPE6e",
         "sourceItemId": "G6oWzWozUP8ITWba",
@@ -282,16 +283,19 @@
         "addItemsOptions": {
           "itemLimit": 1,
           "itemType": "spell",
-          "helpText": "Add Psionic Magic Spell"
+          "helpText": "Add Psionic Magic Spell",
+          "preFilters": "{\"spellTags\": {\"gravity\": \"Gravity\", \"psychic\": \"Psychic\"}}"
         },
-        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Psionic/ Magic Spell not found - Add it manually by running Macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Psionic Magic Spell not found - Add it manually by running Macro\");\n}\nelse {\n  const psionicMagic = actor.items.find(item => item.system.itemKey === \"psionicMagic\");\n  if (psionicMagic) {\n    psionicMagic.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spell.createdItemId}\"`});\n    psionicMagic.updateShortInfo(`Selected Spell: ${spell.name}`);\n  }\n}"
+        "macro": "if (!advancement.items) {\n  ui.notifications.error(\"Psionic Magic Spell not found - Add it manually by running on demand macro\");\n  return;\n}\nconst items = Object.values(advancement.items);\nconst spell = items[0];\n\nif (!spell) {\n  ui.notifications.error(\"Psionic Magic Spell not found - Add it manually by running on demand macro\");\n  return;\n}\nelse {\n  const psionicMagic = actor.getItemByKey(\"psionicMagic\");\n  if (psionicMagic) {\n    psionicMagic.update({\n      [\"system.copyEnhancements.copyFor\"]: `id=[\"${spell.createdItemId}\"]`,\n      [\"system.shortInfo\"]: `Selected Spell: ${spell.name}`,\n      [\"flags.dc20rpg.currentSpellId\"]: spell.createdItemId\n    });\n  }\n}",
+        "key": "default",
+        "doNotAddToKnownLimit": true
       }
     },
     "macros": {
       "ukFADETbm8f6MXP1": {
         "name": "Change Psionic Magic Spell",
         "trigger": "onDemand",
-        "command": "const options = {}\nactor.items.forEach(item => {\n  if (item.type === \"spell\") options[item.id] = item.name;\n});\n\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Psionic Magic Spell\", options);;\nif (spellId) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `id=\"${spellId}\"`});\n  item.updateShortInfo(`Selected Spell: ${options[spellId]}`);\n}",
+        "command": "const options = actor.getAllItemsWithType([\"spell\"], [], true);\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Psionic Magic Spell\", options);\nif (!spellId) return;\n\nconst currentSpellId = item.flags.dc20rpg.currentSpellId;\nif (currentSpellId === spellId) return;\n\nconst currentSpell = actor.items.get(currentSpellId);\nif (currentSpell) currentSpell.update({[\"system.knownLimit\"]: true});\nconst newSpell = actor.items.get(spellId);\nif (newSpell) newSpell.update({[\"system.knownLimit\"]: false});\n\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${spellId}\"]`,\n  [\"system.shortInfo\"]: `Selected Spell: ${options[spellId]}`,\n  [\"flags.dc20rpg.currentSpellId\"]: spellId\n});",
         "disabled": false,
         "title": "Change Psionic Magic Spell"
       }
@@ -330,73 +334,7 @@
     "staminaFeature": false,
     "flavorFeature": false
   },
-  "effects": [
-    {
-      "img": "icons/magic/light/orbs-smoke-pink.webp",
-      "origin": "Compendium.dc20rpg.ancestries.Item.NKuUuUyr0TkwO37A",
-      "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Psionic Magic",
-      "_id": "vAZ5tIfdsRX8eS0h",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
-      "description": "<p>You learn 1 Spell of your choice with the Psychic or Gravity Spell Tag.</p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "",
-          "effectKey": "",
-          "addToChat": false,
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880257351,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!G6oWzWozUP8ITWba.vAZ5tIfdsRX8eS0h"
-    }
-  ],
+  "effects": [],
   "folder": "q25l8ej0WVsXLSje",
   "flags": {},
   "_stats": {
@@ -404,9 +342,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1745524031161,
-    "modifiedTime": 1761303731186,
+    "modifiedTime": 1768418399108,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",

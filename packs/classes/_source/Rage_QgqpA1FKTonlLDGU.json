@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/mouth-teeth-human.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Martial Attacks.</p></li><li><p>You have ADV on Might Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall Unconscious, die, or you choose to end it for free on your turn.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Martial Attacks made using Unarmed Strikes or Melee Weapons.</p></li><li><p>You have ADV on Might Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall Unconscious, die, or you choose to end it for free on your turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
           "area": "",
           "distance": null,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": ""
         }
       }
     },
@@ -258,68 +259,68 @@
       "changes": [
         {
           "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
           "value": "-5",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.corrosion.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.fire.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.cold.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.lightning.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.poison.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.piercing.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.slashing.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
-          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
-          "mode": 2,
+          "key": "system.globalFormulaModifiers.damage.martial.melee",
           "value": "\"value\": \"+ 1\", \"source\": \"Rage\"",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.rollLevel.onYou.saves.mig",
-          "mode": 2,
+          "key": "system.dynamicRollModifier.onYou.saves.mig",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -349,11 +350,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256688,
+        "modifiedTime": 1766693757293,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -365,11 +366,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1739350034081,
-    "modifiedTime": 1760521813928,
+    "modifiedTime": 1767114118874,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

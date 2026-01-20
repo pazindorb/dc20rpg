@@ -1,0 +1,508 @@
+{
+  "folder": "VjSQDJtuPOYtSdcD",
+  "name": "War Sling",
+  "type": "weapon",
+  "img": "icons/weapons/fist/fist-knuckles-spiked-brown.webp",
+  "system": {
+    "description": "",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "quantity": 1,
+    "weight": 0,
+    "price": {
+      "value": 0,
+      "currency": "gp"
+    },
+    "rarity": "",
+    "statuses": {
+      "attuned": false,
+      "equipped": false,
+      "identified": true,
+      "slotLink": {
+        "predefined": "weapon",
+        "category": "",
+        "key": ""
+      }
+    },
+    "properties": {
+      "attunement": {
+        "active": false,
+        "label": "dc20rpg.properties.attunement",
+        "journalUuid": "",
+        "for": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy",
+          "other"
+        ],
+        "cost": 0
+      },
+      "ammo": {
+        "active": true,
+        "label": "dc20rpg.properties.ammo",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh",
+        "for": [
+          "ranged"
+        ],
+        "cost": 0,
+        "ammoId": ""
+      },
+      "concealable": {
+        "active": false,
+        "label": "dc20rpg.properties.concealable",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J",
+        "for": [
+          "melee"
+        ],
+        "cost": 1
+      },
+      "guard": {
+        "active": false,
+        "label": "dc20rpg.properties.guard",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
+        "for": [
+          "melee"
+        ],
+        "cost": 1
+      },
+      "heavy": {
+        "active": true,
+        "label": "dc20rpg.properties.heavy",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY",
+        "for": [
+          "melee",
+          "ranged"
+        ],
+        "cost": 2,
+        "disabled": false
+      },
+      "impact": {
+        "active": false,
+        "label": "dc20rpg.properties.impact",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY",
+        "for": [
+          "melee",
+          "ranged"
+        ],
+        "cost": 1
+      },
+      "longRanged": {
+        "active": false,
+        "label": "dc20rpg.properties.longRanged",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW",
+        "for": [
+          "ranged"
+        ],
+        "cost": 1
+      },
+      "multiFaceted": {
+        "active": false,
+        "selected": "first",
+        "labelKey": "",
+        "weaponStyle": {
+          "first": "",
+          "second": ""
+        },
+        "damageType": {
+          "first": "",
+          "second": ""
+        },
+        "label": "dc20rpg.properties.multiFaceted",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6",
+        "for": [
+          "melee",
+          "ranged"
+        ],
+        "cost": 1
+      },
+      "reach": {
+        "active": false,
+        "value": 1,
+        "label": "dc20rpg.properties.reach",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
+        "for": [
+          "melee"
+        ],
+        "cost": 1
+      },
+      "reload": {
+        "active": false,
+        "loaded": true,
+        "value": 1,
+        "label": "dc20rpg.properties.reload",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv",
+        "for": [
+          "ranged"
+        ],
+        "cost": -1
+      },
+      "silent": {
+        "active": false,
+        "label": "dc20rpg.properties.silent",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa",
+        "for": [
+          "ranged"
+        ],
+        "cost": 1
+      },
+      "toss": {
+        "active": false,
+        "label": "dc20rpg.properties.toss",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
+        "for": [
+          "melee",
+          "lshield"
+        ],
+        "cost": 1
+      },
+      "thrown": {
+        "active": false,
+        "label": "dc20rpg.properties.thrown",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK",
+        "for": [
+          "melee"
+        ],
+        "cost": 1,
+        "disabled": true
+      },
+      "twoHanded": {
+        "active": true,
+        "label": "dc20rpg.properties.twoHanded",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy",
+        "for": [
+          "melee",
+          "ranged"
+        ],
+        "cost": -1
+      },
+      "unwieldy": {
+        "active": false,
+        "label": "dc20rpg.properties.unwieldy",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w",
+        "for": [
+          "melee"
+        ],
+        "cost": -1
+      },
+      "versatile": {
+        "active": false,
+        "label": "dc20rpg.properties.versatile",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich",
+        "for": [
+          "melee"
+        ],
+        "cost": 1
+      },
+      "returning": {
+        "active": false,
+        "label": "dc20rpg.properties.returning",
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog",
+        "for": [
+          "melee"
+        ],
+        "cost": 1,
+        "disabled": true
+      },
+      "cumbersome": {
+        "label": "dc20rpg.properties.cumbersome",
+        "for": [
+          "ranged"
+        ],
+        "cost": -1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.s5koKAxjBv26tHHV",
+        "active": false
+      },
+      "deft": {
+        "label": "dc20rpg.properties.deft",
+        "for": [
+          "ranged"
+        ],
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oiJStOGltgWyJiUL",
+        "active": false
+      }
+    },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToTemplates": ""
+    },
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "rangeType": "ranged",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "customModifier": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 15,
+      "max": 45,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "mar",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {
+      "weaponDamage": {
+        "formula": "2",
+        "type": "bludgeoning",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "overrideDefence": "",
+        "dontMerge": false
+      }
+    },
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "ap": 1,
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "weaponStyle": "sling",
+    "weaponType": "ranged",
+    "itemKey": "",
+    "shortInfo": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": ""
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "inventory": true,
+    "lootRoll": 1,
+    "stackable": false,
+    "infusions": {},
+    "infusionCostReduction": 0,
+    "magicPower": null,
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "pointAmount": 1,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "talentFilter": false,
+          "ancestryFilter": false,
+          "helpText": "",
+          "itemLimit": null
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "combatTraining": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1765978134121,
+    "modifiedTime": 1767311247961,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "gKpyMEe31GNglYDJ",
+  "sort": 300000,
+  "_key": "!items!gKpyMEe31GNglYDJ"
+}

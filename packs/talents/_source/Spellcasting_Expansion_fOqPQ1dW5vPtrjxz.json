@@ -2,9 +2,9 @@
   "folder": "x8uO1tZjA7FyzFiM",
   "name": "Spellcasting Expansion",
   "type": "feature",
-  "img": "icons/magic/light/orbs-hand-gray.webp",
+  "img": "icons/magic/control/buff-flight-wings-runes-purple.webp",
   "system": {
-    "description": "<p><em>You can only gain this Talent once.</em></p><p>You gain the following benefits:</p><ul><li><p>Your Maximum Mana Points increases by 2.</p></li><li><p>You gain access to your choice of any Spell List. </p></li><li><p>You learn 1 additional Spell (from Spell Lists that you have access to).</p></li></ul>",
+    "description": "<p><em>You can only gain this Talent once.</em></p><p>You gain the following benefits:</p><ul><li><p><strong>Combat Training:</strong> You gain Combat Training with Spell Focuses</p></li><li><p><strong>Spell List:</strong> You add 1 Spell Source or 3 Spell Schools of your choice to your Spell List.</p></li><li><p><strong>Spells Known:</strong> You learn 3 Spells from your Spell List.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -123,6 +123,24 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "SoUZxlXRaOlK5GEJ": {
+        "command": "const clazz = actor.class;\nif (!clazz) return;\nconst school = await DC20.dialog.SimplePopup.open(\"confirm\", {header: \"Spellcasting Expansion\", message: \"Do you want to add 1 Spell Source or 3 Spell Schools\", denyLabel: \"1 Spell Source\", confirmLabel: \"3 Spell Schools\"});\n\nif (school) _selectAndApply(CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools, \"Select 3 Spell Schools\", \"spellSchool\");\nelse _selectAndApply(CONFIG.DC20RPG.DROPDOWN_DATA.spellSources, \"Select Spell Source\", \"spellSource\");\n\nasync function _selectAndApply(options, header, type) {\n  const inputs = [];\n  options = Object.keys(options);\n  for (const option of options) {\n    inputs.push({\n      type: \"checkbox\",\n      label: game.i18n.localize(`dc20rpg.${type}.${option}`)\n    })\n  }\n  const answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: inputs});\n  if (!answers) return;\n\n  const changes = {\n    spellSource: [],\n    spellSchool: []\n  }\n  for (let i = 0; i < answers.length; i++) {\n    if (answers[i]) {\n      const key = options[i];\n      changes[type].push(key);\n      clazz.update({[`system.filters.${type}.${key}`]: true});\n    }\n  }\n\n  item.update({[\"flags.dc20rpg.changes\"]: changes});\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Add stuff to Spell List",
+        "title": "",
+        "global": false
+      },
+      "Q7Rsq1681rxitEM6": {
+        "command": "const clazz = actor.class;\nif (!clazz) return;\nconst changes = item.flags.dc20rpg?.changes;\nif (!changes) return;\n\nfor (const change of changes.spellSource) {\n  clazz.update({[`system.filters.spellSource.${change}`]: false});\n}\n\nfor (const change of changes.spellSchool) {\n  clazz.update({[`system.filters.spellSchool.${change}`]: false});\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove stuff from Spell List",
+        "title": "",
+        "global": false
+      }
     }
   },
   "effects": [
@@ -139,7 +157,7 @@
       },
       "disabled": false,
       "name": "Spellcasting Expansion",
-      "img": "icons/magic/light/orbs-hand-gray.webp",
+      "img": "icons/magic/control/buff-flight-wings-runes-purple.webp",
       "_id": "NUFJ435N7Ekerblg",
       "type": "base",
       "system": {
@@ -150,19 +168,19 @@
       },
       "changes": [
         {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "1",
+          "key": "system.combatTraining.spellFocuses",
+          "mode": 5,
+          "value": "true",
           "priority": null
         },
         {
-          "key": "system.resources.mana.bonus",
+          "key": "system.known.spells.max",
           "mode": 2,
-          "value": "2",
+          "value": "3",
           "priority": null
         }
       ],
-      "description": "<p>You gain the following benefits:</p><ul><li><p>Your Maximum Mana Points increases by 2.</p></li><li><p>You gain access to your choice of any Spell List.</p></li><li><p>You learn 1 additional Spell (from Spell Lists that you have access to).</p></li></ul>",
+      "description": "<p>You gain the following benefits:</p><ul><li><p>You gain Combat Training with Spell Focuses.</p></li><li><p>You add 1 Spell Source or 3 Spell Schools of your choice to your Spell List.</p></li><li><p>You learn 3 Spells from your Spell List.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -188,11 +206,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "13.350",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1750880256939,
+        "modifiedTime": 1768427032153,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -208,11 +226,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.d3h86FkJnKf7Xr9v",
-    "coreVersion": "13.344",
+    "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.0.0",
     "createdTime": 1719850606087,
-    "modifiedTime": 1745412758140,
+    "modifiedTime": 1768430223799,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

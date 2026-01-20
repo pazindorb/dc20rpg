@@ -1,18 +1,18 @@
 import { holdAction } from "../helpers/actors/actions.mjs";
-import { collectWeaponsFromActor, getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 import { DC20Dialog } from "../dialogs/dc20Dialog.mjs";
-import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { getValueFromPath } from "../helpers/utils.mjs";
+import { runItemDRMCheck, runSheetDRMCheck } from "./dynamicRollModifier.mjs";
+import { DC20Roll } from "./rollApi.mjs";
+import { DRMDialog } from "./drmDialog.mjs";
 
 export class RollDialog extends DC20Dialog {
 
@@ -110,8 +110,8 @@ export class RollDialog extends DC20Dialog {
   //==========================================
   constructor(actor, data={}, options={}) {
     super(options);
-    // We want to clear effectsToRemove when we open new roll prompt
-    actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); 
+    // We want to clear afterRollEffects when we open new roll prompt
+    this.afterRollEffects = [];
 
     this.actor = actor;
     if (data.documentName === "Item") {
@@ -136,18 +136,19 @@ export class RollDialog extends DC20Dialog {
       }
     }
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
-    this.startingRollMenuValues = options.startingRollMenuValues;
+    this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
-    this._autoRollLevelCheck(options);
+    this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
+    this.modifyFormula = options.customFormula || false;
+    this._autoDRMCheck(options);
   }
 
-  _autoRollLevelCheck(options) {
-    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-    if (autoRollLevelCheck) {
-      this._rollLevelCheck(false, options.quickRoll); // it deals with quick roll as well
+  _autoDRMCheck(options) {
+    if (this.autoDRMCheck) {
+      this._DRMCheck(false, options.quickRoll); // it deals with quick roll as well
     }
     else {
-      this.rollLevelChecked = false;
+      this.DRMChecked = false;
       if (options.quickRoll) this._onRoll();
     }
   }
@@ -176,7 +177,7 @@ export class RollDialog extends DC20Dialog {
     if (!rollsHeldAction) return;
 
     // Update enhancements
-    const allEnhancements = this.item.allEnhancements;
+    const allEnhancements = this.item.enhancements.all;
     for (const [enhKey, enhNumber] of Object.entries(actionHeld.enhancements)) {
       const itemId = allEnhancements.get(enhKey).sourceItemId;
       const itemToUpdate = this.actor.items.get(itemId);
@@ -200,8 +201,9 @@ export class RollDialog extends DC20Dialog {
     initialized.actions.holdAction = this._onHoldAction;
     initialized.actions.roll = this._onRoll;
 
-    initialized.actions.rollLevel = this._onRollLevelCheck;
+    initialized.actions.drm = this._onDRMCheck;
     initialized.actions.rangeChange = this._onRangeChange;
+    initialized.actions.modifyFormula = this._onModifyFormula;
 
     initialized.actions.multiFaceted = this._onMultiFaceted;
     initialized.actions.reloadWeapon = this._onWeaponReload;
@@ -219,13 +221,16 @@ export class RollDialog extends DC20Dialog {
     const context = await super._prepareContext(options);
     
     // COMMON DATA
+    this._prepareCoreFormula();
+    context.coreFormula = this.coreFormula;
+    context.modifyFormula = this.modifyFormula;
     context.header = {
       img: this.updateObject.img,
       name: this.details?.rollTitle || this.updateObject.name,
     }
     context.rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     context.rollMenu = this.updateObject.system.rollMenu;
-    context.helpDiceOptions = {
+    context.helpOptions = {
       "+ d8": "d8",
       "+ d6": "d6",
       "+ d4": "d4",
@@ -236,9 +241,13 @@ export class RollDialog extends DC20Dialog {
       "- d4": "-d4",
       "- d10": "-d10",
       "- d12": "-d12",
+      "+ 2": "+2",
+      "+ 5": "+5",
+      "- 2": "-2",
+      "- 5": "-5"
     };
     context.disableRollLevel = context.rollMenu.autoFail || context.rollMenu.autoCrit;
-    context.rollLevelChecked = this.rollLevelChecked;
+    context.DRMChecked = this.DRMChecked;
     context.rollModes = {
       publicroll: "Public Roll",
       gmroll: "GM Roll",
@@ -246,12 +255,19 @@ export class RollDialog extends DC20Dialog {
       selfroll: "Self Roll"
     };
     context.rollMode = this.rollMode;
+    if (context.rollMenu) {
+      switch (context.rollMenu.rangeType) {
+        case "melee": context.rangeIcon = "fa-sword"; break;
+        case "ranged": context.rangeIcon = "fa-bow-arrow"; break;
+        case "area": context.rangeIcon = "fa-bullseye"; break;
+      }
+    }
 
     // ITEM ROLL
     if (this.item) {
       prepareItemFormulas(this.item, this.actor);
       context.usesWeapon = this.item.system.usesWeapon?.weaponAttack;
-      context.multiCheck = this.item.system.check.multiCheck.active;
+      context.multiCheck = this.item.system.check?.multiCheck?.active;
       context.usesAmmo = !!this.item.ammo;
       context.multiFaceted = !!this.item.multiFaceted;
       context.reloadable = !!this.item.reloadable;
@@ -264,13 +280,14 @@ export class RollDialog extends DC20Dialog {
       context.hasTemplates = Object.keys(context.measurementTemplates).length > 0;
 
       if (context.usesAmmo) context.ammoSelection = this.item.ammo.options();
-      if (context.usesWeapon) context.weaponSelection = collectWeaponsFromActor(this.actor);
+      if (context.usesWeapon) context.weaponSelection = this.actor.getAllItemsWithType(["weapon"], [], true);
       if (context.reloadable) {
         context.reloaded = this.item.reloadable.isLoaded(true);
       }
 
-      context.expectedCost = this.item.use.useCostDisplayData();
+      context.expectedCost = this.item.use?.useCostDisplayData();
       context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
+      context.staminaSpendLimit = this._getStaminaSpendLimit(context.expectedCost);
       context.rollLabel = `Roll Item: ${this.item.name}`;
 
       context.canSpendGrit = false;
@@ -293,12 +310,14 @@ export class RollDialog extends DC20Dialog {
 
     const mana = expectedCost?.resources?.mana?.amount;
     const msl = manaSpendLimit.value + this._enhancementMslChanges();
-    const amount = msl === manaSpendLimit.value ? msl : `${manaSpendLimit.value} (${msl})`;
+    const amount = msl === manaSpendLimit.value ? msl : `${msl}*`;
+    const modified = msl !== manaSpendLimit.value;
     const exceeds = mana > 0 && mana > msl;
 
     return {
       amount: amount,
-      exceeds: exceeds
+      exceeds: exceeds,
+      modified: modified
     }
   }
 
@@ -311,12 +330,39 @@ export class RollDialog extends DC20Dialog {
     });
     return limitChange;
   }
+
+  _getStaminaSpendLimit(expectedCost) {
+    const staminaSpendLimit = this.actor.system.details.staminaSpendLimit;
+    if (!staminaSpendLimit) return {};
+
+    const stamina = expectedCost?.resources?.stamina?.amount;
+    const ssl = staminaSpendLimit.value + this._enhancementSslChanges();
+    const amount = ssl === staminaSpendLimit.value ? ssl : `${ssl}*`;
+    const modified = ssl !== staminaSpendLimit.value;
+    const exceeds = stamina > 0 && stamina > ssl;
+
+    return {
+      amount: amount,
+      exceeds: exceeds,
+      modified: modified
+    }
+  }
+
+  _enhancementSslChanges() {
+    let limitChange = 0;
+    const enhancements = this.item.enhancements.active;
+    enhancements.values().forEach(enh => {
+      const change = enh.modifications.changeStaminaSpendLimit || 0;
+      limitChange += change * enh.number;
+    });
+    return limitChange;
+  }
  
   _getDataForSheetRoll() {
     return {
       rollDetails: this.details,
       ...this.actor,
-      rollLevelChecked: this.rollLevelChecked
+      DRMChecked: this.DRMChecked
     };
   }
 
@@ -327,6 +373,39 @@ export class RollDialog extends DC20Dialog {
       enhancements[key].useCost = this.item.use.enhancementCostDisplayData(key);
     }
     return enhancements;
+  }
+
+  _prepareCoreFormula() {
+    if (this.modifyFormula) return;
+
+    const rollMenu = this.updateObject.system.rollMenu;
+    const helpDice = rollMenu.helpDiceFormula();
+    const modifier = rollMenu.coreFormula.modifier.replace(/\s\s+/g, ' '); // Get rid of extra space
+    const source = rollMenu.coreFormula.source;
+    const rollLevel = rollMenu.adv - rollMenu.dis;
+
+    const coreFormula = [];
+    if (this.itemRoll) {
+      const d20Roll = DC20Roll.prepareItemCoreRollDetails(this.updateObject, {rollLevel: rollLevel});
+      if (d20Roll.roll) coreFormula.push({value: d20Roll.roll, source: "Base Core Formula"});
+    }
+    else {
+      const d20Roll = this.details.type === "save" ? DC20Roll.prepareSaveDetails(this.details.checkKey, {rollLevel: rollLevel}) : DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
+      let custom = this.details.customFormula;
+      if (custom) {
+        if (rollLevel !== 0) {
+          const value = Math.abs(rollLevel) + 1;
+          const type = rollLevel > 0 ? "kh" : "kl";
+          const dice = `${value}d20${type}`;
+          custom = custom.replace("d20", dice);
+        }
+      }
+      if (custom) coreFormula.push({value: custom, source: "Custom Core Formula"})
+      else if (d20Roll.roll) coreFormula.push({value: d20Roll.roll , source: "Base Core Formula"})
+    }
+    if (modifier) coreFormula.push({value: modifier, source: source});
+    if (helpDice) coreFormula.push({value: helpDice, source: "Help Dice"});
+    this.coreFormula = coreFormula;
   }
 
   //==========================================
@@ -346,11 +425,12 @@ export class RollDialog extends DC20Dialog {
   }
 
   async _onRangeChange() {
+    const ranges = ["melee", "ranged", "area"];
     const current = this.item.system.rollMenu.rangeType;
-    let newRange = current === "melee" ? "ranged" : "melee";
+    const index = ranges.indexOf(current);
+    const newRange = ranges[index + 1] || ranges[0];
     await this.item.update({["system.rollMenu.rangeType"]: newRange});
-    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-    if (autoRollLevelCheck) this._rollLevelCheck(false);
+    if (this.autoDRMCheck) this._DRMCheck(false);
     else this.render();
   }
 
@@ -364,34 +444,23 @@ export class RollDialog extends DC20Dialog {
 
   async _onRoll(event) {
     if(event) event.preventDefault();
-    let roll = null;
-    const rollMenu = this.updateObject.system.rollMenu;
-    if (this.itemRoll) {
-      roll = await rollFromItem(this.item._id, this.actor, true, this.rollMode);
+    const formula = this.modifyFormula || this.coreFormula.map(obj => obj.value).join(" ");
+    const source = this.modifyFormula ? "Custom Formula" : this.coreFormula.map(obj => obj.source).join(" + ");
+    const coreFormula = {
+      formula: formula,
+      source: source,
     }
-    else {
-      if (!this.details.costs) this.details.costs = {};
-      if (rollMenu.apCost) {
-        if (this.details.costs.ap != null) this.details.costs.ap += rollMenu.apCost;
-        else this.details.costs.ap = rollMenu.apCost;
-      }
-      if (rollMenu.gritCost) {
-        if (this.details.costs.grit != null) this.details.costs.grit += rollMenu.gritCost;
-        else this.details.costs.grit = rollMenu.gritCost;
-      }   
-      roll = await rollFromSheet(this.actor, this.details, this.rollMode);
-    }
+
+    const roll = this.itemRoll 
+                  ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects})
+                  : await DC20Roll.rollFormula(coreFormula, this.details, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
     this.promiseResolve(roll);
     this.close();
   }
 
-  async _onRollLevelCheck(event) {
+  async _onDRMCheck(event) {
     event.preventDefault();
-    this._rollLevelCheck(true);
-  }
-
-  _onDisplayRollLevelCheckResult(result=this.rollLevelCheckResult) {
-    SimplePopup.info("Expected Roll Level", result);
+    this._DRMCheck(true);
   }
 
   async _onWeaponReload() {
@@ -399,22 +468,34 @@ export class RollDialog extends DC20Dialog {
     this.render();
   }
 
-  async _rollLevelCheck(display, quickRoll) {
-    this.rollLevelChecked = true;
-    let result = [];
-    if (this.itemRoll) result = await runItemRollLevelCheck(this.item, this.actor, this.startingRollMenuValues);
-    else result = await runSheetRollLevelCheck(this.details, this.actor, this.startingRollMenuValues);
-
-    if (quickRoll) return this._onRoll();
+  async _DRMCheck(display, quickRoll) {
+    this.DRMChecked = true;
+    let [finalValue, result, afterRoll] = [{}, {}, []];
+    if (this.itemRoll) [finalValue, result, afterRoll] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
+    else [finalValue, result, afterRoll] = await runSheetDRMCheck(this.details, this.actor, this.initialRollMenuValue);
     
-    if (result[result.length -1] === "FORCE_DISPLAY") {
-      result.pop();
-      display = true; // For manual actions we always want to display this popup
+    await this._updateRollMenu(finalValue);
+    this.afterRollEffects = afterRoll;
+    if (quickRoll) {
+      this._prepareCoreFormula();
+      return this._onRoll();
     }
 
-    if (display) this._onDisplayRollLevelCheckResult(result);
-    this.rollLevelCheckResult = result;
+    if (display || finalValue.manualChanges || finalValue.autoCrit || finalValue.autoFail) {
+      DRMDialog.open(result);
+    }
     this.render()
+  }
+
+  async _updateRollMenu(finalValue) {
+    await this.updateObject.update({
+      ["system.rollMenu.adv"]: finalValue.adv,
+      ["system.rollMenu.dis"]: finalValue.dis,
+      ["system.rollMenu.autoCrit"]: finalValue.autoCrit,
+      ["system.rollMenu.autoFail"]: finalValue.autoFail,
+      ["system.rollMenu.coreFormula.modifier"]: finalValue.modifier,
+      ["system.rollMenu.coreFormula.source"]: finalValue.label,
+    });
   }
 
   async _onCreateMeasuredTemplate(event, target) {
@@ -422,7 +503,7 @@ export class RollDialog extends DC20Dialog {
     const template = this.measurementTemplates[key];
     if (!template) return;
 
-    const applyEffects = getMesuredTemplateEffects(this.item);
+    const applyEffects = getMesuredTemplateEffects(this.item, [], this.actor);
     const itemData = {
       itemId: this.item.id, 
       actorId: this.actor.id, 
@@ -458,8 +539,7 @@ export class RollDialog extends DC20Dialog {
         token.setTarget(true, { user: user, releaseOthers: false });
       }
 
-      const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-      if (autoRollLevelCheck) this._rollLevelCheck(false);
+      if (this.autoDRMCheck) this._DRMCheck(false);
     }
   }
 
@@ -477,10 +557,23 @@ export class RollDialog extends DC20Dialog {
     await this.item.multiFaceted.swap();
     this.render();
   }
+
+  _onModifyFormula() {
+    if (this.modifyFormula) this.modifyFormula = false;
+    else this.modifyFormula = this.coreFormula.map(obj => obj.value).join(" ");
+    this.render();
+  }
+
+  async _onActivable(path, dataset) {
+    await super._onActivable(path, dataset);
+    if (path.includes(".rollMenu.") && !(path.includes(".auto") || path.includes(".free"))) {
+      if (this.autoDRMCheck) this._DRMCheck(false);
+    }
+  }
   
   async _onToggle(path, which, max, min, dataset) {
     if (path.includes("system.enhancements")) {
-      await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.runCheck === "true");
+      await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.runDrmCheck === "true");
     }
     else if (["apForAdv", "gritForAdv"].includes(path)) {
       await this._onToggleRollLevel(path, which, max, min);
@@ -490,7 +583,7 @@ export class RollDialog extends DC20Dialog {
     }
   }
 
-  async _onToggleEnhancement(path, which, max, min, itemId, runCheck) {
+  async _onToggleEnhancement(path, which, max, min, itemId, runDrmCheck) {
     const item = this._getItem(itemId);
     const value = getValueFromPath(item, path);
 
@@ -503,8 +596,7 @@ export class RollDialog extends DC20Dialog {
       this.render();
     }
 
-    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
-    if (autoRollLevelCheck && runCheck) this._rollLevelCheck(false);
+    if (this.autoDRMCheck && runDrmCheck) this._DRMCheck(false);
   }
 
   async _onToggleRollLevel(path, which) {
@@ -528,6 +620,10 @@ export class RollDialog extends DC20Dialog {
 
     if (cType === "ammo-select") {
       await this.item.ammo.change(value);
+      this.render();
+    }
+    else if (cType === "modify-formula") {
+      this.modifyFormula = value;
       this.render();
     }
     else if (cType === "roll-mode") {

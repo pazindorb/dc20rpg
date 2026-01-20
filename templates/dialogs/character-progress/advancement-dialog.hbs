@@ -293,28 +293,74 @@
         <input class="input" type="text" value="{{advancement.itemNameFilter}}" data-path="itemNameFilter"/>
 
         {{!-- Talent Filter --}}
-        {{#if advancement.addItemsOptions.talentFilter}}
-          <span class="header margin-top-5">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
-          <select class="selectable {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}journal-tooltip{{/unless}}" data-path="talentFilterType"
-            data-type="{{@root.multiclassTooltip.key}}" data-header="{{@root.multiclassTooltip.header}}" data-img="icons/svg/ice-aura.svg">
-            {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}
+        {{#ifCond advancement.addItemsOptions.itemType '===' "talent"}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.advancement.talentType"}}</span>
+          <select class="selectable {{#unless (arrayIncludes suggestionFilters.talent.talentType.value arrayString="general class")}}journal-tooltip{{/unless}}" 
+            data-type="{{@root.multiclassTooltip.key}}" data-header="{{@root.multiclassTooltip.header}}" data-img="icons/svg/ice-aura.svg"
+            data-path="suggestionFilters.talent.talentType.value">
+            {{selectOptions suggestionFilters.talent.talentType.options selected=suggestionFilters.talent.talentType.value}}
           </select>
 
-          {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
+          {{#unless (arrayIncludes suggestionFilters.talent.talentType.value arrayString="general class")}}
           <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.classSource"}}</span>
-          <select class="selectable" data-path="featureSourceItem">
-            {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+          <select class="selectable" data-path="suggestionFilters.talent.featureSource.value">
+            {{selectOptions suggestionFilters.talent.featureSource.options selected=suggestionFilters.talent.featureSource.value blank=""}}
           </select>
           {{/unless}}
-        {{/if}}
+        {{/ifCond}}
 
         {{!-- Ancestry Filter --}}
-        {{#if advancement.ancestryFilter}}
+        {{#ifCond advancement.addItemsOptions.itemType '===' "ancestry"}}
           <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.ancestrySource"}}</span>
-          <select class="selectable" data-path="featureSourceItem">
-            {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+          <select class="selectable" data-path="suggestionFilters.ancestry.featureSource.value">
+            {{selectOptions suggestionFilters.ancestry.featureSource.options selected=suggestionFilters.ancestry.featureSource.value blank=""}}
           </select>
-        {{/if}}
+        {{/ifCond}}
+
+        {{!-- Maneuver Filter --}}
+        {{#ifCond advancement.addItemsOptions.itemType '===' "maneuver"}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.maneuver.maneuverType"}}</span>
+          <select class="selectable" data-path="suggestionFilters.maneuver.maneuverType.value">
+            {{selectOptions suggestionFilters.maneuver.maneuverType.options selected=suggestionFilters.maneuver.maneuverType.value blank=""}}
+          </select>
+        {{/ifCond}}
+
+
+        {{!-- Spell Filter --}}
+        {{#ifCond advancement.addItemsOptions.itemType '===' "spell"}}
+          <div class="grid" style="margin: 0; width: 100%;">
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellType"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellType.value">
+                {{selectOptions suggestionFilters.spell.spellType.options selected=suggestionFilters.spell.spellType.value blank=""}}
+              </select>
+            </div>
+
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellSource"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellSource.value">
+                {{selectOptions suggestionFilters.spell.spellSource.options selected=suggestionFilters.spell.spellSource.value blank=""}}
+              </select>
+            </div>
+          </div>
+
+          <div class="grid" style="margin: 0; width: 100%;">
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellSchool"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellSchool.value">
+                {{selectOptions suggestionFilters.spell.spellSchool.options selected=suggestionFilters.spell.spellSchool.value blank=""}}
+              </select>
+            </div>
+
+            <div>
+              <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.spell.spellTags"}}</span>
+              <select class="selectable" data-path="suggestionFilters.spell.spellTag.value">
+                {{selectOptions suggestionFilters.spell.spellTag.options selected=suggestionFilters.spell.spellTag.value blank=""}}
+              </select>   
+            </div>
+          </div>
+        {{/ifCond}}
+
       </div>
 
       <div class="item-list">

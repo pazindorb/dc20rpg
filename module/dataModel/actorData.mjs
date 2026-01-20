@@ -15,12 +15,15 @@ import SizeFields from "./fields/actor/size.mjs";
 import SkillFields from "./fields/actor/skills.mjs";
 import RollMenu from "./fields/rollMenu.mjs";
 import EquipmentSlotFields from "./fields/actor/equipmentSlots.mjs";
+import SheetDataFields from "./fields/actor/sheetData.mjs";
+import DynamicRollModifierFields from "./fields/actor/dynamicRollModifier.mjs";
 
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const f = foundry.data.fields;
 
     return {
+      sheetData: new SheetDataFields(),
       attributes: new AttributeFields(),
       skills: new SkillFields("skill"),
       languages: new SkillFields("language"),
@@ -71,6 +74,16 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
           martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
       }),
+      checkMod: new f.SchemaField({
+        value: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+        bonus: new f.SchemaField({
+          spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+      }),
       attackMod: new f.SchemaField({
         value: new f.SchemaField({
           spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -84,8 +97,30 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       combatTraining: new CombatTraining(),
       rollMenu: new RollMenu(false),
       globalFormulaModifiers: new GFModFields(),
-      globalModifier: new f.SchemaField({
-        range: new f.SchemaField({
+      globalModifier: new f.SchemaField({  
+        martial: new f.SchemaField({
+          range: new f.SchemaField({
+            melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          }),
+          ignore: new f.SchemaField({
+            closeQuarters: new f.BooleanField({required: true, initial: false}),
+            longRange: new f.BooleanField({required: true, initial: false}),
+          })
+        }), 
+        spell: new f.SchemaField({
+          range: new f.SchemaField({
+            melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          }),
+          ignore: new f.SchemaField({
+            closeQuarters: new f.BooleanField({required: true, initial: false}),
+            longRange: new f.BooleanField({required: true, initial: false}),
+          })
+        }),
+        range: new f.SchemaField({   // TODO backward compatibilty remove as part of 0.10.5 update
           melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -96,12 +131,13 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         prevent: new f.SchemaField({ 
           goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           hpRegeneration: new f.BooleanField({required: true, initial: false}),
-          criticalHit: new f.BooleanField({required: true, initial: false})
+          criticalHit: new f.BooleanField({required: true, initial: false}),
+          flanking: new f.BooleanField({required: true, initial: false})
         }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),
-          closeQuarters: new f.BooleanField({required: true, initial: false}),
-          longRange: new f.BooleanField({required: true, initial: false}),
+          closeQuarters: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.10.5 update
+          longRange: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.10.5 update
           flanking: new f.BooleanField({required: true, initial: false})
         }),
         provide: new f.SchemaField({
@@ -112,7 +148,8 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       events: new f.ArrayField(new f.StringField(), {required: true}),
       conditionals: new f.ArrayField(new f.ObjectField(), {required: true}),
       keywords: new f.ObjectField({required: true}),
-      rollLevel: new RollLevelFields(),
+      rollLevel: new RollLevelFields(),  // TODO backward compatibilty remove as part of 0.10.5 update
+      dynamicRollModifier: new DynamicRollModifierFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       sustain: new f.ObjectField({required: true, initial: {}}),
       journal: new f.StringField({required: true, initial: ""}),
@@ -137,6 +174,7 @@ export class DC20CharacterData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      sheetData: new SheetDataFields("character"),
       attributes: new AttributeFields(-2, true),
       attributePoints: new PointFields(12),
       resources: new ResourceFields(true),
@@ -146,10 +184,6 @@ export class DC20CharacterData extends DC20BaseActorData {
         language: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
       }),
       known: new f.SchemaField({
-        cantrips: new f.SchemaField({
-          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
         infusions: new f.SchemaField({
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -161,11 +195,7 @@ export class DC20CharacterData extends DC20BaseActorData {
         maneuvers: new f.SchemaField({
           current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
-        techniques: new f.SchemaField({
-          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
+        })
       }),
       tradeSkills: new SkillFields("trade"), // TODO backward compatibilty remove as part of 0.10.0 update
       trades: new SkillFields("trade"),
@@ -184,15 +214,16 @@ export class DC20CharacterData extends DC20BaseActorData {
           value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }), 
+        staminaSpendLimit: new f.SchemaField({
+          value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }), 
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
-        martialExpansionProvided: new f.BooleanField({required: true, initial: false}),
+        staminaFeature: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
         infuser: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: true}),
-        advancementInfo: new f.SchemaField({ // BACKWARD COMPATIBILITY: This info was moved to class item - remove after 0.9.7.0
-          multiclassTalents: new f.ObjectField({required: true}), 
-        })
       }),
       size: new SizeFields(true),
       movement: new MovementFields(false),
@@ -272,6 +303,7 @@ export class DC20CompanionData extends DC20NpcData {
       companionOwnerId: new f.StringField({required: true, initial: ""}),
       shareWithCompanionOwner: new f.SchemaField({
         attackMod: new f.BooleanField({required: true, initial: true}),
+        checkMod: new f.BooleanField({required: true, initial: true}),
         saveDC: new f.BooleanField({required: true, initial: true}),
         ap: new f.BooleanField({required: true, initial: true}),
         health: new f.BooleanField({required: true, initial: false}),
@@ -313,6 +345,7 @@ export class DC20StorageData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      sheetData: new SheetDataFields("storage"),
       randomLoot: new f.SchemaField({
         numberOfItems: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         rollDice: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),

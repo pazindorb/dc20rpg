@@ -92,6 +92,7 @@ export function filterDocuments(collectedDocuments, filters) {
   return filtered;
 }
 
+// TODO: Can we improve filters?
 export function getDefaultItemFilters(preSelectedFilters) {
   let parsedFilters = {};
   if (preSelectedFilters) {
@@ -103,8 +104,8 @@ export function getDefaultItemFilters(preSelectedFilters) {
   }
 
   return {
-    name: _filter("name", "name", "text"),
-    compendium: _filter("fromPack", "compendium", "multi-select", {
+    name: _filter("name", "name", "text", parsedFilters["name"]),
+    compendium: _filter("fromPack", "compendium", "checkbox", {
       system: true,
       world: true,
       module: true
@@ -114,36 +115,35 @@ export function getDefaultItemFilters(preSelectedFilters) {
       featureOrigin: _filter("system.featureOrigin", "feature.featureOrigin", "text", parsedFilters["featureOrigin"]),
       featureType: _filter("system.featureType", "feature.featureType", "select", parsedFilters["featureType"], CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes),
       level: {
-        over: _filter("system.requirements.level", "feature.level.over", "over"),
-        under: _filter("system.requirements.level", "feature.level.under", "under"),
+        over: _filter("system.requirements.level", "feature.level.over", "over", parsedFilters["level"]?.over),
+        under: _filter("system.requirements.level", "feature.level.under", "under", parsedFilters["level"]?.under),
         filterType: "over-under",
         updatePath: "level",
         nestedFilters: ["over", "under"]
       },
     },
-    technique: {
-      techniqueOrigin: _filter("system.techniqueOrigin", "technique.techniqueOrigin", "text", parsedFilters["techniqueOrigin"]),
-      techniqueType: _filter("system.techniqueType", "technique.techniqueType", "select", parsedFilters["techniqueType"], CONFIG.DC20RPG.DROPDOWN_DATA.techniqueTypes)
+    maneuver: {
+      maneuverType: _filter("system.maneuverType", "maneuver.maneuverType", "select", parsedFilters["maneuverType"], CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes)
     },
     spell: {
-      spellOrigin: _filter("system.spellOrigin", "spell.spellOrigin", "text", parsedFilters["spellOrigin"]),
       spellType: _filter("system.spellType", "spell.spellType", "select", parsedFilters["spellType"], CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes),
-      magicSchool: _filter("system.magicSchool", "spell.magicSchool", "select", parsedFilters["magicSchool"], CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools),
-      spellLists: _filter("system.spellLists", "spell.spellLists", "multi-select", parsedFilters["spellLists"] || {
+      spellSchool: _filter("system.spellSchool", "spell.spellSchool", "select", parsedFilters["spellSchool"], CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools),
+      spellSource: _filter("system.spellSource", "spell.spellSource", "checkbox", parsedFilters["spellSource"] || {
         arcane: true,
         divine: true,
         primal: true
-      }) 
+      }),
+      spellTags: _filter("system.spellTags", "spell.spellTags", "multi-select", parsedFilters["spellTags"] || {}, CONFIG.DC20RPG.DROPDOWN_DATA.spellTags)
     },
     infusion: {
       power: {
-        over: _filter("system.infusion.power", "infusion.power.over", "over"),
-        under: _filter("system.infusion.power", "infusion.power.under", "under"),
+        over: _filter("system.infusion.power", "infusion.power.over", "over", parsedFilters["power"]?.over),
+        under: _filter("system.infusion.power", "infusion.power.under", "under", parsedFilters["power"]?.under),
         filterType: "over-under",
         updatePath: "power",
         nestedFilters: ["over", "under"]
       },
-      tags: _filter("system.infusion.tags", "infusion.tags", "multi-select-3-states", parsedFilters["tags"] || {
+      tags: _filter("system.infusion.tags", "infusion.tags", "checkbox-3-states", parsedFilters["tags"] || {
         artifact: null,
         attunement: null,
         cursed: null,
@@ -151,6 +151,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
         uses: null,
         consumable: null,
         weapon: null,
+        spellFocus: null,
         shield: null,
         armor: null,
       }),
@@ -158,9 +159,32 @@ export function getDefaultItemFilters(preSelectedFilters) {
     weapon: {
       weaponType: _filter("system.weaponType", "weapon.weaponType", "select", parsedFilters["weaponType"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes),
       weaponStyle: _filter("system.weaponStyle", "weapon.weaponStyle", "select", parsedFilters["weaponStyle"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles),
+      magicPower: {
+        over: _filter("system.magicPower", "weapon.magicPower.over", "over", parsedFilters["magicPower"]?.over),
+        under: _filter("system.magicPower", "weapon.magicPower.under", "under", parsedFilters["magicPower"]?.under),
+        filterType: "over-under",
+        updatePath: "magicPower",
+        nestedFilters: ["over", "under"]
+      },
     },
     equipment: {
-      equipmentType: _filter("system.equipmentType", "equipment.equipmentType", "select", parsedFilters["equipmentType"], CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes)
+      equipmentType: _filter("system.equipmentType", "equipment.equipmentType", "select", parsedFilters["equipmentType"], CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes),
+      magicPower: {
+        over: _filter("system.magicPower", "equipment.magicPower.over", "over", parsedFilters["magicPower"]?.over),
+        under: _filter("system.magicPower", "equipment.magicPower.under", "under", parsedFilters["magicPower"]?.under),
+        filterType: "over-under",
+        updatePath: "magicPower",
+        nestedFilters: ["over", "under"]
+      },
+    },
+    spellFocus: {
+      magicPower: {
+        over: _filter("system.magicPower", "spellFocus.magicPower.over", "over", parsedFilters["magicPower"]?.over),
+        under: _filter("system.magicPower", "spellFocus.magicPower.under", "under", parsedFilters["magicPower"]?.under),
+        filterType: "over-under",
+        updatePath: "magicPower",
+        nestedFilters: ["over", "under"]
+      },
     },
     consumable: {
       consumableType: _filter("system.consumableType", "consumable.consumableType", "select", parsedFilters["consumableType"], CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes)
@@ -173,22 +197,22 @@ export function getDefaultItemFilters(preSelectedFilters) {
 
 export function getDefaultActorFilters() {
   return {
-    name: _filter("name", "name", "text"),
+    name: _filter("name", "name", "text", parsedFilters["name"]),
     level: {
-      over: _filter("system.details.level", "level.over", "over"),
-      under: _filter("system.details.level", "level.under", "under"),
+      over: _filter("system.details.level", "level.over", "over", parsedFilters["level"]?.over),
+      under: _filter("system.details.level", "level.under", "under", parsedFilters["level"]?.under),
       filterType: "over-under",
       updatePath: "level",
       nestedFilters: ["over", "under"]
     },
-    type: _filter("type", "type", "multi-select", {
+    type: _filter("type", "type", "checkbox", {
       character: false,
       npc: true,
       companion: false
     }, "stringCheck"),
     role: _filter("system.details.role", "role", "text"),
     creatureType: _filter("system.details.creatureType", "creatureType", "text"),
-    compendium: _filter("fromPack", "compendium", "multi-select", {
+    compendium: _filter("fromPack", "compendium", "checkbox", {
       system: true,
       world: true,
       module: true
@@ -219,7 +243,18 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
     if (!documentValue) return false;
     return documentValue.toLowerCase().includes(value.toLowerCase());
   }
-  if (filterType === "multi-select") method = (document, expected) => {
+  if (filterType === "multi-select") method = (document, value) => {
+    if (!value) return true;
+    const expected = Object.keys(value);
+    if (expected.length === 0) return true;
+
+    const options = getValueFromPath(document, pathToCheck);
+    for (const key of expected) {
+      if (options[key]) return true;
+    }
+    return false;
+  }
+  if (filterType === "checkbox") method = (document, expected) => {
     if (!expected) return true;
     // We need to check if string value is one of the selected filter value
     if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];
@@ -234,7 +269,7 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
     }
     return mathing;
   }
-  if (filterType === "multi-select-3-states") method = (document, expected) => {
+  if (filterType === "checkbox-3-states") method = (document, expected) => {
     if (!expected) return true;
     // We need to check if string value is one of the selected filter value
     if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];

@@ -25,17 +25,16 @@ export function registerDC20Statues() {
     _paralyzed(),
     _petrified(),
 
-    _poisoned(),
     _prone(),
     _restrained(),
     _slowed(),
-
     _stunned(),
+
     _surprised(), 
     _taunted(),
     _tethered(),
-
     _terrified(),
+
     _unconscious(),
     _weakened(),
     
@@ -159,7 +158,7 @@ function _partiallyConcealed() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.skills",
+        key: "system.dynamicRollModifier.againstYou.skills",
         mode: 2,
         priority: undefined,
         value: '"label": "Partially Concealed", "value": 1, "type": "dis", "skill": "awa"'
@@ -185,11 +184,11 @@ function _fullyConcealed() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.skills",
         mode: 2,
         priority: undefined,
         value: '"label": "Fully Concealed", "autoFail": true, "skill": "awa"'
-      },
+      }
     ]
   }
 }
@@ -216,29 +215,17 @@ function _unheard() {
     `,
     changes: [
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
-      {
-        key: "system.rollLevel.onYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      }
     ]
   }
 }
@@ -268,49 +255,73 @@ function _unseen() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },      
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      }, 
+      {
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
@@ -335,73 +346,85 @@ function _hidden() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
-      },
-      {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true'
@@ -451,38 +474,50 @@ function _fullyStunned() {
         value: -100
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
       },
       {
-        key: "system.rollLevel.onYou.saves.mig",
-        mode: 5,
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.saves.mig",
+        mode: 2,
         priority: undefined,
         value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 5,
+        key: "system.dynamicRollModifier.onYou.saves.agi",
+        mode: 2,
         priority: undefined,
         value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
       }
@@ -571,7 +606,7 @@ function _bleeding() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete"'
+        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete", "skipTempHpChangeOnly": true'
       }
     ]
   }
@@ -684,25 +719,37 @@ function _exposed() {
     description: "<p>Attacks against you have ADV <strong>X</strong>.</p>",
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Exposed"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Exposed"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Exposed"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Exposed"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Exposed"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Exposed"'
@@ -725,37 +772,43 @@ function _hindered() {
     description: "<p>You have DisADV <strong>X</strong> on Attacks.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
-        key: "system.rollLevel.onYou.checks.att",
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
       {
-        key: "system.rollLevel.onYou.checks.spe",
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Hindered"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.checks.att",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
@@ -778,31 +831,37 @@ function _dazed() {
     description: "<p>You have DisADV <strong>X</strong> on Mental Checks.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.checks.int",
+        key: "system.dynamicRollModifier.onYou.checks.int",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
       },
       {
-        key: "system.rollLevel.onYou.checks.cha",
+        key: "system.dynamicRollModifier.onYou.checks.cha",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
       },
       {
-        key: "system.rollLevel.onYou.checks.spe",
+        key: "system.dynamicRollModifier.onYou.checks.spe",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Dazed"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
@@ -825,13 +884,13 @@ function _disoriented() {
     description: "<p>You have DisADV X on <b>Mental Saves</b>.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.saves.int",
+        key: "system.dynamicRollModifier.onYou.saves.int",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Disoriented"'
       },
       {
-        key: "system.rollLevel.onYou.saves.cha",
+        key: "system.dynamicRollModifier.onYou.saves.cha",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Disoriented"'
@@ -854,31 +913,43 @@ function _impaired() {
     description: "<p>You have DisADV <strong>X</strong> on Physical Checks.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.checks.mig",
+        key: "system.dynamicRollModifier.onYou.checks.mig",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
       },
       {
-        key: "system.rollLevel.onYou.checks.agi",
+        key: "system.dynamicRollModifier.onYou.checks.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
       },
       {
-        key: "system.rollLevel.onYou.checks.att",
+        key: "system.dynamicRollModifier.onYou.checks.att",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.checks.mar",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Impaired"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Impaired"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
@@ -901,13 +972,13 @@ function _weakened() {
     description: "<p>You have DisADV <strong>X</strong> on Physical Saves.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.saves.mig",
+        key: "system.dynamicRollModifier.onYou.saves.mig",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Weakened"'
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
+        key: "system.dynamicRollModifier.onYou.saves.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Weakened"'
@@ -1004,7 +1075,7 @@ function _charmed() {
     `,
     changes: [
       {
-        key: "system.rollLevel.againstYou.checks.cha",
+        key: "system.dynamicRollModifier.againstYou.checks.cha",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "You are the Charmer", "confirmation": true'
@@ -1033,7 +1104,7 @@ function _immobilized() {
         value: -100
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
+        key: "system.dynamicRollModifier.onYou.saves.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Immobilized"'
@@ -1056,61 +1127,79 @@ function _intimidated() {
     description: "<p>You have <strong>DisADV</strong> on all Checks made against the source.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.checks.mig",
+        key: "system.dynamicRollModifier.onYou.checks.mig",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.agi",
+        key: "system.dynamicRollModifier.onYou.checks.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.int",
+        key: "system.dynamicRollModifier.onYou.checks.int",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.cha",
+        key: "system.dynamicRollModifier.onYou.checks.cha",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.att",
+        key: "system.dynamicRollModifier.onYou.checks.att",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.spe",
+        key: "system.dynamicRollModifier.onYou.checks.mar",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.checks.spe",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
@@ -1144,61 +1233,79 @@ function _frightened() {
     `,
     changes: [
       {
-        key: "system.rollLevel.onYou.checks.mig",
+        key: "system.dynamicRollModifier.onYou.checks.mig",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.agi",
+        key: "system.dynamicRollModifier.onYou.checks.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.int",
+        key: "system.dynamicRollModifier.onYou.checks.int",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.cha",
+        key: "system.dynamicRollModifier.onYou.checks.cha",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.att",
+        key: "system.dynamicRollModifier.onYou.checks.att",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.checks.spe",
+        key: "system.dynamicRollModifier.onYou.checks.mar",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.checks.spe",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
@@ -1241,55 +1348,79 @@ function _restrained() {
         value: -100
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
+        key: "system.dynamicRollModifier.onYou.saves.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Restrained (Immobilized)"'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Restrained"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Restrained"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Restrained"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Restrained"'
@@ -1312,29 +1443,41 @@ function _taunted() {
     description: "<p>You have DisADV on Attacks against targets other than the source.</p>",
     changes: [
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
-      }
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunt source", "confirmation": true'
+      },
     ]
   }
 }
@@ -1384,73 +1527,6 @@ function _terrified() {
 //================================
 //         NON-STACKING          =
 //================================
-function _poisoned() {
-  return {
-    id: "poisoned",
-    _id: "utxmhm7ggruwq7ic",
-    name: "Poisoned",
-    label: "Poisoned",
-    stackable: false,
-    statuses: ["impaired"],
-    system: {
-      statusId: "poisoned",
-      condition: true
-    },
-    img: "systems/dc20rpg/images/statuses/poisoned.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You're <strong>Impaired</strong> (DisADV on Physical Checks).</p>
-        </li>
-        <li>
-            <p>You take 1 Poison damage at the start of each of your turns.</p>
-        </li>
-    </ul>
-    <p></p>
-    <h4>Medicine (Action)</h4>
-    <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a Medicine Check against the DC of the Poison. <strong>Success:</strong> You end the Poison on the target.</p>
-    `,
-    changes: [
-      {
-        key: "system.events",
-        mode: 2,
-        priority: undefined,
-        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.mig",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.agi",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.checks.att",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-      {
-        key: "system.rollLevel.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
-      },
-    ]
-  }
-}
 function _deafened() {
   return {
     id: "deafened",
@@ -1469,20 +1545,11 @@ function _deafened() {
         <li>
             <p>You can't <span>hear </span>(see the <strong>Unheard</strong> section for more information).</p>
         </li>
-        <li>
-            <p>You have Resistance (Half) to Sonic damage.</p>
-        </li>
     </ul>
     `,
     changes: [
       {
-        key: "system.damageReduction.damageTypes.sonic.resistance",
-        mode: 5,
-        priority: undefined,
-        value: "true"
-      },
-      {
-        key: "system.rollLevel.onYou.skills",
+        key: "system.dynamicRollModifier.onYou.skills",
         mode: 2,
         priority: undefined,
         value: '"label": "Deafened", "confirmation": true, "autoFail": true, "skill": "awa"'
@@ -1516,55 +1583,79 @@ function _blinded() {
     `,
     changes: [
       {
-        key: "system.rollLevel.onYou.skills",
+        key: "system.dynamicRollModifier.onYou.skills",
         mode: 2,
         priority: undefined,
         value: '"label": "Blinded", "confirmation": true, "autoFail": true, "skill": "awa"'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Blinded (Hindered)"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Blinded (Exposed)"'
@@ -1586,49 +1677,73 @@ function _invisible() {
     description: "<p>Creatures can't see you unless they have the ability to see the Invisible (see the <strong>Unseen</strong> section for more information).</p>",
     changes: [
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Invisible (Enemy can\'t see you)", "confirmation": true'
@@ -1670,49 +1785,61 @@ function _prone() {
         value: 1
       },
       {
-        key: "system.rollLevel.onYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
-        key: "system.rollLevel.onYou.martial.ranged",
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
-        key: "system.rollLevel.onYou.spell.melee",
+        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
-        key: "system.rollLevel.onYou.spell.ranged",
+        key: "system.dynamicRollModifier.onYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Prone"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Prone"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Prone"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Melee vs Prone"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Ranged vs Prone"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Melee vs Prone"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Ranged vs Prone"'
@@ -1762,7 +1889,7 @@ function _grappled() {
         value: -100
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
+        key: "system.dynamicRollModifier.onYou.saves.agi",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Grappled (Immobilized)"'
@@ -1853,65 +1980,89 @@ function _paralyzed() {
         value: -100
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Paralyzed"'
       },
       {
-        key: "system.rollLevel.onYou.saves.mig",
-        mode: 5,
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Paralyzed"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.saves.mig",
+        mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed", "autoFail": true'
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 5,
+        key: "system.dynamicRollModifier.onYou.saves.agi",
+        mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed", "autoFail": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
-      }
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Paralyzed (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
     ]
   }
 }
@@ -1963,61 +2114,85 @@ function _unconscious() {
         value: -100
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Unconscious"'
       },
       {
-        key: "system.rollLevel.onYou.saves.mig",
-        mode: 5,
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unconscious"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.saves.mig",
+        mode: 2,
         priority: undefined,
         value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 5,
+        key: "system.dynamicRollModifier.onYou.saves.agi",
+        mode: 2,
         priority: undefined,
         value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
@@ -2078,25 +2253,37 @@ function _petrified() {
         value: -100
       },
       {
-        key: "system.rollLevel.againstYou.martial.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
-        key: "system.rollLevel.againstYou.martial.ranged",
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.melee",
+        key: "system.dynamicRollModifier.againstYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Petrified"'
       },
       {
-        key: "system.rollLevel.againstYou.spell.ranged",
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Petrified"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Petrified"'
@@ -2144,18 +2331,6 @@ function _petrified() {
         value: "true"
       },
       {
-        key: "system.damageReduction.damageTypes.sonic.resistance",
-        mode: 5,
-        priority: undefined,
-        value: "true"
-      },
-      {
-        key: "system.damageReduction.damageTypes.sonic.resistance",
-        mode: 5,
-        priority: undefined,
-        value: "true"
-      },
-      {
         key: "system.damageReduction.damageTypes.umbral.resistance",
         mode: 5,
         priority: undefined,
@@ -2180,14 +2355,14 @@ function _petrified() {
         value: "true"
       },
       {
-        key: "system.rollLevel.onYou.saves.mig",
-        mode: 5,
+        key: "system.dynamicRollModifier.onYou.saves.mig",
+        mode: 2,
         priority: undefined,
         value: '"label": "Petrified", "autoFail": true'
       },
       {
-        key: "system.rollLevel.onYou.saves.agi",
-        mode: 5,
+        key: "system.dynamicRollModifier.onYou.saves.agi",
+        mode: 2,
         priority: undefined,
         value: '"label": "Petrified", "autoFail": true'
       }

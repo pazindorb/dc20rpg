@@ -14,9 +14,17 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.magical"})
       }),
-      curse: new f.SchemaField({
+      cursed: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.curse"})
+        label: new f.StringField({initial: "dc20rpg.conditions.cursed"})
+      }),
+      poisoned: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.poisoned"})
+      }),
+      diseased: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.diseased"})
       }),
       movement: new f.SchemaField({
         ...condition(),
@@ -101,10 +109,6 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
       prone: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.prone"})
-      }),
-      poisoned: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.poisoned"})
       }),
       restrained: new f.SchemaField({
         ...condition(),
