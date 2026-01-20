@@ -32,7 +32,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         manual: new f.ArrayField(new f.StringField(), {required: true}),
         levelIncrease: new f.ArrayField(new f.StringField(), {required: true}),
       }),
-      details: new f.SchemaField({}),
+      details: new f.SchemaField({
+        level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      }),
       resources: new ResourceFields(false),
       help: new f.SchemaField({
         active: new f.ObjectField({required: true}),

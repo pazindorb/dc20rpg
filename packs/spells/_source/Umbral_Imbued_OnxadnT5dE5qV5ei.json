@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "AFS6rQ2ekUWivWvu": {
-        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"L1o3ELb9xIJey9Kc\"];\nconst dooming = enhancements[\"Xu8JkWylumnzZZ8t\"];\nconst draining = enhancements[\"j87mw00EWlQDPWlf\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"umbral\";\n\nconst umbralImbued = new DC20.Enhancement();\numbralImbued.name = \"Radiant Imbued\";\numbralImbued.modifications.formula = dmgFormula;\numbralImbued.modifications.addsNewFormula = true;\numbralImbued.description = `You deal ${1 + damage.number} Umbral damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=L1o3ELb9xIJey9Kc\"]: null,\n  [\"-=vDNPCxxKzcQ3bthb\"]: null,\n  [\"-=Xu8JkWylumnzZZ8t\"]: null,\n  [\"-=j87mw00EWlQDPWlf\"]: null,\n  umbralImbued: umbralImbued\n}\nif (dooming.number > 0) {\n  const blueprint = foundry.utils.deepClone(dooming);\n  blueprint.name = \"Umbral Imbued - Dooming Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.dooming = blueprint;\n}\nif (draining.number > 0) {\n  const blueprint = foundry.utils.deepClone(draining);\n  blueprint.name = \"Umbral Imbued - Draining Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.resources.restPoints = 1;\n  blueprint.number = 0;\n  newEnhancements.draining = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
+        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"L1o3ELb9xIJey9Kc\"];\nconst dooming = enhancements[\"Xu8JkWylumnzZZ8t\"];\nconst draining = enhancements[\"j87mw00EWlQDPWlf\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"umbral\";\n\nconst umbralImbued = new DC20.Enhancement();\numbralImbued.name = \"Umbral Imbued\";\numbralImbued.modifications.formula = dmgFormula;\numbralImbued.modifications.addsNewFormula = true;\numbralImbued.description = `You deal ${1 + damage.number} Umbral damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=L1o3ELb9xIJey9Kc\"]: null,\n  [\"-=vDNPCxxKzcQ3bthb\"]: null,\n  [\"-=Xu8JkWylumnzZZ8t\"]: null,\n  [\"-=j87mw00EWlQDPWlf\"]: null,\n  umbralImbued: umbralImbued\n}\nif (dooming.number > 0) {\n  const blueprint = foundry.utils.deepClone(dooming);\n  blueprint.name = \"Umbral Imbued - Dooming Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.dooming = blueprint;\n}\nif (draining.number > 0) {\n  const blueprint = foundry.utils.deepClone(draining);\n  blueprint.name = \"Umbral Imbued - Draining Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.resources.restPoints = 1;\n  blueprint.number = 0;\n  newEnhancements.draining = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
         "trigger": "postChatMessageCreated",
         "disabled": false,
         "name": "Prepare Item after roll",
@@ -670,7 +670,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.0",
     "createdTime": 1768217942902,
-    "modifiedTime": 1768415916940,
+    "modifiedTime": 1768761955277,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
