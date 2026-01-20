@@ -111,8 +111,16 @@ async function _migrateEffects(object) {
         change.key = change.key.replace("rollLevel", "dynamicRollModifier");
         hasChanges = true;
       }
-      if (change.key.includes("globalFormulaModifiers.attackDamage")) {
-        change.key = change.key.replace("globalFormulaModifiers.attackDamage", "globalFormulaModifiers.damage");
+      if (change.key.includes("system.globalFormulaModifiers.martialCheck")) {
+        const drmValue = change.value.replace("source", "label").replace("value", "modifier");
+        change.key = "system.dynamicRollModifier.onYou.checks.mar";
+        change.value = drmValue;
+        hasChanges = true;
+      }
+      if (change.key.includes("system.globalFormulaModifiers.spellCheck")) {
+        const drmValue = change.value.replace("source", "label").replace("value", "modifier");
+        change.key = "system.dynamicRollModifier.onYou.checks.spe";
+        change.value = drmValue;
         hasChanges = true;
       }
     }
