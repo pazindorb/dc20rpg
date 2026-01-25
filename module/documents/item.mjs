@@ -134,7 +134,7 @@ export class DC20RpgItem extends Item {
     const onCreateReturn = super._onCreate(data, options, userId);
     if (userId === game.user.id && this.actor) {
       await runTemporaryItemMacro(this, "onCreate", this.actor);
-      addItemToActorInterceptor(this, this.actor);
+      await addItemToActorInterceptor(this, this.actor);
     }
     return onCreateReturn;
   }
@@ -155,7 +155,7 @@ export class DC20RpgItem extends Item {
     }
     if (this.actor) {
       await runTemporaryItemMacro(this, "preDelete", this.actor);
-      removeItemFromActorInterceptor(this, this.actor);
+      await removeItemFromActorInterceptor(this, this.actor);
     }
     return await super._preDelete(options, user);
   }
