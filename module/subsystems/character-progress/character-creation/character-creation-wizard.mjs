@@ -298,14 +298,14 @@ export class CharacterCreationWizard extends Dialog {
     }
 
     // Add items to actor
-    await createItemOnActor(actor, this.actorData.ancestry);
-    await createItemOnActor(actor, this.actorData.background);
-    await createItemOnActor(actor, this.actorData.class);
-
     for (const equipment of Object.values(this.actorData.startingEquipment)) {
       const itemData = equipment.itemData;
       if (itemData?.name) await createItemOnActor(actor, itemData);
     }
+
+    await createItemOnActor(actor, this.actorData.ancestry);
+    await createItemOnActor(actor, this.actorData.background);
+    await createItemOnActor(actor, this.actorData.class);
 
     // Refresh actor resources
     actor.resources.iterate().forEach(resource => resource.regain("max"));

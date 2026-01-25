@@ -196,6 +196,8 @@ export class RollDialog extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Roll";
     initialized.window.icon = "fa-light fa-dice-d20";
+    initialized.window.resizable = true;
+    initialized.classes.push("fixed-600-size");
     initialized.position.width = 600;
 
     initialized.actions.holdAction = this._onHoldAction;
@@ -411,13 +413,6 @@ export class RollDialog extends DC20Dialog {
   //==========================================
   //=                ACTIONS                 =
   //==========================================
-  /** @override */
-  _onHover(event) {
-    const itemId = event.target.dataset.itemId;
-    if (!itemId) return;
-    super._onHover(event);
-  }
-
   _getItem(itemId) {
     let item = this.item;
     if (itemId !== this.item._id) item = getItemFromActor(itemId, this.actor);
@@ -642,6 +637,18 @@ export class RollDialog extends DC20Dialog {
     
     if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);
+  }
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    // Set size of .enhancements fieldset
+    if (this.element) {
+      const fieldset = this.element.querySelector(".enhancements");
+      if (!fieldset) return;
+      const height = fieldset.getBoundingClientRect().height;
+      if (height < 250) fieldset.style.height = `${height}px`;
+    }
   }
 
   render(force=false, options={}) {

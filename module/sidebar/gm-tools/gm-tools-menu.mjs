@@ -72,7 +72,10 @@ function _helpManager() {
   helpManager.addEventListener('click', async ev => {
     ev.preventDefault();
     const tokens = getSelectedTokens();
-    if (tokens.length === 0) return;
+    if (tokens.length === 0) {
+      ui.notifications.warn("Select Tokens first.")
+      return;
+    }
     
     const data = {
       header: "Help Manager",

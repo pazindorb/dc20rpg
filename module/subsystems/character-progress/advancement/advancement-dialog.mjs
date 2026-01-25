@@ -134,6 +134,7 @@ export class ActorAdvancement extends Dialog {
     if (nextAdvancement) {
       this.index++;
       this.currentAdvancement = nextAdvancement;
+      this._prepareSuggestionFilters();
       this._prepareItemSuggestions();
     }
   }
@@ -647,7 +648,7 @@ export class ActorAdvancement extends Dialog {
       this.applyingAdvancement = false;
       return;
     }
-    await this.render();
+    await this._render();
 
     const talentType = this.suggestionFilters.talent.talentType.value;
     const [extraAdvancements, itemTips] = await applyAdvancement(this.currentAdvancement, this.actor, talentType);
@@ -691,7 +692,7 @@ export class ActorAdvancement extends Dialog {
     if (!this.hasPrevious()) return;
 
     this.revertingEnhancement = true;
-    await this.render();
+    await this._render();
 
     const previousAdvancement = this.advancements[this.index - 1];
     await revertAdvancement(this.actor, previousAdvancement, this.advancements);
@@ -707,6 +708,7 @@ export class ActorAdvancement extends Dialog {
 
     this.index--;
     this.currentAdvancement = previousAdvancement;
+    this._prepareSuggestionFilters();
     this._prepareItemSuggestions();
     this.revertingEnhancement = false;
     this.render();
