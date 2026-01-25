@@ -345,13 +345,14 @@ export class DC20RpgItem extends Item {
     // If linked with slot use actor method instead
     const slotLink = options.slot || this.system.statuses.slotLink;
     const slotLinkProvided = slotLink?.category && slotLink?.key;
+    const hasEquipmentSlots = !!this.actor?.system?.equipmentSlot;
 
     // If slot link was not provided we want to identify where this item could go
-    if (this.actor && slotLink?.predefined && !slotLinkProvided) {
+    if (hasEquipmentSlots && slotLink?.predefined && !slotLinkProvided) {
       const slot = this.actor.equipmentSlots[slotLink.predefined].freeSlot();
       await slot.equip(this);
     }
-    else if (this.actor && slotLinkProvided) {
+    else if (hasEquipmentSlots && slotLinkProvided) {
       const slot = this.actor.equipmentSlots[slotLink.category].slots[slotLink.key];
       if (newState) await slot.equip(this);
       else await slot.unequip();

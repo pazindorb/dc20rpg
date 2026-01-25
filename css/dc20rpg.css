@@ -2627,6 +2627,7 @@
 .dc20rpg #roll-prompt .enhancements {
   overflow-y: auto;
   max-height: 250px;
+  min-height: 125px;
   gap: 0;
   padding: 0.5em 0.7em;
   --scroll-margin: 0;
@@ -11452,6 +11453,9 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .description-tab .item-cost .row, .dc20rpg .item_v2 .item-sheet-body .contents-tab .item-cost .row {
   width: 100%;
+}
+.dc20rpg.fixed-600-size {
+  min-width: 600px;
 }
 
 /* Chat log */

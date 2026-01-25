@@ -151,8 +151,8 @@ async function addUniqueItemToActor(item, actor) {
   } 
   else {
     const oldActorData = foundry.utils.deepClone(actor.system);
-    await actor.update({[`system.details.${itemType}.id`]: item._id});
     const suppressAdvancements = game.settings.get("dc20rpg", "suppressAdvancements");
+    await actor.update({[`system.details.${itemType}.id`]: item._id});
     if (suppressAdvancements) return;
     const actorLevel = details.level;
 
