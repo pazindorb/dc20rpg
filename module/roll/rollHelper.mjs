@@ -134,7 +134,7 @@ function _collectFormulas(item) {
   
   // Some enhancements can provide additional formula
   let fromEnhancements = {};
-  item.enhancements.all.values().forEach(enh => {
+  item.enhancements.active.values().forEach(enh => {
     const enhMod = enh.modifications;
     if (enhMod.addsNewFormula) {
       const key = generateKey();
