@@ -413,9 +413,9 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const disabled = [];
     if (actor.allEffects.length === 0) return [active, disabled];
 
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
     for(const effect of actor.allEffects) {
       if (effect.isTemporary) {
-        const TextEditor = foundry.applications.ux.TextEditor.implementation;
         const enriched = await TextEditor.enrichHTML(effect.description, {secrets:true, autoLink:true});
         const descriptionColumn = enriched ? `<hr/>${enriched}` : "";
         

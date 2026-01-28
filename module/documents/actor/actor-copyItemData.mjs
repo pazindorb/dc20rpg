@@ -514,5 +514,16 @@ function _getAllUntilIndex(table, index) {
 function _combatTraining(actor) {
 	if (companionShare(actor, "combatTraining")) {
 		actor.system.combatTraining = actor.companionOwner.system.combatTraining;
+		return;
 	} 
+
+	// Martial/Spellcaster path gives you weapon/spellFocus training
+	if (actor.type === "character" && actor.class) {
+		const advancements = Object.values(actor.class.system.advancements);
+		for (const advancement of advancements) {
+			if (!advancement.applied) continue;
+			if (advancement.mastery === "spellcaster") actor.system.combatTraining.spellFocuses = true;
+			if (advancement.mastery === "martial") actor.system.combatTraining.weapons = true;
+		}
+	}
 }

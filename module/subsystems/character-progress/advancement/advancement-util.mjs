@@ -23,7 +23,7 @@ export async function applyAdvancement(advancement, actor, talentType) {
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
   const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
-  if (advancement.repeatable) await _addRepeatableAdvancement(advancement);
+  if (advancement.repeatable) await _addRepeatableAdvancement(advancement, actor);
   if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
@@ -182,7 +182,7 @@ function _extraAdvancement(item) {
   return null;
 }
 
-async function _addRepeatableAdvancement(oldAdv) {
+async function _addRepeatableAdvancement(oldAdv, actor) {
   let nextLevel = null;
   // Collect next level where advancement should appear
   for (let i = oldAdv.level + 1; i <= 20; i++) {
@@ -207,7 +207,19 @@ async function _addRepeatableAdvancement(oldAdv) {
 
   // Remove already added items
   const filteredItems = Object.fromEntries(
-    Object.entries(newAdv.items).filter(([key, item]) => !item.selected)
+    Object.entries(newAdv.items).filter(([key, item]) => {
+      if (!item.selected) return true;
+
+      const createdItem = actor.items.get(item.createdItemId);
+      if (!createdItem) return true;
+
+      const requirements = createdItem.system.requirements;
+      if (!!!requirements?.unique) {
+        item.selected = false;
+        return true;
+      }
+      return false;
+    })
   );
 
   oldAdv.cloneKey = advKey;

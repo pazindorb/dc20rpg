@@ -355,8 +355,16 @@ export class ActorAdvancement extends Dialog {
       }
     })
     
+    // Filter out items that can be picked once and were picked already
     let filtered = filterDocuments(this.itemSuggestions, filters);
-    if (hideOwned) filtered = filtered.filter(item => this.actor.items.getName(item.name) === undefined);
+    if (hideOwned) filtered = filtered.filter(item => {
+      const requirements = item.system.requirements;
+      if (!!!requirements?.unique) return true;
+      const mightMatch = this.actor.items.getName(item.name);
+      if (!mightMatch) return true;
+
+      return item.system.itemKey !== mightMatch.system.itemKey;
+    });
 
     markItemRequirements(filtered, this.suggestionFilters.talent.talentType.value, this.actor);
     if (advancement.hideRequirementMissing) return filtered.filter(item => !item.requirementMissing)

@@ -24,6 +24,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       requirements: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         items: new f.StringField({required: true, initial: ""}),
+        unique: new f.BooleanField({required: true, initial: true}),
       }),
       rollMenu: new RollMenu(true),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
@@ -271,6 +272,7 @@ export class DC20FeatureData extends DC20UsableItemData {
       requirements: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
         items: new f.StringField({required: true, initial: ""}),
+        unique: new f.BooleanField({required: true, initial: true}),
       }),
       isResource: new f.BooleanField({required: true, initial: false}),
       resource: new f.SchemaField({

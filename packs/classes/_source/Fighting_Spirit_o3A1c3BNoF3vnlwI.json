@@ -164,7 +164,7 @@
       "MWR4SWwQdnR1rWjz": {
         "name": "Combat Readiness",
         "trigger": "preItemRoll",
-        "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
+        "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
         "disabled": false,
         "title": ""
       }
@@ -331,44 +331,26 @@
       "changes": [
         {
           "key": "system.dynamicRollModifier.onYou.checks.mig",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.checks.agi",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.checks.att",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
-          "mode": 2,
           "priority": null
         },
         {
           "key": "system.dynamicRollModifier.onYou.checks.mar",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "priority": null
         }
       ],
@@ -394,7 +376,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1766696771350,
+        "modifiedTime": 1769594876840,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -661,9 +643,9 @@
     "duplicateSource": null,
     "coreVersion": "13.350",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.1",
     "createdTime": 1739350034491,
-    "modifiedTime": 1767119061027,
+    "modifiedTime": 1769595199407,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

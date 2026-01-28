@@ -848,24 +848,6 @@ function _dazed() {
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Dazed"'
       },
-      {
-        key: "system.dynamicRollModifier.onYou.spell.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Dazed"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.spell.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Dazed"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.spell.area",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Dazed"'
-      },
     ]
   }
 }
@@ -925,31 +907,7 @@ function _impaired() {
         value: '"value": 1, "type": "dis", "label": "Impaired"'
       },
       {
-        key: "system.dynamicRollModifier.onYou.checks.att",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Impaired"'
-      },
-      {
         key: "system.dynamicRollModifier.onYou.checks.mar",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Impaired"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.martial.melee",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Impaired"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.martial.ranged",
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Impaired"'
-      },
-      {
-        key: "system.dynamicRollModifier.onYou.martial.area",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Impaired"'
