@@ -313,8 +313,8 @@ function _addItemToTable(item, headers, fallback) {
   const headerName = item.system.tableName;
 
   if (!headerName || !headers[headerName]) {
-    if (headers[fallback]) headers[fallback].items[item.id] = item;
-    else if (headers[item.type]) headers[item.type].items[item.id] = item;
+    if (headers[item.type]) headers[item.type].items[item.id] = item;
+    else if (headers[fallback]) headers[fallback].items[item.id] = item;
   }
   else {
     headers[headerName].items[item.id] = item;

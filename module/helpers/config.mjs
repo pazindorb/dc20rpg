@@ -410,6 +410,7 @@ DC20RPG.DROPDOWN_DATA.creatureTypes = {
   fiend: "Fiend",
   giant: "Giant",
   humanoid: "Humanoid",
+  monstrosity: "Monstrosity",
   ooze: "Ooze",
   plant: "Plant",
   undead: "Undead"

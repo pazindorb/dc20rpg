@@ -85,7 +85,8 @@ export async function itemTransfer(event, data, actor) {
       stacks = parseInt(provided) > quantity ? quantity : parseInt(provided);
     }
 
-    if (actorFrom.system.storageType === "vendor" || actor.system.storageType === "vendor") {
+    const isATrade = actorFrom.id !== actor.id && (actorFrom.system.storageType === "vendor" || actor.system.storageType === "vendor")
+    if (isATrade) {
       const itemData = originalItem.toObject();
       itemData.system.quantity = stacks;
       const traded = await _handleTrade(actorFrom, actor, [itemData]);
@@ -96,6 +97,11 @@ export async function itemTransfer(event, data, actor) {
     if (stackable) {
       await handleStackableItem(originalItem, actor, event, true, stacks);
       return;
+    }
+
+    // Only sort item
+    if (actor.uuid === originalItem.parent?.uuid) {
+      return actor.sheet._onSortItem(event, originalItem);
     }
 
     const infiniteStock = originalItem.actor.system?.vendor?.infiniteStock;
