@@ -27,12 +27,17 @@ import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
+import { tooltipElement, tooltipListeners } from "./tooltip.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
     tools: {
       toSelectOptions,
       getActorFromTargetHash
+    },
+    tooltip: {
+      tooltipElement,
+      tooltipListeners
     },
     dialog: {
       SimplePopup,

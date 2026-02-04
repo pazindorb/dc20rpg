@@ -127,8 +127,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.10.0.0", "0.10.0.2", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
-  // await testMigration("0.10.0.0", "0.10.0.2");
+  // await testMigration("0.10.0.0", "0.10.1.0", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
+  // await testMigration("0.10.0.0", "0.10.1.0");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -151,12 +151,6 @@ Hooks.once("ready", async function() {
   overrideCoreKeybindActions();
 
   if(game.user.isGM) await createGmToolsMenu();
-
-  // Override error notification to ignore "Item does not exist" error.
-  ui.notifications.error = (message, options) => {
-    if (message.includes("does not exist!")) return;
-    return ui.notifications.info(message, "error", options);
-  }
 
   // Hide tooltip when releasing button
   window.addEventListener('keyup', (event) => {

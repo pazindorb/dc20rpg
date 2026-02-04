@@ -2,12 +2,6 @@ import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
 import { roundFloat } from "../utils.mjs";
 import { resetEnhancements } from "./rollsFromActor.mjs";
-
-/** @deprecated since v0.10.0 until 0.10.5 */
-export function prepareHelpAction(actor, options={}) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.prepareHelpAction' method is deprecated, and will be removed in the later system version. Use 'actor.help.prepare' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
-	actor.help.prepare(options);
-}
        
 //===================================
 //            MOVE ACTION           =

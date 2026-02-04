@@ -189,10 +189,6 @@ function _collectUseCost(item, clean=false) {
       _addToResources(cost, key, value, actor, enhancement.number);
     }
     // Collect charges
-    // TODO backward compatibilty remove as part of 0.10.0 update
-    if (enhancement.charges?.consume && enhancement.charges.subtract === undefined) {
-      enhancement.charges.subtract = 1;
-    } 
     if (enhancement.charges?.subtract) {
       if (enhancement.charges.fromOriginal) {
         _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
@@ -219,7 +215,6 @@ function _collectUseCost(item, clean=false) {
 }
 
 function _addToResources(cost, key, value, actor, multiplier=1) {
-  if (key === "actionPoint") key = "ap"; //TODO backward compatibilty remove as part of 0.10.0 update
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
       _addToResources(cost, customKey, customRes.value, actor, multiplier);
@@ -417,10 +412,6 @@ function _getResourceDisplayData(key, amount, item, actor) {
   }
   else {
     const resources = {...item.system.costs.resources};
-    // TODO: backward compatibility - remove after 10.0
-    if (key === "ap" && resources.ap == null) {
-      resources.ap = resources.actionPoint;
-    } 
     if (resources.custom[key] != null) return _customResource(resources.custom[key], amount);
     else if (resources[key] != null) return _basicResource(key, amount);
   }
@@ -523,16 +514,12 @@ function _collectEnhancementCost(item, enhKey) {
   for (let [key, value] of Object.entries(enhancement.resources)) {
     _addToResources(cost, key, value, actor);
   }
-  // TODO backward compatibilty remove as part of 0.10.0 update
-  if (enhancement.charges?.consume && enhancement.charges.subtract === undefined) {
-    enhancement.charges.subtract = 1;
-  } 
   if (enhancement.charges?.subtract) {
     if (enhancement.charges.fromOriginal) {
-      _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
+      _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract);
     }
     else {
-      _collectCharges(cost, item.id, enhancement.charges.subtract * enhancement.number);
+      _collectCharges(cost, item.id, enhancement.charges.subtract);
     }
   }
   return cost;

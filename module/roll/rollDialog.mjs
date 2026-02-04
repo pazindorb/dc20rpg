@@ -664,27 +664,3 @@ export class RollDialog extends DC20Dialog {
     }
   }
 }
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptRoll(actor, details, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptRoll' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, details, {quickRoll: quickRoll});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptItemRoll(actor, item, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptItemRoll' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, item, {quickRoll: quickRoll});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptRollToOtherPlayer(actor, details, waitForRoll=true, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptItemRoll' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' with 'options.sendToActorOwners' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, details, {sendToActorOwners: true, quickRoll: quickRoll});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptItemRollToOtherPlayer(actor, item, waitForRoll=true, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptItemRollToOtherPlayer' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' with 'options.sendToActorOwners' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, item, {sendToActorOwners: true, quickRoll: quickRoll});
-}

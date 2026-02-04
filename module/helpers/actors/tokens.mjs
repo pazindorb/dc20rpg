@@ -292,11 +292,15 @@ export function preConfigurePrototype(actor) {
 export async function canvasItemDrop(canvas, data, event) {
   if (data.type !== "Item") return;
 
+  const item = await fromUuid(data.uuid);
+  if (!item) return;
+
+  // Not only inventory items are droppable
+  if (!item.system.inventory) return;
+
   const confirmed = await SimplePopup.confirm("Do you want to drop that item?");
   if (!confirmed) return;
 
-  const item = await fromUuid(data.uuid);
-  if (!item) return;
   const itemData = item.toObject();
   deleteItemFromActor(item.id, item.actor);
 

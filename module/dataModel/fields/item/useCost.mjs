@@ -5,7 +5,6 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
 
     fields = {
       resources: new f.SchemaField({
-        actionPoint: new f.NumberField(initNull), // TODO backward compatibilty remove as part of 0.10.0 update
         ap: new f.NumberField(initNull),
         stamina: new f.NumberField(initNull),
         mana: new f.NumberField(initNull),

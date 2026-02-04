@@ -62,15 +62,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       check: new CheckFields(),
       save: new SaveFields(),
       costs: new UseCostFields(),
-      againstEffect: new f.SchemaField({
-        id: new f.StringField({required: true, initial: ""}),
-        supressFromChatMessage: new f.BooleanField({required: true, initial: false}),
-        untilYourNextTurnStart: new f.BooleanField({required: true, initial: false}),
-        untilYourNextTurnEnd: new f.BooleanField({required: true, initial: false}),
-        untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),
-        untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
-        untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
-      }), // Left for backward compatibility remove as part of 0.10
       againstStatuses: new f.ObjectField({required: true}),
       rollRequests: new f.ObjectField({required: true}),
       formulas: new f.ObjectField({required: true}),
@@ -79,7 +70,6 @@ class DC20UsableItemData extends DC20BaseItemData {
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
         linkWithToggle: new f.BooleanField({required: true, initial: false}),
-        hideFromRollMenu: new f.BooleanField({required: true, initial: false}), // TODO: backward compatibility remove as part of 0.10
         onlyMaintained: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
@@ -106,7 +96,6 @@ class DC20UsableItemData extends DC20BaseItemData {
           }
         }})
       }),
-      conditional: new ConditionalFields(), // Left for backward compatibility remove as part of 0.10
       conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
@@ -305,7 +294,7 @@ export class DC20BasicActionData extends DC20UsableItemData {
   }
 }
 
-export class DC20TechniqueData extends DC20UsableItemData { // TODO: Remove as part of 0.10.5
+export class DC20TechniqueData extends DC20UsableItemData { // TODO: backward compatibilty Remove as part of 0.10.5
   static defineSchema() {
     const f = foundry.data.fields;
   
