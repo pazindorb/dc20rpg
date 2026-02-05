@@ -231,7 +231,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
    */
   async gmUpdate(updateData={}, operation={}) {
     if (!this.canUserModify(game.user, "update")) {
-      emitEventToGM("updateDocument", {
+      emitEventToGM("UPDATE_DOCUMENT", {
         docUuid: this.uuid,
         updateData: updateData,
         operation: operation

@@ -3,11 +3,10 @@ import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
-import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
-import { changeActivableProperty, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
@@ -763,7 +762,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         if (dataset.itemId) {
-          const item = getItemFromActor(dataset.itemId, owner);
+          const item = owner.items.get(dataset.itemId);
           if (item) item.toggle();
         }
         else {

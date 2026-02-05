@@ -109,7 +109,7 @@ export async function createNewEffectOn(type, owner, flags) {
 
 export async function createEffectOn(effectData, owner) {
   if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("addDocument", {
+    emitEventToGM("CREATE_DOCUMENT", {
       docType: "effect",
       docData: effectData, 
       actorUuid: owner.uuid
@@ -134,7 +134,7 @@ export async function updateEffectOn(effectId, owner, updateData) {
 
 export async function deleteEffectFrom(effectId, owner) {
   if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("removeDocument", {
+    emitEventToGM("DELETE_DOCUMENT", {
       docType: "effect",
       docId: effectId, 
       actorUuid: owner.uuid

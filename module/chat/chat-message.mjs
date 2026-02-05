@@ -13,7 +13,6 @@ import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.m
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
-import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 
@@ -580,7 +579,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (!template) return;
 
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
-    const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
+    const item = actor.items.get(this.flags.dc20rpg.itemId);
     this.system.applicableEffects.forEach(effect => effect.system.chatMessageId = this.id);
     const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects, actor);
     const itemData = {

@@ -1,5 +1,4 @@
 import { holdAction } from "../helpers/actors/actions.mjs";
-import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -415,7 +414,7 @@ export class RollDialog extends DC20Dialog {
   //==========================================
   _getItem(itemId) {
     let item = this.item;
-    if (itemId !== this.item._id) item = getItemFromActor(itemId, this.actor);
+    if (itemId !== this.item._id) item = this.actor.items.get(itemId);
     return item;
   }
 

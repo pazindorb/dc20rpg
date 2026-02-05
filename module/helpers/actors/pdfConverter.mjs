@@ -1,5 +1,4 @@
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
-import { getItemFromActor } from "./itemsOnActor.mjs";
 
 let font = null;
 async function loadFont(pdfDoc) {
@@ -478,7 +477,7 @@ function _prepareInventory(form, actor, itemCards) {
 }
 
 function _getItemName(itemId, actor) {
-  const item = getItemFromActor(itemId, actor);
+  const item = actor.items.get(itemId);
   if (item) return item.name;
   return "";
 }

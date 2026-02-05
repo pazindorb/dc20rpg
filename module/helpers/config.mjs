@@ -1,7 +1,7 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { createRestDialog, RestDialog } from "../dialogs/rest.mjs";
-import { promptItemRoll, promptItemRollToOtherPlayer, promptRoll, promptRollToOtherPlayer, RollDialog } from "../roll/rollDialog.mjs";
-import { getSimplePopup, sendSimplePopupToActorOwners, sendSimplePopupToUsers, SimplePopup } from "../dialogs/simple-popup.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
+import { RollDialog } from "../roll/rollDialog.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
@@ -12,9 +12,7 @@ import { DC20Roll } from "../roll/rollApi.mjs";
 import { ColorSetting } from "../settings/colors.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
-import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
-import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./actors/attrAndSkills.mjs";
-import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./actors/costManipulator.mjs";
+import { makeMoveAction } from "./actors/actions.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
 import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey, updateItemOnActor } from "./actors/itemsOnActor.mjs";
 import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
@@ -28,6 +26,7 @@ import { toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { tooltipElement, tooltipListeners } from "./tooltip.mjs";
+import { DC20RpgToken } from "../placeable-objects/token.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
@@ -53,6 +52,13 @@ export function prepareDC20tools() {
     AgainstStatus,
     ItemMacro,
     DC20Roll,
+    DC20RpgActor,
+    DC20RpgItem,
+    DC20RpgCombatant,
+    DC20RpgMeasuredTemplate,
+    DC20RpgTokenDocument,
+    DC20RpgToken,
+    ColorSetting,
   }
 
   game.dc20rpg = {
@@ -80,23 +86,6 @@ export function prepareDC20tools() {
       addStatusWithIdToActor,
       removeStatusWithIdFromActor
     },
-    resources: {
-      regainBasicResource,
-      regainCustomResource,
-      subtractBasicResource,
-      subtractCustomResource,
-      canSubtractBasicResource,
-      canSubtractCustomResource,
-      subtractAP,
-    },
-    rolls: {
-      prepareCheckDetailsFor,
-      prepareSaveDetailsFor,
-      promptRoll,
-      promptItemRoll,
-      promptRollToOtherPlayer,
-      promptItemRollToOtherPlayer,
-    },
     tools: {
       getSelectedTokens,
       createToken,
@@ -107,13 +96,6 @@ export function prepareDC20tools() {
       updateItemOnActor,
       deleteItemFromActor,
       getItemFromActorByKey,
-      promptRoll,
-      promptItemRoll,
-      promptRollToOtherPlayer,
-      promptItemRollToOtherPlayer,
-      getSimplePopup,
-      sendSimplePopupToUsers,
-      sendSimplePopupToActorOwners,
       getActiveActorOwners,
       getIdsOfActiveActorOwners,
       tokenToTarget,
@@ -121,8 +103,6 @@ export function prepareDC20tools() {
       applyDamage,
       applyHealing,
       makeMoveAction,
-      prepareHelpAction,
-      createRestDialog,
       sendDescriptionToChat,
       toSelectOptions
     },
