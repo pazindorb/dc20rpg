@@ -1,6 +1,6 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
-import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
+import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
@@ -220,7 +220,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
           await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
         }
       }
-      await deleteToken(this.id);
+      await this.gmDelete();
     }
     else await super._onClickLeft2(event);
   }
@@ -605,5 +605,16 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         }
       }
     }
+  }
+
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
+  async gmUpdate(data={}, operation={}) {
+    return this.document.gmUpdate(data, operation);
+  }
+
+  async gmDelete(operation={}) {
+    return this.document.gmDelete(operation);
   }
 }

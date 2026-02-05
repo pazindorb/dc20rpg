@@ -1,9 +1,7 @@
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { createItemOnActor, deleteItemFromActor } from "./actors/itemsOnActor.mjs";
-import { createToken, deleteToken } from "./actors/tokens.mjs";
-import { createEffectOn, deleteEffectFrom, toggleEffectOn } from "./effects.mjs";
+import { toggleEffectOn } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
@@ -38,7 +36,25 @@ export function registerSystemSockets() {
   // Roll Prompt
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "rollDialog") {
-      await rollPrompt(data.payload, emmiterId);
+      const payload = data.payload;
+
+      let actor = game.actors.get(payload.actorId);
+      let data = payload.data;
+      const options = payload.options;
+      
+      // If we are rolling with unlinked actor we need to use token version
+      if (payload.isToken) actor = game.actors.tokens[payload.tokenId]; 
+      if (payload.isItem) data = actor.items.get(payload.itemId);
+      
+      if (actor && actor.ownership[game.user.id] === 3) {
+        const roll = await RollDialog.create(actor, data, options);
+        game.socket.emit('system.dc20rpg', {
+          payload: {...roll}, 
+          emmiterId: emmiterId,
+          actorId: payload.actorId,
+          type: "rollDialogResult"
+        });
+      }
     }
   });
 
@@ -80,41 +96,78 @@ export function registerSystemSockets() {
   });
 
   // Add Document to Actor 
-  game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "addDocument") {
-      const { docType, docData, actorUuid, gmUserId } = data.payload;
-      if (game.user.id === gmUserId) {
-        const actor = await fromUuid(actorUuid);
-        if (actorUuid && !actor) return;
-        if (docType === "item") await createItemOnActor(actor, docData);
-        if (docType === "effect") await createEffectOn(docData, actor);
-        if (docType === "token") await createToken(docData);
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "CREATE_DOCUMENT") {
+      const { createData, operation, documentClassName, signature, gmUserId } = data.payload;
+      if (game.user.id !== gmUserId) return;
+
+      const documentClass = getDocumentClass(documentClassName);
+      if (!documentClass) {
+        ui.notifications.error(`Document Class with name ${documentClassName} doesn't exist.`);
+        return;
+      }
+
+      if (operation.parent) operation.parent = await fromUuid(operation.parent);
+      const result = await documentClass.create(createData, operation);
+      if (signature) {
+        let uuids;
+        if (Array.isArray(result)) uuids = result.map(r => r.uuid);
+        else if (result) uuids = [result.uuid];
+
+        game.socket.emit('system.dc20rpg', {
+          payload: uuids, 
+          emmiterId: emmiterId,
+          type: "CREATE_DOCUMENT_RESPONSE",
+          signature: signature
+        });
       }
     }
   });
 
   // Update Document on Actor
-  game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "updateDocument") {
-      const { docUuid, updateData, operation, gmUserId } = data.payload;
-      if (game.user.id === gmUserId) {
-        const document = await fromUuid(docUuid);
-        if (!document) return;
-        document.update(updateData, operation);
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "UPDATE_DOCUMENT") {
+      const { uuid, updateData, operation, signature, gmUserId } = data.payload;
+      if (game.user.id !== gmUserId) return;
+
+      const document = await fromUuid(uuid);
+      if (!document) {
+        ui.notifications.error(`Document with uuid ${uuid} doesn't exist.`);
+        return;
+      }
+
+      const result = await document.update(updateData, operation);
+      if (signature) {
+        game.socket.emit('system.dc20rpg', {
+          payload: result.uuid, 
+          emmiterId: emmiterId,
+          type: "UPDATE_DOCUMENT_RESPONSE",
+          signature: signature
+        });
       }
     }
   });
 
   // Remove Document from Actor
-  game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "removeDocument") {
-      const { docType, docId, actorUuid, gmUserId, options } = data.payload;
-      if (game.user.id === gmUserId) {
-        const actor = await fromUuid(actorUuid);
-        if (actorUuid && !actor) return;
-        if (docType === "item") await deleteItemFromActor(docId, actor, options);
-        if (docType === "effect") await deleteEffectFrom(docId, actor);
-        if (docType === "token") await deleteToken(docId);
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "DELETE_DOCUMENT") {
+      const { uuid, operation, signature, gmUserId } = data.payload;
+      if (game.user.id !== gmUserId) return;
+
+      const document = await fromUuid(uuid);
+      if (!document) {
+        ui.notifications.error(`Document with uuid ${uuid} doesn't exist.`);
+        return;
+      }
+
+      const result = await document.delete(operation);
+      if (signature) {
+        game.socket.emit('system.dc20rpg', {
+          payload: !!result, 
+          emmiterId: emmiterId,
+          type: "DELETE_DOCUMENT_RESPONSE",
+          signature: signature
+        });
       }
     }
   });
@@ -167,25 +220,6 @@ export function registerSystemSockets() {
   })
 }
 
-async function rollPrompt(payload, emmiterId) {
-  let actor = game.actors.get(payload.actorId);
-  let data = payload.data;
-  const options = payload.options;
-  
-  // If we are rolling with unlinked actor we need to use token version
-  if (payload.isToken) actor = game.actors.tokens[payload.tokenId]; 
-  if (payload.isItem) data = actor.items.get(payload.itemId);
-  
-  if (actor && actor.ownership[game.user.id] === 3) {
-    const roll = await RollDialog.create(actor, data, options);
-    game.socket.emit('system.dc20rpg', {
-      payload: {...roll}, 
-      emmiterId: emmiterId,
-      actorId: payload.actorId,
-      type: "rollDialogResult"
-    });
-  }
-}
 
 //================================
 //    Socket helper functions    =
@@ -235,4 +269,102 @@ export function emitEventToGM(type, payload) {
     gmUserId: activeGM.id,
     ...payload,
   })
+}
+
+//================================
+//         GM CRUD Methods       =
+//================================
+/**
+ * Run CREATE opperation on Document. If user doesn't have permissions to do so request will be sent to active GM.
+ * @param {object|Document|(object|Document)[]} [data={}] Initial data used to create this Document, or a Document
+ *                                                        instance to persist.
+ * @param {Partial<Omit<DatabaseCreateOperation, "data">>} [operation={}]  Parameters of the creation operation
+ * @returns {Promise<Document[] | undefined>}        The created Document instance(s)
+ */
+export async function gmCreate(data={}, operation={}, DocumentClass) {
+  const docPerm = operation.parent ? operation.parent.testUserPermission(game.user, "OWNER") : false;
+  const globalPerm = DocumentClass.canUserCreate(game.user);
+  const canCreate = docPerm || globalPerm;
+
+  if (!canCreate) {
+    if (operation.parent) operation.parent = operation.parent.uuid; // We cannot transfer full document via socket
+    if (operation.ignoreResponse) {
+      emitEventToGM("CREATE_DOCUMENT", {createData: data, operation: operation, documentClassName: DocumentClass.documentName});
+    }
+    else {
+      const signature = foundry.utils.randomID();
+      const validationData = {emmiterId: game.user.id, signature: signature}
+      const response = responseListener("CREATE_DOCUMENT_RESPONSE", validationData);
+      emitEventToGM("CREATE_DOCUMENT", {createData: data, operation: operation, documentClassName: DocumentClass.documentName, signature: signature});
+      const result = await response;
+      if (!result) return;
+
+      const created = [];
+      for (const uuid of result) {
+        const doc = await fromUuid(uuid);
+        created.push(doc);
+      }
+      return created;
+    }
+  }
+
+  else {
+    const result = await DocumentClass.create(data, operation);
+    if (Array.isArray(result)) return result;
+    else if (result) return [result];
+  }
+}
+
+/**
+ * Run UPDATE opperation on Document. If user doesn't have permissions to do so request will be sent to active GM.
+ * @param {object} [data={}]          Differential update data which modifies the existing values of this document
+ * @param {Partial<Omit<DatabaseUpdateOperation, "updates">>} [operation={}]  Parameters of the update operation
+ * @returns {Promise<Document|undefined>}       The updated Document instance, or undefined not updated
+ */
+export async function gmUpdate(data={}, operation={}, object) {
+  if (!object.canUserModify(game.user, "update")) {
+    if (operation.ignoreResponse) {
+      emitEventToGM("UPDATE_DOCUMENT", {uuid: object.uuid, updateData: data, operation: operation});
+    }
+    else {
+      const signature = foundry.utils.randomID();;
+      const validationData = {emmiterId: game.user.id, signature: signature}
+      const response = responseListener("UPDATE_DOCUMENT_RESPONSE", validationData);
+      emitEventToGM("UPDATE_DOCUMENT", {uuid: object.uuid, updateData: data, operation: operation, signature: signature});
+      const result = await response;
+      if (!result) return;
+      return await fromUuid(result);
+    }
+  }
+
+  else {
+    return await object.update(data, operation);
+  }
+}
+
+/**
+ * Run DELETE opperation on Document. If user doesn't have permissions to do so request will be sent to active GM.
+ * @see {@link Document.DELETE_DOCUMENTs}
+ * @param {Partial<Omit<DatabaseDeleteOperation, "ids">>} [operation={}]  Parameters of the deletion operation
+ * @returns {Promise<boolean|undefined>}       True if deleted, false if not
+ */
+export async function gmDelete(operation={}, object) {
+  if (!object.canUserModify(game.user, "delete")) {
+    if (operation.ignoreResponse) {
+      emitEventToGM("DELETE_DOCUMENT", {uuid: object.uuid, operation: operation});
+    }
+    else {
+      const signature = foundry.utils.randomID();;
+      const validationData = {emmiterId: game.user.id, signature: signature}
+      const response = responseListener("DELETE_DOCUMENT_RESPONSE", validationData);
+      emitEventToGM("DELETE_DOCUMENT", {uuid: object.uuid, operation: operation, signature: signature});
+      const result = await response;
+      return result;
+    }
+  }
+  
+  else {
+    const deleted = await object.delete(operation);
+    return !!deleted;
+  }
 }

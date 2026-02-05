@@ -1,48 +1,32 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../../documents/actor.mjs";
-import { emitEventToGM } from "../sockets.mjs";
+import { DC20RpgTokenDocument } from "../../documents/tokenDoc.mjs";
 import { isPointInPolygon } from "../utils.mjs";
-import { deleteItemFromActor } from "./itemsOnActor.mjs";
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createToken(tokenData) {
-  if (!game.user.can("TOKEN_CREATE")) {
-    emitEventToGM("addDocument", {
-      docType: "token",
-      docData: tokenData
-    });
-    return;
-  }
-  return await canvas.scene.createEmbeddedDocuments("Token", [tokenData]);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.createToken' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20RpgTokenDocument.gmCreate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return await DC20RpgTokenDocument.gmCreate(tokenData, {parent: canvas.scene});
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function deleteToken(tokenId) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.deleteToken' method is deprecated, and will be removed in the later system version. Use 'token.gmDelete' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
   const token = canvas.tokens.get(tokenId);
   if (!token) return;
-
-  if (!game.user.can("TOKEN_DELETE")) {
-    emitEventToGM("removeDocument", {
-      docType: "token",
-      docId: tokenId, 
-    });
-    return;
-  }
-  await token.document.delete();
+  await token.gmDelete();
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getTokenForActor(actor) {
-  if (actor.isToken) return actor.token.object;
-  else {
-    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
-    return tokens[0];
-  }
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getTokenForActor' method is deprecated, and will be removed in the later system version. Use 'actor.getActiveTokens' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  actor.getActiveTokens()[0];
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getAllTokensForActor(actor) {
-  if (actor.isToken) return [actor.token.object];
-  else {
-    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
-    return tokens;
-  }
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getAllTokensForActor' method is deprecated, and will be removed in the later system version. Use 'actor.getActiveTokens' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  actor.getActiveTokens();
 }
 
 /**
@@ -302,7 +286,7 @@ export async function canvasItemDrop(canvas, data, event) {
   if (!confirmed) return;
 
   const itemData = item.toObject();
-  deleteItemFromActor(item.id, item.actor);
+  item.gmDelete();
 
   const tempActor = new DC20RpgActor({
     type: "storage",
@@ -324,5 +308,5 @@ export async function canvasItemDrop(canvas, data, event) {
     width: 0.65,
     height: 0.65,
   });
-  await createToken(tokenData.toObject());
+  await DC20RpgTokenDocument.gmCreate(tokenData.toObject(), {parent: canvas.scene});
 }

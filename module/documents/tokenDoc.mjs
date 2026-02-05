@@ -2,6 +2,7 @@ import { runEventsFor } from "../helpers/actors/events.mjs";
 import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -133,6 +134,21 @@ export class DC20RpgTokenDocument extends TokenDocument {
         }, 100);
       }
     }
+  }
+
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
+  static async gmCreate(data={}, operation={}) {
+    return await gmCreate(data, operation, this);
+  }
+
+  async gmUpdate(data={}, operation={}) {
+    return await gmUpdate(data, operation, this);
+  }
+
+  async gmDelete(operation={}) {
+    return await gmDelete(operation, this);
   }
 
   //=====================================

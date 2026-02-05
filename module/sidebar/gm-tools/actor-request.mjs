@@ -1,8 +1,5 @@
 import { getActivePlayers } from "../../helpers/users.mjs";
-import { openRestDialogForOtherPlayers, RestDialog } from "../../dialogs/rest.mjs";
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { DC20Roll } from "../../roll/rollApi.mjs";
-import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export class ActorRequestDialog extends DC20Dialog {
 
@@ -178,25 +175,4 @@ export class ActorRequestDialog extends DC20Dialog {
     }
     this.close();
   }
-}
-
-export function createActorRequestDialog(requestType, selectOptions, request, onlyPC) {
-  const dialog = new ActorRequestDialog(requestType, selectOptions, request, onlyPC);
-  dialog.render(true);
-}
-
-export function rollRequest(selected, selectedActors) {
-  let rollDetails = DC20Roll.prepareCheckDetails(selected);
-  if (["agi", "mig", "cha", "int", "phy", "men"].includes(selected)) {
-    rollDetails = DC20Roll.prepareSaveDetails(selected);
-  }
-  Object.values(selectedActors).forEach(actor => {
-    if (actor.selected) RollDialog.open(actor.actor, rollDetails, {sendToActorOwners: true});
-  });
-}
-
-export function restRequest(selected, selectedActors) {
-  Object.values(selectedActors).forEach(actor => {
-    if (actor.selected) openRestDialogForOtherPlayers(actor.actor, selected);
-  });
 }

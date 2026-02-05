@@ -247,9 +247,24 @@ async function _moveCurrency(from, to, currency, exchangeToGold) {
     currency = _exchangeToGold(currency);
   }
 
-  fromWallet.cp -= currency.cp;
-  fromWallet.sp -= currency.sp;
-  fromWallet.gp -= currency.gp;
+  if (fromWallet.cp - currency.cp < 0) {
+    fromWallet.cp = fromWallet.cp + 10 - currency.cp;
+    currency.sp += 1;
+  }
+  else fromWallet.cp -= currency.cp;
+
+  if (fromWallet.sp - currency.sp < 0) {
+    fromWallet.sp = fromWallet.sp + 10 - currency.sp;
+    currency.gp += 1;
+  }
+  else fromWallet.sp -= currency.sp;
+
+  if (fromWallet.gp - currency.gp < 0) {
+    ffromWallet.gp = romWallet.gp + 10 - currency.gp;
+    currency.pp += 1;
+  }
+  else fromWallet.gp -= currency.gp;
+
   fromWallet.pp -= currency.pp;
   toWallet.cp += currency.cp;
   toWallet.sp += currency.sp;
