@@ -1,12 +1,12 @@
 import { runAdvancements } from "../../../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
-import { responseListener } from "../../../helpers/sockets.mjs";
 import { generateKey, setValueForPath } from "../../../helpers/utils.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { createMixAncestryDialog } from "../../../dialogs/mix-ancestry.mjs";
 import { hideTooltip, itemTooltip } from "../../../helpers/tooltip.mjs";
 import { openItemCreator } from "../../../dialogs/item-creator.mjs";
 import { DC20RpgItem } from "../../../documents/item.mjs";
+import { DC20RpgActor } from "../../../documents/actor.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -321,24 +321,18 @@ export class CharacterCreationWizard extends Dialog {
 
   async _createActor() {
     const actorData = this._prepareActorData();
-    if (Actor.canUserCreate(game.user)) return await Actor.create(actorData);
-
-    const activeGM = game.users.activeGM;
-    if (!activeGM) {
-      ui.notifications.error("You have no permissions to create a new Actor and there is no active GM. Actor cannot be created.");
-      return;
-    }
-
-    game.socket.emit('system.dc20rpg', { 
-      actorData: actorData,
-      gmUserId: activeGM.id,
-      type: "createActor"
-    });
     this.createActorRequestSend = true;
     this.render();
 
-    const actorId = await responseListener("actorCreated", {emmiterId: game.user.id});
-    return game.actors.get(actorId);
+    const createdArray = await DC20RpgActor.gmCreate(actorData);
+    const created = createdArray[0];
+
+    if (!created) {
+      this.createActorRequestSend = false;
+      this.render();
+      return;
+    }
+    return created;
   }
 
   _prepareActorData() {

@@ -4,11 +4,11 @@ import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runHealthChangeEvent, runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
-import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
+import { parseEvent } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { createEffectOn, deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
-import { emitEventToGM } from "../helpers/sockets.mjs";
+import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
@@ -559,21 +559,16 @@ export class DC20RpgActor extends Actor {
   //======================================
   //=           CRUD OPERATIONS          =
   //======================================
-  /**
-   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
-   * No object will be returned by this method.
-   */
-  async gmUpdate(updateData={}, operation={}) {
-    if (!this.canUserModify(game.user, "update")) {
-      emitEventToGM("UPDATE_DOCUMENT", {
-        docUuid: this.uuid,
-        updateData: updateData,
-        operation: operation
-      });
-    }
-    else {
-      await this.update(updateData, operation);
-    }
+  static async gmCreate(data={}, operation={}) {
+    return await gmCreate(data, operation, this);
+  }
+
+  async gmUpdate(data={}, operation={}) {
+    return await gmUpdate(data, operation, this);
+  }
+
+  async gmDelete(operation={}) {
+    return await gmDelete(operation, this);
   }
 
   /** @override */

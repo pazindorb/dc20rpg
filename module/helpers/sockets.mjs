@@ -70,20 +70,6 @@ export function registerSystemSockets() {
     }
   });
 
-  // Create actor for a player
-  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
-    if (data.type === "createActor") {
-      if (game.user.id === data.gmUserId) {
-        const actor = await Actor.create(data.actorData);
-        game.socket.emit('system.dc20rpg', {
-          payload: actor._id, 
-          emmiterId: emmiterId,
-          type: "actorCreated"
-        });
-      }
-    }
-  });
-
   // Update Chat Message
   game.socket.on('system.dc20rpg', async (data) => {
     if (data.type === "updateChatMessage") {
