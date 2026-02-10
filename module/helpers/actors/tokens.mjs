@@ -1,6 +1,6 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../../documents/actor.mjs";
-import { DC20RpgTokenDocument } from "../../documents/tokenDoc.mjs";
+import { DC20RpgTokenDocument } from "../../documents/token.mjs";
 import { isPointInPolygon } from "../utils.mjs";
 
 /** @deprecated since v0.10.0 until 0.10.5 */

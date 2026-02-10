@@ -6,7 +6,7 @@ import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
-import { DC20RpgTokenDocument } from "../documents/tokenDoc.mjs";
+import { DC20RpgTokenDocument } from "../documents/token.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { ColorSetting } from "../settings/colors.mjs";

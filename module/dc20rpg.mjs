@@ -21,7 +21,7 @@ import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { DC20CharacterData, DC20CompanionData, DC20NpcData, DC20StorageData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
-import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
+import { DC20RpgTokenDocument } from "./documents/token.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
