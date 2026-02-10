@@ -1,4 +1,4 @@
-import { createItemOnActor, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { DC20RpgItem } from "../documents/item.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 export class TransferDialog extends DC20Dialog {
@@ -99,8 +99,8 @@ export class TransferDialog extends DC20Dialog {
   async _transferItems(from, to) {
     const items = from.transfer.items;
     for (const item of Object.values(items)) {
-      await deleteItemFromActor(item.id, from, {transfer: true});
-      await createItemOnActor(to, item.toObject());
+      await item.gmDelete({transfer: true});
+      await DC20RpgItem.gmCreate(item.toObject(), {parent: to});
     }
   }
 

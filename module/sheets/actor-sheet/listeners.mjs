@@ -1,6 +1,6 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { RestDialog } from "../../dialogs/rest.mjs";
-import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
+import { activateTrait, changeLevel, createNewTable, deactivateTrait, deleteTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
@@ -61,7 +61,7 @@ export function activateCommonLinsters(html, actor) {
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
-  html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, actor));
+  html.find('.item-delete').click(ev => actor.items.get(datasetOf(ev).itemId)?.delete());
   html.find('.item-edit').click(ev => {
     const item = actor.items.get(datasetOf(ev).itemId);
     item.sheet.render(true);
@@ -145,7 +145,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
   html.find('.mix-ancestry').click(async ev => {
     const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
-    if (ancestryData) await createItemOnActor(actor, ancestryData);
+    if (ancestryData) await DC20RpgItem.create(ancestryData, {parent: actor});
   });
 
   // Tooltips
@@ -172,7 +172,7 @@ export function activateCharacterLinsters(html, actor) {
   html.find('.transfer').click(() => _onTransfer(actor));
   html.find('.open-item-creator').click(async ev => {
     const itemData = await openItemCreator(datasetOf(ev).itemType);
-    if (itemData) await createItemOnActor(actor, itemData);
+    if (itemData) await DC20RpgItem.create(itemData, {parent: actor});
   });
 
   // Attributes
@@ -234,7 +234,7 @@ async function _onItemCreate(tab, actor) {
     type: itemType,
     name: `New ${getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes)}`
   }
-  createItemOnActor(actor, itemData);
+  DC20RpgItem.create(itemData, {parent: actor});
 }
 
 async function _onTransfer(actor) {

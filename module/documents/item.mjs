@@ -2,7 +2,7 @@ import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFro
 import { getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
-import { emitEventToGM } from "../helpers/sockets.mjs";
+import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
@@ -101,33 +101,16 @@ export class DC20RpgItem extends Item {
   //======================================
   //=           CRUD OPERATIONS          =
   //======================================
-  /**
-   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
-   * No object will be returned by this method.
-   */
-  async gmUpdate(updateData={}, operation={}) {
-    if (!this.canUserModify(game.user, "update")) {
-      emitEventToGM("updateDocument", {
-        docUuid: this.uuid,
-        updateData: updateData,
-        operation: operation
-      });
-    }
-    else {
-      await this.update(updateData, operation);
-    }
+  static async gmCreate(data={}, operation={}) {
+    return await gmCreate(data, operation, this);
   }
 
-  /** @override */
-  async update(data={}, operation={}) {
-    try {
-      await super.update(data, operation);
-    } catch (error) {
-      if (error.message.includes("does not exist!")) {
-        ui.notifications.clear()
-      }
-      else throw error;
-    }
+  async gmUpdate(data={}, operation={}) {
+    return await gmUpdate(data, operation, this);
+  }
+
+  async gmDelete(operation={}) {
+    return await gmDelete(operation, this);
   }
 
   async _onCreate(data, options, userId) {

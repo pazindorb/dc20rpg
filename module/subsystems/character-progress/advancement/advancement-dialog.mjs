@@ -6,8 +6,8 @@ import { createItemBrowser } from "../../../dialogs/compendium-browser/item-brow
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrManeuvers } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
-import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { collectAdvancementsFromItem } from "./advancements.mjs";
+import { DC20RpgItem } from "../../../documents/item.mjs";
 
 
 /**
@@ -614,8 +614,8 @@ export class ActorAdvancement extends Dialog {
     await game.settings.set("dc20rpg", "suppressAdvancements", true);
     
     const subclass = await fromUuid(subclassUuid);
-    const createdSubclass = await createItemOnActor(this.actor, subclass.toObject());
-    const fromItem = collectAdvancementsFromItem(3, createdSubclass);
+    const createdSubclass = await DC20RpgItem.gmCreate(subclass.toObject(), {parent: this.actor});
+    const fromItem = collectAdvancementsFromItem(3, createdSubclass[0]);
     this.advancements.push(...fromItem);
 
     this.applyingAdvancement = false;

@@ -1,7 +1,7 @@
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, labelOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
-import { changeActivableProperty, changeNumericValue, changeValue, generateKey, getLabelFromKey } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, changeValue, generateKey } from "../../helpers/utils.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
@@ -11,6 +11,7 @@ import { blueprintAdvancements, configureAdvancementDialog } from "../../subsyst
 import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { openItemCreator } from "../../dialogs/item-creator.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
+import { DC20RpgItem } from "../../documents/item.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -116,7 +117,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-starting-equipment').click(ev => item.update({[`system.startingEquipment.-=${datasetOf(ev).key}`]: null}));
 
   html.find('.remove-resource').click(ev => _removeResourceFromItem(item, datasetOf(ev).key));
-  html.find('.remove-item').click(ev => item.update({[`system.contents.-=${datasetOf(ev).itemKey}`]: null}));
+  html.find('.remove-item').click(ev => _onRemoveItemFromContainer(item, datasetOf(ev).itemKey));
 }
 
 function _removeResourceFromItem(item, key) {
@@ -250,4 +251,16 @@ async function _onHover(ev, html) {
     if (type === "Item") itemTooltip(document, ev, html);
     if (type === "JournalEntryPage") journalTooltip(datasetOf(ev).uuid, document.name, "icons/svg/item-bag.svg", ev, html);
   }
+}
+
+async function _onRemoveItemFromContainer(container, itemKey) {
+  // We need to create that item on actor for the moment just to make sure all preDelete functions are called correctly
+  if (container.actor) {
+    const itemData = container.system.contents[itemKey];
+    if (itemData) {
+      const item = await DC20RpgItem.create(itemData, {parent: container.actor});
+      item.delete();
+    }
+  }
+  await container.update({[`system.contents.-=${itemKey}`]: null});
 }

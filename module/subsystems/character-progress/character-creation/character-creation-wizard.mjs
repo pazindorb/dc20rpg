@@ -1,4 +1,4 @@
-import { createItemOnActor, runAdvancements } from "../../../helpers/actors/itemsOnActor.mjs";
+import { runAdvancements } from "../../../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { responseListener } from "../../../helpers/sockets.mjs";
 import { generateKey, setValueForPath } from "../../../helpers/utils.mjs";
@@ -6,6 +6,7 @@ import { createItemBrowser } from "../../../dialogs/compendium-browser/item-brow
 import { createMixAncestryDialog } from "../../../dialogs/mix-ancestry.mjs";
 import { hideTooltip, itemTooltip } from "../../../helpers/tooltip.mjs";
 import { openItemCreator } from "../../../dialogs/item-creator.mjs";
+import { DC20RpgItem } from "../../../documents/item.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -300,12 +301,12 @@ export class CharacterCreationWizard extends Dialog {
     // Add items to actor
     for (const equipment of Object.values(this.actorData.startingEquipment)) {
       const itemData = equipment.itemData;
-      if (itemData?.name) await createItemOnActor(actor, itemData);
+      if (itemData?.name) await DC20RpgItem.gmCreate(itemData, {parent: actor});
     }
 
-    await createItemOnActor(actor, this.actorData.ancestry);
-    await createItemOnActor(actor, this.actorData.background);
-    await createItemOnActor(actor, this.actorData.class);
+    await DC20RpgItem.gmCreate(this.actorData.ancestry, {parent: actor});
+    await DC20RpgItem.gmCreate(this.actorData.background, {parent: actor});
+    await DC20RpgItem.gmCreate(this.actorData.class, {parent: actor});
 
     // Refresh actor resources
     actor.resources.iterate().forEach(resource => resource.regain("max"));

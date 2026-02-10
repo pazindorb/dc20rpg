@@ -1,7 +1,6 @@
 import { createEffectOn, prepareActiveEffects } from "../helpers/effects.mjs";
 import { activateCommonLinsters } from "./item-sheet/is-listeners.mjs";
 import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
-import { deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 /**
@@ -129,7 +128,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
       if (inventoryOnly && !isFromInventory) canAddToContainer = false;
       if (canAddToContainer) {
         await this.item.update({[`system.contents.${generateKey()}`]: item.toObject()});
-        if (originalItem.actor) await deleteItemFromActor(originalItem.id, originalItem.actor);
+        if (originalItem.actor) await originalItem.delete({transfer: true});
       }
     }
 

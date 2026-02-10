@@ -20,13 +20,13 @@ export async function deleteToken(tokenId) {
 /** @deprecated since v0.10.0 until 0.10.5 */
 export function getTokenForActor(actor) {
   foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getTokenForActor' method is deprecated, and will be removed in the later system version. Use 'actor.getActiveTokens' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
-  actor.getActiveTokens()[0];
+  return actor.getActiveTokens()[0];
 }
 
 /** @deprecated since v0.10.0 until 0.10.5 */
 export function getAllTokensForActor(actor) {
   foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getAllTokensForActor' method is deprecated, and will be removed in the later system version. Use 'actor.getActiveTokens' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
-  actor.getActiveTokens();
+  return actor.getActiveTokens();
 }
 
 /**
@@ -286,7 +286,7 @@ export async function canvasItemDrop(canvas, data, event) {
   if (!confirmed) return;
 
   const itemData = item.toObject();
-  item.gmDelete();
+  item.gmDelete({transfer: true});
 
   const tempActor = new DC20RpgActor({
     type: "storage",

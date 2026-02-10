@@ -1,6 +1,5 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { createItemOnActor } from "../../helpers/actors/itemsOnActor.mjs";
 import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
 import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
@@ -856,7 +855,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   if (infuser && item.system.quantity > 1) {
     const itemData = item.toObject();
     itemData.system.quantity -= 1; 
-    await createItemOnActor(infuser, itemData);
+    await DC20RpgItem.gmCreate(itemData, {parent: infuser});
     await item.update({["system.quantity"]: 1});
   }
 

@@ -1,10 +1,10 @@
-import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { clearSpellList, createNewAdvancement, handleSpellList, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
 import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
-import { generateKey, getValueFromPath, toSelectOptions } from "../../../helpers/utils.mjs";
+import { generateKey, toSelectOptions } from "../../../helpers/utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 import { runTemporaryMacro } from "../../../helpers/macros.mjs";
+import { DC20RpgItem } from "../../../documents/item.mjs";
 
 export function canApplyAdvancement(advancement) {
   if (advancement.mustChoose && advancement.pointsLeft !== 0) {
@@ -132,7 +132,8 @@ async function _addItemsToActor(items, actor, advancement) {
 
   for (const [key, record] of Object.entries(items)) {
     const item = await fromUuid(record.uuid);
-    const created = await createItemOnActor(actor, item);
+    const createdArr = await DC20RpgItem.gmCreate(item, {parent: actor});
+    const created = createdArr[0];
 
     if (created.system.tip) {
       tips.push({

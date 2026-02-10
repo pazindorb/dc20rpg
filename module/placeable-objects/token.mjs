@@ -1,5 +1,5 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
-import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
+import { DC20RpgItem } from "../documents/item.mjs";
 import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
@@ -151,7 +151,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
   }
 
   get neighbours() {
-    const tokens = canvas.tokens.placeables;
+    const tokens = canvas.tokens.placeables.filter(token => token.actor); // Only tokens with actor
     const neighbours = new Map();
     if (canvas.grid.isGridless) {
       const rangeArea = getRangeAreaAroundGridlessToken(this, 0.5);
@@ -217,7 +217,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
           if (itemData.system.properties?.cumbersome?.active) {
             if (!actor.resources.ap.checkAndSpend(1)) return;
           }
-          await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+          await DC20RpgItem.gmCreate(itemData, {parent: actor});
         }
       }
       await this.gmDelete();
