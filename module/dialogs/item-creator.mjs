@@ -153,7 +153,7 @@ export class ItemCreatorDialog extends DC20Dialog {
       let damage = 1;
       if (properties?.reload?.active) damage++;
       if (properties?.heavy?.active) damage++;
-      this.blueprint.system.formulas.weaponDamage.formula = damage;
+      this.blueprint.system.formulas.weaponDamage.formula = String(damage);
     }
   }
 

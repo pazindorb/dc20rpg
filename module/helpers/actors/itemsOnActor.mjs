@@ -22,7 +22,8 @@ export function getItemFromActorByKey(itemKey, actor) {
 /** @deprecated since v0.10.0 until 0.10.5 */
 export async function createItemOnActor(actor, itemData) {
   foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.createItemOnActor' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20RpgItem.gmCreate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
-  return await DC20RpgItem.gmCreate(itemData, {parent: actor});
+  const items = await DC20RpgItem.gmCreate(itemData, {parent: actor});
+  return items[0];
 }
 
 /** @deprecated since v0.9.8 until 0.10.5 */

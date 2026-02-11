@@ -1,7 +1,8 @@
-import { createEffectOn, prepareActiveEffects } from "../helpers/effects.mjs";
+import { prepareActiveEffects } from "../helpers/effects.mjs";
 import { activateCommonLinsters } from "./item-sheet/is-listeners.mjs";
 import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
 import { generateKey } from "../helpers/utils.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -150,7 +151,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
 
   async _onDropEffect(droppedObject) {
     const effect = await ActiveEffect.fromDropData(droppedObject);
-    createEffectOn(effect, this.item);
+    DC20RpgActiveEffect.gmCreate(effect, {parent: this.item, ignoreResponse: true});
   }
 
   _addCustomResource(customResource, key) {

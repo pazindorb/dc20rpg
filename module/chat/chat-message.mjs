@@ -2,7 +2,7 @@ import { RollDialog } from "../roll/rollDialog.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
+import { getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
@@ -15,6 +15,7 @@ import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -366,7 +367,7 @@ export class DC20ChatMessage extends ChatMessage {
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
-      if (actor) createEffectOn(effectData, actor);
+      if (actor) DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
     });
   }
 
@@ -389,7 +390,7 @@ export class DC20ChatMessage extends ChatMessage {
         injectFormula(effectData, rollingActor);
         effectData.flags.dc20rpg.applierId = this.speaker.actor;
         if (this.system.sustain) this._linkWithSustain(effectData, rollingActor);
-        createEffectOn(effectData, actor);
+        DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
       }
     });
   }
@@ -762,7 +763,7 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = await fromUuid(uuid);
     if (!actor) return;
 
-    createEffectOn(effectData, actor);
+    DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
     this.delete();
   }
 

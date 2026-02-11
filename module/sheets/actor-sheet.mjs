@@ -1,4 +1,4 @@
-import { getEffectFrom, prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
+import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters, activateStorageListeners } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
@@ -166,7 +166,7 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
       return;
     }
     if (dataset.effectId) {
-      const effect = getEffectFrom(dataset.effectId, this.actor);
+      const effect = this.actor.getEffectById(dataset.effectId);
       if (effect) {
         event.dataTransfer.setData("text/plain", JSON.stringify(effect.toDragData()));
       }

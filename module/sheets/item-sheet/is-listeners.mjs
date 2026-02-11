@@ -1,4 +1,3 @@
-import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, labelOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey } from "../../helpers/utils.mjs";
@@ -90,11 +89,14 @@ export function activateCommonLinsters(html, item) {
   html.find('.edit-effect-on').click(ev => _onEditEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
 
   // Active Effect Managment
-  html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, item));
-  html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, item));
-  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, item) : ()=>{});
-  html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, item));
-  html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, item), ev, html), ev => hideTooltip(ev, html));
+  html.find(".effect-create").click(ev => _onCreateNewEffect(datasetOf(ev).type, item));
+  html.find(".effect-edit").click(ev => _openEffectSheet(ev, item));
+  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? _openEffectSheet(ev, item) : ()=>{});
+  html.find(".effect-delete").click(ev => {
+    const effect = item.getEffectById(datasetOf(ev).effectId);
+    if (effect) effect.delete();
+  });
+  html.find('.effect-tooltip').hover(ev => effectTooltip(item.getEffectById(datasetOf(ev).effectId), ev, html), ev => hideTooltip(ev, html));
 
   // Target Management
   html.find('.remove-area').click(ev => removeAreaFromItem(item, datasetOf(ev).key));
@@ -191,7 +193,7 @@ async function _onCreateEffectOn(type, item, key) {
     const enh = enhancements[key]
     if (!enh) return;
 
-    const created = await createNewEffectOn("temporary", item, {enhKey: key});
+    const created = await _onCreateNewEffect("temporary", item, {enhKey: key});
     created.sheet.render(true);
   }
   if (type === "conditional") {
@@ -199,7 +201,7 @@ async function _onCreateEffectOn(type, item, key) {
     const cond = conditionals[key]
     if (!cond) return;
 
-    const created = await createNewEffectOn("temporary", item, {condKey: key});
+    const created = await _onCreateNewEffect("temporary", item, {condKey: key});
     created.sheet.render(true);
   }
 }
@@ -212,7 +214,7 @@ async function _onEditEffectOn(type, item, key) {
 
     const effectData = enh.modifications.addsEffect;
     if (!effectData) return;
-    const created = await createEffectOn(effectData, item);
+    const created = await ActiveEffect.create(effectData, {parent: item});
     created.sheet.render(true);
   }
   if (type === "conditional") {
@@ -222,7 +224,7 @@ async function _onEditEffectOn(type, item, key) {
 
     const effectData = cond.effect;
     if (!effectData) return;
-    const created = await createEffectOn(effectData, item);
+    const created = await ActiveEffect.create(effectData, {parent: item});
     created.sheet.render(true);
   }
 }
@@ -263,4 +265,23 @@ async function _onRemoveItemFromContainer(container, itemKey) {
     }
   }
   await container.update({[`system.contents.-=${itemKey}`]: null});
+}
+
+async function _onCreateNewEffect(type, item, flags) {
+  const duration = type === "temporary" ? 1 : undefined
+  const data = {
+    name: item.name,
+    img: item.img,
+    origin: item.uuid,
+    "duration.rounds": duration,
+    disabled: false,
+    flags: {dc20rpg: flags}
+  }
+  const created = await ActiveEffect.create(data, {parent: item});
+  return created;
+}
+
+function _openEffectSheet(ev, object) {
+  const effect = object.getEffectById(datasetOf(ev).effectId);
+  if (effect) effect.sheet.render(true);
 }

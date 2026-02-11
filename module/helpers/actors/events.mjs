@@ -2,7 +2,6 @@ import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
-import { deleteEffectFrom, getEffectFrom, toggleEffectOn } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
@@ -76,7 +75,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
         break;
 
       case "macro": 
-        const effect = getEffectFrom(event.effectId, actor);
+        const effect = actor.getEffectById(event.effectId);
         if (!effect) break;
         const command = effect.system.macro;
         if (!command) break;
@@ -150,7 +149,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
         break;
   
       case "runMacro": 
-        const effect = getEffectFrom(event.effectId, actor);
+        const effect = actor.getEffectById(event.effectId);
         if (!effect) break;
         await effect.runMacro({event: event, extras: {success: true}});
         break;
@@ -170,7 +169,7 @@ async function _rollOutcomeCheck(roll, event, actor) {
         break;
 
       case "runMacro": 
-        const effect = getEffectFrom(event.effectId, actor);
+        const effect = actor.getEffectById(event.effectId);
         if (!effect) break;
         await effect.runMacro({event: event, extras: {success: false}});
         break;
@@ -271,23 +270,23 @@ export function parseEvent(event) {
 }
 
 async function _deleteEffect(effectId, actor) {
-  const effect = getEffectFrom(effectId, actor);
+  const effect = actor.getEffectById(effectId);
   if (!effect) return;
   sendEffectRemovedMessage(actor, effect);
-  await deleteEffectFrom(effectId, actor);
+  await effect.gmDelete();
 }
 
 async function _disableEffect(effectId, actor) {
-  const effect = getEffectFrom(effectId, actor, {active: true});
+  const effect = actor.getEffectById(effectId);
   if (!effect) return;
-  await toggleEffectOn(effectId, actor, false);
+  await effect.disable();
   return effect;
 }
 
 async function _enableEffect(effectId, actor) {
-  const effect = getEffectFrom(effectId, actor, {disabled: true});
+  const effect = actor.getEffectById(effectId);
   if (!effect) return;
-  await toggleEffectOn(effectId, actor, true);
+  await effect.enable();
   return effect;
 }
 
@@ -422,7 +421,7 @@ export function currentRoundFilter(actor, currentRound) {
     required: true,
     eventField: "effectId",
     filterMethod: (field) => {
-      const effect = getEffectFrom(field, actor);
+      const effect = actor.getEffectById(field);
       if (!effect) return true;
       return effect.duration.startRound < currentRound;
     }

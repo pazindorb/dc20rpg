@@ -2,7 +2,7 @@ import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { RestDialog } from "../../dialogs/rest.mjs";
 import { activateTrait, changeLevel, createNewTable, deactivateTrait, deleteTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
-import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
+import { addFlatDamageReductionEffect } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown, toSelectOptions } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
@@ -118,14 +118,22 @@ export function activateCommonLinsters(html, actor) {
   html.find(".edit-resource-img").click(ev => actor.resources[datasetOf(ev).key].changeIcon());
 
   // Active Effects
-  html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, actor));
-  html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, actor, datasetOf(ev).turnOn === "true"));
-  html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
-  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
-  html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
+  html.find(".effect-create").click(ev => _onCreateNewEffect(datasetOf(ev).type, actor));
+  html.find(".effect-toggle").click(ev => {
+    const effect = actor.getEffectById(datasetOf(ev).effectId);
+    if (!effect) return;
+    if (datasetOf(ev).turnOn === "true") effect.enable();
+    else effect.disable();
+  });
+  html.find(".effect-edit").click(ev => _openEffectSheet(ev, actor));
+  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? _openEffectSheet(ev, actor) : ()=>{});
+  html.find(".effect-delete").click(ev => {
+    const effect = actor.getEffectById(datasetOf(ev).effectId);
+    if (effect) effect.delete();
+  });
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
   html.find('.manual-event').click(ev => {
-    const effect = actor.effects.get(datasetOf(ev).effectId);
+    const effect = actor.getEffectById(datasetOf(ev).effectId);
     if (effect) effect.runManualEvent();
   });
   
@@ -151,7 +159,7 @@ export function activateCommonLinsters(html, actor) {
   // Tooltips
   html.find('.item-tooltip').hover(ev => itemTooltip(actor.items.get(datasetOf(ev).itemId), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
   html.find('.enh-tooltip').hover(ev => enhTooltip(actor.items.get(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
-  html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, actor), ev, html), ev => hideTooltip(ev, html));
+  html.find('.effect-tooltip').hover(ev => effectTooltip(actor.getEffectById(datasetOf(ev).effectId), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
 }
@@ -272,4 +280,21 @@ async function _onInfusionRoll(actor, infusion) {
   const item = actor.items.get(itemId);
   if (!item) return;
   item.infusions.apply(infusion, actor.uuid);
+}
+
+function _onCreateNewEffect(type, actor) {
+  const duration = type === "temporary" ? 1 : undefined
+  const data = {
+    name: `${actor.name} - New Effect`,
+    img: actor.img,
+    origin: actor.uuid,
+    "duration.rounds": duration,
+    disabled: false
+  }
+  ActiveEffect.create(data, {parent: actor});
+}
+
+function _openEffectSheet(ev, object) {
+  const effect = object.getEffectById(datasetOf(ev).effectId);
+  if (effect) effect.sheet.render(true);
 }

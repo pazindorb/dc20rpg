@@ -1,7 +1,7 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
-import { emitEventToGM } from "./sockets.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
   const hideNonessentialEffects = !owner.system.sheetData.show.nonessentialEffects;
@@ -92,113 +92,94 @@ function _connectEffectAndStatus(effect, statuses) {
 //==================================================
 //    Manipulating Effects On Other Objects        =  
 //==================================================
-export async function createNewEffectOn(type, owner, flags) {
-  const duration = type === "temporary" ? 1 : undefined
-  const inactive = type === "inactive";
-  const created = await owner.createEmbeddedDocuments("ActiveEffect", [{
-    label: "New Effect",
-    name: "New Effect",
-    img: "icons/svg/aura.svg",
-    origin: owner.uuid,
-    "duration.rounds": duration,
-    disabled: inactive,
-    flags: {dc20rpg: flags}
-  }]);
-  return created[0];
-}
-
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createEffectOn(effectData, owner) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("CREATE_DOCUMENT", {
-      docType: "effect",
-      docData: effectData, 
-      actorUuid: owner.uuid
-    });
-    return;
-  }
-  if (!effectData.origin) effectData.origin = owner.uuid;
-  const created = await owner.createEmbeddedDocuments("ActiveEffect", [effectData]);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.createEffectOn' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20RpgActiveEffect.gmCreate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const created = await DC20RpgActiveEffect.gmCreate(effectData, {parent: owner});
   return created[0];
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function editEffectOn(effectId, owner) {
-  const effect = getEffectFrom(effectId, owner);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.editEffectOn' method is deprecated, and will be removed in the later system version. Use 'effect.sheet.render(true)' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId);
   if (effect) effect.sheet.render(true);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function updateEffectOn(effectId, owner, updateData) {
-  const effect = owner.effects.get(effectId);
-  if (!effect) return;
-  return effect.gmUpdate(updateData);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.updateEffectOn' method is deprecated, and will be removed in the later system version. Use 'object.gmUpdate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId);
+  if (effect) return effect.gmUpdate(updateData);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function deleteEffectFrom(effectId, owner) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("DELETE_DOCUMENT", {
-      docType: "effect",
-      docId: effectId, 
-      actorUuid: owner.uuid
-    });
-    return;
-  }
-  const effect = getEffectFrom(effectId, owner);
-  if (effect) await effect.delete();
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.deleteEffectFrom' method is deprecated, and will be removed in the later system version. Use 'object.gmDelete' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId);
+  if (effect) await effect.gmDelete();
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function toggleEffectOn(effectId, owner, turnOn) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("toggleEffectOn", {
-      turnOn: turnOn,
-      effectId: effectId, 
-      ownerUuid: owner.uuid
-    });
-    return;
-  }
-
-  const options = turnOn ? {disabled: true} : {active: true};
-  const effect = getEffectFrom(effectId, owner, options);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.toggleEffectOn' method is deprecated, and will be removed in the later system version. Use 'object.enable/object.disable' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId, owner);
   if (effect) {
     if (turnOn) await effect.enable();
     else await effect.disable();
   }
 }
 
-export function getEffectFrom(effectId, owner, options={}) {
-  if (options.active) return owner.allEffects.find(effect => effect._id === effectId && effect.disabled === false);
-  if (options.disabled) return owner.allEffects.find(effect => effect._id === effectId && effect.disabled === true);
-  return owner.allEffects.find(effect => effect._id === effectId);
+/** @deprecated since v0.10.0 until 0.10.5 */
+export function getEffectFrom(effectId, owner) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectFrom' method is deprecated, and will be removed in the later system version. Use 'object.getEffectById' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectById(effectId);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getEffectByName(effectName, owner) {
-  return owner.getEffectWithName(effectName);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectByName' method is deprecated, and will be removed in the later system version. Use 'object.getEffectByName' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectByName(effectName);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getEffectById(effectId, owner) {
-  return owner.allEffects.find(effect => effect._id === effectId);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectById' method is deprecated, and will be removed in the later system version. Use 'object.getEffectById' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectById(effectId);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getEffectByKey(effectKey, owner) {
-  if (!effectKey) return;
-  return owner.allEffects.find(effect => effect.system.effectKey === effectKey);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectByKey' method is deprecated, and will be removed in the later system version. Use 'object.getEffectByKey' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectByKey(effectKey);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createOrDeleteEffect(effectData, owner) {
-  const alreadyExist = getEffectByName(effectData.name, owner);
-  if (alreadyExist) return await deleteEffectFrom(alreadyExist.id, owner);
-  else return await createEffectOn(effectData, owner);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.createOrDeleteEffect' method is deprecated, and will be removed in the later system version.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const alreadyExist = owner.getEffectByname(effectData.name);
+  if (alreadyExist) {
+    alreadyExist.gmDelete();
+  }
+  else {
+    const created = await DC20RpgActiveEffect.gmCreate(effectData, {parent: owner});
+    return created[0];
+  }
 }
 
 export async function handleAfterRollEffectModification(toRemove) {
   const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
   if (actor) {
-    const effect = getEffectFrom(toRemove.effectId, actor);
+    const effect = actor.getEffectById(toRemove.effectId);
     const afterRoll = toRemove.afterRoll;
     if (effect) {
       if (afterRoll === "delete") {
         sendEffectRemovedMessage(actor, effect);
-        await deleteEffectFrom(toRemove.effectId, actor);
+        await effect.gmDelete();
       }
-      if (afterRoll === "disable") await toggleEffectOn(toRemove.effectId, actor, false);
+      if (afterRoll === "disable") {
+        await effect.disable();
+      }
     }
   }
 }
@@ -233,7 +214,7 @@ export async function addFlatDamageReductionEffect(actor) {
       }
     ]
   }
-  await createEffectOn(damageReduction, actor);
+  await DC20RpgActiveEffect.gmCreate(damageReduction, {parent: actor});
 }
 
 //===========================================================

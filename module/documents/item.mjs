@@ -89,9 +89,13 @@ export class DC20RpgItem extends Item {
   async roll(options={}) {
     return await RollDialog.open(this.actor, this, options);
   }
+  
+  getEffectById(id) {
+    return this.effects.get(id);
+  }
 
-  getEffectWithName(effectName) {
-    return this.effects.getName(effectName);
+  getEffectByName(name) {
+    return this.effects.getName(name);
   }
 
   getEffectByKey(effectKey) {
@@ -263,7 +267,7 @@ export class DC20RpgItem extends Item {
   }
 
   async updateShortInfo(text) {
-    return await this.update({["system.shortInfo"]: text});
+    return await this.gmUpdate({["system.shortInfo"]: text});
   }
 
   //==========================
@@ -276,7 +280,7 @@ export class DC20RpgItem extends Item {
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
     await runTemporaryItemMacro(this, "onItemToggle", this.actor, {on: newState, off: !newState, equipping: false});
-    await this.update({["system.toggle.toggledOn"]: newState});
+    await this.gmUpdate({["system.toggle.toggledOn"]: newState});
     this.#createLinkedAura(newState);
   }
 

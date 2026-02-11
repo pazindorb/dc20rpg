@@ -1,6 +1,6 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { createEffectOn, deleteEffectFrom, getEffectByKey, getEffectByName } from "../helpers/effects.mjs";
+import DC20RpgActiveEffect from "./activeEffect.mjs";
 
 export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
 
@@ -93,7 +93,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
       for (const token of confirmedTokens) {
         const actor = token.actor;
         for (const effectData of applyEffects.effects) {
-          await createEffectOn(effectData, actor);
+          await DC20RpgActiveEffect.gmCreate(effectData, {parent: actor});
         }
       }
     }
@@ -105,9 +105,9 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
       const actor = token.actor;
       if (actor) {
         for (const effectData of applyEffects.effects) {
-          let effect = getEffectByKey(effectData.flags.dc20rpg?.effectKey, actor);
-          if (!effect) effect = getEffectByName(effectData.name, actor);
-          if (effect) await deleteEffectFrom(effect.id, actor);
+          let effect = actor.getEffectByKey(effectData.flags.dc20rpg?.effectKey);
+          if (!effect) effect = actor.getEffectByName(effectData.name, actor);
+          if (effect) effect.gmDelete();
         }
       }
     }
@@ -147,9 +147,9 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
       const actor = token.actor;
       if (actor) {
         for (const effectData of applyEffects.effects) {
-          let effect = getEffectByKey(effectData.flags.dc20rpg?.effectKey, actor);
-          if (!effect) effect = getEffectByName(effectData.name, actor);
-          if (effect) await deleteEffectFrom(effect.id, actor);
+          let effect = actor.getEffectByKey(effectData.flags.dc20rpg?.effectKey);
+          if (!effect) effect = actor.getEffectByName(effectData.name, actor);
+          if (effect) effect.gmDelete();
         }
       }
     }

@@ -6,13 +6,13 @@ import { companionShare } from "../helpers/actors/companion.mjs";
 import { runHealthChangeEvent, runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { parseEvent } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
-import { createEffectOn, deleteEffectFrom } from "../helpers/effects.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
+import DC20RpgActiveEffect from "./activeEffect.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
@@ -148,8 +148,16 @@ export class DC20RpgActor extends Actor {
     return this.items.find(item => item.system.itemKey === itemKey);
   }
 
+  getEffectById(id) {
+    return this.allEffects.find(effect => effect._id === id);
+  }
+
   getEffectByKey(effectKey) {
     return this.allEffects.find(effect => effect.system.effectKey === effectKey);
+  }
+
+  getEffectByName(name) {
+    return this.allEffects.find(effect => effect.name === name);
   }
 
   /** @override */
@@ -386,12 +394,6 @@ export class DC20RpgActor extends Actor {
     return false;
   }
 
-  getEffectWithName(effectName) {
-    for (const effect of this.allApplicableEffects()) {
-      if (effect.name === effectName) return effect;
-    }
-  }
-
   _prepareCustomResources() {
     // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(this.system.resources.custom)) {
@@ -483,7 +485,7 @@ export class DC20RpgActor extends Actor {
   }
 
   async applyEffect(effectData) {
-    return await createEffectOn(effectData, this);
+    return await DC20RpgActiveEffect.gmCreate(effectData, {parent: this});
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
@@ -776,10 +778,7 @@ export class DC20RpgActor extends Actor {
     // Drop effects when sustain drops
     for (const effectUuid of sustain.linkedEffects) {
       const effect = await fromUuid(effectUuid);
-      if (!effect) continue;
-      const owner = effect.getOwningActor();
-      if (!owner) continue;
-      deleteEffectFrom(effect.id, owner);
+      if (effect) await effect.gmDelete();
     }
     // Toggle item off when sustain drops
     if (sustain.toggleOff) {

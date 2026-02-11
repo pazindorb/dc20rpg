@@ -1,7 +1,7 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
-import { emitEventToGM } from "../helpers/sockets.mjs";
+import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -136,7 +136,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         await parentItem.toggle({forceOff: true});
       }
     }
-    await this.update({disabled: true});
+    await this.gmUpdate({disabled: true});
     const actor = this.getOwningActor();
     if (actor) {
       await runEventsFor("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectDisabled: this});
@@ -164,7 +164,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       const initial =  this.constructor.getInitialDuration();
       updateData.duration = initial.duration;
     }
-    await this.update(updateData);
+    await this.gmUpdate(updateData);
     const actor = this.getOwningActor();
     if (actor) {
       await runEventsFor("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectEnabled: this}); 
@@ -225,21 +225,16 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   //======================================
   //=           CRUD OPERATIONS          =
   //======================================
-  /**
-   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
-   * No object will be returned by this method.
-   */
-  async gmUpdate(updateData={}, operation={}) {
-    if (!this.canUserModify(game.user, "update")) {
-      emitEventToGM("UPDATE_DOCUMENT", {
-        docUuid: this.uuid,
-        updateData: updateData,
-        operation: operation
-      });
-    }
-    else {
-      await this.update(updateData, operation);
-    }
+  static async gmCreate(data={}, operation={}) {
+    return await gmCreate(data, operation, this);
+  }
+
+  async gmUpdate(data={}, operation={}) {
+    return await gmUpdate(data, operation, this);
+  }
+
+  async gmDelete(operation={}) {
+    return await gmDelete(operation, this);
   }
 
   // If we are removing a status from effect we need to run check 

@@ -4,7 +4,7 @@ import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../helpers/effects.mjs";
+import { addFlatDamageReductionEffect } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
@@ -766,12 +766,13 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
           if (item) item.toggle();
         }
         else {
+          const effect = owner.getEffectById(dataset.effectId);
           if (event.shiftKey) {
-            const effect = getEffectFrom(dataset.effectId, owner);
             effect.runManualEvent();
           }
           else {
-            toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+            if (dataset.turnOn === "true") effect.enable();
+            else effect.disable()
           }
         }
       }
@@ -787,7 +788,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (event.target.classList.contains("effect-img")) {
       const dataset = event.target.dataset;
       const owner = getActorFromIds(this.actorId, this.tokenId);
-      if (owner) editEffectOn(dataset.effectId, owner);
+      if (owner) {
+        const effect = owner.getEffectById(dataset.effectId);
+        if (effect) effect.sheet.render(true);
+      }
     }
   }
 
@@ -797,7 +801,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         const confirmed = await SimplePopup.confirm("Do you want to remove that Effect?");
-        if (confirmed) deleteEffectFrom(dataset.effectId, owner);
+        if (confirmed) {
+        const effect = owner.getEffectById(dataset.effectId);
+        if (effect) effect.gmDelete();
+        }
       }
     }
     if (event.target.classList.contains('help-dice') || event.target.parentElement.classList.contains('help-dice')) {

@@ -5,9 +5,9 @@ import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
-import { createEffectOn } from "../helpers/effects.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import DC20RpgActiveEffect from "./activeEffect.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -444,7 +444,7 @@ export class DC20RpgCombat extends Combat {
         image: actor.img,
         description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
       });
-      createEffectOn(this._getInitiativeCritEffectData(actor), actor);
+      DC20RpgActiveEffect.gmCreate(this._getInitiativeCritEffectData(actor), {parent: actor, ignoreResponse: true});
     }
     // Crit Fail
     if (combatant.flags.dc20rpg?.initativeOutcome?.fail) {
@@ -453,7 +453,7 @@ export class DC20RpgCombat extends Combat {
         image: actor.img,
         description: "The first Attack made against you during the first Round of Combat has ADV.",
       });
-      createEffectOn(this._getInitiativeCritFailEffectData(actor), actor);
+      DC20RpgActiveEffect.gmCreate(this._getInitiativeCritFailEffectData(actor), {parent: actor, ignoreResponse: true});
     }
     // Success
     if (combatant.initiative >= initiativeDC) {
@@ -493,9 +493,7 @@ export class DC20RpgCombat extends Combat {
       img: "icons/svg/angel.svg",
       origin: actor.uuid,
       duration: {
-        rounds: 1,
-        startRound: 1,
-        startTurn: 0,
+        rounds: 2
       },
       system: {
         duration: {
@@ -530,9 +528,7 @@ export class DC20RpgCombat extends Combat {
       img: "icons/svg/coins.svg",
       origin: actor.uuid,
       duration: {
-        rounds: 1,
-        startRound: 1,
-        startTurn: 0,
+        rounds: 2
       },
       system: {
         duration: {

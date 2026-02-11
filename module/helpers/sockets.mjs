@@ -1,7 +1,6 @@
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { toggleEffectOn } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
@@ -154,18 +153,6 @@ export function registerSystemSockets() {
           type: "DELETE_DOCUMENT_RESPONSE",
           signature: signature
         });
-      }
-    }
-  });
-
-  // Disable/Enable Effect 
-  game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "toggleEffectOn") {
-      const { effectId, turnOn, ownerUuid, gmUserId } = data.payload;
-      if (game.user.id === gmUserId) {
-        const owner = await fromUuid(ownerUuid);
-        if (ownerUuid && !owner) return;
-        await toggleEffectOn(effectId, owner, turnOn);
       }
     }
   });
