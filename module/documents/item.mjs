@@ -1,5 +1,4 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
-import { getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
@@ -286,7 +285,7 @@ export class DC20RpgItem extends Item {
 
   #createLinkedAura(newState) {
     if (!this.actor) return;
-    const token = getTokenForActor(this.actor);
+    const token = this.actor.getActiveTokens()[0];
     if (!token) return;
 
     if (newState) {

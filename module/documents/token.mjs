@@ -108,16 +108,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (userId === game.user.id && this.actor) {
       if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
         runEventsFor("move", this.actor);
-        this.object.movedRecently = {
-          from: {
-            x: this.object.x,
-            y: this.object.y
-          },
-          to: {
-            x: changed.x || this.object.x,
-            y: changed.y || this.object.y
-          }
-        };
         
         // Wait for movement to finish before triggering measured template check
         let counter = 0;  // Max amount of loops

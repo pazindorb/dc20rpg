@@ -1,6 +1,6 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
-import { getActorFromIds, getTokenForActor } from "../helpers/actors/tokens.mjs";
+import { getActorFromIds } from "../helpers/actors/tokens.mjs";
 import { getPointsOnLine, isPointInPolygon } from "../helpers/utils.mjs";
 
 export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.MeasuredTemplate {
@@ -204,7 +204,7 @@ export default class DC20RpgMeasuredTemplate extends foundry.canvas.placeables.M
       const actor = getActorFromIds(itemData.actorId, itemData.tokenId);
       if (actor) item = actor.items.get(itemData.itemId);
       if (item.system?.target?.type === "self" || template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
-        const token = getTokenForActor(actor);
+        const token = actor.getActiveTokens()[0];
         if (token) {
           await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
         }

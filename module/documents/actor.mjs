@@ -5,7 +5,7 @@ import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../he
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runHealthChangeEvent, runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { parseEvent } from "../helpers/actors/events.mjs";
-import { displayScrollingTextOnToken, getAllTokensForActor, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
+import { displayScrollingTextOnToken, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
@@ -589,7 +589,7 @@ export class DC20RpgActor extends Actor {
     if (userId === game.user.id) {
       if (changed.system?.resources?.health) {
         healthThresholdsCheck(changed.system.resources.health.current, this);
-        const tokens = getAllTokensForActor(this);
+        const tokens = this.getActiveTokens();
         const hpChange = options.hpChange;
         if (hpChange > 0) {
           const text = `+${Math.abs(hpChange)}`;

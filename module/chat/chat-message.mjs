@@ -1,7 +1,7 @@
 import { RollDialog } from "../roll/rollDialog.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
-import { getActorFromIds, getSelectedTokens, getTokenForActor, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
+import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -1026,7 +1026,6 @@ export class DC20ChatMessage extends ChatMessage {
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
 export async function sendRollsToChat(rolls, actor, details, hasTargets, item, rollMode) {
-  const token = getTokenForActor(actor);
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
   if (hasTargets) game.user.targets.forEach(token => targets.push(token.id));
@@ -1051,13 +1050,11 @@ export async function sendRollsToChat(rolls, actor, details, hasTargets, item, r
       creationTime: {
         round: game.combats?.active?.round || 0,
         turn: game.combats?.active?.turn || 0
-      },
-      movedRecently: token?.movedRecently || null
+      }
     }}
   }
   chatData = DC20ChatMessage.applyRollMode(chatData, rollMode || game.settings.get('core', 'rollMode'));
   const message = await DC20ChatMessage.create(chatData);
-  if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
@@ -1074,7 +1071,6 @@ function _rollsObjectToArray(rolls) {
 }
 
 export async function sendDescriptionToChat(actor, details, item) {
-  const token = getTokenForActor(actor);
   const system = {
       ...details,
       messageType: "description"
@@ -1087,7 +1083,6 @@ export async function sendDescriptionToChat(actor, details, item) {
   };
   chatData = DC20ChatMessage.applyRollMode(chatData, game.settings.get('core', 'rollMode'));
   const message = await DC20ChatMessage.create(chatData);
-  if(token) token.movedRecently = null;
   if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
