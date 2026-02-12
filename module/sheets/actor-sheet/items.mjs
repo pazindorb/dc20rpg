@@ -178,7 +178,8 @@ export function prepareItemsForStorage(context, actor) {
     switch (item.type) {
       
       case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
-        _addItemToTable(item, inventory, "weapon"); 
+        const fallback = item.type === "spellFocus" ? "weapon" : item.type;
+        _addItemToTable(item, inventory, fallback); 
         break;
       case 'container':
         containers.push(item);
@@ -312,13 +313,9 @@ export function prepareItemFormulas(item, actor) {
 function _addItemToTable(item, headers, fallback) {
   const headerName = item.system.tableName;
 
-  if (!headerName || !headers[headerName]) {
-    if (headers[item.type]) headers[item.type].items[item.id] = item;
-    else if (headers[fallback]) headers[fallback].items[item.id] = item;
-  }
-  else {
-    headers[headerName].items[item.id] = item;
-  }
+  if (headerName && headers[headerName]) headers[headerName].items[item.id] = item;
+  else if (headers[fallback]) headers[fallback].items[item.id] = item;
+  else if (headers[item.type]) headers[item.type].items[item.id] = item;
 }
 
 function _filterItems(filter, items) {
