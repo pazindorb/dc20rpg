@@ -120,8 +120,8 @@ export class Conditional {
     ignoreMdr: false,
     ignoreResistance: {},
     ignoreImmune: {},
-    reduceAd: "",
-    reducePd: ""
+    reduceAd: "", // TODO: Should this exist at all?
+    reducePd: ""  // TODO: Should this exist at all?
   };
   effect = null;
   addsNewRollRequest = false;

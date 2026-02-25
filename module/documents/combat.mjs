@@ -561,12 +561,14 @@ export class DC20RpgCombat extends Combat {
 
       // Critical Success: You are restored to 1 HP
       if (roll.crit) {
+        // TODO NOW: REWORK - Make it use Target's Apply Healing
         const health = actor.system.resources.health;
         actor.update({["system.resources.health.current"]: 1});
         sendHealthChangeMessage(actor, Math.abs(health.current) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
       }
       // Success (5): You regain 1 HP.
       else if (roll._total >= 15) {
+        // TODO NOW: REWORK - Make it use Target's Apply Healing
         const health = actor.system.resources.health;
         actor.update({["system.resources.health.current"]: (health.current + 1)});
         sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.success'), "healing");

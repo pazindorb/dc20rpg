@@ -1,4 +1,4 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
@@ -631,9 +631,12 @@ export class DC20RpgActor extends Actor {
       const before = this.system.resources;
       for (const [key, resource] of Object.entries(changes.system.resources)) {
         if (key === "health") {
-          const hpChange = await runHealthChangeEvent(resource, before.health, changes.messageId, this, changes.skipEventCall);
+          const hpChange = await runHealthChangeEvent(resource, before.health, this, options);
           options.hpChange = hpChange;
           if (hpChange === 0) preventChangeFor.push({custom: false, key: "health"});
+          if (options.hpChangeSource) {
+            sendHealthChangeMessage(this, Math.abs(hpChange), options.hpChangeSource, options.hpChangeType);
+          }
         }
         if (key === "custom") {
           for (const [customKey, customRes] of Object.entries(resource)) {

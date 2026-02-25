@@ -259,7 +259,7 @@ export async function gmCreate(data={}, operation={}, DocumentClass) {
   const globalPerm = DocumentClass.canUserCreate(game.user);
   const canCreate = docPerm || globalPerm;
 
-  if (!canCreate) {
+  if (!canCreate || operation.forceGM) {
     if (operation.parent) operation.parent = operation.parent.uuid; // We cannot transfer full document via socket
     if (operation.ignoreResponse) {
       emitEventToGM("CREATE_DOCUMENT", {createData: data, operation: operation, documentClassName: DocumentClass.documentName});
@@ -282,9 +282,15 @@ export async function gmCreate(data={}, operation={}, DocumentClass) {
   }
 
   else {
-    const result = await DocumentClass.create(data, operation);
-    if (Array.isArray(result)) return result;
-    else if (result) return [result];
+    try {
+      const result = await DocumentClass.create(data, operation);
+      if (Array.isArray(result)) return result;
+      else if (result) return [result];
+    }
+    catch (e) {
+      operation.forceGM = true;
+      return await gmCreate(data, operation, DocumentClass);
+    }
   }
 }
 
@@ -295,7 +301,7 @@ export async function gmCreate(data={}, operation={}, DocumentClass) {
  * @returns {Promise<Document|undefined>}       The updated Document instance, or undefined not updated
  */
 export async function gmUpdate(data={}, operation={}, object) {
-  if (!object.canUserModify(game.user, "update")) {
+  if (!object.canUserModify(game.user, "update") || operation.forceGM) {
     if (operation.ignoreResponse) {
       emitEventToGM("UPDATE_DOCUMENT", {uuid: object.uuid, updateData: data, operation: operation});
     }
@@ -311,7 +317,14 @@ export async function gmUpdate(data={}, operation={}, object) {
   }
 
   else {
-    return await object.update(data, operation);
+    try {
+      const updated = await object.update(data, operation);
+      return updated;
+    }
+    catch (e) {
+      operation.forceGM = true;
+      return await gmUpdate(data, operation, object);
+    }
   }
 }
 
@@ -322,7 +335,7 @@ export async function gmUpdate(data={}, operation={}, object) {
  * @returns {Promise<boolean|undefined>}       True if deleted, false if not
  */
 export async function gmDelete(operation={}, object) {
-  if (!object.canUserModify(game.user, "delete")) {
+  if (!object.canUserModify(game.user, "delete") || operation.forceGM) {
     if (operation.ignoreResponse) {
       emitEventToGM("DELETE_DOCUMENT", {uuid: object.uuid, operation: operation});
     }
@@ -337,7 +350,13 @@ export async function gmDelete(operation={}, object) {
   }
   
   else {
-    const deleted = await object.delete(operation);
-    return !!deleted;
+    try {
+      const deleted = await object.delete(operation);
+      return !!deleted;
+    }
+    catch (e) {
+      operation.forceGM = true;
+      return await gmDelete(operation, object);
+    }
   }
 }

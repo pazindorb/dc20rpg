@@ -1,4 +1,5 @@
 import { sendHealthChangeMessage } from "../../chat/chat-message.mjs";
+import { DC20Target } from "../../subsystems/target/target.mjs";
 
 //=============================================
 //              CUSTOM RESOURCES              =
@@ -33,98 +34,14 @@ export function createLegenedaryResources(actor) {
 //=============================================
 //              HP MANIPULATION               =
 //=============================================
-/**
- * Applies damage to given actor.
- * Dmg object should look like this:
- * {
- *  "source": String,
- *  "type": String(ex. "fire"),
- *  "value": Number
- * }
- */
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function applyDamage(actor, dmg, options={}) {
-  if (!actor) return;
-  if (dmg.value === 0) return;
-
-  const health = actor.system.resources.health;
-  const newValue = health.value - dmg.value;
-  const updateData = {
-    ["system.resources.health.value"]: newValue,
-    skipEventCall: options.skipEventCall,
-    messageId: options.messageId
-  }
-  await actor.gmUpdate(updateData);
-  sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.applyDamage' method is deprecated, and will be removed in the later system version. Use 'DC20Target.quickApplyDamageFor' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return DC20Target.quickApplyDamageFor(actor, dmg, {}, options);
 }
 
-/**
- * Applies damage to given actor.
- * Heal object should look like this:
- * {
- *  "source": String,
- *  "type": String(ex. "temporary"),
- *  "value": Number,
- *  "allowOverheal": Boolean
- * }
- */
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function applyHealing(actor, heal, options={}) {
-  if (!actor) return;
-  if (heal.value === 0) return;
-
-  const preventHpRegen = actor.system.globalModifier.prevent.hpRegeneration;
-  if (preventHpRegen) {
-    ui.notifications.error('You cannot regain any HP');
-    return;
-  }
-
-  let sources = heal.source;
-  const healType = heal.type;
-  const healAmount = heal.value;
-  const health = actor.system.resources.health;
-
-  if (healType === "heal") {
-    const oldCurrent = health.current;
-    let newCurrent = oldCurrent + healAmount;
-    let temp = health.temp || 0;
-
-    // Overheal
-    if (health.max < newCurrent) {
-      const overheal = newCurrent - health.max;
-      // Allow Overheal to transfer to temporary hp
-      if (heal.allowOverheal) {
-        if (overheal > temp) {
-          sources += ` -> (Overheal <b>${overheal}</b> -> Transfered to TempHP)`;
-          temp = overheal;
-        }
-        else sources += ` -> (Overheal <b>${overheal}</b> -> Would transfer to TempHP but current TempHP is bigger)`;
-      }
-      else sources += ` -> (Overheal <b>${overheal}</b>)`;
-      newCurrent = health.max;
-    }
-
-    const updateData = {
-      ["system.resources.health.temp"]: temp,
-      ["system.resources.health.current"]: newCurrent,
-      ["system.resources.health.value"]: newCurrent,
-      skipEventCall: options.skipEventCall,
-      messageId: options.messageId
-    }
-    await actor.gmUpdate(updateData);
-    sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
-  }
-  
-  if (healType === "temporary") {
-    // Temporary HP do not stack it overrides
-    const oldTemp = health.temp || 0;
-    if (oldTemp >= healAmount) {
-      sources += ` -> (Current Temporary HP is higher)`;
-      sendHealthChangeMessage(actor, 0, sources, "temporary");
-      return;
-    }
-    else if (oldTemp > 0) {
-      sources += ` -> (Adds ${healAmount - oldTemp} to curent Temporary HP)`;
-    }
-    await actor.gmUpdate({["system.resources.health.temp"]: healAmount});
-    sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
-  }
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.applyHealing' method is deprecated, and will be removed in the later system version. Use 'DC20Target.quickApplyHealingFor' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return DC20Target.quickApplyHealingFor(actor, heal, {}, options);
 }

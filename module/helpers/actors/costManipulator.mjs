@@ -13,15 +13,15 @@ export async function runResourceChangeEvent(key, after, before, actor, custom) 
   return fields.preventChange;
 }
 
-export async function runHealthChangeEvent(after, before, messageId, actor, skipEventCall) {
-  const hpChange =after.value - before.value;
+export async function runHealthChangeEvent(after, before, actor, options) {
+  const hpChange = after.value - before.value;
   const amount = Math.abs(hpChange);
 
-  const fields = {amount: amount, messageId: messageId, preventChange: false}
-  if (hpChange < 0 && !skipEventCall) {
+  const fields = {amount: amount, messageId: options.messageId, preventChange: false}
+  if (hpChange < 0 && !options.skipEventCall) {
     await runEventsFor("damageTaken", actor, minimalAmountFilter(amount), fields); 
   }
-  if (hpChange > 0 && !skipEventCall) {
+  if (hpChange > 0 && !options.skipEventCall) {
     const tempHpChangeOnly = (hpChange === after.temp) || (after.temp > 0 && !after.current);
     fields.tempHpChangeOnly = tempHpChangeOnly;
     await runEventsFor("healingTaken", actor, [...minimalAmountFilter(amount), ...skipTempHpChangeOnlyFilter(tempHpChangeOnly)], fields);
