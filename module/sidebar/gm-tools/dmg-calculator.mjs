@@ -1,7 +1,7 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { applyDamage } from "../../helpers/actors/resources.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
 import { calculateForTarget } from "../../helpers/targets.mjs";
+import { DC20Target } from "../../subsystems/target/target.mjs";
 export class DamageCalculator extends DC20Dialog {
 
   static open() {
@@ -74,6 +74,7 @@ export class DamageCalculator extends DC20Dialog {
     
     return context;
   }
+  // TODO NOW: REWORK THIS 
 
   _calculate(dmgType, fall) {
     Object.values(this.tokens).forEach(token => {
@@ -125,6 +126,7 @@ export class DamageCalculator extends DC20Dialog {
       value: wrapper.damage,
       source: game.i18n.localize(`dc20rpg.dialog.dmgCalculator.${this.calculationType}`)
     };
+    DC20Target.quickApplyDamageFor(actor, damage);
     const actor = wrapper.token.actor;
     applyDamage(actor, damage);
   }

@@ -1,8 +1,7 @@
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { applyDamage, applyHealing } from "./actors/resources.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
-import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
@@ -87,9 +86,7 @@ function _handleDamage(data, token) {
     source: "Inline Roll",
     type: data.subtype
   };
-  const target = tokenToTarget(token);
-  dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
-  applyDamage(token.actor, dmg.modified);
+  DC20Target.quickApplyDamageFor(token.actor, dmg);
 }
 
 function _handleHealing(data, token) {
@@ -98,9 +95,7 @@ function _handleHealing(data, token) {
     value: parseInt(data.value || 1),
     type: data.subtype
   };
-  const target = tokenToTarget(token);
-  heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
-  applyHealing(token.actor, heal.modified);
+  DC20Target.quickApplyHealingFor(token.actor, dmg);
 }
 
 //==========================================

@@ -2,9 +2,9 @@ import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
+import { DC20Target } from "../../subsystems/target/target.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
-import { applyDamage, applyHealing } from "./resources.mjs";
 
 let preTriggerTurnedOffEvents = [];
 /**
@@ -30,32 +30,17 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
     runTrigger = await _runPreTrigger(event, actor);
     if (!runTrigger) continue;
 
-    const target = {
-      system: {
-        damageReduction: actor.system.damageReduction,
-        healingReduction: actor.system.healingReduction
-      }
-    }
+    const options = {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"};
     switch(event.eventType) {
       case "damage":
         // Check if damage should be reduced
-        let dmg = {
-          value: parseInt(event.value),
-          source: event.label,
-          type: event.type
-        }
-        dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
-        await applyDamage(actor, dmg.modified, {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"});
+        const dmg = {value: parseInt(event.value), source: event.label, type: event.type}
+        await DC20Target.quickApplyDamageFor(actor, dmg, {}, options);
         break;
 
       case "healing":
-        let heal = {
-          source: event.label,
-          value: parseInt(event.value),
-          type: event.type
-        };
-        heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
-        await applyHealing(actor, heal.modified, {skipEventCall: event.trigger === "damageTaken" || event.trigger === "healingTaken"});
+        const heal = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyHealingFor(actor, heal, {}, options);
         break;
 
       case "checkRequest":

@@ -643,6 +643,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _onApplyDamage(targetKey, dmgKey, modified, half) {
+    // TODO NOW: This needs to be reworked completly
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
@@ -656,6 +657,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _onApplyHealing(targetKey, healKey, modified) {
+    // TODO NOW: This needs to be reworked completly
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
