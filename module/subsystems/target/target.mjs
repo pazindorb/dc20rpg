@@ -1,6 +1,6 @@
 import { sendHealthChangeMessage } from "../../chat/chat-message.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
-import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
+import { evaluateDicelessFormula, evaluateFormula } from "../../helpers/rolls.mjs";
 
 export class DC20Target {
   name = "";
@@ -63,6 +63,7 @@ export class DC20Target {
       ui.notifications.error("Cannot create target from token. Token doesn't exist");
       return null;
     }
+    if (token.object) token = token.object;
     const actor = token.actor;
     return new DC20Target(actor, token);
   }
@@ -104,7 +105,7 @@ export class DC20Target {
     this.targetRoll = roll;
   }
   
-  setTargetModifiers(targetModifiers=[]) {   // TODO OLD CONDITIONALS - rework them
+  setTargetModifiers(targetModifiers=[]) {
     this.targetModifiers = targetModifiers;
   }
 
@@ -179,7 +180,8 @@ export class DC20Target {
     opt.label = "Damage";
 
     const calcualted = [];
-    for (const damage of this.#mergeFormulas(this.damage, calcData.defenceKey)) {
+    const targetSpecific =  await this.#targetSpecificFormulas("damage", calcData);
+    for (const damage of this.#mergeFormulas([...this.damage, ...targetSpecific], calcData.defenceKey)) {
       const final = await this.#calculateCommonFormula(damage, calcData, opt);
 
       // Enhance calculated formula
@@ -200,7 +202,8 @@ export class DC20Target {
     opt.label = "Healing";
 
     const calcualted = [];
-    for (const healing of this.#mergeFormulas(this.healing)) {
+    const targetSpecific =  await this.#targetSpecificFormulas("healing", calcData);
+    for (const healing of this.#mergeFormulas([...this.healing, ...targetSpecific])) {
       const final = await this.#calculateCommonFormula(healing, calcData, opt);
       
       // Enhance calculated formula
@@ -520,18 +523,46 @@ export class DC20Target {
   //=          TARGET MODIFIERS           =//
   //=======================================//
   async getMatchingTargetModifiers(data={}) {
-    const matching = [];  
+    const matching = [];
     for (const modifier of this.targetModifiers) {
-      const result = await runTemporaryMacro(modifier.condition, this, {target: this, data: data});
+      const result = await runTemporaryMacro(modifier.condition, this, {target: this, ...data});
       if (result === true) matching.push(modifier);
     }
     return matching;
   }
 
-  async #targetModifierBonus(formula, calcData) {
-    if (!!calcData.skipFor?.conditionals) return formula; // TODO: Rename to targetModifiers
+  async getTargetSpecificEffects(calcData={}) {
+    const effects = [];
+    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
+      if (modifier.effect) effects.push(modifier.effect);
+    }
+    return effects;
+  }
 
-    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, formula: formula})) {
+  async getTargetSpecificRollRequests(calcData={}) {
+    const rollRequests = {contests: [], saves: []};
+    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
+      if (modifier.addsNewRollRequest && modifier.rollRequest.category) {
+        const request = modifier.rollRequest;
+        if (request.category === "save") {
+          request.label = CONFIG.DC20RPG.ROLL_KEYS.saveTypes[request.saveKey];
+          request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + modifier.name;
+          rollRequests.saves.push(request);
+        }
+        if (request.category === "contest") {
+          request.label = CONFIG.DC20RPG.ROLL_KEYS.contests[request.contestedKey];
+          request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + cond.name;
+          rollRequests.contests.push(request);
+        }
+      }
+    }
+    return rollRequests;
+  }
+
+  async #targetModifierBonus(formula, calcData) {
+    if (!!calcData.skipFor?.targetModifiers) return formula;
+
+    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, formula: formula, hit: this.hit})) {
       // Apply extra dmg/healing
       if (modifier.bonus && modifier.bonus !== "" && modifier.bonus !== "0") {
         formula.source += ` + ${modifier.name}`;
@@ -539,6 +570,35 @@ export class DC20Target {
       }
     }
     return formula;
+  }
+
+  async #targetSpecificFormulas(category, calcData) {
+    const formulas = [];
+    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
+      if (!modifier.addsNewFormula) continue;
+      if (modifier.formula.category !== category) continue;
+
+      const original = modifier.formula;
+      const formulaRoll = await evaluateFormula(original.formula || "0", this.actor.getRollData(), true);
+      const formula = {
+        targetSpecific: true,
+        source: modifier.name,
+        type: original.type,
+        value: formulaRoll._total,
+        each5Value: null,
+        failValue: null
+      }
+      if (original.each5 && original.each5Formula) {
+        const each5Roll = await evaluateFormula(original.each5Formula, this.actor.getRollData(), true);
+        formula.each5Value = each5Roll._total;
+      }
+      if (original.fail && original.failFormula) {
+        const failRoll = await evaluateFormula(original.failFormula, this.actor.getRollData(), true);
+        formula.failValue = failRoll._total;
+      }
+      formulas.push({clear: {...formula}, modified: {...formula}});
+    }
+    return formulas;
   }
 
   async #prepareTargetFlags() {

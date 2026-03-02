@@ -6,7 +6,7 @@ import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.m
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey } from "../../helpers/utils.mjs";
 import { DC20RpgItem } from "../item.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
+import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
 
 export function enrichWithHelpers(item) {
   enrichRollMenuObject(item);
@@ -890,7 +890,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
       effects: [],
       enhancements: [],
       macros: [],
-      conditionals: [],
+      targetModifiers: [],
       formulas: [],
       rollRequests: [],
       againstStatuses: [],
@@ -902,12 +902,12 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     ...macroInfusionStore
   }
 
-  // We want to clone the some of the infusion data to make sure our macro changes are not refreshed
+  // We want to clone some of the infusion data to make sure our macro changes are not refreshed
   const cloneToArray = (object => Object.values(foundry.utils.deepClone(object)));
   const enhancements = cloneToArray(infusionItem.system.enhancements);
   const copyEnhancements = foundry.utils.deepClone(infusionItem.system.copyEnhancements);
   const macros = cloneToArray(infusionItem.system.macros);
-  const conditionals = cloneToArray(infusionItem.system.conditionals);
+  const targetModifiers = cloneToArray(infusionItem.system.targetModifiers);
   const formulas = cloneToArray(infusionItem.system.formulas);
   const againstStatuses = cloneToArray(infusionItem.system.againstStatuses);
   const rollRequests = cloneToArray(infusionItem.system.rollRequests);
@@ -996,10 +996,10 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
       data.modifications.macros.push(key);
     }
   }
-  if (infusion.copy.conditionals) {
-    for (const conditional of conditionals) {
-      const key = await Conditional.create(conditional, {parent: item});
-      data.modifications.conditionals.push(key);
+  if (infusion.copy.targetModifiers) {
+    for (const modifier of targetModifiers) {
+      const key = await TargetModifier.create(modifier, {parent: item});
+      data.modifications.targetModifiers.push(key);
     }
   }
   if (infusion.copy.formulas) {
@@ -1081,8 +1081,8 @@ async function _removeInfusion(infusion, item) {
   for (const key of infusion.modifications.macros) {
     await item.update({[`system.macros.-=${key}`]: null});
   }
-  for (const key of infusion.modifications.conditionals) {
-    await item.update({[`system.conditionals.-=${key}`]: null});
+  for (const key of infusion.modifications.targetModifiers) {
+    await item.update({[`system.targetModifiers.-=${key}`]: null});
   }
   for (const key of infusion.modifications.formulas) {
     await item.update({[`system.formulas.-=${key}`]: null});

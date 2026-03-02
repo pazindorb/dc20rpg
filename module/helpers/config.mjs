@@ -23,10 +23,11 @@ import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTem
 import { calculateForTarget, getActorFromTargetHash, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "../documents/item/item-creators.mjs";
+import { AgainstStatus, Enhancement, Formula, ItemMacro, RollRequest, TargetModifier } from "../documents/item/item-creators.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { tooltipElement, tooltipListeners } from "./tooltip.mjs";
 import { DC20RpgToken } from "../placeable-objects/token.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
@@ -45,13 +46,14 @@ export function prepareDC20tools() {
       RollSelect,
       RestDialog,
     },
-    Conditional,
+    TargetModifier,
     Enhancement,
     Formula,
     RollRequest,
     AgainstStatus,
     ItemMacro,
     DC20Roll,
+    DC20Target,
     DC20RpgActor,
     DC20RpgItem,
     DC20RpgCombatant,

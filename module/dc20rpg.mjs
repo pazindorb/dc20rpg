@@ -47,7 +47,6 @@ Hooks.once('init', async function() {
   prepareColorPalette(); // Prepare Color Palette
   
   CONFIG.DC20RPG = DC20RPG;
-  CONFIG.DC20ConditionalHelpers = {};
   initDC20Config();
   prepareDC20tools();
   CONFIG.DC20Events = {};

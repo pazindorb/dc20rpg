@@ -6,7 +6,7 @@ import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
+import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { enrichWithHelpers } from "./item/item-helpers.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -207,16 +207,16 @@ export class DC20RpgItem extends Item {
   }
 
   //============================
-  //        CONDITIONALS       =
+  //      TARGET MODIFIERS     =
   //============================
-  async createNewConditional(conditional={}, conditionalKey) {
-    return await Conditional.create(conditional, {parent: this, key: conditionalKey});
+  async createNewTargetModifier(targetModifier={}, targetModifierKey) {
+    return await TargetModifier.create(targetModifier, {parent: this, key: targetModifierKey});
   }
-  async removeConditional(key) {
-    await this.update({[`system.conditionals.-=${key}`]: null});
+  async removeTargetModifier(key) {
+    await this.update({[`system.targetModifiers.-=${key}`]: null});
   }
-  getConditionalObjectExample() {
-    return new Conditional();
+  getTargetModifierObjectExample() {
+    return new TargetModifier();
   }
 
   //==========================
@@ -235,7 +235,7 @@ export class DC20RpgItem extends Item {
   editItemMacro(key) {
     const command = this.system.macros[key]?.command;
     if (!command === undefined) return;
-    const macro = createTemporaryMacro(command, this, {item: this, key: key});
+    const macro = createTemporaryMacro(command, this, {item: this, updatePath: `system.macros.${key}.command`});
     macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }

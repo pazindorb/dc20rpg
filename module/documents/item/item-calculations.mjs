@@ -5,7 +5,7 @@ export function makeCalculations(item) {
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
-  if (item.system.conditional) _calculateSaveDCForConditionals(item);
+  if (item.system.targetModifiers) _calculateSaveDCForTargetModifiers(item);
   if (item.system.infusions) _calculateMagicPower(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
   _combatTraining(item);
@@ -55,17 +55,16 @@ function _calculateSaveDCForEnhancements(item) {
   }
 }
 
-function _calculateSaveDCForConditionals(item) {
+function _calculateSaveDCForTargetModifiers(item) {
   if (!item.actor) return;
+  const targetModifiers = item.system.targetModifiers;
+  if (!targetModifiers) return;
 
-  const conditionals = item.system.conditionals;
-  if (!conditionals) return;
-
-  for (const cond of Object.values(conditionals)) {
-    if (cond.addsNewRollRequest) {
-      const save = cond.rollRequest;
+  for (const tm of Object.values(targetModifiers)) {
+    if (tm.addsNewRollRequest) {
+      const save = tm.rollRequest;
       if (save.category === "save" && save.dcCalculation !== "flat") {
-        cond.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
+        tm.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
       }
     }
   }

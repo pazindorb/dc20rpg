@@ -1,6 +1,5 @@
 import AttackFormulaFields from "./fields/item/attackFormula.mjs";
 import CheckFields from "./fields/item/check.mjs";
-import ConditionalFields from "./fields/item/conditional.mjs";
 import EffectsConfigFields from "./fields/item/effectConfig.mjs";
 import PropertyFields from "./fields/item/properties.mjs";
 import SaveFields from "./fields/item/save.mjs";
@@ -96,7 +95,8 @@ class DC20UsableItemData extends DC20BaseItemData {
           }
         }})
       }),
-      conditionals: new f.ObjectField({required: true}),
+      conditionals: new f.ObjectField({required: true}),  // TODO backward compatibilty remove as part of 0.11.0 update
+      targetModifiers: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
       tip: new f.StringField({required: true, initial: ""}),
@@ -387,7 +387,8 @@ export class DC20InfusionData extends DC20UsableItemData {
           effects: new f.BooleanField({required: true, initial: false}),
           enhancements: new f.BooleanField({required: true, initial: false}),
           macros: new f.BooleanField({required: true, initial: false}),
-          conditionals: new f.BooleanField({required: true, initial: false}),
+          conditionals: new f.BooleanField({required: true, initial: false}), // TODO backward compatibilty remove as part of 0.11.0 update
+          targetModifiers: new f.BooleanField({required: true, initial: false}),
           formulas: new f.BooleanField({required: true, initial: false}),
           rollRequests: new f.BooleanField({required: true, initial: false}),
           againstStatuses: new f.BooleanField({required: true, initial: false}),

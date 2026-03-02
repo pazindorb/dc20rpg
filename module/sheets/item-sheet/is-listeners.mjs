@@ -61,9 +61,9 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-macro').click(ev => item.removeItemMacro(datasetOf(ev).key));
   html.find('.macro-edit').click(ev => item.editItemMacro(datasetOf(ev).key));
 
-  // Conditional
-  html.find('.add-conditional').click(() => item.createNewConditional());
-  html.find('.remove-conditional').click(ev => item.removeConditional(datasetOf(ev).key));
+  // Target Modifier
+  html.find('.add-target-modifier').click(() => item.createNewTargetModifier());
+  html.find('.remove-target-modifier').click(ev => item.removeTargetModifier(datasetOf(ev).key));
 
   // Resources Managment
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
@@ -82,6 +82,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
   html.find('.remove-enhancement').click(ev => item.removeEnhancement(datasetOf(ev).key));
   html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, datasetOf(ev).macroKey, item));
+  html.find('.target-modifier-macro-edit').click(ev => _onTargetModifierMacroEdit(datasetOf(ev).key, item));
 
   // Macros and effects
   html.find('.add-effect-to').click(ev => _onCreateEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
@@ -193,15 +194,15 @@ async function _onCreateEffectOn(type, item, key) {
     const enh = enhancements[key]
     if (!enh) return;
 
-    const created = await _onCreateNewEffect("temporary", item, {enhKey: key});
+    const created = await _onCreateNewEffect("temporary", item, {itemSavePath: `system.enhancements.${key}.modifications.addsEffect`});
     created.sheet.render(true);
   }
-  if (type === "conditional") {
-    const conditionals = item.system.conditionals;
-    const cond = conditionals[key]
-    if (!cond) return;
+  if (type === "targetModifier") {
+    const targetModifiers = item.system.targetModifiers;
+    const modifier = targetModifiers[key]
+    if (!modifier) return;
 
-    const created = await _onCreateNewEffect("temporary", item, {condKey: key});
+    const created = await _onCreateNewEffect("temporary", item, {itemSavePath: `system.targetModifiers.${key}.effect`});
     created.sheet.render(true);
   }
 }
@@ -217,12 +218,12 @@ async function _onEditEffectOn(type, item, key) {
     const created = await ActiveEffect.create(effectData, {parent: item});
     created.sheet.render(true);
   }
-  if (type === "conditional") {
-    const conditionals = item.system.conditionals;
-    const cond = conditionals[key]
-    if (!cond) return;
+  if (type === "targetModifier") {
+    const targetModifiers = item.system.targetModifiers;
+    const modifier = targetModifiers[key]
+    if (!modifier) return;
 
-    const effectData = cond.effect;
+    const effectData = modifier.effect;
     if (!effectData) return;
     const created = await ActiveEffect.create(effectData, {parent: item});
     created.sheet.render(true);
@@ -231,7 +232,18 @@ async function _onEditEffectOn(type, item, key) {
 
 function _onDeleteEffectOn(type, item, key) {
   if (type === "enhancement") item.update({[`system.enhancements.${key}.modifications.addsEffect`]: null});
-  if (type === "conditional") item.update({[`system.conditionals.${key}.effect`]: null});
+  if (type === "targetModifier") item.update({[`system.targetModifiers.${key}.effect`]: null});
+}
+
+async function _onTargetModifierMacroEdit(key, item) {
+  const targetModifiers = item.system.targetModifiers;
+  const modifier = targetModifiers[key]
+  if (!modifier) return;
+
+  const command = modifier.condition || "";
+  const macro = await createTemporaryMacro(command, item, {item: item, updatePath: `system.targetModifiers.${key}.condition`});
+  macro.canUserExecute = (user) => false;
+  macro.sheet.render(true);
 }
 
 async function _onEnhancementMacroEdit(enhKey, macroKey, item) {
@@ -241,7 +253,7 @@ async function _onEnhancementMacroEdit(enhKey, macroKey, item) {
 
   const macros = enh.modifications.macros || {};
   const command = macros[macroKey] || "";
-  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey, macroKey: macroKey});
+  const macro = await createTemporaryMacro(command, item, {item: item, updatePath: `system.enhancements.${enhKey}.modifications.macros.${macroKey}`});
   macro.canUserExecute = (user) => false;
   macro.sheet.render(true);
 }

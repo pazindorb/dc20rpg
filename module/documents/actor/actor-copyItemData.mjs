@@ -9,7 +9,7 @@ export function prepareDataFromItems(actor) {
 	const equipment = [];
 	const spellFocus = [];
 	const customResources = []; 
-	const conditionals = [];
+	const targetModifiers = [];
 	const itemsWithEnhancementsToCopy = [];
 	let staminaFeature = false;
 
@@ -25,9 +25,9 @@ export function prepareDataFromItems(actor) {
 		// Mark Stamina Feature
 		if (item.system.staminaFeature) staminaFeature = true;
 
-		// Conditionals
-		const conds = item.system.conditionals;
-		if (conds && Object.keys(conds).length > 0) conditionals.push(item);
+		// Target Modifiers
+		const tm = item.system.targetModifiers;
+		if (tm && Object.keys(tm).length > 0) targetModifiers.push(item);
 
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
 		if (item.system.copyEnhancements?.copy) itemsWithEnhancementsToCopy.push({
@@ -40,7 +40,7 @@ export function prepareDataFromItems(actor) {
 	_spellFocus(spellFocus, actor);
 	_equipment(equipment, actor);
 	_customResources(customResources, actor);
-	_conditionals(conditionals, actor);
+	_targetModifiers(targetModifiers, actor);
 	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
 	actor.system.details.staminaFeature = staminaFeature;
 }
@@ -366,12 +366,12 @@ function _customResources(items, actor) {
 	});
 }
 
-function _conditionals(items, actor) {
+function _targetModifiers(items, actor) {
 	for (const item of items) {
-		if (item.type === "infusion") continue; // We want to skip conditionals from infusons
-		for (const cond of Object.values(item.system.conditionals)) {
-			if (toggleCheck(item, cond.linkWithToggle)) {
-				actor.system.conditionals.push(cond);
+		if (item.type === "infusion") continue; // We want to skip target modifier from infusons
+		for (const tm of Object.values(item.system.targetModifiers)) {
+			if (toggleCheck(item, tm.linkWithToggle)) {
+				actor.system.targetModifiers.push(tm);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ export default class AttackFormulaFields extends foundry.data.fields.SchemaField
         heavy: new f.BooleanField({required: true, initial: false}),
         brutal: new f.BooleanField({required: true, initial: false}),
         crit: new f.BooleanField({required: true, initial: false}),
-        conditionals: new f.BooleanField({required: true, initial: false}),
+        targetModifiers: new f.BooleanField({required: true, initial: false}), 
       }),
       ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
       formulaMod: new f.StringField({required: true, initial: ""}),

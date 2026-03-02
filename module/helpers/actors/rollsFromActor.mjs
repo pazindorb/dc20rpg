@@ -16,7 +16,7 @@ export function prepareMessageDetails(item, actor, actionType, rolls) {
   const itemDetails = !item.system.statuses || item.system.statuses.identified
           ? itemDetailsToHtml(item)
           : ""
-  const conditionals = _prepareConditionals(actor.system.conditionals, item);
+  const targetModifiers = _prepareTargetModifiers(actor.system.targetModifiers, item);
 
   const messageDetails = {
     itemId: item._id,
@@ -25,7 +25,7 @@ export function prepareMessageDetails(item, actor, actionType, rolls) {
     details: itemDetails,
     rollTitle: item.name,
     actionType: actionType,
-    conditionals: conditionals,
+    targetModifiers: targetModifiers,
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
     areas: item.system.target?.areas,
     againstStatuses: _prepareAgainstStatuses(item),
@@ -148,11 +148,11 @@ function _prepareEffectsFromItems(item) {
   return effects;
 }
 
-function _prepareConditionals(conditionals, item) {
+function _prepareTargetModifiers(targetModifiers, item) {
   const prepared = [];
-  conditionals.forEach(conditional => {
-    if (itemMeetsUseConditions(conditional.useFor, item)) {
-      prepared.push(conditional);
+  targetModifiers.forEach(modifier => {
+    if (itemMeetsUseConditions(modifier.useFor, item)) {
+      prepared.push(modifier);
     }
   });
   return prepared;

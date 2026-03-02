@@ -41,7 +41,7 @@ function itemPartials() {
     "Basic Config": "systems/dc20rpg/templates/item_v2/parts/shared/basic-config.hbs", 
     "Advancement Core": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/adv-core.hbs",
     "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/enhancements.hbs",
-    "Conditional": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/conditionals.hbs"
+    "Target Modifiers": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/target-modifiers.hbs"
   }
 }
 

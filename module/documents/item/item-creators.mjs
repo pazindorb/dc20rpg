@@ -108,8 +108,8 @@ export class Formula {
   }
 }
 
-export class Conditional {
-  name = "New Conditional";
+export class TargetModifier {
+  name = "New Target Modifier";
   condition = ""; 
   useFor = "";
   linkWithToggle = false;
@@ -119,9 +119,7 @@ export class Conditional {
     ignoreEdr: false,
     ignoreMdr: false,
     ignoreResistance: {},
-    ignoreImmune: {},
-    reduceAd: "", // TODO: Should this exist at all?
-    reducePd: ""  // TODO: Should this exist at all?
+    ignoreImmune: {}
   };
   effect = null;
   addsNewRollRequest = false;
@@ -136,9 +134,9 @@ export class Conditional {
       return;
     }
 
-    const conditional = foundry.utils.mergeObject(new Conditional(), data);
+    const targetModifier = foundry.utils.mergeObject(new TargetModifier(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.conditionals.${key}`]: conditional});
+    await item.update({[`system.targetModifiers.${key}`]: targetModifier});
     return key;
   }
 }

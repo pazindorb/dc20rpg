@@ -30,7 +30,7 @@ export function makeCalculations(actor) {
 	_areaDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
-	_basicConditionals(actor);
+	_basicTargetModifiers(actor);
 }
 
 function _skillModifiers(actor) {
@@ -378,10 +378,10 @@ function _spendLimits(actor) {
 	ssl.value = combatMastery + ssl.bonus;
 }
 
-function _basicConditionals(actor) {
+function _basicTargetModifiers(actor) {
 	// Impact property
-	actor.system.conditionals.push({
-		condition: `hit >= 5`, 
+	actor.system.targetModifiers.push({
+		condition: `return hit >= 5;`, 
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
 		name: "Impact",
@@ -409,8 +409,8 @@ function _basicConditionals(actor) {
 
 	// Impactful Unarmed Strikes
 	if (actor.system.details.armor.heavyEquipped) {
-		actor.system.conditionals.push({
-			condition: `hit >= 5`, 
+		actor.system.targetModifiers.push({
+			condition: `return hit >= 5;`,  
 			bonus: '1', 
 			useFor: `system.itemKey=["unarmedStrike"]`, 
 			name: "Impactful Unarmed Strikes",

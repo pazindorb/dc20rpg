@@ -103,7 +103,7 @@ export class AdvancementConfiguration extends Dialog {
     // We are not updating the copy so we want to grab macro from original advancement
     const originalMacro = this.item.system.advancements[this.key].macro; 
     const advancement = this.advancement;
-    const macro = await createTemporaryMacro(originalMacro, this.item, {item: this.item, advKey: this.key, advancement: advancement});
+    const macro = await createTemporaryMacro(originalMacro, this.item, {item: this.item, advancement: advancement, updatePath: `system.advancements.${this.key}.macro`});
     macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }

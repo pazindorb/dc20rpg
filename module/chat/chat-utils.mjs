@@ -105,7 +105,7 @@ function _formatRoll(roll) {
       source: roll.modified.modifierSources,
       type: roll.modified.type,
       each5Value: roll.modified.each5Roll?.total || 0,
-      failValue: roll.modified.failRoll?.total || 0,
+      failValue: roll.modified.failRoll?.total || null,
     },
     clear: {
       value: roll.clear._total,

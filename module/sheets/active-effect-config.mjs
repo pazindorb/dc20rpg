@@ -164,15 +164,14 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
   async close(options) {
     await super.close(options);
     const flags = this.document.flags.dc20rpg;
-    if (flags?.enhKey || flags?.condKey) {
+    if (flags.itemSavePath) {
       const item = this.document.parent;
       if (item.documentName !== "Item") return;
 
       const effectData = this.document.toObject();
       effectData.origin = null;
-      if (flags.condKey) item.update({[`system.conditionals.${flags.condKey}.effect`]: effectData});
-      if (flags.enhKey) item.update({[`system.enhancements.${flags.enhKey}.modifications.addsEffect`]: effectData});
-      await this.document.delete();
+      item.update({[flags.itemSavePath]: effectData});
+      this.document.delete();
     }
   }
 }
