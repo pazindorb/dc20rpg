@@ -40,10 +40,6 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('withConditional', function(condition, valueIfTrue, valueIfFalse, options) {
-    return options.fn(condition ? valueIfTrue : valueIfFalse);
-  });
-
   Handlebars.registerHelper('each5Condition', function(actionType, formulaCategory) {
     return actionType === "check" || formulaCategory === "other";
   })

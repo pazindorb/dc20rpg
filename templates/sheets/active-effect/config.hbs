@@ -33,13 +33,6 @@
       <label for="{{rootId}}-system.macro">{{localize "dc20rpg.effect.sheet.effectMacro"}}</label>
       <a class="effect-macro {{#unless source.system.macro}}empty{{/unless}}" data-action="editMacro"><i class="fa-pen-to-square fa-solid fa-lg"></i></a>
     </div>
-    {{#if isItemEffect}}
-    <div class="form-group">
-      <label for="{{rootId}}-system.requireEnhancement">{{localize "dc20rpg.effect.sheet.requireEnhancement"}}</label>
-      {{formInput fields.system.fields.requireEnhancement value=source.system.requireEnhancement name="system.requireEnhancement" choices=itemEnhancements}}
-      <p class="hint">{{localize "dc20rpg.effect.sheet.requireEnhancementTitle"}}</p>
-    </div>
-    {{/if}}
   </fieldset>
 
   <fieldset>

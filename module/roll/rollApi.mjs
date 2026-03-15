@@ -1,7 +1,7 @@
-import { sendDescriptionToChat, sendRollsToChat } from "../chat/chat-message.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
-import { finishRoll, finishSheetRoll, prepareMessageDetails, resetEnhancements } from "../helpers/actors/rollsFromActor.mjs";
+import { finishRoll, finishSheetRoll, resetEnhancements } from "../helpers/actors/rollsFromActor.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import * as helper from "./rollHelper.mjs"
 
 export class DC20Roll {
@@ -120,8 +120,9 @@ export class DC20Roll {
 
     // 0. Handle not usable items
     if (!item.system.usable) {
-      const messageDetails = prepareMessageDetails(item, actor, "", {});
-      sendDescriptionToChat(actor, messageDetails, item);
+      const chatMessageData = item.toChatMessageData();
+      options.item = item;
+      DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
       return null;
     }
 
@@ -179,17 +180,21 @@ export class DC20Roll {
     await item.callMacro("postItemRoll", {rolls: rolls});
     await helper.runEnhancementMacro(item, "postItemRoll", {rolls: rolls});
 
-    // 7. Send to chat - TODO - rework in the future (together with chat and target rework) - update "prepareMessageDetails" as well
+    // 7. Send to chat
     if (!item.doNotSendToChat && !options.skipChatMessage) {
-      const messageDetails = prepareMessageDetails(item, actor, actionType, rolls);
-      if (!actionType) sendDescriptionToChat(actor, messageDetails, item);
+      const chatMessageData = item.toChatMessageData();
+      options.item = item;
+
+      if (!actionType) {
+        DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
+      }
       else if (actionType === "help") {
-        messageDetails.rollTitle += " - Help Action";
-        sendDescriptionToChat(actor, messageDetails, item);
+        chatMessageData.rollTitle += " - Help Action";
+        DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
       }
       else {
-        messageDetails.rollLevel = rollMenu.rollLevel;
-        sendRollsToChat(rolls, actor, messageDetails, true, item, options.rollMode);
+        chatMessageData.rollLevel = rollMenu.rollLevel;
+        DC20ChatMessage.rollMessage(rolls, chatMessageData, actor, options);
       }
     }
 
@@ -252,10 +257,10 @@ export class DC20Roll {
         image: actor.img,
         description: details.description,
         against: details.against,
-        rollTitle: rollTitle,
-        rollLevel: rollMenu.rollLevel
+        name: rollTitle,
+        rollLevel: rollMenu.rollLevel,
       };
-      sendRollsToChat({core: roll}, actor, messageDetails, false, null, options.rollMode);
+      DC20ChatMessage.rollMessage({core: roll, formula: []}, messageDetails, actor, options);
     }
 
     // 5. Cleanup - TODO - rework this as well

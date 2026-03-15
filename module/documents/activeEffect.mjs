@@ -46,7 +46,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         }),
         enableStatusOnCreation: new fields.ArrayField(new fields.StringField()),
         disableStatusOnRemoval: new fields.ArrayField(new fields.StringField()),
-        requireEnhancement: new fields.StringField({required: true}),
         chatMessageId: new fields.StringField({required: true, initial: ""})
       })
     })

@@ -12,7 +12,6 @@ import { createItemHotbarDropMacro } from "./helpers/macros.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
-import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffect.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
@@ -37,6 +36,7 @@ import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
+import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */

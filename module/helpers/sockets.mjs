@@ -34,24 +34,24 @@ export function registerSystemSockets() {
 
   // Roll Prompt
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
-    if (data.type === "rollDialog") {
+    if (data.type === "OPEN_ROLL_DIALOG") {
       const payload = data.payload;
 
       let actor = game.actors.get(payload.actorId);
-      let data = payload.data;
+      let rollData = payload.data;
       const options = payload.options;
       
       // If we are rolling with unlinked actor we need to use token version
       if (payload.isToken) actor = game.actors.tokens[payload.tokenId]; 
-      if (payload.isItem) data = actor.items.get(payload.itemId);
+      if (payload.isItem) rollData = actor.items.get(payload.itemId);
       
       if (actor && actor.ownership[game.user.id] === 3) {
-        const roll = await RollDialog.create(actor, data, options);
+        const roll = await RollDialog.create(actor, rollData, options);
         game.socket.emit('system.dc20rpg', {
           payload: {...roll}, 
           emmiterId: emmiterId,
           actorId: payload.actorId,
-          type: "rollDialogResult"
+          type: "ROLL_DIALOG_RESTULT"
         });
       }
     }
@@ -71,7 +71,7 @@ export function registerSystemSockets() {
 
   // Update Chat Message
   game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "updateChatMessage") {
+    if (data.type === "UPDATE_CHAT_MESSAGE") {
       const m = data.payload;
       if (game.user.id === m.gmUserId) {
         const message = game.messages.get(m.messageId);

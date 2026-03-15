@@ -55,6 +55,11 @@ export class DC20RpgItem extends Item {
     return !!this.system?.statuses?.equipped;
   }
 
+  get identified() {
+    if (!!this.system.statuses) return true;
+    else this.system.statuses.identified;
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */

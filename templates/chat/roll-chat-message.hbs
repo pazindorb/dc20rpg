@@ -22,403 +22,112 @@
   </div>
 
   {{!-- Check DC --}}
-  {{#ifCond checkDetails.actionType '===' "check"}}{{#if checkDetails.againstDC}}
+  {{#if checkDC}}
   <div class="check">
     <span class="title">{{localize "dc20rpg.chat.checkDC"}}</span>
-    <div class="value {{#ifCond coreRollTotal '>=' checkDetails.checkDC}}success{{/ifCond}}">{{checkDetails.checkDC}}</div>
+    <div class="value {{#ifCond winningRoll.total '>=' checkDC}}success{{/ifCond}}">{{checkDC}}</div>
   </div>
-  {{/if}}{{/ifCond}}
+  {{/if}}
 
   {{!-- Core Roll --}}
-  {{#if chatFormattedRolls.core}}{{#with chatFormattedRolls.core}}
-  <div class="roll-box first-roll" title="{{source}}">
-    <span class="title">{{label}}</span>
-
-    <div class="dice-roll" data-action="expandRoll">
-      {{!-- Roll extra ADV and DIS --}}
-      {{#if @root.canUserModify}}
-        {{#ifCond @root.rollLevel '===' 0}}
-          <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
-          <div class="modify-core-roll" title='{{localize "dc20rpg.chat.modifyCoreRoll"}}'><a class="fa-solid fa-square-pen fa-lg"></a></div>
-          <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
-        {{/ifCond}}
-
-        {{#ifCond @root.rollLevel '>' 0}}
-          <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
-          <div class="modify-core-roll" title='{{localize "dc20rpg.chat.modifyCoreRoll"}}'><a class="fa-solid fa-square-pen fa-lg"></a></div>
-          <div class="remove-roll justify-end" data-type="adv" title='{{localize "dc20rpg.chat.removeAdv"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
-        {{/ifCond}}
-
-        {{#ifCond @root.rollLevel '<' 0}}
-          <div class="remove-roll" data-type="dis" title='{{localize "dc20rpg.chat.removeDis"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
-          <div class="modify-core-roll" title='{{localize "dc20rpg.chat.modifyCoreRoll"}}'><a class="fa-solid fa-square-pen fa-lg"></a></div>
-          <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
-        {{/ifCond}}
-      {{/if}}
-
-      <div class="dice-result">
-        <h4 class="dice-total {{#if ignored}}not-winner{{/if}} {{#if @root.against}}{{#ifCond @root.against '>' _total}}fail{{else}}success{{/ifCond}}{{/if}} {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">
-        {{_total}}
-        </h4>
-        <div class="dice-tooltip">
-          <section class="tooltip-part">
-            {{#each terms}}
-            {{#if faces}}
-            <div class="dice">
-              <header class="part-header">
-                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
-                <ol class="dice-rolls">
-                  {{{printDices results faces}}}
-                </ol>
-                <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
-                <span class="part-total" 
-                      style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
-                      >{{#ifCond faces '===' 20}}{{@root.chatFormattedRolls.winningRoll.flatDice}}{{else}}{{sumDices results}}{{/ifCond}}</span>
-              </header>
-            </div>
-            {{/if}}
-            {{/each}}
-            <div class="dice-formula">
-              {{_formula}}
-            </div>
-          </section>
-        </div>
-      </div>
-    </div>
+  <div class="roll-box first-roll" data-tooltip="{{coreRoll.source}}">
+    <span class="title">{{coreRoll.label}}</span>
+    {{> "systems/dc20rpg/templates/chat/partial/core-roll.hbs" coreRoll}}
   </div>
-  {{/with}}{{/if}}
-
-  {{!-- Extra Core Rolls --}}
   {{#ifCond extraRolls.length ">" 0}}
-  <div class="extra-box-wrapper {{#ifCond @root.extraRolls.length ">" 1}}half-box{{/ifCond}}">
+  <div class="extra-box-wrapper {{#ifCond extraRolls.length ">" 1}}half-box{{/ifCond}}" data-tooltip="{{coreRoll.source}}">
   {{#each extraRolls}}
     <div class="roll-box">
-        <div class="dice-roll" data-action="expandRoll">
-          <div class="dice-result">
-            <h4 class="dice-total {{#if ignored}}not-winner{{/if}}
-                {{#if @root.against}}{{#ifCond @root.against '>' _total}}fail{{else}}success{{/ifCond}}{{/if}}
-                {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
-            >
-            {{_total}}
-            </h4>
-            <div class="dice-tooltip">
-              <section class="tooltip-part">
-                {{#each terms}}
-                {{#if faces}}
-                <div class="dice">
-                  <header class="part-header">
-                    <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
-                    <ol class="dice-rolls">
-                      {{{printDices results faces}}}
-                    </ol>
-                    <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
-                    <span class="part-total" 
-                          style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
-                          >{{sumDices results}}</span>
-                  </header>
-                </div>
-                {{/if}}
-                {{/each}}
-                <div class="dice-formula">
-                  {{_formula}}
-                </div>
-              </section>
-            </div>
-          </div>
-      </div>
+      {{> "systems/dc20rpg/templates/chat/partial/core-roll.hbs" this}}
     </div>
-  {{/each}} 
+  {{/each}}
   </div>
   {{/ifCond}}
-
+  
   {{!-- Other Rolls --}}
-  {{#each chatFormattedRolls.other}}
-  {{#unless perTarget}}
-  <div class="roll-box first-roll">
+  {{#each otherRolls}}
+  <div class="roll-box first-roll" data-tooltip="{{modifierSources}}">
     <span class="title">{{label}}</span>
-      <div class="dice-roll">
-
-        {{#if @root.rollModNotSupported}}
-          <div class="not-supported" title='{{localize "dc20rpg.chat.rollModNotSupported"}}'><i class="fa-solid fa-square-xmark fa-lg"></i></div>
-        {{else}}
-          {{!-- Roll extra ADV and DIS --}}
-          {{#ifCond coreFormula '&&' @root.canUserModify}}
-            {{#ifCond @root.rollLevel '===' 0}}
-              <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
-              <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
-            {{/ifCond}}
-
-            {{#ifCond @root.rollLevel '>' 0}}
-              <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
-              <div class="remove-roll justify-end" data-type="adv" title='{{localize "dc20rpg.chat.removeAdv"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
-            {{/ifCond}}
-
-            {{#ifCond @root.rollLevel '<' 0}}
-              <div class="remove-roll" data-type="dis" title='{{localize "dc20rpg.chat.removeDis"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
-              <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
-            {{/ifCond}}
-          {{/ifCond}}
-        {{/if}}
-
-        <div class="dice-result" title="{{source}}">
-          <h4 class="dice-total
-              {{#if @root.against}}{{#ifCond @root.against '>' @root.chatFormattedRolls.winningRoll._total}}fail{{else}}success{{/ifCond}}{{/if}}
-              {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
-          >
-          {{_total}}
-          </h4>
-          <div class="dice-tooltip"> {{! <= expanded goes here}}
-            <section class="tooltip-part">
-              {{#each terms}}
-              {{#if faces}}
-              <div class="dice">
-                <header class="part-header">
-                  <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
-                  <ol class="dice-rolls">
-                    {{{printDices results faces}}}
-                  </ol>
-                  <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
-                  <span class="part-total" 
-                        style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
-                        >{{#ifCond faces '===' 20}}{{@root.chatFormattedRolls.winningRoll.flatDice}}{{else}}{{sumDices results}}{{/ifCond}}</span>
-                </header>
-              </div>
-              {{/if}}
-              {{/each}}
-              <div class="dice-formula">
-                {{_formula}}
-              </div>
-            </section>
-          </div>
-        </div>
-    </div>
+    {{> "systems/dc20rpg/templates/chat/partial/core-roll.hbs" this}}
   </div>
-  {{/unless}}
   {{/each}}
 
-  {{!-- Create Measurement Template --}}
+  {{!-- Measurement Templates --}}
   {{#if measurementTemplates}}
   <div class="measurement-templates">
     {{#each measurementTemplates as |template key|}}
     <div class="template">
-      {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-minus margin-right-2 {{#ifCond @root.userIsGM '||' @root.canUserModify}}reduce-template-space{{else}}disabled{{/ifCond}}" data-key="{{key}}"></a>
-      {{/unless}}
+      {{#unless template.selected}} {{#ifCond @root.userIsGM '||' @root.canUserModify}}
+      <a class="template-side-button fa-solid fa-minus margin-right-2 reduce-template-space" data-key="{{key}}"></a>
+      {{/ifCond}} {{/unless}}
       <a class="template-button {{#ifCond @root.userIsGM '||' @root.canUserModify}}create-template{{#if template.selected}} selected{{/if}}{{else}}disabled{{/ifCond}} " data-key="{{key}}">
         {{template.label}}
       </a>
-      {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-plus margin-left-2 {{#ifCond @root.userIsGM '||' @root.canUserModify}}add-template-space{{else}}disabled{{/ifCond}}" data-key="{{key}}"></a>
-      {{/unless}}
+      {{#unless template.selected}} {{#ifCond @root.userIsGM '||' @root.canUserModify}}
+      <a class="template-side-button fa-solid fa-plus margin-left-2 add-template-space" data-key="{{key}}"></a>
+      {{/ifCond}} {{/unless}}
     </div>
     {{/each}}
   </div>
   {{/if}}
 
-  {{!-- Targets --}}
+  {{#if itemRoll}}
   <div class="applier">
-    {{#if hasTargets}}
-    <div class="token-selection">
-      {{!-- Apply to selected / Apply to targeted --}}
-      <div class="selection {{#if applyToTargets}}active{{/if}} {{#ifCond targetedTokens.length '===' 0}}disabled{{/ifCond}}"> <span>{{localize "dc20rpg.chat.targetedTokens"}}</span> </div>
-      <a class="run-check-for-selected chat-button" title="{{localize "dc20rpg.chat.selectedCheck"}}"><i class="fa-solid fa-rotate-right"></i></a>
+    {{!-- Tab Selector --}}
+    <div class="target-selection">
+      <div class="tab-selection {{#ifCond targetTab '===' "target"}}active{{/ifCond}} {{#ifCond targeted.length "<=" 0}}disabled{{/ifCond}}" {{#ifCond targeted.length ">" 0}}data-tab="target"{{/ifCond}}> 
+        <span>{{localize "dc20rpg.chat.targetedTokens"}}</span> 
+      </div>
+      <a class="refresh-targets chat-button" data-tooltip="{{localize "dc20rpg.chat.selectedCheck"}}"><i class="fa-solid fa-rotate-right"></i></a>
       {{#if userIsGM}}
-      <div class="selection {{#unless applyToTargets}}active{{/unless}}"> 
+      <div class="tab-selection {{#ifCond targetTab '===' "selected"}}active{{/ifCond}}" data-tab="selected"> 
         <span>{{localize "dc20rpg.chat.selectedTokens"}}</span> 
       </div>
       {{else}}
-      <div class="selection {{#unless applyToTargets}}active{{/unless}}"><span>{{localize "dc20rpg.chat.nonTarget"}}</span></div>
+      <div class="tab-selection {{#ifCond targetTab '===' "dummy"}}active{{/ifCond}}" data-tab="dummy"> 
+        <span>{{localize "dc20rpg.chat.nonTarget"}}</span> 
+      </div>
       {{/if}}
     </div>
 
-    <div class="token-container">
-      {{!-- Target Confirm --}}
-      {{#if userIsGM}}
-      <div class="gm-button-container">
-        <a class="chat-button apply-all fa-solid fa-gavel" title="{{localize "dc20rpg.chat.applyAll"}}"></a>
-        <a class="chat-button send-all-roll-requests fa-solid fa-dice" title="{{localize "dc20rpg.chat.sendRollRequests"}}"></a>
-        <a class="chat-button target-confirm fa-solid fa-circle-check" title="{{localize "dc20rpg.chat.confirmTargets"}}"></a>
-        <a class="chat-button apply-all-effects-fail fa-solid fa-wand-magic" title="{{localize "dc20rpg.chat.applyToFailedRolls"}}"></a>
-        <a class="chat-button apply-all-effects fa-solid fa-wand-magic-sparkles" title="{{localize "dc20rpg.chat.applyAllEffects"}}"></a>
-      </div>
-      {{/if}}
-
-      {{#each targets as |target targetKey|}}
-      <div class="target">
-        {{#unless target.noTarget}}
-        <div class="outcome wrap-target" style="cursor: pointer;" data-key="{{target.id}}" title="{{localize "dc20rpg.chat.showHideDetails"}}">
-          <div class="name-wrapper">
-            {{#ifCond @root.userIsGM '&&' @root.applyToTargets}}<a class="remove-target fa-solid fa-square-xmark" data-key="{{target.id}}" title="{{localize "dc20rpg.chat.removeTarget"}}"></a>{{/ifCond}}
-            <img src="{{target.img}}"/>
-            <div class="name">{{name}}</div>
-          </div>
-          {{!-- Hit and Miss --}}
-          {{#if target.attackOutcome.label}}
-          <div class="label {{#if target.attackOutcome.miss}}miss{{/if}}" title="{{varLocalize "dc20rpg.chat.defaultDefence." target.attackOutcome.defenceKey ""}}">{{target.attackOutcome.label}}</div>
-          {{/if}}
-        </div>
-        {{/unless}}
-        {{#unless target.hideDetails}}
-        {{#if @root.shouldShowDamage}}
-        <div class="row-wrapper">
-        {{!-- Damage --}}
-        {{#each target.dmg as |roll rollKey|}}
-          <div class="row"> 
-            <a class="activable-show-modified margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
-                data-key="{{ ../id}}#{{rollKey}}" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
-            {{#if roll.overridenDefence}}
-            <i class="fa-solid fa-arrows-rotate" title="{{varLocalize "dc20rpg.chat.overridenDefence." roll.overridenDefence ""}}"></i>
-            {{/if}}
-            {{#withConditional roll.showModified roll.modified roll.clear}}
-            <div class="damage">
-              <div class="value" title="{{source}}">
-                <span>{{value}} {{varLocalize 'dc20rpg.reductions.' type ''}}</span>
-              </div>
-              {{#ifCond @root.userIsGM '||' ../../isOwner}}
-              <div class="button-container">
-                <div class="small-button-wrapper">
-                  <a class="modify-roll chat-button margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-target-id="{{ ../../id}}" data-key="{{rollKey}}" data-type="dmg" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
-                  <a class="modify-roll chat-button margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-target-id="{{ ../../id}}" data-key="{{rollKey}}" data-type="dmg" title="{{localize "dc20rpg.chat.subtractOneDmg"}}"> - </a>
-                </div>
-                <a class="apply-damage chat-button" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyDamage"}}">
-                  <i class="fa-lg fa-solid fa-gavel"></i>
-                </a>
-              </div>
-              {{/ifCond}}
-            </div>
-            {{/withConditional}}
-          </div>
-        {{/each}}
-
-        {{!-- Healing --}}
-        {{#each target.heal as |roll rollKey|}}
-          <div class="row">
-            <a class="activable-show-modified margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
-                data-key="{{ ../id}}#{{rollKey}}" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
-            {{#withConditional roll.showModified roll.modified roll.clear}}
-            <div class="healing">
-              <div class="value" title="{{source}}">
-                <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' type ''}}</span>
-              </div>
-              {{#ifCond @root.userIsGM '||' ../../isOwner}}
-              <div class="button-container">
-                <div class="small-button-wrapper">
-                  <a class="modify-roll chat-button margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-target-id="{{ ../../id}}" data-key="{{rollKey}}" data-type="heal" title="{{localize "dc20rpg.chat.addOneHealing"}}"> + </a>
-                  <a class="modify-roll chat-button margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-target-id="{{ ../../id}}" data-key="{{rollKey}}" data-type="heal" title="{{localize "dc20rpg.chat.subtractOneHealing"}}"> - </a>
-                </div>
-                <a class="apply-healing chat-button" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyHealing"}}"><i class="fa-lg fa-solid fa-heart"></i></a>
-              </div>
-              {{/ifCond}}
-            </div>
-            {{/withConditional}}
-          </div>
-        {{/each}}
-
-        {{!-- Other --}}
-        {{#each target.other as |roll rollKey|}}
-          <div class="row">
-            <div class="other">
-              <div class="value" title="{{source}}">
-                <span>{{_total}} {{label}}</span>
-              </div>
-            </div>
-          </div>
-        {{/each}}
-        </div>
-        {{/if}}
-
-        {{#unless target.noTarget}}
-        <div class="button-section margin-top-3">
-          <div class="roll-buttons-wrapper">
-            {{!-- Target Specific Save Rolls --}}
-            {{#each target.rollRequests.saves}}
-            <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}} title="{{title}}">
-              {{label}} DC {{dc}}  
-            </a>
-            {{/each}}
-
-            {{!-- Target Specific Contest Rolls --}}
-            {{#ifCond @root.coreRollTotal '!==' undefined}}
-            {{#each target.rollRequests.contests}}
-            <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}} title="{{title}}">
-              {{label}} vs {{@root.coreRollTotal}}
-            </a>
-            {{/each}}
-            {{/ifCond}}
-
-            {{!-- Save Rolls --}}
-            {{#each @root.rollRequests.saves}}
-            <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}}>
-              {{label}} DC {{dc}}  
-            </a>
-            {{/each}}
-
-            {{!-- Contest Rolls --}}
-            {{#ifCond @root.coreRollTotal '!==' undefined}}
-            {{#each @root.rollRequests.contests}}
-            <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
-              {{label}} vs {{@root.coreRollTotal}}
-            </a>
-            {{/each}}
-            {{/ifCond}}
-          </div>
-
-          {{!-- Save and Contest Outcome --}}
-          {{#if target.rollOutcome}}
-          <div class="label {{#unless target.rollOutcome.success}}miss{{/unless}}">{{target.rollOutcome.label}}</div>
-          {{/if}}
-        </div>
-        {{/unless}}
-
-        {{#ifCond @root.hasAnyEffectsToApply '||' target.effects}} {{#ifCond @root.userIsGM '||' isOwner}}
-        <div class="target-effect-applier">
-          {{!-- Apply Taraget Specific Active Effects --}}
-          {{#each target.effects as |effect index|}}
-          <a><img src="{{effect.img}}" class="effect apply-effect-target-specific" title="{{localize "dc20rpg.chat.targetSpecific"}}{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
-          {{/each}}
-
-          {{!-- Apply Active Effects --}}
-          {{#each @root.applicableEffects as |effect index|}}
-          <a><img src="{{effect.img}}" class="effect apply-effect" title="{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
-          {{/each}}
-
-          {{!-- Apply Statuses --}}
-          {{#each @root.applicableStatuses}}
-          <a><img src="{{img}}" class="effect apply-status" title="{{name}}{{localize "dc20rpg.chat.applyStatus"}}" data-status="{{status}}" data-target="{{../id}}"/></a>
-          {{/each}}
-        </div>
-        {{/ifCond}} {{/ifCond}}
-        {{/unless}}
-      </div>
-      {{/each}}
+    {{!-- GM Menu --}}
+    {{#if userIsGM}}
+    <div class="gm-menu">
+      <a class="chat-button apply-all fa-solid fa-gavel" data-tooltip="{{localize "dc20rpg.chat.applyAll"}}"></a>
+      <a class="chat-button send-all-roll-requests fa-solid fa-dice" data-tooltip="{{localize "dc20rpg.chat.sendRollRequests"}}"></a>
+      <a class="chat-button target-confirm fa-solid fa-circle-check" data-tooltip="{{localize "dc20rpg.chat.confirmTargets"}}"></a>
+      <a class="chat-button apply-all-effects-fail fa-solid fa-wand-magic" data-tooltip="{{localize "dc20rpg.chat.applyToFailedRolls"}}"></a>
+      <a class="chat-button apply-all-effects fa-solid fa-wand-magic-sparkles" data-tooltip="{{localize "dc20rpg.chat.applyAllEffects"}}"></a>
     </div>
     {{/if}}
 
-    {{#if @root.showEffectApplier}}
+    {{!-- Targets --}}
+    <div class="target-container">
+      {{#each targets}}
+      {{> "systems/dc20rpg/templates/chat/partial/target.hbs" this}}
+      {{/each}}
+    </div>
+
+
+    {{!-- Effects and Requests --}}
+    {{#if userIsGM}}
     <div class="effect-applier">
       <div class="title-wrapper">
-        {{#if @root.userIsGM}}
         <span class="title margin-bottom-5">{{localize "dc20rpg.chat.applyToSelected"}}</span>
-        <a class="add-selected-to-targets fa-solid fa-crosshairs chat-button" title="{{localize "dc20rpg.chat.addToTargets"}}"></a>
-        {{else}}
-        <span class="title margin-bottom-5">{{localize "dc20rpg.chat.rollsAndEffects"}}</span>
-        {{/if}}
+        <a class="add-selected-to-targets fa-solid fa-crosshairs chat-button" data-tooltip="{{localize "dc20rpg.chat.addToTargets"}}"></a> 
       </div>
 
       <div class="button-section">
         <div class="roll-buttons-wrapper">
-          {{!-- Save Rolls --}}
-          {{#each @root.rollRequests.saves}}
-          <a class="roll-button roll-save-selected chat-button" data-key={{saveKey}} data-dc={{dc}}>
+          {{#each rollRequests.saves as |request key|}}
+          <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../actor.isOwner}}roll-request{{else}}disabled{{/ifCond}}" data-key={{key}} data-category="saves">
             {{label}} DC {{dc}}  
           </a>
           {{/each}}
-
-          {{!-- Contest Rolls --}}
-          {{#ifCond @root.coreRollTotal '!==' undefined}}
-          {{#each @root.rollRequests.contests}}
-          <a class="roll-button roll-check-selected chat-button" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
-            {{label}} vs {{@root.coreRollTotal}}
+          {{#ifCond @root.winningRoll.total '!==' undefined}}
+          {{#each rollRequests.contests as |request key|}}
+          <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../actor.isOwner}}roll-request{{else}}disabled{{/ifCond}}" data-key={{key}} data-category="contests">
+            {{label}} vs {{@root.winningRoll.total}}  
           </a>
           {{/each}}
           {{/ifCond}}
@@ -426,18 +135,22 @@
       </div>
 
       <div class="effects">
-        {{!-- Apply Active Effects --}}
-        {{#each @root.applicableEffects as |effect index|}}
-        <a><img src="{{effect.img}}" class="effect {{#if @root.userIsGM}}apply-effect{{else}}disabled{{/if}}" title="{{effect.name}}{{localize "dc20rpg.chat.applyEffectsTarget"}}" data-selected-now="true" data-index="{{index}}"/></a>
+        {{!-- Effect Applier --}}
+        {{#each effects as |effect index|}}
+        <a><img src="{{effect.img}}" data-index="{{index}}" class="effect apply-effect" data-tooltip="{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}"/></a>
         {{/each}}
-
-        {{!-- Apply Statuses --}}
-        {{#each @root.applicableStatuses}}
-        <a><img src="{{img}}" class="effect {{#if @root.userIsGM}}apply-status{{else}}disabled{{/if}}" title="{{name}}{{localize "dc20rpg.chat.applyStatusTarget"}}" data-selected-now="true" data-status="{{status}}"/></a>
+        
+        {{!-- Status Applier --}}
+        {{#each statuses as |status index|}}
+        {{#if status.display}}
+        <a><img src="{{status.img}}" data-index="{{index}}" class="effect apply-status" data-tooltip="{{status.name}}{{localize "dc20rpg.chat.applyStatus"}}"/></a>
+        {{/if}}
         {{/each}}
       </div>
     </div>
+    
     {{/if}}
   </div>
-</div>
+  {{/if}}
+  
 <div class="fotter" style="margin-bottom:5px;"></div>

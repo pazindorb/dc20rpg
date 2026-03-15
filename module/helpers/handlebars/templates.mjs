@@ -11,6 +11,7 @@ export function allPartials() {
   return {
     ...actorPartials(),
     ...itemPartials(),
+    ...chatPartials(),
     ...sharedPartials()
   };
 }
@@ -42,6 +43,14 @@ function itemPartials() {
     "Advancement Core": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/adv-core.hbs",
     "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/enhancements.hbs",
     "Target Modifiers": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/target-modifiers.hbs"
+  }
+}
+
+function chatPartials() {
+  return {
+    "Core Roll": "systems/dc20rpg/templates/chat/partial/core-roll.hbs",
+    "Target": "systems/dc20rpg/templates/chat/partial/target.hbs",
+    "Formula Row": "systems/dc20rpg/templates/chat/partial/formula-row.hbs"
   }
 }
 

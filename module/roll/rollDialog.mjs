@@ -43,8 +43,8 @@ export class RollDialog extends DC20Dialog {
       }
 
       const validationData = {emmiterId: game.user.id, actorId: actor.id};
-      const rollResult = responseListener("rollDialogResult", validationData);
-      emitSystemEvent("rollDialog", payload);
+      const rollResult = responseListener("ROLL_DIALOG_RESTULT", validationData);
+      emitSystemEvent("OPEN_ROLL_DIALOG", payload);
       const response = await rollResult;
       return response;
     }

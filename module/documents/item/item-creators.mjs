@@ -126,7 +126,9 @@ export class TargetModifier {
   rollRequest = new RollRequest();
   addsNewFormula = false;
   formula = new Formula();
-
+  addsAgainstStatus = false;
+  againstStatus = new AgainstStatus();
+  
   static async create(data={}, options={}) {
     const item = options.parent;
     if (!item) {

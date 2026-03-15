@@ -2,6 +2,7 @@ import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
 import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
+import { itemDetailsToHtml } from "../../helpers/items/itemDetails.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey } from "../../helpers/utils.mjs";
@@ -25,6 +26,8 @@ export function enrichWithHelpers(item) {
   if (item.system.infusions) {
     _enrichItemInfusions(item);
   }
+
+  item.toChatMessageData = () => convertToChatMessageData(item);
 }
 
 //==================================//==================================
@@ -1288,4 +1291,100 @@ async function _applyInfuserPenalties(infusion, actor) {
 async function _clearInfuserPenalties(infusion, actor) {
   const infusionManaPentalty = actor.system.resources.mana.infusions;
   await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.cost});
+}
+
+//==================================//==================================
+//                        ITEM TO CHAT MESSAGE                         =
+//==================================//==================================
+function convertToChatMessageData(item) {
+  const actor = item.actor;
+  const shouldSustain = actor.shouldSustain(item);
+  const targetModifiers = actor.system.targetModifiers.filter(modifier => itemMeetsUseConditions(modifier.useFor, item))
+  
+  const identified = item.identified
+  const name = identified ? item.name : "Unidentified Item";
+  const description = identified ? item.system.description : "<b>Unidentified</b>";
+  const htmlDetails = identified ? itemDetailsToHtml(item) : "";
+
+  const [rollRequests, statuses, effects, overrideTargetDefence] = _collectFromItemAndEnhancements(item);
+  const actionType = item.system.actionType;
+  const CHAT_DATA = {
+    itemId: item.id,
+    image: item.img,
+    description: description,
+    details: htmlDetails,
+    rollTitle: name,
+    name: name,
+    actionType: actionType,
+    areas: item.system.target?.areas,
+    statuses: statuses,
+    effects: effects,
+    rollRequests: rollRequests,
+    targetModifiers: targetModifiers,
+    sustain: shouldSustain
+  }
+
+  // Attack Action Data
+  if (actionType === "attack") {
+    CHAT_DATA.targetDefence = overrideTargetDefence || item.system.attackFormula.targetDefence;
+    CHAT_DATA.skipBonusDamage = item.system.attackFormula.skipBonusDamage;
+    CHAT_DATA.canCrit = true;
+  }
+
+  // Check Action Data
+  if (actionType === "check") {
+    const check = item.system.check;
+    CHAT_DATA.checkDC = check.againstDC ? check.checkDC : null;
+    CHAT_DATA.canCrit = check.canCrit;
+  }
+
+  return CHAT_DATA;
+}
+
+function _collectFromItemAndEnhancements(item) {
+  let overrideTargetDefence = "";
+
+  const saves = {};
+  const contests = {};
+  if (item.system.rollRequests) {
+    for (const request of Object.values(item.system.rollRequests)) {
+      _requestPerCategory(request, saves, contests);
+    }
+  }
+  const effects = item.effects.filter(effect => effect.system.addToChat).map(effect => effect.toObject(false));
+  const statuses = item.system.againstStatuses ? Object.values(item.system.againstStatuses) : [];
+  
+  // COLLECT FROM ENHANCEMENTS
+  item.enhancements.active.values().forEach(enh => {
+    if (enh.modifications.addsAgainstStatus && enh.modifications.againstStatus?.id) {
+      statuses.push(enh.modifications.againstStatus)
+    }
+
+    if (enh.modifications.addsEffect) {
+      effects.push(enh.modifications.addsEffect);
+    }
+
+    if (enh.modifications.addsNewRollRequest) {
+      _requestPerCategory(enh.modifications.rollRequest, saves, contests);
+    }
+
+    if (enh.modifications.overrideTargetDefence && enh.modifications.targetDefenceType) {
+      overrideTargetDefence = enh.modifications.targetDefenceType;
+    }
+  });
+
+  return [{saves: saves, contests: contests}, statuses, effects, overrideTargetDefence];
+}
+
+function _requestPerCategory(request, saves, contests) {
+  if (request.category === "save") {
+    const requestKey = `save#${request.dc}#${request.saveKey}`;
+    saves[requestKey] = request;
+    saves[requestKey].label = CONFIG.DC20RPG.ROLL_KEYS.saveTypes[request.saveKey];
+  }
+  if (request.category === "contest") {
+    const requestKey = `contest#${request.contestedKey}`;
+    contests[requestKey] = request;
+    contests[requestKey].label = CONFIG.DC20RPG.ROLL_KEYS.contests[request.contestedKey];
+  }
 }

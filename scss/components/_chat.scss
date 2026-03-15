@@ -51,7 +51,6 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
   }
 
   .default-roll-message {
-    padding: 5px;
 
     .dice-result {
       cursor: pointer;
@@ -339,22 +338,26 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
         }
 
         .dice-roll:not(.expanded) {
-
           .dice-tooltip {
             transform: scaleY(0);    
             transform-origin: top;
             transition: all 0.35s ease;
-            opacity: 0;
             height: 0px;
+            visibility: hidden;
+          }
+        }
+
+        .dice-roll.expanded {
+          .dice-tooltip {
+            transform: scaleY(1);    
+            transform-origin: top;
+            transition: all 0.35s ease;
+            height: auto;
+            visibility: visible;
           }
         }
 
         .dice-roll { 
-          transform-origin: top;
-          transform: scaleY(1);
-          transition: all 0.35s ease;
-          opacity: 1;
-          height: auto;
 
           .add-roll, .remove-roll, .not-supported, .modify-core-roll {
             z-index: 5;
@@ -389,6 +392,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             cursor: pointer;
 
             .dice-formula {
+              margin-top: 3px;
               color: var(--main-light);
               font-family: $font-default;
               border-radius: 3px;
@@ -504,15 +508,15 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           }
         }
 
-        .token-selection {
+        .target-selection {
           margin-top: 6px;
           border-top: 1px solid var(--main-color);
           display: flex;
           align-items: center;
 
-          .selection {
+          .tab-selection {
             font-size: 16px;
-            cursor: pointer;
+            
             width: 50%;
             display: flex;
             align-items: center;
@@ -525,6 +529,11 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
               color: var(--main-light);
               background-color: var(--main-darker);
               border-bottom: 1px solid var(--main-color);
+              cursor: pointer;
+              
+              &:hover {
+                box-shadow: 0 0 6px 2px var(--main-light) inset;
+              }
             }
 
             &.disabled {
@@ -533,7 +542,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             }
           }
 
-          .run-check-for-selected {
+          .refresh-targets {
             position: relative;
             width: 30px;
             height: 30px;
@@ -552,35 +561,39 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           }
         }
 
-        .token-container {
+        .gm-menu {
+          padding: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 3px;
+
+          a {
+            border-right: 1px solid var(--main-color);
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            font-size: 13px;
+            width: 100%;
+      
+            font-weight: bold;
+            padding: 4px;
+          }
+
+          a:first-child {
+            border-radius: 3px 0 0 3px;
+          }
+
+          a:last-child {
+            border-right: 0;
+            border-radius: 0 3px 3px 0;
+          }
+        }
+
+        .target-container {
           border-bottom: 1px solid var(--main-color);
           border-top: 0;
           padding: 5px;
-
-          .gm-button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 7px;
-            border-radius: 3px;
-            border: 1px solid var(--main-color);
-
-            a {
-              border-right: 1px solid var(--main-color);
-              display: flex;
-              justify-content: center;
-              text-align: center;
-              font-size: 13px;
-              width: 100%;
-        
-              font-weight: bold;
-              padding: 4px;
-            }
-
-            a:last-child {
-              border-right: 0;
-            }
-          }
           
           .target {
             padding: 3px;
@@ -659,7 +672,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
               text-align: center;
               min-width: 33%;
 
-              &.miss {
+              &.fail {
                 color: $secondary-lighter;
                 border-color: $fail;
                 background-color: $fail-background;
@@ -708,7 +721,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                       flex-direction: column;
                       margin-right: 3px;
 
-                      .modify-roll {
+                      .modify-formula {
                         text-align: center;
                         font-family: $font-default;
                         font-size: 14px;
@@ -724,7 +737,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                       }
                     }
                     
-                    .apply-damage, .apply-healing {
+                    .apply-formula {
                       display: flex;
                       justify-content: center;
                       align-items: center;
@@ -741,7 +754,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                     box-shadow:  0 0 10px $crit-background inset;
                   }
 
-                  .modify-roll {
+                  .modify-formula {
                     background-color: $crit-background !important;
                   }
                 }

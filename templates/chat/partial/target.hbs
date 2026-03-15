@@ -1,0 +1,77 @@
+<div class="target">
+  {{!-- 1st Row --}}
+  {{#unless actor.dummy}}
+  <div class="outcome wrap-target" style="cursor: pointer;" data-target-hash="{{targetHash}}" data-tooltip="{{localize "dc20rpg.chat.showHideDetails"}}">
+    <div class="name-wrapper">
+      {{#if @root.userIsGM}} {{#ifCond @root.targetTab '===' "target"}}
+      <a class="remove-target fa-solid fa-square-xmark" data-target-hash="{{targetHash}}" data-tooltip="{{localize "dc20rpg.chat.removeTarget"}}"></a>
+      {{/ifCond}} {{/if}}
+      <img src="{{actor.img}}"/>
+      <div class="name">{{name}}</div>
+    </div>
+    {{#if attackOutcome}}
+    <div class="label {{attackOutcome.type}}" data-tooltip="{{varLocalize "dc20rpg.chat.defaultDefence." calcData.defenceKey ""}}">{{attackOutcome.label}}</div>
+    {{/if}}
+  </div>
+  {{/unless}}
+
+  {{#unless hideDetails}}
+  {{!-- 2nd Row - formula outcome --}}
+  {{#if @root.shouldShowDamage}}
+  <div class="row-wrapper">
+    {{> "systems/dc20rpg/templates/chat/partial/formula-row.hbs" array=calculated.damage category="damage"}}
+    {{> "systems/dc20rpg/templates/chat/partial/formula-row.hbs" array=calculated.healing category="healing"}}
+    {{#each calculated.other}}
+    <div class="row">
+      <div class="other">
+        <div class="value" data-tooltip="{{source}}">
+          <span>{{value}} {{label}}</span>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{!-- 3rd Row - roll requests --}}
+  <div class="button-section margin-top-3">
+    <div class="roll-buttons-wrapper">
+      {{#each rollRequests.saves as |request key|}}
+      <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../actor.isOwner}}roll-request{{else}}disabled{{/ifCond}}" 
+          data-target-hash="{{../targetHash}}" data-key={{key}} data-category="saves" {{#if request.targetSpecific}}data-tooltip="{{localize "dc20rpg.chat.targetSpecific"}}" style="border-color:#036603"{{/if}}>
+        {{label}} DC {{dc}}  
+      </a>
+      {{/each}}
+      {{#ifCond @root.winningRoll.total '!==' undefined}}
+      {{#each rollRequests.contests as |request key|}}
+      <a class="roll-button chat-button {{#ifCond @root.userIsGM '||' ../actor.isOwner}}roll-request{{else}}disabled{{/ifCond}}" 
+          data-target-hash="{{../targetHash}}" data-key={{key}} data-category="contests" {{#if request.targetSpecific}}data-tooltip="{{localize "dc20rpg.chat.targetSpecific"}}" style="border-color:#036603"{{/if}}>
+        {{label}} vs {{@root.winningRoll.total}}  
+      </a>
+      {{/each}}
+      {{/ifCond}}
+    </div>
+    {{#if contestOutcome}}
+    <div class="label {{contestOutcome.type}}">{{contestOutcome.label}}</div>
+    {{/if}}
+  </div>
+
+  {{!-- 4th Row - effects and statuses --}}
+  <div class="target-effect-applier">
+    {{!-- Effect Applier --}}
+    {{#each effects as |effect index|}}
+    <a><img src="{{effect.img}}" data-target-hash="{{../targetHash}}" data-index="{{index}}" class="effect apply-effect" {{#if effect.targetSpecific}}style="border-color:#036603"{{/if}} 
+        data-tooltip="{{#if effect.targetSpecific}}{{localize "dc20rpg.chat.targetSpecific"}}{{/if}}{{effect.name}}{{localize "dc20rpg.chat.applyEffectsTarget"}}"/></a>
+    {{/each}}
+    
+    {{!-- Status Applier --}}
+    {{#each statuses as |status index|}}
+    {{#if status.display}}
+    <a><img src="{{status.img}}" data-target-hash="{{../targetHash}}" data-index="{{index}}" class="effect apply-status" {{#if status.targetSpecific}}style="border-color:#036603"{{/if}} 
+        data-tooltip="{{#if status.targetSpecific}}{{localize "dc20rpg.chat.targetSpecific"}}{{/if}}{{status.name}}{{localize "dc20rpg.chat.applyStatusTarget"}}"/></a>
+    {{/if}}
+    {{/each}}
+  </div>
+
+  {{/unless}}
+</div>

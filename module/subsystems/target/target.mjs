@@ -6,7 +6,6 @@ export class DC20Target {
   name = "";
   targetHash = null;
   actor = null;
-  token = null;
   
   calculated = {
     damage: [],
@@ -19,6 +18,7 @@ export class DC20Target {
 
   coreRoll = null;
   targetRoll = null;
+  contestDC = null;
   
   targetModifiers = [];
   targetFlags = {};
@@ -27,13 +27,25 @@ export class DC20Target {
   healing = [];
   other = [];
 
-  static dummyTarget(dummyActorData, dummyTokenData) {
+  static dummyTarget(dummyActorData) {
     const actor = {
       name: "Dummy",
       dummy: true,
-      img: "icons/svg/mystery-man.svg",
+      img: "icons/svg/target.svg",
       system: {
-        damageReduction: {},
+        damageReduction: {damageTypes: {
+          corrosion: {},
+          cold: {},
+          fire: {},
+          lightning: {},
+          poison: {},
+          radiant: {},
+          psychic: {},
+          umbral: {},
+          piercing: {},
+          slashing: {},
+          bludgeoning: {}
+        }},
         healingReduction: {},
         defences: {},
         resources: {health: {max: 1, current: 1, temp: 0, value: 1}},
@@ -42,11 +54,7 @@ export class DC20Target {
       getRollData: () => {},
       ...dummyActorData
     }
-    const token = {
-      name: "Dummy",
-      ...dummyTokenData
-    }
-    return new DC20Target(actor, token);
+    return new DC20Target(actor);
   }
 
   static fromActor(actor) {
@@ -54,8 +62,7 @@ export class DC20Target {
       ui.notifications.error("Cannot create target from actor. Actor doesn't exist");
       return null;
     }
-    const token = actor.getActiveTokens()[0];
-    return new DC20Target(actor, token);
+    return new DC20Target(actor);
   }
 
   static fromToken(token) {
@@ -63,9 +70,7 @@ export class DC20Target {
       ui.notifications.error("Cannot create target from token. Token doesn't exist");
       return null;
     }
-    if (token.object) token = token.object;
-    const actor = token.actor;
-    return new DC20Target(actor, token);
+    return this.fromActor(token.actor);
   }
 
   static async quickApplyDamageFor(actor, formula, calcData={}, options={}) {
@@ -82,16 +87,10 @@ export class DC20Target {
     await target.calculated.healing[0].modified.apply(options);
   } 
 
-  constructor(actor, token) {
-    if (token) {
-      this.token = token;
-    }
-    if (actor) {
-      this.actor = actor;
-      this.targetHash = actor.targetHash;
-    }
-
-    this.name = token?.name || actor?.name;
+  constructor(actor) {
+    this.actor = actor;
+    this.targetHash = actor.targetHash;
+    this.name = actor.name;
   }
 
   //=======================================// 
@@ -104,6 +103,10 @@ export class DC20Target {
   setTargetRollValue(roll) {
     this.targetRoll = roll;
   }
+
+  setContestDC(dc) {
+    this.contestDC = dc;
+  }
   
   setTargetModifiers(targetModifiers=[]) {
     this.targetModifiers = targetModifiers;
@@ -112,19 +115,38 @@ export class DC20Target {
   addDamageRoll(damage) {
     let dmg = foundry.utils.deepClone(damage);
     if (!dmg.clear && !dmg.modified) dmg = {clear: dmg, modified: dmg};
+    if (dmg.clear.total != null) dmg.clear = this.#convertRollToTargetFormula(dmg.clear);
+    if (dmg.modified.total != null) dmg.modified = this.#convertRollToTargetFormula(dmg.modified);
     this.damage.push(dmg);
   }
 
   addHealingRoll(healing) {
     let heal = foundry.utils.deepClone(healing);
     if (!heal.clear && !heal.modified) heal = {clear: heal, modified: heal};
+    if (heal.clear.total != null) heal.clear = this.#convertRollToTargetFormula(heal.clear);
+    if (heal.modified.total != null) heal.modified = this.#convertRollToTargetFormula(heal.modified);
     this.healing.push(heal);
   }
 
   addOtherRoll(other) {
     let otherRoll = foundry.utils.deepClone(other);
     otherRoll = otherRoll.modified ? otherRoll.modified : otherRoll;
-    if (otherRoll.perTarget) this.other.push(otherRoll);
+    if (!otherRoll.perTarget) return;
+    
+    if (otherRoll.total != null) otherRoll = this.#convertRollToTargetFormula(otherRoll);
+    this.other.push(otherRoll);
+  }
+
+  #convertRollToTargetFormula(roll) {
+    return {
+      value: roll.total,
+      source: roll.modifierSources,
+      type: roll.type,
+      label: roll.label,
+      each5Value: roll.each5Value,
+      failValue: roll.failValue,
+      dontMerge: roll.dontMerge,
+    }
   }
 
   //=======================================// 
@@ -161,9 +183,8 @@ export class DC20Target {
       this.check = this.#calculateCheck(calcData.checkDC);
       options.isCheck = true;
     }
-    else if (calcData.againstDC != null) {
-      if (!this.targetRoll) return;
-      this.contest = this.#calculateContest(calcData.againstDC);
+    else if (this.targetRoll != null && this.contestDC != null) {
+      this.contest = this.#calculateContest();
       options.isContest = true;
     }
     await this.#prepareTargetFlags();
@@ -181,14 +202,25 @@ export class DC20Target {
 
     const calcualted = [];
     const targetSpecific =  await this.#targetSpecificFormulas("damage", calcData);
-    for (const damage of this.#mergeFormulas([...this.damage, ...targetSpecific], calcData.defenceKey)) {
-      const final = await this.#calculateCommonFormula(damage, calcData, opt);
+    const formulas = this.#mergeFormulas([...this.damage, ...targetSpecific], calcData.defenceKey);
+    for (let i = 0; i < formulas.length; i++) {
+      const final = await this.#calculateCommonFormula(formulas[i], calcData, opt);
 
       // Enhance calculated formula
       final.modified.apply = async (options={}) => await this.#applyDamage(final.modified, options);
       final.clear.apply = async (options={}) => await this.#applyDamage(final.clear, options);
-      final.modified.manualModification = (value) => final.modified.value += value;
-      final.clear.manualModification = (value) => final.clear.value += value;
+      final.modified.modify = (value) => {
+        final.modified.value += value;
+        final.modified.source += ` ${value >= 0 ? "+" : "-"} (Manual)`;
+      };
+      final.clear.modify = (value) => {
+        final.clear.value += value;
+        final.clear.source += ` ${value >= 0 ? "+" : "-"} (Manual)`;
+      };
+
+      final.useModified = i === 0;
+      final.apply = async (options={}) => final.useModified ? await final.modified.apply(options) : await final.clear.apply(options);
+      final.modify = (value) => final.useModified ? final.modified.modify(value) : final.clear.modify(value);
       calcualted.push(final);
     }
     this.calculated.damage = calcualted;
@@ -203,14 +235,25 @@ export class DC20Target {
 
     const calcualted = [];
     const targetSpecific =  await this.#targetSpecificFormulas("healing", calcData);
-    for (const healing of this.#mergeFormulas([...this.healing, ...targetSpecific])) {
-      const final = await this.#calculateCommonFormula(healing, calcData, opt);
+    const formulas = this.#mergeFormulas([...this.healing, ...targetSpecific]);
+    for (let i = 0; i < formulas.length; i++) {
+      const final = await this.#calculateCommonFormula(formulas[i], calcData, opt);
       
       // Enhance calculated formula
       final.modified.apply = async (options={}) => await this.#applyHealing(final.modified, options);
       final.clear.apply = async (options={}) => await this.#applyHealing(final.clear, options);
-      final.modified.manualModification = (value) => final.modified.value += value;
-      final.clear.manualModification = (value) => final.clear.value += value;
+      final.modified.modify = (value) => {
+        final.modified.value += value;
+        final.modified.source += ` ${value >= 0 ? "+" : "-"} (Manual)`;
+      };
+      final.clear.modify = (value) => {
+        final.clear.value += value;
+        final.clear.source += ` ${value >= 0 ? "+" : "-"} (Manual)`;
+      };
+
+      final.useModified = i === 0;
+      final.apply = async (options={}) => final.useModified ? await final.modified.apply(options) : await final.clear.apply(options);
+      final.modify = (value) => final.useModified ? final.modified.modify(value) : final.clear.modify(value);
       calcualted.push(final);
     }
     this.calculated.healing = calcualted;
@@ -218,10 +261,8 @@ export class DC20Target {
 
   calculateOtherFormulas(calcData) {
     // Calculate contest value 1st if required
-    if (this.contest == null) {
-      if (this.targetRoll != null && calcData.againstDC != null) {
-        this.contest = this.#calculateContest(calcData.againstDC)
-      }
+    if (this.contestDC != null && this.targetRoll != null) {
+      this.contest = this.#calculateContest();
     }
 
     const calcualted = [];
@@ -242,8 +283,9 @@ export class DC20Target {
     return this.coreRoll - checkDC;
   }
 
-  #calculateContest(againstDC) {
-    return againstDC - this.targetRoll;
+  #calculateContest() {
+    const contestDC = this.contestDC === "coreRoll" ? this.coreRoll : this.contestDC;
+    return contestDC - this.targetRoll;
   }
 
   async #calculateCommonFormula(damage, calcData, options) {
@@ -252,8 +294,10 @@ export class DC20Target {
 
     // Formula might target different defence
     let attackHit = this.hit; 
-    if (options.isAttack && !!final.modified.overrideDefence) attackHit = this.#calculateHit(final.modified.overrideDefence);
-    if (options.isAttack) final.modified = this.#attackModifications(final.modified, calcData, attackHit);
+    if (options.isDamage) {
+      if (options.isAttack && !!final.modified.overrideDefence) attackHit = this.#calculateHit(final.modified.overrideDefence);
+      if (options.isAttack) final.modified = this.#attackModifications(final.modified, calcData, attackHit);
+    }
 
     if (options.isCheck) {
       final.modified = this.#checkModifications(final.modified);
@@ -370,6 +414,7 @@ export class DC20Target {
   }
 
   #flatReduction(formula, flatValue, label) {
+    if (!flatValue) return formula;
     if (flatValue > 0) formula.source += ` - ${label} Reduction(${flatValue})`;
     if (flatValue < 0) formula.source += ` + Extra ${label}(${Math.abs(flatValue)})`;
     formula.value -= flatValue;
@@ -484,7 +529,7 @@ export class DC20Target {
       if (ovrDef && defKey && ovrDef != defKey) key += "defDif";
       this.#setOrUpdate(postMerge, formula, key);
     }
-    return postMerge.values();
+    return postMerge.values().toArray();
   }
 
   #setOrUpdate(postMerge, formula, key) {
@@ -523,6 +568,8 @@ export class DC20Target {
   //=          TARGET MODIFIERS           =//
   //=======================================//
   async getMatchingTargetModifiers(data={}) {
+    if (this.actor.dummy) return [];
+
     const matching = [];
     for (const modifier of this.targetModifiers) {
       const result = await runTemporaryMacro(modifier.condition, this, {target: this, ...data});
@@ -534,9 +581,23 @@ export class DC20Target {
   async getTargetSpecificEffects(calcData={}) {
     const effects = [];
     for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
-      if (modifier.effect) effects.push(modifier.effect);
+      if (modifier.effect) {
+        modifier.effect.targetSpecific = true;
+        effects.push(modifier.effect);
+      }
     }
     return effects;
+  }
+
+  async getTargetSpecificStatuses(calcData={}) {
+    const statuses = [];
+    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
+      if (modifier.addsAgainstStatus && modifier.againstStatus.id) {
+        modifier.againstStatus.targetSpecific = true;
+        statuses.push(modifier.againstStatus);
+      }
+    }
+    return statuses;
   }
 
   async getTargetSpecificRollRequests(calcData={}) {
@@ -544,6 +605,7 @@ export class DC20Target {
     for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
       if (modifier.addsNewRollRequest && modifier.rollRequest.category) {
         const request = modifier.rollRequest;
+        request.targetSpecific = true;
         if (request.category === "save") {
           request.label = CONFIG.DC20RPG.ROLL_KEYS.saveTypes[request.saveKey];
           request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + modifier.name;
@@ -551,7 +613,7 @@ export class DC20Target {
         }
         if (request.category === "contest") {
           request.label = CONFIG.DC20RPG.ROLL_KEYS.contests[request.contestedKey];
-          request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + cond.name;
+          request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + modifier.name;
           rollRequests.contests.push(request);
         }
       }
@@ -585,6 +647,7 @@ export class DC20Target {
         source: modifier.name,
         type: original.type,
         value: formulaRoll._total,
+        label: type,
         each5Value: null,
         failValue: null
       }
@@ -625,8 +688,8 @@ export class DC20Target {
   //=======================================// 
   //=             ROLL OUTCOME            =//
   //=======================================//
-  attackOutcomeLabel() {
-    if (this.hit == null) return "";
+  get attackOutcome() {
+    if (this.hit == null) return null;
 
     const calcData = this.calcData || {};
     const critMiss = calcData.isCritMiss;
@@ -636,19 +699,37 @@ export class DC20Target {
     const brutal = this.hit >= 10 && !calcData.skipFor?.brutal;
     const brutalP = this.hit >= 15 && !calcData.skipFor?.brutal;
 
-    if (critMiss) return "Critical Miss";
-    if (miss) return "Miss";
+    if (critMiss) {
+      return {label: "Critical Miss", type: "fail"};
+    }
+    if (miss) {
+      return {label: "Miss", type: "fail"};
+    }
 
-    if (brutalP) return crit ? "Critical Brutal(+)" : "Brutal Hit(+)";
-    if (brutal) return crit ? "Critical Brutal" : "Brutal Hit";;
-    if (heavy) return crit ? "Critical Heavy" : "Heavy Hit";
-    return crit ? "Critical Hit" : "Hit";
+    if (brutalP) {
+      return crit ?  
+        {label: "Critical Brutal(+)", type: "success"} :
+        {label: "Brutal Hit(+)", type: "success"};
+    }
+    if (brutal) {
+      return crit ?  
+        {label: "Critical Brutal", type: "success"} :
+        {label: "Brutal Hit", type: "success"};
+    }
+    if (heavy) {
+      return crit ?  
+        {label: "Critical Heavy", type: "success"} :
+        {label: "Heavy Hit", type: "success"};
+    }
+    return crit ?  
+        {label: "Critical Hit", type: "success"} :
+        {label: "Hit", type: "success"};
   }
 
-  contestOutcomeLabel() {
-    if (this.contest == null) return "";
-    if (this.contest < 0) return "Succeeded with " + this.targetRoll;
-    if (this.contest >= 0) return "Failed with " + this.targetRoll;
+  get contestOutcome() {
+    if (this.contest == null) return null;
+    if (this.contest < 0) return {label: "Succeeded with " + this.targetRoll, type: "success"};
+    if (this.contest >= 0) return {label: "Failed with " + this.targetRoll, type: "fail"};
   }
 
   // TODO NOW - REMOVE 
@@ -673,7 +754,6 @@ export class DC20Target {
   //=                APPLY                =//
   //=======================================//
   async #applyDamage(damage, options={}) {
-    if (this.actor.dummy) return;
     if (damage.value === 0) return;
 
     const health = this.actor.system.resources.health;

@@ -1,4 +1,4 @@
-import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
+import { sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
@@ -8,6 +8,7 @@ import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } fro
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import DC20RpgActiveEffect from "./activeEffect.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 
 export class DC20RpgCombat extends Combat {
 

@@ -106,11 +106,11 @@ export async function evaluateFormulaRoll(item, rollData, evalData) {
     // We want to evaluate each5 and fail formulas in advance
     if (roll.modified.each5Formula) {
       const each5Roll = await evaluateFormula(roll.modified.each5Formula, rollData, true);
-      if (each5Roll) roll.modified.each5Roll = each5Roll;
+      if (each5Roll) roll.modified.each5Value = each5Roll.total;
     }
     if (roll.modified.failFormula) {
       const failRoll = await evaluateFormula(roll.modified.failFormula, rollData, true);
-      if (failRoll) roll.modified.failRoll = failRoll;
+      if (failRoll) roll.modified.failValue = failRoll.total;
     }
   }
   return prepared;
@@ -191,23 +191,19 @@ async function _prepareFormulas(formulas, item, evalData) {
       case "damage":
         const dmgType = damageOverride || formula.type;
         let damageTypeLabel = getLabelFromKey(dmgType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
-        roll.modified.label = "Damage - " + damageTypeLabel;
+        roll.modified.label = damageTypeLabel;
         roll.modified.type = dmgType;
-        roll.modified.typeLabel = damageTypeLabel;
-        roll.clear.label = "Damage - " + damageTypeLabel;
+        roll.clear.label = damageTypeLabel;
         roll.clear.type = dmgType;
-        roll.clear.typeLabel = damageTypeLabel;
         damageRolls.push(roll);
         break;
 
       case "healing":
         let healingTypeLabel = getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-        roll.modified.label = "Healing - " + healingTypeLabel;
+        roll.modified.label = healingTypeLabel;
         roll.modified.type = formula.type;
-        roll.modified.typeLabel = healingTypeLabel;
-        roll.clear.label = "Healing - " + healingTypeLabel;
+        roll.clear.label = healingTypeLabel;
         roll.clear.type = formula.type;
-        roll.clear.typeLabel = healingTypeLabel;
         healingRolls.push(roll);
         break;
 

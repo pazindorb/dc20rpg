@@ -174,12 +174,12 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  settings.register("dc20rpg", "showDamageForPlayers", {
-    name: "Show Damage/Healing calculations",
-    hint: "If false, only GM will be able to see damage and healing calculations per target.",
+  settings.register("dc20rpg", "hideCalculationsFromPlayers", {
+    name: "Hide Damage/Healing calculations",
+    hint: "If selected, only GM will be able to see damage and healing calculations per target.",
     scope: "world",
     config: true,
-    default: true,
+    default: false,
     type: Boolean
 	});
 
