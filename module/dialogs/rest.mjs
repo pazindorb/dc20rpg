@@ -1,8 +1,8 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 /**
@@ -275,10 +275,10 @@ export class RestDialog extends DC20Dialog {
     if (this.history.exhaustion) content += `<li>Cleared ${this.history.exhaustion} stacks of Exhaustion</li>`;
 
     if (content) content = `<ul>${content}</ul>`
-    sendDescriptionToChat(this.actor, {
+    DC20ChatMessage.descriptionMessage({
       rollTitle: `${CONFIG.DC20RPG.DROPDOWN_DATA.restTypes[this.selectedRestType]} Finished`,
       image: this.actor.img,
       description: content,
-    });
+    }, this.actor);
   }
 }

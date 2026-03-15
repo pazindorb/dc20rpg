@@ -164,7 +164,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
   async close(options) {
     await super.close(options);
     const flags = this.document.flags.dc20rpg;
-    if (flags.itemSavePath) {
+    if (flags?.itemSavePath) {
       const item = this.document.parent;
       if (item.documentName !== "Item") return;
 

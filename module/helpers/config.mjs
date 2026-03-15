@@ -1,4 +1,3 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
@@ -28,6 +27,7 @@ import { RollSelect } from "../dialogs/roll-select.mjs";
 import { tooltipElement, tooltipListeners } from "./tooltip.mjs";
 import { DC20RpgToken } from "../placeable-objects/token.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
+import { DC20ChatMessage, sendDescriptionToChat } from "../sidebar/chat/chat-message.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
@@ -54,6 +54,7 @@ export function prepareDC20tools() {
     ItemMacro,
     DC20Roll,
     DC20Target,
+    DC20ChatMessage,
     DC20RpgActor,
     DC20RpgItem,
     DC20RpgCombatant,

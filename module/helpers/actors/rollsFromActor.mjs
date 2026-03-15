@@ -1,7 +1,7 @@
-import { sendDescriptionToChat } from "../../chat/chat-message.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { handleAfterRollEffectModification } from "../effects.mjs";
+import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 
 //=======================================
 //              FINISH ROLL             =
@@ -57,11 +57,11 @@ function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
 function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
   if (coreRoll.fail && actor.inCombat) {
     if (["attackCheck", "spellCheck", "att", "mar", "spe"].includes(rollType) && !rollMenu.autoFail) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Critical Fail - exposed",
         image: actor.img,
         description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you before the start of your next turn.",
-      });
+      }, actor);
       actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true, untilTargetNextTurnStart: true} });
     }
   }

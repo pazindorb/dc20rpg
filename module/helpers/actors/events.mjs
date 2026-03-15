@@ -1,10 +1,9 @@
-import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
+import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 import { DC20Target } from "../../subsystems/target/target.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
-import { calculateForTarget } from "../targets.mjs";
 
 let preTriggerTurnedOffEvents = [];
 /**
@@ -257,7 +256,7 @@ export function parseEvent(event) {
 async function _deleteEffect(effectId, actor) {
   const effect = actor.getEffectById(effectId);
   if (!effect) return;
-  sendEffectRemovedMessage(actor, effect);
+  DC20ChatMessage.effectRemovalMessage(actor, effect);
   await effect.gmDelete();
 }
 

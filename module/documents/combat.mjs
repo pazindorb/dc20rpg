@@ -1,4 +1,3 @@
-import { sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
@@ -440,29 +439,29 @@ export class DC20RpgCombat extends Combat {
 
     // Crit Success
     if (combatant.flags.dc20rpg?.initativeOutcome?.crit) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Initiative Critical Success",
         image: actor.img,
         description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
-      });
+      }, actor);
       DC20RpgActiveEffect.gmCreate(this._getInitiativeCritEffectData(actor), {parent: actor, ignoreResponse: true});
     }
     // Crit Fail
     if (combatant.flags.dc20rpg?.initativeOutcome?.fail) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Initiative Critical Fail",
         image: actor.img,
         description: "The first Attack made against you during the first Round of Combat has ADV.",
-      });
+      }, actor);
       DC20RpgActiveEffect.gmCreate(this._getInitiativeCritFailEffectData(actor), {parent: actor, ignoreResponse: true});
     }
     // Success
     if (combatant.initiative >= initiativeDC) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Initiative Success",
         image: actor.img,
         description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
-      });
+      }, actor);
       actor.help.prepare({diceValue: 6, duration: "combat"})
       return true;
     }
@@ -562,17 +561,11 @@ export class DC20RpgCombat extends Combat {
 
       // Critical Success: You are restored to 1 HP
       if (roll.crit) {
-        // TODO NOW: REWORK - Make it use Target's Apply Healing
-        const health = actor.system.resources.health;
-        actor.update({["system.resources.health.current"]: 1});
-        sendHealthChangeMessage(actor, Math.abs(health.current) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
+        actor.update({["system.resources.health.current"]: 1}, {hpChangeSource: game.i18n.localize('dc20rpg.death.crit')});
       }
       // Success (5): You regain 1 HP.
       else if (roll._total >= 15) {
-        // TODO NOW: REWORK - Make it use Target's Apply Healing
-        const health = actor.system.resources.health;
-        actor.update({["system.resources.health.current"]: (health.current + 1)});
-        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.success'), "healing");
+        actor.update({["system.resources.health.current"]: (health.current + 1)}, {hpChangeSource: game.i18n.localize('dc20rpg.death.success')});
       }
       // Success: No change.
 

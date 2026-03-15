@@ -1,7 +1,7 @@
-import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -332,8 +332,8 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
 
     if (onTimeEnd === "disable") await this.disable();
     if (onTimeEnd === "delete") {
-      sendEffectRemovedMessage(this.parent, this);
-      await this.delete();
+      DC20ChatMessage.effectRemovalMessage(this, this.parent);
+      await this.gmDelete({ignoreResponse: true});
     }
     if (onTimeEnd === "runMacro") {
       await this.runMacro({timer: true});

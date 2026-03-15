@@ -1,6 +1,6 @@
-import { sendHealthChangeMessage } from "../../chat/chat-message.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
 import { evaluateDicelessFormula, evaluateFormula } from "../../helpers/rolls.mjs";
+import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 
 export class DC20Target {
   name = "";
@@ -570,9 +570,15 @@ export class DC20Target {
   async getMatchingTargetModifiers(data={}) {
     if (this.actor.dummy) return [];
 
+    const baseData = {
+      target: this,
+      calcData: {},
+      formula: null, 
+      hit: null
+    }
     const matching = [];
     for (const modifier of this.targetModifiers) {
-      const result = await runTemporaryMacro(modifier.condition, this, {target: this, ...data});
+      const result = await runTemporaryMacro(modifier.condition, this, {...baseData, ...data});
       if (result === true) matching.push(modifier);
     }
     return matching;
@@ -732,24 +738,6 @@ export class DC20Target {
     if (this.contest >= 0) return {label: "Failed with " + this.targetRoll, type: "fail"};
   }
 
-  // TODO NOW - REMOVE 
-  prettyPrint() {
-    for (const dmg of this.calculated.damage) {
-      console.log("==== DAMAGE ====");
-      console.log("[M] Value: " + dmg.modified.value + " " + dmg.modified.type + " \n" + dmg.modified.source);
-      console.log("[C] Value: " + dmg.clear.value + " " + dmg.modified.type + " \n" + dmg.clear.source);
-    }
-    for (const heal of this.calculated.healing) {
-      console.log("==== HEALING ====");
-      console.log("[M] Value: " + heal.modified.value + " " + heal.modified.type + " \n" + heal.modified.source);
-      console.log("[C] Value: " + heal.clear.value + " " + heal.modified.type + " \n" + heal.clear.source);
-    }
-    for (const other of this.calculated.other) {
-      console.log("==== OTHER ====");
-      console.log("[M] Value: " + other.value + " " + other.label + " \n" + other.source);
-    }
-  }
-
   //=======================================// 
   //=                APPLY                =//
   //=======================================//
@@ -765,8 +753,7 @@ export class DC20Target {
     await this.actor.gmUpdate(updateData, {
       skipEventCall: options.skipEventCall,
       messageId: options.messageId, 
-      hpChangeSource: damage.source,
-      hpChangeType: "damage"
+      hpChangeSource: damage.source
     });
   }
 
@@ -816,8 +803,7 @@ export class DC20Target {
     await this.actor.gmUpdate(updateData, {
       skipEventCall: options.skipEventCall,
       messageId: options.messageId, 
-      hpChangeSource: source,
-      hpChangeType: "healing"
+      hpChangeSource: source
     });
   }
   
@@ -830,7 +816,7 @@ export class DC20Target {
 
     if (oldTemp >= value) {
       source += ` -> (Current Temporary HP is higher)`;
-      sendHealthChangeMessage(this.actor, 0, source, "temporary");
+      DC20ChatMessage.hpChangeMessage(0, source, this.actor);
       return;
     }
     else if (oldTemp > 0) {
@@ -843,8 +829,7 @@ export class DC20Target {
     await this.actor.gmUpdate(updateData, {
       skipEventCall: options.skipEventCall,
       messageId: options.messageId, 
-      hpChangeSource: source,
-      hpChangeType: "temporary"
+      hpChangeSource: source
     });
   }
 }

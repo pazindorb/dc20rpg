@@ -1,4 +1,3 @@
-import { sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
@@ -11,6 +10,7 @@ import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import DC20RpgActiveEffect from "./activeEffect.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
@@ -635,7 +635,7 @@ export class DC20RpgActor extends Actor {
           options.hpChange = hpChange;
           if (hpChange === 0) preventChangeFor.push({custom: false, key: "health"});
           if (options.hpChangeSource) {
-            sendHealthChangeMessage(this, Math.abs(hpChange), options.hpChangeSource, options.hpChangeType);
+            DC20ChatMessage.hpChangeMessage(hpChange, options.hpChangeSource, this);
           }
         }
         if (key === "custom") {
@@ -792,11 +792,11 @@ export class DC20RpgActor extends Actor {
     await this.update({[`system.sustain.-=${key}`]: null});
 
     if (message) {
-      sendDescriptionToChat(this, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: `[Sustain dropped] ${sustain.name}`,
         image: sustain.img,
         description: `You are no longer sustaining '${sustain.name}' - ${message}`,
-      });
+      }, this);
     }
   }
 

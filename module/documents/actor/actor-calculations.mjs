@@ -381,7 +381,7 @@ function _spendLimits(actor) {
 function _basicTargetModifiers(actor) {
 	// Impact property
 	actor.system.targetModifiers.push({
-		condition: `return hit >= 5;`, 
+		condition: `return hit != null && hit >= 5;`, 
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
 		name: "Impact",
@@ -410,7 +410,7 @@ function _basicTargetModifiers(actor) {
 	// Impactful Unarmed Strikes
 	if (actor.system.details.armor.heavyEquipped) {
 		actor.system.targetModifiers.push({
-			condition: `return hit >= 5;`,  
+		condition: `hit != null && hit >= 5;`,  
 			bonus: '1', 
 			useFor: `system.itemKey=["unarmedStrike"]`, 
 			name: "Impactful Unarmed Strikes",

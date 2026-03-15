@@ -1,5 +1,5 @@
-import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
@@ -174,7 +174,7 @@ export async function handleAfterRollEffectModification(toRemove) {
     const afterRoll = toRemove.afterRoll;
     if (effect) {
       if (afterRoll === "delete") {
-        sendEffectRemovedMessage(actor, effect);
+        DC20ChatMessage.effectRemovalMessage(actor, effect);
         await effect.gmDelete();
       }
       if (afterRoll === "disable") {
