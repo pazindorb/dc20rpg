@@ -1,22 +1,20 @@
-import { RollDialog } from "../roll/rollDialog.mjs";
-import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
-import { getActorFromIds, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { TokenSelector } from "../dialogs/token-selector.mjs";
-import { evaluateFormula } from "../helpers/rolls.mjs";
-import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
-import { emitSystemEvent } from "../helpers/sockets.mjs";
-import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { getActorFromTargetHash } from "../helpers/targets.mjs";
-import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { DC20Roll } from "../roll/rollApi.mjs";
-import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
-import { DC20Target } from "../subsystems/target/target.mjs";
+import { getActorFromIds, getTokensInsideMeasurementTemplate } from "../../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects, injectFormula } from "../../helpers/effects.mjs";
+import { datasetOf } from "../../helpers/listenerEvents.mjs";
+import { TokenSelector } from "../../dialogs/token-selector.mjs";
+import { evaluateFormula } from "../../helpers/rolls.mjs";
+import { runEventsFor, triggerOnlyForIdFilter } from "../../helpers/actors/events.mjs";
+import { emitSystemEvent } from "../../helpers/sockets.mjs";
+import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
+import DC20RpgActiveEffect from "../../documents/activeEffect.mjs";
+import { DC20Target } from "../../subsystems/target/target.mjs";
+import DC20RpgMeasuredTemplate from "../../placeable-objects/measuredTemplate.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
-  #DESCRIPTION_TEMPLATE = "";
+  #DESCRIPTION_TEMPLATE = "systems/dc20rpg/templates/chat/description-message.hbs";
   #ROLL_TEMPLATE = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
   #EVENT_TEMPLATE = "systems/dc20rpg/templates/chat/event-revert-message.hbs"
 
@@ -28,7 +26,41 @@ export class DC20ChatMessage extends ChatMessage {
     return await this.#createChatMessage("description", systemData, actor, options);
   }
 
-  static async eventMessage(systemData, actor, options={}) {
+  static async hpChangeMessage(amount, source, actor, options={}) {
+    const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
+    if (showEventChatMessage === "none") return;
+
+    const eventType = amount > 0 ? "healing" : "damage";
+    const systemData = {
+      amount: Math.abs(amount),
+      source: source,
+      actorName: actor.name,
+      image: actor.img,
+      actorUuid: actor.uuid,
+      eventType: eventType,
+      messageType: "event"
+    }
+
+    options.gmOnly = showEventChatMessage === "gm";
+    return await this.#createChatMessage("event", systemData, actor, options);
+  }
+
+  static async effectRemovalMessage(effect, actor, options={}) {
+    const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
+    if (showEventChatMessage === "none") return;
+
+    const systemData = {
+      source: `${effect.name} ${game.i18n.localize('dc20rpg.chat.effectRemovalDesc')} ${actor.name}`,
+      effectImg: effect.img,
+      effect: effect.toObject(),
+      actorName: actor.name,
+      image: actor.img,
+      actorUuid: actor.uuid,
+      eventType: "effectRemoval",
+      messageType: "event"
+    }
+   
+    options.gmOnly = showEventChatMessage === "gm";
     return await this.#createChatMessage("event", systemData, actor, options);
   }
 
@@ -75,7 +107,8 @@ export class DC20ChatMessage extends ChatMessage {
       speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
       sound: CONFIG.sounds.notification,
       flags: {dc20rpg: flags},
-      system: system
+      system: system,
+      whisper: options.gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
     }
     if (messageType === "roll") {
       data.rolls = this.#rollsObjectToArray(rolls),
@@ -230,10 +263,25 @@ export class DC20ChatMessage extends ChatMessage {
     this.otherRolls = this.system.formulas
       .filter(formula => formula.modified.category === "other" && !formula.modified.perTarget)
       .map(formula => {
-        formula = formula.modified;
-        /** TODO - apply stuff like each 5 etc */
+        formula = foundry.utils.deepClone(formula.modified);
+        formula = this.#checkDcModifications(formula);
         return formula;
       });
+  }
+
+  #checkDcModifications(formula) {
+    if (this.system.checkDC == null) return formula;
+
+    const degree = Math.floor((this.winningRoll.total - this.system.checkDC)/5);
+    if (degree < 0 && formula.failValue != null) {
+      formula.modifierSources = formula.modifierSources.replace("Base Value", "[Check Failed]");
+      formula.total = formula.failValue;
+    }
+    if (degree > 0 && formula.each5Value != null) {
+      formula.modifierSources = formula.modifierSources.replace("Base Value", `[Check succeed over ${(degree * 5)}]`);
+      formula.total += (degree * formula.each5Value);
+    }
+    return formula;
   }
 
   #prepareStatuses(statuses) {
@@ -493,7 +541,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.add-selected-to-targets').click(() => this.#onAddSelectedToTargets());
 
     // Event Message
-    html.find('.revert-button').click(ev => this.#onRevertButton(datasetOf(ev)));
+    html.find('.revert-button').click(() => this.#onRevertButton());
 
     // Drag and drop
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -814,7 +862,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   #enhanceEffectData(effectData) {
-    const actor = getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
     effectData.system.chatMessageId = this.id;
     effectData.flags.dc20rpg.applierId = this.speaker.actor;
 
@@ -861,7 +909,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   #collectExtras(status) {
-    const actor = getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
     const saveDC = actor.system.saveDC.value;
     const extras = {
       ...status,
@@ -935,64 +983,33 @@ export class DC20ChatMessage extends ChatMessage {
   //==============================
   //=    REVERT EVENT MESSAGE    =
   //==============================
-  #onRevertButton(data) {
-    // TODO
-  }
-
-  async #onRevertHp() {
-    // TODO
-  }
-
-  async #onRevertEffect() {
-    // TODO
-  }
-
-  _activateListeners(html) {
-
-
-
-    // GM Menu
-
-    html.find('.revert-button').click(ev => {
-      ev.stopPropagation();
-      if (this.system.messageType === "effectRemoval") this._onRevertEffect();
-      else this._onRevertHp();
-    });
-
-
-
-  }
-
-
-  async _onRevertHp() {
-    const system = this.system;
-    const type = system.messageType;
-    const amount = system.amount;
-    const uuid = system.actorUuid;
-
-    const actor = await fromUuid(uuid);
+  async #onRevertButton() {
+    const actor = await fromUuid(this.system.actorUuid);
     if (!actor) return;
+
+    if (this.system.eventType === "effectRemoval") {
+      await this.#onRevertEffect(actor);
+    }
+    else {
+      await this.#onRevertHp(actor);
+    }
+    this.delete();
+  }
+
+  #onRevertHp(actor) {
+    const amount = this.system.amount;
+    if (!amount) return;
 
     const health = actor.system.resources.health;
-    let newValue = health;
-    if (type === "damage") newValue = health.value + amount;
-    else newValue = health.value - amount;
-    actor.update({["system.resources.health.value"]: newValue});
-    this.delete();
+    if (this.system.eventType === "damage") actor.gmUpdate({["system.resources.health.value"]: health.value + amount}, {ignoreResponse: true});
+    if (this.system.eventType === "healing") actor.gmUpdate({["system.resources.health.value"]: health.value - amount}, {ignoreResponse: true});
   }
 
-  async _onRevertEffect() {
-    const system = this.system;
-    const effectData = system.effect;
-
-    const uuid = system.actorUuid;
-    const actor = await fromUuid(uuid);
-    if (!actor) return;
-
+  #onRevertEffect(actor) {
+    const effectData = this.system.effect;
+    if (!effectData) return;
     DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
-    this.delete();
   }
-
 
   //==============================
   //=       ON DROP HANDLER      =
@@ -1021,63 +1038,8 @@ export class DC20ChatMessage extends ChatMessage {
   }
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function sendDescriptionToChat(actor, details, item) {
-  const system = {
-      ...details,
-      messageType: "description"
-  };
-  let chatData = {
-    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
-    sound: CONFIG.sounds.notification,
-    system: system,
-    flags: {dc20rpg: {itemId: item?.id}}
-  };
-  chatData = DC20ChatMessage.applyRollMode(chatData, game.settings.get('core', 'rollMode'));
-  const message = await DC20ChatMessage.create(chatData);
-  if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
-}
-
-export function sendHealthChangeMessage(actor, amount, source, messageType) {
-  const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
-  if (showEventChatMessage === "none") return;
-  const gmOnly = showEventChatMessage === "gm";
-
-  const system = {
-    actorName: actor.name,
-    image: actor.img,
-    actorUuid: actor.uuid,
-    amount: amount,
-    source: source,
-    messageType: messageType
-  };
-
-  DC20ChatMessage.create({
-    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
-    sound: CONFIG.sounds.notification,
-    system: system,
-    whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
-  });
-}
-
-export function sendEffectRemovedMessage(actor, effect) {
-  const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
-  if (showEventChatMessage === "none") return;
-  const gmOnly = showEventChatMessage === "gm";
-  
-  const system = {
-    actorName: actor.name,
-    image: actor.img,
-    actorUuid: actor.uuid,
-    effectImg: effect.img,
-    messageType: "effectRemoval",
-    source: `${effect.name} ${game.i18n.localize('dc20rpg.chat.effectRemovalDesc')} ${actor.name}`,
-    effect: effect.toObject()
-  };
-
-  DC20ChatMessage.create({
-    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
-    sound: CONFIG.sounds.notification,
-    system: system,
-    whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
-  });
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.sendDescriptionToChat' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20ChatMessage.descriptionMessage' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  DC20ChatMessage.descriptionMessage(details, actor, options={item: item});
 }
