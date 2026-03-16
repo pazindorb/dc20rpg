@@ -1,6 +1,6 @@
 import { DC20Dialog } from "../dialogs/dc20Dialog.mjs";
-import { getActorFromTargetHash } from "../helpers/targets.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 
 export class DRMDialog extends DC20Dialog {
 
@@ -39,7 +39,7 @@ export class DRMDialog extends DC20Dialog {
       resultPerTarget.push({label: `From ${statusName}`, values: this._toDisplayFormat(values)})
     }
     for (const [hash, values] of targets) {
-      const actor = getActorFromTargetHash(hash); 
+      const actor = DC20Target.getActorFromTargetHash(hash); 
       resultPerTarget.push({label: `From ${actor.name}`, values: this._toDisplayFormat(values)})
     }
 

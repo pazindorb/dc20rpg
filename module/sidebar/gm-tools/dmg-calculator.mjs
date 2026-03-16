@@ -1,6 +1,5 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
-import { calculateForTarget } from "../../helpers/targets.mjs";
 import { DC20Target } from "../../subsystems/target/target.mjs";
 export class DamageCalculator extends DC20Dialog {
 
@@ -58,7 +57,7 @@ export class DamageCalculator extends DC20Dialog {
     const context = await super._prepareContext(options);
 
     const dmgType = this.calculationType === "fall" ? "true" : "bludgeoning";
-    this._calculate(dmgType, this.calculationType === "fall");
+    await this._calculate(dmgType, this.calculationType === "fall");
     context.tokens = this.tokens;
     
     context.calculationType = this.calculationType;
@@ -74,29 +73,28 @@ export class DamageCalculator extends DC20Dialog {
     
     return context;
   }
-  // TODO NOW: REWORK THIS 
 
-  _calculate(dmgType, fall) {
-    Object.values(this.tokens).forEach(token => {
-      token.rollDC = 10 + this.distance + (token.uncontrolled ? 5 : 0);
+  async _calculate(dmgType, fall) {
+    for (const wrapper of Object.values(this.tokens)) {
+      wrapper.rollDC = 10 + this.distance + (wrapper.uncontrolled ? 5 : 0);
 
-      const system = token.token.actor.system
+      const system = wrapper.token.actor.system
       let fallKey = system.jump.key || "agi";
       if (fallKey === "flat") fallKey = "agi";
       const attribute = Math.max(system.attributes[fallKey].value, 0);
 
       let dmg = this.distance;
-      if (fall && !token.uncontrolled && attribute >= dmg) dmg = 0;
-      if (token.outcome === "success") dmg = Math.max(dmg - attribute, 0);
-      if (token.shareDamage) dmg = Math.ceil(dmg/2);
+      if (fall && !wrapper.uncontrolled && attribute >= dmg) dmg = 0;
+      if (wrapper.outcome === "success") dmg = Math.max(dmg - attribute, 0);
+      if (wrapper.shareDamage) dmg = Math.ceil(dmg/2);
 
       const dmgWrapper = { value: dmg, source: "", type: dmgType };
-      const formulaRoll = { clear: {...dmgWrapper}, modified: {...dmgWrapper} }
-      const damage = calculateForTarget(token.token.document.toTarget(), formulaRoll, {isDamage: true});
-      
-      token.damage = damage.clear.value;
-      token.damageTitle = `Apply ${token.damage} ${game.i18n.localize(`dc20rpg.reductions.${dmgType}`)} Damage`;
-    })
+      const target = DC20Target.fromToken(wrapper.token);
+      target.addDamageRoll(dmgWrapper);
+      await target.calculateDamage({});
+      wrapper.damage = target.calculated.damage[0]?.clear?.value;
+      wrapper.damageTitle = `Apply ${wrapper.damage} ${game.i18n.localize(`dc20rpg.reductions.${dmgType}`)} Damage`;
+    }
   }
 
   async _onRoll(event, target) {

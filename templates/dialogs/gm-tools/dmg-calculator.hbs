@@ -28,7 +28,7 @@
         <div class="wrapper">
           {{#ifCond @root.calculationType '===' "fall"}}
             {{#if wrapper.outcome}}
-            <span class="roll-result {{wrapper.outcome}}" data-tooltip="{{localize (concat 'dc20rpg.dialog.dmgCalculator.roll.' wrapper.outcome)}}">{{wrapper.result}}</span>
+            <span class="roll-result {{wrapper.outcome}}" data-tooltip="{{localize (concat 'dc20rpg.dialog.dmgCalculator.roll.' wrapper.outcome)}}" style="border: 1px solid;padding: 5px;border-radius: 5px;">{{wrapper.result}}</span>
             {{else}}
               {{#if wrapper.awaiting}}
               <i class="fa-regular fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>

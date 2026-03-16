@@ -19,7 +19,6 @@ import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getTokenForActor } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
-import { calculateForTarget, getActorFromTargetHash, tokenToTarget } from "./targets.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Enhancement, Formula, ItemMacro, RollRequest, TargetModifier } from "../documents/item/item-creators.mjs";
@@ -33,7 +32,6 @@ export function prepareDC20tools() {
   window.DC20 = {
     tools: {
       toSelectOptions,
-      getActorFromTargetHash
     },
     tooltip: {
       tooltipElement,
@@ -101,8 +99,6 @@ export function prepareDC20tools() {
       getItemFromActorByKey,
       getActiveActorOwners,
       getIdsOfActiveActorOwners,
-      tokenToTarget,
-      calculateForTarget,
       applyDamage,
       applyHealing,
       makeMoveAction,

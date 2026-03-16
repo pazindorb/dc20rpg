@@ -27,6 +27,16 @@ export class DC20Target {
   healing = [];
   other = [];
 
+  static getActorFromTargetHash(targetHash) {
+    const [actorId, tokenId] = targetHash.split("#");
+    if (tokenId) {
+      const token = canvas.tokens.documentCollection.get(tokenId);
+      if (!token) return null;
+      return token.actor;
+    }
+    return game.actors.get(actorId);
+  }
+
   static dummyTarget(dummyActorData) {
     const actor = {
       name: "Dummy",

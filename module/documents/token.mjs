@@ -238,43 +238,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
   }
 
-  //=====================================
-  //               TARGET               =
-  //=====================================
-  toTarget(flags={}) {
-    const actor = this.actor;
-    const statuses = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
-    const rollData = actor?.getRollData();
-    const target = {
-      name: actor.name,
-      img: actor.img,
-      id: this.id,
-      isOwner: actor.isOwner,
-      system: actor.system,
-      statuses: statuses,
-      effects: actor.allEffects,
-      isFlanked: this.isFlanked,
-      rollData: {
-        target: {
-          numberOfConditions: this._numberOfConditions(actor.coreStatuses),
-          system: rollData
-        }
-      },
-      token: this.object,
-      flags: flags
-    };
-    return target;
-  }
-
-  _numberOfConditions(coreStatuses) {
-    let number = 0;
-    const conditions = CONFIG.DC20RPG.DROPDOWN_DATA.conditions;
-    for (const status of coreStatuses) {
-      if (conditions[status]) number += 1;
-    }
-    return number;
-  }
-
   async _preDelete(options={}, user) {
     // Remove existing aura
     const linkedTemplates = this.flags.dc20rpg?.linkedTemplates || [];
