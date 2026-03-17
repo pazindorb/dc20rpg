@@ -498,6 +498,12 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             text-shadow: none;
             box-shadow:  0 0 6px 2px var(--main-light) inset;
           }
+
+          &.small {
+            color: $dark-red;
+            width: 30px;
+            min-width: 30px;
+          }
         }
 
         .target-selection {
@@ -812,17 +818,6 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             justify-content: space-between;
             padding: 0 5px;
             height: 24px;
-
-            a {
-              display: flex;
-              justify-content: center;
-              text-align: center;
-        
-              color: $dark-red;
-              font-weight: bold;
-              border-radius: 3px;
-              padding: 4px;
-            }
           }
 
           .button-section {

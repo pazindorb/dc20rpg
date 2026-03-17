@@ -184,7 +184,9 @@ async function _resourceManipulation(value, key, label, actor) {
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
   const label = event.label || event.effectName;
-  const message = event.preTrigger === "spendAP" ? `You need to spend 1 AP to trigger "${label}" event as part of that action. Proceed?` : `Do you want to trigger "${label}" event as a part of that action?`;
+  const spendApMessage = `You need to spend 1 AP to trigger "${label}" event as part of that action. Proceed?`;
+  const defaultMessage = `Do you want to trigger "${label}" event as a part of that action?`;
+  const message = event.preTrigger === "spendAP" ? spendApMessage : (event.customMessage || defaultMessage) ;
   const confirmation = await SimplePopup.confirm(message);
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method

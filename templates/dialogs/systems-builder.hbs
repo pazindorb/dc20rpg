@@ -17,6 +17,12 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.confirmation"}}</span>
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
+    {{#if fields.confirmation.value}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.customMessage"}}</span>
+      <input class="input" data-path="fields.customMessage.value" value="{{fields.customMessage.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.afterRoll"}}</span>
       <select class="selectable" data-path="fields.afterRoll.value">
@@ -69,6 +75,12 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.confirmation"}}</span>
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
+    {{#if fields.confirmation.value}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.customMessage"}}</span>
+      <input class="input" data-path="fields.customMessage.value" value="{{fields.customMessage.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.afterRoll"}}</span>
       <select class="selectable" data-path="fields.afterRoll.value">
@@ -226,6 +238,12 @@
         {{selectOptions fields.postTrigger.selectOptions selected=fields.postTrigger.value}}
       </select>
     </div>
+    {{#if fields.preTrigger.value}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.customMessage"}}</span>
+      <input class="input" data-path="fields.customMessage.value" value="{{fields.customMessage.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.reenable"}}</span>
       <select class="selectable" data-path="fields.reenable.value">

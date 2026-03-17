@@ -43,7 +43,8 @@ export async function extractGFModValue(key, actor) {
       const mod = JSON.parse(`{${json}}`);
       
       if (mod.confirmation) {
-        const confirmed = await SimplePopup.confirm(`Should "${mod.source}" be applied as part of that roll?`);
+        const message = mod.customMessage || `Should "${mod.source}" be applied as part of that roll?`
+        const confirmed = await SimplePopup.confirm(message);
         if (!confirmed) continue;
       }
 

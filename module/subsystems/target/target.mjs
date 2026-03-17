@@ -336,13 +336,15 @@ export class DC20Target {
     if (reduction.flatHalf) final.modified = this.#flatReductionHalf(final.modified, options.label);
     if (reduction.flatHalf) final.clear = this.#flatReductionHalf(final.clear, options.label);
 
-    if (options.isAttack && attackHit < 0 && !calcData.isCritHit) {
-      final.modified = this.#attackMiss(final.modified);
-      final.clear = this.#attackMiss(final.clear);
-    }
-    if (calcData.isCritMiss) {
-      final.modified = this.#critFail(final.modified, "Critical Fail");
-      final.clear = this.#critFail(final.clear, "Critical Fail");
+    if (options.isAttack) {
+      if (attackHit < 0 && !calcData.isCritHit) {
+        final.modified = this.#attackMiss(final.modified);
+        final.clear = this.#attackMiss(final.clear);
+      }
+      if (calcData.isCritMiss) {
+        final.modified = this.#critFail(final.modified, "Critical Miss");
+        final.clear = this.#critFail(final.clear, "Critical Miss");
+      }
     }
 
     return this.#finishCalculation(final);

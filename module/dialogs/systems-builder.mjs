@@ -62,6 +62,10 @@ export class SystemsBuilder extends Dialog {
           value: false,
           format: "boolean"
         },
+        customMessage: {
+          value: "",
+          format: "string",
+        },
         afterRoll: {
           value: false,
           format: "string",
@@ -108,6 +112,10 @@ export class SystemsBuilder extends Dialog {
         confirmation: {
           value: false,
           format: "boolean"
+        },
+        customMessage: {
+          value: "",
+          format: "string",
         },
         autoCrit: {
           value: false,
@@ -167,6 +175,10 @@ export class SystemsBuilder extends Dialog {
             "disable": "Disable Effect",
             "delete": "Delete Effect"
           }
+        },
+        customMessage: {
+          value: "",
+          format: "string",
         },
         reenable: {
           value: "",
