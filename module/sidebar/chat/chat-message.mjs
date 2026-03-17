@@ -173,6 +173,7 @@ export class DC20ChatMessage extends ChatMessage {
       this.hideCalculationsFromPlayers = game.settings.get("dc20rpg", "hideCalculationsFromPlayers");
       const fallback = game.user.isGM ? "selected" : "dummy";
       this.targetTab = foundry.utils.isEmpty(this.system.targeted) ? fallback : "target";
+      this.shareFormula = false;
       this.#collectTargets();
     }
 
@@ -315,6 +316,8 @@ export class DC20ChatMessage extends ChatMessage {
       canCrit: this.system.canCrit,
       skipFor: this.system?.skipBonusDamage || {/** Add conditional flag for every roll? */},
     }
+    if (this.shareFormula) calcData.divideBy = Object.values(this.targets).length;
+
     switch (this.system.actionType) {
       case "attack":
         calcData.defenceKey = this.system.targetDefence;
@@ -410,6 +413,7 @@ export class DC20ChatMessage extends ChatMessage {
     context.userIsGM = game.user.isGM
     context.dummyTarget = !!this.targets.dummy;
     context.targetTab = this.targetTab;
+    context.shareFormula = this.shareFormula;
     return await foundry.applications.handlebars.renderTemplate(this.#ROLL_TEMPLATE, context);
   }
 
@@ -533,6 +537,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-status').click(ev => this.#onApplyStatus(datasetOf(ev)));
 
     // GM Menu
+    html.find('.share-formula').click(() => this.#onShareFormula());
     html.find('.apply-all').click(() => this.#onGmApplyFormulas());
     html.find('.send-all-roll-requests').click(() => this.#onGmRollRequest());
     html.find('.target-confirm').click(() => this.#onGmTargetConfirm())
@@ -978,6 +983,11 @@ export class DC20ChatMessage extends ChatMessage {
       const tokens = canvas.tokens.placeables.filter(token => token.controlled);
       this.addTokensToTargets(tokens);
     };
+  }
+
+  #onShareFormula() {
+    this.shareFormula = !this.shareFormula;
+    ui.chat.updateMessage(this);
   }
 
   //==============================

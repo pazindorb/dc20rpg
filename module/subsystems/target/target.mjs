@@ -302,6 +302,11 @@ export class DC20Target {
     const final = foundry.utils.deepClone(damage);
     const reduction = options.reduction;
 
+    if (calcData.divideBy) {
+      final.modified = this.#shareWithTargets(final.modified, calcData.divideBy);
+      final.clear = this.#shareWithTargets(final.clear, calcData.divideBy);
+    }
+
     // Formula might target different defence
     let attackHit = this.hit; 
     if (options.isDamage) {
@@ -347,6 +352,12 @@ export class DC20Target {
     let final = foundry.utils.deepClone(other);
     final = this.#contestModifications(final);
     return final;
+  }
+
+  #shareWithTargets(formula, divideBy) {
+    formula.value = Math.ceil(formula.value/divideBy);
+    formula.source = `[Divided by ${divideBy}: (${formula.source})]`;
+    return formula;
   }
 
   #attackModifications(formula, calcData, attackHit) {

@@ -1,11 +1,10 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
 import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 import { itemDetailsToHtml } from "../../helpers/items/itemDetails.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
-import { generateKey } from "../../helpers/utils.mjs";
+import { generateKey, getValueFromPath } from "../../helpers/utils.mjs";
 import { DC20RpgItem } from "../item.mjs";
 import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
 
@@ -753,7 +752,7 @@ function _allEnhancements(item) {
   
   for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
     if (itemWithCopyEnh.itemId === item.id) continue;
-    if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, item)) {
+    if (_itemMeetsUseConditions(itemWithCopyEnh.copyFor, item)) {
       const itm = parent.items.get(itemWithCopyEnh.itemId);
       if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
       if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
@@ -1299,7 +1298,7 @@ async function _clearInfuserPenalties(infusion, actor) {
 function convertToChatMessageData(item) {
   const actor = item.actor;
   const shouldSustain = actor.shouldSustain(item);
-  const targetModifiers = actor.system.targetModifiers.filter(modifier => itemMeetsUseConditions(modifier.useFor, item))
+  const targetModifiers = actor.system.targetModifiers.filter(modifier => _itemMeetsUseConditions(modifier.useFor, item))
   
   const identified = item.identified
   const name = identified ? item.name : "Unidentified Item";
@@ -1387,4 +1386,35 @@ function _requestPerCategory(request, saves, contests) {
     contests[requestKey] = request;
     contests[requestKey].label = CONFIG.DC20RPG.ROLL_KEYS.contests[request.contestedKey];
   }
+}
+
+function _itemMeetsUseConditions(useCondition, item) {
+  if (!useCondition) return false;
+  if (useCondition === "true") return true;
+  const OR = useCondition.split('||');
+  for (const orConditions of OR) {
+    const AND = orConditions.split('&&');
+    if(_checkAND(AND, item)) return true;
+  }
+  return false;
+}
+
+function _checkAND(combinations, item) {
+  for (const combination of combinations) {
+    const pathValue = combination.trim().split('=')
+    const value = getValueFromPath(item, pathValue[0]);
+    if (value === undefined || value === "") return false;
+    try {
+      const expectedValues = eval(pathValue[1]);
+
+      let conditionMet = false;
+      if (Array.isArray(value)) conditionMet = value.some(v=> expectedValues.includes(v));
+      else conditionMet = expectedValues.includes(value);
+      
+      if (!conditionMet) return false;
+    } catch (e) {
+      return false;
+    }
+  };
+  return true;
 }
