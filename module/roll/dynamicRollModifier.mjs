@@ -232,7 +232,7 @@ function _againstStatuses(statuses, actor) {
 
   const result = [];
   const statusLevel = actor.system.statusResistances;
-  for (const statusId of statuses) {
+  for (const statusId of new Set(statuses)) {
     const resistance = statusLevel[statusId]?.resistance || 0;
     const vulnerability = statusLevel[statusId]?.vulnerability || 0;
     const saveLevel = resistance - vulnerability;

@@ -335,6 +335,22 @@ export class SystemsBuilder extends Dialog {
           value: "",
           format: "string",
         },
+        activeCombatantOnly: {
+          value: false,
+          format: "boolean",
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["instant"]
+          }
+        },
+        skipIfCaster: {
+          value: false,
+          format: "boolean",
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["instant"]
+          }
+        },
         restType: {
           value: "long",
           format: "string",

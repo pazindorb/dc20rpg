@@ -115,6 +115,16 @@
       </select>
     </div>
     {{/ifCond}}
+    {{#ifCond fields.trigger.value '===' "instant"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.activeCombatantOnly"}}</span>
+      <a class="activable fa-2x {{#if fields.activeCombatantOnly.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.activeCombatantOnly.value"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.skipIfCaster"}}</span>
+      <a class="activable fa-2x {{#if fields.skipIfCaster.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.skipIfCaster.value"></a>
+    </div>
+    {{/ifCond}}
     {{!-- Resource Change Trigger --}}
     {{#ifCond fields.trigger.value '===' "resourceChange"}}
     <div class="row margin-top-5">
