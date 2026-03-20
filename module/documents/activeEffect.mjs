@@ -28,7 +28,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         }),
         statusId: new fields.StringField({required: true}),
         condition: new fields.BooleanField({required: true, initial: false}),
-        fromStatus: new fields.BooleanField({required: true, initial: false}),
         duration: new fields.SchemaField({
           useCounter: new fields.BooleanField({required: true, initial: false}),
           resetWhenEnabled: new fields.BooleanField({required: true, initial: false}),
@@ -44,8 +43,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
           mode: new fields.StringField({required: true}),
           value: new fields.StringField({required: true})
         }),
-        enableStatusOnCreation: new fields.ArrayField(new fields.StringField()),
-        disableStatusOnRemoval: new fields.ArrayField(new fields.StringField()),
         chatMessageId: new fields.StringField({required: true, initial: ""})
       })
     })
@@ -103,15 +100,11 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     const toggleable = item.system.toggle?.toggleable;
     if (toggleable && effectConfig.linkWithToggle && !effectConfig.toggleItem) return true;
     if (toggleable && effectConfig.linkWithToggle && effectConfig.toggleItem) return false;
-    return effectConfig.mustEquip
+    return effectConfig.mustEquip;
   }
 
   get isCondition() {
-    return this.system.fromStatus && this.system.condition;
-  }
-
-  get fromStatus() {
-    return this.system.fromStatus;
+    return this.system.condition;
   }
 
   get hasManualEvent() {
@@ -123,6 +116,16 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return false;
   }
 
+  //======================================
+  //=            PREPARE DATA            =
+  //======================================
+  prepareDerivedData() {
+    super.prepareDerivedData();
+  }
+
+  //======================================
+  //=              METHODS               =
+  //======================================
   async disable({ignoreStateChangeLock}={}) {
     if (this.disabled) return;
     if (this.isLinkedToItem) {
@@ -173,11 +176,11 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
 
   /**@override */
   apply(actor, change) {
-    this._injectEffectIdToChange(change);
+    this.#injectEffectIdToChange(change);
     super.apply(actor, change);
   }
 
-  _injectEffectIdToChange(change) {
+  #injectEffectIdToChange(change) {
     const effect = change.effect;
     if (!effect) return;
 
@@ -238,7 +241,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
 
   // If we are removing a status from effect we need to run check 
   async _preUpdate(changed, options, user) {
-    this._runStatusChangeCheck(changed);
     super._preUpdate(changed, options, user);
   }
 
@@ -248,7 +250,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       if (this.preventCreation) return false;
     }
-    this._runStatusChangeCheck(data);
     super._preCreate(data, options, user);
   }
 
@@ -275,49 +276,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (!sustained.isSustained) return;
     const actor = await fromUuid(sustained.actorUuid);
     if (actor) actor.addEffectToSustain(sustained.itemId, this.uuid);
-  }
-
-  _runStatusChangeCheck(updateData) {
-    const newStatusId = updateData.system?.statusId;
-    const oldStatusId = this.system?.statusId;
-    if (newStatusId === undefined) return;
-    if (newStatusId === oldStatusId) return;
-
-    // remove old changes
-    if(oldStatusId) {
-      const oldStatus = CONFIG.statusEffects.find(e => e.id === oldStatusId);
-      if (oldStatus) {
-        const oldChanges = updateData.changes || [];
-        const newChanges = [];
-        oldChanges.forEach(change => {
-          if (!this.isChangeFromStatus(change, oldStatus)) newChanges.push(change);
-        });
-        updateData.changes = newChanges;
-      }
-    }
-    // add new changes
-    const newStatus = CONFIG.statusEffects.find(e => e.id === newStatusId)
-    if (!updateData.changes) updateData.changes = [];
-    if (newStatus) updateData.changes = updateData.changes.concat(newStatus.changes);
-  }
-
-  _statusDif(current, updated) {
-    return {
-      toAdd: new Set(updated).difference(current),
-      toRemove: current.difference(new Set(updated))
-    }
-  }
-
-  isChangeFromStatus(change, status) {
-    let hasChange = false;
-    status.changes.forEach(statusChange => {
-      if (statusChange.key === change.key && 
-          statusChange.value === change.value && 
-          statusChange.mode === change.mode) {
-            hasChange = true;
-          }
-    });
-    return hasChange;
   }
 
   async respectRoundCounter() {

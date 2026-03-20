@@ -8,7 +8,6 @@ import { addFlatDamageReductionEffect } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
 
 export default class DC20Hotbar extends foundry.applications.ui.Hotbar { 
@@ -419,7 +418,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
         const descriptionColumn = enriched ? `<hr/>${enriched}` : "";
         
         const timeLeft = effect.roundsLeft ? `<p><i class="fa-solid fa-stopwatch margin-right-5"></i> ${effect.roundsLeft} Rounds Left</p>` : "";
-        const suspended = effect.suspended ? `<p><i class="fa-solid fa-power-off margin-right-5"></i> Suspended by: ${effect.suspendedBy} </p>` : "";
+        const suspended = effect.suspended ? `<p><i class="fa-solid fa-power-off margin-right-5"></i> ${effect.suspended} </p>` : "";
         const statuses = await this._prepareInnerStatuses(effect.statuses, effect.name);
 
         let middleColumn = `${timeLeft} ${suspended} ${statuses}`;
@@ -460,7 +459,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const effect = {...effectDoc};
       effect._id = effectDoc._id;
       const statusId = effect.system.statusId;
-      if (statusId && isStackable(statusId)) {
+      if (statusId && this.#isStackable(statusId)) {
         const alreadyPushed = mergedEffects.find(e => e.system.statusId === statusId);
         if (alreadyPushed) {
           alreadyPushed._id = effect._id;
@@ -476,6 +475,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       }
     }
     return mergedEffects;
+  }
+
+  #isStackable(statusId) {
+    const status = CONFIG.statusEffects.find(e => e.id === statusId);
+    if (status) return status.stackable;
+    else return false;
   }
 
   async _prepareInnerStatuses(statuses, effectName) {

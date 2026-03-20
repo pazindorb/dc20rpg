@@ -209,7 +209,7 @@ export class RestDialog extends DC20Dialog {
   async _respectActivity() {
     if (this.noActivity) {
       await this.actor.update({["system.rest.longRest.noActivity"]: true});
-      if (!this.actor.hasStatus("exhaustion")) return;
+      if (!this.actor.statuses.has("exhaustion")) return;
       this.history.exhaustion++;
       await this.actor.toggleStatusEffect("exhaustion", { active: false });
     }
@@ -217,7 +217,7 @@ export class RestDialog extends DC20Dialog {
 
   async _clearExhaustion() {
     await this.actor.update({["system.rest.longRest.exhSaveDC"]: 10});
-    if (!this.actor.hasStatus("exhaustion")) return;
+    if (!this.actor.statuses.has("exhaustion")) return;
     this.history.exhaustion = "all";
 
     for (const effect of this.actor.effects) {
@@ -226,7 +226,7 @@ export class RestDialog extends DC20Dialog {
   }
 
   async _clearDoomed() {
-    if (!this.actor.hasStatus("doomed")) return;
+    if (!this.actor.statuses.has("doomed")) return;
     this.history.doomed = true;
 
     for (const effect of this.actor.effects) {

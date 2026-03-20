@@ -1,4 +1,4 @@
-import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
+import { prepareActiveEffects, prepareStatusContext } from "../helpers/effects.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters, activateStorageListeners } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
@@ -84,7 +84,8 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
         prepareItemsForStorage(context, this.actor);
         break;
     } 
-    prepareActiveEffectsAndStatuses(this.actor, context);
+    prepareActiveEffects(this.actor, context);
+    prepareStatusContext(this.actor, context);
 
     // Enrich text editors
     const TextEditor = foundry.applications.ux.TextEditor.implementation;

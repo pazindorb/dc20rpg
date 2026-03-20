@@ -70,24 +70,24 @@
 	</button>
 	<div class="palette status-effects" data-palette="effects">
 		{{#each statusEffects as |status|}}
-			<div class="status-wrapper" data-title="{{status.tooltip}}">
+			<div class="status-wrapper"> 
         {{!-- Stackable conditions --}}
-        {{#if status.stackable}}{{#ifCond status.stack '>' 0}}
+        {{#if status.stack}}
         <div class="status-stack">
           <div class="letter-circle-icon">
             <span>{{status.stack}}</span>
           </div>
         </div>
-        {{/ifCond}}{{/if}}
+        {{/if}}
 
         {{!-- Non-stackable conditions --}}
-        {{#unless status.stackable}}{{#if status.fromOther}}
+        {{#if status.locked}}
         <div class="status-stack">
           <div class="letter-circle-icon">
             <i class="fa-sm fa-solid fa-lock"></i>
           </div>
         </div>
-        {{/if}}{{/unless}}
+        {{/if}}
 				<img class="effect-control {{status.cssClass}}" data-action="effect" src="{{status.src}}" {{#if
 					status.title}}data-tooltip="{{status.title}}" {{/if}} data-status-id="{{status.id}}" />
 			</div>

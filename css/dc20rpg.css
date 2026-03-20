@@ -1085,10 +1085,27 @@
 .dc20rpg .effects-table .effects-row {
   height: 30px;
   display: grid;
-  grid-template-columns: 1fr 35px;
+  grid-template-columns: 1fr 35px 0px;
   background-color: var(--secondary-color);
   border: 2px solid var(--secondary-dark);
   border-top: 0;
+}
+.dc20rpg .effects-table .effects-row .effect-suspended {
+  position: relative;
+  width: 0px;
+  height: 0px;
+  margin-left: 15px;
+  margin-top: 3px;
+}
+.dc20rpg .effects-table .effects-row .effect-suspended .letter-circle-icon i {
+  border: 1px solid var(--dark-red);
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  background-color: var(--secondary-color);
+  padding: 0px;
+  color: var(--dark-red);
+  text-shadow: none;
 }
 .dc20rpg .effects-table .effects-row .column {
   height: 30px;

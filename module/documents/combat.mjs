@@ -8,6 +8,7 @@ import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import DC20RpgActiveEffect from "./activeEffect.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -544,7 +545,7 @@ export class DC20RpgCombat extends Combat {
 
   async _deathsDoorCheck(actor) {
     // Check if actor is on death's door
-    const notDead = !actor.hasStatus("dead");
+    const notDead = !actor.statuses.has("dead");
     const deathsDoor = actor.system.death;
     const exhaustion = actor.exhaustion;
     const saveFormula = `d20 - ${exhaustion}`;
@@ -565,7 +566,7 @@ export class DC20RpgCombat extends Combat {
       }
       // Success (5): You regain 1 HP.
       else if (roll._total >= 15) {
-        actor.update({["system.resources.health.current"]: (health.current + 1)}, {hpChangeSource: game.i18n.localize('dc20rpg.death.success')});
+        DC20Target.quickApplyHealingFor(actor, {source: "Death Save Success (over 5) - You regain 1 HP", value: 1, type: "heal"});
       }
       // Success: No change.
 

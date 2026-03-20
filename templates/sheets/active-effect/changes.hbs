@@ -5,7 +5,10 @@
     <div class="mode">{{localize "EFFECT.ChangeMode"}}</div>
     <div class="value">{{localize "EFFECT.ChangeValue"}}</div>
     <div class="priority">{{localize "EFFECT.ChangePriority"}}</div>
-    <div class="controls"><a data-action="addChange"><i class="fa-regular fa-square-plus"></i></a></div>
+    <div class="controls">
+      <a data-action="statusEffects" class="margin-right-5" style="display: flex; align-items: center;" data-tooltip="{{localize "dc20rpg.effect.sheet.addStatusChanges"}}"><i class="margin-left-3 fa-solid fa-plus fa-sm"></i><i class="fa-regular fa-fire"></i></a>
+      <a data-action="addChange"><i class="fa-regular fa-square-plus"></i></a>
+    </div>
   </header>
   <ol class="scrollable" data-changes>
     {{#each source.changes as |change i|}}

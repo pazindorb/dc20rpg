@@ -666,13 +666,13 @@ function _enrichDeftProperty(item) {
   macro.name = "Deft Property";
   macro.trigger = "onDRMCheck";
   macro.command = `
-if (!actor.hasStatus("prone")) return;
+if (!actor.statuses.has("prone")) return;
 
 const rollMenu = item.system.rollMenu;
 const attackFormula = item.system.attackFormula;
 const rangeType = rollMenu.rangeType || attackFormula.rangeType;
 
-if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (counter prone status)", targetHash: actor.targetHash});
+if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (Counter Prone status)", targetHash: actor.targetHash});
   `;
   item.system.macros["deft"] = macro;
 }

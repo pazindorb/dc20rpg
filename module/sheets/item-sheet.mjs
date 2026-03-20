@@ -1,4 +1,4 @@
-import { prepareActiveEffects } from "../helpers/effects.mjs";
+import { prepareActiveEffectsForItem } from "../helpers/effects.mjs";
 import { activateCommonLinsters } from "./item-sheet/is-listeners.mjs";
 import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
 import { generateKey } from "../helpers/utils.mjs";
@@ -41,7 +41,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
     duplicateItemData(context, this.item);
     prepareItemData(context, this.item);
     preprareSheetData(context, this.item);
-    prepareActiveEffects(this.item, context);
+    prepareActiveEffectsForItem(this.item, context);
     if (this.item.type === "container") prepareContainer(this.item, context);
 
     // Enrich text editors

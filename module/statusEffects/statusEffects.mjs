@@ -119,7 +119,7 @@ function _deathsDoor() {
     system: {
       statusId: "deathsDoor",
       hide: true,
-      enableStatusOnCreation: ["exhaustion"]
+      macro: 'actor.toggleStatusEffect("exhaustion", {active: true});'
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/deathsDoor.svg",
@@ -138,6 +138,12 @@ function _deathsDoor() {
         mode: 4,
         priority: undefined,
         value: 3
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "macro", "trigger": "instant", "label": "Death\'s Door", "actorId": "#SPEAKER_ID#"'
       }
     ]
   }
@@ -169,15 +175,14 @@ function _partiallyConcealed() {
 function _fullyConcealed() {
   return {
     id: "fullyConcealed",
+    _id: "z2xmhm721acUq7i4",
     name: "Fully Concealed",
     label: "Fully Concealed",
     stackable: false,
     system: {
       statusId: "fullyConcealed",
-      enableStatusOnCreation: ["unseen"],
-      disableStatusOnRemoval: ["unseen"]
     },
-    statuses: [],
+    statuses: ["unseen"],
     img: "systems/dc20rpg/images/statuses/fullyConcealed.svg",
     description: `
     <p>A creature is Fully Concealed while in an area that blocks vision entirely, such as Darkness, thick fog, or dense foliage. Creatures are considered <strong>Blinded </strong>for the purposes of seeing things that are Fully Concealed.</p>
@@ -188,6 +193,78 @@ function _fullyConcealed() {
         mode: 2,
         priority: undefined,
         value: '"label": "Fully Concealed", "autoFail": true, "skill": "awa"'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },      
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.againstYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      }, 
+      {
+        key: "system.dynamicRollModifier.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.area",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
       }
     ]
   }
@@ -2035,7 +2112,7 @@ function _unconscious() {
     system: {
       statusId: "unconscious",
       condition: true,
-      enableStatusOnCreation: ["prone"]
+      macro: 'actor.toggleStatusEffect("prone", {active: true});'
     },
     img: "systems/dc20rpg/images/statuses/unconscious.svg",
     description: `
@@ -2154,6 +2231,12 @@ function _unconscious() {
         mode: 2,
         priority: undefined,
         value: '"label": "Unconscious (Attack within 1 Space)", "autoCrit": true, "confirmation": true'
+      },
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "macro", "trigger": "instant", "label": "Unconscious", "actorId": "#SPEAKER_ID#"'
       }
     ]
   }

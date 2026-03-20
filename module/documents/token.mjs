@@ -16,11 +16,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.object.isFlanked;
   }
 
-  hasStatusEffect(statusId) {
-    if (!this.actor) return false;
-    return this.actor.hasStatus(statusId);
-  }
-
   /**@override*/
   prepareData() {
     this._prepareSystemSpecificVisionModes();

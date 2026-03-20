@@ -3,10 +3,8 @@ import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
-export function prepareActiveEffectsAndStatuses(owner, context) {
+export function prepareActiveEffects(owner, context) {
   const hideNonessentialEffects = !owner.system.sheetData.show.nonessentialEffects;
-  // Prepare all statuses 
-  const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 
   // Define effect header categories
   const effects = {
@@ -30,25 +28,22 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
 
   // Iterate over active effects, classifying them into categories
   for ( const effect of owner.allEffects ) {
-    if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
-    if (!effect.fromStatus) {
-      effect.originName = effect.parent.name;
-      effect.timeLeft = effect.roundsLeft;
-      effect.canChangeState = effect.stateChangeLocked;
-      effect.manualTrigger = effect.hasManualEvent;
-      if (effect.system.nonessential && hideNonessentialEffects) continue;
-      if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
-      else if (effect.disabled) effects.inactive.effects.push(effect);
-      else if (effect.isTemporary) effects.temporary.effects.push(effect);
-      else effects.passive.effects.push(effect);
-    }
+    if (effect.system.statusId) continue; // Skip effect that is just a status
+    effect.originName = effect.parent.name;
+    effect.timeLeft = effect.roundsLeft;
+    effect.canChangeState = effect.stateChangeLocked;
+    effect.manualTrigger = effect.hasManualEvent;
+    if (effect.system.nonessential && hideNonessentialEffects) continue;
+    if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
+    else if (effect.disabled) effects.inactive.effects.push(effect);
+    else if (effect.isTemporary) effects.temporary.effects.push(effect);
+    else effects.passive.effects.push(effect);
   }
 
   context.effects = effects;
-  context.statuses = statuses;
 }
 
-export function prepareActiveEffects(owner, context) {
+export function prepareActiveEffectsForItem(owner, context) {
   const effects = {
     temporary: {
       type: "temporary",
@@ -67,27 +62,41 @@ export function prepareActiveEffects(owner, context) {
   context.effects = effects;
 }
 
-function _connectEffectAndStatus(effect, statuses) {
-  statuses
-      .filter(status => effect.statuses.has(status.id) && !effect.disabled)
-      .map(status => {
+export function prepareStatusContext(owner, context) {
+  const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
+  context.statuses = statuses.map(status => {
+    const actorStatus = owner.statuses.get(status.id);
+    if (!actorStatus) return status;
+
+    status.active = true;
+    if (status.stackable && actorStatus.stack > 0) {
+      status.stack = actorStatus.stack;
+    }
+
+    const lockedBy = [];
+    const fromEffect = [];
+    actorStatus.effects.forEach(effect => {
+      if (effect.isStatusEffect) {
         status.effectId = effect.id;
-        
-        // Collect stacks for conditions
-        if (!status.stack) status.stack = 1;
-        else if (status.stackable) status.stack += 1; 
+        if (effect.isLocked) lockedBy.push(effect.name);
+      }
+      else {
+        if (!status.stackable) lockedBy.push(effect.name);
+        else fromEffect.push(effect.name);
+      }
+    });
 
-        // If status comes from other active effects we want to give info about it with tooltip
-        if ((effect.statuses.size > 1 && effect.name !== status.name) || !effect.fromStatus) {
-          if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
-          else status.tooltip += ` and ${effect.name}`
-          status.fromOther = true
-        }
-
-        return status;
-      });
+    status.source = "";
+    if (lockedBy.length > 0) {
+      status.source = `Status locked by: ${lockedBy.join(", ")}`;
+      status.locked = true;
+    }
+    if (fromEffect.length > 0) {
+      status.source = `Extra stacks from: ${fromEffect.join(", ")}`;
+    }
+    return status;
+  });
 }
-
 
 //==================================================
 //    Manipulating Effects On Other Objects        =  

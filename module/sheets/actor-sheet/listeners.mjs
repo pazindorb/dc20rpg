@@ -10,7 +10,6 @@ import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
-import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
@@ -131,7 +130,10 @@ export function activateCommonLinsters(html, actor) {
     const effect = actor.getEffectById(datasetOf(ev).effectId);
     if (effect) effect.delete();
   });
-  html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
+  html.find(".status-toggle").mousedown(ev => {
+    if (ev.which === 1) actor.toggleStatusEffect(datasetOf(ev).statusId, { active: true, extras: {} });
+    if (ev.which === 3) actor.toggleStatusEffect(datasetOf(ev).statusId, { active: false, extras: {} });
+  });
   html.find('.manual-event').click(ev => {
     const effect = actor.getEffectById(datasetOf(ev).effectId);
     if (effect) effect.runManualEvent();

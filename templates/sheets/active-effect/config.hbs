@@ -34,14 +34,9 @@
       <a class="effect-macro {{#unless source.system.macro}}empty{{/unless}}" data-action="editMacro"><i class="fa-pen-to-square fa-solid fa-lg"></i></a>
     </div>
   </fieldset>
-
-  <fieldset>
-    <div class="form-group">
-      <label for="{{rootId}}-system.statusId">{{localize "dc20rpg.effect.sheet.coreStatus"}}</label>
-      {{formInput fields.system.fields.statusId value=source.system.statusId name="system.statusId" choices=statusIds}}
-      <p class="hint">{{localize "dc20rpg.effect.sheet.coreStatusTitle"}}</p>
-    </div>
-     {{formGroup fields.statuses value=source.statuses options=statuses rootId=rootId classes="statuses" hint=(localize "dc20rpg.effect.sheet.statusConditionsTitle")}}
-  </fieldset>
  
+   <fieldset>
+    {{formGroup fields.system.fields.condition value=source.system.condition rootId=rootId label=(localize "dc20rpg.effect.sheet.condition") hint=(localize "dc20rpg.effect.sheet.conditionTitle")}}
+    {{formGroup fields.statuses value=source.statuses options=statuses rootId=rootId classes="statuses"}}
+  </fieldset>
 </section>

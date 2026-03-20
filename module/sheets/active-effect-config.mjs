@@ -6,6 +6,14 @@ import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
   changesCache = new Map();
 
+  static DEFAULT_OPTIONS = {
+    ...super.DEFAULT_OPTIONS,
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    }
+  }
+
   constructor(dialogData = {}, options = {}) {
     super(dialogData, options);
     this.effectKeys = getEffectModifiableKeys();
@@ -30,7 +38,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     config: {template: "systems/dc20rpg/templates/sheets/active-effect/config.hbs", scrollable: [""]},
     duration: {template: "systems/dc20rpg/templates/sheets/active-effect/duration.hbs"},
     changes: {template: "systems/dc20rpg/templates/sheets/active-effect/changes.hbs", scrollable: ["ol[data-changes]"]},
-    footer: {template: "templates/generic/form-footer.hbs"}
+    footer: {template: "systems/dc20rpg/templates/sheets/active-effect/footer.hbs"}
   };
 
   /** @override */
@@ -53,6 +61,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     initialized.classes.push("dc20rpg");
     initialized.actions.systemBuilder = this._onSystemsBuilder;
     initialized.actions.editMacro = this._onEffectMacro;
+    initialized.actions.statusEffects = this._onAddStatusEffectChanges;
     return initialized;
   }
 
@@ -69,9 +78,6 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
       delete: "Delete Effect",
       runMacro: "Run Macro"
     };
-    const statusIds = {};
-    CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
-    context.statusIds = statusIds;
 
     if (options.isFirstRender) {
       this._prepareChangesCache(context.source.changes, context.effectKeys);
@@ -119,41 +125,23 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     macro.sheet.render(true);
   }
 
+  async _onAddStatusEffectChanges(event, target) {
+    let changes = this.document.changes;
+    for (const statusId of this.document.statuses) {
+      const status = CONFIG.statusEffects.find(s => s.id === statusId);
+      if (status) changes = [...changes, ...status.changes];
+    }
+    this.document.update({changes: changes});
+  }
+
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
-    if (event.target.name && (event.target.name.startsWith("changes.") || event.target.name === "system.duration.useCounter")) {
-      this._updateChanges(event);
-      this.render();
-    }
-    if (event.target.name && event.target.name.startsWith("cache.")) {
-      this._updateCache(event);
+    if (event.target?.name?.startsWith("cache.")) {
+      return this.#updateCache(event);
     }
   }
 
-  _updateChanges(event) {
-    const path = event.target.name;
-    const doc = this.document;
-
-    switch (event.target.type) {
-      case "checkbox":
-        const boolValue = getValueFromPath(doc, path);
-        setValueForPath(doc, path, !boolValue);
-        break;
-
-      case "text": case "select-one": case "textarea":
-        const textValue = event.target.value;
-        setValueForPath(doc, path, textValue);
-        break;
-
-      case "number": 
-        const numberValue = event.target.value ? parseInt(event.target.value) : null;
-        setValueForPath(doc, path, numberValue);
-        break;
-    }
-    this.document.update({changes: doc.changes});
-  }
-
-  _updateCache(event) {
+  #updateCache(event) {
     const [type, stringIndex, field] = event.target.name.split(".");
     const index = parseInt(stringIndex);
     const value = this.changesCache.get(index) || false;

@@ -11,11 +11,11 @@ import { getValueFromPath, translateLabels } from "../helpers/utils.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
-import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
+import { enhanceStatusEffectWithExtras, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import DC20RpgActiveEffect from "./activeEffect.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
-import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
+import { enhanceEffects, modifyActiveEffects, prepareStatuses, runSpecialStatusChecks } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { enrichWithHelpers } from "./actor/actor-helpers.mjs";
 import {prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-roll.mjs";
@@ -37,7 +37,7 @@ export class DC20RpgActor extends Actor {
   }
 
   get exhaustion() {
-    return getStatusWithId(this, "exhaustion")?.stack || 0
+    return this.statuses.get("exhaustion")?.stack || 0
   }
 
   get slowed() {
@@ -45,7 +45,7 @@ export class DC20RpgActor extends Actor {
   }
 
   get dead() {
-    return this.hasStatus("dead");
+    return this.statuses.has("dead");
   }
 
   get allEffects() {
@@ -103,10 +103,6 @@ export class DC20RpgActor extends Actor {
     return false
   }
 
-  get statusIds() {
-    return this.statuses.map(status => status.id);
-  }
-
   get myTurnActive() {
     const activeCombat = game.combats.active;
     if (!activeCombat?.started) return false;
@@ -133,6 +129,9 @@ export class DC20RpgActor extends Actor {
     }
   }
 
+  //====================================
+  //=             METHODS              =
+  //====================================
   companionShareFor(key) {
     if (this.shouldShareWithOwner(key)) return this.companionOwner;
     return this;
@@ -160,27 +159,9 @@ export class DC20RpgActor extends Actor {
     return this.allEffects.find(effect => effect.name === name);
   }
 
-  /** @override */
-  prepareData() {
-    this.statuses ??= new Set();
-    this.coreStatuses ??= new Set();
-    const specialStatuses = new Map();
-    for ( const statusId of Object.values(CONFIG.specialStatusEffects) ) {
-      specialStatuses.set(statusId, this.hasStatus(statusId));
-    }
-    super.prepareData();
-
-    const tokens = this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object) || [];
-    for ( const [statusId, wasActive] of specialStatuses ) {
-      const isActive = this.hasStatus(statusId);
-      if ( isActive === wasActive ) continue;
-      for ( const token of tokens ) {
-        token._onApplyStatusEffect(statusId, isActive);
-      }
-    }
-    for ( const token of tokens ) token.document.prepareData()
-  }
-
+  //====================================
+  //=           PREPARE DATA           =
+  //====================================
   prepareBaseData() {
     if (this.type === "companion") this._prepareCompanionOwner();
     super.prepareBaseData();
@@ -217,16 +198,19 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    fullyStunnedCheck(this);
-    exhaustionCheck(this);
-    dazedCheck(this);
+    modifyActiveEffects(this);
+    prepareStatuses(this);
+    runSpecialStatusChecks(this);
     
     prepareUniqueItemData(this);
     prepareEquippedItemsFlags(this);
+
     enhanceEffects(this);
-    this.prepareActiveEffectsDocuments();
+    for (const document of this.getEmbeddedCollection("effects")) document._safePrepareData();
+    this.applyActiveEffects();
+    
     prepareRollDataForItems(this);
-    this.prepareOtherEmbeddedDocuments();
+    for (const document of this.getEmbeddedCollection("items")) document._safePrepareData();
     prepareDataFromItems(this);
 
     // Refresh hotbar 
@@ -235,33 +219,31 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  /**
-   * We need to prepare Active Effects before we deal with other documents.
-   * We want them to use modifications applied by active effects.
-   */
-  prepareActiveEffectsDocuments() {
-    for ( const collectionName of Object.keys(this.constructor.hierarchy || {}) ) {
-      if (collectionName === "effects") {
-        for ( let e of this.getEmbeddedCollection(collectionName) ) {
-          e._safePrepareData();
-        }
-      }
-    }
-    suspendDuplicatedConditions(this);
-    this.applyActiveEffects();
-  }
+  applyActiveEffects() {
+    const overrides = {};
 
-  /**
-   * We need to prepare Active Effects before we deal with other items.
-   */
-  prepareOtherEmbeddedDocuments() {
-    for ( const collectionName of Object.keys(this.constructor.hierarchy || {}) ) {
-      if (collectionName !== "effects") {
-        for ( let e of this.getEmbeddedCollection(collectionName) ) {
-          e._safePrepareData();
-        }
-      }
+    // Organize non-disabled effects by their application priority
+    const changes = [];
+    for ( const effect of this.allApplicableEffects() ) {
+      if ( !effect.active ) continue;
+      changes.push(...effect.changes.map(change => {
+        const c = foundry.utils.deepClone(change);
+        c.effect = effect;
+        c.priority = c.priority ?? (c.mode * 10);
+        return c;
+      }));
     }
+    changes.sort((a, b) => a.priority - b.priority);
+
+    // Apply all changes
+    for ( const change of changes ) {
+      if ( !change.key ) continue;
+      const changes = change.effect.apply(this, change);
+      Object.assign(overrides, changes);
+    }
+
+    // Expand the set of final overrides
+    this.overrides = foundry.utils.expandObject(overrides);
   }
 
   /**
@@ -274,75 +256,6 @@ export class DC20RpgActor extends Actor {
     translateLabels(this);
     enrichWithHelpers(this);
     this.prepared = true; // Mark actor as prepared
-  }
-
-  applyActiveEffects() {
-    modifyActiveEffects(this.allApplicableEffects(), this);
-
-    const overrides = {};
-    this.statuses.clear();
-    this.coreStatuses.clear();
-    const numberOfDuplicates = new Map();
-
-    // Organize non-disabled effects by their application priority
-    const changes = [];
-    for ( const effect of this.allApplicableEffects() ) {
-      if ( !effect.active ) continue;
-      changes.push(...effect.changes.map(change => {
-        const c = foundry.utils.deepClone(change);
-        c.effect = effect;
-        c.priority = c.priority ?? (c.mode * 10);
-        return c;
-      }));
-      for ( const statusId of effect.statuses ) {
-        let oldStatus = getStatusWithId(this, statusId);
-        let newStatus = oldStatus || {id: statusId, stack: 1};
-
-        // If condition exist already add +1 stack, if effect is stackable or remove multiplying changes if not
-        if (hasStatusWithId(this, statusId)) {
-          const status = CONFIG.statusEffects.find(e => e.id === statusId);
-          if (status.stackable) newStatus.stack ++;
-          else {
-            // If it is not stackable it might cause some duplicates in changes we need to get rid of
-            for (const change of changes) {
-              if (effect.isChangeFromStatus(change, status)) {
-                const dupCha = numberOfDuplicates.get(change);
-                if (dupCha) numberOfDuplicates[change.key] = {change: change, number: dupCha.number + 1};
-                else numberOfDuplicates[change.key] = {change: change, number: 1};
-              }
-            }
-          }
-        }
-
-        // remove old status (if exist) and add new record
-        this.statuses.delete(oldStatus);
-        this.statuses.add(newStatus);
-      }
-
-      // Core status
-      if (effect.system.statusId) this.coreStatuses.add(effect.system.statusId);
-    }
-
-    // Remove duplicated changes from 
-    for (const duplicate of Object.values(numberOfDuplicates)) {
-      for (let i = 0; i < duplicate.number; i++) {
-        let indexToRemove = changes.indexOf(duplicate.change);
-        if (indexToRemove !== -1) {
-          changes.splice(indexToRemove, 1);
-        }
-      }
-    }
-
-    changes.sort((a, b) => a.priority - b.priority);
-    // Apply all changes
-    for ( let change of changes ) {
-      if ( !change.key ) continue;
-      const changes = change.effect.apply(this, change);
-      Object.assign(overrides, changes);
-    }
-
-    // Expand the set of final overrides
-    this.overrides = foundry.utils.expandObject(overrides);
   }
 
   //=====================================
@@ -384,7 +297,7 @@ export class DC20RpgActor extends Actor {
   }
 
   hasStatus(statusId) {
-    return this.statusIds.has(statusId);
+    return this.statuses.has(statusId);
   }
 
   hasAnyStatus(statuses) {
@@ -402,86 +315,67 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  async toggleStatusEffect(statusId, {active, overlay=false, extras}={}) {
+  async toggleStatusEffect(statusId, {active=true, overlay=false, extras}={}) {
     const status = CONFIG.statusEffects.find(e => e.id === statusId);
-    if ( !status ) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
-    const existing = [];
+    if (!status) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
 
-    // Find the effect with the static _id of the status effect
-    if ( status._id ) {
-      const effect = this.effects.get(status._id);
-      if ( effect ) existing.push(effect.id);
-    }
+    if (active) await this.#createStatusEffect(status, overlay, extras);
+    else await this.#deleteStatusEffect(statusId);
+  }
 
-    // If no static _id, find all single-status effects that have this status
-    else {
-      for (const effect of this.allEffects) {
-        const statuses = effect.statuses;
-        // We only want to turn off standard status effects that way, not the ones from items.
-        if (effect.fromStatus) {
-          if (statuses.size === 1 &&  statuses.has(statusId)) existing.push(effect.id);
-        }
-      }
-    }
-
-    // Remove the existing effects unless the status effect is forced active
-    if (!active && existing.length) {
-      if (statusId === "prone") {
-        const spendMovePointsToStandFromProne = game.settings.get("dc20rpg","spendMovePointsToStandFromProne");
-        if (spendMovePointsToStandFromProne !== "never") {
-          let confirmed = true;
-          if (spendMovePointsToStandFromProne === "ask") confirmed = await SimplePopup.confirm("Should spend 2 Move Points to stand up from Prone?");
-
-          if (confirmed) {
-            let subtracted = await subtractMovePoints(this, 2);
-            if (subtracted !== true) {
-              subtracted = await spendMoreApOnMovement(this, subtracted);
-            }
-            if (subtracted !== true) {
-              ui.notifications.warn("Not enough move points to stand up from Prone!");
-              return false;
-            }
-          }
-        }
-      }
-
-      // Sometimes one effects triggers removal of another one
-      const effectId = existing.pop();
-      const effect = this.effects.get(effectId);
-      for (const statusId of effect.system.disableStatusOnRemoval) {
-        await this.toggleStatusEffect(statusId, {active: false});
-      }
-
-      await this.deleteEmbeddedDocuments("ActiveEffect", [effectId]); // We want to remove 1 stack of effect at the time
-      this.reset();
-      return false;
-    }
-    
-    // Create a new effect unless the status effect is forced inactive
-    if ( !active && (active !== undefined) ) return;
-    // Create new effect only if status is stackable
-    if (existing.length > 0 && !status.stackable) return;
-    // Do not create new effect if actor is immune to it.
-    if (this.system.statusResistances[statusId]?.immunity) {
-      ui.notifications.warn(`${this.name} is immune to '${statusId}'.`);
+  async #createStatusEffect(status, overlay, extras={}) {
+    if (!status.stackable && this.statuses.has(status.id)) {
+      ui.notifications.warn(`Status '${status.name}' already exists for the actor. This status is unique and cannot be stacked.`)
       return;
     }
 
-    let effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
-    if ( overlay ) effect.updateSource({"flags.core.overlay": true});
-    effect = enhanceStatusEffectWithExtras(effect, extras);
-    const effectData = {...effect};
-    effectData._id = effect._id;
-    effectData.system.fromStatus = true;
-    const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
-
-    // Sometimes one effects triggers application of another one
-    for (const statusId of created.system.enableStatusOnCreation) {
-      await this.toggleStatusEffect(statusId, {active: true});
+    // Do not create new effect if actor is immune to it.
+    if (this.system.statusResistances[status.id]?.immunity) {
+      ui.notifications.warn(`${this.name} is immune to '${status.name}'.`);
+      return;
     }
-    
-    this.reset();
-    return created;
+
+    let effect = await DC20RpgActiveEffect.fromStatusEffect(status.id);
+    if (overlay) effect.updateSource({"flags.core.overlay": true});
+    effect = enhanceStatusEffectWithExtras(effect, extras);
+    return await DC20RpgActiveEffect.gmCreate(effect.toObject(), {parent: this});
+  }
+
+  async #deleteStatusEffect(statusId) {
+    if (statusId === "prone") {
+      const shouldDelete = await this.#handleProneStatusRemoval();
+      if (!shouldDelete) return;
+    }
+
+    const status = this.statuses.get(statusId);
+    if (!status) return;
+
+    const statusEffect = status.effects.find(effectData => effectData.isStatusEffect);
+    if (!statusEffect || statusEffect.isLocked) return;
+
+    const effect = this.effects.get(statusEffect.id);
+    await effect.gmDelete()
+  }
+
+  async #handleProneStatusRemoval() {
+    const spendMovePointsToStandFromProne = game.settings.get("dc20rpg","spendMovePointsToStandFromProne");
+
+    if (spendMovePointsToStandFromProne !== "never") return true;
+
+    if (spendMovePointsToStandFromProne === "ask") {
+      const confirmed = await SimplePopup.open("confirm", {confirmLabel: "Yes", denyLabel: "No, stand up for free", message: "Should actor spend 2 Move Points to stand up from Prone?"});
+      if (!confirmed) return true;
+    }
+
+    let subtracted = await subtractMovePoints(this, 2);
+    if (subtracted !== true) {
+      subtracted = await spendMoreApOnMovement(this, subtracted);
+    }
+    if (subtracted !== true) {
+      ui.notifications.warn("Not enough move points to stand up from Prone!");
+      return false;
+    }
+    return true;
   }
 
   async applyEffect(effectData) {

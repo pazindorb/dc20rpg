@@ -871,18 +871,23 @@ export class DC20ChatMessage extends ChatMessage {
     effectData.system.chatMessageId = this.id;
     effectData.flags.dc20rpg.applierId = this.speaker.actor;
 
-    this.#replaceWithSpeakerId(effectData);
+    this.#replaceKeywords(effectData, actor);
     injectFormula(effectData, actor);
     if (this.system.sustain) {
       this.#linkWithSustain(effectData, actor);
     }
   }
 
-  #replaceWithSpeakerId(effect) {
+  #replaceKeywords(effect, actor) {
+    const saveDC = actor.system.saveDC.value;
+    const against = Math.max(saveDC.spell, saveDC.martial);
     for (let i = 0; i < effect.changes.length; i++) {
       let changeValue = effect.changes[i].value;
       if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
+      }
+      if (typeof changeValue === "string" && changeValue.includes("#SAVE_DC#")) {
+        effect.changes[i].value = changeValue.replaceAll("#SAVE_DC#", against);
       }
     }
   }

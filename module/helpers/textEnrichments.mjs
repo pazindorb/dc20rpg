@@ -95,7 +95,7 @@ function _handleHealing(data, token) {
     value: parseInt(data.value || 1),
     type: data.subtype
   };
-  DC20Target.quickApplyHealingFor(token.actor, dmg);
+  DC20Target.quickApplyHealingFor(token.actor, heal);
 }
 
 //==========================================

@@ -26,7 +26,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     const context = await super._prepareContext(options);
     this.oldDisplay = this.document.displayBars;
     this.document.displayBars = 40;
-    context.statusEffects = this._prepareStatusEffects(context.statusEffects);
+    this._prepareStatusEffects(context.statusEffects);
     context.linkedTemplates = this._prepareLinkedTemplates();
     context.movePoints = this.actor?.system?.movePoints || 0;
 
@@ -122,33 +122,18 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     }
   }
 
-  _prepareStatusEffects(statusEffects) {
-    const actorStatuses = this.actor?.statuses || [];
-    actorStatuses.forEach(status => {
-      const statEff = statusEffects[status.id];
-      if (!statEff.stack) statEff.stack = status.stack;
-      else statEff.stack += status.stack;
+  _prepareStatusEffects(statusContext) {
+    this.actor.statuses.forEach(data => {
+      const status = statusContext[data.id];
 
-      statEff.stackable = CONFIG.statusEffects.find(e => e.id === status.id)?.stackable;
-      if (statEff.stack > 0) {
-        // This means that status comes from some other effect
-        if (!statEff.isActive) {
-          statEff.isActive = true;
-          statEff.fromOther = true;
-        }
-        statEff.isActive = true;
-        statEff.cssClass = "active";
-      } 
-    })
+      if (data.stack > 0) {
+        status.isActive = true;
+        status.cssClass = "active";
 
-    // Filter out hidden statuses (We dont want to show them in the UI)
-    return Object.fromEntries(
-      Object.entries(statusEffects).filter(([key, status]) => {
-        const original = CONFIG.statusEffects.find(e => e.id === status.id);
-        if (original?.system?.hide) return false;
-        return true;
-      })
-    );
+        if (data.stackable) status.stack = data.stack;
+        else status.locked = data.effects[0].isLocked || !data.effects[0].isStatusEffect;
+      }
+    });
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
