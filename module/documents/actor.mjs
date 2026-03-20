@@ -338,7 +338,9 @@ export class DC20RpgActor extends Actor {
     let effect = await DC20RpgActiveEffect.fromStatusEffect(status.id);
     if (overlay) effect.updateSource({"flags.core.overlay": true});
     effect = enhanceStatusEffectWithExtras(effect, extras);
-    return await DC20RpgActiveEffect.gmCreate(effect.toObject(), {parent: this});
+    
+    const stacks = extras.stacks || 1; 
+    for (let i = 0; i < stacks; i++) await DC20RpgActiveEffect.gmCreate(effect.toObject(), {parent: this});
   }
 
   async #deleteStatusEffect(statusId) {
@@ -360,7 +362,7 @@ export class DC20RpgActor extends Actor {
   async #handleProneStatusRemoval() {
     const spendMovePointsToStandFromProne = game.settings.get("dc20rpg","spendMovePointsToStandFromProne");
 
-    if (spendMovePointsToStandFromProne !== "never") return true;
+    if (spendMovePointsToStandFromProne === "never") return true;
 
     if (spendMovePointsToStandFromProne === "ask") {
       const confirmed = await SimplePopup.open("confirm", {confirmLabel: "Yes", denyLabel: "No, stand up for free", message: "Should actor spend 2 Move Points to stand up from Prone?"});

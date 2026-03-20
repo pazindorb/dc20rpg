@@ -189,6 +189,7 @@ export class RollRequest {
 
 export class AgainstStatus {
   id = "";
+  stacks = 1;
   supressFromChatMessage = false;
   untilYourNextTurnStart = false;
   untilYourNextTurnEnd = false;
