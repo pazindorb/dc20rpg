@@ -41,7 +41,7 @@
         {{!-- Roll Level --}}
         {{#if (includes change.key "system.dynamicRollModifier")}}
         <a data-action="systemBuilder" data-index="{{i}}" data-type="dynamicRollModifier" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"
-          {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}}><i class="fa-solid fa-gear"></i></a>
+          {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}} {{#if (includes change.key ".attack")}} data-is-attack="true" {{/if}}><i class="fa-solid fa-gear"></i></a>
         {{/if}}
         {{!-- Events --}}
         {{#if (includes change.key "system.events")}}

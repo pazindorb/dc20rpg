@@ -14,10 +14,11 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     const attackFormula = item.system.attackFormula;
     const rangeType = rollMenu.rangeType || attackFormula.rangeType; // We want to update it if roll menu modified it
     const checkType = attackFormula.checkType === "attack" ? "martial" : "spell"; // TODO: Remove after we change it to martial
+    const validationData = {actorAskingForCheck: actor, rangeType: rangeType, attackType: checkType};
 
     // DRM on you
-    const attackPath = `system.dynamicRollModifier.onYou.${checkType}.${rangeType}`;
-    const attackResult = await _getDRMValueForPath(attackPath, actor, {actorAskingForCheck: actor}, afterRoll);
+    const attackPath = "system.dynamicRollModifier.onYou.attack";
+    const attackResult = await _getDRMValueForPath(attackPath, actor, validationData, afterRoll);
 
     // Versatile
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
@@ -28,10 +29,10 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
 
     // Target Checks
-    const attackTargetPath = `system.dynamicRollModifier.againstYou.${checkType}.${rangeType}`;
+    const attackTargetPath = "system.dynamicRollModifier.againstYou.attack";
     for (const token of game.user.targets) {
       if (!token.actor) continue;
-      const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
+      const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, validationData, afterRoll, true);
       const targetPositionResult = attacker ? _targetPositionCheck(token, attacker, rangeType, item) : [];
       const targetRangeResult = attacker ? _targetRangeCheck(token, attacker, rangeType, item) : [];
       results = [...results, ...targetAttackResult, ...targetPositionResult, ...targetRangeResult];      
@@ -157,7 +158,8 @@ async function _shouldApply(modification, target, validationData) {
 function _runValidationDataCheck(modification, validationData) {
   if (!validationData) return true; // Nothing to validate
   return _validateActorAskingForCheck(modification, validationData.actorAskingForCheck) 
-        && _validateSpecificSkillKey(modification, validationData.specificSkill);
+        && _validateSpecificSkillKey(modification, validationData.specificSkill)
+        && _validateAttackTypeAndRange(modification, validationData.attackType, validationData.rangeType);
 }
 
 function _validateActorAskingForCheck(modification, actorAskingForCheck) {
@@ -172,16 +174,28 @@ function _validateSpecificSkillKey(modification, specificSkill) {
   return specificSkill === modification.skill;
 }
 
+function _validateAttackTypeAndRange(modification, attackType, rangeType) {
+  let validated = true;
+  if (modification.attackType) {
+    if (modification.attackType !== attackType) validated = false;
+  }
+  if (modification.rangeType) {
+    if (modification.rangeType !== rangeType) validated = false;
+  }
+  return validated;
+}
+
 //========================================
 //          GENERATE CHECK PATH          =
 //========================================
 function _getCheckPath(details, actor) {
   switch (details.type) {
-    case "attributeCheck": case "attackCheck": case "spellCheck": case "martialCheck":
+    case "attributeCheck": case "spellCheck": case "martialCheck":
       if (details.checkKey === "prime") {
         return `checks.${actor.system.details.primeAttrKey}`;
       }
       else return `checks.${details.checkKey}`;
+    case "attackCheck": return "attack";
     case "initiative":  return "initiative";
     case "deathSave":   return "deathSave";
     case "save":        return _getSavePath(details.checkKey, actor);

@@ -31,8 +31,12 @@
     </div>
   {{/ifCond}}
 
-  {{!-- Roll Level --}}
+  {{!-- Dynamic Roll Modifer --}}
   {{#ifCond type '===' "dynamicRollModifier"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.label"}}</span>
+      <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
+    </div>
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.type"}}</span>
       <select class="selectable" data-path="fields.type.value">
@@ -55,14 +59,24 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.modifier"}}</span>
       <input class="input" data-path="fields.modifier.value" value="{{fields.modifier.value}}"/>
     </div>
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.label"}}</span>
-      <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
-    </div>
-    {{#if specificSkill}}
+    {{#if isSkill}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.skill"}}</span>
       <input class="input" data-path="fields.skill.value" value="{{fields.skill.value}}"/>
+    </div>
+    {{/if}}
+    {{#if isAttack}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.attackType"}}</span>
+      <select class="selectable" data-path="fields.attackType.value">
+        {{selectOptions fields.attackType.selectOptions selected=fields.attackType.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.rangeType"}}</span>
+      <select class="selectable" data-path="fields.rangeType.value">
+        {{selectOptions fields.rangeType.selectOptions selected=fields.rangeType.value}}
+      </select>
     </div>
     {{/if}}
     <div class="row margin-top-5">

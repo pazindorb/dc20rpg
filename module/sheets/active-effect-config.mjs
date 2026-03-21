@@ -105,13 +105,14 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     const type = dataset.type;
     const changeIndex = dataset.index; 
     const isSkill = dataset.isSkill;
+    const isAttack = dataset.isAttack;
 
     const changes = this.document.changes;
     if (!changes) return;
     const change = changes[changeIndex];
     if (change === undefined) return;
 
-    const result = await createSystemsBuilder(type, change.value, isSkill);
+    const result = await createSystemsBuilder(type, change.value, {isSkill: isSkill, isAttack: isAttack});
     if (result) {
       changes[changeIndex].value = result;
       this.document.update({changes: changes});

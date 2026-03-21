@@ -3,10 +3,11 @@ import { parseFromString } from "../helpers/utils.mjs";
 
 export class SystemsBuilder extends Dialog {
 
-  constructor(type, currentValue, specificSkill, dialogData = {}, options = {}) {
-    super(dialogData, options);
+  constructor(type, currentValue, options={}, dialogData = {}) {
+    super(dialogData);
     this.type = type;
-    this.specificSkill = specificSkill;
+    this.isSkill = options.isSkill;
+    this.isAttack = options.isAttack;
     this._prepareData(type, currentValue);
   }
 
@@ -80,6 +81,25 @@ export class SystemsBuilder extends Dialog {
     // Dynamic Roll Modifier
     if (type === "dynamicRollModifier") {
       return {
+        rangeType: {
+          value: "",
+          format: "string",
+          selectOptions: {
+            "": "Any",
+            melee: "Melee",
+            ranged: "Ranged",
+            area: "Area"
+          }
+        },
+        attackType: {
+          value: "",
+          format: "string",
+          selectOptions: {
+            "": "Any",
+            martial: "Martial",
+            spell: "Spell"
+          }
+        },
         value: {
           value: "0",
           format: "number"
@@ -371,7 +391,8 @@ export class SystemsBuilder extends Dialog {
 
   getData() {
     return {
-      specificSkill: this.specificSkill,
+      isSkill: this.isSkill,
+      isAttack: this.isAttack,
       type: this.type,
       fields: this.fields,
       displayEffectAppliedFields: this._displayEffectAppliedFields()
@@ -421,8 +442,8 @@ export class SystemsBuilder extends Dialog {
     return !field.skip.dontSkipFor.includes(fieldToCheck);
   }
 
-  static async create(type, currentValue, specificSkill, dialogData = {}, options = {}) {
-    const prompt = new SystemsBuilder(type, currentValue, specificSkill, dialogData, options);
+  static async create(type, currentValue, options, dialogData = {}) {
+    const prompt = new SystemsBuilder(type, currentValue, options, dialogData);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
       prompt.render(true);
@@ -436,6 +457,6 @@ export class SystemsBuilder extends Dialog {
   }
 }
 
-export async function createSystemsBuilder(type, currentValue, specificSkill) {
-  return await SystemsBuilder.create(type, currentValue, specificSkill, {title: "Builder"});
+export async function createSystemsBuilder(type, currentValue, options) {
+  return await SystemsBuilder.create(type, currentValue, options, {title: "Builder"});
 }
