@@ -940,62 +940,73 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
 DC20RPG.PROPERTIES = {
   attunement: {
     label: "dc20rpg.properties.attunement",
-    for: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other", "spellFocus"],
+    type: ["weapon", "equipment", "spellFocus"],
+    subtype: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other", "spellFocus"],
     cost: 0,
     journalUuid: ""
   },
   ammo: {
     label: "dc20rpg.properties.ammo",
-    for: ["ranged"],
+    type: ["weapon"],
+    subtype: ["ranged"],
     cost: 0,
     ammoId: "",
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh"
   },
   concealable: {
     label: "dc20rpg.properties.concealable",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J"
   },
   cumbersome: {
     label: "dc20rpg.properties.cumbersome",
-    for: ["ranged"],
+    type: ["weapon"],
+    subtype: ["ranged"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.s5koKAxjBv26tHHV"
   },
   deft: {
     label: "dc20rpg.properties.deft",
-    for: ["ranged"],
+    type: ["weapon"],
+    subtype: ["ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oiJStOGltgWyJiUL"
   },
   guard: {
     label: "dc20rpg.properties.guard",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
+    applyProperty: (actor, properties) => actor.system.defences.precision.bonuses.always += properties.length
   },
   heavy: {
     label: "dc20rpg.properties.heavy",
-    for: ["melee", "ranged"],
+    type: ["weapon"],
+    subtype: ["melee", "ranged"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY"
   },
   impact: {
     label: "dc20rpg.properties.impact",
-    for: ["melee", "ranged"],
+    type: ["weapon"],
+    subtype: ["melee", "ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY"
   },
   longRanged: {
     label: "dc20rpg.properties.longRanged",
-    for: ["ranged"],
+    type: ["weapon"],
+    subtype: ["ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.Lyx8rDSHTUqmdupW"
   },
   multiFaceted: {
     label: "dc20rpg.properties.multiFaceted",
-    for: ["melee", "ranged"],
+    type: ["weapon"],
+    subtype: ["melee", "ranged"],
     cost: 1,
     selected: "first",
     weaponStyle: {
@@ -1011,14 +1022,16 @@ DC20RPG.PROPERTIES = {
   },
   reach: {
     label: "dc20rpg.properties.reach",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: 1,
     value: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB"
   },
   reload: {
     label: "dc20rpg.properties.reload",
-    for: ["ranged"],
+    type: ["weapon"],
+    subtype: ["ranged"],
     cost: -1,
     loaded: true,
     value: 1,
@@ -1026,165 +1039,240 @@ DC20RPG.PROPERTIES = {
   },
   silent: {
     label: "dc20rpg.properties.silent",
-    for: ["ranged"],
+    type: ["weapon"],
+    subtype: ["ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.AX0JXkpLErDw9ONa"
   },
   toss: {
     label: "dc20rpg.properties.toss",
-    for: ["melee", "lshield"],
+    type: ["weapon"],
+    subtype: ["melee", "lshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6"
   },
   thrown: {
     label: "dc20rpg.properties.thrown",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK"
   },
   twoHanded: {
     label: "dc20rpg.properties.twoHanded",
-    for: ["melee", "ranged"],
+    type: ["weapon"],
+    subtype: ["melee", "ranged"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.yTWxAF1ijfAmOPFy"
   },
   unwieldy: {
     label: "dc20rpg.properties.unwieldy",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w"
   },
   versatile: {
     label: "dc20rpg.properties.versatile",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.6qKLjDuj2yFzrich"
   },
   returning: {
     label: "dc20rpg.properties.returning",
-    for: ["melee"],
+    type: ["weapon"],
+    subtype: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog"
   },
 
   adIncrease: {
     label: "dc20rpg.properties.adIncrease",
-    for: ["lshield", "hshield", "light", "heavy"],
+    type: ["equipment"],
+    subtype: ["lshield", "hshield", "light", "heavy"],
     cost: 1,
     value: 1,
     valueCostMultiplier: true,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
+    applyProperty: (actor, properties) => {
+      let armorBonus = 0;
+      let shieldBonus = 0;
+      for (const prop of properties) {
+        const equipmentType = prop.item.system.equipmentType;
+        if (["light", "heavy"].includes(equipmentType)) armorBonus += prop.property.value;
+        if (["lshield", "hshield"].includes(equipmentType)) shieldBonus = prop.property.value;
+      }
+      actor.system.defences.area.bonuses.always += armorBonus + shieldBonus;
+    }
   },
   pdIncrease: {
     label: "dc20rpg.properties.pdIncrease",
-    for: ["lshield", "hshield", "light", "heavy"],
+    type: ["equipment"],
+    subtype: ["lshield", "hshield", "light", "heavy"],
     cost: 1,
     value: 1,
     valueCostMultiplier: true,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
+    applyProperty: (actor, properties) => {
+      let armorBonus = 0;
+      let shieldBonus = 0;
+      for (const prop of properties) {
+        const equipmentType = prop.item.system.equipmentType;
+        if (["light", "heavy"].includes(equipmentType)) armorBonus += prop.property.value;
+        if (["lshield", "hshield"].includes(equipmentType)) shieldBonus = prop.property.value;
+      }
+      actor.system.defences.precision.bonuses.always += armorBonus + shieldBonus;
+    }
   },
   edr: {
     label: "dc20rpg.properties.edr",
-    for: ["hshield", "light", "heavy"],
+    type: ["equipment"],
+    subtype: ["hshield", "light", "heavy"],
     cost: 2,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
+    applyProperty: (actor) => {
+      const edr = actor.system.damageReduction.edr;
+      if (!edr.skipEqCheck) edr.active = true;
+    }
   },
   pdr: {
     label: "dc20rpg.properties.pdr",
-    for: ["hshield", "heavy"],
+    type: ["equipment"],
+    subtype: ["hshield", "heavy"],
     cost: 2,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
+    applyProperty: (actor) => {
+      const pdr = actor.system.damageReduction.pdr;
+      if (!pdr.skipEqCheck) pdr.active = true;
+    }
   },
   bulky: {
     label: "dc20rpg.properties.bulky",
-    for: ["hshield", "heavy"],
+    type: ["equipment"],
+    subtype: ["hshield", "heavy"],
     cost: -1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
+    applyProperty: (actor, properties) => actor.system.movement.ground.value -= properties.length
   },
   rigid: {
     label: "dc20rpg.properties.rigid",
-    for: ["hshield", "heavy"],
+    type: ["equipment"],
+    subtype: ["hshield", "heavy"],
     cost: -1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
+    applyProperty: (actor, properties) => actor.system.dynamicRollModifier.onYou.checks.agi.push(`"value": ${properties.length}, "type": "dis", "label": "Rigid Property"`)
   },
   grasp: {
     label: "dc20rpg.properties.grasp",
-    for: ["lshield"],
+    type: ["equipment"],
+    subtype: ["lshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE"
   },
   mounted: {
     label: "dc20rpg.properties.mounted",
-    for: ["hshield"],
+    type: ["equipment"],
+    subtype: ["hshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
   },
 
   channeling: {
     label: "dc20rpg.properties.channeling",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.mBflttRgeLdylTZZ"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.mBflttRgeLdylTZZ",
+    applyProperty: (actor, properties) => actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${properties.length}", "label": "Channeling Property"`)
   },
   closeQuarters: {
     label: "dc20rpg.properties.closeQuarters",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Xg0AwLlGx03Vdnih"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Xg0AwLlGx03Vdnih",
+    applyProperty: (actor) => actor.system.globalModifier.spell.ignore.closeQuarters = true
   },
   longRangedSF: {
     label: "dc20rpg.properties.longRangedSF",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.wDGeoUrkQvn3th35"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.wDGeoUrkQvn3th35",
+    applyProperty: (actor) => actor.system.globalModifier.spell.range.normal += 5
   },
   muffled: {
     label: "dc20rpg.properties.muffled",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.ISzf2phZTZvwiHsq"
   },
   powerful: {
     label: "dc20rpg.properties.powerful",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 2,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Udv5sCjHaa4Bx2Zp"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Udv5sCjHaa4Bx2Zp",
+    applyProperty: (actor, properties) => {
+      actor.system.globalFormulaModifiers.damage.spell.melee.push(`"value": "+ ${properties.length}", "source": "Powerful Property"`);
+      actor.system.globalFormulaModifiers.damage.spell.ranged.push(`"value": "+ ${properties.length}", "source": "Powerful Property"`);
+      actor.system.globalFormulaModifiers.damage.spell.area.push(`"value": "+ ${properties.length}", "source": "Powerful Property"`);
+    }
   },
   protective: {
     label: "dc20rpg.properties.protective",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.uoFaMh6q92dSSldr"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.uoFaMh6q92dSSldr",
+    applyProperty: (actor, properties) => actor.system.defences.area.bonuses.always += properties.length
   },
   reachSF: {
     label: "dc20rpg.properties.reachSF",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.J1ESWCD4Ru9UqIzw"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.J1ESWCD4Ru9UqIzw",
+    applyProperty: (actor) => actor.system.globalModifier.spell.range.melee += 1
   },
   reactive: {
     label: "dc20rpg.properties.reactive",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.sURvDJvKs1wdvY9t"
   },
   twoHandedSF: {
     label: "dc20rpg.properties.twoHandedSF",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.0H6XuLWBPDKvgaD0"
   },
   vicious: {
     label: "dc20rpg.properties.vicious",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
+    applyProperty: (actor, properties) => {
+      actor.system.dynamicRollModifier.onYou.spell.melee.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property"`);
+		  actor.system.dynamicRollModifier.onYou.spell.ranged.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property"`);
+		  actor.system.dynamicRollModifier.onYou.spell.area.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property"`);
+    }
   },
   warded: {
     label: "dc20rpg.properties.warded",
-    for: ["spellFocus"],
+    type: ["spellFocus"],
+    subtype: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.u7S4lYMKvBrydwcM"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.u7S4lYMKvBrydwcM",
+    applyProperty: (actor) => {
+      const mdr = actor.system.damageReduction.mdr;
+      if (!mdr.skipEqCheck) mdr.active = true;
+    }
   },
 }
 

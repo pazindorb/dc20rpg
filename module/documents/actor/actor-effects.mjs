@@ -138,6 +138,7 @@ function _checkEffectCondition(effect, actor) {
   const disableWhen = effect.system?.disableWhen;
   if (disableWhen) {
     const value = getValueFromPath(actor, disableWhen.path);
+    if (!value) return;
     const expectedValue = parseFromString(disableWhen.value);
     const has = (value, expected) => {
       if (value.has) return value.has(expected);

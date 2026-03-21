@@ -321,6 +321,7 @@ export class DC20RpgActor extends Actor {
 
     if (active) await this.#createStatusEffect(status, overlay, extras);
     else await this.#deleteStatusEffect(statusId);
+    this.reset();
   }
 
   async #createStatusEffect(status, overlay, extras={}) {
