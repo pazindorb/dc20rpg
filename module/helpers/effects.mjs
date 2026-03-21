@@ -430,21 +430,14 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.damage.spell.ranged": "GFM: Ranged Spell Damage",
     "system.globalFormulaModifiers.damage.spell.area": "GFM: Area Spell Damage",
     "system.globalFormulaModifiers.damage.any": "GFM: Any Damage",
-    "system.globalFormulaModifiers.healing": "GFM: Healing",
+    "system.globalFormulaModifiers.healing": "GFM: Any Healing",
 
     // Dynamic Roll Modifier
-    "system.dynamicRollModifier.onYou.martial.melee": "DRM: Melee Martial Attack",
-    "system.dynamicRollModifier.onYou.martial.ranged": "DRM: Ranged Martial Attack",
-    "system.dynamicRollModifier.onYou.martial.area": "DRM: Area Martial Attack",
-    "system.dynamicRollModifier.onYou.spell.melee": "DRM: Melee Spell Attack",
-    "system.dynamicRollModifier.onYou.spell.ranged": "DRM: Ranged Spell Attack",
-    "system.dynamicRollModifier.onYou.spell.area": "DRM: Area Spell Attack",
-
+    "system.dynamicRollModifier.onYou.attack": "DRM: Attack Check",
     "system.dynamicRollModifier.onYou.checks.mig": "DRM: Might Check",
     "system.dynamicRollModifier.onYou.checks.agi": "DRM: Agility Check",
     "system.dynamicRollModifier.onYou.checks.cha": "DRM: Charisma Check",
     "system.dynamicRollModifier.onYou.checks.int": "DRM: Intelligence Check",
-    "system.dynamicRollModifier.onYou.checks.att": "DRM: Attack Check",
     "system.dynamicRollModifier.onYou.checks.mar": "DRM: Martial Check",
     "system.dynamicRollModifier.onYou.checks.spe": "DRM: Spell Check",
     "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
@@ -456,23 +449,14 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.saves.int": "DRM: Intelligence Save",
     "system.dynamicRollModifier.onYou.deathSave": "DRM: Death Save",
 
-    "system.dynamicRollModifier.againstYou.martial.melee": "DRM (Against): Melee Martial Attack ",
-    "system.dynamicRollModifier.againstYou.martial.ranged": "DRM (Against): Ranged Martial Attack",
-    "system.dynamicRollModifier.againstYou.martial.area": "DRM (Against): Area Martial Attack",
-    "system.dynamicRollModifier.againstYou.spell.melee": "DRM (Against): Melee Spell Attack",
-    "system.dynamicRollModifier.againstYou.spell.ranged": "DRM (Against): Ranged Spell Attack",
-    "system.dynamicRollModifier.againstYou.spell.area": "DRM (Against): Area Spell Attack",
-
+    "system.dynamicRollModifier.againstYou.attack": "DRM (Against): Attack Check",
     "system.dynamicRollModifier.againstYou.checks.mig": "DRM (Against): Might Check",
     "system.dynamicRollModifier.againstYou.checks.agi": "DRM (Against): Agility Check",
     "system.dynamicRollModifier.againstYou.checks.cha": "DRM (Against): Charisma Check",
     "system.dynamicRollModifier.againstYou.checks.int": "DRM (Against): Intelligence Check",
-    "system.dynamicRollModifier.againstYou.checks.att": "DRM (Against): Attack Check",
     "system.dynamicRollModifier.againstYou.checks.mar": "DRM (Against): Martial Check",
     "system.dynamicRollModifier.againstYou.checks.spe": "DRM (Against): Spell Check",
-
     "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",
-    "system.dynamicRollModifier.againstYou.trades": "DRM (Against): Trade Check",
 
     "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Save",
     "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Save",

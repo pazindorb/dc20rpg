@@ -9,7 +9,7 @@ import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG, initDC20Config, prepareDC20tools } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemHotbarDropMacro } from "./helpers/macros.mjs";
-import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
+import { registerDC20Statues } from "./statusEffects/status-config.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffect.mjs";

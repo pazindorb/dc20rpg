@@ -316,12 +316,23 @@ export class DC20RpgActor extends Actor {
   }
 
   async toggleStatusEffect(statusId, {active=true, overlay=false, extras}={}) {
+    let reset = true;
     const status = CONFIG.statusEffects.find(e => e.id === statusId);
     if (!status) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
 
-    if (active) await this.#createStatusEffect(status, overlay, extras);
-    else await this.#deleteStatusEffect(statusId);
-    this.reset();
+    if (active) {
+      await this.#createStatusEffect(status, overlay, extras);
+      // Workaround for a bug that tried to apply status twice by running 'runSpecialStatusChecks' method after reset
+      if (statusId === "stunned" && this.statuses.get("stunned")?.stack === 4) reset = false;
+      if (statusId === "exhaustion" && this.statuses.get("exhaustion")?.stack === 6) reset = false;
+    }
+    else {
+      await this.#deleteStatusEffect(statusId);
+      // Workaround for a bug that tried to remove status twice by running 'runSpecialStatusChecks' method after reset
+      if (statusId === "stunned" && this.statuses.get("stunned")?.stack === 3) reset = false;
+    }
+
+    if (reset) this.reset();
   }
 
   async #createStatusEffect(status, overlay, extras={}) {

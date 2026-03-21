@@ -43,7 +43,21 @@ export class DRMDialog extends DC20Dialog {
       resultPerTarget.push({label: `From ${actor.name}`, values: this._toDisplayFormat(values)})
     }
 
+    if (this.#isEmpty(resultPerTarget)) {
+      return [{
+        label: "",
+        values: [{icon: "fa-square-xmark", text: "No changes found"}]
+      }]
+    }
     return resultPerTarget;
+  }
+
+  #isEmpty(resultPerTarget) {
+    let isEmpty = true;
+    resultPerTarget.forEach(r => {
+      if(r.values.length !== 0) isEmpty = false;
+    })
+    return isEmpty;
   }
 
   _toDisplayFormat(array) {

@@ -1258,9 +1258,9 @@ DC20RPG.PROPERTIES = {
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
     applyProperty: (actor, properties) => {
-      actor.system.dynamicRollModifier.onYou.spell.melee.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property"`);
-		  actor.system.dynamicRollModifier.onYou.spell.ranged.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property"`);
-		  actor.system.dynamicRollModifier.onYou.spell.area.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property"`);
+      actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
+		  actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
+		  actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
     }
   },
   warded: {

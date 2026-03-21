@@ -147,7 +147,9 @@ async function _getDRMValueForPath(path, actor, validationData, afterRoll, targe
 async function _shouldApply(modification, target, validationData) {
   if (_runValidationDataCheck(modification, validationData)) {
     if (modification.confirmation) {
-      const message = modification.customMessage || `Should "${modification.label}" be applied for an Actor named "${target.name}"?`
+      const defaultMessage = `Should "${modification.label}" be applied to "${target.name}"?`;
+      const customMessage = modification.customMessage ? modification.customMessage.replaceAll("#TARGET#", target.name) : "";
+      const message = customMessage || defaultMessage;
       return await SimplePopup.confirm(message);
     }
     else return true;
