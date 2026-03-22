@@ -196,7 +196,7 @@ export async function handleAfterRollEffectModification(toRemove) {
 export async function addFlatDamageReductionEffect(actor) {
   const damageReduction = {
     name: "Grit - Damage Reduction",
-    img: "icons/svg/mage-shield.svg",
+    img: "systems/dc20rpg/images/sheet/header/grit.svg",
     description: "<p>You are spending Grit to reduce incoming damage</p>",
     duration: {rounds: 1},
     system: {

@@ -70,6 +70,7 @@
 	</button>
 	<div class="palette status-effects" data-palette="effects">
 		{{#each statusEffects as |status|}}
+			{{#unless status.hide}}
 			<div class="status-wrapper"> 
         {{!-- Stackable conditions --}}
         {{#if status.stack}}
@@ -91,6 +92,7 @@
 				<img class="effect-control {{status.cssClass}}" data-action="effect" src="{{status.src}}" {{#if
 					status.title}}data-tooltip="{{status.title}}" {{/if}} data-status-id="{{status.id}}" />
 			</div>
+			{{/unless}}
 		{{/each}}
 	</div>
 

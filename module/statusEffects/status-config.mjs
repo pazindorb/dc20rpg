@@ -46,11 +46,11 @@ export function registerDC20Statues() {
     _hidden(),
     _halfCover(),
     _tqCover(),
+    _dead(),
+
     _fullyStunned(),
-        
     _bloodied(),
     _wellBloodied(),
-    _dead(),
     _deathsDoor(),
   ]
 }

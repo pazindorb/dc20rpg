@@ -123,6 +123,11 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
   }
 
   _prepareStatusEffects(statusContext) {
+    statusContext.bloodied.hide = true;
+    statusContext.wellBloodied.hide = true;
+    statusContext.fullyStunned.hide = true;
+    statusContext.deathsDoor.hide = true;
+
     this.actor.statuses.forEach(data => {
       const status = statusContext[data.id];
 
