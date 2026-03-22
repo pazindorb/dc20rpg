@@ -1121,7 +1121,13 @@ function _deafened() {
     statuses: [],
     system: {
       statusId: "deafened",
-      condition: true
+      condition: true,
+      macro: `
+      if(drm) {
+        const token = target.getActiveTokens()[0];
+        if (!token) return false;
+        return token.isFlanked;
+      }`
     },
     img: "systems/dc20rpg/images/statuses/deafened.svg",
     description: `
@@ -1143,7 +1149,7 @@ function _deafened() {
         key: "system.dynamicRollModifier.againstYou.attack",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Deafened", "confirmation": true, "rangeType": "melee", "customMessage": "Are you flanking \'#TARGET#\'?"'
+        value: '"rangeType": "melee", "value": 1, "type": "adv", "label": "Deafened", "runMacro": true'
       },
     ]
   }

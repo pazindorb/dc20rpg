@@ -133,6 +133,10 @@ export class SystemsBuilder extends Dialog {
           value: false,
           format: "boolean"
         },
+        runMacro: {
+          value: false,
+          format: "boolean"
+        },
         customMessage: {
           value: "",
           format: "string",

@@ -152,6 +152,12 @@ async function _shouldApply(modification, target, validationData) {
       const message = customMessage || defaultMessage;
       return await SimplePopup.confirm(message);
     }
+    if (modification.runMacro) {
+      const effect = target.effects.get(modification.effectId);
+      if (!effect) return false;
+      const result = await effect.runMacro({drm: true, target: target, modification: modification, validationData: validationData});
+      return !!result;
+    }
     else return true;
   }
   return false;

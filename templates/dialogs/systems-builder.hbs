@@ -86,6 +86,10 @@
       </select>
     </div>
     <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.runMacro"}}</span>
+      <a class="activable fa-2x {{#if fields.runMacro.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.runMacro.value"></a>
+    </div>
+    <div class="row margin-top-5 ignore-symetry">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.confirmation"}}</span>
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
