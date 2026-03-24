@@ -530,11 +530,53 @@ function _collectEnhancementCost(item, enhKey) {
 //                              PROPERTIES                             =
 //==================================//==================================
 function _enrichPropertiesObject(item) {
+  item.properties = foundry.utils.deepClone(item.system.properties);
+  Object.entries(item.system.customProperties).forEach(([key, original]) => {
+    const property = foundry.utils.deepClone(original);
+    property.custom = true;
+    property.remove = async () => await _removeCustomProperty(item, key);
+    item.properties[key] = property;
+  })
+
+  Object.entries(item.properties).forEach(([key, property]) => {
+    let correctSubtype = true;
+    if (property.subtype && ["weapon", "equipment"].includes(item.type)) {
+      const subtype = item.system.weaponType || item.system.equipmentType;
+      correctSubtype = property.subtype.includes(subtype);
+    }
+    const correctType = property.type.includes(item.type);
+    property.display = property.forceDisplay || (correctType && correctSubtype);
+    
+    property.toggle = async () => property.custom 
+                    ? await item.update({[`system.customProperties.${key}.active`]: !property.active})
+                    : await item.update({[`system.properties.${key}.active`]: !property.active});
+  });
+  item.addCustomProperty = async (data, key) => await _addCustomProperty(item, data, key);
+
   _enhanceReload(item);
   _enhanceMultiFaceted(item);
   _enhanceAmmo(item);
   _enhanceWeaponStyle(item);
   _enrichDeftProperty(item);
+}
+
+//==================================
+//        CUSTOM PROPERTIES        =
+//==================================
+async function _addCustomProperty(item, data, key) {
+  data.active = false;
+  data.type = [item.type];
+
+  let subtype = null;
+  if (item.type === "weapon") subtype = ["melee", "ranged"];
+  if (item.type === "equipment") subtype = ["light", "heavy", "lshield", "hshield"];
+  if (subtype) data.subtype = subtype;
+  
+  await item.update({[`system.customProperties.${key}`]: data});
+}
+
+async function _removeCustomProperty(item, key) {
+  await item.update({[`system.customProperties.-=${key}`]: null});
 }
 
 //==================================

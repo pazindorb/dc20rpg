@@ -133,6 +133,7 @@ class DC20ItemItemData extends DC20BaseItemData {
         identified: new f.BooleanField({required: true, initial: true}),
       }),
       properties: new PropertyFields(),
+      customProperties: new f.ObjectField({required: true}),
       effectsConfig: new EffectsConfigFields({mustEquip: new f.BooleanField({required: true, initial: true})})
     })
   }
@@ -171,7 +172,6 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
       actionType: new f.StringField({required: true, initial: "attack"}),
-      properties: new PropertyFields("weapon"),
       formulas: new f.ObjectField({required: true, initial: {
         weaponDamage: {
           formula: "1",
@@ -195,7 +195,6 @@ export class DC20SpellFocusData extends DC20ItemUsableMergeData {
   
     return this.mergeSchema(super.defineSchema(), {
       combatTraining: new f.BooleanField({required: true, initial: false}),
-      properties: new PropertyFields("spellFocus")
     })
   }
 }
@@ -207,7 +206,6 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
     return this.mergeSchema(super.defineSchema(), {
       combatTraining: new f.BooleanField({required: true, initial: false}),
       equipmentType: new f.StringField({required: true, initial: ""}),
-      properties: new PropertyFields("equipment"),
     })
   }
 }

@@ -1,12 +1,14 @@
 <div class="properties">
   <div class="grid grid-4col grid-gap-5 margin-top-3">
-    {{#each system.properties as |property key|}}
-      <a class="activable-box journal-tooltip {{#ifCond key '===' 'multiFaceted'}}disabled{{else}}activable{{/ifCond}} {{#if property.active}} active {{/if}}"
+    {{#each properties as |property key|}}
+      {{#if property.display}}
+      <a class="activable-box journal-tooltip {{#ifCond key '===' 'multiFaceted'}}disabled{{else}}property-toggle{{/ifCond}} {{#if property.active}} active {{/if}}"
             data-header="{{property.label}}  ({{property.cost}})" data-uuid="{{property.journalUuid}}"
-            data-path="system.properties.{{key}}.active"
+            data-key="{{key}}"
             {{#ifCond key '===' 'multiFaceted'}} title="{{localize "dc20rpg.item.sheet.config.editableOnlyOnCreator"}}" {{/ifCond}}
       >{{property.label}}
       </a>
+      {{/if}}
     {{/each}}
   </div>
 
@@ -17,17 +19,24 @@
   </div>
   {{/if}} --}}
 
+  {{#if system.properties.pdIncrease.active}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.pdIncrease"}}</span>
+    <input type="text" name="system.properties.pdIncrease.value" value="{{system.properties.pdIncrease.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
+  {{#if system.properties.adIncrease.active}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.adIncrease"}}</span>
+    <input type="text" name="system.properties.adIncrease.value" value="{{system.properties.adIncrease.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
   {{#if system.properties.reach.active}}
   <div class="row margin-top-5">
     <span>{{localize "dc20rpg.item.sheet.config.reach"}}</span>
     <input type="text" name="system.properties.reach.value" value="{{system.properties.reach.value}}" data-dtype="Number" placeholder="-">
-  </div>
-  {{/if}}
-
-  {{#if system.properties.requirement.active}}
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.item.sheet.config.requirement"}}</span>
-    <input type="text" name="system.properties.requirement.value" value="{{system.properties.requirement.value}}" placeholder="-">
   </div>
   {{/if}}
 </div>

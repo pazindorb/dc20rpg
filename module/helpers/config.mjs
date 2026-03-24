@@ -940,8 +940,8 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
 DC20RPG.PROPERTIES = {
   attunement: {
     label: "dc20rpg.properties.attunement",
-    type: ["weapon", "equipment", "spellFocus"],
-    subtype: ["melee", "ranged", "lshield", "hshield", "light", "heavy", "other", "spellFocus"],
+    type: ["weapon", "equipment", "spellFocus", "consumable"],
+    subtype: ["melee", "ranged", "lshield", "hshield", "light", "heavy"],
     cost: 0,
     journalUuid: ""
   },
@@ -1046,7 +1046,7 @@ DC20RPG.PROPERTIES = {
   },
   toss: {
     label: "dc20rpg.properties.toss",
-    type: ["weapon"],
+    type: ["weapon", "equipment"],
     subtype: ["melee", "lshield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6"
@@ -1181,7 +1181,6 @@ DC20RPG.PROPERTIES = {
   channeling: {
     label: "dc20rpg.properties.channeling",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.mBflttRgeLdylTZZ",
     applyProperty: (actor, properties) => actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${properties.length}", "label": "Channeling Property"`)
@@ -1189,7 +1188,6 @@ DC20RPG.PROPERTIES = {
   closeQuarters: {
     label: "dc20rpg.properties.closeQuarters",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Xg0AwLlGx03Vdnih",
     applyProperty: (actor) => actor.system.globalModifier.spell.ignore.closeQuarters = true
@@ -1197,7 +1195,6 @@ DC20RPG.PROPERTIES = {
   longRangedSF: {
     label: "dc20rpg.properties.longRangedSF",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.wDGeoUrkQvn3th35",
     applyProperty: (actor) => actor.system.globalModifier.spell.range.normal += 5
@@ -1205,14 +1202,12 @@ DC20RPG.PROPERTIES = {
   muffled: {
     label: "dc20rpg.properties.muffled",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.ISzf2phZTZvwiHsq"
   },
   powerful: {
     label: "dc20rpg.properties.powerful",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Udv5sCjHaa4Bx2Zp",
     applyProperty: (actor, properties) => {
@@ -1224,7 +1219,6 @@ DC20RPG.PROPERTIES = {
   protective: {
     label: "dc20rpg.properties.protective",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.uoFaMh6q92dSSldr",
     applyProperty: (actor, properties) => actor.system.defences.area.bonuses.always += properties.length
@@ -1232,7 +1226,6 @@ DC20RPG.PROPERTIES = {
   reachSF: {
     label: "dc20rpg.properties.reachSF",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.J1ESWCD4Ru9UqIzw",
     applyProperty: (actor) => actor.system.globalModifier.spell.range.melee += 1
@@ -1240,21 +1233,18 @@ DC20RPG.PROPERTIES = {
   reactive: {
     label: "dc20rpg.properties.reactive",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.sURvDJvKs1wdvY9t"
   },
   twoHandedSF: {
     label: "dc20rpg.properties.twoHandedSF",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.0H6XuLWBPDKvgaD0"
   },
   vicious: {
     label: "dc20rpg.properties.vicious",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
     applyProperty: (actor, properties) => {
@@ -1266,7 +1256,6 @@ DC20RPG.PROPERTIES = {
   warded: {
     label: "dc20rpg.properties.warded",
     type: ["spellFocus"],
-    subtype: ["spellFocus"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.u7S4lYMKvBrydwcM",
     applyProperty: (actor) => {

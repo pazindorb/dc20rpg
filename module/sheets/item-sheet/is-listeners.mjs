@@ -121,6 +121,7 @@ export function activateCommonLinsters(html, item) {
 
   html.find('.remove-resource').click(ev => _removeResourceFromItem(item, datasetOf(ev).key));
   html.find('.remove-item').click(ev => _onRemoveItemFromContainer(item, datasetOf(ev).itemKey));
+  html.find('.property-toggle').click(ev => item.properties[datasetOf(ev).key].toggle());
 }
 
 function _removeResourceFromItem(item, key) {

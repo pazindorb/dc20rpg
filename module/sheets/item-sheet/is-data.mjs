@@ -6,6 +6,7 @@ export function duplicateItemData(context, item) {
   context.config = CONFIG.DC20RPG;
   context.system = item.system;
   context.flags = item.flags;
+  context.properties = item.properties;
 
   context.hasOwner = false;
   let actor = item.actor ?? null;
