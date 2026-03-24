@@ -1,10 +1,9 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
-import { itemDetailsToHtml } from "../../helpers/items/itemDetails.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
-import { generateKey, getValueFromPath } from "../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, toggleCheck } from "../../helpers/utils.mjs";
+import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
 import { DC20RpgItem } from "../item.mjs";
 import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
 
@@ -24,6 +23,9 @@ export function enrichWithHelpers(item) {
   }
   if (item.system.infusions) {
     _enrichItemInfusions(item);
+  }
+  if (item.system.target) {
+    _enrichAreaObject(item);
   }
 
   item.toChatMessageData = () => convertToChatMessageData(item);
@@ -1332,6 +1334,27 @@ async function _applyInfuserPenalties(infusion, actor) {
 async function _clearInfuserPenalties(infusion, actor) {
   const infusionManaPentalty = actor.system.resources.mana.infusions;
   await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.cost});
+}
+
+//==================================//==================================
+//                                 AREA                                =
+//==================================//==================================
+function _enrichAreaObject(item) {
+  item.addArea = async (key) => await _addNewAreaToItem(item, key);
+  item.removeArea = async (key) => await item.update({[`system.target.areas.-=${key}`]: null});
+}
+
+async function _addNewAreaToItem(item, key=generateKey()) {
+  await item.update({[`system.target.areas.${key}`]: {
+    area: "",
+    distance: null,
+    width: null,
+    unit: "",
+    difficult: "",
+    hideHighlight: false,
+    passiveAura: false,
+    linkWithToggle: false
+  }});
 }
 
 //==================================//==================================

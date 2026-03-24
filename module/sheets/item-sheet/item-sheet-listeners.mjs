@@ -3,7 +3,6 @@ import { updateResourceValues, updateScalingValues } from "../../helpers/items/s
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey } from "../../helpers/utils.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
-import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
 import { blueprintAdvancements, configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
@@ -100,8 +99,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.effect-tooltip').hover(ev => effectTooltip(item.getEffectById(datasetOf(ev).effectId), ev, html), ev => hideTooltip(ev, html));
 
   // Target Management
-  html.find('.remove-area').click(ev => removeAreaFromItem(item, datasetOf(ev).key));
-  html.find('.create-new-area').click(() => addNewAreaToItem(item));
+  html.find('.remove-area').click(ev => item.removeArea(datasetOf(ev).key));
+  html.find('.create-new-area').click(() => item.addArea());
 
   // Class Configs
   html.find('.select-class-id').change(ev => _onClassIdSelection(ev, item));

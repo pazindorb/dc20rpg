@@ -67,7 +67,7 @@ export class ItemCreatorDialog extends DC20Dialog {
   async _prepareContext(options) {
     this._updateWithProperties();
     const dropdownData = CONFIG.DC20RPG.DROPDOWN_DATA;
-    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "spellFocus";
+    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType;
     const itemSubTypes = this.itemSubTypes;
 
     const context = await super._prepareContext(options);
@@ -98,9 +98,14 @@ export class ItemCreatorDialog extends DC20Dialog {
     let cost = 0;
     const properties = {};
     Object.entries(this.blueprint.system.properties).forEach(([key, prop]) => {
-      if (prop.for.includes(subType)) {
-        properties[key] = prop;
+      let isProperty = false;
+      if (prop.type.includes(this.itemType)) {
+        if (!subType) isProperty = true; 
+        else if (prop.subtype.includes(subType)) isProperty = true;
+      }
 
+      if (isProperty) {
+        properties[key] = prop;
         const multipier = prop.valueCostMultiplier ? prop.value : 1;
         if (prop.active) cost += prop.cost * multipier;
       }

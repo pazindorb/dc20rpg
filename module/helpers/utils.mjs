@@ -219,3 +219,8 @@ export function toSelectOptions(objectArray, key, label) {
   objectArray.forEach(obj => options[obj[key]] = obj[label]);
   return options;
 }
+
+export function toggleCheck(item, itemSpecificCondition) {
+  if (item.system.toggle?.toggleable && itemSpecificCondition) return item.system.toggle.toggledOn;
+  return true;
+}

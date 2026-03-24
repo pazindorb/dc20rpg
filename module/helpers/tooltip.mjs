@@ -1,5 +1,5 @@
 import { recognizeAndAddLinks } from "./textEnrichments.mjs";
-import { itemDetailsToHtml } from "./items/itemDetails.mjs";
+import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles, getLabelFromKey } from "./utils.mjs";
 import { costPrinter } from "./handlebars/creators.mjs";

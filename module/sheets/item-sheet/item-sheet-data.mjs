@@ -1,4 +1,4 @@
-import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../../helpers/items/itemDetails.mjs";
+import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../item-sheet/item-sheet-details.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateItemData(context, item) {

@@ -1,4 +1,4 @@
-import { getLabelFromKey } from "../utils.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function itemDetailsToHtml(item) {
   if (!item) return "";

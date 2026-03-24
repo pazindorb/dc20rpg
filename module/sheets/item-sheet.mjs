@@ -1,6 +1,6 @@
 import { prepareActiveEffectsForItem } from "../helpers/effects.mjs";
-import { activateCommonLinsters } from "./item-sheet/is-listeners.mjs";
-import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/is-data.mjs";
+import { activateCommonLinsters } from "./item-sheet/item-sheet-listeners.mjs";
+import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/item-sheet-data.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 

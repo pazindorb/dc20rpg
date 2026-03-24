@@ -1,4 +1,4 @@
-import { itemDetailsToHtml } from "../items/itemDetails.mjs";
+import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 

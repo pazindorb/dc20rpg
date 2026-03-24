@@ -1,5 +1,5 @@
 import { companionShare } from "../../helpers/actors/companion.mjs";
-import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
+import { toggleCheck } from "../../helpers/utils.mjs";
 
 /**
  * Copies some data from actor's items to make it easier to access it later.
