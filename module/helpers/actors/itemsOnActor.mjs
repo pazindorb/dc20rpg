@@ -1,7 +1,6 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20RpgItem } from "../../documents/item.mjs";
 import { applyAdvancements, createNewAdvancement, handleSpellList, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
-import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { generateKey } from "../utils.mjs";
 
 //================================================
@@ -358,6 +357,26 @@ export async function createScrollFromSpell(spell) {
   if (spell.actor) DC20RpgItem.gmCreate(scroll, {parent: spell.actor});
   else Item.create(scroll);
   spell.sheet.close();
+}
+
+export async function clearOverridenScalingValue(item, index) {
+  const hasPath = [false, true, false, true, false, true, false, true, false, false];
+  if (!hasPath[index]) return;
+
+  const maneuversKnown = item.system.scaling.maneuversKnown.values;
+  const bonusStamina = item.system.scaling.bonusStamina.values;
+  const spellsKnown = item.system.scaling.spellsKnown.values;
+  const bonusMana = item.system.scaling.bonusMana.values;
+  bonusStamina[index] = 0;
+  maneuversKnown[index] = 0;
+  bonusMana[index] = 0;
+  spellsKnown[index] = 0;
+  await item.update({
+    [`system.scaling.bonusStamina.values`]: bonusStamina,
+    [`system.scaling.maneuversKnown.values`]: maneuversKnown,
+    [`system.scaling.bonusMana.values`]: bonusMana,
+    [`system.scaling.spellsKnown.values`]: spellsKnown,
+  })
 }
 
 //======================================

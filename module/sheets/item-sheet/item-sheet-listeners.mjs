@@ -1,5 +1,4 @@
 import { addToMultiSelect, datasetOf, labelOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
-import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey } from "../../helpers/utils.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
@@ -65,8 +64,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-target-modifier').click(ev => item.removeTargetModifier(datasetOf(ev).key));
 
   // Resources Managment
-  html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
-  html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
+  html.find('.update-scaling').change(ev => _onUpdateScalingValues(item, datasetOf(ev), valueOf(ev)));
+  html.find('.update-item-resource').change(ev => _onUpdateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
   html.find('.multi-select').change(ev => {
     const path = datasetOf(ev).path;
@@ -296,4 +295,23 @@ async function _onCreateNewEffect(type, item, flags) {
 function _openEffectSheet(ev, object) {
   const effect = object.getEffectById(datasetOf(ev).effectId);
   if (effect) effect.sheet.render(true);
+}
+
+function _onUpdateScalingValues(item, dataset, value) {
+  const key = dataset.key;
+  const index = parseInt(dataset.index);
+  const newValue = parseInt(value);
+
+  const currentArray = item.system.scaling[key].values;
+  currentArray[index] = newValue;
+  item.update({[`system.scaling.${key}.values`]: currentArray});
+}
+
+function _onUpdateResourceValues(item, index, value) {
+  index = parseInt(index);
+  value = parseInt(value);
+
+  const currentArray = item.system.resource.values;
+  currentArray[index] = value;
+  item.update({[`system.resource.values`]: currentArray});
 }
