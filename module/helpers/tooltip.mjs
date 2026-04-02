@@ -303,7 +303,7 @@ function _itemAction(item) {
   // ACTION
   let action = "";
   if (item.system.actionType === "attack") {
-    const attack = item.system.attackFormula;
+    const attack = item.system.attack;
     action = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)} vs ${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`
   }
   if (item.system.actionType === "check") {

@@ -7,14 +7,14 @@ import { DC20Roll } from "./rollApi.mjs";
 export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
   const afterRoll = [];
   let results = [];
+  const rollConfig = item.system.rollConfig;
   const rollMenu = item.system.rollMenu;
   const attacker = actor.getActiveTokens()[0];
 
   if (item.system.actionType === "attack") {
-    const attackFormula = item.system.attackFormula;
-    const rangeType = rollMenu.rangeType || attackFormula.rangeType; // We want to update it if roll menu modified it
-    const checkType = attackFormula.checkType === "attack" ? "martial" : "spell"; // TODO: Remove after we change it to martial
-    const validationData = {actorAskingForCheck: actor, rangeType: rangeType, attackType: checkType};
+    const attack = item.system.attack;
+    const rangeType = rollMenu.rangeType || attack.rangeType; // We want to update it if roll menu modified it
+    const validationData = {actorAskingForCheck: actor, rangeType: rangeType, attackType: attack.checkType};
 
     // DRM on you
     const attackPath = "system.dynamicRollModifier.onYou.attack";
@@ -24,7 +24,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
     
     // Close Quarters
-    const skipCloseQuarters = rangeType !== "ranged" || attackFormula.ignoreCloseQuarters || actor.system.globalModifier[checkType].ignore.closeQuarters;
+    const skipCloseQuarters = rangeType !== "ranged" || rollConfig.ignoreCloseQuarters || actor.system.globalModifier[attack.checkType].ignore.closeQuarters;
     const closeQuartersResult = skipCloseQuarters ? [] : _closeQuartersCheck(attacker);
     results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
 
@@ -55,7 +55,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
       const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
       const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
       const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll, true) : [];
-      const targetSizeResult = check.respectSizeRules ? _sizeCheck(token, attacker) : [];
+      const targetSizeResult = rollConfig.respectSizeRules ? _sizeCheck(token, attacker) : [];
       results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];  
     }
   }
@@ -489,7 +489,7 @@ function _longRange(target) {
 
 function _checkType(item) {
   if (item.system.actionType === "attack") {
-    return item.system.attackFormula.checkType === "attack" ? "martial" : item.system.attackFormula.checkType;
+    return item.system.attack.checkType;
   }
   if (item.system.actionType === "check") {
     if (item.system.check.checkKey === "mar") return "martial";

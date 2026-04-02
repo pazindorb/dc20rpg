@@ -280,7 +280,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   _borderColor(item) {
     const actionType = item.system?.actionType;
-    const attackCheckType = item.system?.attackFormula?.checkType;
+    const attackCheckType = item.system?.attack?.checkType;
     const checkType = item.system?.check?.checkKey;
 
     let color = "";
@@ -294,11 +294,11 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   _markers(item) {
     const actionType = item.system?.actionType;
-    const attackCheckType = item.system?.attackFormula?.checkType;
+    const attackCheckType = item.system?.attack?.checkType;
     const checkType = item.system?.check?.checkKey;
 
     let actionIcon = "";
-    if (actionType === "attack" && attackCheckType === "attack") actionIcon = "fa-sword";
+    if (actionType === "attack" && attackCheckType === "martial") actionIcon = "fa-sword";
     else if (actionType === "attack" && attackCheckType === "spell") actionIcon = "fa-hat-wizard";
     else if (actionType === "check" && checkType === "att") actionIcon = "fa-sword";
     else if (actionType === "check" && checkType === "spe") actionIcon = "fa-hat-wizard";
@@ -330,7 +330,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (filter === "none") return;
 
     const actionType = item.system?.actionType;
-    const attackCheckType = item.system?.attackFormula?.checkType;
+    const attackCheckType = item.system?.attack?.checkType;
     const checkType = item.system?.check?.checkKey;
     const reaction = item.system?.isReaction;
 

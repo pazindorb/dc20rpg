@@ -471,8 +471,7 @@ export class DC20RpgCombat extends Combat {
 
   _getInitiativeCritEffectData(actor) {
     const checkKeys = [
-      "martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",
-      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.mar", "checks.spe",
+      "attack", "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.mar", "checks.spe",
       "saves.mig", "saves.agi", "saves.cha", "saves.int"
     ]
     const change = (checkPath) => {
@@ -509,20 +508,12 @@ export class DC20RpgCombat extends Combat {
   }
 
   _getInitiativeCritFailEffectData(actor) {
-    const checkKeys = ["martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",]
-    const change = (checkPath) => {
-      return {
-        key: `system.dynamicRollModifier.againstYou.${checkPath}`,
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
-      }
-    };
-
-    const changes = []
-    for (const key of checkKeys) {
-      changes.push(change(key));
-    }
+    const changes = [{
+      key: `system.dynamicRollModifier.againstYou.attack`,
+      mode: 2,
+      priority: undefined,
+      value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
+    }];
 
     return {
       name: "Initiative Critical Fail",

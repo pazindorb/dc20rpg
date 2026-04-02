@@ -6,9 +6,8 @@ import { generateKey, getLabelFromKey } from "../helpers/utils.mjs";
 export function labelForItemRoll(item) {
   const actionType = item.system.actionType;
   if (actionType === "attack") {
-    const checkType = item.system.attackFormula.checkType;
-    if (checkType === "attack") return game.i18n.localize("dc20rpg.sheet.checkSave.martialAttack"); 
-    if (checkType === "spell") return game.i18n.localize("dc20rpg.sheet.checkSave.spellAttack"); 
+    const checkType = item.system.attack.checkType;
+    return game.i18n.localize(`dc20rpg.sheet.checkSave.${checkType}Attack`);
   }
   if (actionType === "check") {
     return getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
@@ -58,7 +57,8 @@ export async function evaluateCoreRoll(coreFormula, rollData, evalData={}) {
   roll.flatDice = roll.dice[0].total; // We will need that later
 
   // Mark Crit Success/Fail
-  const critThreshold = evalData.critThreshold || 20;
+  const critFailThreshold = evalData.rollConfig?.critFailThreshold || 1;
+  const critThreshold = evalData.rollConfig?.critThreshold || 20;
   const critPerDice = [];
   const failPerDice = []
   for (const term of roll.terms) {
@@ -66,7 +66,7 @@ export async function evaluateCoreRoll(coreFormula, rollData, evalData={}) {
 
     term.results.forEach(result => {
       critPerDice.push(result.result >= critThreshold);
-      failPerDice.push(result.result === 1);
+      failPerDice.push(result.result <= critFailThreshold);
     });
   }
   if (critPerDice.length === 0 && failPerDice.length === 0) return roll;
@@ -245,10 +245,9 @@ async function _modifiedRollFormula(formula, key, item, evalData) {
     [globalMod, afterRoll] = await extractGFModValue("damage.any", item.actor);
 
     if (item.system.actionType === "attack") {
-      const rangeType = evalData.rollMenu.rangeType || item.system.attackFormula.rangeType;
-      const checkType = item.system.attackFormula.checkType;
-      const checkKey = checkType === "attack" ? "martial" : checkType; // TODO: Remove after we change it to martial
-      const [specificGlobalMod, specificAfterRoll] = await extractGFModValue(`damage.${checkKey}.${rangeType}`, item.actor);
+      const rangeType = evalData.rollMenu.rangeType || item.system.attack.rangeType;
+      const checkType = item.system.attack.checkType;
+      const [specificGlobalMod, specificAfterRoll] = await extractGFModValue(`damage.${checkType}.${rangeType}`, item.actor);
       if (specificGlobalMod.value) {
         globalMod.value += globalMod.value ? ` + ${specificGlobalMod.value}` : specificGlobalMod.value;
         globalMod.source += globalMod.source ? ` + ${specificGlobalMod.source}` : specificGlobalMod.source;

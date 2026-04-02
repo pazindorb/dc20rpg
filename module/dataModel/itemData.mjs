@@ -2,12 +2,12 @@ import AttackFormulaFields from "./fields/item/attackFormula.mjs";
 import CheckFields from "./fields/item/check.mjs";
 import EffectsConfigFields from "./fields/item/effectConfig.mjs";
 import PropertyFields from "./fields/item/properties.mjs";
-import SaveFields from "./fields/item/save.mjs";
 import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
 import CombatTraining from "./fields/combatTraining.mjs";
 import { createNewAdvancement } from "../subsystems/character-progress/advancement/advancements.mjs";
 import RollMenu from "./fields/rollMenu.mjs";
+import RollConfigFields from "./fields/item/rollConfig.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -57,9 +57,14 @@ class DC20UsableItemData extends DC20BaseItemData {
         offOnSustainDrop: new f.BooleanField({required: true, initial: false}),
       }),
       actionType: new f.StringField({required: true, initial: ""}),
-      attackFormula: new AttackFormulaFields(),
+      attackFormula: new AttackFormulaFields(), // TODO backward compatibilty remove as part of 0.11.0 update
+      attack: new f.SchemaField({
+        rangeType: new f.StringField({required: true, initial: "melee"}),
+        checkType: new f.StringField({required: true, initial: "martial"}),
+        targetDefence: new f.StringField({required: true, initial: "precision"}),
+      }),
       check: new CheckFields(),
-      save: new SaveFields(),
+      rollConfig: new RollConfigFields(),
       costs: new UseCostFields(),
       againstStatuses: new f.ObjectField({required: true}),
       rollRequests: new f.ObjectField({required: true}),
@@ -405,7 +410,12 @@ export class DC20SpellData extends DC20UsableItemData {
       spellType: new f.StringField({required: true, initial: ""}),
       spellSchool: new f.StringField({required: true, initial: ""}),
       knownLimit: new f.BooleanField({required: true, initial: true}),
-      attackFormula: new AttackFormulaFields({checkType: new f.StringField({required: true, initial: "spell"})}),
+      attackFormula: new AttackFormulaFields({checkType: new f.StringField({required: true, initial: "spell"})}), // TODO backward compatibilty remove as part of 0.11.0 update
+      attack: new f.SchemaField({
+        rangeType: new f.StringField({required: true, initial: "melee"}),
+        checkType: new f.StringField({required: true, initial: "spell"}),
+        targetDefence: new f.StringField({required: true, initial: "precision"}),
+      }),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields(),
       spellSource: new f.SchemaField({

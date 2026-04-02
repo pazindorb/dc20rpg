@@ -815,7 +815,7 @@ DC20RPG.DROPDOWN_DATA.actionTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.attackTypes = {
-  attack: "Martial Attack",
+  martial: "Martial Attack",
   spell: "Spell Attack"
 }
 
@@ -831,9 +831,9 @@ DC20RPG.DROPDOWN_DATA.rollRequestCategory = {
 }
 
 DC20RPG.DROPDOWN_DATA.checkRangeType = {
-  attackmelee: "Melee Martial Attack",
-  attackranged: "Range Martial Attack",
-  attackarea: "Area Martial Attack",
+  martialmelee: "Melee Martial Attack",
+  martialranged: "Range Martial Attack",
+  martialarea: "Area Martial Attack",
   spellmelee: "Melee Spell Attack",
   spellranged: "Range Spell Attack",
   spellarea: "Area Spell Attack",
@@ -1249,8 +1249,6 @@ DC20RPG.PROPERTIES = {
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
     applyProperty: (actor, properties) => {
       actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
-		  actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
-		  actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
     }
   },
   warded: {

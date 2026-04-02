@@ -82,7 +82,7 @@ export function getDaItemDamageSummary(item) {
 }
 
 export function getDaTargetDefences(item) {
-  const t = (get(item, 'system.attackFormula.targetDefence') || '').toString();
+  const t = (get(item, 'system.attack.targetDefence') || '').toString();
   if (t === 'area') return 'AD';
   return 'PD';
 }

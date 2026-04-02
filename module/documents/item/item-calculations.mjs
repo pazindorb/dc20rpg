@@ -1,7 +1,8 @@
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
 
 export function makeCalculations(item) {
-  if (item.system.attackFormula) _calculateRollModifier(item);
+  if (item.system.rollConfig) _calculateRollModifier(item);
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
@@ -12,21 +13,18 @@ export function makeCalculations(item) {
 }
 
 function _calculateRollModifier(item) {
-  const attackFormula = item.system.attackFormula;
-  if (!attackFormula.checkType) {
-    attackFormula.rollModifier = 0;
-    return;
+  let formulaModifier = "";
+  if (item.isAttack) {
+    const details = DC20Roll.prepareAttackDetails(item.system.attack.checkType);
+    formulaModifier = details.modifier;
   }
-  
-  const attackKey = attackFormula.checkType === "attack" ? "martial" : attackFormula.checkType;
-  let formulaModifier = ` + @attack.${attackKey}`;
+  if (item.isCheck) {
+    const details = DC20Roll.prepareCheckDetails(item.system.check.checkKey);
+    formulaModifier = details.modifier;
+  }
 
-  if (attackFormula.rollBonus) formulaModifier +=  " + @rollBonus";
-  attackFormula.formulaMod = formulaModifier;
-
-  // Calculate roll modifier for formula
   const rollData = item.getRollData();
-  attackFormula.rollModifier = attackFormula.formulaMod ? evaluateDicelessFormula(attackFormula.formulaMod, rollData, true).total : 0;
+  item.system.rollConfig.rollModifier = formulaModifier ? evaluateDicelessFormula(formulaModifier, rollData, true).total : 0;
 }
 
 function _calculateSaveDC(item) {

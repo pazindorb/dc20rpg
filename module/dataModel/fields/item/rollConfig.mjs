@@ -1,14 +1,13 @@
-export default class AttackFormulaFields extends foundry.data.fields.SchemaField { // TODO backward compatibilty remove as part of 0.11.0 update
+export default class RollConfigFields extends foundry.data.fields.SchemaField {
   constructor(fields={}, options={}) {
     const f = foundry.data.fields;
 
     fields = {
-      rangeType: new f.StringField({required: true, initial: "melee"}),
-      checkType: new f.StringField({required: true, initial: "attack"}), 
-      targetDefence: new f.StringField({required: true, initial: "precision"}),
       rollBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-      combatMastery: new f.BooleanField({required: true, initial: true}),
+      canCrit: new f.BooleanField({required: true, initial: true}),
+      canCritFail: new f.BooleanField({required: true, initial: true}),
       critThreshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 20 }),
+      critFailThreshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       skipBonusDamage: new f.SchemaField({
         heavy: new f.BooleanField({required: true, initial: false}),
         brutal: new f.BooleanField({required: true, initial: false}),
@@ -16,7 +15,7 @@ export default class AttackFormulaFields extends foundry.data.fields.SchemaField
         targetModifiers: new f.BooleanField({required: true, initial: false}), 
       }),
       ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
-      formulaMod: new f.StringField({required: true, initial: ""}),
+      respectSizeRules: new f.BooleanField({required: true, initial: false}),
       ...fields
     };
     super(fields, options);

@@ -711,10 +711,11 @@ function _enrichDeftProperty(item) {
   macro.trigger = "onDRMCheck";
   macro.command = `
 if (!actor.statuses.has("prone")) return;
+if (!item.isAttack) return;
 
 const rollMenu = item.system.rollMenu;
-const attackFormula = item.system.attackFormula;
-const rangeType = rollMenu.rangeType || attackFormula.rangeType;
+const attack = item.system.attack;
+const rangeType = rollMenu.rangeType || attack.rangeType;
 
 if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (Counter Prone status)", targetHash: actor.targetHash});
   `;
@@ -839,7 +840,7 @@ function _enrichUseWeaponObject(item) {
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
   item.system.combatTraining = weapon.system.combatTraining;
-  item.system.attackFormula.rollBonus = weapon.system.attackFormula.rollBonus;
+  _mergeRollConfigData(weapon.system.rollConfig, item.system.rollConfig);
 
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
@@ -848,6 +849,12 @@ function _enrichUseWeaponObject(item) {
   item.ammo = weapon.ammo || undefined;
   item.reloadable = weapon.reloadable || undefined;
   item.multiFaceted = weapon.multiFaceted || undefined; 
+}
+
+function _mergeRollConfigData(weapon, item) {
+  if (item.rollBonus < weapon.rollBonus) item.rollBonus = weapon.rollBonus;
+  if (item.critThreshold > weapon.critThreshold) item.critThreshold = weapon.critThreshold;
+  if (item.critFailThreshold > weapon.critFailThreshold) item.critFailThreshold = weapon.critFailThreshold;
 }
 
 //==================================//==================================
@@ -1385,21 +1392,20 @@ function convertToChatMessageData(item) {
     effects: effects,
     rollRequests: rollRequests,
     targetModifiers: targetModifiers,
-    sustain: shouldSustain
+    sustain: shouldSustain,
+    rollConfig: item.system.rollConfig || {}
   }
 
   // Attack Action Data
   if (actionType === "attack") {
-    CHAT_DATA.targetDefence = overrideTargetDefence || item.system.attackFormula.targetDefence;
-    CHAT_DATA.skipBonusDamage = item.system.attackFormula.skipBonusDamage;
-    CHAT_DATA.canCrit = true;
+    const attack = item.system.attack;
+    CHAT_DATA.targetDefence = overrideTargetDefence || attack.targetDefence;
   }
 
   // Check Action Data
   if (actionType === "check") {
     const check = item.system.check;
     CHAT_DATA.checkDC = check.againstDC ? check.checkDC : null;
-    CHAT_DATA.canCrit = check.canCrit;
   }
 
   return CHAT_DATA;

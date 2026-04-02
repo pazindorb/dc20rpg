@@ -12,14 +12,14 @@ export class DC20Roll {
   static prepareItemCoreRollDetails(item, options={}) {
     switch(item.system.actionType) {
       case "check": return this.prepareCheckDetails(item.checkKey, options);
-      case "attack": return this.prepareAttackDetails(item.system.attackFormula.checkType, options);
+      case "attack": return this.prepareAttackDetails(item.system.attack.checkType, options);
     }
     return {};
   }
 
   static prepareAttackDetails(key, options={}) {
-    if (key === "spell") return this.#prepareRollDetails(" + @attack.spell + @rollBonus", "att", "attackCheck", options);
-    return this.#prepareRollDetails(" + @attack.martial + @rollBonus", "att", "attackCheck", options);
+    if (key === "spell") return this.#prepareRollDetails(" + @attack.spell", "att", "attackCheck", options);
+    return this.#prepareRollDetails(" + @attack.martial", "att", "attackCheck", options);
   }
 
   static prepareCheckDetails(key, options={}) {
@@ -81,7 +81,8 @@ export class DC20Roll {
       const type = options.rollLevel > 0 ? "kh" : "kl";
       dice = `${value}d20${type}`;
     }
-    const formula = `${dice}${partial}`;
+    const modifier = `${partial} + @rollBonus`
+    const formula = `${dice}${modifier}`;
 
     const ROLL_KEYS = rollType === "save" ? CONFIG.DC20RPG.ROLL_KEYS.saveTypes : CONFIG.DC20RPG.ROLL_KEYS.allChecks;
     ROLL_KEYS.language = "Language Check";
@@ -102,6 +103,7 @@ export class DC20Roll {
     });
     
     return {
+      modifier: modifier,
       roll: formula,
       label: label,
       rollTitle: rollTitle,
@@ -154,7 +156,7 @@ export class DC20Roll {
     const rollData = await item.getRollData();
     const evalData = {
       rollMenu: rollMenu,
-      critThreshold: actionType === "attack" ? item.system.attackFormula.critThreshold : 20,
+      rollConfig: item.system.rollConfig,
       afterRollEffects: options.afterRollEffects || []
     }
 

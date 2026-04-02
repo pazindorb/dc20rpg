@@ -309,12 +309,14 @@ export class DC20ChatMessage extends ChatMessage {
       target.setTargetRollValue(cached.roll);
       target.setContestDC(cached.contestDC);
     }
+    const rollConfig = this.system?.rollConfig || {};
 
     const calcData = {
-      isCrit: roll.crit,
-      isCritMiss: roll.fail,
-      canCrit: this.system.canCrit,
-      skipFor: this.system?.skipBonusDamage || {/** Add conditional flag for every roll? */},
+      isCritSuccess: roll.crit,
+      isCritFail: roll.fail,
+      canCrit: rollConfig.canCrit,
+      canCritFail: rollConfig.canCritFail,
+      skipFor: rollConfig.skipBonusDamage || {/** Add conditional flag for every roll? */},
     }
     if (this.shareFormula) calcData.divideBy = Object.values(this.targets).length;
 
@@ -591,6 +593,10 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   #mergeExtraRoll(d20Roll, oldRoll, d20RollFormula) {
+    const rollConfig = this.system.rollConfig || {};
+    const critFailThreshold = rollConfig.critFailThreshold || 1;
+    const critThreshold = rollConfig.critThreshold || 20;
+
     const dice = d20Roll.terms[0];
     const valueOnDice = dice.results[0].result;
 
@@ -601,8 +607,8 @@ export class DC20ChatMessage extends ChatMessage {
     newRoll.terms[0] = dice;
     newRoll.flatDice = valueOnDice;
     newRoll.total = valueOnDice + rollMods;
-    newRoll.crit = valueOnDice === 20 ? true : false;
-    newRoll.fail = valueOnDice === 1 ? true : false;
+    newRoll.crit = valueOnDice >= critThreshold ? true : false;
+    newRoll.fail = valueOnDice <= critFailThreshold ? true : false;
     newRoll.formula = `${d20RollFormula} + (${rollMods})`;
     return newRoll;
   }
@@ -642,6 +648,10 @@ export class DC20ChatMessage extends ChatMessage {
     let rollLevel = this.system.rollLevel;
     const absLevel = Math.abs(rollLevel);
 
+    const rollConfig = this.system.rollConfig || {};
+    const critFailThreshold = rollConfig.critFailThreshold || 1;
+    const critThreshold = rollConfig.critThreshold || 20;
+
     const coreRoll = this.system.coreRoll;
     const d20Dices = coreRoll.terms[0].results;
     d20Dices.pop();
@@ -656,8 +666,8 @@ export class DC20ChatMessage extends ChatMessage {
     coreRoll.terms[0].number = absLevel;
     coreRoll.flatDice = valueOnDice;
     coreRoll.total = valueOnDice + rollMods;
-    coreRoll.crit = valueOnDice === 20 ? true : false;
-    coreRoll.fail = valueOnDice === 1 ? true : false;
+    coreRoll.crit = valueOnDice >= critThreshold ? true : false;
+    coreRoll.fail = valueOnDice <= critFailThreshold ? true : false;
 
     // Determine new roll Level
     if (rollType === "adv") rollLevel--;

@@ -59,7 +59,7 @@ export class DC20Target {
         healingReduction: {},
         defences: {},
         resources: {health: {max: 1, current: 1, temp: 0, value: 1}},
-        globalModifier: {prevent: {hpRegeneration: false}}
+        globalModifier: {prevent: {hpRegeneration: false, criticalHit: false}}
       },
       getRollData: () => {},
       ...dummyActorData
@@ -337,11 +337,11 @@ export class DC20Target {
     if (reduction.flatHalf) final.clear = this.#flatReductionHalf(final.clear, options.label);
 
     if (options.isAttack) {
-      if (attackHit < 0 && !calcData.isCritHit) {
+      if (attackHit < 0 && !calcData.isCritSuccess) {
         final.modified = this.#attackMiss(final.modified);
         final.clear = this.#attackMiss(final.clear);
       }
-      if (calcData.isCritMiss) {
+      if (calcData.isCritFail && calcData.canCritFail) {
         final.modified = this.#critFail(final.modified, "Critical Miss");
         final.clear = this.#critFail(final.clear, "Critical Miss");
       }
@@ -423,9 +423,11 @@ export class DC20Target {
   }
 
   #critSuccess(formula, calcData) {
+    if (this.actor.system.globalModifier.prevent.criticalHit) return formula;
+    
     const canCrit = !!calcData.canCrit;
     const skipCrit = !!calcData.skipFor?.crit;
-    const isCrit = calcData.isCritHit;
+    const isCrit = calcData.isCritSuccess;
     if (canCrit && !skipCrit && isCrit) {
       formula.source += " + Critical";
       formula.value += 2;
@@ -721,9 +723,9 @@ export class DC20Target {
     if (this.hit == null) return null;
 
     const calcData = this.calcData || {};
-    const critMiss = calcData.isCritMiss;
+    const critMiss = calcData.isCritFail;
     const miss = this.hit < 0;
-    const crit = calcData.isCritHit && !calcData.skipFor?.crit;
+    const crit = calcData.isCritSuccess && !calcData.skipFor?.crit;
     const heavy = this.hit >= 5 && !calcData.skipFor?.heavy;
     const brutal = this.hit >= 10 && !calcData.skipFor?.brutal;
     const brutalP = this.hit >= 15 && !calcData.skipFor?.brutal;

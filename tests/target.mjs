@@ -10,18 +10,20 @@ export async function runTargetTest(tokenUuid) {
   const attackCalcData = {
     defenceKey: "precision",
     canCrit: true,
+    canCritFail: true,
 
     skipFor: {},
-    isCritMiss: false,
-    isCritHit: false,
+    isCritFail: false,
+    isCritSuccess: false,
   }
   const checkCalcData = {
     checkDC: 14,
     canCrit: true,
+    canCritFail: true,
     
     skipFor: {},
-    isCritMiss: false,
-    isCritHit: false,
+    isCritFail: false,
+    isCritSuccess: false,
   }
   const contestCalcData = {
     againstDC: 17,
@@ -87,12 +89,12 @@ export async function runTargetTest(tokenUuid) {
   // TEST CRIT ATTACK - should always hit
   console.log("+++++ ATTACK HIT (crit)");
   target.setCoreRollValue(1);
-  await target.calculateAttack({...attackCalcData, isCritHit: true});
+  await target.calculateAttack({...attackCalcData, isCritSuccess: true});
   console.log(target.prettyPrint());
 
   console.log("+++++ ATTACK HIT (crit - skip crit)");
   target.setCoreRollValue(1);
-  await target.calculateAttack({...attackCalcData, isCritHit: true, skipFor: {crit: true}});
+  await target.calculateAttack({...attackCalcData, isCritSuccess: true, skipFor: {crit: true}});
   console.log(target.prettyPrint());
 
   // TEST MISS
@@ -104,7 +106,7 @@ export async function runTargetTest(tokenUuid) {
   // TEST CRIT MISS - should always miss
   console.log("+++++ ATTACK CRIT MISS");
   target.setCoreRollValue(20);
-  await target.calculateAttack({...attackCalcData, isCritMiss: true});
+  await target.calculateAttack({...attackCalcData, isCritFail: true});
   console.log(target.prettyPrint());
 
 
@@ -130,13 +132,13 @@ export async function runTargetTest(tokenUuid) {
   // TEST CHECK CRIT FAIL
   console.log("||||| CHECK CRIT FAIL");
   target.setCoreRollValue(25);
-  await target.calculateCheck({...checkCalcData, isCritMiss: true});
+  await target.calculateCheck({...checkCalcData, isCritFail: true});
   console.log(target.prettyPrint());
 
   // TEST CHCEK CRIT SUCCESS
   console.log("||||| CHECK CRIT SUCCESS");
   target.setCoreRollValue(15);
-  await target.calculateCheck({...checkCalcData, isCritHit: true});
+  await target.calculateCheck({...checkCalcData, isCritSuccess: true});
   console.log(target.prettyPrint());
 
 
@@ -162,13 +164,13 @@ export async function runTargetTest(tokenUuid) {
   // TEST CONTEST CRIT FAIL
   console.log(">>>>> CONTEST CRIT FAIL <1>");
   target.setTargetRollValue(22);
-  await target.calculateCheck({...contestCalcData, isCritMiss: true});
+  await target.calculateCheck({...contestCalcData, isCritFail: true});
   console.log(target.prettyPrint());
 
   // TEST CONTEST CRIT SUCCESS
   console.log(">>>>> CONTEST CRIT SUCCESS <1>");
   target.setTargetRollValue(19);
-  await target.calculateCheck({...contestCalcData, isCritHit: true});
+  await target.calculateCheck({...contestCalcData, isCritSuccess: true});
   console.log(target.prettyPrint());
 
 

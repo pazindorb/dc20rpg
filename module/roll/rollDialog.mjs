@@ -165,7 +165,7 @@ export class RollDialog extends DC20Dialog {
   async _prepareAttackRange() {
     let rangeType = ""; 
     const system = this.item.system;
-    if (system.actionType === "attack") rangeType = system.attackFormula.rangeType;
+    if (system.actionType === "attack") rangeType = system.attack.rangeType;
     this.item.system.rollMenu.rangeType = rangeType;
     await this.item.update({["system.rollMenu.rangeType"]: rangeType});
   }

@@ -38,6 +38,7 @@ export class DC20RpgItemSheet extends foundry.appv1.sheets.ItemSheet {
   /** @override */
   async getData() {
     const context = await super.getData();
+    context.hasRollConfig = ["check", "attack"].includes(this.item.system.actionType);
     duplicateItemData(context, this.item);
     prepareItemData(context, this.item);
     preprareSheetData(context, this.item);

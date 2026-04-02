@@ -22,6 +22,14 @@ export class DC20RpgItem extends Item {
     return this.system.itemKey;
   }
 
+  get isAttack() {
+    return this.system.actionType === "attack";
+  }
+
+  get isCheck() {
+    return this.system.actionType === "check";
+  }
+
   get checkKey() {
     const actionType = this.system.actionType;
     if (actionType === "attack") return "att";

@@ -215,9 +215,9 @@ export function registerHandlebarsCreators() {
     if (!actionType) return '';
 
     let content = '';
-    const attackCheck = item.system.attackFormula.checkType;
-    const attackRange = item.system.attackFormula.rangeType;
-    const rollMod = item.system.attackFormula.rollModifier;
+    const attackCheck = item.system.attack.checkType;
+    const attackRange = item.system.attack.rangeType;
+    const rollMod = item.system.rollConfig.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
     const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
@@ -431,7 +431,7 @@ export function registerHandlebarsCreators() {
     if (item.unidefined) return '';
     const system = item.system;
     switch (system.actionType) {
-      case "attack": return _attack(system.attackFormula);
+      case "attack": return _attack(system.attack);
       case "check": return _check(system.check);
       default: return '';
     }
@@ -620,9 +620,9 @@ function _toCost(key, icon, amount, title) {
 }
 
 function _attackIcon(attackCheck, attackRange) {
-  if (attackCheck === "attack" && attackRange === "melee") return 'fa-sword';
-  if (attackCheck === "attack" && attackRange === "ranged") return 'fa-bow-arrow';
-  if (attackCheck === "attack" && attackRange === "area") return 'fa-bullseye';
+  if (attackCheck === "martial" && attackRange === "melee") return 'fa-sword';
+  if (attackCheck === "martial" && attackRange === "ranged") return 'fa-bow-arrow';
+  if (attackCheck === "martial" && attackRange === "area") return 'fa-bullseye';
   if (attackCheck === "spell" && attackRange === "melee") return 'fa-hand-sparkles';
   if (attackCheck === "spell" && attackRange === "ranged") return 'fa-wand-magic-sparkles';
   if (attackCheck === "spell" && attackRange === "area") return 'fa-meteor';
