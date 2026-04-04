@@ -65,7 +65,7 @@ export class DC20RpgItem extends Item {
 
   get identified() {
     if (!!!this.system.statuses) return true;
-    else this.system.statuses.identified;
+    else return this.system.statuses.identified;
   }
 
   /**

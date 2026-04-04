@@ -647,7 +647,7 @@ export class DC20RpgActor extends Actor {
   //=               SUSTAIN              =
   //======================================
   shouldSustain(item) {
-    if (item.system.duration?.type !== "sustain") return false;
+    if (!item.sustainable) return false;
 
     const activeCombat = game.combats.active;
     const notInCombat = !(activeCombat && activeCombat.started && this.inCombat);

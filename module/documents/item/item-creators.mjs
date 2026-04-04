@@ -3,6 +3,7 @@ import { generateKey } from "../../helpers/utils.mjs";
 export class Enhancement {
   name = "New Enhancement";
   number = 0;
+  repeatable = true;
   preventModification = false;
   description = "";
   hide = false;
@@ -51,7 +52,14 @@ export class Enhancement {
       max: null
     },
     changeManaSpendLimit: 0,
-    changeStaminaSpendLimit: 0
+    changeStaminaSpendLimit: 0,
+    changeDuration: false,
+    duration: {
+      value: null,
+      type: "",
+      timeUnit: ""
+    },
+
   };
 
 

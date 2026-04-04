@@ -27,6 +27,9 @@ export function enrichWithHelpers(item) {
   if (item.system.target) {
     _enrichAreaObject(item);
   }
+  if (item.system.duration) {
+    _enrichDurationObject(item);
+  }
 
   item.toChatMessageData = () => convertToChatMessageData(item);
 }
@@ -1362,6 +1365,20 @@ async function _addNewAreaToItem(item, key=generateKey()) {
     passiveAura: false,
     linkWithToggle: false
   }});
+}
+
+function _enrichDurationObject(item) {
+  let duration = item.system.duration;
+  for (const enh of item.enhancements.active.values()) {
+    const mod = enh.modifications;
+    if (mod.changeDuration) {
+      if (mod.duration.type) duration.type = mod.duration.type;
+      if (mod.duration.value) duration.value = mod.duration.value;
+      if (mod.duration.timeUnit) duration.timeUnit = mod.duration.timeUnit;
+    }
+  }
+  item.duration = duration;
+  item.sustainable = duration.type === "sustain";
 }
 
 //==================================//==================================

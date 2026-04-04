@@ -142,11 +142,21 @@
         </div>
         <div class="column enh-number">
           {{#ifCond @root.rollsHeldAction '||' enhancement.preventModification}}
-          <i>{{enhancement.number}}</i>
+            {{#if enhancement.repeatable}}
+            <i>{{enhancement.number}}</i>
+            {{else}}
+            <i class="{{#ifCond enhancement.number '===' 0}}fa-regular fa-square{{else}}fa-solid fa-square-check{{/ifCond}}"></i>
+            {{/if}}
           {{else}}
-          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
-            {{enhancement.number}}
-          </a>
+            {{#if enhancement.repeatable}}
+            <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+              {{enhancement.number}}
+            </a>
+            {{else}}
+            <a data-cType="toggle" data-max="1" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhUnique'}}">
+              <i class="{{#ifCond enhancement.number '===' 0}}fa-regular fa-square{{else}}fa-solid fa-square-check{{/ifCond}}"></i>
+            </a>
+            {{/if}}
           {{/ifCond}}
         </div>
       </div>
