@@ -8,7 +8,7 @@ export function prepareDataFromItems(actor) {
 	const equipment = [];
 	const customResources = []; 
 	const targetModifiers = [];
-	const itemsWithEnhancementsToCopy = [];
+	const copyableEnhancements = [];
 	const properties = [];
 	let staminaFeature = false;
 
@@ -34,7 +34,7 @@ export function prepareDataFromItems(actor) {
 		if (tm && Object.keys(tm).length > 0) targetModifiers.push(item);
 
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
-		if (item.system.copyEnhancements?.copy) itemsWithEnhancementsToCopy.push({
+		if (item.system.copyEnhancements?.copy) copyableEnhancements.push({
 			itemId: item.id,
 			copyFor: item.system.copyEnhancements.copyFor
 		});
@@ -44,7 +44,7 @@ export function prepareDataFromItems(actor) {
 	_properties(properties, actor);
 	_customResources(customResources, actor);
 	_targetModifiers(targetModifiers, actor);
-	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
+	actor.copyableEnhancements = copyableEnhancements;
 	actor.system.details.staminaFeature = staminaFeature;
 }
 

@@ -6,10 +6,11 @@ import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 //=======================================
 //              FINISH ROLL             =
 //=======================================
-export function finishSheetRoll(roll, actor, rollMenu, details, afterRollEffects) {
+export function finishSheetRoll(roll, actor, rollMenu, sheetRollData, afterRollEffects) {
   _runCritAndCritFailEvents(roll, actor, rollMenu)
-  if (!details.initiative) _respectNat1Rules(roll, actor, details.type, null, rollMenu);
+  if (!sheetRollData.initiative) _respectNat1Rules(roll, actor, sheetRollData.type, null, rollMenu);
   rollMenu.clear();
+  sheetRollData.clearEnhancements();
   _deleteEffectsMarkedForRemoval(afterRollEffects);
   reenablePreTriggerEvents();
 }
@@ -38,7 +39,7 @@ export function resetEnhancements(item, actor, itemRollFinished) {
       const enhOwningItem = actor.items.get(enh.sourceItemId);
       if (enhOwningItem) {
         runTemporaryItemMacro(enhOwningItem, "enhancementReset", actor, {enhancement: enh, itemRollFinished: itemRollFinished, enhKey: key});
-        enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
+        enh.clear();
       }
     }
   });

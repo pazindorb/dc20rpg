@@ -1,5 +1,6 @@
 import { extractGFModValue } from "../dataModel/fields/actor/GFM.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
+import { chargeDisplayData, getResourceDisplayData } from "../helpers/resources.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { generateKey, getLabelFromKey } from "../helpers/utils.mjs";
 
@@ -282,4 +283,201 @@ function _enhanceRoll(roll, formula, key) {
   roll.dontMerge = formula.dontMerge;
   roll.overrideDefence = formula.overrideDefence;
   return roll;
+}
+
+//=======================================
+//        PREPARE SHEET ROLL DATA       =
+//=======================================
+export function sheetRollDataFrom(data={}, actor) {
+  const sheetData = foundry.utils.deepClone(data);
+
+  if (sheetData.checkKey.length > 4 && !["prime", "initiative", "deathSave"].includes(sheetData.checkKey)) {
+    const skill = actor.skillAndLanguage.skills[sheetData.checkKey];
+    const label = skill?.label ? `${skill?.label} Check` : "Check";
+    sheetData.label = label;
+    sheetData.rollTitle = label;
+  }
+
+  sheetData.costs = {resources: {}, charges: {},quantity: {}}
+  if (data.costs) {
+    sheetData.costs = {
+      ...sheetData.costs, 
+      ...data.costs
+    }
+  }
+
+  // Prepare enhancemenets
+  const copyHash = `${sheetData.checkKey}#${sheetData.type}`;
+  const enhancemetns = new Map();
+  for (const item of actor.items) {
+    if (!item.enhancements) continue;
+
+    for (const [key, enhancement] of item.enhancements.maintained.entries()) {
+      if (enhancement?.copyToSheetRoll?.[copyHash]) {
+        enhancemetns.set(key, enhancement);
+      }
+      if (sheetData.type === "skillCheck" && enhancement?.copyToSheetRoll?.["all#skillCheck"]) {
+        enhancemetns.set(key, enhancement);
+      }
+      if (sheetData.type === "attributeCheck" && enhancement?.copyToSheetRoll?.["all#attributeCheck"]) {
+        enhancemetns.set(key, enhancement);
+      }
+      if (sheetData.type === "save" && enhancement?.copyToSheetRoll?.["all#save"]) {
+        enhancemetns.set(key, enhancement);
+      }
+    }
+  }
+  sheetData.enhancements = enhancemetns;
+
+  // Methods
+  sheetData.refreshEnhancemetns = () => _refreshEnhancemetns(actor, sheetData);
+  sheetData.collectUseCost = () => _collectUseCost(actor, sheetData);
+  sheetData.respectUseCost = async () => await _respectUseCost(actor, sheetData);
+  sheetData.useCostDisplayData = () => _useCostDisplayData(actor, sheetData);
+  sheetData.clearEnhancements = async () => await _clearEnhancements(sheetData);
+  return sheetData;
+}
+
+function _collectUseCost(actor, sheetData) {
+  _refreshEnhancemetns(actor, sheetData);
+  const enhancements = sheetData.enhancements;
+  const rollMenu = actor.system.rollMenu;
+  const costs = foundry.utils.deepClone(sheetData.costs);
+
+  if (rollMenu.apCost) {
+    if (costs.resources.ap != null) costs.resources.ap += rollMenu.apCost;
+    else costs.resources.ap = rollMenu.apCost;
+  }
+  if (rollMenu.gritCost) {
+    if (costs.resources.grit != null) costs.resources.grit += rollMenu.gritCost;
+    else costs.resources.grit = rollMenu.gritCost;
+  }
+
+  if (!enhancements) return costs;
+
+  for (const [key, enh] of enhancements.entries()) {
+    if (enh.active) {
+      const item = actor.items.get(enh.sourceItemId);
+      _addEnhancementCost(item, actor, key, costs);
+    }
+  }
+  return costs;
+}
+
+async function _respectUseCost(actor, sheetData) {
+  if (!actor) return false;
+  const cost = _collectUseCost(actor, sheetData);
+
+  const canUse = _canSpendResources(cost, actor) && _canSubtractCharges(cost, actor);
+  if (!canUse) return false;
+
+  await _spendResources(cost, actor);
+  await _subtractCharges(cost, actor);
+  return true;
+}
+
+function _canSpendResources(cost, actor) {
+  for (const [resourceKey, amount] of Object.entries(cost.resources)) {
+    if (!actor.resources[resourceKey].canSpend(amount)) return false;
+  }
+  return true;
+}
+
+function _canSubtractCharges(cost, actor) {
+  for (const [itemId, amount] of Object.entries(cost.charges)) {
+    const item = actor.items.get(itemId);
+    if (!item) {
+      ui.notifications.error(`Item with id '${itemId}' cannot be found on '${actor.name}'`);
+      return false;
+    }
+    if (!item.use.canRemoveCharge(amount)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+async function _spendResources(cost, actor) {
+  for (const [resourceKey, amount] of Object.entries(cost.resources)) {
+    await actor.resources[resourceKey].spend(amount);
+  }
+}
+
+async function _subtractCharges(cost, actor) {
+  for (const [itemId, amount] of Object.entries(cost.charges)) {
+    const item = actor.items.get(itemId);
+    await item.use.removeCharge(amount, true);
+  }
+}
+
+function _useCostDisplayData(actor, sheetData) {
+  const cost = _collectUseCost(actor, sheetData);
+  const displayData = {
+    resources: {},
+    charges: {},
+    quantity: {}
+  }
+
+  for (const [resourceKey, amount] of Object.entries(cost.resources)) {
+    displayData.resources[resourceKey] = getResourceDisplayData(resourceKey, amount, null, actor);
+  }
+  for (const [itemId, amount] of Object.entries(cost.charges)) {
+    const item = actor.items.get(itemId);
+    if(item) displayData.charges[itemId] = chargeDisplayData(false, amount, item.name);
+  }
+  return displayData;
+}
+
+function _refreshEnhancemetns(actor, sheetData) {
+  for (const [key, enh] of sheetData.enhancements.entries()) {
+    const item = actor.items.get(enh.sourceItemId);
+    const updated = item.enhancements.maintained.get(key);
+    sheetData.enhancements.set(key, updated)
+  }
+}
+
+async function _clearEnhancements(sheetData) {
+  for (const enh of sheetData.enhancements.values()) {
+    if (enh.active) await enh.clear()
+  }
+}
+
+function _addEnhancementCost(item, actor, enhKey, costs) {
+  const enhancement = item.enhancements.maintained.get(enhKey);
+  if (!enhancement) {
+    ui.notifications.error(`Enhancement with key '${enhKey}' not found on '${item.name}' item.`);
+    return;
+  }
+
+  // Add to Resources
+  for (let [key, value] of Object.entries(enhancement.resources)) {
+    _addToResources(costs, key, value, actor, enhancement.number);
+  }
+  // Add to Charges
+  if (enhancement.charges?.subtract && enhancement.charges.fromOriginal) {
+    const itemId = enhancement.sourceItemId;
+    const value = enhancement.charges.subtract * enhancement.number;
+    if (costs.charges[itemId]) costs.charges[itemId] += value;
+    else costs.charges[itemId] = value;
+  }
+}
+
+function _addToResources(cost, key, value, actor, multiplier=1) {
+  if (key === "custom") {
+    for (const [customKey, customRes] of Object.entries(value)) {
+      _addToResources(cost, customKey, customRes.value, actor, multiplier);
+    }
+    return;
+  }
+
+  // Skip if actor doesn't have that resource at all
+  if (actor && !actor.resources.hasResource(key)) return;
+  if (value == null) return;
+  
+  if (cost.resources[key]) {
+    cost.resources[key] += (value * multiplier);
+  }
+  else {
+    cost.resources[key] = (value * multiplier);
+  }
 }

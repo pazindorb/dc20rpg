@@ -77,8 +77,10 @@ async function _migrateEnhancements(item) {
   let hasChanges = false;
   for (const [key, enh] of Object.entries(enhancements)) {
     enh.repeatable = true;
-    enh.changeDuration = false,
-    enh.duration = {value: null, type: "", timeUnit: ""};
+    enh.defaultState = 0;
+    enh.copyToSheetRoll = {};
+    enh.modifications.changeDuration = false,
+    enh.modifications.duration = {value: null, type: "", timeUnit: ""};
 
     updateData[`system.enhancements.${key}`] = enh;
     hasChanges = true;
@@ -86,3 +88,5 @@ async function _migrateEnhancements(item) {
   
   if (hasChanges) await item.update(updateData);
 }
+
+  // - dodać metodę która zbiera efekty z wszystkich enhancementów i Target Modifierów? Przydało by sie do puszczania macro updatujących - ale czy gdzieś indziej?

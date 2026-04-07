@@ -3,10 +3,12 @@ import { generateKey } from "../../helpers/utils.mjs";
 export class Enhancement {
   name = "New Enhancement";
   number = 0;
+  defaultState = 0;
   repeatable = true;
   preventModification = false;
   description = "";
   hide = false;
+  copyToSheetRoll = {};
   resources = {
     ap: null,
     health: null,

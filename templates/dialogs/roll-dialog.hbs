@@ -273,7 +273,7 @@
   </fieldset>
 
   {{!-- Cost --}}
-  {{#if item}}
+  {{#if expectedCost}}
   <fieldset class="expected-cost">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
     {{#ifCond expectedCost.resources.mana '||' expectedCost.resources.stamina}}
@@ -311,9 +311,7 @@
       <a class="toggle fa-solid fa-2x fa-registered margin-right-10" style="color:#a80a0a; text-shadow:white" data-action="reloadWeapon" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.needToReload'}}"></a>
       {{/unless}}{{/if}}
 
-      {{#if hasModifications}}
       <a class="toggle fa-2x {{#if rollMenu.free}}fa-solid{{else}}fa-light{{/if}} fa-piggy-bank" data-cType="activable" data-path="system.rollMenu.free" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.free'}}"></a>
-      {{/if}}
     </div>
   </fieldset>
   {{/if}}

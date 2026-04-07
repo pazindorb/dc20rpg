@@ -12,6 +12,7 @@ import { getValueFromPath } from "../helpers/utils.mjs";
 import { runItemDRMCheck, runSheetDRMCheck } from "./dynamicRollModifier.mjs";
 import { DC20Roll } from "./rollApi.mjs";
 import { DRMDialog } from "./drmDialog.mjs";
+import { sheetRollDataFrom } from "./rollHelper.mjs";
 
 export class RollDialog extends DC20Dialog {
 
@@ -124,15 +125,8 @@ export class RollDialog extends DC20Dialog {
     }
     else {
       this.itemRoll = false;
-      this.details = {...data};
+      this.sheetRollData = sheetRollDataFrom(data, this.actor);
       this.updateObject = this.actor;
-
-      if (this.details.checkKey.length > 4 && !["initiative", "deathSave"].includes(this.details.checkKey)) {
-        const skill = actor.skillAndLanguage.skills[this.details.checkKey];
-        const label = skill?.label ? `${skill?.label} Check` : "Check";
-        this.details.label = label;
-        this.details.rollTitle = label;
-      }
     }
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
     this.initialRollMenuValue = options.initialRollMenuValue;
@@ -227,7 +221,7 @@ export class RollDialog extends DC20Dialog {
     context.modifyFormula = this.modifyFormula;
     context.header = {
       img: this.updateObject.img,
-      name: this.details?.rollTitle || this.updateObject.name,
+      name: this.sheetRollData?.rollTitle || this.updateObject.name,
     }
     context.rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     context.rollMenu = this.updateObject.system.rollMenu;
@@ -274,7 +268,7 @@ export class RollDialog extends DC20Dialog {
       context.reloadable = !!this.item.reloadable;
 
       context.item = this.item;
-      context.enhancements = this._prepareEnhancements();
+      context.enhancements = this._prepareEnhancements(this.item.enhancements.all, this.item);
       context.hasDetails = context.usesWeapon || context.multiCheck || context.usesAmmo || context.multiFaceted;
 
       context.measurementTemplates = this.measurementTemplates;
@@ -287,21 +281,22 @@ export class RollDialog extends DC20Dialog {
       }
 
       context.expectedCost = this.item.use?.useCostDisplayData();
-      context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
-      context.staminaSpendLimit = this._getStaminaSpendLimit(context.expectedCost);
       context.rollLabel = `Roll Item: ${this.item.name}`;
-
       context.canSpendGrit = false;
       context.hasModifications = true;
     }
 
     // SHEET ROLL
     else {
-      context.canSpendGrit = this.details.type === "save";
+      context.expectedCost = this.sheetRollData.useCostDisplayData();
+      context.enhancements = this._prepareEnhancements(this.sheetRollData.enhancements);
+      context.canSpendGrit = this.sheetRollData.type === "save";
       context.hasModifications = false;
-      context.rollLabel = `Roll: ${this.details.label}`;
+      context.rollLabel = `Roll: ${this.sheetRollData.label}`;
     }
 
+    context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
+    context.staminaSpendLimit = this._getStaminaSpendLimit(context.expectedCost);
     return context;
   }
 
@@ -324,8 +319,9 @@ export class RollDialog extends DC20Dialog {
 
   _enhancementMslChanges() {
     let limitChange = 0;
-    const enhancements = this.item.enhancements.active;
+    const enhancements = this.itemRoll ? this.item.enhancements.active : this.sheetRollData.enhancements;
     enhancements.values().forEach(enh => {
+      if (!enh.active) return;
       const change = enh.modifications.changeManaSpendLimit || 0;
       limitChange += change * enh.number;
     });
@@ -351,8 +347,9 @@ export class RollDialog extends DC20Dialog {
 
   _enhancementSslChanges() {
     let limitChange = 0;
-    const enhancements = this.item.enhancements.active;
+    const enhancements = this.itemRoll ? this.item.enhancements.active : this.sheetRollData.enhancements;
     enhancements.values().forEach(enh => {
+      if (!enh.active) return;
       const change = enh.modifications.changeStaminaSpendLimit || 0;
       limitChange += change * enh.number;
     });
@@ -361,19 +358,25 @@ export class RollDialog extends DC20Dialog {
  
   _getDataForSheetRoll() {
     return {
-      rollDetails: this.details,
+      rollDetails: this.sheetRollData,
       ...this.actor,
       DRMChecked: this.DRMChecked
     };
   }
 
-  _prepareEnhancements() {
-    const enhancements = {};
-    for (const [key, enh] of this.item.enhancements.all.entries()) {
-      enhancements[key] = {...enh};
-      enhancements[key].useCost = this.item.use.enhancementCostDisplayData(key);
+  _prepareEnhancements(enhancements, item) {
+    const prepared = {};
+    for (const [key, enh] of enhancements.entries()) {
+      prepared[key] = {...enh};
+      if (item) {
+        prepared[key].useCost = item.use.enhancementCostDisplayData(key);
+      }
+      else {
+        const itm = this.actor.items.get(enh.sourceItemId);
+        if (itm) prepared[key].useCost = itm.use.enhancementCostDisplayData(key);
+      }
     }
-    return enhancements;
+    return prepared;
   }
 
   _prepareCoreFormula() {
@@ -391,8 +394,8 @@ export class RollDialog extends DC20Dialog {
       if (d20Roll.roll) coreFormula.push({value: d20Roll.roll, source: "Base Core Formula"});
     }
     else {
-      const d20Roll = this.details.type === "save" ? DC20Roll.prepareSaveDetails(this.details.checkKey, {rollLevel: rollLevel}) : DC20Roll.prepareCheckDetails(this.details.checkKey, {rollLevel: rollLevel});
-      let custom = this.details.customFormula;
+      const d20Roll = this.sheetRollData.type === "save" ? DC20Roll.prepareSaveDetails(this.sheetRollData.checkKey, {rollLevel: rollLevel}) : DC20Roll.prepareCheckDetails(this.sheetRollData.checkKey, {rollLevel: rollLevel});
+      let custom = this.sheetRollData.customFormula;
       if (custom) {
         if (rollLevel !== 0) {
           const value = Math.abs(rollLevel) + 1;
@@ -414,7 +417,7 @@ export class RollDialog extends DC20Dialog {
   //==========================================
   _getItem(itemId) {
     let item = this.item;
-    if (itemId !== this.item._id) item = this.actor.items.get(itemId);
+    if (itemId !== this.item?._id) item = this.actor.items.get(itemId);
     return item;
   }
 
@@ -447,7 +450,7 @@ export class RollDialog extends DC20Dialog {
 
     const roll = this.itemRoll 
                   ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects})
-                  : await DC20Roll.rollFormula(coreFormula, this.details, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
+                  : await DC20Roll.rollFormula(coreFormula, this.sheetRollData, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
     this.promiseResolve(roll);
     this.close();
   }
@@ -466,7 +469,7 @@ export class RollDialog extends DC20Dialog {
     this.DRMChecked = true;
     let [finalValue, result, afterRoll] = [{}, {}, []];
     if (this.itemRoll) [finalValue, result, afterRoll] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
-    else [finalValue, result, afterRoll] = await runSheetDRMCheck(this.details, this.actor, this.initialRollMenuValue);
+    else [finalValue, result, afterRoll] = await runSheetDRMCheck(this.sheetRollData, this.actor, this.initialRollMenuValue);
     
     await this._updateRollMenu(finalValue);
     this.afterRollEffects = afterRoll;
@@ -590,6 +593,7 @@ export class RollDialog extends DC20Dialog {
       this.render();
     }
 
+    if (this.sheetRollData) this.sheetRollData.refreshEnhancemetns();
     if (this.autoDRMCheck && runDrmCheck) this._DRMCheck(false);
   }
 

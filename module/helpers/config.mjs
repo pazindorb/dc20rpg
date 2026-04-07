@@ -195,6 +195,24 @@ export function initDC20Config() {
     ...CONFIG.DC20RPG.ROLL_KEYS.checks,
     ...CONFIG.DC20RPG.ROLL_KEYS.tradeChecks
   }
+
+  const rollKey = { 
+    "att#attackCheck": "Attack Check",
+    "mar#martialCheck": "Martial Check",
+    "spe#spellCheck": "Spell Check",
+    "all#save": "All Saves",
+    "all#attributeCheck": "All Attribute Checks",
+    "all#skillCheck": "All Skill Checks",
+
+  };
+  for (const [key, label] of Object.entries(CONFIG.DC20RPG.ROLL_KEYS.saveTypes)) rollKey[`${key}#save`] = label;
+  for (const [key, label] of Object.entries(CONFIG.DC20RPG.ROLL_KEYS.attributeChecks)) rollKey[`${key}#attributeCheck`] = label;
+  for (const [key, label] of Object.entries(CONFIG.DC20RPG.ROLL_KEYS.skillChecks)) rollKey[`${key}#skillCheck`] = label;
+  for (const [key, label] of Object.entries(CONFIG.DC20RPG.ROLL_KEYS.tradeChecks)) rollKey[`${key}#skillCheck`] = label;
+  rollKey["language#attributeCheck"] = "Language Check";
+  rollKey["initiative#initiative"] = "Initiative";
+  rollKey["deathSave#deathSave"] = "Death Save";
+  CONFIG.DC20RPG.ROLL_KEYS.rollKeys = rollKey;
 }
 
 export const DC20RPG = {

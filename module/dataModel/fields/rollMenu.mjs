@@ -17,13 +17,13 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
       }),
       help:new f.ArrayField(new f.StringField(), {required: true}),
       ignoreMCP: new f.BooleanField({required: true, initial: false}),
+      free: new f.BooleanField({required: true, initial: false}),
       ...fields
     };
     if (!item) return super(fields, options);
 
     // Item fields
     fields = {
-      free: new f.BooleanField({required: true, initial: false}),
       rangeType: new f.StringField({required: true, initial: ""}),
       versatile: new f.BooleanField({required: true, initial: false}),
       flanks: new f.BooleanField({required: true, initial: false}),

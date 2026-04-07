@@ -135,7 +135,7 @@ export class DC20Roll {
     // 1. Subtract Cost
     const costsSubracted = rollMenu.free ? true : await item.use.respectUseCost();
     if (!costsSubracted) {
-      resetEnhancements(item, actor);
+      resetEnhancements(item, actor, false);
       rollMenu.clear();
       return;
     }
@@ -215,35 +215,21 @@ export class DC20Roll {
     return rolls.core;
   } 
 
-  static async rollFormula(coreFormula, details, actor, options={}) {
+  static async rollFormula(coreFormula, sheetRollData, actor, options={}) {
     const rollMenu = actor.system.rollMenu;
-    coreFormula.label = details.label;
-
-    // 0. Prepare cost
-    if (!details.costs) details.costs = {};
-    if (rollMenu.apCost) {
-      if (details.costs.ap != null) details.costs.ap += rollMenu.apCost;
-      else details.costs.ap = rollMenu.apCost;
-    }
-    if (rollMenu.gritCost) {
-      if (details.costs.grit != null) details.costs.grit += rollMenu.gritCost;
-      else details.costs.grit = rollMenu.gritCost;
-    }
+    coreFormula.label = sheetRollData.label;
 
     // 1. Subtract Cost
-    if (details.costs) {
-      for (const [key, value] of Object.entries(details.costs)) {
-        if (!actor.resources[key].canSpend(value)) return;
-      }
-      // Do spend resources
-      for (const [key, value] of Object.entries(details.costs)) {
-        actor.resources[key].spend(value);
-      }
+    const costsSubracted = rollMenu.free ? true : await sheetRollData.respectUseCost();
+    if (!costsSubracted) {
+      sheetRollData.clearEnhancements();
+      rollMenu.clear();
+      return;
     }
 
     // 2. Pre Item Roll Events
-    if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(details.type)) await runEventsFor("rollCheck", actor);
-    if (["save"].includes(details.type)) await runEventsFor("rollSave", actor);
+    if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(sheetRollData.type)) await runEventsFor("rollCheck", actor);
+    if (["save"].includes(sheetRollData.type)) await runEventsFor("rollSave", actor);
 
     // 3. Evaluate Roll
     const evalData = {rollMenu: rollMenu, afterRollEffects: options.afterRollEffects || []};
@@ -252,13 +238,13 @@ export class DC20Roll {
 
     // 4. Send chat message
     if (!options.skipChatMessage) {
-      const label = details.label || `${actor.name} : Roll Result`;
-      const rollTitle = details.rollTitle || label;
+      const label = sheetRollData.label || `${actor.name} : Roll Result`;
+      const rollTitle = sheetRollData.rollTitle || label;
       const messageDetails = {
         label: label,
         image: actor.img,
-        description: details.description,
-        against: details.against,
+        description: sheetRollData.description,
+        against: sheetRollData.against,
         name: rollTitle,
         rollLevel: rollMenu.rollLevel,
       };
@@ -266,7 +252,7 @@ export class DC20Roll {
     }
 
     // 5. Cleanup - TODO - rework this as well
-    finishSheetRoll(roll, actor, rollMenu, details, evalData.afterRollEffects)
+    finishSheetRoll(roll, actor, rollMenu, sheetRollData, evalData.afterRollEffects)
 
     return roll;
   }

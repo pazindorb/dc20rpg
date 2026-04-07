@@ -32,6 +32,9 @@
         <a class="activable margin-right-3 {{#if enhancement.hide}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" data-path="system.enhancements.{{enhancementKey}}.hide" title="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
         <a class="edit-description editable" title="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-path="system.enhancements.{{enhancementKey}}.description"><i class="fa-solid fa-pen-to-square"></i></a>
         <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
+        {{!-- TODO: sheet rework - add repetable toggle --}}
+        {{!-- TODO: sheet rework - defaultState value - zmiana defaulta powinna automatycznie aktualizować też wartość pola number  --}}
+        {{!-- TODO: sheet rework - dodać buttona: Add enhancement description to item description - rozumie sie samo przez sie --}}
       </div>
     </div>
     <div class="content-wrapper">
@@ -409,6 +412,7 @@
         </div>
       </div>
 
+      {{!-- Enhancement macro --}}
       <hr class="margin-top-5" />
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.enh.macro"}}</span>
@@ -416,6 +420,23 @@
           <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg {{#unless enhancement.modifications.macros.preItemRoll}}empty{{/unless}}" data-macro-key="preItemRoll" data-key="{{enhancementKey}}" title="{{localize "dc20rpg.item.sheet.enh.preItemRoll"}}"></a>
           <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg margin-left-5 {{#unless enhancement.modifications.macros.postItemRoll}}empty{{/unless}}" data-macro-key="postItemRoll" data-key="{{enhancementKey}}" title="{{localize "dc20rpg.item.sheet.enh.postItemRoll"}}"></a>
         </div>
+      </div>
+
+      {{!-- Copy to specific sheet roll --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.copyToSheetRoll"}}</span>
+        <select class="multi-select" data-path="system.enhancements.{{enhancementKey}}.copyToSheetRoll">
+          {{selectOptions @root.config.ROLL_KEYS.rollKeys blank=""}}
+        </select>
+      </div>
+      <div class="selected-options margin-top-2">
+        {{#each enhancement.copyToSheetRoll as |option key|}}
+        <div class="option">
+          <span>{{labelFromKey option @root.config.ROLL_KEYS.rollKeys}}</span>
+          <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.enhancements.{{enhancementKey}}.copyToSheetRoll" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+        </div>
+        {{/each}}
       </div>
     </div>
   </div>

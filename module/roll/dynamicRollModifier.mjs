@@ -61,7 +61,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
   }
 
   // Modifications from Enhancements
-  const enhModResult = _enhancementModifications(actor, item);
+  const enhModResult = _enhancementModifications(actor, item.enhancements.active);
   // Modifications from spending AP and Grit
   const apGritResult = _apGritModifications(actor, rollMenu);
   // Multiple Check Penalty
@@ -101,11 +101,13 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0})
     results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];   
   }
 
+  // Modifications from Enhancements
+  const enhModResult = _enhancementModifications(actor, details.enhancements);
   // Modifications from spending AP and Grit
   const apGritResult = _apGritModifications(actor, rollMenu);
   // Multiple Check Penalty
   const mcpResult = rollMenu.ignoreMCP ? [] : _multipleCheckPenalty(actor, checkKey);
-  results = [...results, ...apGritResult, ...mcpResult];
+  results = [...results, ...apGritResult, ...enhModResult, ...mcpResult];
 
   // Final result
   return _finalResult(results, initial, details.statuses, afterRoll);
@@ -331,9 +333,10 @@ function _multipleCheckPenalty(actor, checkKey) {
 //========================================
 //        ADDITIONAL MODIFICATIONS       =
 //========================================
-function _enhancementModifications(actor, item) {
+function _enhancementModifications(actor, enhancements) {
   const result = [];
-  item.enhancements.active.values().forEach(enh => {
+  enhancements.values().forEach(enh => {
+    if (!enh.active) return;
     const mod = enh.modifications;
     
     // Roll Level
