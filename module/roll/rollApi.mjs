@@ -156,8 +156,7 @@ export class DC20Roll {
     const rollData = await item.getRollData();
     const evalData = {
       rollMenu: rollMenu,
-      rollConfig: item.system.rollConfig,
-      afterRollEffects: options.afterRollEffects || []
+      rollConfig: item.system.rollConfig
     }
 
     // 4. Pre Item Roll Events and macros
@@ -201,7 +200,7 @@ export class DC20Roll {
     }
 
     // 8. Cleanup - TODO - rework this as well
-    finishRoll(actor, item, rollMenu, rolls.core, evalData.afterRollEffects);
+    finishRoll(actor, item, rollMenu, rolls.core);
     if (item.removeInfusionAfter) {
       item.infusions.active[item.removeInfusionAfter].remove();
       item.reset();
@@ -232,7 +231,7 @@ export class DC20Roll {
     if (["save"].includes(sheetRollData.type)) await runEventsFor("rollSave", actor);
 
     // 3. Evaluate Roll
-    const evalData = {rollMenu: rollMenu, afterRollEffects: options.afterRollEffects || []};
+    const evalData = {rollMenu: rollMenu};
     const roll = await helper.evaluateCoreRoll(coreFormula, actor.getRollData(), evalData);
     roll.source = coreFormula.source;
 
@@ -252,7 +251,7 @@ export class DC20Roll {
     }
 
     // 5. Cleanup - TODO - rework this as well
-    finishSheetRoll(roll, actor, rollMenu, sheetRollData, evalData.afterRollEffects)
+    finishSheetRoll(roll, actor, rollMenu, sheetRollData)
 
     return roll;
   }

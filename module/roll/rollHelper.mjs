@@ -241,24 +241,23 @@ async function _modifiedRollFormula(formula, key, item, evalData) {
   })
 
   // Global Formula Modifiers
-  let [globalMod, afterRoll] = [{value: "", source: ""}, []];
+  let globalMod = {value: "", source: ""};
   if (formula.category === "damage") {
-    [globalMod, afterRoll] = await extractGFModValue("damage.any", item.actor);
+    globalMod = await extractGFModValue("damage.any", item.actor);
 
     if (item.system.actionType === "attack") {
       const rangeType = evalData.rollMenu.rangeType || item.system.attack.rangeType;
       const checkType = item.system.attack.checkType;
-      const [specificGlobalMod, specificAfterRoll] = await extractGFModValue(`damage.${checkType}.${rangeType}`, item.actor);
+      const specificGlobalMod = await extractGFModValue(`damage.${checkType}.${rangeType}`, item.actor);
       if (specificGlobalMod.value) {
         globalMod.value += globalMod.value ? ` + ${specificGlobalMod.value}` : specificGlobalMod.value;
         globalMod.source += globalMod.source ? ` + ${specificGlobalMod.source}` : specificGlobalMod.source;
-        afterRoll = [...afterRoll, ...specificAfterRoll];
       }
     }
   }
 
   if (formula.category === "healing") {
-    [globalMod, afterRoll] = await extractGFModValue("healing", item.actor);
+    globalMod = await extractGFModValue("healing", item.actor);
   }
   if (globalMod.value) {
     rollFormula += ` + (${globalMod.value})`;
@@ -267,8 +266,6 @@ async function _modifiedRollFormula(formula, key, item, evalData) {
   }
   if (failFormula !== null) formula.failFormula = failFormula;
 
-  // Add effects to modify after roll
-  afterRoll.forEach(element => evalData.afterRollEffects.push(element));
   return {
     rollFormula: rollFormula,
     modifierSources: modifierSources

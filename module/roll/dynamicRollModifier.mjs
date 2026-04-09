@@ -5,7 +5,6 @@ import { getLabelFromKey, getValueFromPath } from "../helpers/utils.mjs";
 import { DC20Roll } from "./rollApi.mjs";
 
 export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
-  const afterRoll = [];
   let results = [];
   const rollConfig = item.system.rollConfig;
   const rollMenu = item.system.rollMenu;
@@ -18,7 +17,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
 
     // DRM on you
     const attackPath = "system.dynamicRollModifier.onYou.attack";
-    const attackResult = await _getDRMValueForPath(attackPath, actor, validationData, afterRoll);
+    const attackResult = await _getDRMValueForPath(attackPath, actor, validationData);
 
     // Versatile
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
@@ -32,7 +31,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     const attackTargetPath = "system.dynamicRollModifier.againstYou.attack";
     for (const token of game.user.targets) {
       if (!token.actor) continue;
-      const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, validationData, afterRoll, true);
+      const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, validationData, true);
       const targetPositionResult = attacker ? _targetPositionCheck(token, attacker, rangeType, item) : [];
       const targetRangeResult = attacker ? _targetRangeCheck(token, attacker, rangeType, item) : [];
       results = [...results, ...targetAttackResult, ...targetPositionResult, ...targetRangeResult];      
@@ -45,16 +44,16 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
     
     // DRM on you
     const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
-    const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor}, afterRoll);
-    const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll) : [];
+    const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
+    const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}) : [];
     results = [...results, ...checkResult, ...specificSkillResult];
 
     // Target Checks
     for (const token of game.user.targets) {
       if (!token.actor) continue;
       const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
-      const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
-      const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll, true) : [];
+      const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
+      const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, true) : [];
       const targetSizeResult = rollConfig.respectSizeRules ? _sizeCheck(token, attacker) : [];
       results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];  
     }
@@ -72,20 +71,19 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
   await runTemporaryItemMacro(item, "onDRMCheck", actor, {results: results});
 
   // Final result
-  return _finalResult(results, initial, [], afterRoll);
+  return _finalResult(results, initial, []);
 }
 
 export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0}) {
   let results = [];
-  const afterRoll = [];
   const rollMenu = actor.system.rollMenu;
   const attacker = actor.getActiveTokens()[0];
   const checkKey = details.checkKey;
 
   // DRM on you
   const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
-  const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor}, afterRoll);
-  const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll) : [];
+  const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
+  const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}) : [];
   results = [...results, ...checkResult, ...specificSkillResult];
 
   // Against Status Check
@@ -95,8 +93,8 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0})
   // Target Checks
   for (const token of game.user.targets) {
     const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
-    const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
-    const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll, true) : [];
+    const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
+    const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, true) : [];
     const targetSizeResult = details.respectSizeRules ? _sizeCheck(token, attacker) : [];
     results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];   
   }
@@ -110,13 +108,13 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0})
   results = [...results, ...apGritResult, ...enhModResult, ...mcpResult];
 
   // Final result
-  return _finalResult(results, initial, details.statuses, afterRoll);
+  return _finalResult(results, initial, details.statuses);
 }
 
 //========================================
 //               DRM CHECK               =
 //========================================
-async function _getDRMValueForPath(path, actor, validationData, afterRoll, target=false) {
+async function _getDRMValueForPath(path, actor, validationData, target=false) {
   const value = getValueFromPath(actor, path);
   if (!value) return [];
 
@@ -131,9 +129,8 @@ async function _getDRMValueForPath(path, actor, validationData, afterRoll, targe
         parsed.push(modification);
 
         if (modification.afterRoll) {
-          afterRoll.push({
-            actorId: actor._id, 
-            tokenId: actor.token?.id,
+          game.dc20rpg.postRollEffectAction.set(`${actor.targetHash}#${modification.effectId}`, {
+            targetHash: actor.targetHash,
             effectId: modification.effectId, 
             afterRoll: modification.afterRoll
           });
@@ -503,7 +500,7 @@ function _checkType(item) {
 //========================================
 //             FINAL RESULT              =
 //========================================
-function _finalResult(results, initial, statusIds=[], afterRoll) {
+function _finalResult(results, initial, statusIds=[]) {
   const roller = [];
 
   const statuses = new Map();
@@ -590,7 +587,7 @@ function _finalResult(results, initial, statusIds=[], afterRoll) {
     statuses: statuses,
     targets: targets
   }
-  return [finalResult, allDRMs, afterRoll];
+  return [finalResult, allDRMs];
 }
 
 function _commonValue(values, labelPartial) {

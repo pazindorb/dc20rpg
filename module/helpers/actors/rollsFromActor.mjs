@@ -1,21 +1,21 @@
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
-import { handleAfterRollEffectModification } from "../effects.mjs";
 import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
+import { runPostRollEffectActions } from "../effects.mjs";
 
 //=======================================
 //              FINISH ROLL             =
 //=======================================
-export function finishSheetRoll(roll, actor, rollMenu, sheetRollData, afterRollEffects) {
+export function finishSheetRoll(roll, actor, rollMenu, sheetRollData) {
   _runCritAndCritFailEvents(roll, actor, rollMenu)
   if (!sheetRollData.initiative) _respectNat1Rules(roll, actor, sheetRollData.type, null, rollMenu);
   rollMenu.clear();
   sheetRollData.clearEnhancements();
-  _deleteEffectsMarkedForRemoval(afterRollEffects);
+  runPostRollEffectActions();
   reenablePreTriggerEvents();
 }
 
-export function finishRoll(actor, item, rollMenu, coreRoll, afterRollEffects) {
+export function finishRoll(actor, item, rollMenu, coreRoll) {
   const checkKey = item.checkKey;
   if (checkKey) {
     if (actor.inCombat && !rollMenu.ignoreMCP) actor.mcp.apply(checkKey);
@@ -26,7 +26,7 @@ export function finishRoll(actor, item, rollMenu, coreRoll, afterRollEffects) {
   rollMenu.clear();
   resetEnhancements(item, actor, true);
   _toggleItem(item);
-  _deleteEffectsMarkedForRemoval(afterRollEffects);
+  runPostRollEffectActions();
   reenablePreTriggerEvents();
   delete item.overridenDamage;
 }
@@ -80,8 +80,3 @@ function _toggleItem(item) {
     item.toggle({forceOn: true});
   }
 }
-
-function _deleteEffectsMarkedForRemoval(afterRollEffects) {
-  if (!afterRollEffects) return;
-  afterRollEffects.forEach(afterRoll => handleAfterRollEffectModification(afterRoll));
-} 

@@ -290,7 +290,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
 
     if (onTimeEnd === "disable") await this.disable();
     if (onTimeEnd === "delete") {
-      DC20ChatMessage.effectRemovalMessage(this, this.parent);
+      DC20ChatMessage.effectRemovalMessage(this.getOwningActor(), this);
       await this.gmDelete({ignoreResponse: true});
     }
     if (onTimeEnd === "runMacro") {

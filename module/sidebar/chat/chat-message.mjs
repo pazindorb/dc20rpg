@@ -45,7 +45,7 @@ export class DC20ChatMessage extends ChatMessage {
     return await this.#createChatMessage("event", systemData, actor, options);
   }
 
-  static async effectRemovalMessage(effect, actor, options={}) {
+  static async effectRemovalMessage(actor, effect, options={}) {
     const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
     if (showEventChatMessage === "none") return;
 

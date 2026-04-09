@@ -3,7 +3,6 @@ export function preInitializeFlags(actor) {
 
 	const flags = {
 		advancementCounter: 0,
-		afterRollEffects: [],
 		actionHeld: {
 			isHeld: false,
 			itemId: null,

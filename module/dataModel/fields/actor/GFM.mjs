@@ -31,11 +31,10 @@ export default class GFModFields extends foundry.data.fields.SchemaField {
 }
 
 export async function extractGFModValue(key, actor) {
-  if (!actor || !key) return [{value: "", source: ""}, []];
+  if (!actor || !key) return {value: "", source: ""};
 
   const globalModJson = getValueFromPath(actor.system.globalFormulaModifiers, key) || [];
   const globalMod = {value: "", source: ""};
-  const afterRoll = [];
 
   for (let json of globalModJson) {
     if (!json) continue;
@@ -49,10 +48,8 @@ export async function extractGFModValue(key, actor) {
       }
 
       if (mod.afterRoll) {
-        const tokens = actor.getActiveTokens();
-        afterRoll.push({
-          actorId: actor._id, 
-          tokenId: tokens[0].id,
+        game.dc20rpg.postRollEffectAction.set(`${actor.targetHash}#${mod.effectId}`, {
+          targetHash: actor.targetHash,
           effectId: mod.effectId, 
           afterRoll: mod.afterRoll
         });
@@ -66,5 +63,5 @@ export async function extractGFModValue(key, actor) {
     }
   }
 
-  return [globalMod, afterRoll];
+  return globalMod;
 }

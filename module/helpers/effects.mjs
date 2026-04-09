@@ -1,6 +1,6 @@
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
-import { getActorFromIds } from "./actors/tokens.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffects(owner, context) {
@@ -176,21 +176,23 @@ export async function createOrDeleteEffect(effectData, owner) {
   }
 }
 
-export async function handleAfterRollEffectModification(toRemove) {
-  const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
-  if (actor) {
+export async function runPostRollEffectActions() {
+  for (const toRemove of game.dc20rpg.postRollEffectAction.values()) {
+    const actor = DC20Target.getActorFromTargetHash(toRemove.targetHash);
+    if (!actor) continue;
     const effect = actor.getEffectById(toRemove.effectId);
+    if (!effect) continue;
+
     const afterRoll = toRemove.afterRoll;
-    if (effect) {
-      if (afterRoll === "delete") {
-        DC20ChatMessage.effectRemovalMessage(actor, effect);
-        await effect.gmDelete();
-      }
-      if (afterRoll === "disable") {
-        await effect.disable();
-      }
+    if (afterRoll === "delete") {
+      DC20ChatMessage.effectRemovalMessage(actor, effect);
+      await effect.gmDelete();
+    }
+    if (afterRoll === "disable") {
+      await effect.disable();
     }
   }
+  game.dc20rpg.postRollEffectAction = new Map(); // Reset
 }
 
 export async function addFlatDamageReductionEffect(actor) {

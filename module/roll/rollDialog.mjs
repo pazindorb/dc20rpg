@@ -110,8 +110,8 @@ export class RollDialog extends DC20Dialog {
   //==========================================
   constructor(actor, data={}, options={}) {
     super(options);
-    // We want to clear afterRollEffects when we open new roll prompt
-    this.afterRollEffects = [];
+    // We want to clear postRollEffectAction when we open new roll prompt
+    game.dc20rpg.postRollEffectAction = new Map();
 
     this.actor = actor;
     if (data.documentName === "Item") {
@@ -449,8 +449,8 @@ export class RollDialog extends DC20Dialog {
     }
 
     const roll = this.itemRoll 
-                  ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects})
-                  : await DC20Roll.rollFormula(coreFormula, this.sheetRollData, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
+                  ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode})
+                  : await DC20Roll.rollFormula(coreFormula, this.sheetRollData, this.actor, {rollMode: this.rollMode});
     this.promiseResolve(roll);
     this.close();
   }
@@ -467,12 +467,11 @@ export class RollDialog extends DC20Dialog {
 
   async _DRMCheck(display, quickRoll) {
     this.DRMChecked = true;
-    let [finalValue, result, afterRoll] = [{}, {}, []];
-    if (this.itemRoll) [finalValue, result, afterRoll] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
-    else [finalValue, result, afterRoll] = await runSheetDRMCheck(this.sheetRollData, this.actor, this.initialRollMenuValue);
+    let [finalValue, result] = [{}, {}];
+    if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
+    else [finalValue, result] = await runSheetDRMCheck(this.sheetRollData, this.actor, this.initialRollMenuValue);
     
     await this._updateRollMenu(finalValue);
-    this.afterRollEffects = afterRoll;
     if (quickRoll) {
       this._prepareCoreFormula();
       return this._onRoll();

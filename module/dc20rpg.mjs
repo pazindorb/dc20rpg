@@ -56,6 +56,7 @@ Hooks.once('init', async function() {
     hideItems: new Set(),
     hideActors: new Set()
   }; 
+  game.dc20rpg.postRollEffectAction = new Map();
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;
