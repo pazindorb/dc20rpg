@@ -13,6 +13,7 @@
     {{#if isItemEffect}}
     {{formGroup fields.transfer value=source.transfer rootId=rootId label=legacyTransfer.label hint=legacyTransfer.hint}}
     {{/if}}
+    {{formGroup fields.system.fields.refreshTarget value=source.system.refreshTarget rootId=rootId label=(localize "dc20rpg.effect.sheet.refreshTarget") hint=(localize "dc20rpg.effect.sheet.refreshTargetTitle")}}
     {{formGroup fields.system.fields.nonessential value=source.system.nonessential rootId=rootId label=(localize "dc20rpg.effect.sheet.nonessential") hint=(localize "dc20rpg.effect.sheet.nonessentialTitle")}}
     <div class="form-group">
       <label for="{{rootId}}-system.disableWhen">{{localize "dc20rpg.effect.sheet.disableWhen"}}</label>

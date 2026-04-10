@@ -38,6 +38,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         addToChat: new fields.BooleanField({required: true, initial: false}),
         applyToTemplate: new fields.BooleanField({required: true, initial: true}),
         nonessential: new fields.BooleanField({required: true, initial: false}),
+        refreshTarget: new fields.BooleanField({required: true, initial: false}),
         disableWhen: new fields.SchemaField({
           path: new fields.StringField({required: true}),
           mode: new fields.StringField({required: true}),
@@ -269,6 +270,9 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       this.update(this.constructor.getInitialDuration());
       runInstantEvents(this, this.parent);
       this._shouldAddToSustainList(data.system.sustained);
+    }
+    if (data.system.refreshTarget) {
+      DC20ChatMessage.refreshTarget(this.getOwningActor().targetHash);
     }
   }
 

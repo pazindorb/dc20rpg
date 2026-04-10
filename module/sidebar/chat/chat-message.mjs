@@ -1061,6 +1061,17 @@ export class DC20ChatMessage extends ChatMessage {
     const success = await this.modifyCoreRoll(helpDice.formula, messageTitle);
     if (success) await helpDiceOwner.help.clear(helpDice.key);
   }
+
+  //==============================
+  //=       HELPER METHODS       =
+  //==============================
+  static refreshTarget(targetHash, numberOfMessagesToCheck=10) {
+    const messages = game.messages.contents.filter(msg => msg.system.actionType).slice(numberOfMessagesToCheck*-1).reverse();
+    for (const message of messages) {
+      const target = message.targets?.[targetHash];
+      if (target) ui.chat.updateMessage(message);
+    }
+  }
 }
 
 /** @deprecated since v0.10.0 until 0.10.5 */

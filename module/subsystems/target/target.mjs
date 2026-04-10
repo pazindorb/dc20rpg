@@ -723,9 +723,10 @@ export class DC20Target {
     if (this.hit == null) return null;
 
     const calcData = this.calcData || {};
-    const critMiss = calcData.isCritFail;
-    const miss = this.hit < 0;
     const crit = calcData.isCritSuccess && !calcData.skipFor?.crit;
+    const critMiss = calcData.isCritFail;
+
+    const miss = this.hit < 0 && !crit;
     const heavy = this.hit >= 5 && !calcData.skipFor?.heavy;
     const brutal = this.hit >= 10 && !calcData.skipFor?.brutal;
     const brutalP = this.hit >= 15 && !calcData.skipFor?.brutal;
