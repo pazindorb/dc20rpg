@@ -1172,6 +1172,19 @@
           border-left: 0;
         }
 
+        &.alt-cost {
+          display: grid;
+          grid-template-columns: 20px 80px;
+
+          a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid var(--border-color-2);
+            text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+          }
+        }
+
         .cost-printer {
           color: var(--text-color-2);
 
@@ -1195,6 +1208,20 @@
             margin-top: -5px;
           }
         }
+
+        // .alt-cost {
+        //   width: 0;
+        //   height: 22px;
+        //   left: -37px;
+        //   position: relative;
+
+        //   span {
+        //     position: absolute;
+        //     text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+        //     border-right: 1px solid var(--border-color-2);
+        //     padding-right: 4px;
+        //   }
+        // }
       }
   
       .enh-number {

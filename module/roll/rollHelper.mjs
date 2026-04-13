@@ -1,6 +1,6 @@
 import { extractGFModValue } from "../dataModel/fields/actor/GFM.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
-import { chargeDisplayData, getResourceDisplayData } from "../helpers/resources.mjs";
+import { chargeDisplayData, extractResourceCost, getResourceDisplayData } from "../helpers/resources.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { generateKey, getLabelFromKey } from "../helpers/utils.mjs";
 
@@ -448,7 +448,7 @@ function _addEnhancementCost(item, actor, enhKey, costs) {
 
   // Add to Resources
   for (let [key, value] of Object.entries(enhancement.resources)) {
-    _addToResources(costs, key, value, actor, enhancement.number);
+    _addToResources(costs, key, value, actor, enhancement);
   }
   // Add to Charges
   if (enhancement.charges?.subtract && enhancement.charges.fromOriginal) {
@@ -459,22 +459,19 @@ function _addEnhancementCost(item, actor, enhKey, costs) {
   }
 }
 
-function _addToResources(cost, key, value, actor, multiplier=1) {
+function _addToResources(cost, key, value, actor, enhancement) {
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
-      _addToResources(cost, customKey, customRes.value, actor, multiplier);
+      _addToResources(cost, customKey, customRes.value, actor, enhancement);
     }
     return;
   }
 
   // Skip if actor doesn't have that resource at all
   if (actor && !actor.resources.hasResource(key)) return;
+  value = extractResourceCost(value, enhancement.number, enhancement.altCost);
   if (value == null) return;
   
-  if (cost.resources[key]) {
-    cost.resources[key] += (value * multiplier);
-  }
-  else {
-    cost.resources[key] = (value * multiplier);
-  }
+  if (cost.resources[key]) cost.resources[key] += value;
+  else cost.resources[key] = value;
 }

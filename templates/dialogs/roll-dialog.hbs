@@ -137,9 +137,18 @@
         <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
           {{{enhancement-mods enhancement}}}
         </div>
+        {{#ifCond enhancement.altCostMax '>' 0}}
+        <div class="column usage costs alt-cost" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+          <a data-cType="toggle" data-max="{{enhancement.altCostMax}}" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.altCost" data-tooltip="{{localize 'dc20rpg.sheet.rollDialog.altCost'}}">
+            {{enhancement.altCost}}
+          </a>
+          {{{cost-printer enhancement.useCost true true false false}}}
+        </div>
+        {{else}}
         <div class="column usage costs" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
           {{{cost-printer enhancement.useCost true true false false}}}
         </div>
+        {{/ifCond}}
         <div class="column enh-number">
           {{#ifCond @root.rollsHeldAction '||' enhancement.preventModification}}
             {{#if enhancement.repeatable}}
@@ -153,7 +162,7 @@
               {{enhancement.number}}
             </a>
             {{else}}
-            <a data-cType="toggle" data-max="1" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhUnique'}}">
+            <a data-cType="toggle" data-max="1" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}">
               <i class="{{#ifCond enhancement.number '===' 0}}fa-regular fa-square{{else}}fa-solid fa-square-check{{/ifCond}}"></i>
             </a>
             {{/if}}

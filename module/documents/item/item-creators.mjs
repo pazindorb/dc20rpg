@@ -17,6 +17,8 @@ export class Enhancement {
     grit: null,
     restPoints: null,
   };
+  altCostMax = 0;
+  altCost = 0;
   charges = {
     subtract: null,
     fromOriginal: false

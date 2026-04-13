@@ -1,7 +1,7 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
-import { chargeDisplayData, getResourceDisplayData } from "../../helpers/resources.mjs";
+import { chargeDisplayData, extractResourceCost, getResourceDisplayData } from "../../helpers/resources.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey, getValueFromPath, toggleCheck } from "../../helpers/utils.mjs";
 import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
@@ -193,7 +193,7 @@ function _collectUseCost(item, clean=false) {
   for (const enhancement of item.activeEnhancements.values()) {
     // Collect resources
     for (let [key, value] of Object.entries(enhancement.resources)) {
-      _addToResources(cost, key, value, actor, enhancement.number);
+      _addToResources(cost, key, value, actor, enhancement.number, enhancement.altCost);
     }
     // Collect charges
     if (enhancement.charges?.subtract) {
@@ -221,24 +221,21 @@ function _collectUseCost(item, clean=false) {
   return cost;
 }
 
-function _addToResources(cost, key, value, actor, multiplier=1) {
+function _addToResources(cost, key, value, actor, multiplier=1, altCost=0) {
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
-      _addToResources(cost, customKey, customRes.value, actor, multiplier);
+      _addToResources(cost, customKey, customRes.value, actor, multiplier, altCost);
     }
     return;
   }
 
   // Skip if actor doesn't have that resource at all
   if (actor && !actor.resources.hasResource(key)) return;
+  value = extractResourceCost(value, multiplier, altCost);
   if (value == null) return;
   
-  if (cost.resources[key]) {
-    cost.resources[key] += (value * multiplier);
-  }
-  else {
-    cost.resources[key] = (value * multiplier);
-  }
+  if (cost.resources[key]) cost.resources[key] += value;
+  else cost.resources[key] = value;
 }
 
 function _collectCharges(cost, itemId, value) {
@@ -452,7 +449,7 @@ function _collectEnhancementCost(item, enhKey) {
   }
 
   for (let [key, value] of Object.entries(enhancement.resources)) {
-    _addToResources(cost, key, value, actor);
+    _addToResources(cost, key, value, actor, 1, enhancement.altCost);
   }
   if (enhancement.charges?.subtract) {
     if (enhancement.charges.fromOriginal) {
@@ -693,10 +690,13 @@ function _enrichEnhancementObject(item) {
     enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, item);
     enhancement.clear = async () => {
       const defaultState = enhancement.defaultState || 0;
-      await item.update({[`system.enhancements.${key}.number`]: defaultState})
+      await item.update({
+        [`system.enhancements.${key}.number`]: defaultState,
+        [`system.enhancements.${key}.altCost`]: 0
+      })
     };
     enhancement.delete = async () => await item.update({[`system.enhancements.-=${key}`]: null});
-    
+
     enhancements.maintained.set(key, enhancement);
   }
 

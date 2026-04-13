@@ -582,6 +582,10 @@ export class RollDialog extends DC20Dialog {
   async _onToggleEnhancement(path, which, max, min, itemId, runDrmCheck) {
     const item = this._getItem(itemId);
     const value = getValueFromPath(item, path);
+    if (max == 1) { // we want this kind of toggle to work similar to activale type
+      if (value === 1) which = 3;
+      if (value === 0) which = 1;
+    }
 
     if (which === 1) {
       await item.update({[path]: Math.min(value + 1, max)});

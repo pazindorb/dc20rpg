@@ -65,3 +65,21 @@ function _icon(key) {
     case "charge-other": return "fa-right-from-bracket cost-icon";
   }
 }
+
+export function extractResourceCost(value, multiplier=1, altCost=0) {
+  if (value == null) return null;
+
+  if (typeof value === "string") {
+    if (value.includes("/")) {
+      const alternatives = value.split("/");
+      if (alternatives[altCost]) value = alternatives[altCost];
+      else value = alternatives[0]
+    }
+
+    if (value.includes("!")) multiplier = 1;
+    value = parseInt(value);
+    if (isNaN(value)) return null;
+  }
+
+  return value * multiplier;
+}
