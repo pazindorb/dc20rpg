@@ -135,21 +135,22 @@ export class RollDialog extends DC20Dialog {
         this.details.rollTitle = label;
       }
     }
+    this.quickRoll = !!options.quickRoll;
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
     this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
     this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
     this.modifyFormula = options.customFormula || false;
-    this._autoDRMCheck(options);
+    this._autoDRMCheck();
   }
 
-  _autoDRMCheck(options) {
+  _autoDRMCheck() {
     if (this.autoDRMCheck) {
-      this._DRMCheck(false, options.quickRoll); // it deals with quick roll as well
+      this._DRMCheck(false); // it deals with quick roll as well
     }
     else {
       this.DRMChecked = false;
-      if (options.quickRoll) this._onRoll();
+      if (this.quickRoll) this._onRoll();
     }
   }
 
@@ -288,6 +289,7 @@ export class RollDialog extends DC20Dialog {
       }
 
       context.expectedCost = this.item.use?.useCostDisplayData();
+      context.canSubtractCost = context.rollMenu.free || this.item.use?.canSubtractCost();
       context.manaSpendLimit = this._getManaSpendLimit(context.expectedCost);
       context.staminaSpendLimit = this._getStaminaSpendLimit(context.expectedCost);
       context.rollLabel = `Roll Item: ${this.item.name}`;
@@ -449,6 +451,9 @@ export class RollDialog extends DC20Dialog {
     const roll = this.itemRoll 
                   ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects})
                   : await DC20Roll.rollFormula(coreFormula, this.details, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
+    
+    const preventClose = !roll && !this.quickRoll;
+    if (preventClose) return this.render();
     this.promiseResolve(roll);
     this.close();
   }
@@ -463,7 +468,7 @@ export class RollDialog extends DC20Dialog {
     this.render();
   }
 
-  async _DRMCheck(display, quickRoll) {
+  async _DRMCheck(display) {
     this.DRMChecked = true;
     let [finalValue, result, afterRoll] = [{}, {}, []];
     if (this.itemRoll) [finalValue, result, afterRoll] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
@@ -471,7 +476,7 @@ export class RollDialog extends DC20Dialog {
     
     await this._updateRollMenu(finalValue);
     this.afterRollEffects = afterRoll;
-    if (quickRoll) {
+    if (this.quickRoll) {
       this._prepareCoreFormula();
       return this._onRoll();
     }
@@ -663,28 +668,4 @@ export class RollDialog extends DC20Dialog {
       emitSystemEvent("RollDialogRerendered", payload);
     }
   }
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptRoll(actor, details, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptRoll' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, details, {quickRoll: quickRoll});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptItemRoll(actor, item, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptItemRoll' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, item, {quickRoll: quickRoll});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptRollToOtherPlayer(actor, details, waitForRoll=true, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptItemRoll' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' with 'options.sendToActorOwners' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, details, {sendToActorOwners: true, quickRoll: quickRoll});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export async function promptItemRollToOtherPlayer(actor, item, waitForRoll=true, quickRoll=false) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.rolls.promptItemRollToOtherPlayer' method is deprecated and will be removed in the later system version. Use 'DC20.dialog.RollDialog.open' with 'options.sendToActorOwners' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  return await RollDialog.open(actor, item, {sendToActorOwners: true, quickRoll: quickRoll});
 }

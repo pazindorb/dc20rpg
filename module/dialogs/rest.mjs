@@ -282,15 +282,3 @@ export class RestDialog extends DC20Dialog {
     });
   }
 }
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export function createRestDialog(actor, preselected) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.createRestDialog' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.RestDialog.open' instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  RestDialog.open(actor, {preselected: preselected});
-}
-
-/** @deprecated since v0.9.8 until 0.10.0 */
-export function openRestDialogForOtherPlayers(actor, preselected) {
-  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.openRestDialogForOtherPlayers' method is deprecated, and will be removed in the later system version. Use 'DC20.dialog.RestDialog.open' with 'options.sendToActorOwners' provided instead.", { since: " 0.9.8", until: "0.10.0", once: true });
-  RestDialog.open(actor, {preselected: preselected, sendToActorOwners: true});
-}

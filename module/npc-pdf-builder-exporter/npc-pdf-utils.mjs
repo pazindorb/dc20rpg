@@ -1,3 +1,5 @@
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
+
 export const cap = (s='') => s.replace(/\b\w+/g, w => w.charAt(0).toUpperCase() + w.slice(1));
 export const rid = () => (foundry?.utils?.randomID ? foundry.utils.randomID() : Math.random().toString(36).slice(2, 10));
 export const get = (o, p, d=undefined) => p.split('.').reduce((a, c) => (a && a[c] !== undefined ? a[c] : undefined), o) ?? d;
@@ -121,7 +123,7 @@ export function filenameFor(actor) {
 export function openDaProgressNotice() {
   const msg = "PDF is building please wait, this may take a bit 😄.";
   try {
-    const popup = game?.dc20rpg?.tools?.getSimplePopup?.("info", { header: msg });
+    const popup = SimplePopup.info(msg, []);
     return {
       close: () => {
         try {

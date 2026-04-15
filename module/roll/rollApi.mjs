@@ -1,6 +1,6 @@
 import { sendDescriptionToChat, sendRollsToChat } from "../chat/chat-message.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
-import { finishRoll, finishSheetRoll, prepareMessageDetails, resetEnhancements } from "../helpers/actors/rollsFromActor.mjs";
+import { finishRoll, finishSheetRoll, prepareMessageDetails } from "../helpers/actors/rollsFromActor.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
 import * as helper from "./rollHelper.mjs"
 
@@ -131,11 +131,7 @@ export class DC20Roll {
 
     // 1. Subtract Cost
     const costsSubracted = rollMenu.free ? true : await item.use.respectUseCost();
-    if (!costsSubracted) {
-      resetEnhancements(item, actor);
-      rollMenu.clear();
-      return;
-    }
+    if (!costsSubracted) return;
 
     // 2. Add changes related to ammo
     if (item.ammo?.active) {

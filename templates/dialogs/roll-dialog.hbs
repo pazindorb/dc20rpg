@@ -264,7 +264,7 @@
 
   {{!-- Cost --}}
   {{#if item}}
-  <fieldset class="expected-cost">
+  <fieldset class="expected-cost {{#unless canSubtractCost}}to-expensive{{/unless}}">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
     {{#ifCond expectedCost.resources.mana '||' expectedCost.resources.stamina}}
     <div class="spend-limit">

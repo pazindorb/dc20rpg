@@ -49,6 +49,7 @@ export function _enrichUseCostObject(item) {
   item.use.respectUseCost = async (useCost=_collectUseCost(item)) => await _respectUseCost(useCost, item);
   item.use.revertUseCost = async () => await _revertUseCost(item);
   item.use.useCostDisplayData = (clean) => _useCostDisplayData(item, clean);
+  item.use.canSubtractCost = (useCost=_collectUseCost(item)) => _canSubtractCost(useCost, item, true);
   item.use.enhancementCostDisplayData = (enhKey) => _enhancementCostDisplayData(item, enhKey); // TODO: Move to enhancement?
 }
 
@@ -264,6 +265,16 @@ function _collectQuantity(cost, item) {
 //==================================
 //      RESPECT ITEM USE COST      =
 //==================================
+function _canSubtractCost(cost, item, skipErrors=false) {
+  const actor = item.actor;
+  if (!actor) return false;
+
+  if (skipErrors) ui.notifications.skipErrors = true;
+  const result = _canSpendResources(cost, actor) && _canSubtractCharges(cost, item, actor) && _canConsumeQuantities(cost, item, actor);
+  if (skipErrors) delete ui.notifications.skipErrors;
+  return result;
+}
+
 async function _respectUseCost(cost, item) {
   const actor = item.actor;
   if (!actor) return false;
@@ -274,10 +285,7 @@ async function _respectUseCost(cost, item) {
   if (skip) return true;
 
   if (item.reloadable && !item.reloadable.isLoaded()) return false;
-  const canUse = _canSpendResources(cost, actor) 
-              && _canSubtractCharges(cost, item, actor) 
-              && _canConsumeQuantities(cost, item, actor)
-  if (!canUse) return false;
+  if (!_canSubtractCost(cost, item)) return false;
 
   item.useCostHistory = cost; // We need it if we want to revert it for some reason
   await _spendResources(cost, actor);

@@ -1,5 +1,5 @@
 import { getActivePlayers } from "../../helpers/users.mjs";
-import { openRestDialogForOtherPlayers, RestDialog } from "../../dialogs/rest.mjs";
+import { RestDialog } from "../../dialogs/rest.mjs";
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
@@ -197,6 +197,6 @@ export function rollRequest(selected, selectedActors) {
 
 export function restRequest(selected, selectedActors) {
   Object.values(selectedActors).forEach(actor => {
-    if (actor.selected) openRestDialogForOtherPlayers(actor.actor, selected);
+    if (actor.selected) RestDialog.open(actor.actor, {preselected: selected, sendToActorOwners: true});
   });
 }

@@ -152,10 +152,9 @@ Hooks.once("ready", async function() {
 
   if(game.user.isGM) await createGmToolsMenu();
 
-  // Override error notification to ignore "Item does not exist" error.
   ui.notifications.error = (message, options) => {
-    if (message.includes("does not exist!")) return;
-    return ui.notifications.info(message, "error", options);
+    if (ui.notifications.skipErrors) return;
+    return ui.notifications.notify(message, "error", options);
   }
 
   // Hide tooltip when releasing button
