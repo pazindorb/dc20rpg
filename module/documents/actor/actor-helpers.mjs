@@ -1,8 +1,9 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { companionShare } from "../../helpers/actors/companion.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
-import { generateKey, getValueFromPath } from "../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, isParsableJson, isPath } from "../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../settings/skillConfig.mjs";
 
 export function enrichWithHelpers(actor) {
@@ -11,6 +12,7 @@ export function enrichWithHelpers(actor) {
   _enrichResourcesObject(actor);
   _enrichAttributesObject(actor);
   _enrichSkillsObject(actor);
+  _enrichKeywordObject(actor);
   if (actor.system.equipmentSlots) {
     _enrichEquipmentSlots(actor);
   }
@@ -600,6 +602,77 @@ function _mcpValue(checkKey, actor) {
 
   const mcp = actor.system.mcp;
   return mcp.filter(penalty => penalty === checkKey).length;
+}
+
+//==================================//==================================
+//                            KEYWORD SYSTEM                           =
+//==================================//==================================
+function _enrichKeywordObject(actor) {
+  actor.keywords = {
+    add: async (data, item) => await _createKeyword(data, item, actor),
+    has: (keyword) => actor.keywords.entries.has(keyword),
+    get: (keyword) => actor.keywords.entries.get(keyword),
+    entries: new Map()
+  }
+
+  for (const original of Object.values(actor.system.keywords)) {
+    const keyword = foundry.utils.deepClone(original);
+    const key = keyword.key;
+    keyword.delete = async () => await actor.update({[`system.keywords.-=${key}`]: null});
+    keyword.update = async (value=null, forceUpdate=false) => await _updateKeyword(keyword, value, forceUpdate, actor)
+    keyword.addItem = async (item) => await actor.update({[`system.keywords.${key}.updateItems.${item.id}`]: item.name});
+    keyword.removeItem = async (itemId) => await _removeItemFromKeyword(itemId, keyword, actor);
+    actor.keywords.entries.set(key, keyword);
+  }
+}
+
+async function _createKeyword(data, item, actor) {
+  if (actor.keywords.has(data.key)) {
+    const keyword = actor.keywords.get(data.key);
+    if (item) {
+      await keyword.addItem(item);
+      await keyword.update(keyword.value);
+    }
+  }
+  else {
+    data.updateItems = {};
+    if (item) data.updateItems[item.id] = item.name;
+    await actor.update({[`system.keywords.${data.key}`]: data});
+    const keyword = actor.keywords.get(data.key);
+    await keyword.update(keyword.value);
+  }
+}
+
+async function _updateKeyword(keyword, value, forceUpdate, actor) {
+  if (value == null) {
+    if (forceUpdate || keyword.value == null) {
+      let options = {};
+      if (isParsableJson(keyword.selectOptions)) options = JSON.parse(keyword.selectOptions);
+      if (isPath(keyword.selectOptions)) options = getValueFromPath(window, keyword.selectOptions);
+      value = keyword.selectOptions && options ? await SimplePopup.select(keyword.message, options) : await SimplePopup.input(keyword.message);
+    }
+    else {
+      value = keyword.value;
+    }
+  }
+  if (value == null) return;
+
+  for (const itemId of Object.keys(keyword.updateItems)) {
+    const item = actor.items.get(itemId);
+    if (item) await item.callMacro("onKeywordUpdate", {keyword: keyword, newValue: value})
+  }
+  await actor.update({[`system.keywords.${keyword.key}.value`]: value});
+}
+
+async function _removeItemFromKeyword(itemId, keyword, actor) {
+  // Delete keyword if that is the last key
+  if (Object.keys(keyword.updateItems).length === 1 && keyword.updateItems[itemId]) {
+    await keyword.delete()
+  } 
+  // In other case only remove the item
+  else {
+    await actor.update({[`system.keywords.${keyword.key}.updateItems.-=${itemId}`]: null});
+  }
 }
 
 //==================================//==================================

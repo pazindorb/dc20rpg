@@ -105,6 +105,11 @@ class DC20UsableItemData extends DC20BaseItemData {
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
       tip: new f.StringField({required: true, initial: ""}),
+      keyword: new f.SchemaField({
+        key: new f.StringField({required: true, initial: ""}),
+        message: new f.StringField({required: true, initial: ""}),
+        selectOptions: new f.StringField({required: true, initial: ""})
+      })
     })
   }
 }

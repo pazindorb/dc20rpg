@@ -323,6 +323,12 @@ export function registerHandlebarsCreators() {
       }
     }
 
+    // Trigger keyword update
+    const keyword = item.system.keyword?.key
+    if (keyword && item.actor.keywords.has(keyword) && item.actor.keywords.get(keyword).updateItems[item.id]) {
+      component +=  `<a class="trigger-keyword-update fas fa-at" data-tooltip="${item.system.keyword.message}" data-keyword="${keyword}"></a>`;
+    }
+
     // Add/Remove Favorities
     component += _addFavorite(config, item);
 

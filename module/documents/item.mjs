@@ -134,6 +134,11 @@ export class DC20RpgItem extends Item {
     if (userId === game.user.id && this.actor) {
       await runTemporaryItemMacro(this, "onCreate", this.actor);
       await addItemToActorInterceptor(this, this.actor);
+
+      // Handle adding keywords
+      if (this.system.keyword?.key && !options.fromAdvancement) {
+        await this.actor.keywords.add(this.system.keyword, this);
+      }
     }
     return onCreateReturn;
   }
@@ -155,6 +160,12 @@ export class DC20RpgItem extends Item {
     if (this.actor) {
       await runTemporaryItemMacro(this, "preDelete", this.actor);
       await removeItemFromActorInterceptor(this, this.actor);
+
+      // Handle removing keywords
+      if (this.system.keyword?.key) {
+        const keyword = this.actor.keywords.get(this.system.keyword.key);
+        await keyword.removeItem(this.id);
+      }
     }
     return await super._preDelete(options, user);
   }

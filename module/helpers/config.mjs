@@ -14,7 +14,6 @@ import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusW
 import { makeMoveAction } from "./actors/actions.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
 import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey, updateItemOnActor } from "./actors/itemsOnActor.mjs";
-import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getTokenForActor } from "./actors/tokens.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
@@ -118,13 +117,6 @@ export function prepareDC20tools() {
       runTemporaryItemMacro,
       registerItemMacroTrigger
     },
-    keywords: {
-      addUpdateItemToKeyword,
-      removeUpdateItemFromKeyword,
-      updateKeywordValue,
-      addNewKeyword,
-      removeKeyword
-    }
   };
 }
 

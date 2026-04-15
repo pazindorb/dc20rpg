@@ -33,6 +33,19 @@ export function getLabelFromKey(key, labels) {
   else return key;
 }
 
+export function isParsableJson(string) {
+  try {
+    JSON.parse(string);
+    return true;
+  } catch (ignored) {
+    return false;
+  }
+}
+
+export function isPath(string) {
+  return !isParsableJson(string) && string.includes(".");
+}
+
 /**
  * Returns value under given path for given object.
  * Example path: human.bodyParts.head.nose

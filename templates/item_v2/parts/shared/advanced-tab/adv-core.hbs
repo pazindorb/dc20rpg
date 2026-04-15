@@ -142,6 +142,30 @@
   {{/if}}
   {{/if}}
 
+  {{!-- Keyword --}}
+  <div class="sub-header margin-top-10">
+    <span>{{localize "dc20rpg.item.sheet.keyword.title"}}</span>
+  </div>
+  <div class="content-wrapper">
+    <div class="row">
+      <span>{{localize "dc20rpg.item.sheet.keyword.key"}}</span>
+      <input class="input" type="text" data-path="system.keyword.key" value="{{system.keyword.key}}">
+    </div>
+    {{#if system.keyword.key}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.keyword.message"}}</span>
+      <input class="input" type="text" data-path="system.keyword.message" value="{{system.keyword.message}}">
+    </div>
+    {{!-- TODO - Make it a text field? --}}
+    <div class="row margin-top-3"> 
+      <span>{{localize "dc20rpg.item.sheet.keyword.selectOptions"}}</span>
+      <input class="input" type="text" data-path="system.keyword.selectOptions" value="{{system.keyword.selectOptions}}">
+    </div>
+    {{/if}}
+  </div>
+
+
+
   {{!-- Macros --}}
   <div class="sub-header margin-top-10">
     <span>{{localize "dc20rpg.item.sheet.macros.title"}}</span>

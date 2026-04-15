@@ -76,6 +76,10 @@ export function activateCommonLinsters(html, actor) {
     };
     if (ev.which === 3) itemContextMenu(actor.items.get(datasetOf(ev).itemId), ev, html, actor.type);
   });
+  html.find('.trigger-keyword-update').click(ev => {
+    const keyword = actor.keywords.get(datasetOf(ev).keyword);
+    if (keyword) keyword.update(null, true);
+  })
   html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(actor.items.get(datasetOf(ev).itemId), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));

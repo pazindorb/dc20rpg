@@ -22,11 +22,15 @@ export async function applyAdvancement(advancement, actor, talentType) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
-  const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
+  const [extraAdvancements, keywords, tips] = await _addItemsToActor(selectedItems, actor, advancement);
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement, actor);
   if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
+  for (const key of keywords) {
+    const keyword = actor.keywords.get(key);
+    if (keyword) await keyword.update();
+  }
   if (advancement.talent) await _fillMulticlassInfo(advancement, actor, extraAdvancements, talentType);
   return [extraAdvancements.values(), tips];
 }
@@ -151,19 +155,30 @@ async function _overrideScalingValue(item, index, mastery) {
 async function _addItemsToActor(items, actor, advancement) {
   const extraAdvancements = new Map();
   const tips = [];
+  const keywords = new Set();
   const parentItem = advancement.parentItem;
 
   for (const [key, record] of Object.entries(items)) {
     const item = await fromUuid(record.uuid);
-    const createdArr = await DC20RpgItem.gmCreate(item, {parent: actor});
+    const createdArr = await DC20RpgItem.gmCreate(item, {parent: actor, fromAdvancement: true});
     const created = createdArr[0];
 
+    // Add tip to advancement
     if (created.system.tip) {
       tips.push({
         name: created.name,
         img: created.img,
         tip: created.system.tip
       })
+    }
+
+    // Check if should register keyword
+    if (created.system.keyword.key) {
+      const key = created.system.keyword.key;
+      if (!actor.keywords.has(key)) await actor.keywords.add(created.system.keyword);
+      const keyword = actor.keywords.get(key);
+      await keyword.addItem(created);
+      keywords.add(key);
     }
 
     // Check if has extra advancements
@@ -180,7 +195,7 @@ async function _addItemsToActor(items, actor, advancement) {
     record.createdItemId = created._id;
     advancement.items[key] = record;
   }
-  return [extraAdvancements, tips];
+  return [extraAdvancements, keywords, tips];
 }
 
 async function _markAdvancementAsApplied(advancement, actor) {
