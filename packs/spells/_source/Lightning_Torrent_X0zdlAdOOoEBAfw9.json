@@ -4,7 +4,7 @@
   "img": "icons/magic/lightning/bolt-strike-creature-pink.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You produce a torrent of crackling lightning that envelops a 4 Space Line. Make an Area Spell Attack against the AD of every target within the area. </p><p><strong>Hit:</strong> The target takes 1 Lightning damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Magnetic</span></strong></span></p><p><span class=\"cf0\">Metal in the area becomes briefly magnetized, causing metal objects to attract or repel each other and disrupting compass-based navigation.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 AP, Repeatable)</strong> The length of the Line increases by 3 Spaces.</p><p><strong>Shock: (1 MP)</strong> Each target makes an Agility Save. Save Failure: The target can’t take Reactions for 1 round.</p><p><strong>Dazed: (1 MP)</strong> Each target makes a Intelligence Save. Save Failure: The target is Dazed for 1 round.</p><p><strong>Remote: (1 MP)</strong> The range becomes 5 Spaces, with the origin of the Line becoming the chosen Space.</p><p></p>",
+    "description": "<p>You produce a torrent of crackling lightning that envelops a 5 Space Line. Make an Area Spell Attack against the AD of every target within the area, and the closest target to you makes a Might Save.</p><p><strong>Hit:</strong> The target takes 1 Lightning damage.</p><p><strong>Save Failure:</strong> The target can’t take Reactions for 1 Round.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Magnetic</span></strong></span></p><p><span class=\"cf0\">Metal in the area becomes briefly magnetized, causing metal objects to attract or repel each other and disrupting compass-based navigation.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 AP, Repeatable)</strong> The length of the Line increases by 5 Spaces.</p><p><strong>Chain Shock: (1 AP)</strong> Instead of only the closest target making the save, each target makes the Might Save.</p><p><strong>Dazed: (1 MP)</strong> Each target makes a Intelligence Save. Save Failure: The target is Dazed for 1 round.</p><p><strong>Remote: (1 MP)</strong> The range becomes 5 Spaces, with the origin of the Line becoming the chosen Space.</p><p></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -121,7 +121,16 @@
       "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
-    "rollRequests": {},
+    "rollRequests": {
+      "tejr6N3ojnVCSBP8": {
+        "category": "save",
+        "saveKey": "mig",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {
       "kQXyxJaZoLfIUzfT": {
         "formula": "1",
@@ -311,15 +320,15 @@
         }
       },
       "cA8MG22utgZJp3vf": {
-        "name": "Shock",
+        "name": "Chain Shock",
         "number": 0,
         "preventModification": false,
-        "description": "<p>Each target makes an Agility Save. </p><p><strong>Save Failure:</strong> The target can’t take Reactions for 1 round.</p>",
+        "description": "<p>Instead of only the closest target making the save, each target makes the Might Save.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -353,7 +362,7 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
             "saveKey": "agi",
@@ -592,7 +601,7 @@
       "areas": {
         "default": {
           "area": "line",
-          "distance": 4,
+          "distance": 5,
           "width": 1,
           "unit": "",
           "difficult": ""
@@ -743,11 +752,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767794303319,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1777668685169,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

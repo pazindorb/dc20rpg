@@ -196,7 +196,8 @@
           "helpText": "Add Defense Maneuver"
         },
         "key": "default",
-        "macro": "const maneuvers = Object.values(advancement.items);\nfor (const maneuver of maneuvers) {\n  const item = actor.items.get(maneuver.createdItemId);\n  if (item) await item.update({[\"system.knownLimit\"]: false});\n}"
+        "macro": "const maneuvers = Object.values(advancement.items);\nfor (const maneuver of maneuvers) {\n  const item = actor.items.get(maneuver.createdItemId);\n  if (item) await item.update({[\"system.knownLimit\"]: false});\n}",
+        "doNotAddToKnownLimit": true
       }
     },
     "toggle": {
@@ -304,11 +305,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350033944,
-    "modifiedTime": 1767181182123,
+    "modifiedTime": 1776924869750,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

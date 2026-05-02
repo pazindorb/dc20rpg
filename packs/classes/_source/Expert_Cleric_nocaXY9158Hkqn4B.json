@@ -1,0 +1,582 @@
+{
+  "name": "Expert Cleric",
+  "type": "feature",
+  "img": "icons/magic/holy/chalice-glowing-gold.webp",
+  "system": {
+    "description": "<p>You gain the following benefits for your Champion Class Features.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Cleric Order</span></strong></span></p><p>You gain 1 additional Divine Domain.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Divine Blessing</span></strong></span></p><p>When you use Divine Blessing you can spend additional MP to enhance the effect:</p><ul><li><p><strong>Destruction</strong>: The damage increased by 2 per MP spent.</p></li><li><p><strong>Restoration:</strong> The healing increases by 2 per MP spent.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Channel Divinity</span></strong></span></p><ul><li><p><strong>Divine Rebuke:</strong> The damage increases by 1.</p></li><li><p><strong>Lesser Divine Intervention:</strong> The pool of HP increases by 2.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "mVmamuaizaW1r1uW": {
+        "name": "Enhance Divine Blessing",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>When you use Divine Blessing you can spend additional MP to enhance the effect:</p><ul><li><p><strong>Destruction</strong>: The damage increased by 2 per MP spent.</p></li><li><p><strong>Restoration:</strong> The healing increases by 2 per MP spent.</p></li></ul>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "2",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 2,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.itemKey=[\"divineBlessing\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null,
+        "ap": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Cleric",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "expertChampion",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "XvnxtfiD8V1V07x2": {
+        "command": "const divineRebuke = actor.getItemByKey(\"divineRebuke\");\nconst lesserDivineIntervention = actor.getItemByKey(\"lesserDivineIntervention\");\n\nif (divineRebuke) {\n  divineRebuke.update({[\"system.formulas.fjpnGFPNqXkpjkTA.formula\"]: \"2\"});\n}\n\nif (lesserDivineIntervention) {\n  lesserDivineIntervention.update({\n    [\"system.formulas.FAKbmVniLysyxTsL.formula\"]: \"5\",\n    [\"system.formulas.FAKbmVniLysyxTsL.failFormula\"]: \"5\"\n  })\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Expert Cleric",
+        "title": "",
+        "global": false
+      },
+      "vOdDDsgaIkKhwcMP": {
+        "command": "const divineRebuke = actor.getItemByKey(\"divineRebuke\");\nconst lesserDivineIntervention = actor.getItemByKey(\"lesserDivineIntervention\");\n  \nif (divineRebuke) {\n  divineRebuke.update({[\"system.formulas.fjpnGFPNqXkpjkTA.formula\"]: \"1\"});\n}\n\nif (lesserDivineIntervention) {\n  lesserDivineIntervention.update({\n    [\"system.formulas.FAKbmVniLysyxTsL.formula\"]: \"3\",\n    [\"system.formulas.FAKbmVniLysyxTsL.failFormula\"]: \"3\"\n  })\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Expert Cleric",
+        "title": "",
+        "global": false
+      }
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Expert Cleric: Cleric Order",
+        "mustChoose": true,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {
+          "IsHFTTib7EZrFH8w": {
+            "uuid": "Compendium.dc20rpg.classes.Item.IsHFTTib7EZrFH8w",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/undead-ghost-scream-teal.webp",
+            "name": "Ancestral Domain"
+          },
+          "DE1d4He8G43KHXZ3": {
+            "uuid": "Compendium.dc20rpg.classes.Item.DE1d4He8G43KHXZ3",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/unholy/orb-smoking-green.webp",
+            "name": "Chaos Domain"
+          },
+          "G9Y4waGB8inFxGFX": {
+            "uuid": "Compendium.dc20rpg.classes.Item.G9Y4waGB8inFxGFX",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/unholy/orb-stone-pink.webp",
+            "name": "Dark Domain"
+          },
+          "WjmIEJloaXNcQkR2": {
+            "uuid": "Compendium.dc20rpg.classes.Item.WjmIEJloaXNcQkR2",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/skeleton-skull-soul-blue.webp",
+            "name": "Death Domain"
+          },
+          "5NQChURoRyKazH0i": {
+            "uuid": "Compendium.dc20rpg.classes.Item.5NQChURoRyKazH0i",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/perception/orb-crystal-ball-scrying-blue.webp",
+            "name": "Divination Domain"
+          },
+          "4y94Nmc0l4cTXQeY": {
+            "uuid": "Compendium.dc20rpg.classes.Item.4y94Nmc0l4cTXQeY",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/light/explosion-glow-spiral-teal.webp",
+            "name": "Divine Damage Expansion"
+          },
+          "ko8q2Fn8aIfS2wA7": {
+            "uuid": "Compendium.dc20rpg.classes.Item.ko8q2Fn8aIfS2wA7",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/grave-tombstone-glow-teal.webp",
+            "name": "Grave Domain"
+          },
+          "aUDZdDWzxVcsMsE9": {
+            "uuid": "Compendium.dc20rpg.classes.Item.aUDZdDWzxVcsMsE9",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
+            "name": "Knowledge Domain"
+          },
+          "iIsIecGFn4eP7t3F": {
+            "uuid": "Compendium.dc20rpg.classes.Item.iIsIecGFn4eP7t3F",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/life/ankh-shadow-green.webp",
+            "name": "Life Domain"
+          },
+          "7DBXqg5iLu9wQQm0": {
+            "uuid": "Compendium.dc20rpg.classes.Item.7DBXqg5iLu9wQQm0",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/light/explosion-star-large-blue-yellow.webp",
+            "name": "Light Domain"
+          },
+          "mfUKo7kcgbkbN80B": {
+            "uuid": "Compendium.dc20rpg.classes.Item.mfUKo7kcgbkbN80B",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+            "name": "Magic Domain"
+          },
+          "PnvYJ4SUSTUg4oua": {
+            "uuid": "Compendium.dc20rpg.classes.Item.PnvYJ4SUSTUg4oua",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/time/hourglass-yellow-green.webp",
+            "name": "Order Domain"
+          },
+          "DZseVKjeC6uw9l8j": {
+            "uuid": "Compendium.dc20rpg.classes.Item.DZseVKjeC6uw9l8j",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/equipment/head/helm-spangen-engraved.webp",
+            "name": "Peace Domain"
+          },
+          "Twqu6yekfaurdfRk": {
+            "uuid": "Compendium.dc20rpg.classes.Item.Twqu6yekfaurdfRk",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/unholy/demon-hairy-winged-pink.webp",
+            "name": "Trickery Domain"
+          },
+          "Pxe98W6r6PhvcDQg": {
+            "uuid": "Compendium.dc20rpg.classes.Item.Pxe98W6r6PhvcDQg",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/strike-weapons-orange.webp",
+            "name": "War Domain"
+          }
+        },
+        "addItemsOptions": {
+          "itemLimit": null,
+          "itemType": "",
+          "helpText": ""
+        },
+        "doNotAddToKnownLimit": false,
+        "key": "default",
+        "customTitle": "Select Your Divine Domain"
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "featureSourceItem": "cleric",
+    "shortInfo": "",
+    "requirements": {
+      "level": 5,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "conditionals": {},
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [],
+  "folder": "fjW9jIDFx8bTQlBk",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1776852959937,
+    "modifiedTime": 1776858020909,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "nocaXY9158Hkqn4B",
+  "sort": 0,
+  "_key": "!items!nocaXY9158Hkqn4B"
+}

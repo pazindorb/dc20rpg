@@ -1,0 +1,544 @@
+{
+  "name": "Expert Spellblade",
+  "type": "feature",
+  "img": "icons/magic/unholy/hand-weapon-glow-black-green.webp",
+  "system": {
+    "description": "<p>You gain the following benefits for your Spellblade Class Features.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Bound Weapon</span></strong></span></p><p><strong>Bound Damage:</strong> Your Bound Damage now ignores Resistance to its damage type.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spellblade Discipline</span></strong></span></p><p>You gain 1 Additional Spellblade Discipline.</p><p>The following Disciplines are changed in the following ways:</p><ul><li><p><strong>Acolyte:</strong> You can spend additional MP to increase the healing by 2 for each additional MP spent.</p></li><li><p><strong>Hex Warrior:</strong> You can spend additional MP increase the damage by 1 for each additional MP spent.</p></li><li><p><strong>Spell Warder:</strong> When you gain the Resistance granted by Spell Warder, you can spend 1 MP to gain Resistance (Half) to the damage type instead.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spellstrike</span></strong></span></p><p>The Spell you cast as part of Spellstrike can target multiple creatures or an Area, provided at least one of the Spell targets is also a target of the Martial Attack.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "IfPLkavXPeD1yEJ5": {
+        "name": "Expert Spellblade",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The following Disciplines are changed in the following ways:</p><ul><li><p><strong>Acolyte:</strong> You can spend additional MP to increase the healing by 2 for each additional MP spent.</p></li><li><p><strong>Hex Warrior:</strong> You can spend additional MP increase the damage by 1 for each additional MP spent.</p></li><li><p><strong>Spell Warder:</strong> When you gain the Resistance granted by Spell Warder, you can spend 1 MP to gain Resistance (Half) to the damage type instead.</p></li></ul>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "switch(item.system.itemKey) {\n  case \"acolyte\": \n    enh.modifications.hasAdditionalFormula = true;\n    enh.modifications.additionalFormula = \"2\"\n    break;\n\n  case \"spellWarder\": \n    const macro = item.system.macros[\"3tIZMbkMmlYI5xkU\"].command;\n    item.system.macros[\"3tIZMbkMmlYI5xkU\"].command = macro.replace(\n      \"effect.changes[0].key = `system.damageReduction.damageTypes.${selected}.resist`;\",\n      \"effect.changes[0].key = `system.damageReduction.damageTypes.${selected}.resistance`; \\n effect.changes[0].value = true;\"\n    )\n    break;\n\n  case \"hexWarrior\":\n    const daze = item.getEffectByKey(\"hexWarriorsCurseDaze\");\n    const impaire = item.getEffectByKey(\"hexWarriorsCurseImpaire\");\n    if (daze) {\n      daze.changes[1].value = daze.changes[1].value.replace('\"value\": 1', `\"value\": ${1 + enh.number}`)\n    }\n    if (impaire) {\n      impaire.changes[1].value = impaire.changes[1].value.replace('\"value\": 1', `\"value\": ${1 + enh.number}`)\n    }\n    break;\n}",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.itemKey=[\"spellWarder\"]||system.itemKey=[\"acolyte\"]||system.itemKey=[\"hexWarrior\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null,
+        "ap": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "expertSpellblade",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "yEU39bFjKEhi6OTW": {
+        "command": "const boundWeapon = actor.getItemByKey(\"boundWeapon\");\n\nif (boundWeapon) {\n  const value = actor.system.keywords[\"boundedDamage\"]?.value\n  game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, value);\n  item.update({[`system.conditionals.vacKSWSrmlMfldzf.flags.ignoreResistance.${value}`]: value})\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Expert Spellblade",
+        "title": "",
+        "global": false
+      },
+      "63VqeFOZcNM7JDd4": {
+        "command": "const boundWeapon = actor.getItemByKey(\"boundWeapon\");\n\nif (boundWeapon) {\n  game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"boundedDamage\", item._id);\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Expert Spellblade",
+        "title": "",
+        "global": false
+      },
+      "Byenke28JvWVmqNK": {
+        "command": "if (newValue) {\n  await item.update({[\"system.conditionals.vacKSWSrmlMfldzf.flags.-=ignoreResistance\"]: null})\n  await item.update({[`system.conditionals.vacKSWSrmlMfldzf.flags.ignoreResistance.${newValue}`]: newValue})\n}",
+        "trigger": "onKeywordUpdate",
+        "disabled": false,
+        "name": "Update Conditional",
+        "title": "",
+        "global": false
+      }
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Expert Spellblade: Spellblade Disciplines",
+        "mustChoose": true,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {
+          "DpOJpHfbH6KVfA0H": {
+            "uuid": "Compendium.dc20rpg.classes.Item.DpOJpHfbH6KVfA0H",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/holy/prayer-hands-glowing-yellow-green.webp",
+            "name": "Acolyte"
+          },
+          "X8H7U0eynwmj9q1J": {
+            "uuid": "Compendium.dc20rpg.classes.Item.X8H7U0eynwmj9q1J",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/movement/trail-streak-zigzag-teal.webp",
+            "name": "Blink Blade"
+          },
+          "kjihs6jw0gLTKlcZ": {
+            "uuid": "Compendium.dc20rpg.classes.Item.kjihs6jw0gLTKlcZ",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/skull-humanoid-white-red.webp",
+            "name": "Hex Warrior"
+          },
+          "6yN2KrflKLxqQL0b": {
+            "uuid": "Compendium.dc20rpg.classes.Item.6yN2KrflKLxqQL0b",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/fire/flame-burning-fist-strike.webp",
+            "name": "Magus"
+          },
+          "dGxjfx9JHwZS9dva": {
+            "uuid": "Compendium.dc20rpg.classes.Item.dGxjfx9JHwZS9dva",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/strike-sword-slashing-red.webp",
+            "name": "Spell Breaker"
+          },
+          "BPfhiWK6zaru9TlF": {
+            "uuid": "Compendium.dc20rpg.classes.Item.BPfhiWK6zaru9TlF",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/defensive/shield-barrier-glowing-triangle-teal-purple.webp",
+            "name": "Spell Warder"
+          },
+          "PX2buJ5pzlyJ18i9": {
+            "uuid": "Compendium.dc20rpg.classes.Item.PX2buJ5pzlyJ18i9",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/hand-grip-sword-red.webp",
+            "name": "Warrior"
+          }
+        },
+        "addItemsOptions": {
+          "itemLimit": null,
+          "itemType": "",
+          "helpText": ""
+        },
+        "doNotAddToKnownLimit": false,
+        "key": "default",
+        "customTitle": "You gain 1 Additional Spellblade Discipline."
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "featureSourceItem": "spellblade",
+    "shortInfo": "",
+    "requirements": {
+      "level": 5,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "conditionals": {
+      "vacKSWSrmlMfldzf": {
+        "name": "Expert Spellblade",
+        "condition": "true",
+        "useFor": "flags.dc20rpg.boundWeapon=[true]",
+        "linkWithToggle": false,
+        "bonus": "",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreEdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "save",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "spell",
+          "dc": 0,
+          "addMasteryToDC": true
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "label": "",
+          "category": "damage",
+          "fail": false,
+          "failFormula": "",
+          "dontModifyFailFormula": false,
+          "each5": false,
+          "each5Formula": "",
+          "dontMerge": false,
+          "overrideDefence": "",
+          "perTarget": false
+        }
+      }
+    },
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [],
+  "folder": "kt3o5NQ5W9l4DkC7",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1776894125807,
+    "modifiedTime": 1776894125807,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "svY7yapZr2R6K1C4",
+  "sort": 0,
+  "_key": "!items!svY7yapZr2R6K1C4"
+}

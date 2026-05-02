@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
   "system": {
-    "description": "<p>You gain the power to harness your inner spirit as a counterbalance against to your physical energy.</p><p><span><strong>Ki Points</strong></span></p><p>You have a maximum number of Ki Points equal to your Stamina Point. When your Stamina Point maximum increases, your Ki Point maximum also increases equally.</p><p><strong>Regaining Ki:</strong> <span class=\"cf0\">When you spend a Stamina Point on your turn, you regain a Ki Point. You regain all spent Ki Points when Combat ends.</span></p><p> </p><p><span><strong>Ki Actions</strong></span></p><p>You can spend 1 Ki Point at any time to perform 1 of the activities listed below:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.96kFQIA7P0dh5Nys]{Deflect Attack}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.nAgoXn3wKtURiOs7]{Slow Fall}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.5I8i4iV5xvAR9iJf]{Uncanny Dodge}</p></li></ul>",
+    "description": "<p>You gain the power to harness your inner spirit as a counterbalance against to your physical energy.</p><p><span><strong>Ki Points</strong></span></p><p>You have 2 Ki Points. When you regain SP or Combat ends, you regain 1 Ki Point.</p><p>You regain all spent Ki Points when you complete a Long Rest.</p><p> </p><p><span><strong>Ki Actions</strong></span></p><p>You can spend 1 Ki Point at any time to perform 1 of the activities listed below:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.96kFQIA7P0dh5Nys]{Deflect Attack}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.nAgoXn3wKtURiOs7]{Slow Fall}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.5I8i4iV5xvAR9iJf]{Uncanny Dodge}</p></li></ul><p><em><strong>System Tip:</strong> Use this item to regain Ki.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -96,7 +96,9 @@
           "ki-point": {
             "name": "Ki Points",
             "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
-            "value": -1
+            "value": null,
+            "label": "Ki Points",
+            "key": "ki-point"
           }
         },
         "grit": null,
@@ -136,7 +138,7 @@
     "resource": {
       "name": "Ki Points",
       "resourceKey": "ki-point",
-      "reset": "combatEnd",
+      "reset": "long",
       "values": [
         1,
         0,
@@ -160,7 +162,7 @@
         0
       ],
       "useStandardTable": false,
-      "customMaxFormula": "@resources.stamina.max"
+      "customMaxFormula": "2 + @resources.ki-points.bonus"
     },
     "hasAdvancement": true,
     "advancements": {
@@ -208,7 +210,16 @@
     "itemKey": "spiritualBalance",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {},
+    "macros": {
+      "4VSp4y3mDjP1jo0Q": {
+        "command": "actor.resources[\"ki-point\"].regain(1)",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Ki",
+        "title": "",
+        "global": false
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -234,88 +245,17 @@
     },
     "featureSourceItem": "monk"
   },
-  "effects": [
-    {
-      "name": "Ki Regenation",
-      "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
-      "origin": "Compendium.dc20rpg.classes.Item.KzFTB80UezpHFVat",
-      "duration": {
-        "startTime": 0,
-        "combat": null,
-        "startRound": 1,
-        "startTurn": 0,
-        "seconds": null
-      },
-      "disabled": false,
-      "flags": {
-        "dc20rpg": {}
-      },
-      "_id": "WGYHWlRo62dlEX4e",
-      "type": "base",
-      "system": {
-        "sustained": {
-          "isSustained": false,
-          "actorUuid": "",
-          "itemId": ""
-        },
-        "statusId": "",
-        "condition": false,
-        "fromStatus": false,
-        "duration": {
-          "useCounter": false,
-          "resetWhenEnabled": false,
-          "onTimeEnd": ""
-        },
-        "effectKey": "",
-        "macro": "if (extras.resourceKey === \"stamina\") {\n  const value = Math.abs(extras.change); \n  const ki = actor.resources[\"ki-point\"];\n  if (ki) ki.regain(value);\n}",
-        "addToChat": false,
-        "nonessential": false,
-        "disableWhen": {
-          "path": "",
-          "mode": "",
-          "value": ""
-        },
-        "enableStatusOnCreation": [],
-        "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
-      },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"resourceChange\", \"label\": \"Ki Regeneration\", \"changedResource\": \"stamina\", \"operation\": \"subtraction\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p><strong>Regaining Ki:</strong> <span class=\"cf0\">When you spend a Stamina Point on your turn, you regain a Ki Point. You regain all spent Ki Points when Combat ends.</span></p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.8.0",
-        "createdTime": 1760443512960,
-        "modifiedTime": 1767170931431,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_key": "!items.effects!KzFTB80UezpHFVat.WGYHWlRo62dlEX4e"
-    }
-  ],
+  "effects": [],
   "folder": "l4W07DqdVqLGBU4S",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350034644,
-    "modifiedTime": 1767170913303,
+    "modifiedTime": 1776861595908,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

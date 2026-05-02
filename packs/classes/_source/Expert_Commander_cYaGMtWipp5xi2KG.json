@@ -1,0 +1,605 @@
+{
+  "name": "Expert Commander",
+  "type": "feature",
+  "img": "icons/environment/people/charge.webp",
+  "system": {
+    "description": "<p>You gain the following benefits for your Commander Class Features.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Commander's Call</span></strong></span></p><p>The range of your Commander’s Call increases to 10 Spaces.</p><p>When you use Commander’s Call, you can spend 2 additional SP to issue the creature 1 additional command of your choice. The creature chooses the order in which it resolves the granted commands.</p><p><em><strong>Example:</strong> You use Commander’s Call on an ally and spend 2 additional SP, 3 SP total. You choose the Move and Attack Commands. The creature chooses to up to their Speed without provoking Opportunity Attacks first and then Attacks with ADV after moving.</em></p><p><em><strong>DC Tip:</strong> You can still only use each command once on each of your turns.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Inspiring Presence</span></strong></span></p><p>The amount of HP restored by Inspiring Presence is increased by 1.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Commanding Aura</span></strong></span></p><p>When you help a creature within your Commanding Aura, your Help Die starts at a d10.</p><p>When you use Commanding Aura, you can spend additional SP to enhance its effect:</p><ul><li><p><strong>Rally:</strong> The Temp HP granted increases by 1 per 2 SP spent.</p></li><li><p><strong>Reinforce:</strong> You can spend 1 SP to grant the target ADV on any Saves made as part of the Attack.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "NjNo2dtQbDVt0cDi": {
+        "name": "Enhance Rally",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The Temp HP granted increases by 1 per 2 SP spent.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 2,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "cO6l0Hkqg3A4lH6H": {
+        "name": "Enhance Reinforce",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You can spend 1 SP to grant the target ADV on any Saves made as part of the Attack.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "name": "Enhance Reinforce",
+            "img": "icons/environment/people/charge.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "cO6l0Hkqg3A4lH6H"
+              }
+            },
+            "_id": "7crIHecY9tBeeLXm",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.dynamicRollModifier.onYou.saves.mig",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Enhance Reinforce\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.checks.agi",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Enhance Reinforce\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.saves.int",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Enhance Reinforce\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.saves.cha",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Enhance Reinforce\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.events",
+                "mode": 2,
+                "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Enhance Reinforce\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>You gain ADV on any Saves made as part of the Attack.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.351",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.2",
+              "createdTime": 1776854366901,
+              "modifiedTime": 1776854457490,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.itemKey=[\"commandingAura\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null,
+        "ap": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Commander",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "expertCommander",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "yEU39bFjKEhi6OTW": {
+        "command": "const inspiringPresence = actor.getItemByKey(\"inspiringPresence\");\nconst commandingAura = actor.getItemByKey(\"commandingAura\");\nconst commandersCall = actor.getItemByKey(\"commandersCall\");\n\nif (inspiringPresence) {\n  inspiringPresence.update({[\"system.formulas.jQMiuxzjgEvWvhVU.formula\"]: \"2\"});\n}\n\nif (commandingAura) {\n  commandingAura.update({[\"system.enhancements.9bbQvJPVQhAvTT4H.modifications.macros.preItemRoll\"]: \"actor.system.help.maxDice = 10\"});\n}\n\nif (commandersCall) {\n  commandersCall.update({[\"system.range.normal\"]: 10})\n  commandersCall.createNewEnhancement({\n    name: \"Expert Commander\", \n    description: \"When you use Commander’s Call, you can spend 2 additional SP to issue the creature 1 additional command of your choice. The creature chooses the order in which it resolves the granted commands.\",\n    resources: {stamina: 2}\n  }, \"expertCommander\")\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Expert Commander",
+        "title": "",
+        "global": false
+      },
+      "63VqeFOZcNM7JDd4": {
+        "command": "const inspiringPresence = actor.getItemByKey(\"inspiringPresence\");\nconst commandingAura = actor.getItemByKey(\"commandingAura\");\nconst commandersCall = actor.getItemByKey(\"commandersCall\");\n\nif (inspiringPresence) {\n  inspiringPresence.update({[\"system.formulas.jQMiuxzjgEvWvhVU.formula\"]: \"1\"});\n}\n\nif (commandingAura) {\n  commandingAura.update({[\"system.enhancements.9bbQvJPVQhAvTT4H.modifications.macros.preItemRoll\"]: \"\"});\n}\n\nif (commandersCall) {\n  commandersCall.update({[\"system.range.normal\"]: 5 })\n  commandersCall.removeEnhancement(\"expertCommander\")\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Expert Commander",
+        "title": "",
+        "global": false
+      }
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "",
+        "mustChoose": true,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {},
+        "addItemsOptions": {
+          "itemLimit": null,
+          "itemType": "",
+          "helpText": ""
+        },
+        "doNotAddToKnownLimit": false,
+        "key": "default",
+        "customTitle": ""
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "featureSourceItem": "commander",
+    "shortInfo": "",
+    "requirements": {
+      "level": 5,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "conditionals": {},
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [],
+  "folder": "EklPMTblCz8MD1Kl",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1776855334590,
+    "modifiedTime": 1776855334590,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "cYaGMtWipp5xi2KG",
+  "sort": 0,
+  "_key": "!items!cYaGMtWipp5xi2KG"
+}

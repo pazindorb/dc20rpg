@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/magical/construct-golem-stone-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a Spell Check against each target’s AD, and each target makes a Repeated Mental Save against your Save DC.</p><p>Attack Hit: The target takes Divine Damage equal to your Prime Modifier.</p><p>Save Failure: The target becomes Intimidated by you for 1 minute or until it takes damage again.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all creatures of your choice who can see or hear you within 5 Spaces.</p><p>Make a Spell Attack against each target’s AD, and each target makes a Repeated Mental Save against your Save DC.</p><p><strong>Attack Hit:</strong> The target takes 1 Divine Damage.</p><p><strong>Save Failure:</strong> The target becomes Intimidated by you for 1 minute or until it takes damage again.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -73,7 +73,7 @@
     },
     "formulas": {
       "fjpnGFPNqXkpjkTA": {
-        "formula": "@primeValue",
+        "formula": "1",
         "type": "radiant",
         "category": "damage",
         "fail": false,
@@ -453,11 +453,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350034037,
-    "modifiedTime": 1767128235343,
+    "modifiedTime": 1776851970994,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

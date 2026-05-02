@@ -1,0 +1,439 @@
+{
+  "name": "Expert Hunter",
+  "type": "feature",
+  "img": "icons/skills/ranged/arrow-strike-apple-orange.webp",
+  "system": {
+    "description": "<p>You gain the following benefits for your Hunter Class Features.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Hunter’s Mark</span></strong></span></p><p>The Help die granted by Hunter’s Mark is increased to a d10 and the first Martial Attack against your target on your turn ignores Physical Resistance.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Favored Terrain</span></strong></span></p><p>You gain 1 additional Favored Terrain.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Hunter’s Strike</span></strong></span></p><p>You can use up to 2 Hunter’s Strike Enhancements on an Attack.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null,
+        "ap": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Hunter",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "expertHunter",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "yEU39bFjKEhi6OTW": {
+        "command": "const huntersMark = actor.getItemByKey(\"huntersMark\");\n\nif (huntersMark) {\n  const current = huntersMark.system.macros.WzJNfQVTpdDyjgU1.command;\n  const newMacro = current.replaceAll(\"8\", \"10\");\n  huntersMark.update({\n    [\"system.macros.WzJNfQVTpdDyjgU1.command\"]: newMacro,\n    [\"system.conditionals.fdr6ltYNl2z2Itk9.flags.ignoreResistance.piercing\"]: \"Piercing\",\n    [\"system.conditionals.fdr6ltYNl2z2Itk9.flags.ignoreResistance.slashing\"]: \"Slashing\",\n    [\"system.conditionals.fdr6ltYNl2z2Itk9.flags.ignoreResistance.bludgeoning\"]: \"Bludgeoning\"\n  });\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Expert Hunter",
+        "title": "",
+        "global": false
+      },
+      "63VqeFOZcNM7JDd4": {
+        "command": "const huntersMark = actor.getItemByKey(\"huntersMark\");\n\nif (huntersMark) {\n  const current = huntersMark.system.macros.WzJNfQVTpdDyjgU1.command;\n  const newMacro = current.replaceAll(\"10\", \"8\");\n  huntersMark.update({\n    [\"system.macros.WzJNfQVTpdDyjgU1.command\"]: newMacro,\n    [\"system.conditionals.fdr6ltYNl2z2Itk9.flags.ignoreResistance.-=piercing\"]: null,\n    [\"system.conditionals.fdr6ltYNl2z2Itk9.flags.ignoreResistance.-=slashing\"]: null,\n    [\"system.conditionals.fdr6ltYNl2z2Itk9.flags.ignoreResistance.-=bludgeoning\"]: null\n  });\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Expert Hunter",
+        "title": "",
+        "global": false
+      }
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Expert Hunter: Favored Terrain",
+        "mustChoose": true,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {
+          "W5MfgTRiV93l3JK4": {
+            "uuid": "Compendium.dc20rpg.classes.Item.W5MfgTRiV93l3JK4",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/cave-entrance-island.webp",
+            "name": "Coast"
+          },
+          "kl4h5EPweDxKga01": {
+            "uuid": "Compendium.dc20rpg.classes.Item.kl4h5EPweDxKga01",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/cave-entrance-rocky.webp",
+            "name": "Desert"
+          },
+          "6Qy92FQGwisBOVkn": {
+            "uuid": "Compendium.dc20rpg.classes.Item.6Qy92FQGwisBOVkn",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/terrain-forest-gray.webp",
+            "name": "Forest"
+          },
+          "myRHx8fzNN6Vn0yv": {
+            "uuid": "Compendium.dc20rpg.classes.Item.myRHx8fzNN6Vn0yv",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/arch-stone.webp",
+            "name": "Grassland"
+          },
+          "Tl9R9SJu5gsTYBz5": {
+            "uuid": "Compendium.dc20rpg.classes.Item.Tl9R9SJu5gsTYBz5",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/altar-hidden.webp",
+            "name": "Jungle"
+          },
+          "MxMRD97rl3m4UDIA": {
+            "uuid": "Compendium.dc20rpg.classes.Item.MxMRD97rl3m4UDIA",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/cave-entrance-mountain-blue.webp",
+            "name": "Mountain"
+          },
+          "35IlJSlIJvtnQbWD": {
+            "uuid": "Compendium.dc20rpg.classes.Item.35IlJSlIJvtnQbWD",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/cave-entrance-dwarven-hill.webp",
+            "name": "Subterranean"
+          },
+          "XNgm5AbQpYVZ6Idg": {
+            "uuid": "Compendium.dc20rpg.classes.Item.XNgm5AbQpYVZ6Idg",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/cave-entrance.webp",
+            "name": "Swamp"
+          },
+          "SS5jgCwWAugrdSiN": {
+            "uuid": "Compendium.dc20rpg.classes.Item.SS5jgCwWAugrdSiN",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/wilderness/tree-spruce.webp",
+            "name": "Tundra"
+          },
+          "NXRl0oqdzjzQSoqL": {
+            "uuid": "Compendium.dc20rpg.classes.Item.NXRl0oqdzjzQSoqL",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/environment/settlement/city-night-spire.webp",
+            "name": "Urban"
+          }
+        },
+        "addItemsOptions": {
+          "itemLimit": null,
+          "itemType": "",
+          "helpText": ""
+        },
+        "doNotAddToKnownLimit": false,
+        "key": "default",
+        "customTitle": "You gain 1 additional Favored Terrain."
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "featureSourceItem": "hunter",
+    "shortInfo": "",
+    "requirements": {
+      "level": 5,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "conditionals": {},
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [],
+  "folder": "NfY4ZYirzZUyrcWF",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1776860581303,
+    "modifiedTime": 1776860581303,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "f5Xto9wowJgW8Hqb",
+  "sort": 0,
+  "_key": "!items!f5Xto9wowJgW8Hqb"
+}

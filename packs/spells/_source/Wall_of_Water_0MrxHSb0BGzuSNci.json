@@ -4,7 +4,7 @@
   "img": "icons/magic/water/wave-water-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You create a 2 Space high, 3 Space long Wall of water within range for the duration. Creatures in the are subjected to the Underwater Combat rules and begin to Suffocate if they can’t hold their breath or breath underwater, and are Slowed when moving through the area.</p><p>Attacks that deal Physical or Elemental damage have DisADV if made against targets within the area or on the other side of the Wall.</p><p><strong>Spell Cast:</strong> When you cast the Spell, make a Spell Check against the Agility Save of each target in the area.</p><p><strong>Save Failure:</strong> The target is pushed 1 Space to a Space of your choice within the area or within 1 Space of the area.</p><p><strong>Spell End:</strong> When the Spell ends, it creates a Tidal Wave on both sides of the Wall that crashes upon on every Space within a number of Spaces equal to its height in both directions.</p><ul><li><p><strong>Objects:</strong> Objects in the area that weigh 200lbs or less that aren’t held or carried are pushed away from the Wall’s original area the Spaces at the edge of the tidal wave’s area.</p></li><li><p><strong>Creatures:</strong> Creatures in the area that are Medium sized or smaller must make a Might Save against your Save DC.</p><ul><li><p><strong>Save Failure:</strong> They are pushed 1 Space away from the Wall’s original area.</p></li><li><p><strong>Failure (Each 5):</strong> They are pushed up to 1 additional Space.</p></li></ul><p><em><strong>System Tip:</strong> Use on demand macro to create \"<strong>Spell End</strong>\" chat message.</em></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Extinguish</span></strong></span></p><p>Open flames in the area are extinguished, including torches, candles, or small campfires, unless magical or protected.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Length: (1 MP, Repeatable)</strong> The Wall’s length increases by 2 Spaces.</p><p><strong>Height: (1 MP, Repeatable)</strong> The Wall’s height increases by 1 Space.</p><p><strong>Prone: (1 MP)</strong> Each target that fails its Save against the Tidal Wave also falls Prone.</p>",
+    "description": "<p>You create a 5 Space long, 2 Space high Wall of water within range for the duration. Open mundane flames in the area are extinguished (such as torches, candles, or small campfires).</p><p>Creatures in the are subjected to the Underwater Combat rules (DisADV on Martial Attacks and Slowed without Swim Speed, gain Fire Resistance, subject to Hold Breath and Suffocation).</p><p>Attacks that deal Physical or Elemental damage have DisADV if made against targets within the area or on the other side of the Wall.</p><p></p><p><strong>Spell End:</strong> When the Spell ends, it creates a Tidal Wave on both sides of the Wall that crashes upon on every Space within a number of Spaces equal to its height in both directions.</p><ul><li><p><strong>Objects:</strong> Medium Size or smaller objects in the area that aren’t held or carried are pushed away from the Wall’s area to the farthest Spaces of the Tidal Wave’s area.</p></li><li><p><strong>Creatures:</strong> Medium Size or smaller creatures in the area must make a Might Save against your Save DC.</p><ul><li><p><strong>Save Failure:</strong> They are pushed 1 Space away from the Wall’s original area.</p></li><li><p><strong>Failure (Each 5):</strong> They are pushed up to 1 additional Space.</p></li></ul><p><em><strong>DC Tip:</strong> If the Wall is 4 Spaces high when the Spell ends, creatures that fail their Might Save against the Tidal Wave would be pushed 2 Spaces, plus 1 Space for each 5 they fail the Save by.</em></p><p><em><strong>System Tip:</strong> Not automated.</em></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Extinguish</span></strong></span></p><p>Open flames in the area are extinguished, including torches, candles, or small campfires, unless magical or protected.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Length: (1 MP, Repeatable)</strong> The Wall’s length increases by 2 Spaces.</p><p><strong>Height: (1 MP, Repeatable)</strong> The Wall’s height increases by 1 Space.</p><p><strong>Tidal Force: (1 MP, Repeatable)</strong> The maximum target Size that Tidal Wave affects increases by 1 step (Medium → Large → Huge → Gargantuan→ Colossal → Titanic).</p><p><strong>Prone: (1 MP)</strong> Each target that fails its Save against the Tidal Wave also falls Prone.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,16 +35,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "7xTeVlxwlJ9OG4Py": {
-        "command": "await item.update({\n  [\"system.actionType\"]: \"other\",\n  [\"system.rollMenu.free\"]: true,\n  [\"system.rollRequests.0kfImJhamPfxxrQS.category\"]: \"save\",\n  [\"system.formulas.mpX2KfosCX3CPHKz.each5\"]: true,\n  [\"system.formulas.mpX2KfosCX3CPHKz.fail\"]: true,\n});\nawait item.roll();\nitem.update({\n  [\"system.actionType\"]: \"check\",\n  [\"system.rollRequests.0kfImJhamPfxxrQS.category\"]: \"contest\",\n  [\"system.formulas.mpX2KfosCX3CPHKz.each5\"]: false,\n  [\"system.formulas.mpX2KfosCX3CPHKz.fail\"]: false,\n})",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Trigger  Tidal Wave",
-        "title": "Trigger Tidal Wave",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -57,7 +48,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -77,7 +68,7 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "",
       "multiCheck": {
         "active": false,
         "options": {}
@@ -129,47 +120,9 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {
-      "0xdRBMBWcNet3a1e": {
-        "id": "movement",
-        "supressFromChatMessage": true,
-        "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": false,
-        "untilTargetNextTurnStart": false,
-        "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false,
-        "forOneMinute": false,
-        "forXRounds": null,
-        "repeatedSave": false,
-        "repeatedSaveKey": "phy"
-      }
-    },
-    "rollRequests": {
-      "0kfImJhamPfxxrQS": {
-        "category": "contest",
-        "saveKey": "mig",
-        "contestedKey": "agi",
-        "dcCalculation": "spell",
-        "dc": 0,
-        "addMasteryToDC": true
-      }
-    },
-    "formulas": {
-      "mpX2KfosCX3CPHKz": {
-        "formula": "1",
-        "type": "",
-        "category": "other",
-        "fail": false,
-        "failFormula": "0",
-        "dontModifyFailFormula": true,
-        "each5": false,
-        "each5Formula": "1",
-        "dontMerge": false,
-        "overrideDefence": "",
-        "perTarget": true,
-        "label": "Push Distance"
-      }
-    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {},
     "enhancements": {
       "MishXwbH3q0a99eY": {
         "name": "Range",
@@ -514,6 +467,93 @@
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
+      },
+      "c1ZB4wWvFIohOlxQ": {
+        "name": "Tidal Force",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The maximum target Size that Tidal Wave affects increases by 1 step (Medium → Large → Huge → Gargantuan→ Colossal → Titanic).</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -524,13 +564,13 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
     "duration": {
       "value": 1,
-      "type": "instantaneous",
+      "type": "continuous",
       "timeUnit": "minutes"
     },
     "target": {
@@ -539,7 +579,7 @@
       "areas": {
         "default": {
           "area": "line",
-          "distance": 3,
+          "distance": 5,
           "width": 1,
           "unit": "",
           "difficult": "all"
@@ -793,11 +833,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767948261046,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1777702912316,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -4,7 +4,7 @@
   "img": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You ward a creature within range against Planar influence.</p><p>The target gains MDR and Resistance to one of the following Conditions for the duration: Charmed, Taunted, Intimidated.</p><p>If the target is already affected by the chosen Condition, make a Spell Check against the Save DC of the Condition.</p><p><strong>Success:</strong> The chosen Condition immediately ends on the target.</p><p></p><p><em><strong>System Tip:</strong> The spell is configured to always make a Spell Check. If the target is not afflicted with the condition ignore it.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Mystic Resistance: (1 MP)</strong> The target gains Mystical Resistance (Half) for the duration instead of MDR.</p><p><strong>Condition Resistance: (1 MP)</strong> Choose an additional Condition from the list.</p><p><strong>Mental Barrier: (1 MP)</strong> The target’s thoughts can’t be read for the duration.</p><p><strong>Manipulation Protection: (3 MP)</strong> The target gains ADV on all Mental Saves for the duration.</p>",
+    "description": "<p>You ward a creature within range against Planar influence.</p><p>The target gains MDR and Resistance to one of the following Conditions for the duration: Charmed, Taunted, Intimidated.</p><p>If the target is already affected by the chosen Condition, make a Spell Check against the Save DC of the Condition.</p><p><strong>Success:</strong> The chosen Condition immediately ends on the target.</p><p></p><p><em><strong>System Tip:</strong> The spell is configured to always make a Spell Check. If the target is not afflicted with the condition ignore it.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Mystic Resistance: (1 MP)</strong> The target gains Mystical Resistance (Half) for the duration instead of MDR.</p><p><strong>Major Protection:</strong> <strong>(1 MP)</strong> The target gains Resistance against the following additional Conditions: Doomed, Frightened, and Terrified.</p><p><strong>Full Protection: (1 MP) </strong>The target has Resistance against all listed Conditions.</p><p><strong>Mental Barrier: (1 MP)</strong> The target’s thoughts can’t be read for the duration.</p><p><strong>Manipulation Protection: (3 MP)</strong> The target gains ADV on all Mental Saves for the duration.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "BKvNQBuohgR4kwsL": {
-        "command": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\nconst MYSTIC_RESISTANCE = \"plBR3UAA4K08IfqR\";\nconst CONDITION_RESISTANCE = \"WcAQKfY8SFfAGdGE\";\n\nconst enhancements = item.enhancements.active;\nif (enhancements.get(MYSTIC_RESISTANCE)) {\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.psychic.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.umbral.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.radiant.resistance\",\n    mode: 5,\n    value: true\n  });\n}\nelse {\n  effect.changes.push({\n    key: \"system.damageReduction.mdr.active\",\n    mode: 5,\n    value: true\n  })\n}\n\nconst options = {charmed: \"Charmed\", taunted: \"Taunted\", intimidated: \"Intimidated\"};\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", options);\nif (selected) {\n  delete options[selected];\n  effect.changes.push({\n    key: `system.statusResistances.${selected}.resistance`,\n    mode: 2,\n    value: 1\n  });\n}\n\nif (enhancements.get(CONDITION_RESISTANCE)) {\n  const second = await DC20.dialog.SimplePopup.select(\"Select Second Condition\", options);\n  effect.changes.push({\n    key: `system.statusResistances.${second}.resistance`,\n    mode: 2,\n    value: 1\n  });\n}",
+        "command": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\nconst MYSTIC_RESISTANCE = \"plBR3UAA4K08IfqR\";\nconst FULL_PROTECTION = \"WcAQKfY8SFfAGdGE\";\n\nconst enhancements = item.enhancements.active;\nif (enhancements.get(MYSTIC_RESISTANCE)) {\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.psychic.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.umbral.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.radiant.resistance\",\n    mode: 5,\n    value: true\n  });\n}\nelse {\n  effect.changes.push({\n    key: \"system.damageReduction.mdr.active\",\n    mode: 5,\n    value: true\n  })\n}\n\nif (enhancements.get(FULL_PROTECTION)) {\n  effect.changes.push({\n    key: `system.statusResistances.charmed.resistance`,\n    mode: 2,\n    value: 1\n  });\n  effect.changes.push({\n    key: `system.statusResistances.taunted.resistance`,\n    mode: 2,\n    value: 1\n  });\n  effect.changes.push({\n    key: `system.statusResistances.intimidated.resistance`,\n    mode: 2,\n    value: 1\n  });\n}\nelse {\n  const options = {charmed: \"Charmed\", taunted: \"Taunted\", intimidated: \"Intimidated\"};\n  const selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", options);\n  if (selected) {\n    effect.changes.push({\n      key: `system.statusResistances.${selected}.resistance`,\n      mode: 2,\n      value: 1\n    });\n  }\n}",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Prepare Planar Protection effect",
@@ -306,10 +306,10 @@
         }
       },
       "WcAQKfY8SFfAGdGE": {
-        "name": "Condition Resistance",
+        "name": "Full Protection",
         "number": 0,
         "preventModification": false,
-        "description": "<p>Choose an additional Condition from the list.</p>",
+        "description": "<p>The target has Resistance against all listed Conditions.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -545,7 +545,94 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.changes.push(\n  {\n    key: \"system.dynamicRollModifier.onYou.saves.int\",\n    mode: 2,\n    value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n  },\n  {\n    key: \"system.dynamicRollModifier.onYou.saves.cha\",\n    mode: 2,\n    value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n  }\n)",
+            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.int\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n});\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.cha\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n});",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "fnqClD5BbVMzLKDz": {
+        "name": "Major Protection",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target gains Resistance against the following additional Conditions: Doomed, Frightened, and Terrified.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.changes.push({\n  key: `system.statusResistances.doomed.resistance`,\n  mode: 2,\n  value: 1\n});\neffect.changes.push({\n  key: `system.statusResistances.frightened.resistance`,\n  mode: 2,\n  value: 1\n});\neffect.changes.push({\n  key: `system.statusResistances.terrified.resistance`,\n  mode: 2,\n  value: 1\n});",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -572,7 +659,7 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
@@ -805,11 +892,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767969907879,
-    "modifiedTime": 1767970305043,
+    "modifiedTime": 1777470827336,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

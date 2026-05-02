@@ -4,7 +4,7 @@
   "img": "icons/magic/life/cross-beam-green.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You take damage to heal a creature you can see within range. Make a DC 15 Spell Check. </p><p><strong>Failure:</strong> You lose up to 1 HP and the target regains the same amount of HP. </p><p><strong>Success:</strong> You lose up to 2 HP. </p><p><strong>Success (Each 5):</strong> Up to 1 additional HP.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Transfer: (1 AP, Repeatable)</strong> You lose up to 1 additional HP.</p><p><strong>Transfer Rest: (1 AP + 1 Rest Point, Repeatable)</strong> The target regains +1 HP.</p><p><strong>Affliction: (2 MP, Repeatable)</strong> Choose a Basic Disease, Basic Curse, or Basic Poison affecting the target, if it is willing the affliction ends on the target and you become affected by the affliction.</p>",
+    "description": "<p>You take damage to heal a creature you can see within range. Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> You spend 1 Rest Point or HP and the target regains an equal amount of HP.</p><p><strong>Success:</strong> You can spend up to 2 Rest Points or HP and the target regains an equal amount of HP.</p><p><strong>Success (Each 5):</strong> You can spend up to 1 more Rest Point or HP.</p><p></p><p><em><strong>System Tip:</strong> If you decide to use Rest Points insteead of HP you need to spend them manually.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Transfer: (X AP)</strong> You spend X additional Rest Points or HP and the target regains an equal amount of HP.</p><p><strong>Affliction: (1 MP, Repeatable)</strong> Choose a Basic Disease, Basic Curse, or Basic Poison affecting the target, if it is willing the affliction ends on the target and you become affected by the affliction.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -241,7 +241,7 @@
         "name": "Increased Transfer",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You lose up to 1 additional HP.</p>",
+        "description": "<p>You spend X additional Rest Points or HP and the target regains an equal amount of HP.</p>",
         "hide": false,
         "resources": {
           "ap": 1,
@@ -323,92 +323,6 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "pMyPiU4PYhbYZvlk": {
-        "name": "Transfer Rest",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The target regains +1 HP.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": 1,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "specificFormulaKey": "VK9eq6HaFCmsgT2q",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
       "paDApvoMKtbFEMGz": {
         "name": "Affliction",
         "number": 0,
@@ -418,7 +332,7 @@
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -671,11 +585,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1768043544295,
-    "modifiedTime": 1768063286243,
+    "modifiedTime": 1777498778936,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -4,7 +4,7 @@
   "img": "icons/skills/ranged/archery-bow-attack-yellow.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You fire a powerful shot that pierces through creatures in a line.</p><p><em><strong>Range:</strong> Ranged Weapon</em></p><p>Make an Area Martial Attack against the AD of every target within a 4 Space Line that’s Point of Origin is within Range. The Line must extend away from you.</p><ul><li><p><strong>Hit:</strong> The target takes the damage of your Weapon.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Damage: (2 SP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 SP, Repeatable)</strong> The length of the Line increases by 3 Spaces.</p><p><strong>Penetrating Shot: (1 SP)</strong> The Attack ignores Cover but is blocked by 6 inches (15 cm) of wood or soft earth (dirt, mud, or sand), or 1 inch (25 mm) of metal or rock.</p>",
+    "description": "<p>You fire a powerful shot that pierces through creatures in a line.</p><p><em><strong>Range:</strong> Ranged Weapon</em></p><p>Make an Area Martial Attack against the AD of every target within a 8 Space Line that’s Point of Origin is within Range. The Line must extend away from you.</p><ul><li><p><strong>Hit:</strong> The target takes the damage of your Weapon.</p></li></ul><p><strong>Close Quarters Penalty:</strong> You have DisADV on the Attack if you're within the Melee Range of at least 1 enemy, unless that enemy is Incapacitated.</p><p><em><strong>DC Tip:</strong> Remember, you have DisADV on any Attack beyond your Weapon’s Normal Range.</em></p><p><em><strong>System Tip:</strong> DisADV from weapon range is not automated in for maneuver</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Damage: (2 SP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 SP, Repeatable)</strong> The length of the Line increases by 4 Spaces.</p><p><strong>Penetrating Shot: (1 SP)</strong> The Attack ignores Cover but is blocked by 6 inches (15 cm) of wood or soft earth (dirt, mud, or sand), or 1 inch (25 mm) of metal or rock.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -210,7 +210,7 @@
         "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The length of the Line increases by 3 Spaces.</p><p></p><p><em><strong>System Tip:</strong> You need to increase the Line size manually</em>.</p>",
+        "description": "<p>The length of the Line increases by 4 Spaces.</p><p></p><p><em><strong>System Tip:</strong> You need to increase the Line size manually</em>.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -400,7 +400,7 @@
       "areas": {
         "default": {
           "area": "line",
-          "distance": 4,
+          "distance": 8,
           "width": 1,
           "unit": "",
           "difficult": ""
@@ -514,11 +514,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.2",
     "createdTime": 1766050074661,
-    "modifiedTime": 1769881339184,
+    "modifiedTime": 1776955359337,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -526,6 +526,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "us6WzncwqNExLFKB",
-  "sort": 0,
+  "sort": 600000,
   "_key": "!items!us6WzncwqNExLFKB"
 }

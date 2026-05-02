@@ -4,7 +4,7 @@
   "img": "icons/magic/unholy/orb-rays-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You create a 2 Space Sphere of Darkness within range.</p><p><strong>Relocate:</strong> When you Sustain this Spell or by spending 1 AP, you can move the Sphere up to 5 Spaces to another Space within range.</p><p><strong>Attach:</strong> When you cast the Spell, you can attach it to an object or creature within range. If you do, the target sheds Darkness in a 1 Space Aura and you can no longer use Relocate.</p><p>If the target is not willing, make a Spell Check against the target’s Agility Save. <strong>Check Success:</strong> The target becomes the source of the Darkness.</p><p><em><strong>System Tip:</strong> This item is configured to always roll Spell Check. Ignore MCP if you won't use this spell check.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration increases by 1 step (10 min → 1 hour → Long Rest).</p><p><strong>Light Eater: (1 AP)</strong> Non-magical light sources within the area are extinguished.</p><p><strong>Grasping Gloom: (1 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target is Slowed for 1 round.</p>",
+    "description": "<p>You create a 4 Space Sphere of Magical Darkness within range.</p><p><strong>Relocate:</strong> When you Sustain this Spell or by spending 1 AP, you can move the Sphere up to 5 Spaces to another Space within range.</p><p><strong>Attach:</strong> When you cast the Spell, you can attach it to an object or creature within range. If you do, the target sheds Darkness in a 1 Space Aura and you can no longer use Relocate.If the target is not willing, make a Spell Check against the target’s Agility Save. </p><p><strong>Check Success:</strong> The target becomes the source of the Darkness.</p><p><em><strong>System Tip:</strong> This item is configured to always roll Spell Check. Ignore MCP if you won't use this spell check.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 2 Space.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration increases by 1 step (10 min → 1 hour → Long Rest).</p><p><strong>Light Eater: (1 AP)</strong> Non-magical light sources within the area are extinguished.</p><p><strong>Grasping Gloom: (1 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target is Slowed for 1 round.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -91,7 +91,7 @@
         "actionPoint": null,
         "ap": 2,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -223,7 +223,7 @@
         "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "description": "<p>The diameter of the Sphere increases by 2 Space.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -653,7 +653,7 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
@@ -668,7 +668,7 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 2,
+          "distance": 4,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -793,7 +793,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -829,11 +829,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1768073812836,
-    "modifiedTime": 1768594225868,
+    "modifiedTime": 1777548448707,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

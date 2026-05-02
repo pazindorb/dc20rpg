@@ -4,7 +4,7 @@
   "img": "icons/magic/water/barrier-ice-crystal-wall-faceted-light.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You gather freezing wind around a target within range for the duration. Make a Spell Check contested by the target’s Repeated Might Save. </span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target is Slowed for the duration. While Slowed this way, the target takes 1 Cold damage at the start of each of their turns.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Brittle: (1 MP)</strong> While Slowed this way, the target gains Vulnerability (1) to Physical damage.</p><p><strong>Frostbite: (1 MP, Repeatable)</strong> The target gains an additional stack of Slowed and the damage the target takes at the start of each of their turns increases by 1.</p><p><strong>Frozen Solid: (X MP)</strong> The target becomes Stunned X for the duration.</p>",
+    "description": "<p><span class=\"cf0\">You gather freezing wind around a target within range for the duration. Make a Spell Check contested by the target’s Repeated </span><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\">Agility </span><span class=\"cf0\">Save.</span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target is Slowed for the duration. While Slowed this way, the target takes 1 Cold damage at the start of each of their turns.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Increased Slow: (X AP)</strong> The target gains X additional stacks of Slowed.</p><p><strong>Brittle: (1 MP)</strong> While Slowed this way, the target gains Vulnerability (1) to Physical damage.</p><p><strong>Frostbite: (X MP)</strong> While Slowed this way, the target takes X Cold damage at the start of each of their turns.</p><p><strong>Targets: (1 AP + X MP)</strong> You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p><strong>Frozen Solid: (3 MP)</strong> The target becomes Stunned 2 for the duration.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -91,7 +91,7 @@
         "actionPoint": null,
         "ap": 1,
         "stamina": null,
-        "mana": 1,
+        "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
@@ -139,7 +139,7 @@
       "sk0oEbdVuzCUBxzh": {
         "category": "contest",
         "saveKey": "",
-        "contestedKey": "mig",
+        "contestedKey": "agi",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true
@@ -323,7 +323,7 @@
         "name": "Frostbite",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The target gains an additional stack of Slowed and the damage the target takes at the start of each of their turns increases by 1.</p>",
+        "description": "<p>While Slowed this way, the target takes X Cold damage at the start of each of their turns.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -387,7 +387,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"freeze\");\nif (!effect) return;\n\neffect.changes[0].value = `${enh.number + 1}`;\neffect.changes[1].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Freeze\", \"value\": ${enh.number + 1}, \"type\": \"cold\", \"actorId\": \"#SPEAKER_ID#\"`;",
+            "preItemRoll": "const effect = item.getEffectByKey(\"freeze\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Freeze\", \"value\": ${enh.number}, \"type\": \"cold\", \"actorId\": \"#SPEAKER_ID#\"`\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -409,12 +409,12 @@
         "name": "Frozen Solid",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The target becomes Stunned X for the duration.</p>",
+        "description": "<p>On a failed Save, the target is Immobilized and Stunned 2 for the duration.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": 3,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -473,7 +473,268 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"freeze\");\nif (!effect) return;\n\neffect.statuses.add(\"stunned\")\neffect.changes.push({\n  key: \"system.globalModifier.prevent.goUnderAP\",\n  mode: 2,\n  value: `${enh.number}`\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"freeze\");\nif (!effect) return;\n\nconst immobilized = CONFIG.statusEffects.find(s => s.id === \"immobilized\")\n\neffect.statuses.add(\"immobilized\");\neffect.statuses.add(\"stunned\");\neffect.changes.push({\n  key: \"system.globalModifier.prevent.goUnderAP\",\n  mode: 2,\n  value: `${enh.number}`\n})\n\nimmobilized.changes.forEach(change => effect.changes.push(change))",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "QgTMLUONu3uWMcyT": {
+        "name": "Increased Slow",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target gains X additional stacks of Slowed.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "const effect = item.getEffectByKey(\"freeze\");\nif (!effect) return;\n\neffect.changes[0].value = enh.number + 1",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "bK677dLU26Y4nB0F": {
+        "name": "Targets",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "inz6kvcnv65Co706": {
+        "name": "Targets - AP Cost",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -667,12 +928,13 @@
       "img": "icons/magic/water/barrier-ice-crystal-wall-faceted-light.webp",
       "origin": "Item.5L1om7NtP3J6fClF",
       "duration": {
-        "rounds": 1,
+        "rounds": 5,
         "startTime": 0,
         "combat": null,
         "startRound": 25,
         "startTurn": 0,
-        "seconds": null
+        "seconds": null,
+        "turns": null
       },
       "disabled": false,
       "flags": {
@@ -692,7 +954,7 @@
         "duration": {
           "useCounter": false,
           "resetWhenEnabled": false,
-          "onTimeEnd": ""
+          "onTimeEnd": "delete"
         },
         "effectKey": "freeze",
         "macro": "",
@@ -712,14 +974,14 @@
       "changes": [
         {
           "key": "system.moveCost",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Freeze - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"slowed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
-          "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Freeze\", \"value\": 1, \"type\": \"cold\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -734,10 +996,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1777664067091
       },
       "_key": "!items.effects!GZRZPMwrXPG7TEsk.7p9qg3z7Xm8fjU1W"
     }
@@ -748,11 +1011,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767776936044,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1777663907122,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

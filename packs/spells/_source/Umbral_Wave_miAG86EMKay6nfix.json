@@ -4,7 +4,7 @@
   "img": "icons/magic/unholy/energy-smoke-pink.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You conjure a burst of shadow magic that envelops a 2 Space Cone. Make an Area Spell Attack against the AD of every target within the area. </p><p><strong>Hit:</strong> The target takes 1 Umbral damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Obscure</span></strong></span></p><p>The Light level in the target’s Space decreases by 1 until the end of the turn.</p><p><em><strong>DC Tip:</strong> Magical effects such as Obscure don’t stack with themselves. You can only decrease the light level by 1 with the Obscure effect.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The length of the Cone increases by 1.</p><p><strong>Doom: (X MP)</strong> Each target makes a Repeated Charisma Save. <strong>Failure:</strong> The target is Doomed X.</p><p><strong>Heal Undead: (1 MP)</strong> Undead creatures in the area are immune to the damage from this Spell and regain an amount of HP equal to the damage of this Spell.</p>",
+    "description": "<p>You conjure a burst of shadow magic that envelops a 3 Space Cone. Make an Area Spell Attack against the AD of every target within the area.</p><p><strong>Hit:</strong> The target takes 1 Umbral damage.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Obscure</span></strong></span></p><p>The Light level in the target’s Space decreases by 1 until the end of the turn.</p><p><em><strong>DC Tip:</strong> Magical effects such as Obscure don’t stack with themselves. You can only decrease the light level by 1 with the Obscure effect.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The length of the Cone increases by 1.</p><p><strong>Doom: (X MP)</strong> Each target makes a Repeated Charisma Save. <strong>Failure:</strong> The target is Doomed X.</p><p><strong>Heal Undead: (1 MP)</strong> Undead creatures in the area are immune to the damage from this Spell and regain an amount of HP equal to the damage of this Spell.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -505,8 +505,8 @@
       "type": "self",
       "areas": {
         "default": {
-          "area": "",
-          "distance": null,
+          "area": "cone",
+          "distance": 3,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -658,11 +658,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1768123068744,
-    "modifiedTime": 1768123068770,
+    "modifiedTime": 1777549195423,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

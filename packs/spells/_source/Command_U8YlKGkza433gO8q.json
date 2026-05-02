@@ -4,7 +4,7 @@
   "img": "icons/magic/control/control-influence-puppet.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You speak a command to a creature within range that can hear you. Make a Spell Check against the target’s Charisma Save.</p><p><strong>Check Success:</strong> The target immediately follows the command given by spending 1 AP (if it can). If the creature can’t spend the AP to follow the command, it becomes Stunned until the start of its turn. The number of stacks of Stunned it gains is equal to the amount of AP it couldn’t spend to follow the command. The creature can’t willingly fail their Check or spend any resources (AP, SP, or MP) to modify the Action it takes.</p><p><strong>Ignoring a Command:</strong> The Spell has no effect if the target doesn't understand your language, if it's unable to follow your command (such as commanding an immobilized creature to move), or if your command is directly harmful to itself.</p><p><strong>Choosing a Command:</strong> You can choose from the list of example commands below or improvise your own at the GM’s discretion.</p><ul><li><p><strong>Move:</strong> The target moves up to its Speed to a location (or in a direction) of your choice.</p></li><li><p><strong>Prone:</strong> The target falls Prone.</p></li><li><p><strong>Attack:</strong> The target makes 1 Attack that normally costs 1 AP. You choose the target of the Attack, which must be within the commanded creature’s range.</p></li><li><p><strong>Drop:</strong> The target drops what it’s holding.</p></li></ul><p><em><strong>System Tip:</strong> Just simply apply stunned condition from chat if target cant perform the command.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Word of Authority: (1 MP)</strong> The Spell no longer fails if the target doesn't understand your Language, it follows the command as if it can understand it.</p><p><strong>Extended Command: (2 MP)</strong> You can command the creature to perform up to 2 actions. The target spends 2 AP to follow all of the given commands.</p>",
+    "description": "<p>You speak a command to a creature within range that can hear you.</p><p>Make a Spell Check against the target’s Charisma Save.</p><p><strong>Save Failure:</strong> The target immediately takes a 1 AP Action of your choice for free and loses 1 AP if they have any available. If the Action targets a creature or object, you choose the target</p><p><em><strong>DC Tip:</strong> At the GM’s discretion you can have the target perform something specific that isn’t a listed Action. For example, you could have the creature perform 2 Minor Actions.</em></p><p>The creature can’t willingly fail their Check or spend their own resources (AP, SP, or MP) to modify the Action it takes. The Spell has no effect if the target is unable to perform the Action (such as commanding an Immobilized creature to move), or if the Action is directly harmful to itself (such as Attacking itself or moving for the purpose of provoking Opportunity Attacks).</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Perfect Command: (1 MP)</strong> The Spell no longer fails if the commanded Actions are directly harmful to the target.</p><p><strong>Memory Block: (1 MP)</strong> The target has no recollection of any Actions taken as a result of this Spell.</p><p><strong>Multiple Commands: (2 MP, Repeatable)</strong> The target takes up to 1 additional Action of your choice for free. Actions taken as part of this Spell subjected to the Multiple Check Penalty. The target loses 1 additional AP if they are able.</p><p><em><strong>System Tip:</strong> MCP is not automated for this.</em></p><p><strong>Extended Command: (2 MP, Repeatable)</strong> A taken Action can cost up to 1 additional AP. If used with Multiple Commands you increase the cost of only one taken Action. The target loses 1 additional AP if they are able.</p><p><em><strong>DC Tip:</strong> If a chosen Action costs more than expected (such as a Dragon’s Breath Action costing 3 AP when you thought it was 2 AP), you can choose another Action for the creature to take.</em></p><p></p><p><em><strong>Example:</strong> You spend 4 MP to use Multiple Commands and Extended Command, on a failed Save you can command the target to take 2 Actions, one from the original Spell and one from Multiple Commands, you can then increase the AP cost of either Action by 1 using Extended Command. For example, you could have the target Move (1 AP) and then Attack with ADV (2 AP) or you could instead have them use a Fireball (2 AP) and then Attack with a weapon at DisADV due to Multiple Check Penalty (1 AP). The target would then lose a total of up to 3 AP if they’re available.</em></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -120,21 +120,7 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {
-      "kCc9uyVxVmnfQelT": {
-        "id": "stunned",
-        "supressFromChatMessage": false,
-        "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": false,
-        "untilTargetNextTurnStart": true,
-        "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false,
-        "forOneMinute": false,
-        "forXRounds": null,
-        "repeatedSave": false,
-        "repeatedSaveKey": "phy"
-      }
-    },
+    "againstStatuses": {},
     "rollRequests": {
       "waYwhYjiXOYAxnty": {
         "category": "save",
@@ -233,11 +219,11 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "YAOS3Fonb0zXncEK": {
-        "name": "Word of Authority",
+      "57eNLaSQecQXLje7": {
+        "name": "Perfect Command",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The Spell no longer fails if the target doesn't understand your Language, it follows the command as if it can understand it.</p>",
+        "description": "<p>The Spell no longer fails if the commanded Actions are directly harmful to the target.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -266,6 +252,7 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -319,11 +306,98 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "UqmNRNAZ5ivf59qp": {
-        "name": "Extended Command",
+      "gDVCiaZPFYqid6fr": {
+        "name": "Memory Block",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can command the creature to perform up to 2 actions. The target spends 2 AP to follow all of the given commands.</p>",
+        "description": "<p>The target has no recollection of any Actions taken as a result of this Spell.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "otLbVtQxzH5YwpgY": {
+        "name": "Multiple Commands",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The target takes up to 1 additional Action of your choice for free. Actions taken as part of this Spell subjected to the Multiple Check Penalty. </p><p>The target loses 1 additional AP if they are able.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -352,6 +426,94 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "yYTciZs05KUpVOGb": {
+        "name": "Extended Command",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>A taken Action can cost up to 1 additional AP. If used with Multiple Commands you increase the cost of only one taken Action. The target loses 1 additional AP if they are able.</p><p><em><strong>DC Tip:</strong> If a chosen Action costs more than expected (such as a Dragon’s Breath Action costing 3 AP when you thought it was 2 AP), you can choose another Action for the creature to take.</em></p><p></p><p><em><strong>Example:</strong> You spend 4 MP to use Multiple Commands and Extended Command, on a failed Save you can command the target to take 2 Actions, one from the original Spell and one from Multiple Commands, you can then increase the AP cost of either Action by 1 using Extended Command. For example, you could have the target Move (1 AP) and then Attack with ADV (2 AP) or you could instead have them use a Fireball (2 AP) and then Attack with a weapon at DisADV due to Multiple Check Penalty (1 AP). The target would then lose a total of up to 3 AP if they’re available.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -571,7 +733,8 @@
     "spellTags": {
       "communication": "Communication",
       "emotions": "Emotions",
-      "motion": "Motion"
+      "motion": "Motion",
+      "thoughts": "Thoughts"
     }
   },
   "effects": [],
@@ -581,11 +744,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.2",
     "createdTime": 1767953362963,
-    "modifiedTime": 1769760563258,
+    "modifiedTime": 1777469115238,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

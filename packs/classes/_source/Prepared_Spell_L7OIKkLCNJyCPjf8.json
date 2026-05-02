@@ -254,14 +254,14 @@
       "aoRqwlzsx20HfJzL": {
         "name": "Change Prepared Spell",
         "trigger": "onDemand",
-        "command": "item.callMacro(\"onCreate\")",
+        "command": "// 1. Select Spell\nconst spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Spell for your Prepared Spell\", spells);\n\nawait item.update({[\"system.copyEnhancements.copyFor\"]: `id=[\"${spellId}\"]`});",
         "disabled": false,
         "title": "Change Prepared Spell"
       },
       "EXCc0RsC2iomzI7T": {
-        "name": "onCreate",
+        "name": "Select Prepared Spell",
         "trigger": "onCreate",
-        "command": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await DC20.dialog.SimplePopup.select(\"Select Spell for your Prepared Spell\", spells);\n\nawait item.update({[\"system.copyEnhancements.copyFor\"]: `id=[\"${spellId}\"]`});\nawait item.updateShortInfo(`Prepared Spell: ${spells[spellId]}`);",
+        "command": "item.callMacro(\"onDemand\", {}, true)",
         "disabled": false,
         "title": ""
       }
@@ -337,11 +337,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350035266,
-    "modifiedTime": 1768562878687,
+    "modifiedTime": 1776939413710,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

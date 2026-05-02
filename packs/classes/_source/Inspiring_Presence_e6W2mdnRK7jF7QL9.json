@@ -1,9 +1,9 @@
 {
   "name": "Inspiring Presence",
   "type": "feature",
-  "img": "icons/skills/social/intimidation-impressing.webp",
+  "img": "icons/environment/people/cavalry-heavy.webp",
   "system": {
-    "description": "<p>Whenever you spend <strong>SP </strong>while in combat, you can restore an amount of HP equal to the <strong>SP </strong>spent.</p><p>Choose any allies within 5 Spaces of you, and divide the HP among them. A creature must be able to see or hear you to benefit from this Feature.</p>",
+    "description": "<p>Once per Round during Combat, when you spend <strong>SP </strong>you can restore <strong>1 HP</strong> to a creature of your choice within 10 Spaces (including yourself) that can see or hear you. </p><p>If the creature is on Death’s Door, they regain 1 additional HP.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -21,7 +21,7 @@
       },
       "effect": null
     },
-    "isReaction": false,
+    "isReaction": true,
     "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
@@ -39,7 +39,7 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": "",
       "melee": 1
@@ -82,7 +82,95 @@
         "each5Formula": ""
       }
     },
-    "enhancements": {},
+    "enhancements": {
+      "lVRvWHdrdisoLaqL": {
+        "name": "Target on Death’s Door",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>If the creature is on Death’s Door, they regain 1 additional HP.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      }
+    },
     "copyEnhancements": {
       "copy": false,
       "copyFor": "",
@@ -239,11 +327,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350034603,
-    "modifiedTime": 1768466460323,
+    "modifiedTime": 1776444691096,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

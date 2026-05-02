@@ -1,0 +1,466 @@
+{
+  "name": "Expert Sorcerer",
+  "type": "feature",
+  "img": "icons/magic/unholy/hand-claw-fire-green.webp",
+  "system": {
+    "description": "<p>You gain the following benefits for your Sorcerer Class Features.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Innate Power</span></strong></span></p><ul><li><p>Your Maximum <strong>MP</strong> increases by 1.</p></li><li><p>You gain the benefit of an additional 1 point Focus Property of your choice. You can change either or both Properties whenever you finish a Long Rest.</p><p><em><strong>System Tip:</strong> Just simply add it to your Spell Focus item.</em></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Overload Magic</span></strong></span></p><p>You no longer need to make an Attribute Save upon using Overload, but you still need to make a Save at the start of each of your turns while Overloaded.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Meta Magic</span></strong></span></p><p>You learn 1 additional Meta Magic option of your choice. You can now use 2 Meta Magic Spell Enhancements at a time, provided you don’t use the same option more than once.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null,
+        "ap": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Sorcerer",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "expertSorcerer",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "yEU39bFjKEhi6OTW": {
+        "command": "const overloadMagic = actor.getItemByKey(\"overloadMagic\");\n\nif (overloadMagic) {\n  overloadMagic.update({\n    [\"system.rollRequests.w7ReGBBbWsOnfge9.category\"]: \"\",\n    [\"system.againstStatuses.9AqAEAuzrH9X6uld.id\"]: \"\"\n  });\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Expert Sorcerer",
+        "title": "",
+        "global": false
+      },
+      "63VqeFOZcNM7JDd4": {
+        "command": "const overloadMagic = actor.getItemByKey(\"overloadMagic\");\n\nif (overloadMagic) {\n  overloadMagic.update({\n    [\"system.rollRequests.w7ReGBBbWsOnfge9.category\"]: \"save\",\n    [\"system.againstStatuses.9AqAEAuzrH9X6uld.id\"]: \"exhaustion\"\n  });\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Expert Sorcerer",
+        "title": "",
+        "global": false
+      }
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Expert Sorcerer: Meta Magic",
+        "mustChoose": true,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {
+          "PmuQ1CC1epkg5W0g": {
+            "uuid": "Compendium.dc20rpg.classes.Item.PmuQ1CC1epkg5W0g",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/water/pseudopod-teal.webp",
+            "name": "Careful Spell"
+          },
+          "KF7T3G05kXZfAZCO": {
+            "uuid": "Compendium.dc20rpg.classes.Item.KF7T3G05kXZfAZCO",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/time/day-night-sunset-sunrise.webp",
+            "name": "Distant Spell"
+          },
+          "mYxgP17VmH6OmsGl": {
+            "uuid": "Compendium.dc20rpg.classes.Item.mYxgP17VmH6OmsGl",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/time/hourglass-brown-orange.webp",
+            "name": "Quickened Spell"
+          },
+          "t3VniCmDEaq4d4Ec": {
+            "uuid": "Compendium.dc20rpg.classes.Item.t3VniCmDEaq4d4Ec",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/control/buff-luck-fortune-gold.webp",
+            "name": "Subtle Spell"
+          },
+          "njYxBsrAPx5gkwgp": {
+            "uuid": "Compendium.dc20rpg.classes.Item.njYxBsrAPx5gkwgp",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/fire/barrier-wall-flame-ring-blue.webp",
+            "name": "Transmuted Spell"
+          },
+          "RTIvRe92SxbMls95": {
+            "uuid": "Compendium.dc20rpg.classes.Item.RTIvRe92SxbMls95",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/skeleton-eye-skull-glow-orange.webp",
+            "name": "Vicious Spell"
+          }
+        },
+        "addItemsOptions": {
+          "itemLimit": null,
+          "itemType": "",
+          "helpText": ""
+        },
+        "doNotAddToKnownLimit": false,
+        "key": "default",
+        "customTitle": "You learn 1 additional Meta Magic"
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "featureSourceItem": "sorcerer",
+    "shortInfo": "",
+    "requirements": {
+      "level": 5,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "conditionals": {},
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [
+    {
+      "name": "Expert Sorcerer",
+      "img": "icons/magic/unholy/hand-claw-fire-green.webp",
+      "origin": "Item.KZgyGhro6vIfk1xu",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "G9sgXhnK1pCLvMXt",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.resources.mana.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>Your Maximum MP increases by 1.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!05ERAiRrUwfLaeUA.G9sgXhnK1pCLvMXt"
+    }
+  ],
+  "folder": "oigRWbNM5v7FETHg",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1776869316107,
+    "modifiedTime": 1776869316107,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "05ERAiRrUwfLaeUA",
+  "sort": 0,
+  "_key": "!items!05ERAiRrUwfLaeUA"
+}

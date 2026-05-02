@@ -4,7 +4,7 @@
   "img": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You bind a creature within range. Make a Spell Check contested by the target’s Repeated Might Save.</p><p><strong>Check Success:</strong> The target is Immobilized for the duration.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Restrain: (1 MP)</strong> On a Success, the target is Restrained instead.</p><p><strong>Constrict: (X MP, Sustained)</strong> Once per round, when you Sustain this Spell or by spending 1 AP, you can make a Melee Spell Attack against the target’s AD. Hit: They take X True damage.</p><p><strong>Lingering Bind: (1 MP)</strong> Instead of the Save being Repeated, once on each of their turns the target can spend 1 AP to attempt the Save again.</p>",
+    "description": "<p>You bind a creature within range. Make a Spell Check contested by the target’s Agility Save.</p><p><strong>Check Success:</strong> The target is Immobilized for the duration. Once on each of their turns, the target can spend 1 AP to attempt the Save again, ending the Spell on a success.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Restrain: (1 MP)</strong> On a Success, the target is Restrained instead.</p><p><strong>Constrict: (1 MP)</strong> For the duration, once per Round, you can spend 1 AP to deal 2 Bludgeoning damage to the target. When you make this attack, you can spend 1 or more MP to increase the damage by 1 per MP spent.</p><p><em><strong>System Tip:</strong> Not Automated</em></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -131,14 +131,15 @@
         "untilFirstTimeTriggered": false,
         "forOneMinute": false,
         "repeatedSave": false,
-        "repeatedSaveKey": "phy"
+        "repeatedSaveKey": "phy",
+        "forXRounds": null
       }
     },
     "rollRequests": {
       "SU8IpvuURhyI6f9w": {
         "category": "contest",
         "saveKey": "mig",
-        "contestedKey": "mig",
+        "contestedKey": "agi",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true
@@ -320,7 +321,7 @@
         "name": "Constrict",
         "number": 0,
         "preventModification": false,
-        "description": "<p><strong>(Sustained)</strong> Once per round, when you Sustain this Spell or by spending 1 AP, you can make a Melee Spell Attack against the target’s AD.</p><p><strong>Hit:</strong> They take X True damage.</p><p></p><p><em><strong>System Tip:</strong> This Spell Attack is not automated.</em></p>",
+        "description": "<p>For the duration, once per Round, you can spend 1 AP to deal 2 Bludgeoning damage to the target. When you make this attack, you can spend 1 or more MP to increase the damage by 1 per MP spent.</p><p><em><strong>System Tip:</strong> Not Automated</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -383,92 +384,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.duration.type = \"sustain\";",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "vHnZI7L9QbBBO73T": {
-        "name": "Lingering Bind",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Instead of the Save being Repeated, once on each of their turns the target can spend 1 AP to attempt the Save again.</p><p></p><p><em><strong>System TIp:</strong> They can run that save with Manual Event Trigger. But still need to spend AP manually.</em></p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"bind\");\nif (!effect) return;\n\neffect.changes.forEach(change => {\n  if (change.key === \"system.events\" && change.value.includes('\"trigger\": \"turnEnd\"')) {\n    change.value = change.value.replace('\"trigger\": \"turnEnd\"', '\"trigger\": \"manual\", \"preTrigger\": \"spendAP\"');\n  }\n})",
+            "preItemRoll": "",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -718,7 +634,7 @@
         },
         {
           "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Bind\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"manual\", \"label\": \"Bind\", \"preTrigger\": \"spendAP\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
           "priority": null
         }
@@ -734,11 +650,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1767539427061
+        "modifiedTime": 1777236147545
       },
       "_key": "!items.effects!y3SC8MW2kLCX8sDR.zmxdN1KL6u5SQTKF"
     }
@@ -749,11 +665,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767523838285,
-    "modifiedTime": 1767633474828,
+    "modifiedTime": 1777379433185,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -761,6 +677,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "y3SC8MW2kLCX8sDR",
-  "sort": 1000000,
+  "sort": 2200000,
   "_key": "!items!y3SC8MW2kLCX8sDR"
 }

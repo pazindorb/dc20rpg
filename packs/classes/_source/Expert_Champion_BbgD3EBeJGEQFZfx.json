@@ -1,0 +1,398 @@
+{
+  "name": "Expert Champion",
+  "type": "feature",
+  "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+  "system": {
+    "description": "<p>You gain the following benefits for your Champion Class Features.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Master-at-Arms</span></strong></span></p><p>You learn 2 additional Maneuvers of your choice.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Fighting Spirit</span></strong></span></p><p>When you gain the benefits of Second Wind, you regain an additional 2 HP and 2 SP</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Adaptive Tactics</span></strong></span></p><p>Your Tactical Die is n<span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\">ow a d10.</span></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null,
+        "ap": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Champion",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "expertChampion",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "0KMH3lQmUcCudO8P": {
+        "command": "const adaptiveTactics = actor.getItemByKey(\"adaptiveTactics\");\nconst secondWind = actor.getEffectByKey(\"secondWind\");\n\nif (adaptiveTactics) {\n  const command = adaptiveTactics.system.macros.jUKSrdv202jBCDWB.command;\n  const newMacro = command.replace('const formula = tactic === \"assault\" ? \"d8\" : \"-d8\";', 'const formula = tactic === \"assault\" ? \"d10\" : \"-d10\";');\n  adaptiveTactics.update({[\"system.macros.jUKSrdv202jBCDWB.command\"]: newMacro})\n}\n\nif (secondWind) {\n  const command = secondWind.system.macro;\n  const newMacro = command.replaceAll(\"2\", \"4\").replace(\"DC40\", \"DC20\");\n  secondWind.update({[\"system.macro\"]: newMacro})\n}",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Expert Champion",
+        "title": "",
+        "global": false
+      },
+      "DnXhJl1HEGerOGdV": {
+        "command": "const adaptiveTactics = actor.getItemByKey(\"adaptiveTactics\");\nconst secondWind = actor.getEffectByKey(\"secondWind\");\n\nif (adaptiveTactics) {\n  const command = adaptiveTactics.system.macros.jUKSrdv202jBCDWB.command;\n  const newMacro = command.replace('const formula = tactic === \"assault\" ? \"d10\" : \"-d10\";', 'const formula = tactic === \"assault\" ? \"d8\" : \"-d8\";');\n  adaptiveTactics.update({[\"system.macros.jUKSrdv202jBCDWB.command\"]: newMacro})\n}\n\nif (secondWind) {\n  const command = secondWind.system.macro;\n  const newMacro = command.replaceAll(\"4\", \"2\");\n  secondWind.update({[\"system.macro\"]: newMacro})\n}",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Expert Champion",
+        "title": "",
+        "global": false
+      }
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Expert Champion: Master-at-Arms",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": true,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {},
+        "addItemsOptions": {
+          "itemLimit": 2,
+          "itemType": "maneuver",
+          "helpText": "You learn 2 additional Maneuvers of your choice."
+        },
+        "doNotAddToKnownLimit": true,
+        "key": "default"
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "featureSourceItem": "champion",
+    "shortInfo": "",
+    "requirements": {
+      "level": 5,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "conditionals": {},
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [
+    {
+      "name": "Expert Champion: Master-at-Arms",
+      "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+      "origin": "Item.hvL91H08Ba125gr5",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "nXpXwlGpkKnJyava",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.known.maneuvers.max",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "description": "<p>You learn 2 additional Maneuvers of your choice.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!BbgD3EBeJGEQFZfx.nXpXwlGpkKnJyava"
+    }
+  ],
+  "folder": "YHyxNrkVLP3D6fYW",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1776850476868,
+    "modifiedTime": 1776853344662,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "BbgD3EBeJGEQFZfx",
+  "sort": 0,
+  "_key": "!items!BbgD3EBeJGEQFZfx"
+}

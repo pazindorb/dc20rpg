@@ -4,7 +4,7 @@
   "img": "icons/magic/acid/dissolve-vomit-green-brown.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">Make a Spell Check against the Repeated Might Save of a creature within range. </span></p><p><span class=\"cf0\"><strong>Check Success:</strong> The target is Poisoned for the duration. Creatures Poisoned by this Spell have DisADV on Awareness Checks, are Slowed, and Impaired or Dazed (your choice). </span></p><p><span class=\"cf0\">This Poison can be removed by any effect that ends a Basic Poison.</span></p><p><span class=\"cf0\"><em><strong>Beta Note:</strong> A creature with a Medicine Kit can attempt to remove a Basic Disease from a creature within 1 Space (including themselves) by spending 1 AP and 1 charge from the Medicine Kit and make a Medicine Check against the effect’s Save DC, removing the Disease on a success.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Sapped: (1 MP)</strong> While Poisoned by this Spell, the target falls Prone and can’t stand up.</p><p><strong>Mental Fog: (2 MP)</strong> While Poisoned by this Spell, the target is Stunned and forgets every detail about the previous minute.</p><p><strong>Fear Toxin: (1 MP)</strong> The target has vivid hallucinations. While Poisoned by this Spell, the target is Frightened of all creatures it can see.</p>",
+    "description": "<p><span class=\"cf0\">Make a Spell Check against the Repeated Might Save of a creature within range.</span></p><p><span class=\"cf0\"><strong>Check Success:</strong> The target is Poisoned for the duration. Creatures Poisoned by this Spell have DisADV on Awareness Checks, are Dazed, Impaired and Slowed.</span></p><p><span class=\"cf0\"><em><strong>Beta Note:</strong> A creature with a Medicine Kit can attempt to remove a Basic Disease from a creature within 1 Space (including themselves) by spending 1 AP and 1 charge from the Medicine Kit and make a Medicine Check against the effect’s Save DC, removing the Disease on a success.</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Sapped: (1 MP)</strong> While Poisoned by this Spell, the target falls Prone and can’t stand up.</p><p><strong>Mental Fog: (2 MP)</strong> While Poisoned by this Spell, the target is Stunned and forgets every detail about the previous minute.</p><p><strong>Fear Toxin: (1 MP)</strong> The target has vivid hallucinations. While Poisoned by this Spell, the target is Frightened of all creatures it can see.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -37,10 +37,10 @@
     "quickRoll": false,
     "macros": {
       "5KkWNBvEG3icSxxf": {
-        "command": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Which condition you want to inflict?\", {impaired: \"Impaired\", dazed: \"Dazed\"})\nif (!selected) return;\n\neffect.statuses.add(selected);\nconst data = CONFIG.statusEffects.find(e => e.id === selected)\nfor (const change of data.changes) {\n  effect.changes.push(change);\n}",
+        "command": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\neffect.statuses.add(\"impaired\");\neffect.statuses.add(\"dazed\");\nconst impaired = CONFIG.statusEffects.find(e => e.id === \"impaired\")\nfor (const change of impaired.changes) effect.changes.push(change);\n\n\nconst dazed = CONFIG.statusEffects.find(e => e.id === \"dazed\")\nfor (const change of dazed.changes) effect.changes.push(change);",
         "trigger": "preItemRoll",
         "disabled": false,
-        "name": "Impaired or Dazed",
+        "name": "Impaired and Dazed",
         "title": "",
         "global": false
       }
@@ -765,11 +765,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767788657120,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1777665233671,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

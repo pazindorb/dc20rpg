@@ -4,7 +4,7 @@
   "img": "icons/magic/life/cross-area-circle-green-white.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You heal creatures within a 2 Space diameter Sphere within range. Make a DC 15 Spell Check. </p><p><strong>Failure:</strong> Each creature of your choice in the area regains 1 HP. </p><p><strong>Success:</strong> Each creature of your choice regains 2 HP. </p><p><strong>Success (Each 5):</strong> Each creature regain +1 HP.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Increased Healing: (1 MP, Repeatable)</strong> Each target regains +1 HP.</p>",
+    "description": "<p>You heal creatures within a 4 Space diameter Sphere within range. Make a DC 20 Spell Check.</p><p><strong>Failure:</strong> Each creature of your choice in the area regains 1 HP.</p><p><strong>Success:</strong> Each creature of your choice regains 2 HP.</p><p><strong>Success (Each 5):</strong> Each creature regain +1 HP.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 2 Spaces.</p><p><strong>Increased Healing: (X MP)</strong> Each target regains +X HP.</p><p><strong>Protection: (1 MP, Repeatable)</strong> The next Attack made against each target within 1 Round has DisADV. You can use this Enhancement a maximum of two times. If you use this Enhancement twice, all Attacks made against each target within 1 Round have DisADV.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -75,7 +75,7 @@
       },
       "contestedKey": "phy",
       "againstDC": true,
-      "checkDC": 15,
+      "checkDC": 20,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -228,7 +228,7 @@
         "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
+        "description": "<p>The diameter of the Sphere increases by 2 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -395,6 +395,203 @@
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
+      },
+      "rAqdmnqHr6zg9I6Z": {
+        "name": "Protection",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The next Attack made against each target within 1 Round has DisADV.</p><p>You can use this Enhancement a maximum of two times. If you use this Enhancement twice, all Attacks made against each target within 1 Round have DisADV.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "name": "Protection",
+            "img": "icons/magic/life/cross-area-circle-green-white.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": 0,
+              "combat": null,
+              "seconds": null,
+              "startRound": null,
+              "startTurn": null,
+              "turns": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "enhKey": "rAqdmnqHr6zg9I6Z"
+              }
+            },
+            "_id": "6rImmAsxmh18wSjG",
+            "type": "base",
+            "system": {
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "statusId": "",
+              "condition": false,
+              "fromStatus": false,
+              "duration": {
+                "useCounter": true,
+                "resetWhenEnabled": false,
+                "onTimeEnd": "delete"
+              },
+              "effectKey": "",
+              "macro": "",
+              "addToChat": false,
+              "applyToTemplate": true,
+              "nonessential": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "enableStatusOnCreation": [],
+              "disableStatusOnRemoval": [],
+              "requireEnhancement": "",
+              "chatMessageId": ""
+            },
+            "changes": [
+              {
+                "key": "system.dynamicRollModifier.againstYou.martial.melee",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.martial.area",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.spell.melee",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.againstYou.spell.area",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                "priority": null,
+                "useCustom": false
+              }
+            ],
+            "description": "<p>Attack against you has DisADV.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "exportSource": null,
+              "coreVersion": "13.351",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.10.0.2",
+              "createdTime": 1777022476030,
+              "modifiedTime": 1777022476030,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y"
+            }
+          },
+          "macros": {
+            "preItemRoll": "if (enh.number === 1) return;\n\nenh.modifications.addsEffect.changes[0].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[1].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[2].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[3].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[4].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[5].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -405,7 +602,7 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
@@ -420,7 +617,7 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 2,
+          "distance": 4,
           "width": null,
           "unit": "",
           "difficult": ""
@@ -535,7 +732,7 @@
         "label": "dc20rpg.spellSource.divine"
       },
       "primal": {
-        "active": true,
+        "active": false,
         "label": "dc20rpg.spellSource.primal"
       }
     },
@@ -560,7 +757,8 @@
       }
     },
     "spellTags": {
-      "healing": "Healing"
+      "healing": "Healing",
+      "ward": "Ward"
     }
   },
   "effects": [],
@@ -570,11 +768,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1768046138600,
-    "modifiedTime": 1768063286243,
+    "modifiedTime": 1777022492811,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

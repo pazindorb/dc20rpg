@@ -4,7 +4,7 @@
   "img": "icons/skills/movement/feet-winged-sandals-tan.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You run through a line of enemies.</p><p><em><strong>Range:</strong> Self</em></p><p>You move in a Line up to your Speed. Make a Martial Check. Each creature within the Line must make a Martial Check contested against your Check when you attempt to move through its Space.</p><ul><li><p><strong>Contest Success:</strong> You can move through the creature’s Space.</p></li><li><p><strong>Contest Failure:</strong> You’re unable to move through the creature’s Space, preventing you from moving any further.</p></li></ul><p><em><strong>Example:</strong> You make a Martial Check with a result of 15. If your Speed is 5, you can move up to 5 Spaces in a straight Line. If there are 3 creatures in that Line, your Martial Check of 15 would be compared to a Martial Check each creature makes as you attempt to pass through their Space, one by one. If the first creature in your path gets a 15 or higher, you can’t pass through their Space and stop moving.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Brush Past: (2 SP) </strong>The Space of every creature who fails the contest isn’t considered Difficult Terrain for this movement. You don’t provoke an Opportunity Attack from them if you leave their reach as part of the same movement.</p><p><strong>Trample: (2 SP)</strong> Every creature who fails the contest is knocked Prone.</p>",
+    "description": "<p>You run through a line of enemies.</p><p><em><strong>Range:</strong> Self</em></p><p>You move in a Line up to your Speed. Make a Martial Check. Each creature within the Line must make a Martial Check contested against your Check when you attempt to move through its Space.</p><ul><li><p><strong>Contest Success:</strong> You can move through the creature’s Space and they are knocked Prone.</p></li><li><p><strong>Contest Failure:</strong> You’re unable to move through the creature’s Space, preventing you from moving any further.</p></li></ul><p><em><strong>Example:</strong> You make a Martial Check with a result of 15. If your Speed is 5, you can move up to 5 Spaces in a straight Line. If there are 3 creatures in that Line, your Martial Check of 15 would be compared to a Martial Check each creature makes as you attempt to pass through their Space, one by one. If the first creature in your path gets a 15 or higher, you can’t pass through their Space and stop moving.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Brush Past: (1 SP) </strong>The Space of every creature who fails the contest isn’t considered Difficult Terrain for this movement and you don’t provoke an Opportunity Attack from them.</p><p><strong>Distance: (1 SP, Repeatable)</strong> You can move up to an additional half your Speed.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -126,7 +126,21 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
+    "againstStatuses": {
+      "NAC7dg9CTQQ0uzK5": {
+        "id": "prone",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
     "rollRequests": {
       "jbd6YDeQI7z3wJia": {
         "category": "contest",
@@ -144,13 +158,13 @@
         "name": "Brush Past",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The Space of every creature who fails the contest isn’t considered Difficult Terrain for this movement. You don’t provoke an Opportunity Attack from them if you leave their reach as part of the same movement.</p>",
+        "description": "<p>The Space of every creature who fails the contest isn’t considered Difficult Terrain for this movement and you don’t provoke an Opportunity Attack from them.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
           "mana": null,
-          "stamina": 2,
+          "stamina": 1,
           "grit": null,
           "restPoints": null,
           "custom": {}
@@ -226,16 +240,16 @@
         }
       },
       "fbpmVNlf1HzKMnqU": {
-        "name": "Trample",
+        "name": "Distance",
         "number": 0,
         "preventModification": false,
-        "description": "<p>Every creature who fails the contest is knocked Prone.</p>",
+        "description": "<p>(Repeatable) You can move up to an additional half your Speed.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
           "mana": null,
-          "stamina": 2,
+          "stamina": 1,
           "grit": null,
           "restPoints": null,
           "custom": {}
@@ -277,7 +291,7 @@
             "addMasteryToDC": true,
             "respectSizeRules": false
           },
-          "addsAgainstStatus": true,
+          "addsAgainstStatus": false,
           "againstStatus": {
             "id": "prone",
             "supressFromChatMessage": false,
@@ -288,7 +302,8 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forXRounds": null
           },
           "addsEffect": null,
           "macros": {
@@ -448,11 +463,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766093548677,
-    "modifiedTime": 1766096979619,
+    "modifiedTime": 1776956164166,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

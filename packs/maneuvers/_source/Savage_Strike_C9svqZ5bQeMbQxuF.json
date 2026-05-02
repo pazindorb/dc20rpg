@@ -4,7 +4,7 @@
   "img": "icons/skills/melee/strike-sword-blood-red.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You cause a creature to bleed with the ferocity and precision of your attack.</p><p><em><strong>Range:</strong> Weapon or Unarmed Strike</em></p><p>Make a Martial Attack against the PD of a target within range, and it makes a Repeated Physical Save against your Save DC.</p><ul><li><p><strong>Hit:</strong> The target takes the damage of your Weapon or Unarmed Strike.</p></li><li><p><strong>Save Failure:</strong> The target becomes Impaired for 1 minute or begins Bleeding (your choice).</p></li></ul><p><em><strong>System Tip:</strong></em> <em>To choose between conditions, simply use one of the enhancements. This maneuver takes this into account when determining the base cost.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Improved Bleed: (1 SP, Repeatable)</strong> The target gains a stack of Bleeding.</p><p><strong>Improved Impaired: (1 SP, Repeatable)</strong> The target gains a stack of Impaired.</p><p><strong>Weakened: (2 SP)</strong> The target gains a stack of Weakened.</p><p></p>",
+    "description": "<p>You cause a creature to bleed with the ferocity and precision of your attack.</p><p><em><strong>Range:</strong> Weapon or Unarmed Strike</em></p><p>Make a Martial Attack against the PD of a target within range, and it makes a Repeated Physical Save against your Save DC.</p><ul><li><p><strong>Hit:</strong> The target takes the damage of your Weapon or Unarmed Strike.</p></li><li><p><strong>Save Failure:</strong> The target becomes Impaired for 1 minute or begins Bleeding (your choice).</p></li></ul><p><em><strong>System Tip:</strong></em> <em>To choose between conditions, simply use one of the enhancements. This maneuver takes this into account when determining the base cost.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Improved Bleed: (X SP)</strong> The target gains a stack of Bleeding.</p><p><strong>Improved Impaired: (X SP)</strong> The target gains a stack of Impaired.</p><p><strong>Weakened: (2 SP)</strong> The target gains a stack of Weakened.</p><p></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -194,7 +194,8 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": true,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forXRounds": null
           },
           "addsEffect": null,
           "macros": {
@@ -364,7 +365,8 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": true,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forXRounds": null
           },
           "addsEffect": null,
           "macros": {
@@ -524,11 +526,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766003252161,
-    "modifiedTime": 1766048102475,
+    "modifiedTime": 1776955359337,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -536,6 +538,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "C9svqZ5bQeMbQxuF",
-  "sort": 100000,
+  "sort": 700000,
   "_key": "!items!C9svqZ5bQeMbQxuF"
 }

@@ -4,7 +4,7 @@
   "img": "icons/magic/nature/root-vine-entangled-humanoid.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You conjure an area of entangling plants or other natural effect on the surfaces in a 2 Space diameter Sphere, the area becomes Entangled for the duration. Make a Spell Check against the Agility Save of each target in the area.</span></p><p><span class=\"cf0\"><strong>Check Success:</strong> The target is Immobilized. A creature can spend 1 AP to attempt this Save again, alternatively the Condition ends if the Entangled Space it is in is cleared.</span></p><p><span class=\"cf0\"><strong>Entangled:</strong> Entangled Spaces are Difficult Terrain. These Spaces are cleared if they take Elemental or Slashing damage equal to the MP spent on this Spell and have a PD and AD equal to your Save DC.</span></p><p><span class=\"cf0\"><em><strong>Example:</strong> A 1st level Druid casts Entangle using 1 MP, each Space has a PD and AD or 14 (equal to Save DC) and needs to take 1 Fire or Slashing damage to be cleared (equal to 1 MP spent to cast the Spell)</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 Space.</p><p><strong>Grasping:</strong> <strong>(1 MP, Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target is Immobilized.</p><p><strong>Restrained: (2 MP)</strong> Creatures Immobilized by Entangle are Restrained.</p><p><strong>Spikey Terrain: (X MP)</strong> Creatures take X Piercing damage when they enter an Entangled Space after the Spell has been cast. They also take this damage if they fail a Save to end the Immobilized Condition inflicted by this Spell.</p>",
+    "description": "<p><span class=\"cf0\">You conjure a 3 Space diameter Sphere of natural phenomenon (such as entangling plants) within range. The area becomes Difficult Terrain for the duration.</span></p><p><span class=\"cf0\">Make a Spell Check against the Agility Save of each creature in the area.</span></p><p><span class=\"cf0\"><strong>Save Failure:</strong> The target becomes Immobilized for the duration or until its Space is cleared of the effect. The target can also spend 1 AP to repeat its Save, ending the Condition on itself on a Success.</span></p><p><span class=\"cf0\"><strong>Clearing Spaces: </strong>Each Space within the area has an AD and PD equal to your Save DC and is cleared when it takes an amount of Elemental or Slashing damage equal to the MP spent on the Spell (minimum of 1).</span></p><p><em><strong>System Tip:</strong> Clearing Spaces is not automated.</em></p><p><span class=\"cf0\"><em><strong>Example:</strong> A 1st level Druid casts Entangle using 1 MP, each Space has a PD and AD or 14 (equal to Save DC) and needs to take 1 Fire or Slashing damage to be cleared (equal to 1 MP spent to cast the Spell)</em></span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (</strong><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>X MP</strong></span><strong>)</strong> The diameter of the Sphere increases by X Space.</p><p><strong>Grasping:</strong> <strong>(2 MP)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC. <strong>Save Failure:</strong> The target is Immobilized.</p><p><strong>Restrained: (2 MP)</strong> Creatures Immobilized by Entangle are Restrained.</p><p><strong>Spikey Terrain: (X MP)</strong> Creatures take X Piercing damage when they enter an Entangled Space after the Spell has been cast. They also take this damage if they fail a Save to end the Immobilized Condition inflicted by this Spell.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -465,7 +465,7 @@
             }
           },
           "macros": {
-            "preItemRoll": "item.system.duration.type = \"sustain\";",
+            "preItemRoll": "",
             "postItemRoll": "const entangle = item.getEffectByKey(\"entangle\");\nif (!entangle) return;\n\nenh.modifications.addsEffect.flags.dc20rpg.entangle = entangle.toObject(false);"
           },
           "rollLevelChange": false,
@@ -752,7 +752,7 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 2,
+          "distance": 3,
           "width": null,
           "unit": "",
           "difficult": "all"
@@ -992,11 +992,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767802765144,
-    "modifiedTime": 1768594312436,
+    "modifiedTime": 1777379433185,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -1004,6 +1004,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "cvsHJBsmJ6lTQpg4",
-  "sort": 0,
+  "sort": 1300000,
   "_key": "!items!cvsHJBsmJ6lTQpg4"
 }
