@@ -452,7 +452,7 @@ export class RollDialog extends DC20Dialog {
                   ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects})
                   : await DC20Roll.rollFormula(coreFormula, this.details, this.actor, {rollMode: this.rollMode, afterRollEffects: this.afterRollEffects});
     
-    const preventClose = !roll && !this.quickRoll;
+    const preventClose = roll === undefined && !this.quickRoll;
     if (preventClose) return this.render();
     this.promiseResolve(roll);
     this.close();

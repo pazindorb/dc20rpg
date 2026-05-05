@@ -217,6 +217,7 @@ DC20RPG.allEventTriggers = {
   actorWithIdEndsNextTurn: "Caster ends its next turn",
   targetConfirm: "Target Confirmed",
   combatStart: "Combat Start",
+  combatEnd: "Combat End",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
   resourceChange: "Resource Change",
@@ -919,6 +920,7 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
   weapon: "Weapon",
   ...DC20RPG.DROPDOWN_DATA.damageTypes,
   ...DC20RPG.DROPDOWN_DATA.conditions,
+  prone: "Prone",
   ...DC20RPG.DROPDOWN_DATA.creatureTypes,
 }
 
@@ -1028,7 +1030,7 @@ DC20RPG.PROPERTIES = {
   thrown: {
     label: "dc20rpg.properties.thrown",
     for: ["melee"],
-    cost: 1,
+    cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK"
   },
   twoHanded: {

@@ -70,7 +70,8 @@ function _skillModifier(skill, key, actor) {
 		skill.highestSelected = true;
 	}
 	if (expertise.has(key)) skill.expertise = true;
-	skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
+	const attribute = attributes[skill.baseAttribute]
+	skill.modifier = attribute.value + attribute.bonuses.check + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
 	skill.masteryLimit = _masteryLimit(actor, skill.expertise);
 	skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
 }

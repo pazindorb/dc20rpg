@@ -182,7 +182,7 @@ export function finishRoll(actor, item, rollMenu, coreRoll, afterRollEffects) {
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(afterRollEffects);
   reenablePreTriggerEvents();
-  delete item.overridenDamage;
+  delete item.damageOverride;
 }
 
 export function resetEnhancements(item, actor, itemRollFinished) {

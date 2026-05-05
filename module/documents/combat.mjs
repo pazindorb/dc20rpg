@@ -195,6 +195,8 @@ export class DC20RpgCombat extends Combat {
       combatant.actor.help.clear();
       combatant.actor.help.clear(null, "combat");
       this._refreshOnCombatEnd(actor);
+      runEventsFor("combatEnd", actor);
+      reenableEventsOn("combatEnd", actor);
     });
     await super.endCombat();
     if (token) token.renderFlags.set({refreshTurnMarker: true});

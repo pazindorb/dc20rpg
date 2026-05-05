@@ -297,6 +297,14 @@ export async function runInstantEvents(effect, actor) {
   for (const change of effect.changes) {
     if (change.key === "system.events" && change.value.includes('"instant"')) {
       const event = await parseEvent(change.value);
+
+      if (event.activeCombatantOnly) {
+        if (!actor.myTurnActive) continue;
+      }
+      if (event.skipIfCaster) {
+        if (event.actorId === actor.id) continue;
+      }
+
       event.effectId = effect.id;
       await runEventsFor("instantTrigger", actor, [], {}, event);
     }

@@ -219,7 +219,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       const mt = canvas.templates.placeables.find(template => template.id === templateId);
       if (!mt) idsToRemove.add(templateId);
       else {
-        await mt.document.update({
+        await mt.document.gmUpdate({
           x: this.object.center.x,
           y: this.object.center.y
         }, {skipLinkedEffectApplication: true});

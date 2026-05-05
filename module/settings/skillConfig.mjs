@@ -188,7 +188,7 @@ export class SkillConfiguration extends DC20Dialog {
         });
     });
     for (const token of allTokens) {
-      await token.actor.skillAndLanguage.refreshAll();
+      if (token.actor) await token.actor.skillAndLanguage.refreshAll();
     }
 
     this.close();

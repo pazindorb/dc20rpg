@@ -180,19 +180,18 @@ function _classBlueprint(item) {
   advancements[generateKey()] = _baseAdvancement("Class Features", 1, false, false);
   advancements[generateKey()] = _baseAdvancement("Class Feature, Talent, Path Progression", 2, true, true);
   advancements[generateKey()] = _baseAdvancement("Talent, Path Progression", 4, true, true);
-  advancements[generateKey()] = _baseAdvancement("Class Feature", 5, false, false);
-  advancements[generateKey()] = _baseAdvancement("Path Progression", 6, true, false);
-  advancements[generateKey()] = _baseAdvancement("Talent", 7, false, true);
-  advancements[generateKey()] = _baseAdvancement("Class Capstone Feature, Path Progression", 8, true, false);
-  advancements[generateKey()] = _baseAdvancement("Epic Boon, Talent", 10, false, true);
+  advancements[generateKey()] = _baseAdvancement("Class Expert Feature", 5, false, false);
+  advancements[generateKey()] = _baseAdvancement("Talent, Path Progression", 6, true, true);
+  advancements[generateKey()] = _baseAdvancement("Talent, Path Progression", 8, true, true);
+  advancements[generateKey()] = _baseAdvancement("Class Capstone Feature", 9, false, false);
   item.update({["system.advancements"]: advancements});
 }
 
 function _subclassBlueprint(item) {
   const advancements = {};
   advancements[generateKey()] = _baseAdvancement("Subclass Feature", 3, false, false);
-  advancements[generateKey()] = _baseAdvancement("Subclass Feature", 6, false, false);
-  advancements[generateKey()] = _baseAdvancement("Subclass Capstone Feature", 9, false, false);
+  advancements[generateKey()] = _baseAdvancement("Subclass Expert Feature", 7, false, false);
+  advancements[generateKey()] = _baseAdvancement("Subclass Capstone Feature", 10, false, false);
   item.update({["system.advancements"]: advancements});
 }
 
@@ -208,7 +207,7 @@ function _ancestryBlueprint(item) {
   advancement.mustChoose = true;
   advancement.pointAmount = 5;
   advancement.repeatable = true;
-  advancement.repeatAt = [0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  advancement.repeatAt = [0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0];
   item.update({[`system.advancements.${generateKey()}`]: advancement});
 }
 
