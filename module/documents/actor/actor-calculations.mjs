@@ -65,15 +65,26 @@ function _skillModifier(skill, key, actor) {
 		skill.mastery += 1;
 		skill.expertiseIncrease = true;				
 	}
+
+	if (expertise.has(key)) skill.expertise = true;
+	skill.masteryLimit = _masteryLimit(actor, skill.expertise);
+	skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
+
 	if (skill.baseAttribute === "max") {
 		skill.baseAttribute = _highestAttribute(skill.attributes, actor);
 		skill.highestSelected = true;
 	}
-	if (expertise.has(key)) skill.expertise = true;
-	const attribute = attributes[skill.baseAttribute]
-	skill.modifier = attribute.value + attribute.bonuses.check + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
-	skill.masteryLimit = _masteryLimit(actor, skill.expertise);
-	skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
+
+	// From Prime
+	if (skill.baseAttribute === "prime") {
+		const prime = actor.system.details.prime;
+		skill.modifier = prime + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
+	}
+	// From Attribute
+	else {
+		const attribute = attributes[skill.baseAttribute];
+		skill.modifier = attribute.value + attribute.bonuses.check + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
+	}
 }
 
 function _highestAttribute(attributes, actor) {
@@ -179,10 +190,8 @@ function _attributePoints(actor) {
 	const attributePoints = actor.system.attributePoints;
 	if (attributePoints.override) attributePoints.max = attributePoints.overridenMax;
 	attributePoints.max += attributePoints.extra + attributePoints.bonus;
-	Object.entries(actor.system.attributes)
-						.filter(([key, atr]) => key !== "prime")
-						.forEach(([key, atr]) => {
-								attributePoints.spent += atr.current +2;
+	Object.entries(actor.system.attributes).forEach(([key, atr]) => {
+							attributePoints.spent += atr.current +2;
 							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
@@ -298,7 +307,9 @@ function _movement(actor) {
 
 function _jump(actor) {
 	const jump = actor.system.jump;
-	let value = jump.key === "flat" ? jump.value : actor.system.attributes[jump.key].value; 
+	let value = actor.system.attributes[jump.key]?.value;
+	if (jump.key === "prime") value = actor.system.details.prime;
+	if (jump.key === "flat") value = jump.value;
 	if (value <= 0) value = 1;
 	jump.current = (value + jump.bonus) * jump.multiplier;
 }
@@ -358,7 +369,7 @@ function _damageReduction(actor) {
 function _deathsDoor(actor) {
 	const death = actor.system.death;
 	const currentHp = actor.system.resources.health.current;
-	const prime = actor.system.attributes.prime.value;
+	const prime = actor.system.details.prime;
 	const combatMastery = actor.system.details.combatMastery;
 
 	const treshold = -prime - combatMastery - death.bonus;

@@ -302,7 +302,7 @@
             <select name="system.enhancements.{{enhancementKey}}.modifications.rollRequest.dcCalculation">
               {{selectOptions @root.config.DROPDOWN_DATA.dcCalculationTypes selected=enhancement.modifications.rollRequest.dcCalculation}}
             </select>
-            {{#if (arrayIncludes enhancement.modifications.rollRequest.dcCalculation arrayString="prime mig agi int cha")}}
+            {{#if (arrayIncludes enhancement.modifications.rollRequest.dcCalculation arrayString="mig agi int cha")}}
               <a class="activable margin-left-3" data-path="system.enhancements.{{enhancementKey}}.modifications.rollRequest.addMastery" title="{{localize "dc20rpg.item.sheet.rollRequests.addMastery"}}">
                 <i class="fa-lg {{#if enhancement.modifications.rollRequest.addMastery}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
               </a>

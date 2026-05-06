@@ -176,7 +176,7 @@ function _validateSpecificSkillKey(modification, specificSkill) {
 //========================================
 function _getCheckPath(details, actor) {
   switch (details.type) {
-    case "attributeCheck": case "attackCheck": case "spellCheck": case "martialCheck":
+    case "attributeCheck": case "attackCheck": case "spellCheck": case "martialCheck": case "primeCheck":
       return `checks.${details.checkKey}`;
     case "initiative":  return "initiative";
     case "deathSave":   return "deathSave";

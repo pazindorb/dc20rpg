@@ -96,7 +96,7 @@ function _calculateLineCount(text, lineLength) {
 }
 
 function _setValues(form, actor, itemCards) {
-  const prime = actor.system.attributes.prime.value || 0;
+  const prime = actor.system.details.prime || 0;
   const combatMastery = actor.system.details.combatMastery || 0;
 
   // =================== HEADER ===================
@@ -117,7 +117,7 @@ function _setValues(form, actor, itemCards) {
 
 
   // ================== COLUMN 1 ==================
-  _text(form.getTextField("Prime"), actor.system.attributes.prime.value);
+  _text(form.getTextField("Prime"), prime);
   _text(form.getTextField("Might"), actor.system.attributes.mig.value);
   _text(form.getTextField("Agility"), actor.system.attributes.agi.value);
   _text(form.getTextField("Charisma"), actor.system.attributes.cha.value);

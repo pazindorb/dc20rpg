@@ -24,49 +24,40 @@ export function prepareRollDataForEffectCall(actor, data) {
 }
 
 function _calculateAttributes(data, actor) {
-	const attributes = data.attributes;
-	let primeAttrKey = "mig";
 	if (data.attributes) {
 		for (let [key, attribute] of Object.entries(data.attributes)) {
-			if (key === "prime") continue;
-			data[key] = foundry.utils.deepClone(attribute.current);
-			if (attribute.current >= attributes[primeAttrKey].current) primeAttrKey = key;
+			data[key] = foundry.utils.deepClone(attribute.current) - actor.exhaustion;
+			data[`${key}Value`] = foundry.utils.deepClone(attribute.current);
 		}
-	}
-	const useMaxPrime = game.settings.get("dc20rpg", "useMaxPrime");
-	if (useMaxPrime && actor.type === "character") {
-		const level = actor.system.details.level;
-		const limit = 3 + Math.floor(level/5);
-		data.prime = {
-			saveMastery: true,
-			current: limit,
-			value: limit,
-			save: limit,
-			check: limit,
-			label: "Prime",
-			bonuses: {
-				check: 0,
-				value: 0,
-				save: 0
-			}
-		}
-	}
-	else {
-		data.prime = foundry.utils.deepClone(attributes[primeAttrKey].current);
 	}
 }
 
 function _calculateDetails(data, actor) {
-	if (data.details.level) {
-		const level = actor.system.details.level || 0
-		data.level = level;
-		data.combatMastery = Math.ceil(level/2);
+	if (data.details.level == null) return;
+	
+	const level = actor.system.details.level || 0;
+	data.level = level;
+	data.combatMastery = Math.ceil(level/2);
+
+	// Calculate prime
+	const useMaxPrime = game.settings.get("dc20rpg", "useMaxPrime");
+	if (useMaxPrime) {
+		data.prime = 3 + Math.floor(level/5);
+	}
+	else {
+		const attributes = actor.system.attributes;
+		let prime = attributes.mig.value;
+		for (const attr of Object.values(attributes)) {
+			if (attr.current > prime) prime = attr.current;
+		}
+		data.prime = prime - actor.exhaustion;
+		data.primeValue = prime;
 	}
 }
 
 function _attributes(data) {
 	// Copy the attributes to the top level, so that rolls can use
-	// formulas like `@mig + 4` or `@prime + 4`
+	// formulas like `@mig + 4` or `@agi + 4`
 	if (data.attributes) {
 		for (let [key, attribute] of Object.entries(data.attributes)) {
 			data[key] = attribute.check;
@@ -85,6 +76,10 @@ function _details(data) {
 	}
 	if (data.details.combatMastery) {
 		data.combatMastery = data.details.combatMastery ?? 0;
+	}
+	if (data.details.prime) {
+		data.prime = data.details.primeCheck ?? 0;
+		data.primeValue = data.details.primeValue;
 	}
 }
 

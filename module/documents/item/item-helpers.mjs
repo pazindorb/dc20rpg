@@ -190,10 +190,6 @@ function _collectUseCost(item, clean=false) {
       _addToResources(cost, key, value, actor, enhancement.number);
     }
     // Collect charges
-    // TODO backward compatibilty remove as part of 0.10.0 update
-    if (enhancement.charges?.consume && enhancement.charges.subtract === undefined) {
-      enhancement.charges.subtract = 1;
-    } 
     if (enhancement.charges?.subtract) {
       if (enhancement.charges.fromOriginal) {
         _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
@@ -209,18 +205,10 @@ function _collectUseCost(item, clean=false) {
     delete cost.resources.ap;
   }
 
-  // Respect Outside of Combat rules if setting selected
-  if (game.settings.get("dc20rpg", "outsideOfCombatRule") && !actor.inCombat) {
-    delete cost.resources.ap;
-    delete cost.resources.stamina;
-    if (cost.resources.mana > 1) cost.resources.mana -= 1;
-  }
-
   return cost;
 }
 
 function _addToResources(cost, key, value, actor, multiplier=1) {
-  if (key === "actionPoint") key = "ap"; //TODO backward compatibilty remove as part of 0.10.0 update
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
       _addToResources(cost, customKey, customRes.value, actor, multiplier);
@@ -531,10 +519,6 @@ function _collectEnhancementCost(item, enhKey) {
   for (let [key, value] of Object.entries(enhancement.resources)) {
     _addToResources(cost, key, value, actor);
   }
-  // TODO backward compatibilty remove as part of 0.10.0 update
-  if (enhancement.charges?.consume && enhancement.charges.subtract === undefined) {
-    enhancement.charges.subtract = 1;
-  } 
   if (enhancement.charges?.subtract) {
     if (enhancement.charges.fromOriginal) {
       _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);

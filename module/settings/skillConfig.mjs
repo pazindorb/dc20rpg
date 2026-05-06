@@ -126,7 +126,8 @@ export class SkillConfiguration extends DC20Dialog {
     const context = await super._prepareContext(options);
     context.attributes = CONFIG.DC20RPG.TRANSLATION_LABELS.attributes
     context.baseAttributeOptions = {
-      ...CONFIG.DC20RPG.DROPDOWN_DATA.attributesWithPrime,
+      ...CONFIG.DC20RPG.DROPDOWN_DATA.attributes,
+      prime: "Prime",
       max: "Highest"
     }
     context.langCategories = {

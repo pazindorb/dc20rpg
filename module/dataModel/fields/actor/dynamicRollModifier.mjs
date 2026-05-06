@@ -21,6 +21,7 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
           att: new f.ArrayField(new f.StringField(), {required: true}),
           spe: new f.ArrayField(new f.StringField(), {required: true}),
           mar: new f.ArrayField(new f.StringField(), {required: true}),
+          prime: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         saves: new f.SchemaField({
           mig: new f.ArrayField(new f.StringField(), {required: true}),
@@ -51,6 +52,7 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
           att: new f.ArrayField(new f.StringField(), {required: true}),
           spe: new f.ArrayField(new f.StringField(), {required: true}),
           mar: new f.ArrayField(new f.StringField(), {required: true}),
+          prime: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         saves: new f.SchemaField({
           mig: new f.ArrayField(new f.StringField(), {required: true}),

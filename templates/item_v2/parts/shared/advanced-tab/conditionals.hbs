@@ -160,7 +160,7 @@
           <select name="system.conditionals.{{key}}.rollRequest.dcCalculation">
             {{selectOptions @root.config.DROPDOWN_DATA.dcCalculationTypes selected=conditional.rollRequest.dcCalculation}}
           </select>
-          {{#if (arrayIncludes conditional.rollRequest.dcCalculation arrayString="prime mig agi int cha")}}
+          {{#if (arrayIncludes conditional.rollRequest.dcCalculation arrayString="mig agi int cha")}}
             <a class="activable margin-left-3" data-path="system.conditionals.{{key}}.rollRequest.addMastery" title="{{localize "dc20rpg.item.sheet.rollRequests.addMastery"}}">
               <i class="fa-lg {{#if conditional.rollRequest.addMastery}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
             </a>

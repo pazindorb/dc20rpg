@@ -1109,6 +1109,12 @@ function _intimidated() {
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
+        key: "system.dynamicRollModifier.onYou.checks.prime",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
+      },
+      {
         key: "system.dynamicRollModifier.onYou.checks.att",
         mode: 2,
         priority: undefined,
@@ -1210,6 +1216,12 @@ function _frightened() {
       },
       {
         key: "system.dynamicRollModifier.onYou.checks.cha",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.checks.prime",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true'

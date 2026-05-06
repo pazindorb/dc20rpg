@@ -102,6 +102,7 @@ export function prepareEquippedItemsFlags(actor) {
 export function prepareRollDataForItems(actor) {
 	_combatMatery(actor);
 	_coreAttributes(actor);
+	_primeModifier(actor);
 	_modifierAndSaveDC(actor);
 	_combatTraining(actor);
 }
@@ -392,12 +393,9 @@ function _coreAttributes(actor) {
 	const attributes = actor.system.attributes;
 	const details = actor.system.details;
 	
-	let primeAttrKey = "mig";
 	for (let [key, attribute] of Object.entries(attributes)) {
-		if (key === "prime") continue;
-		const current = companionShare(actor, `attributes.${key}`) 
-											? actor.companionOwner.system.attributes[key].value
-											: attribute.current
+		const current = companionShare(actor, `attributes.${key}`) ? actor.companionOwner.system.attributes[key].value : attribute.current;
+		
 		// Final value (after respecting bonuses) (-2 is a lower limit for characters)
 		attribute.value = current + attribute.bonuses.value;
 		if (actor.type === "character") attribute.value = Math.max(attribute.value, -2);
@@ -406,56 +404,49 @@ function _coreAttributes(actor) {
 		if (companionShare(actor, `saves.${key}`)) {
 			attribute.saveMastery = actor.companionOwner.system.attributes[key].saveMastery
 		}
-		const save = attribute.value + details.combatMastery + attribute.bonuses.save - exhaustion;
+		let save = attribute.value + attribute.bonuses.save - exhaustion;
+		if (attribute.saveMastery) save += details.combatMastery;
 		attribute.save = save;
 
 		// Check Modifier
 		const check = attribute.value + attribute.bonuses.check - exhaustion;
 		attribute.check = check;
-
-		if (attribute.value >= attributes[primeAttrKey].value) primeAttrKey = key;
 	}
+}
+
+function _primeModifier(actor) {
 	const useMaxPrime = game.settings.get("dc20rpg", "useMaxPrime");
-	if (useMaxPrime && actor.type === "character") {
-		details.primeAttrKey = "maxPrime";
+	if (useMaxPrime) {
 		const level = actor.system.details.level;
-		const limit = 3 + Math.floor(level/5);
-		attributes.prime = {
-			saveMastery: true,
-			current: limit,
-			value: limit,
-			save: limit + details.combatMastery - exhaustion,
-			check: limit - exhaustion,
-			label: "Prime",
-			bonuses: {
-				check: 0,
-				value: 0,
-				save: 0
-			}
-		}
+		actor.system.details.prime = 3 + Math.floor(level/5);
 	}
 	else {
-		if (companionShare(actor, "prime")) {
-			const ownerPrime = actor.companionOwner.system.attributes.prime;
-			if (ownerPrime) {
-				details.primeAttrKey = "prime";
-				attributes.prime = foundry.utils.deepClone(ownerPrime);
-			}
-			else {
-				details.primeAttrKey = primeAttrKey;
-				attributes.prime = foundry.utils.deepClone(attributes[primeAttrKey]);
+		const attributes = actor.system.attributes;
+		let prime = attributes.mig.value;
+		let primeAttr = "mig";
+		for (const [key, attr] of Object.entries(attributes)) {
+			if (attr.value > prime) {
+				prime = attr.value;
+				primeAttr = key
 			}
 		}
-		else {
-			details.primeAttrKey = primeAttrKey;
-			attributes.prime = foundry.utils.deepClone(attributes[primeAttrKey]);
-		}
+		actor.system.details.prime = prime;
+		actor.system.details.primeAttributeKey = primeAttr;
 	}
+
+	// Override if companion share prime with owner
+	if (companionShare(actor, "prime")) {
+		const owner = actor.companionOwner;
+		actor.system.details.prime = owner.system.details.prime;
+		actor.system.details.primeAttributeKey = owner.system.details.primeAttributeKey;
+	}
+
+	actor.system.details.primeCheck = actor.system.details.prime - actor.exhaustion;
 }
 
 function _modifierAndSaveDC(actor) {
 	const exhaustion = actor.exhaustion;
-	const prime = actor.system.attributes.prime.value;
+	const prime = actor.system.details.prime;
 	const CM = actor.system.details.combatMastery;
 
 	// Attack Modifier
