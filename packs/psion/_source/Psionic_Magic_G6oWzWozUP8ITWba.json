@@ -28,8 +28,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -56,7 +55,8 @@
         "brutal": false,
         "crit": false,
         "conditionals": false
-      }
+      },
+      "ignoreCloseQuarters": false
     },
     "duration": {
       "value": null,
@@ -191,7 +191,8 @@
       "copy": true,
       "copyFor": "name=\"SELECTED SPELL NAME\"",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "save": {
       "type": "phy",
@@ -202,13 +203,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": null
       },
       "charges": {
         "current": 1,
@@ -220,12 +221,8 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "featureType": "ancestry",
@@ -306,12 +303,13 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "againstEffect": {
       "id": "",
@@ -326,13 +324,36 @@
     "rollRequests": {},
     "requirements": {
       "level": 1,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "conditionals": {},
-    "provideMartialExpansion": false,
     "featureSourceItem": "psyborn",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [],
   "folder": "q25l8ej0WVsXLSje",
@@ -340,19 +361,19 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
-    "createdTime": 1745524031161,
-    "modifiedTime": 1768418399108,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "G6oWzWozUP8ITWba",
   "sort": 100000,

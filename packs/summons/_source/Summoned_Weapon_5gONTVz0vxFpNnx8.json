@@ -1,7 +1,7 @@
 {
-  "name": "Forcefield Helper",
-  "type": "companion",
-  "img": "icons/magic/defensive/barrier-shield-dome-deflect-teal.webp",
+  "name": "Summoned Weapon",
+  "type": "npc",
+  "img": "icons/weapons/swords/scimitar-guard-red.webp",
   "system": {
     "sheetData": {
       "show": {
@@ -197,7 +197,7 @@
     "languages": {
       "com": {
         "mastery": 2,
-        "category": "mortal",
+        "category": "exotic",
         "label": "Common"
       },
       "hum": {
@@ -285,18 +285,18 @@
     },
     "resources": {
       "health": {
-        "value": 3,
+        "value": 2,
         "bonus": 0,
-        "max": 2,
-        "current": 3,
+        "max": 1,
+        "current": 2,
         "temp": null,
         "useFlat": true,
         "reset": ""
       },
       "ap": {
-        "value": 4,
+        "value": 0,
         "bonus": 0,
-        "max": 4,
+        "max": 0,
         "label": "dc20rpg.resource.ap",
         "reset": "roundEnd"
       },
@@ -337,26 +337,29 @@
       }
     },
     "damageReduction": {
-      "flat": 2,
+      "flat": 0,
       "flatHalf": false,
       "pdr": {
         "active": false,
-        "label": "dc20rpg.damageReduction.pdr"
+        "label": "dc20rpg.damageReduction.pdr",
+        "skipEqCheck": false
       },
       "edr": {
         "active": false,
-        "label": "dc20rpg.damageReduction.edr"
+        "label": "dc20rpg.damageReduction.edr",
+        "skipEqCheck": false
       },
       "mdr": {
         "active": false,
-        "label": "dc20rpg.damageReduction.mdr"
+        "label": "dc20rpg.damageReduction.mdr",
+        "skipEqCheck": false
       },
       "damageTypes": {
         "corrosion": {
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "elemental",
           "label": "dc20rpg.reductions.corrosion"
@@ -365,7 +368,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "elemental",
           "label": "dc20rpg.reductions.cold"
@@ -374,7 +377,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "elemental",
           "label": "dc20rpg.reductions.fire"
@@ -383,7 +386,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "elemental",
           "label": "dc20rpg.reductions.lightning"
@@ -392,7 +395,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "elemental",
           "label": "dc20rpg.reductions.poison"
@@ -401,7 +404,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "mystical",
           "label": "dc20rpg.reductions.radiant"
@@ -410,7 +413,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "mystical",
           "label": "dc20rpg.reductions.psychic"
@@ -419,7 +422,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "mystical",
           "label": "dc20rpg.reductions.umbral"
@@ -428,7 +431,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "physical",
           "label": "dc20rpg.reductions.piercing"
@@ -437,7 +440,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "physical",
           "label": "dc20rpg.reductions.slashing"
@@ -446,7 +449,7 @@
           "vulnerable": 0,
           "resist": 0,
           "vulnerability": false,
-          "resistance": true,
+          "resistance": false,
           "immune": false,
           "category": "physical",
           "label": "dc20rpg.reductions.bludgeoning"
@@ -464,11 +467,23 @@
         "immunity": false,
         "label": "dc20rpg.conditions.magical"
       },
-      "curse": {
+      "cursed": {
         "resistance": 0,
         "vulnerability": 0,
         "immunity": false,
-        "label": "dc20rpg.conditions.curse"
+        "label": "dc20rpg.conditions.cursed"
+      },
+      "poisoned": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.poisoned"
+      },
+      "diseased": {
+        "resistance": 0,
+        "vulnerability": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.diseased"
       },
       "movement": {
         "resistance": 0,
@@ -596,12 +611,6 @@
         "immunity": false,
         "label": "dc20rpg.conditions.prone"
       },
-      "poisoned": {
-        "resistance": 0,
-        "vulnerability": 0,
-        "immunity": false,
-        "label": "dc20rpg.conditions.poisoned"
-      },
       "restrained": {
         "resistance": 0,
         "vulnerability": 0,
@@ -660,7 +669,7 @@
     "customCondition": "",
     "size": {
       "fromAncestry": false,
-      "size": "medium",
+      "size": "tiny",
       "spaceOccupation": null
     },
     "jump": {
@@ -894,7 +903,8 @@
       "prevent": {
         "goUnderAP": 0,
         "hpRegeneration": false,
-        "criticalHit": false
+        "criticalHit": false,
+        "flanking": false
       },
       "ignore": {
         "difficultTerrain": false,
@@ -1036,75 +1046,28 @@
     "sustain": {},
     "journal": "",
     "tokenHotbar": {
-      "sectionA": {
-        "0": "ZsoIM2oPusaOUGWd"
-      },
+      "sectionA": {},
       "sectionB": {},
       "resource1": {},
       "resource2": {},
       "resource3": {}
-    },
-    "attributePoints": {
-      "max": 8,
-      "extra": 0,
-      "bonus": 0,
-      "spent": 0,
-      "override": false,
-      "overridenMax": 0
-    },
-    "traits": {},
-    "companionOwnerId": "",
-    "shareWithCompanionOwner": {
-      "attackMod": false,
-      "checkMod": false,
-      "saveDC": false,
-      "ap": false,
-      "health": false,
-      "combatMastery": false,
-      "prime": false,
-      "combatTraining": false,
-      "speed": false,
-      "skills": false,
-      "defences": {
-        "area": false,
-        "precision": false
-      },
-      "damageReduction": {
-        "pdr": false,
-        "edr": false,
-        "mdr": false
-      },
-      "attributes": {
-        "mig": false,
-        "agi": false,
-        "cha": false,
-        "int": false
-      },
-      "saves": {
-        "mig": false,
-        "agi": false,
-        "cha": false,
-        "int": false
-      },
-      "mcp": false,
-      "initiative": false
     }
   },
   "prototypeToken": {
-    "name": "Forcefield Helper",
+    "name": "Summoned Weapon",
     "displayName": 20,
-    "actorLink": true,
+    "actorLink": false,
     "width": 1,
     "height": 1,
     "texture": {
-      "src": "icons/magic/defensive/barrier-shield-dome-deflect-teal.webp",
+      "src": "icons/weapons/swords/scimitar-guard-red.webp",
       "anchorX": 0.5,
       "anchorY": 0.5,
       "offsetX": 0,
       "offsetY": 0,
       "fit": "contain",
-      "scaleX": 0.2,
-      "scaleY": 0.2,
+      "scaleX": 1,
+      "scaleY": 1,
       "rotation": 0,
       "tint": "#ffffff",
       "alphaThreshold": 0.75
@@ -1112,7 +1075,7 @@
     "lockRotation": false,
     "rotation": 0,
     "alpha": 1,
-    "disposition": 1,
+    "disposition": -1,
     "displayBars": 20,
     "bar1": {
       "attribute": "resources.health"
@@ -1166,7 +1129,7 @@
         "ring": null,
         "background": null
       },
-      "effects": 0,
+      "effects": 1,
       "subject": {
         "scale": 1,
         "texture": null
@@ -1186,326 +1149,9 @@
   },
   "items": [
     {
-      "type": "feature",
-      "name": "Activate Forcefield",
-      "_id": "ZsoIM2oPusaOUGWd",
-      "img": "icons/magic/defensive/barrier-shield-dome-deflect-teal.webp",
-      "system": {
-        "itemKey": "activateForcefield",
-        "description": "<p>Toggle this item to activate Forcefield configuration.</p>",
-        "shortInfo": "",
-        "tableName": "",
-        "source": "",
-        "choicePointCost": 1,
-        "requirements": {
-          "level": 1,
-          "items": ""
-        },
-        "rollMenu": {
-          "free": false,
-          "rangeType": "",
-          "versatile": false,
-          "flanks": false,
-          "halfCover": false,
-          "tqCover": false,
-          "dis": 0,
-          "adv": 0,
-          "apCost": 0,
-          "gritCost": 0,
-          "autoCrit": false,
-          "autoFail": false,
-          "coreFormula": {
-            "modifier": "",
-            "source": ""
-          },
-          "help": [],
-          "ignoreMCP": false
-        },
-        "hideFromCompendiumBrowser": false,
-        "quickRoll": true,
-        "macros": {
-          "amPKLASFZBSbmdmP": {
-            "command": "if (!on) return;\n\nconst questions = [\n  {type: \"input\", label: \"Durable enhancement\"},\n  {type: \"input\", label: \"Your Save DC\"}\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: \"Configure Forcefield\", inputs: questions});\nif (!answers) return;\n\nconst durable = parseInt(answers[0]) || 0;\nconst saveDC = parseInt(answers[1]) || 8;\n\nawait actor.update({\n  [\"system.resources.health.max\"]: 2 + durable,\n  [\"system.defences.precision.normal\"]: saveDC,\n  [\"system.defences.area.normal\"]: saveDC\n});\nawait actor.update({\n  [\"system.resources.health.value\"]: 2 + durable,\n});",
-            "trigger": "onItemToggle",
-            "disabled": false,
-            "name": "Configure Dome",
-            "title": "",
-            "global": false
-          }
-        },
-        "usable": true,
-        "isReaction": false,
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "duration": "round"
-        },
-        "toggle": {
-          "toggleable": true,
-          "toggledOn": false,
-          "toggleOnRoll": true
-        },
-        "actionType": "",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "precision",
-          "rollBonus": 0,
-          "combatMastery": true,
-          "critThreshold": 20,
-          "halfDmgOnMiss": false,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          },
-          "ignoreCloseQuarters": false,
-          "formulaMod": ""
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "mar",
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "contestedKey": "phy",
-          "againstDC": true,
-          "checkDC": 10,
-          "respectSizeRules": false,
-          "failEffect": ""
-        },
-        "save": {
-          "type": "phy",
-          "dc": 0,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": null,
-            "ap": null,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "grit": null,
-            "restPoints": null,
-            "custom": {}
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "reset": "",
-            "showAsResource": false,
-            "subtract": 1,
-            "deleteOnZero": false
-          }
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false
-        },
-        "range": {
-          "melee": 1,
-          "normal": null,
-          "max": null,
-          "unit": ""
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": "",
-              "linkWithToggle": false
-            }
-          }
-        },
-        "conditional": {
-          "hasConditional": false,
-          "name": "",
-          "condition": "",
-          "useFor": "",
-          "linkWithToggle": false,
-          "bonus": "0",
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "conditionals": {},
-        "hasAdvancement": false,
-        "advancements": {
-          "default": {
-            "name": "Advancement",
-            "customTitle": "",
-            "tip": "",
-            "level": 1,
-            "applied": false,
-            "additionalAdvancement": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "progressPath": false,
-            "mustChoose": false,
-            "doNotAddToKnownLimit": false,
-            "pointAmount": 1,
-            "talent": false,
-            "allowToAddItems": false,
-            "addItemsOptions": {
-              "itemType": "",
-              "preFilters": "",
-              "helpText": "",
-              "itemLimit": null
-            },
-            "macro": "",
-            "items": {}
-          }
-        },
-        "tip": "",
-        "featureType": "other",
-        "featureOrigin": "Forcefield Spell",
-        "featureSourceItem": "",
-        "staminaFeature": false,
-        "flavorFeature": false,
-        "isResource": false,
-        "resource": {
-          "name": "",
-          "resourceKey": "key",
-          "reset": "",
-          "useStandardTable": true,
-          "customMaxFormula": "",
-          "values": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ]
-        },
-        "usesWeapon": {
-          "weaponAttack": false,
-          "weaponId": ""
-        },
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "toggleItem": true,
-          "active": false,
-          "addToChat": false,
-          "addToTemplates": ""
-        }
-      },
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.351",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1777015214456
-      },
-      "ownership": {
-        "default": 0
-      },
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.ZsoIM2oPusaOUGWd"
-    },
-    {
       "name": "Attack",
       "type": "basicAction",
-      "_id": "o43FQrgIB3ke14r5",
+      "_id": "IYwhht3MdmR7VXMS",
       "img": "icons/svg/sword.svg",
       "system": {
         "description": "<p><span >You can spend <strong >1 AP</strong> to make 1 Attack Check.</span></p>",
@@ -1702,7 +1348,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -1759,14 +1406,14 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.o43FQrgIB3ke14r5"
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.IYwhht3MdmR7VXMS"
     },
     {
       "name": "Disarm",
@@ -1995,7 +1642,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -2051,301 +1699,15 @@
         "compendiumSource": null,
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "G92pwP2w1p8L7zJk",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.G92pwP2w1p8L7zJk"
-    },
-    {
-      "name": "Grapple",
-      "type": "basicAction",
-      "img": "icons/svg/trap.svg",
-      "system": {
-        "description": "<p><span>Using a free hand, you can spend <strong>1 AP</strong> to attempt to Grapple another creature within 1 Space.</span></p><p><span>Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s <strong>Martial</strong> <strong>Check</strong>.</span></p><p><span>You or the target may have ADV or DisADV on your Check based on each other’s size (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.ae17b973b3872de1]{Moving & Grappling Creatures}).</span></p><ul><li><p><span><strong>Success:</strong> The creature is <strong>Grappled </strong>by you.</span></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Moving the Target</span></strong></span></p><p>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong>Slowed</strong> (Every 1 Space you move costs an extra 1 Space of movement).</p><p><strong>Multiple Grapplers:</strong> If you attempt to move or throw a target (see Throw Creature Maneuver) that’s also Grappled by 1 or more other creatures, you must make a Contested Athletics Check against all the other Grapplers. </p><ul><li><p><strong>Success:</strong> You move or throw the target as normal and break the Grapple of all other creatures who were also Grappling that target.</p></li></ul><p></p><p><strong><span style=\"text-decoration: underline;\">Ending a Grapple</span></strong></p><p><strong>Escape Grapple:</strong> The target can spend <strong>1 AP</strong> to attempt to free itself from the Grapple. When it does, it makes an Acrobatics or Athletics Check contested by your Athletics Check. Success: The Grapple immediately ends.</p><p><strong>Incapacitated Grappler:</strong> If you become Incapacitated, the Grapple immediately ends.</p><p><strong>Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you. </p><ul><li><p><strong>Success:</strong> The targets of the effect are not moved. </p></li><li><p><strong>Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p></li></ul><p><strong>Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</p>",
-        "tableName": "",
-        "source": "",
-        "choicePointCost": 1,
-        "hideFromCompendiumBrowser": false,
-        "macros": {},
-        "isReaction": false,
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false,
-          "offOnSustainDrop": false
-        },
-        "actionType": "check",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "precision",
-          "rollBonus": 0,
-          "combatMastery": false,
-          "critThreshold": 20,
-          "halfDmgOnMiss": false,
-          "formulaMod": "physical",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          },
-          "ignoreCloseQuarters": false
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "ath",
-          "contestedKey": "mar",
-          "checkDC": 10,
-          "failEffect": "grappled",
-          "respectSizeRules": true,
-          "againstDC": false,
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          }
-        },
-        "save": {
-          "type": "phy",
-          "dc": 0,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": null,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "ap": 1,
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "reset": "",
-            "showAsResource": false,
-            "subtract": 1,
-            "deleteOnZero": false
-          }
-        },
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false,
-          "onlyMaintained": false
-        },
-        "range": {
-          "normal": null,
-          "max": null,
-          "unit": "",
-          "melee": 1
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": ""
-            }
-          }
-        },
-        "conditional": {
-          "hasConditional": false,
-          "name": "",
-          "condition": "",
-          "useFor": "",
-          "linkWithToggle": false,
-          "bonus": "0",
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "hasAdvancement": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "items": {}
-          }
-        },
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
-          "toggleItem": true,
-          "addToTemplates": ""
-        },
-        "category": "offensive",
-        "quickRoll": false,
-        "againstEffect": {
-          "id": "grappled",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "rollRequests": {
-          "rollRequestFromTemplate": {
-            "category": "contest",
-            "saveKey": "",
-            "contestedKey": "mar",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": true
-          }
-        },
-        "againstStatuses": {
-          "HeLL3vQa1k7bAUFl": {
-            "id": "grappled",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
-          }
-        },
-        "itemKey": "grapple",
-        "shortInfo": "",
-        "requirements": {
-          "level": 0,
-          "items": ""
-        },
-        "rollMenu": {
-          "free": false,
-          "rangeType": "",
-          "versatile": false,
-          "flanks": false,
-          "halfCover": false,
-          "tqCover": false,
-          "dis": 0,
-          "adv": 0,
-          "apCost": 0,
-          "gritCost": 0,
-          "autoCrit": false,
-          "autoFail": false,
-          "coreFormula": {
-            "modifier": "",
-            "source": ""
-          },
-          "help": [],
-          "ignoreMCP": false
-        },
-        "usable": true,
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "duration": "round"
-        },
-        "conditionals": {},
-        "tip": ""
-      },
-      "effects": [],
-      "folder": "4kuxWHZSmuNdlmkW",
-      "sort": 150000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "flags": {
-        "dc20BasicActionsSource": {},
-        "dc20BasicActionKey": {}
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "GGDvEy3HhDyj78xQ",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.GGDvEy3HhDyj78xQ"
+      "_id": "JRTmXAvIoOyPoPHp",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.JRTmXAvIoOyPoPHp"
     },
     {
       "name": "Shove",
@@ -2600,7 +1962,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -2646,15 +2009,302 @@
         "compendiumSource": null,
         "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "8gJkACQSgoaiQgNE",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.8gJkACQSgoaiQgNE"
+      "_id": "Ea8xZZVLXNqiMDHJ",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.Ea8xZZVLXNqiMDHJ"
+    },
+    {
+      "name": "Grapple",
+      "type": "basicAction",
+      "img": "icons/svg/trap.svg",
+      "system": {
+        "description": "<p><span>Using a free hand, you can spend <strong>1 AP</strong> to attempt to Grapple another creature within 1 Space.</span></p><p><span>Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s <strong>Martial</strong> <strong>Check</strong>.</span></p><p><span>You or the target may have ADV or DisADV on your Check based on each other’s size (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.ae17b973b3872de1]{Moving & Grappling Creatures}).</span></p><ul><li><p><span><strong>Success:</strong> The creature is <strong>Grappled </strong>by you.</span></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Moving the Target</span></strong></span></p><p>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong>Slowed</strong> (Every 1 Space you move costs an extra 1 Space of movement).</p><p><strong>Multiple Grapplers:</strong> If you attempt to move or throw a target (see Throw Creature Maneuver) that’s also Grappled by 1 or more other creatures, you must make a Contested Athletics Check against all the other Grapplers. </p><ul><li><p><strong>Success:</strong> You move or throw the target as normal and break the Grapple of all other creatures who were also Grappling that target.</p></li></ul><p></p><p><strong><span style=\"text-decoration: underline;\">Ending a Grapple</span></strong></p><p><strong>Escape Grapple:</strong> The target can spend <strong>1 AP</strong> to attempt to free itself from the Grapple. When it does, it makes an Acrobatics or Athletics Check contested by your Athletics Check. Success: The Grapple immediately ends.</p><p><strong>Incapacitated Grappler:</strong> If you become Incapacitated, the Grapple immediately ends.</p><p><strong>Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you. </p><ul><li><p><strong>Success:</strong> The targets of the effect are not moved. </p></li><li><p><strong>Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p></li></ul><p><strong>Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</p>",
+        "tableName": "",
+        "source": "",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "macros": {},
+        "isReaction": false,
+        "toggle": {
+          "toggleable": false,
+          "toggledOn": false,
+          "toggleOnRoll": false,
+          "offOnSustainDrop": false
+        },
+        "actionType": "check",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "precision",
+          "rollBonus": 0,
+          "combatMastery": false,
+          "critThreshold": 20,
+          "halfDmgOnMiss": false,
+          "formulaMod": "physical",
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "conditionals": false
+          },
+          "ignoreCloseQuarters": false
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "ath",
+          "contestedKey": "mar",
+          "checkDC": 10,
+          "failEffect": "grappled",
+          "respectSizeRules": true,
+          "againstDC": false,
+          "multiCheck": {
+            "active": false,
+            "options": {}
+          }
+        },
+        "save": {
+          "type": "phy",
+          "dc": 0,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": null,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {},
+            "ap": 1,
+            "grit": null,
+            "restPoints": null
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "rechargeDice": "",
+            "requiredTotalMinimum": null,
+            "reset": "",
+            "showAsResource": false,
+            "subtract": 1,
+            "deleteOnZero": false
+          }
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": "",
+          "linkWithToggle": false,
+          "hideFromRollMenu": false,
+          "onlyMaintained": false
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": "",
+          "melee": 1
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "target": {
+          "count": null,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": "",
+              "difficult": ""
+            }
+          }
+        },
+        "conditional": {
+          "hasConditional": false,
+          "name": "",
+          "condition": "",
+          "useFor": "",
+          "linkWithToggle": false,
+          "bonus": "0",
+          "flags": {
+            "ignorePdr": false,
+            "ignoreEdr": false,
+            "ignoreMdr": false,
+            "ignoreResistance": {},
+            "ignoreImmune": {}
+          },
+          "effect": null,
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false,
+            "overrideDefence": ""
+          }
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        },
+        "effectsConfig": {
+          "linkWithToggle": false,
+          "active": false,
+          "addToChat": false,
+          "toggleItem": true,
+          "addToTemplates": ""
+        },
+        "category": "offensive",
+        "quickRoll": false,
+        "againstEffect": {
+          "id": "grappled",
+          "supressFromChatMessage": false,
+          "untilYourNextTurnStart": false,
+          "untilYourNextTurnEnd": false,
+          "untilTargetNextTurnStart": false,
+          "untilTargetNextTurnEnd": false,
+          "untilFirstTimeTriggered": false
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": true
+          }
+        },
+        "againstStatuses": {
+          "HeLL3vQa1k7bAUFl": {
+            "id": "grappled",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
+        },
+        "itemKey": "grapple",
+        "shortInfo": "",
+        "requirements": {
+          "level": 0,
+          "items": "",
+          "unique": true
+        },
+        "rollMenu": {
+          "free": false,
+          "rangeType": "",
+          "versatile": false,
+          "flanks": false,
+          "halfCover": false,
+          "tqCover": false,
+          "dis": 0,
+          "adv": 0,
+          "apCost": 0,
+          "gritCost": 0,
+          "autoCrit": false,
+          "autoFail": false,
+          "coreFormula": {
+            "modifier": "",
+            "source": ""
+          },
+          "help": [],
+          "ignoreMCP": false
+        },
+        "usable": true,
+        "help": {
+          "ignoreMHP": false,
+          "subtract": false,
+          "duration": "round"
+        },
+        "conditionals": {},
+        "tip": ""
+      },
+      "effects": [],
+      "folder": "4kuxWHZSmuNdlmkW",
+      "sort": 150000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20BasicActionsSource": {},
+        "dc20BasicActionKey": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "ijhvtXvquwsnSUrh",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.ijhvtXvquwsnSUrh"
     },
     {
       "name": "Tackle",
@@ -2912,7 +2562,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -2958,15 +2609,15 @@
         "compendiumSource": null,
         "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "qfkV6f01fdVfeu4g",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.qfkV6f01fdVfeu4g"
+      "_id": "Re3hHwm64R5oTTsP",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.Re3hHwm64R5oTTsP"
     },
     {
       "type": "basicAction",
@@ -2981,7 +2632,8 @@
         "choicePointCost": 1,
         "requirements": {
           "level": 0,
-          "items": "throw"
+          "items": "throw",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -3282,20 +2934,20 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "ownership": {
         "default": 0,
         "dOcXwrUs2VunZl0y": 3
       },
-      "_id": "3gM8xJ48yrrnzAON",
+      "_id": "CXFtOLk8GnwiDItA",
       "sort": 0,
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.3gM8xJ48yrrnzAON"
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.CXFtOLk8GnwiDItA"
     },
     {
       "name": "Disengage",
@@ -3496,7 +3148,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -3647,12 +3300,12 @@
             "compendiumSource": null,
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.L8sWtl7JbpJgHuD6.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.Y2tasMnLcCA4h7Ov.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -3669,15 +3322,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "L8sWtl7JbpJgHuD6",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.L8sWtl7JbpJgHuD6"
+      "_id": "Y2tasMnLcCA4h7Ov",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.Y2tasMnLcCA4h7Ov"
     },
     {
       "name": "Full Disengage",
@@ -3878,7 +3531,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -4029,12 +3683,12 @@
             "compendiumSource": null,
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.1fsDlmg7pMjjjzID.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.83dGrJkFsj2skajg.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -4051,408 +3705,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "1fsDlmg7pMjjjzID",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.1fsDlmg7pMjjjzID"
-    },
-    {
-      "name": "Dodge",
-      "type": "basicAction",
-      "img": "icons/svg/paralysis.svg",
-      "system": {
-        "description": "<p><span >You can spend <strong >1 AP</strong> to impose DisADV on the <strong>next</strong> Attack or Grapple made against you before the start of your next turn.</span></p>",
-        "tableName": "",
-        "source": "",
-        "choicePointCost": 1,
-        "hideFromCompendiumBrowser": false,
-        "macros": {},
-        "isReaction": false,
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false,
-          "offOnSustainDrop": false
-        },
-        "actionType": "other",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "precision",
-          "rollBonus": 0,
-          "combatMastery": false,
-          "critThreshold": 20,
-          "halfDmgOnMiss": false,
-          "formulaMod": "physical",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          },
-          "ignoreCloseQuarters": false
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "failEffect": "",
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "againstDC": true,
-          "respectSizeRules": false
-        },
-        "save": {
-          "type": "phy",
-          "dc": 0,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": null,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "ap": 1,
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "reset": "",
-            "showAsResource": false,
-            "subtract": 1,
-            "deleteOnZero": false
-          }
-        },
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false,
-          "onlyMaintained": false
-        },
-        "range": {
-          "normal": null,
-          "max": null,
-          "unit": "",
-          "melee": 1
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": ""
-            }
-          }
-        },
-        "conditional": {
-          "hasConditional": false,
-          "name": "",
-          "condition": "",
-          "useFor": "",
-          "linkWithToggle": false,
-          "bonus": "0",
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "hasAdvancement": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "items": {}
-          }
-        },
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
-          "toggleItem": true,
-          "addToTemplates": ""
-        },
-        "category": "defensive",
-        "quickRoll": false,
-        "itemKey": "dodge",
-        "shortInfo": "",
-        "requirements": {
-          "level": 0,
-          "items": ""
-        },
-        "rollMenu": {
-          "free": false,
-          "rangeType": "",
-          "versatile": false,
-          "flanks": false,
-          "halfCover": false,
-          "tqCover": false,
-          "dis": 0,
-          "adv": 0,
-          "apCost": 0,
-          "gritCost": 0,
-          "autoCrit": false,
-          "autoFail": false,
-          "coreFormula": {
-            "modifier": "",
-            "source": ""
-          },
-          "help": [],
-          "ignoreMCP": false
-        },
-        "usable": true,
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "duration": "round"
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "conditionals": {},
-        "tip": ""
-      },
-      "effects": [
-        {
-          "img": "icons/svg/paralysis.svg",
-          "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
-          "duration": {
-            "rounds": 1,
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "disabled": false,
-          "name": "Dodge",
-          "_id": "q11dyOEQpnZF878I",
-          "type": "base",
-          "system": {
-            "statusId": "",
-            "disableWhen": {
-              "mode": "==",
-              "path": "",
-              "value": ""
-            },
-            "addToChat": true,
-            "sustained": {
-              "isSustained": false,
-              "actorUuid": "",
-              "itemId": ""
-            },
-            "condition": false,
-            "fromStatus": false,
-            "duration": {
-              "useCounter": false,
-              "resetWhenEnabled": false,
-              "onTimeEnd": ""
-            },
-            "effectKey": "",
-            "macro": "",
-            "applyToTemplate": true,
-            "nonessential": false,
-            "enableStatusOnCreation": [],
-            "disableStatusOnRemoval": [],
-            "requireEnhancement": "",
-            "chatMessageId": ""
-          },
-          "changes": [
-            {
-              "key": "system.dynamicRollModifier.againstYou.martial.melee",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.dynamicRollModifier.againstYou.spell.melee",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.events",
-              "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Dodge\"",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.dynamicRollModifier.againstYou.skills",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grapple vs Dodge\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.dynamicRollModifier.againstYou.martial.area",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-              "mode": 2,
-              "priority": null
-            },
-            {
-              "key": "system.dynamicRollModifier.againstYou.spell.area",
-              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-              "mode": 2,
-              "priority": null
-            }
-          ],
-          "description": "<p>You <span>impose DisADV on the next Attack or Grapple made against you before the start of your next turn.</span></p>",
-          "tint": "#ffffff",
-          "transfer": false,
-          "statuses": [],
-          "sort": 0,
-          "flags": {
-            "dc20rpg": {
-              "disableWhen": {
-                "path": "",
-                "mode": "==",
-                "value": ""
-              },
-              "requireEnhancement": "",
-              "duration": {
-                "useCounter": false,
-                "resetWhenEnabled": false,
-                "onTimeEnd": ""
-              }
-            }
-          },
-          "_stats": {
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null,
-            "coreVersion": "13.350",
-            "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
-            "lastModifiedBy": null
-          },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.soqgsoa7RAJRZbgu.q11dyOEQpnZF878I"
-        }
-      ],
-      "folder": "4ml1fVIgGSBTocOQ",
-      "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "flags": {
-        "dc20BasicActionsSource": {},
-        "dc20BasicActionKey": {}
-      },
-      "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "soqgsoa7RAJRZbgu",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.soqgsoa7RAJRZbgu"
+      "_id": "83dGrJkFsj2skajg",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.83dGrJkFsj2skajg"
     },
     {
       "name": "Full Dodge",
@@ -4653,7 +3914,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -4815,12 +4077,12 @@
             "compendiumSource": null,
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.37ybkE8AVdUoWuUy.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.JdUFMJUndOwU30vp.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -4837,15 +4099,409 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.Y6oevdLqA31GPcbt",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "37ybkE8AVdUoWuUy",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.37ybkE8AVdUoWuUy"
+      "_id": "JdUFMJUndOwU30vp",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.JdUFMJUndOwU30vp"
+    },
+    {
+      "name": "Dodge",
+      "type": "basicAction",
+      "img": "icons/svg/paralysis.svg",
+      "system": {
+        "description": "<p><span >You can spend <strong >1 AP</strong> to impose DisADV on the <strong>next</strong> Attack or Grapple made against you before the start of your next turn.</span></p>",
+        "tableName": "",
+        "source": "",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "macros": {},
+        "isReaction": false,
+        "toggle": {
+          "toggleable": false,
+          "toggledOn": false,
+          "toggleOnRoll": false,
+          "offOnSustainDrop": false
+        },
+        "actionType": "other",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "precision",
+          "rollBonus": 0,
+          "combatMastery": false,
+          "critThreshold": 20,
+          "halfDmgOnMiss": false,
+          "formulaMod": "physical",
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "conditionals": false
+          },
+          "ignoreCloseQuarters": false
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": "",
+          "multiCheck": {
+            "active": false,
+            "options": {}
+          },
+          "againstDC": true,
+          "respectSizeRules": false
+        },
+        "save": {
+          "type": "phy",
+          "dc": 0,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": null,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {},
+            "ap": 1,
+            "grit": null,
+            "restPoints": null
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "rechargeDice": "",
+            "requiredTotalMinimum": null,
+            "reset": "",
+            "showAsResource": false,
+            "subtract": 1,
+            "deleteOnZero": false
+          }
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": "",
+          "linkWithToggle": false,
+          "hideFromRollMenu": false,
+          "onlyMaintained": false
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": "",
+          "melee": 1
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "target": {
+          "count": null,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": "",
+              "difficult": ""
+            }
+          }
+        },
+        "conditional": {
+          "hasConditional": false,
+          "name": "",
+          "condition": "",
+          "useFor": "",
+          "linkWithToggle": false,
+          "bonus": "0",
+          "flags": {
+            "ignorePdr": false,
+            "ignoreEdr": false,
+            "ignoreMdr": false,
+            "ignoreResistance": {},
+            "ignoreImmune": {}
+          },
+          "effect": null,
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false,
+            "overrideDefence": ""
+          }
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        },
+        "effectsConfig": {
+          "linkWithToggle": false,
+          "active": false,
+          "addToChat": true,
+          "toggleItem": true,
+          "addToTemplates": ""
+        },
+        "category": "defensive",
+        "quickRoll": false,
+        "itemKey": "dodge",
+        "shortInfo": "",
+        "requirements": {
+          "level": 0,
+          "items": "",
+          "unique": true
+        },
+        "rollMenu": {
+          "free": false,
+          "rangeType": "",
+          "versatile": false,
+          "flanks": false,
+          "halfCover": false,
+          "tqCover": false,
+          "dis": 0,
+          "adv": 0,
+          "apCost": 0,
+          "gritCost": 0,
+          "autoCrit": false,
+          "autoFail": false,
+          "coreFormula": {
+            "modifier": "",
+            "source": ""
+          },
+          "help": [],
+          "ignoreMCP": false
+        },
+        "usable": true,
+        "help": {
+          "ignoreMHP": false,
+          "subtract": false,
+          "duration": "round"
+        },
+        "againstEffect": {
+          "id": "",
+          "supressFromChatMessage": false,
+          "untilYourNextTurnStart": false,
+          "untilYourNextTurnEnd": false,
+          "untilTargetNextTurnStart": false,
+          "untilTargetNextTurnEnd": false,
+          "untilFirstTimeTriggered": false
+        },
+        "againstStatuses": {},
+        "rollRequests": {},
+        "conditionals": {},
+        "tip": ""
+      },
+      "effects": [
+        {
+          "img": "icons/svg/paralysis.svg",
+          "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "name": "Dodge",
+          "_id": "q11dyOEQpnZF878I",
+          "type": "base",
+          "system": {
+            "statusId": "",
+            "disableWhen": {
+              "mode": "==",
+              "path": "",
+              "value": ""
+            },
+            "addToChat": true,
+            "sustained": {
+              "isSustained": false,
+              "actorUuid": "",
+              "itemId": ""
+            },
+            "condition": false,
+            "fromStatus": false,
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "applyToTemplate": true,
+            "nonessential": false,
+            "enableStatusOnCreation": [],
+            "disableStatusOnRemoval": [],
+            "requireEnhancement": "",
+            "chatMessageId": ""
+          },
+          "changes": [
+            {
+              "key": "system.dynamicRollModifier.againstYou.martial.melee",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.dynamicRollModifier.againstYou.spell.melee",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.events",
+              "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Dodge\"",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.dynamicRollModifier.againstYou.skills",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grapple vs Dodge\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.dynamicRollModifier.againstYou.martial.area",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
+              "mode": 2,
+              "priority": null
+            },
+            {
+              "key": "system.dynamicRollModifier.againstYou.spell.area",
+              "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
+              "mode": 2,
+              "priority": null
+            }
+          ],
+          "description": "<p>You <span>impose DisADV on the next Attack or Grapple made against you before the start of your next turn.</span></p>",
+          "tint": "#ffffff",
+          "transfer": false,
+          "statuses": [],
+          "sort": 0,
+          "flags": {
+            "dc20rpg": {
+              "disableWhen": {
+                "path": "",
+                "mode": "==",
+                "value": ""
+              },
+              "requireEnhancement": "",
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": ""
+              }
+            }
+          },
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.351",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.10.0.2",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.27IGl72DM1qS6zy0.q11dyOEQpnZF878I"
+        }
+      ],
+      "folder": "4ml1fVIgGSBTocOQ",
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20BasicActionsSource": {},
+        "dc20BasicActionKey": {}
+      },
+      "_stats": {
+        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
+        "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "27IGl72DM1qS6zy0",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.27IGl72DM1qS6zy0"
     },
     {
       "name": "Hide",
@@ -5046,7 +4702,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -5235,12 +4892,12 @@
             "compendiumSource": null,
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.IRHx0KsHsxyAPyta.0wmnvRGDfTTfcff3"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.YRXBtSxWWWoO7W9Z.0wmnvRGDfTTfcff3"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -5257,15 +4914,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "IRHx0KsHsxyAPyta",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.IRHx0KsHsxyAPyta"
+      "_id": "YRXBtSxWWWoO7W9Z",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.YRXBtSxWWWoO7W9Z"
     },
     {
       "name": "Move",
@@ -5474,7 +5131,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -5531,281 +5189,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.N5w8JDg9ddpC8nkm",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "YeSLj76rlUJuZzWQ",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.YeSLj76rlUJuZzWQ"
-    },
-    {
-      "name": "Object",
-      "type": "basicAction",
-      "img": "icons/svg/chest.svg",
-      "system": {
-        "description": "<p>You can spend <strong>1 AP</strong> to perform 1 of the following object interactions:</p><ul><li><p>Drink a Potion or administer a Potion to another creature.</p></li><li><p>Attempt to lock or unlock a Lock.</p></li><li><p>Make a Trickery Check to activate or disable a trap or other mechanism.</p></li><li><p>Transfer an item to or from another creature (only 1 of the two creatures spends 1 AP).</p></li></ul>",
-        "tableName": "",
-        "source": "",
-        "choicePointCost": 1,
-        "hideFromCompendiumBrowser": false,
-        "macros": {},
-        "isReaction": false,
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false,
-          "offOnSustainDrop": false
-        },
-        "actionType": "",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "precision",
-          "rollBonus": 0,
-          "combatMastery": false,
-          "critThreshold": 20,
-          "halfDmgOnMiss": false,
-          "formulaMod": "physical",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          },
-          "ignoreCloseQuarters": false
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "failEffect": "",
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "againstDC": true,
-          "respectSizeRules": false
-        },
-        "save": {
-          "type": "phy",
-          "dc": 0,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": null,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "ap": 1,
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "reset": "",
-            "showAsResource": false,
-            "subtract": 1,
-            "deleteOnZero": false
-          }
-        },
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false,
-          "onlyMaintained": false
-        },
-        "range": {
-          "normal": null,
-          "max": null,
-          "unit": "",
-          "melee": 1
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": ""
-            }
-          }
-        },
-        "conditional": {
-          "hasConditional": false,
-          "name": "",
-          "condition": "",
-          "useFor": "",
-          "linkWithToggle": false,
-          "bonus": "0",
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "hasAdvancement": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "items": {}
-          }
-        },
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
-          "toggleItem": true,
-          "addToTemplates": ""
-        },
-        "category": "utility",
-        "quickRoll": true,
-        "itemKey": "object",
-        "shortInfo": "",
-        "requirements": {
-          "level": 0,
-          "items": ""
-        },
-        "rollMenu": {
-          "free": false,
-          "rangeType": "",
-          "versatile": false,
-          "flanks": false,
-          "halfCover": false,
-          "tqCover": false,
-          "dis": 0,
-          "adv": 0,
-          "apCost": 0,
-          "gritCost": 0,
-          "autoCrit": false,
-          "autoFail": false,
-          "coreFormula": {
-            "modifier": "",
-            "source": ""
-          },
-          "help": [],
-          "ignoreMCP": false
-        },
-        "usable": true,
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "duration": "round"
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "conditionals": {},
-        "tip": ""
-      },
-      "effects": [],
-      "folder": "SvxA57HGyAhazYbX",
-      "sort": 500000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "flags": {
-        "dc20BasicActionsSource": {},
-        "dc20BasicActionKey": {}
-      },
-      "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "FNx9SXQp7vhRCBdv",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.FNx9SXQp7vhRCBdv"
+      "_id": "6HLevI80f5S9XRmm",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.6HLevI80f5S9XRmm"
     },
     {
       "name": "Help",
@@ -6006,7 +5398,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -6063,15 +5456,282 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "Rg6YKLqmGH3A3ztg",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.Rg6YKLqmGH3A3ztg"
+      "_id": "BHC7uoKwODz5clXs",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.BHC7uoKwODz5clXs"
+    },
+    {
+      "name": "Object",
+      "type": "basicAction",
+      "img": "icons/svg/chest.svg",
+      "system": {
+        "description": "<p>You can spend <strong>1 AP</strong> to perform 1 of the following object interactions:</p><ul><li><p>Drink a Potion or administer a Potion to another creature.</p></li><li><p>Attempt to lock or unlock a Lock.</p></li><li><p>Make a Trickery Check to activate or disable a trap or other mechanism.</p></li><li><p>Transfer an item to or from another creature (only 1 of the two creatures spends 1 AP).</p></li></ul>",
+        "tableName": "",
+        "source": "",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "macros": {},
+        "isReaction": false,
+        "toggle": {
+          "toggleable": false,
+          "toggledOn": false,
+          "toggleOnRoll": false,
+          "offOnSustainDrop": false
+        },
+        "actionType": "",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "precision",
+          "rollBonus": 0,
+          "combatMastery": false,
+          "critThreshold": 20,
+          "halfDmgOnMiss": false,
+          "formulaMod": "physical",
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "conditionals": false
+          },
+          "ignoreCloseQuarters": false
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": "",
+          "multiCheck": {
+            "active": false,
+            "options": {}
+          },
+          "againstDC": true,
+          "respectSizeRules": false
+        },
+        "save": {
+          "type": "phy",
+          "dc": 0,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": null,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {},
+            "ap": 1,
+            "grit": null,
+            "restPoints": null
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "rechargeDice": "",
+            "requiredTotalMinimum": null,
+            "reset": "",
+            "showAsResource": false,
+            "subtract": 1,
+            "deleteOnZero": false
+          }
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": "",
+          "linkWithToggle": false,
+          "hideFromRollMenu": false,
+          "onlyMaintained": false
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": "",
+          "melee": 1
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "target": {
+          "count": null,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": "",
+              "difficult": ""
+            }
+          }
+        },
+        "conditional": {
+          "hasConditional": false,
+          "name": "",
+          "condition": "",
+          "useFor": "",
+          "linkWithToggle": false,
+          "bonus": "0",
+          "flags": {
+            "ignorePdr": false,
+            "ignoreEdr": false,
+            "ignoreMdr": false,
+            "ignoreResistance": {},
+            "ignoreImmune": {}
+          },
+          "effect": null,
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false,
+            "overrideDefence": ""
+          }
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        },
+        "effectsConfig": {
+          "linkWithToggle": false,
+          "active": false,
+          "addToChat": false,
+          "toggleItem": true,
+          "addToTemplates": ""
+        },
+        "category": "utility",
+        "quickRoll": true,
+        "itemKey": "object",
+        "shortInfo": "",
+        "requirements": {
+          "level": 0,
+          "items": "",
+          "unique": true
+        },
+        "rollMenu": {
+          "free": false,
+          "rangeType": "",
+          "versatile": false,
+          "flanks": false,
+          "halfCover": false,
+          "tqCover": false,
+          "dis": 0,
+          "adv": 0,
+          "apCost": 0,
+          "gritCost": 0,
+          "autoCrit": false,
+          "autoFail": false,
+          "coreFormula": {
+            "modifier": "",
+            "source": ""
+          },
+          "help": [],
+          "ignoreMCP": false
+        },
+        "usable": true,
+        "help": {
+          "ignoreMHP": false,
+          "subtract": false,
+          "duration": "round"
+        },
+        "againstEffect": {
+          "id": "",
+          "supressFromChatMessage": false,
+          "untilYourNextTurnStart": false,
+          "untilYourNextTurnEnd": false,
+          "untilTargetNextTurnStart": false,
+          "untilTargetNextTurnEnd": false,
+          "untilFirstTimeTriggered": false
+        },
+        "againstStatuses": {},
+        "rollRequests": {},
+        "conditionals": {},
+        "tip": ""
+      },
+      "effects": [],
+      "folder": "SvxA57HGyAhazYbX",
+      "sort": 500000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20BasicActionsSource": {},
+        "dc20BasicActionKey": {}
+      },
+      "_stats": {
+        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
+        "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "bgdwIQHeiSF5hOvA",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.bgdwIQHeiSF5hOvA"
     },
     {
       "name": "Spell",
@@ -6272,7 +5932,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -6329,15 +5990,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.aIaSBL0WEAQbINL7",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "LVUnFp5Grw4wbwWj",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.LVUnFp5Grw4wbwWj"
+      "_id": "36lzXeiSSNGSnBt2",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.36lzXeiSSNGSnBt2"
     },
     {
       "name": "Analyze Creature",
@@ -6544,7 +6205,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -6601,15 +6263,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.b4GqFH5BSPAssSPq",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "3hrDk1akQgOMT5mR",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.3hrDk1akQgOMT5mR"
+      "_id": "nT4iwVde1uynfT3j",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.nT4iwVde1uynfT3j"
     },
     {
       "name": "Calm Animal",
@@ -6841,7 +6503,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -6983,12 +6646,12 @@
             "compendiumSource": null,
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.9csBi3ssdH6wiQjt.pM1B2Fug0n5OTNeg"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.VU5ARb8ghFNsBrXS.pM1B2Fug0n5OTNeg"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -7143,12 +6806,12 @@
             "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.9csBi3ssdH6wiQjt.jKRxZSxqvt4N20ey"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.VU5ARb8ghFNsBrXS.jKRxZSxqvt4N20ey"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -7310,12 +6973,12 @@
             "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.9csBi3ssdH6wiQjt.jTQvA8gVqZXEBnSx"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.VU5ARb8ghFNsBrXS.jTQvA8gVqZXEBnSx"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -7332,15 +6995,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "9csBi3ssdH6wiQjt",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.9csBi3ssdH6wiQjt"
+      "_id": "VU5ARb8ghFNsBrXS",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.VU5ARb8ghFNsBrXS"
     },
     {
       "name": "Combat Insight",
@@ -7560,7 +7223,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -7616,15 +7280,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "6QAqIsuvZzvxCd63",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.6QAqIsuvZzvxCd63"
+      "_id": "TqAD07OS6kDOHfzR",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.TqAD07OS6kDOHfzR"
     },
     {
       "name": "Conceal",
@@ -7824,7 +7488,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -7881,15 +7546,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "Uty61OfPeahRKnrh",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.Uty61OfPeahRKnrh"
+      "_id": "eKf7Ih8cTAoRrgMP",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.eKf7Ih8cTAoRrgMP"
     },
     {
       "name": "Feint",
@@ -8136,7 +7801,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -8292,12 +7958,12 @@
             "compendiumSource": null,
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.CajqsBclXJ02LIsb.i6sBwjgFhuSEimtp"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.MakefKkjffQUPAeA.i6sBwjgFhuSEimtp"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -8314,15 +7980,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "CajqsBclXJ02LIsb",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.CajqsBclXJ02LIsb"
+      "_id": "MakefKkjffQUPAeA",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.MakefKkjffQUPAeA"
     },
     {
       "name": "Intimidate",
@@ -8554,7 +8220,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -8600,15 +8267,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.g41WHLdM8uNaSCWG",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "voo5MMi3jSIJg1lh",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.voo5MMi3jSIJg1lh"
+      "_id": "enjKCGtcQAQqGWES",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.enjKCGtcQAQqGWES"
     },
     {
       "name": "Investigate",
@@ -8820,7 +8487,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -8876,15 +8544,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "0bhmVKgos2LGpxt0",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.0bhmVKgos2LGpxt0"
+      "_id": "4AhklJp3XOcvbGzW",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.4AhklJp3XOcvbGzW"
     },
     {
       "name": "Extend Jump",
@@ -9099,7 +8767,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -9156,15 +8825,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "nN6nO6FzrvUZNsTl",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.nN6nO6FzrvUZNsTl"
+      "_id": "vNyR9WGieOjFXFC1",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.vNyR9WGieOjFXFC1"
     },
     {
       "name": "Medicine",
@@ -9374,7 +9043,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -9431,15 +9101,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "mfQ7LIgQOvBImbXO",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.mfQ7LIgQOvBImbXO"
+      "_id": "XuK8yBVNQ3UCmWwD",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.XuK8yBVNQ3UCmWwD"
     },
     {
       "name": "Mounted Defense",
@@ -9639,7 +9309,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -9705,6 +9376,7 @@
               "path": "",
               "value": ""
             },
+            "addToChat": true,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -9719,7 +9391,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "addToChat": false,
             "applyToTemplate": true,
             "nonessential": false,
             "enableStatusOnCreation": [],
@@ -9768,12 +9439,12 @@
             "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.yq6S3No88NtfDCCA.KR70WPqkYDtPZ1eD"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.uwAUDCGmI7vsq5ri.KR70WPqkYDtPZ1eD"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -9798,6 +9469,7 @@
               "path": "",
               "value": ""
             },
+            "addToChat": true,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -9812,7 +9484,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "addToChat": false,
             "applyToTemplate": true,
             "nonessential": false,
             "enableStatusOnCreation": [],
@@ -9861,12 +9532,12 @@
             "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.yq6S3No88NtfDCCA.ikVeaebEUee9EZmU"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.uwAUDCGmI7vsq5ri.ikVeaebEUee9EZmU"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -9891,6 +9562,7 @@
               "path": "",
               "value": ""
             },
+            "addToChat": true,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -9905,7 +9577,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "addToChat": false,
             "applyToTemplate": true,
             "nonessential": false,
             "enableStatusOnCreation": [],
@@ -9954,12 +9625,12 @@
             "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
             "duplicateSource": null,
             "exportSource": null,
-            "coreVersion": "13.350",
+            "coreVersion": "13.351",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.0.0",
+            "systemVersion": "0.10.0.2",
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!XlJrhVMsC0i3EIkg.yq6S3No88NtfDCCA.ZM9cZtUFd9MyzZ0X"
+          "_key": "!actors.items.effects!5gONTVz0vxFpNnx8.uwAUDCGmI7vsq5ri.ZM9cZtUFd9MyzZ0X"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -9976,15 +9647,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.Z9UxQK1yb6Ht05Xr",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "yq6S3No88NtfDCCA",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.yq6S3No88NtfDCCA"
+      "_id": "uwAUDCGmI7vsq5ri",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.uwAUDCGmI7vsq5ri"
     },
     {
       "name": "Pass Through",
@@ -10196,7 +9867,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -10252,15 +9924,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "PsDD4p7toXhdVNnP",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.PsDD4p7toXhdVNnP"
+      "_id": "yOt2xQRo2dh58ElJ",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.yOt2xQRo2dh58ElJ"
     },
     {
       "name": "Search",
@@ -10472,7 +10144,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -10528,15 +10201,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "VjCzMaBroNTtTmid",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.VjCzMaBroNTtTmid"
+      "_id": "AnJyqyJPuTZejmK3",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.AnJyqyJPuTZejmK3"
     },
     {
       "name": "Taunt",
@@ -10768,7 +10441,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -10809,20 +10483,315 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "ownership": {
         "default": 0,
         "dOcXwrUs2VunZl0y": 3
       },
-      "_id": "OhC9hsw7zd6vcUf7",
+      "_id": "pPWjnqDOZEfJPZxD",
       "sort": 600000,
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.OhC9hsw7zd6vcUf7"
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.pPWjnqDOZEfJPZxD"
+    },
+    {
+      "name": "Spell Duel",
+      "type": "basicAction",
+      "img": "icons/svg/explosion.svg",
+      "system": {
+        "description": "<p><span><em><strong>Prerequisite:</strong> Spellcasting</em> <em>Path</em></span></p><p>During a Spell Duel, the creature casting the Spell is referred to as the <strong>Caster</strong> and the opposing creature is referred to as the <strong>Challenger</strong>.</p><p>If multiple creatures attempt to initiate a Spell Duel, one of them must be chosen as the <strong>Challenger</strong>, while the others assist them through <strong>Combo Casting</strong>. Additional creatures can also choose to assist the Caster when a Spell Duel is initiated (see <strong>Combo Casting</strong> for more information).</p><p><strong>Trigger:</strong> You see an MP Effect being cast, provided the Caster or a target is within 5 Spaces of you.</p><p><strong>Reaction:</strong> You can spend an amount of AP and 1 or more MP (up to your Mana Spend Limit) to attempt to stop the Caster’s MP Effect. The amount of AP spent is equal to the base AP cost of the MP Effect you are trying to stop.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Contest</span></strong></span></p><p>Make a Spell Check contested by the Spell Check or Spell Attack that the Caster makes to cast their MP Effect.</p><p>If the Caster’s MP Effect doesn’t require a Check, they have to make a Spell Check as a Reaction as part of the Spell Duel.</p><p>For the purposes of the Spell Duel, the <strong>Caster</strong> and <strong>Challenger</strong> each gain a bonus to their Check equal to twice the MP spent they spent respectively.</p><p><em><strong>Beta Note:</strong> Since enemies don’t have MP costs for their MP Effects you can assume that their MP Effects cost an amount of MP equal to half their Level (rounded up).</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Outcomes</span></strong></span></p><p><strong>Success:</strong> The Caster’s MP Effect fails and has no effect.</p><p><strong>Failure:</strong> The Caster’s MP Effect succeeds and takes effect. The Check bonus gained from MP spent doesn’t apply to the MP Effect’s Success and Failure Statements.</p><p><strong>Tie:</strong> The Caster’s MP Effect fails, has no effect, and you each roll on the @UUID[Compendium.dc20rpg.roll-tables.RollTable.HxkcpDT6pEOIfYUk]{Wild Magic Surge Table}. The effect from the table lasts for 1 Round.</p><p><strong>Resources Lost:</strong> Whatever the result, each creature still spends all AP, MP, or other resources as normal.</p><p></p><p><em><strong>Example:</strong> A Caster makes an MP based Spell Attack and a Challenger attempts to stop it. The Caster’s Spell Attack cost 1 AP and 2 MP. The Challenger must spend 1 AP and at least 1 MP to attempt to stop the Spell Attack. The Caster makes an Attack Check (since its a Spell Attack) and the Challenger makes a Spell Check. The Caster gets a +4 bonus to their Attack Check (2 MP spent) and the Challenger gets a +2 bonus to their Spell Check (1 MP spent). Should the Caster win the Contest, their MP Effect takes effect but they don’t include the +4 bonus from MP spent to determine if they score a Heavy Hit or higher.</em></p><p></p>",
+        "tableName": "",
+        "source": "",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "macros": {
+          "Yalv653kxQPs5FZf": {
+            "name": "Trigger Spell Duel",
+            "trigger": "preItemRoll",
+            "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourAPSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourAP\");\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\");\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent},\n  {type: \"input\", label: yourAPSpent},\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nif (!answers) return;\n\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + (2*intValues[1]);\nconst manaBonus = intValues[2];\nconst apSpent = intValues[3] || 2;\n\nconst rollFormula = `d20 + @check.spell + ${(manaBonus * 2)}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"spe\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"customFormula\": rollFormula,\n  \"type\": \"spellCheck\",\n  \"description\": item.system.description,\n  \"costs\": {ap: apSpent, mana: manaBonus}\n}\n\n// Check for Reactive Spell Focus property\nconst initialRollMenuValue = {adv: 0, dis: 0};\nlet reactive = false;\nfor (const item of actor.getAllItemsWithType([\"spellFocus\"])) {\n  if (item.system.statuses.equipped && item.system.properties.reactive.active) reactive = true;\n}\nif (reactive) initialRollMenuValue.adv = 1;\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails, options={initialRollMenuValue: initialRollMenuValue});\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
+            "disabled": false,
+            "title": ""
+          }
+        },
+        "isReaction": true,
+        "toggle": {
+          "toggleable": false,
+          "toggledOn": false,
+          "toggleOnRoll": false,
+          "offOnSustainDrop": false
+        },
+        "actionType": "",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "precision",
+          "rollBonus": 0,
+          "combatMastery": false,
+          "critThreshold": 20,
+          "halfDmgOnMiss": false,
+          "formulaMod": "physical",
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "conditionals": false
+          },
+          "ignoreCloseQuarters": false
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": "",
+          "multiCheck": {
+            "active": false,
+            "options": {}
+          },
+          "againstDC": true,
+          "respectSizeRules": false
+        },
+        "save": {
+          "type": "phy",
+          "dc": 0,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": null,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {},
+            "ap": null,
+            "grit": null,
+            "restPoints": null
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "rechargeDice": "",
+            "requiredTotalMinimum": null,
+            "reset": "",
+            "showAsResource": false,
+            "subtract": 1,
+            "deleteOnZero": false
+          }
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": "",
+          "linkWithToggle": false,
+          "hideFromRollMenu": false,
+          "onlyMaintained": false
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": "",
+          "melee": 1
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "target": {
+          "count": null,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": "",
+              "difficult": ""
+            }
+          }
+        },
+        "conditional": {
+          "hasConditional": false,
+          "name": "",
+          "condition": "",
+          "useFor": "",
+          "linkWithToggle": false,
+          "bonus": "0",
+          "flags": {
+            "ignorePdr": false,
+            "ignoreEdr": false,
+            "ignoreMdr": false,
+            "ignoreResistance": {},
+            "ignoreImmune": {}
+          },
+          "effect": null,
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false,
+            "overrideDefence": ""
+          }
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        },
+        "effectsConfig": {
+          "linkWithToggle": false,
+          "active": false,
+          "addToChat": false,
+          "toggleItem": true,
+          "addToTemplates": ""
+        },
+        "category": "reaction",
+        "quickRoll": true,
+        "itemKey": "spellDuel",
+        "shortInfo": "",
+        "requirements": {
+          "level": 0,
+          "items": "",
+          "unique": true
+        },
+        "rollMenu": {
+          "free": false,
+          "rangeType": "",
+          "versatile": false,
+          "flanks": false,
+          "halfCover": false,
+          "tqCover": false,
+          "dis": 0,
+          "adv": 0,
+          "apCost": 0,
+          "gritCost": 0,
+          "autoCrit": false,
+          "autoFail": false,
+          "coreFormula": {
+            "modifier": "",
+            "source": ""
+          },
+          "help": [],
+          "ignoreMCP": false
+        },
+        "usable": true,
+        "help": {
+          "ignoreMHP": false,
+          "subtract": false,
+          "duration": "round"
+        },
+        "againstEffect": {
+          "id": "",
+          "supressFromChatMessage": false,
+          "untilYourNextTurnStart": false,
+          "untilYourNextTurnEnd": false,
+          "untilTargetNextTurnStart": false,
+          "untilTargetNextTurnEnd": false,
+          "untilFirstTimeTriggered": false
+        },
+        "againstStatuses": {},
+        "rollRequests": {},
+        "conditionals": {},
+        "tip": ""
+      },
+      "effects": [],
+      "folder": "atqX9E3XHYUrlhZg",
+      "sort": 200000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20rpg": {
+          "rollMenu": {
+            "free": false,
+            "dis": 0,
+            "adv": 0,
+            "apCost": 0,
+            "d8": 0,
+            "d6": 0,
+            "d4": 0,
+            "versatile": false,
+            "ignoreConcentration": false,
+            "ignoreMCP": false,
+            "showMenu": false,
+            "flanks": false,
+            "halfCover": false,
+            "tqCover": false,
+            "autoCrit": false,
+            "autoFail": false
+          }
+        },
+        "dc20BasicActionsSource": {},
+        "dc20BasicActionKey": {}
+      },
+      "_stats": {
+        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
+        "duplicateSource": "Item.1OVlkg9k0CcbBXYj",
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "pGNWLeO3wnetin7w",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.pGNWLeO3wnetin7w"
     },
     {
       "name": "Opportunity Attack",
@@ -11023,7 +10992,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -11080,15 +11050,15 @@
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.aIaSBL0WEAQbINL7",
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "YwJIE4eUhnE4z1tP",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.YwJIE4eUhnE4z1tP"
+      "_id": "iUzUGahjmZWNdgZb",
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.iUzUGahjmZWNdgZb"
     },
     {
       "name": "Sustained Action",
@@ -11289,7 +11259,8 @@
         "shortInfo": "",
         "requirements": {
           "level": 0,
-          "items": ""
+          "items": "",
+          "unique": true
         },
         "rollMenu": {
           "free": false,
@@ -11341,314 +11312,20 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
+        "systemVersion": "0.10.0.2",
+        "createdTime": 1777992750281,
+        "modifiedTime": 1777992750281,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "ownership": {
         "default": 0,
         "dOcXwrUs2VunZl0y": 3
       },
-      "_id": "EZ70yQjuXQHYnNkS",
+      "_id": "Ezt4x5EnRMiLMVYG",
       "sort": 400000,
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.EZ70yQjuXQHYnNkS"
-    },
-    {
-      "name": "Spell Duel",
-      "type": "basicAction",
-      "img": "icons/svg/explosion.svg",
-      "system": {
-        "description": "<p><span><em><strong>Prerequisite:</strong> Spellcasting</em> <em>Path</em></span></p><p>During a Spell Duel, the creature casting the Spell is referred to as the <strong>Caster</strong> and the opposing creature is referred to as the <strong>Challenger</strong>.</p><p>If multiple creatures attempt to initiate a Spell Duel, one of them must be chosen as the <strong>Challenger</strong>, while the others assist them through <strong>Combo Casting</strong>. Additional creatures can also choose to assist the Caster when a Spell Duel is initiated (see <strong>Combo Casting</strong> for more information).</p><p><strong>Trigger:</strong> You see an MP Effect being cast, provided the Caster or a target is within 5 Spaces of you.</p><p><strong>Reaction:</strong> You can spend an amount of AP and 1 or more MP (up to your Mana Spend Limit) to attempt to stop the Caster’s MP Effect. The amount of AP spent is equal to the base AP cost of the MP Effect you are trying to stop.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Contest</span></strong></span></p><p>Make a Spell Check contested by the Spell Check or Spell Attack that the Caster makes to cast their MP Effect.</p><p>If the Caster’s MP Effect doesn’t require a Check, they have to make a Spell Check as a Reaction as part of the Spell Duel.</p><p>For the purposes of the Spell Duel, the <strong>Caster</strong> and <strong>Challenger</strong> each gain a bonus to their Check equal to twice the MP spent they spent respectively.</p><p><em><strong>Beta Note:</strong> Since enemies don’t have MP costs for their MP Effects you can assume that their MP Effects cost an amount of MP equal to half their Level (rounded up).</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Outcomes</span></strong></span></p><p><strong>Success:</strong> The Caster’s MP Effect fails and has no effect.</p><p><strong>Failure:</strong> The Caster’s MP Effect succeeds and takes effect. The Check bonus gained from MP spent doesn’t apply to the MP Effect’s Success and Failure Statements.</p><p><strong>Tie:</strong> The Caster’s MP Effect fails, has no effect, and you each roll on the @UUID[Compendium.dc20rpg.roll-tables.RollTable.HxkcpDT6pEOIfYUk]{Wild Magic Surge Table}. The effect from the table lasts for 1 Round.</p><p><strong>Resources Lost:</strong> Whatever the result, each creature still spends all AP, MP, or other resources as normal.</p><p></p><p><em><strong>Example:</strong> A Caster makes an MP based Spell Attack and a Challenger attempts to stop it. The Caster’s Spell Attack cost 1 AP and 2 MP. The Challenger must spend 1 AP and at least 1 MP to attempt to stop the Spell Attack. The Caster makes an Attack Check (since its a Spell Attack) and the Challenger makes a Spell Check. The Caster gets a +4 bonus to their Attack Check (2 MP spent) and the Challenger gets a +2 bonus to their Spell Check (1 MP spent). Should the Caster win the Contest, their MP Effect takes effect but they don’t include the +4 bonus from MP spent to determine if they score a Heavy Hit or higher.</em></p><p></p>",
-        "tableName": "",
-        "source": "",
-        "choicePointCost": 1,
-        "hideFromCompendiumBrowser": false,
-        "macros": {
-          "Yalv653kxQPs5FZf": {
-            "name": "Trigger Spell Duel",
-            "trigger": "preItemRoll",
-            "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\");\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent}\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nif (!answers) return;\n\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + (2*intValues[1]);\nconst manaBonus = intValues[2];\n\nconst rollFormula = `d20 + @check.spell + ${(manaBonus * 2)}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"spe\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"customFormula\": rollFormula,\n  \"type\": \"spellCheck\",\n  \"description\": item.system.description,\n  \"costs\": {ap: 2, mana: manaBonus}\n}\n\n// Check for Reactive Spell Focus property\nconst initialRollMenuValue = {adv: 0, dis: 0};\nlet reactive = false;\nfor (const item of actor.getAllItemsWithType([\"spellFocus\"])) {\n  if (item.system.statuses.equipped && item.system.properties.reactive.active) reactive = true;\n}\nif (reactive) initialRollMenuValue.adv = 1;\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails, options={initialRollMenuValue: initialRollMenuValue});\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
-            "disabled": false,
-            "title": ""
-          }
-        },
-        "isReaction": true,
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false,
-          "offOnSustainDrop": false
-        },
-        "actionType": "",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "precision",
-          "rollBonus": 0,
-          "combatMastery": false,
-          "critThreshold": 20,
-          "halfDmgOnMiss": false,
-          "formulaMod": "physical",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          },
-          "ignoreCloseQuarters": false
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "failEffect": "",
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "againstDC": true,
-          "respectSizeRules": false
-        },
-        "save": {
-          "type": "phy",
-          "dc": 0,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": null,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "ap": null,
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "reset": "",
-            "showAsResource": false,
-            "subtract": 1,
-            "deleteOnZero": false
-          }
-        },
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false,
-          "onlyMaintained": false
-        },
-        "range": {
-          "normal": null,
-          "max": null,
-          "unit": "",
-          "melee": 1
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": ""
-            }
-          }
-        },
-        "conditional": {
-          "hasConditional": false,
-          "name": "",
-          "condition": "",
-          "useFor": "",
-          "linkWithToggle": false,
-          "bonus": "0",
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "hasAdvancement": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "items": {}
-          }
-        },
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
-          "toggleItem": true,
-          "addToTemplates": ""
-        },
-        "category": "reaction",
-        "quickRoll": true,
-        "itemKey": "spellDuel",
-        "shortInfo": "",
-        "requirements": {
-          "level": 0,
-          "items": ""
-        },
-        "rollMenu": {
-          "free": false,
-          "rangeType": "",
-          "versatile": false,
-          "flanks": false,
-          "halfCover": false,
-          "tqCover": false,
-          "dis": 0,
-          "adv": 0,
-          "apCost": 0,
-          "gritCost": 0,
-          "autoCrit": false,
-          "autoFail": false,
-          "coreFormula": {
-            "modifier": "",
-            "source": ""
-          },
-          "help": [],
-          "ignoreMCP": false
-        },
-        "usable": true,
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "duration": "round"
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "conditionals": {},
-        "tip": ""
-      },
-      "effects": [],
-      "folder": "atqX9E3XHYUrlhZg",
-      "sort": 200000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "flags": {
-        "dc20rpg": {
-          "rollMenu": {
-            "free": false,
-            "dis": 0,
-            "adv": 0,
-            "apCost": 0,
-            "d8": 0,
-            "d6": 0,
-            "d4": 0,
-            "versatile": false,
-            "ignoreConcentration": false,
-            "ignoreMCP": false,
-            "showMenu": false,
-            "flanks": false,
-            "halfCover": false,
-            "tqCover": false,
-            "autoCrit": false,
-            "autoFail": false
-          }
-        },
-        "dc20BasicActionsSource": {},
-        "dc20BasicActionKey": {}
-      },
-      "_stats": {
-        "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
-        "duplicateSource": "Item.1OVlkg9k0CcbBXYj",
-        "exportSource": null,
-        "coreVersion": "13.350",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": 1768466311517,
-        "modifiedTime": 1768466311517,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "AMvdkBmF9LDEip9n",
-      "_key": "!actors.items!XlJrhVMsC0i3EIkg.AMvdkBmF9LDEip9n"
+      "_key": "!actors.items!5gONTVz0vxFpNnx8.Ezt4x5EnRMiLMVYG"
     }
   ],
   "effects": [],
@@ -11675,15 +11352,15 @@
     "coreVersion": "13.351",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.2",
-    "createdTime": 1767551574831,
-    "modifiedTime": 1777992750133,
+    "createdTime": 1777992749397,
+    "modifiedTime": 1777992881030,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "XlJrhVMsC0i3EIkg",
-  "sort": 1400000,
-  "_key": "!actors!XlJrhVMsC0i3EIkg"
+  "_id": "5gONTVz0vxFpNnx8",
+  "sort": 200000,
+  "_key": "!actors!5gONTVz0vxFpNnx8"
 }

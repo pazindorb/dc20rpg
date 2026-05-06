@@ -1,9 +1,10 @@
 {
-  "name": "Telepathic Reach",
+  "folder": "wJcCIYPuqUeQd5AC",
+  "name": "Force of Mind",
   "type": "feature",
-  "img": "icons/magic/control/sihouette-hold-beam-green.webp",
+  "img": "icons/creatures/magical/spirit-earth-stone-magma-yellow.webp",
   "system": {
-    "description": "<p><em><strong>Requires:</strong></em><strong> </strong><em>Telepathy</em></p><p>The range of your Telepathy is increased to 100 Spaces.</p>",
+    "description": "<p>Your AD increases by 1</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,10 +16,10 @@
       "linkWithToggle": false,
       "flags": {
         "ignorePdr": false,
+        "ignoreEdr": false,
         "ignoreMdr": false,
         "ignoreResistance": {},
-        "ignoreImmune": {},
-        "ignoreEdr": false
+        "ignoreImmune": {}
       },
       "effect": null,
       "addsNewRollRequest": false,
@@ -28,8 +29,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -56,7 +56,8 @@
         "brutal": false,
         "crit": false,
         "conditionals": false
-      }
+      },
+      "ignoreCloseQuarters": false
     },
     "duration": {
       "value": null,
@@ -101,7 +102,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "save": {
       "type": "phy",
@@ -112,13 +114,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -130,12 +132,8 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "featureType": "ancestry",
@@ -181,7 +179,13 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "itemKey": "telepathicReach",
+    "itemKey": "strongMinded",
+    "featureSourceItem": "psyborn",
+    "requirements": {
+      "level": 0,
+      "items": "",
+      "unique": true
+    },
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
@@ -189,12 +193,13 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "againstEffect": {
       "id": "",
@@ -207,6 +212,7 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
+    "conditionals": {},
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -244,44 +250,142 @@
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
+        "tip": "",
         "items": {}
       }
     },
-    "requirements": {
-      "level": 1,
-      "items": ""
-    },
-    "conditionals": {},
-    "provideMartialExpansion": false,
-    "featureSourceItem": "psyborn",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
-  "effects": [],
-  "folder": "q25l8ej0WVsXLSje",
+  "effects": [
+    {
+      "origin": "Item.KvkgnepgiLwKLmEz",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Force of Mind",
+      "img": "icons/creatures/magical/spirit-earth-stone-magma-yellow.webp",
+      "_id": "6hhqSKq6k5IquucS",
+      "type": "base",
+      "system": {
+        "statusId": "",
+        "disableWhen": {
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.area.bonuses.always",
+          "value": "1",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>Your AD increases by 1</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!DtUbwBCsLFdR8gLU.6hhqSKq6k5IquucS"
+    }
+  ],
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "exportSource": null,
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
-    "createdTime": 1745524106343,
-    "modifiedTime": 1760370906048,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": {
-      "worldId": "dc20",
-      "uuid": null,
-      "coreVersion": "12.331",
-      "systemId": "dc20rpg",
-      "systemVersion": "0.9.0"
-    }
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "ED7316ZaG7w4bZTo",
-  "sort": 200000,
+  "_id": "DtUbwBCsLFdR8gLU",
+  "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!ED7316ZaG7w4bZTo"
+  "_key": "!items!DtUbwBCsLFdR8gLU"
 }

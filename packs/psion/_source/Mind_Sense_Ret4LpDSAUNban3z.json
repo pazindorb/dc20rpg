@@ -28,8 +28,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -56,7 +55,8 @@
         "brutal": false,
         "crit": false,
         "conditionals": false
-      }
+      },
+      "ignoreCloseQuarters": false
     },
     "duration": {
       "value": null,
@@ -417,7 +417,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "save": {
       "type": "phy",
@@ -428,7 +429,6 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": 1,
         "health": null,
@@ -447,12 +447,8 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "featureType": "class",
@@ -514,7 +510,8 @@
     "toggle": {
       "toggleable": true,
       "toggledOn": false,
-      "toggleOnRoll": true
+      "toggleOnRoll": true,
+      "offOnSustainDrop": false
     },
     "againstEffect": {
       "id": "",
@@ -570,17 +567,40 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "requirements": {
       "level": 2,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "conditionals": {},
-    "provideMartialExpansion": false,
     "featureSourceItem": "psion",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [],
   "folder": "9oJCL0BL4o7Npjeg",
@@ -588,19 +608,19 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
-    "createdTime": 1745509360601,
-    "modifiedTime": 1761303729238,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066757964,
+    "modifiedTime": 1778066757964,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Ret4LpDSAUNban3z",
   "sort": 0,

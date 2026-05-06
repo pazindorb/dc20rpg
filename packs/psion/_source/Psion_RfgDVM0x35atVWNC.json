@@ -11,7 +11,8 @@
     "choicePointCost": 1,
     "requirements": {
       "level": 1,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
@@ -668,29 +669,6 @@
     "bannerImg": "",
     "martial": true,
     "spellcaster": true,
-    "martialExpansion": false,
-    "talentMasteries": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
     "startingEquipment": {
       "LU9rjxKTzRUjEKGi": {
         "label": "Spell Focus",
@@ -724,7 +702,13 @@
     "filters": {
       "spellSchool": {
         "enchantment": true,
-        "divination": true
+        "divination": true,
+        "astromancy": false,
+        "conjuration": false,
+        "elemental": false,
+        "invocation": false,
+        "nullification": false,
+        "transmutation": false
       },
       "spellTags": {
         "psychic": "Psychic",
@@ -732,8 +716,41 @@
         "thoughts": "Thoughts",
         "motion": "Motion",
         "teleportation": "Teleportation"
+      },
+      "spellSource": {
+        "arcane": false,
+        "divine": false,
+        "primal": false
+      },
+      "canChoose": {
+        "spellSource": null,
+        "spellSchool": null,
+        "spellTags": null
       }
-    }
+    },
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "unique": true,
+    "multiclass": {}
   },
   "effects": [],
   "folder": "roExRoXguH0VmK6d",
@@ -746,13 +763,13 @@
   "_stats": {
     "compendiumSource": "Item.RfgDVM0x35atVWNC",
     "duplicateSource": null,
+    "exportSource": null,
     "coreVersion": "13.351",
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.2",
-    "createdTime": 1745507415348,
-    "modifiedTime": 1776442816144,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "createdTime": 1778066757964,
+    "modifiedTime": 1778066757964,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!RfgDVM0x35atVWNC"
 }

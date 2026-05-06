@@ -1,9 +1,9 @@
 {
-  "name": "Psion Stamina",
+  "name": "Telepathic Link",
   "type": "feature",
-  "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+  "img": "icons/magic/control/debuff-chains-blue.webp",
   "system": {
-    "description": "<p>Once per round, you can regain up to half your maximum SP when at least 1 creature fails a <strong>Mental</strong> <strong>Save</strong> you impose.</p>",
+    "description": "<p><em><strong>Requires:</strong></em><strong> </strong><em>Telepathy</em></p><p>You can spend <strong>1 AP</strong> to establish a Telepathic Link with a creature that you can see within your Telepathy range. </p><p>The target must make an <strong>Intelligence</strong> <strong>Save</strong> contested by your <strong>Spell Check.</strong> </p><p><strong>Save Failure:</strong> For the next hour, you can communicate telepathically with them as long as they remain within range and on the same plane of existence </p><p>The connection ends if you use this Trait again</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -28,8 +28,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -41,7 +40,7 @@
       }
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "check",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "precision",
@@ -56,7 +55,8 @@
         "brutal": false,
         "crit": false,
         "conditionals": false
-      }
+      },
+      "ignoreCloseQuarters": false
     },
     "duration": {
       "value": null,
@@ -84,14 +84,14 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "att",
+      "checkKey": "spe",
       "contestedKey": "phy",
       "checkDC": 10,
       "multiCheck": {
         "active": false,
         "options": {}
       },
-      "againstDC": true,
+      "againstDC": false,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -99,9 +99,10 @@
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "system.techniqueType=\"maneuver\"",
+      "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "save": {
       "type": "phy",
@@ -112,34 +113,30 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": 1
       },
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "1",
+        "maxChargesFormula": "",
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
-    "featureType": "class",
-    "featureOrigin": "Psion",
+    "featureType": "ancestry",
+    "featureOrigin": "Psyborn",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -181,23 +178,21 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "quickRoll": true,
-    "itemKey": "psionStamina",
+    "itemKey": "telepathicReach",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {
-      "p96WDiWcUizX264r": {
-        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\nactor.resources.stamina.regain(Math.ceil(maxStamina/2));",
-        "trigger": "postItemRoll",
-        "disabled": false,
-        "name": "Regain Stamina",
-        "title": ""
-      }
+    "quickRoll": false,
+    "macros": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "againstEffect": {
       "id": "",
@@ -209,7 +204,17 @@
       "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
-    "rollRequests": {},
+    "rollRequests": {
+      "8jO8OLQvzc366bzL": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "int",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -250,40 +255,64 @@
         "items": {}
       }
     },
-    "help": {
-      "ignoreMHP": false,
-      "subtract": false,
-      "doNotExpire": false
-    },
-    "featureSourceItem": "psion",
-    "staminaFeature": true,
     "requirements": {
       "level": 1,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "conditionals": {},
-    "provideMartialExpansion": false,
-    "flavorFeature": false
+    "featureSourceItem": "psyborn",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [],
-  "folder": "U28B7vZReoPwEjxs",
+  "folder": "q25l8ej0WVsXLSje",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "exportSource": {
+      "worldId": "dc20",
+      "uuid": null,
+      "coreVersion": "12.331",
+      "systemId": "dc20rpg",
+      "systemVersion": "0.9.0"
+    },
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
-    "createdTime": 1745507540559,
-    "modifiedTime": 1767111062042,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "8WNS6Qn3YLXUIZvS",
-  "sort": 100000,
+  "_id": "hc1nfvEXAF89gupc",
+  "sort": 400000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!8WNS6Qn3YLXUIZvS"
+  "_key": "!items!hc1nfvEXAF89gupc"
 }

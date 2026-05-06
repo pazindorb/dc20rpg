@@ -1,16 +1,17 @@
 {
-  "name": "Psychic Resistance",
+  "name": "Psionic Hand",
   "type": "feature",
-  "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
+  "img": "icons/magic/light/orbs-hand-gray.webp",
   "system": {
-    "itemKey": "psychicResistance",
-    "description": "<p>You have Psychic Resistance (Half).</p>",
+    "itemKey": "psionicHand",
+    "description": "<p>You learn the Mage Hand Cantrip</p><p>When you cast the Spell, you can choose to make the hand Invisible.</p><p></p><p><em><strong>System Tip:</strong> Mage Hand is no longer a spell after 0.10. This advancement does nothing for now.</em></p>",
     "tableName": "",
     "source": "",
-    "choicePointCost": 2,
+    "choicePointCost": 1,
     "requirements": {
       "level": 0,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
@@ -19,12 +20,13 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "",
     "attackFormula": {
@@ -41,7 +43,8 @@
         "crit": false,
         "conditionals": false
       },
-      "formulaMod": ""
+      "formulaMod": "",
+      "ignoreCloseQuarters": false
     },
     "check": {
       "canCrit": false,
@@ -65,13 +68,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
-        "custom": {}
+        "custom": {},
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -83,12 +86,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -108,7 +107,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
@@ -156,8 +156,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -170,10 +169,9 @@
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
-        "name": "Item Advancement",
+        "name": "Psionic Hand",
         "mustChoose": false,
         "pointAmount": 1,
         "level": 0,
@@ -207,7 +205,9 @@
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
-        "items": {}
+        "items": {},
+        "customTitle": "Psionic Hand",
+        "key": "default"
       }
     },
     "featureType": "ancestry",
@@ -255,99 +255,56 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
-    }
+    },
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
-  "effects": [
-    {
-      "origin": "Item.vAgcrxzJZ5rjcS4i",
-      "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Psychic Resistance",
-      "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
-      "_id": "xjdl7iySBGvlvZ0w",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.psychic.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
-      "description": "<p>You have Psychic Resistance (Half).</p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "effectKey": "",
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "",
-          "addToChat": false,
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1751194752718,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
-      },
-      "_key": "!items.effects!QbDd9QttEhAcyo0o.xjdl7iySBGvlvZ0w"
-    }
-  ],
+  "effects": [],
   "folder": "wJcCIYPuqUeQd5AC",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
-    "createdTime": 1745523528912,
-    "modifiedTime": 1751194749789,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "QbDd9QttEhAcyo0o",
-  "sort": 100000,
+  "_id": "dwP7gnH9349mGPfs",
+  "sort": 300000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!QbDd9QttEhAcyo0o"
+  "_key": "!items!dwP7gnH9349mGPfs"
 }

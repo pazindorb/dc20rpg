@@ -1,16 +1,17 @@
 {
-  "name": "Shrouded Mind",
+  "name": "Psionic Leap",
   "type": "feature",
-  "img": "icons/magic/control/control-influence-rally-purple.webp",
+  "img": "icons/magic/control/debuff-energy-hold-levitate-blue-yellow.webp",
   "system": {
-    "itemKey": "strongMinded",
-    "description": "<p>Y<span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\">our surface thoug</span>hts can’t be read against your will, and y<span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"3\" class=\"notion-enable-hover\">ou have </span>ADV on Checks or Saves to resist attempts to read deeper into your mind.</p>",
+    "itemKey": "psionicLeap",
+    "description": "<p>You can use your Intelligence instead of Agility to determine your Jump Distance and the damage you take from Falling.</p><p></p><p><em><strong>System Tip:</strong> When you pick this trait this option will be enabled by default. Disable the effect to change it back to Agility.</em></p>",
     "tableName": "",
     "source": "",
-    "choicePointCost": 0,
+    "choicePointCost": 1,
     "requirements": {
-      "level": 0,
-      "items": ""
+      "level": 1,
+      "items": "",
+      "unique": true
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
@@ -19,18 +20,19 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "precision",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -41,7 +43,8 @@
         "crit": false,
         "conditionals": false
       },
-      "formulaMod": ""
+      "formulaMod": "",
+      "ignoreCloseQuarters": false
     },
     "check": {
       "canCrit": false,
@@ -65,13 +68,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
-        "custom": {}
+        "custom": {},
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -83,12 +86,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -108,7 +107,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
@@ -156,8 +156,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -170,7 +169,6 @@
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
         "name": "Item Advancement",
@@ -212,7 +210,7 @@
     },
     "featureType": "ancestry",
     "featureOrigin": "Psyborn",
-    "featureSourceItem": "",
+    "featureSourceItem": "psyborn",
     "staminaFeature": false,
     "flavorFeature": false,
     "isResource": false,
@@ -255,33 +253,143 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
-    }
+    },
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
-  "effects": [],
-  "folder": "wJcCIYPuqUeQd5AC",
+  "effects": [
+    {
+      "img": "icons/magic/control/debuff-energy-hold-levitate-blue-yellow.webp",
+      "origin": "Item.mLE7b8RNxZnv38wH",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "name": "Psionic Leap",
+      "_id": "j70XXg3BnMTtjj60",
+      "type": "base",
+      "system": {
+        "statusId": "",
+        "disableWhen": {
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.jump.key",
+          "mode": 5,
+          "value": "int",
+          "priority": null
+        }
+      ],
+      "description": "<p>You can use your Intelligence instead of Agility to determine your Jump Distance and the damage you take from Falling.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": "Item.mLE7b8RNxZnv38wH.ActiveEffect.j70XXg3BnMTtjj60",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!MO5N847gbvJ0CHIn.j70XXg3BnMTtjj60"
+    }
+  ],
+  "folder": "q25l8ej0WVsXLSje",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
-    "createdTime": 1745523593793,
-    "modifiedTime": 1760370520413,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "3EJFnB4pbOP6WlOr",
-  "sort": 200000,
+  "_id": "MO5N847gbvJ0CHIn",
+  "sort": 600000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!3EJFnB4pbOP6WlOr"
+  "_key": "!items!MO5N847gbvJ0CHIn"
 }

@@ -1,16 +1,17 @@
 {
-  "name": "Telepahy",
+  "name": "Telepahy (Flavor Feature)",
   "type": "feature",
   "img": "icons/magic/perception/eye-ringed-glow-angry-red.webp",
   "system": {
     "itemKey": "telepahy",
-    "description": "<p>You can communicate telepathically with any creature you can see within 10 Spaces. If it understands at least 1 Language it can respond to you telepathically.</p>",
+    "description": "<p>You can communicate telepathically with any creature you can see within 10 Spaces. If it understands at least one language, it can respond to you telepathically.</p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
     "requirements": {
-      "level": 0,
-      "items": ""
+      "level": 1,
+      "items": "",
+      "unique": true
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
@@ -19,12 +20,13 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "",
     "attackFormula": {
@@ -41,7 +43,8 @@
         "crit": false,
         "conditionals": false
       },
-      "formulaMod": ""
+      "formulaMod": "",
+      "ignoreCloseQuarters": false
     },
     "check": {
       "canCrit": false,
@@ -65,13 +68,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
-        "custom": {}
+        "custom": {},
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -83,12 +86,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -108,7 +107,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
@@ -156,8 +156,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -170,7 +169,6 @@
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
         "name": "Item Advancement",
@@ -210,11 +208,11 @@
         "items": {}
       }
     },
-    "featureType": "ancestry",
-    "featureOrigin": "Psyborn",
-    "featureSourceItem": "psyborn",
+    "featureType": "class",
+    "featureOrigin": "Psion",
+    "featureSourceItem": "psion",
     "staminaFeature": false,
-    "flavorFeature": false,
+    "flavorFeature": true,
     "isResource": false,
     "resource": {
       "name": "",
@@ -255,33 +253,56 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
-    }
+    },
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [],
-  "folder": "wJcCIYPuqUeQd5AC",
+  "folder": "U28B7vZReoPwEjxs",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
-    "createdTime": 1745523684946,
-    "modifiedTime": 1751135254953,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066757964,
+    "modifiedTime": 1778066757964,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "3gsCM1ocfY357MxY",
+  "_id": "iurvI1RwquutBN5I",
   "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!3gsCM1ocfY357MxY"
+  "_key": "!items!iurvI1RwquutBN5I"
 }

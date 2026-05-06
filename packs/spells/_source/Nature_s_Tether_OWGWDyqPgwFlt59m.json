@@ -50,7 +50,7 @@
       "toggleOnRoll": false,
       "offOnSustainDrop": false
     },
-    "actionType": "",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "spell",
@@ -76,7 +76,7 @@
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
@@ -122,8 +122,31 @@
       "untilTargetNextTurnEnd": false,
       "untilFirstTimeTriggered": false
     },
-    "againstStatuses": {},
-    "rollRequests": {},
+    "againstStatuses": {
+      "ZCZX5OLF8HBDETwe": {
+        "id": "movement",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "c3MxdXPd4JcZSD8Z": {
+        "category": "save",
+        "saveKey": "mig",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
     "formulas": {},
     "enhancements": {
       "6kPQXpG0G9JVlPC7": {
@@ -810,7 +833,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.2",
     "createdTime": 1777297687442,
-    "modifiedTime": 1777379433185,
+    "modifiedTime": 1777987968332,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

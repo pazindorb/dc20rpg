@@ -1,16 +1,17 @@
 {
-  "name": "Psionic Grit",
+  "name": "Psychic Resistance",
   "type": "feature",
-  "img": "icons/magic/control/buff-luck-fortune-green.webp",
+  "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
   "system": {
-    "itemKey": "psionicGrit",
-    "description": "<p>You can now also spend <strong>1 Grit Point</strong> when an ally that you can see within 10 Spaces of you takes damage to reduce the damage by 1.</p>",
+    "itemKey": "psychicResistance",
+    "description": "<p>You have Psychic Resistance (Half).</p>",
     "tableName": "",
     "source": "",
-    "choicePointCost": 1,
+    "choicePointCost": 2,
     "requirements": {
-      "level": 1,
-      "items": ""
+      "level": 0,
+      "items": "",
+      "unique": true
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
@@ -19,14 +20,15 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
-    "actionType": "other",
+    "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -41,7 +43,8 @@
         "crit": false,
         "conditionals": false
       },
-      "formulaMod": ""
+      "formulaMod": "",
+      "ignoreCloseQuarters": false
     },
     "check": {
       "canCrit": false,
@@ -65,13 +68,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
-        "grit": 1,
+        "grit": null,
         "restPoints": null,
-        "custom": {}
+        "custom": {},
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -83,12 +86,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -108,11 +107,12 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
-      "normal": 10,
+      "normal": null,
       "max": null,
       "unit": ""
     },
@@ -122,8 +122,8 @@
       "timeUnit": ""
     },
     "target": {
-      "count": 1,
-      "type": "ally",
+      "count": null,
+      "type": "",
       "areas": {
         "default": {
           "area": "",
@@ -156,8 +156,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -170,7 +169,6 @@
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
         "name": "Item Advancement",
@@ -255,14 +253,36 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
-    }
+    },
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [
     {
-      "img": "icons/magic/control/buff-luck-fortune-green.webp",
-      "origin": "Item.xWBDjd1Wi9497HI5",
+      "origin": "Item.vAgcrxzJZ5rjcS4i",
       "duration": {
-        "rounds": 1,
+        "rounds": null,
         "startTime": null,
         "seconds": null,
         "combat": null,
@@ -271,6 +291,52 @@
         "startTurn": null
       },
       "disabled": false,
+      "name": "Psychic Resistance",
+      "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
+      "_id": "xjdl7iySBGvlvZ0w",
+      "type": "base",
+      "system": {
+        "statusId": "",
+        "disableWhen": {
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.psychic.resistance",
+          "value": "true",
+          "mode": 5,
+          "priority": null
+        }
+      ],
+      "description": "<p>You have Psychic Resistance (Half).</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
       "flags": {
         "dc20rpg": {
           "effectKey": "",
@@ -280,7 +346,7 @@
             "value": ""
           },
           "requireEnhancement": "",
-          "addToChat": true,
+          "addToChat": false,
           "duration": {
             "useCounter": false,
             "resetWhenEnabled": false,
@@ -288,73 +354,42 @@
           }
         }
       },
-      "name": "Psionic Grit",
-      "_id": "JsBHCaYizjIA6ROO",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        },
-        "addToChat": true
-      },
-      "changes": [
-        {
-          "key": "system.damageReduction.flat",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Psionic Grit\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p><span>You can now also spend <strong>1 Grit Point</strong> when an ally that you can see within 10 Spaces of you takes damage to reduce the damage by 1.</span></p>",
-      "tint": "#ffffff",
-      "transfer": false,
-      "statuses": [],
-      "sort": 0,
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880257308,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
       },
-      "_key": "!items.effects!6vqn35Ie6AIBzWcI.JsBHCaYizjIA6ROO"
+      "_key": "!items.effects!QbDd9QttEhAcyo0o.xjdl7iySBGvlvZ0w"
     }
   ],
-  "folder": "q25l8ej0WVsXLSje",
+  "folder": "wJcCIYPuqUeQd5AC",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
-    "createdTime": 1745523947824,
-    "modifiedTime": 1751135298000,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "6vqn35Ie6AIBzWcI",
-  "sort": 700000,
+  "_id": "QbDd9QttEhAcyo0o",
+  "sort": 100000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!6vqn35Ie6AIBzWcI"
+  "_key": "!items!QbDd9QttEhAcyo0o"
 }

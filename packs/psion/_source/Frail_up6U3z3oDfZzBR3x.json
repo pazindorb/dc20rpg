@@ -1,9 +1,10 @@
 {
-  "name": "Telepathic Link",
+  "folder": "q25l8ej0WVsXLSje",
+  "name": "Frail",
   "type": "feature",
-  "img": "icons/magic/control/debuff-chains-blue.webp",
+  "img": "icons/magic/life/heart-broken-red.webp",
   "system": {
-    "description": "<p><em><strong>Requires:</strong></em><strong> </strong><em>Telepathy</em></p><p>You can spend <strong>1 AP</strong> to establish a Telepathic Link with a creature that you can see within your Telepathy range. </p><p>The target must make an <strong>Intelligence</strong> <strong>Save</strong> contested by your <strong>Spell Check.</strong> </p><p><strong>Save Failure:</strong> For the next hour, you can communicate telepathically with them as long as they remain within range and on the same plane of existence </p><p>The connection ends if you use this Trait again</p>",
+    "description": "<p><span >Your <strong >HP </strong>maximum decreases by 2.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,10 +16,10 @@
       "linkWithToggle": false,
       "flags": {
         "ignorePdr": false,
+        "ignoreEdr": false,
         "ignoreMdr": false,
         "ignoreResistance": {},
-        "ignoreImmune": {},
-        "ignoreEdr": false
+        "ignoreImmune": {}
       },
       "effect": null,
       "addsNewRollRequest": false,
@@ -28,8 +29,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -41,7 +41,7 @@
       }
     },
     "isReaction": false,
-    "actionType": "check",
+    "actionType": "",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "precision",
@@ -56,7 +56,8 @@
         "brutal": false,
         "crit": false,
         "conditionals": false
-      }
+      },
+      "ignoreCloseQuarters": false
     },
     "duration": {
       "value": null,
@@ -84,14 +85,14 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "spe",
+      "checkKey": "att",
       "contestedKey": "phy",
       "checkDC": 10,
       "multiCheck": {
         "active": false,
         "options": {}
       },
-      "againstDC": false,
+      "againstDC": true,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -101,7 +102,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "save": {
       "type": "phy",
@@ -112,14 +114,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
         "restPoints": null,
-        "ap": 1
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -131,12 +132,8 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "featureType": "ancestry",
@@ -182,20 +179,27 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "itemKey": "telepathicReach",
-    "choicePointCost": 1,
+    "choicePointCost": -1,
+    "itemKey": "frail",
+    "featureSourceItem": "psyborn",
+    "requirements": {
+      "level": 0,
+      "items": "",
+      "unique": true
+    },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "againstEffect": {
       "id": "",
@@ -207,17 +211,8 @@
       "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
-    "rollRequests": {
-      "8jO8OLQvzc366bzL": {
-        "category": "contest",
-        "saveKey": "",
-        "contestedKey": "int",
-        "dcCalculation": "spell",
-        "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
-      }
-    },
+    "rollRequests": {},
+    "conditionals": {},
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -255,44 +250,142 @@
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
+        "tip": "",
         "items": {}
       }
     },
-    "requirements": {
-      "level": 1,
-      "items": ""
-    },
-    "conditionals": {},
-    "provideMartialExpansion": false,
-    "featureSourceItem": "psyborn",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
-  "effects": [],
-  "folder": "q25l8ej0WVsXLSje",
+  "effects": [
+    {
+      "origin": "Item.LZaLJCwVVPTlIX4c",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Frail",
+      "img": "icons/magic/life/heart-broken-red.webp",
+      "_id": "8W0yYe7x9GdQh1Eh",
+      "type": "base",
+      "system": {
+        "statusId": "",
+        "disableWhen": {
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.resources.health.bonus",
+          "mode": 2,
+          "value": "-2",
+          "priority": null
+        }
+      ],
+      "description": "<p><span>Your <strong>HP </strong>maximum decreases by 2.</span></p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!up6U3z3oDfZzBR3x.8W0yYe7x9GdQh1Eh"
+    }
+  ],
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "exportSource": null,
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
-    "createdTime": 1745524091037,
-    "modifiedTime": 1760521817563,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": {
-      "worldId": "dc20",
-      "uuid": null,
-      "coreVersion": "12.331",
-      "systemId": "dc20rpg",
-      "systemVersion": "0.9.0"
-    }
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "hc1nfvEXAF89gupc",
-  "sort": 400000,
+  "_id": "up6U3z3oDfZzBR3x",
+  "sort": 500000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!hc1nfvEXAF89gupc"
+  "_key": "!items!up6U3z3oDfZzBR3x"
 }

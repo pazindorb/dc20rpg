@@ -4,7 +4,7 @@
   "img": "icons/skills/movement/feet-winged-boots-glowing-yellow.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Sprint across the battlefield</p><p><em><strong>Range:</strong> Self</em></p><p>Make a DC 15 Martial Check.</p><ul><li><p><strong>Success:</strong> You move up to twice your Speed ignoring Difficult Terrain.</p></li><li><p><strong>Failure:</strong> You move up to your Speed ignoring Difficult Terrain.</p></li></ul><p><strong>Reaction:</strong> You can spend an additional 1 SP to perform this Maneuver as a Reaction at the end of a creature’s Turn moving half as much as normal.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Passthrough: (2 SP) </strong>Each creature whose Space you attempt to move through must make a Martial Check against the result of your Martial Check. <strong>Failure:</strong> You move through their Space.</p><p><strong>Coordinated Movement: (2 SP, Repeatable)</strong> A willing creature of your choice within 1 Space can move without spending its own movement, provided they’re able to move and they end their movement within 1 Space of your destination.</p>",
+    "description": "<p>Sprint across the battlefield</p><p><em><strong>Trigger:</strong></em> A creature ends their turn</p><p><em><strong>Reaction:</strong></em> You immediately move up to your Speed.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Agile: (1 SP)</strong> You ignore Difficult Terrain during thismovement.</p><p><strong>Disengage: (1 AP) </strong>You gain the benefits of the Disengage Action for the Movement. When you use this Enhancement, you can spend 1 additional SP to gain the benefits of the Full Disengage Action instead.</p><p><strong>Coordinated Movement: (2 SP, Repeatable)</strong> A willing creature of your choice within 1 Space can move without spending its own movement, provided they’re able to move and they end their movement within 1 Space of your destination.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -130,11 +130,11 @@
     "rollRequests": {},
     "formulas": {},
     "enhancements": {
-      "v83GWhyiQVhIJoxC": {
-        "name": "Reaction",
+      "1DDEd4FrACNd73o6": {
+        "name": "Agile",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can spend an additional 1 SP to perform this Maneuver as a Reaction at the end of a creature’s Turn moving half as much as normal.</p>",
+        "description": "<p>You ignore Difficult Terrain during this movement.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -163,9 +163,11 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
+            "dontModifyFailFormula": false,
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
@@ -179,8 +181,7 @@
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": false,
           "againstStatus": {
@@ -192,6 +193,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -215,17 +217,17 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "AJwUDXLpTTUDfndC": {
-        "name": "Passthrough",
+      "4342ZUfnFlM6t8oF": {
+        "name": "Disengage",
         "number": 0,
         "preventModification": false,
-        "description": "<p>Each creature whose Space you attempt to move through must make a Martial Check against the result of your Martial Check. </p><ul><li><p><strong>Failure:</strong> You move through their Space.</p></li></ul>",
+        "description": "<p>You gain the benefits of the Disengage Action for the Movement.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
           "mana": null,
-          "stamina": 2,
+          "stamina": null,
           "grit": null,
           "restPoints": null,
           "custom": {}
@@ -248,24 +250,25 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
+            "dontModifyFailFormula": false,
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
-            "category": "contest",
+            "category": "save",
             "saveKey": "",
-            "contestedKey": "mar",
+            "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": false,
           "againstStatus": {
@@ -277,6 +280,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -300,11 +304,98 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "HQpJnSYi1Y2w2Ym6": {
+      "hZL37LbQWkBe4PUQ": {
+        "name": "Full Disengage",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You gain the benefits of the Full Disengage Action for the Movement.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "dlf59r0ULIdz2KIh": {
         "name": "Coordinated Movement",
         "number": 0,
         "preventModification": false,
-        "description": "<p>A willing creature of your choice within 1 Space can move without spending its own movement, provided they’re able to move and they end their movement within 1 Space of your destination.</p>",
+        "description": "<p>A willing creature of your choice within 1 Space of your original position can move without spending its own movement, provided they’re able to move and they end their movement within 1 Space of your destination.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -333,9 +424,11 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
+            "dontModifyFailFormula": false,
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
@@ -349,8 +442,7 @@
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": false,
           "againstStatus": {
@@ -362,6 +454,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -523,11 +616,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766095409711,
-    "modifiedTime": 1766096979619,
+    "modifiedTime": 1777988296830,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

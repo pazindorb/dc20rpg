@@ -36,7 +36,16 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {},
+    "macros": {
+      "XZZahzdZjeXaAXDD": {
+        "command": "const questions = {\n  header: \"Configure Scrying Check Bonus\",\n  inputs: [\n    {\n      type: \"checkbox\",\n      label: \"Touch\",\n      hint: \"You touched the target\",\n    },\n    {\n      type: \"checkbox\",\n      label: \"Item\",\n      hint: \"You have an item of the target\",\n    },\n    {\n      type: \"checkbox\",\n      label: \"Bodily Item\",\n      hint: \"You possess a bodily item of the target\",\n    },\n  ]\n}\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", questions);\n\nlet bonus = \"\";\nif (answers[0]) bonus += \" + 2\";\nif (answers[1]) bonus += \" + 3\";\nif (answers[2]) bonus += \" + 5\";\ndialogOptions.initialRollMenuValue = {adv: 0, dis: 0, modifier: bonus}",
+        "trigger": "onRollPrompt",
+        "disabled": false,
+        "name": "Scrying Config",
+        "title": "",
+        "global": false
+      }
+    },
     "usable": true,
     "isReaction": false,
     "help": {
@@ -664,7 +673,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.0.2",
     "createdTime": 1777235050781,
-    "modifiedTime": 1777235133342,
+    "modifiedTime": 1777991308337,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

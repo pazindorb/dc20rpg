@@ -1,10 +1,9 @@
 {
-  "folder": "q25l8ej0WVsXLSje",
-  "name": "Frail",
+  "name": "Strong Mind",
   "type": "feature",
-  "img": "icons/magic/life/heart-broken-red.webp",
+  "img": "icons/magic/control/debuff-chains-ropes-net-purple-blue.webp",
   "system": {
-    "description": "<p><span >Your <strong >HP </strong>maximum decreases by 2.</span></p>",
+    "description": "<p>Once per Combat, when you take damage, you can reduce the damage taken by an amount equal to your <strong>Intelligence</strong> or <strong>Charisma</strong> (your choice).</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -16,10 +15,10 @@
       "linkWithToggle": false,
       "flags": {
         "ignorePdr": false,
-        "ignoreEdr": false,
         "ignoreMdr": false,
         "ignoreResistance": {},
-        "ignoreImmune": {}
+        "ignoreImmune": {},
+        "ignoreEdr": false
       },
       "effect": null,
       "addsNewRollRequest": false,
@@ -29,8 +28,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -41,8 +39,8 @@
         "overrideDefence": ""
       }
     },
-    "isReaction": false,
-    "actionType": "",
+    "isReaction": true,
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "precision",
@@ -57,7 +55,8 @@
         "brutal": false,
         "crit": false,
         "conditionals": false
-      }
+      },
+      "ignoreCloseQuarters": false
     },
     "duration": {
       "value": null,
@@ -102,7 +101,8 @@
       "copy": false,
       "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "save": {
       "type": "phy",
@@ -113,30 +113,26 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
         "grit": null,
-        "restPoints": null
+        "restPoints": null,
+        "ap": null
       },
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "combat",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "featureType": "ancestry",
@@ -182,25 +178,21 @@
       "useStandardTable": true,
       "customMaxFormula": ""
     },
-    "choicePointCost": -1,
-    "itemKey": "frail",
-    "featureSourceItem": "psyborn",
-    "requirements": {
-      "level": 0,
-      "items": ""
-    },
+    "itemKey": "strongMind",
+    "choicePointCost": 2,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "againstEffect": {
       "id": "",
@@ -213,9 +205,7 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
         "name": "Item Advancement",
@@ -252,18 +242,48 @@
         "additionalAdvancement": true,
         "compendium": "",
         "preFilters": "",
-        "tip": "",
         "items": {}
       }
     },
+    "requirements": {
+      "level": 1,
+      "items": "",
+      "unique": true
+    },
+    "conditionals": {},
+    "featureSourceItem": "psyborn",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [
     {
-      "origin": "Item.LZaLJCwVVPTlIX4c",
+      "img": "icons/magic/control/debuff-chains-ropes-net-purple-blue.webp",
+      "origin": "Item.xWBDjd1Wi9497HI5",
       "duration": {
-        "rounds": null,
+        "rounds": 1,
         "startTime": null,
         "seconds": null,
         "combat": null,
@@ -272,29 +292,6 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Frail",
-      "img": "icons/magic/life/heart-broken-red.webp",
-      "_id": "8W0yYe7x9GdQh1Eh",
-      "type": "base",
-      "system": {
-        "statusId": "",
-        "disableWhen": {
-          "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.resources.health.bonus",
-          "mode": 2,
-          "value": "-2",
-          "priority": null
-        }
-      ],
-      "description": "<p><span>Your <strong>HP </strong>maximum decreases by 2.</span></p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
       "flags": {
         "dc20rpg": {
           "effectKey": "",
@@ -304,8 +301,7 @@
             "value": ""
           },
           "requireEnhancement": "",
-          "addToChat": false,
-          "nonessential": false,
+          "addToChat": true,
           "duration": {
             "useCounter": false,
             "resetWhenEnabled": false,
@@ -313,37 +309,93 @@
           }
         }
       },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "13.344",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880257458,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "exportSource": null
+      "name": "Strong Mind",
+      "_id": "A5ecvkluI3GdTTAH",
+      "type": "base",
+      "system": {
+        "statusId": "",
+        "disableWhen": {
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "addToChat": true,
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "applyToTemplate": true,
+        "nonessential": false,
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
       },
-      "_key": "!items.effects!up6U3z3oDfZzBR3x.8W0yYe7x9GdQh1Eh"
+      "changes": [
+        {
+          "key": "system.damageReduction.flat",
+          "mode": 2,
+          "value": "<:max(@int, @cha):>",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Psionic Grit\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>Once per Combat, when you take damage, you can reduce the damage taken by an amount equal to your <strong>Intelligence</strong> or <strong>Charisma</strong> (your choice).</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.psyborn-and-psion.Item.mOWjf1lWenfsrwA2.ActiveEffect.JsBHCaYizjIA6ROO",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!DPlAvqWgg4aud9rc.A5ecvkluI3GdTTAH"
     }
   ],
+  "folder": "q25l8ej0WVsXLSje",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": {
+      "worldId": "dc20",
+      "uuid": null,
+      "coreVersion": "12.331",
+      "systemId": "dc20rpg",
+      "systemVersion": "0.9.0"
+    },
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.7.0",
-    "createdTime": 1745523762069,
-    "modifiedTime": 1751135301692,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
-    "exportSource": null
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066784610,
+    "modifiedTime": 1778066784610,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "up6U3z3oDfZzBR3x",
-  "sort": 500000,
+  "_id": "DPlAvqWgg4aud9rc",
+  "sort": 300000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!up6U3z3oDfZzBR3x"
+  "_key": "!items!DPlAvqWgg4aud9rc"
 }

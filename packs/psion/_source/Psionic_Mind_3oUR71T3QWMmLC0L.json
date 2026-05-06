@@ -10,7 +10,8 @@
     "choicePointCost": 1,
     "requirements": {
       "level": 1,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
@@ -19,12 +20,13 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false,
-      "doNotExpire": false
+      "duration": "round"
     },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "other",
     "attackFormula": {
@@ -41,7 +43,8 @@
         "crit": false,
         "conditionals": false
       },
-      "formulaMod": ""
+      "formulaMod": "",
+      "ignoreCloseQuarters": false
     },
     "check": {
       "canCrit": false,
@@ -65,13 +68,13 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "stamina": 1,
         "mana": null,
         "health": null,
         "grit": null,
         "restPoints": null,
-        "custom": {}
+        "custom": {},
+        "ap": null
       },
       "charges": {
         "current": null,
@@ -83,12 +86,8 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
-      },
-      "otherItem": {
-        "itemId": "",
-        "amountConsumed": 0,
-        "consumeCharge": true
+        "subtract": 1,
+        "deleteOnZero": false
       }
     },
     "againstEffect": {
@@ -377,7 +376,8 @@
       "copy": true,
       "copyFor": "type=[\"spell\"]",
       "linkWithToggle": false,
-      "hideFromRollMenu": true
+      "hideFromRollMenu": true,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
@@ -425,8 +425,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -439,7 +438,6 @@
     },
     "conditionals": {},
     "hasAdvancement": true,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
         "name": "Psionic Mind",
@@ -538,7 +536,30 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
-    }
+    },
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": ""
   },
   "effects": [],
   "folder": "U28B7vZReoPwEjxs",
@@ -546,19 +567,19 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
-    "createdTime": 1745507817724,
-    "modifiedTime": 1768597025820,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": {
       "worldId": "dc20",
       "uuid": null,
       "coreVersion": "12.331",
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
-    }
+    },
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1778066757964,
+    "modifiedTime": 1778066757964,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "3oUR71T3QWMmLC0L",
   "sort": 300000,
