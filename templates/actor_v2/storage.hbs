@@ -77,7 +77,7 @@
         <div class="currencies">
           {{#each system.currency as |value key|}}
           <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
-            <input {{#unless @root.isGM}}disabled{{/unless}} type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
+            <input {{#unless @root.canUserModify}}disabled{{/unless}} type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
           </div>
           {{/each}}
         </div>
