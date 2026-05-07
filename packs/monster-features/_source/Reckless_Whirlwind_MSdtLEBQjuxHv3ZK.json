@@ -1,0 +1,442 @@
+{
+  "img": "icons/skills/melee/strikes-sword-scimitar.webp",
+  "name": "Reckless Whirlwind",
+  "type": "feature",
+  "system": {
+    "description": "<p>Move up to your Speed, then make an Area Martial Attack vs AD</p><p>1 Space Aura</p><p>1 Slashing</p><p>The next Attack against you has ADV</p><p></p><p><em><strong>System Tip:</strong> Use on demand macro to gain Move Points.</em></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "area",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "area",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "aura",
+          "distance": 1,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {
+      "weaponDamage": {
+        "formula": "1",
+        "type": "slashing",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "overrideDefence": ""
+      }
+    },
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "ap": 2,
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "itemKey": "",
+    "shortInfo": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 0,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "WTlQNHv5BGsOzcoQ": {
+        "command": "actor.moveAction()",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Get Move Points",
+        "title": "Get Move Points",
+        "global": false
+      },
+      "IuKXyZmrMpqezXTF": {
+        "command": "const effect = item.effects.get(\"NFYhdKZzuhfkpqjR\");\nif (effect) game.dc20rpg.effects.createEffectOn(effect, actor)",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Apply Reckless Whirlwind",
+        "title": "",
+        "global": false
+      }
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    },
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null,
+          "classSpellFilter": false
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "featureType": "monster",
+    "featureOrigin": "",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "useStandardTable": true,
+      "customMaxFormula": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    }
+  },
+  "effects": [
+    {
+      "name": "Reckless Whirlwind",
+      "img": "icons/skills/melee/strikes-sword-scimitar.webp",
+      "origin": "Item.qbdCI0MWY7eQm9AC",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "NFYhdKZzuhfkpqjR",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": false,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.againstYou.spell.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>The next Attack against you has ADV</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.5.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!MSdtLEBQjuxHv3ZK.NFYhdKZzuhfkpqjR"
+    }
+  ],
+  "folder": "KuQkD3rbV3ymGUzD",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.5.0",
+    "createdTime": 1778148717950,
+    "modifiedTime": 1778157846382,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "MSdtLEBQjuxHv3ZK",
+  "sort": 2400000,
+  "_key": "!items!MSdtLEBQjuxHv3ZK"
+}

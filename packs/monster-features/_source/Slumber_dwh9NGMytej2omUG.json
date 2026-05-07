@@ -1,0 +1,426 @@
+{
+  "name": "Slumber",
+  "type": "feature",
+  "img": "icons/creatures/eyes/humanoid-single-blue.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>Contest, </p><p>5 Spaces, 2 Space Sphere, </p><p>Spell Check vs Repeated Intelligence Save. </p><p><strong>Success:</strong> Target is Incapacitated for 1 minute or until it takes damage, makes a Save against another effect, or another creature within 1 Space spends 1 AP to wake it.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": false,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "ap": 2,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {
+      "Dl7KpbsDyBj5tbGl": {
+        "id": "incapacitated",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": false,
+        "forXRounds": null,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "fpznUwwXJfQbhxbt": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "int",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": 5,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "sphere",
+          "distance": 2,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null,
+          "classSpellFilter": false
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "featureType": "monster",
+    "featureOrigin": "",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "useStandardTable": true,
+      "customMaxFormula": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    }
+  },
+  "effects": [
+    {
+      "name": "Slumber",
+      "img": "icons/creatures/eyes/humanoid-single-blue.webp",
+      "origin": "Item.wZJaEcVMk3mPViPJ",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "qRUf1PorRF0QglxB",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "incapacitated",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": true,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalModifier.prevent.goUnderAP",
+          "value": "99",
+          "mode": 4,
+          "priority": null
+        },
+        {
+          "key": "system.movement.ground.bonus",
+          "value": "-100",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Slumber - Repeated Save\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"incapacitated\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Slumber\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2
+        }
+      ],
+      "description": "<p>You are Incapacitated</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "incapacitated"
+      ],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.5.0",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!dwh9NGMytej2omUG.qRUf1PorRF0QglxB"
+    }
+  ],
+  "folder": "KuQkD3rbV3ymGUzD",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.5.0",
+    "createdTime": 1778152312744,
+    "modifiedTime": 1778157846382,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "dwh9NGMytej2omUG",
+  "sort": 800000,
+  "_key": "!items!dwh9NGMytej2omUG"
+}

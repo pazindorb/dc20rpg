@@ -1,0 +1,335 @@
+{
+  "name": "Mass Taunt",
+  "type": "feature",
+  "img": "icons/creatures/eyes/lizard-single-slit-pink.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>Contest, 5 Space Aura (creatures of your choice)</p><p>Influence vs Repeated Charisma Save.</p><p><strong>Success:</strong> Target is Taunted by you for 1 minute.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {},
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "inf",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": false,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "ap": 2,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {
+      "xziVH11QoHZdE44A": {
+        "id": "taunted",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "forOneMinute": true,
+        "forXRounds": null,
+        "repeatedSave": true,
+        "repeatedSaveKey": "cha"
+      }
+    },
+    "rollRequests": {
+      "fpznUwwXJfQbhxbt": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "radius",
+          "distance": 5,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null,
+          "classSpellFilter": false
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "featureType": "monster",
+    "featureOrigin": "",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "useStandardTable": true,
+      "customMaxFormula": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    }
+  },
+  "effects": [],
+  "folder": "KuQkD3rbV3ymGUzD",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.5.0",
+    "createdTime": 1778149856010,
+    "modifiedTime": 1778157846382,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "Jo2FGjbqXLYfcXl0",
+  "sort": 400000,
+  "_key": "!items!Jo2FGjbqXLYfcXl0"
+}
