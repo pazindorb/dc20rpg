@@ -308,10 +308,10 @@ export function getEffectModifiableKeys() {
     ..._damageReduction(),
 
     // Flat Damage/healing Modification
-    "system.damageReduction.flat": "Flat Damage Modification On You (Value)",
-    "system.damageReduction.flatHalf": "Flat Damage Modification On You (Half)",
-    "system.healingReduction.flat": "Flat Healing Modification On You (Value)",
-    "system.healingReduction.flatHalf": "Flat Healing Modification On You (Half)",
+    "system.damageReduction.flat": "Flat Damage Reduction On You (Value)",
+    "system.damageReduction.flatHalf": "Flat Damage Reduction On You (Half)",
+    "system.healingReduction.flat": "Flat Healing Reduction On You (Value)",
+    "system.healingReduction.flatHalf": "Flat Healing Reduction On You (Half)",
 
     // Status resistances
     ..._statusResistances(),

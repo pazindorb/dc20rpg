@@ -385,6 +385,7 @@ function _combatMatery(actor) {
 	else {
 		const level = actor.system.details.level;
 		actor.system.details.combatMastery = Math.ceil(level/2);
+		if (actor.type === "npc" && level === 0) actor.system.details.combatMastery = 1;
 	}
 }
 

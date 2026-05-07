@@ -260,7 +260,7 @@ export class DC20NpcData extends DC20BaseActorData {
 
     return this.mergeSchema(super.defineSchema(), {
       defences: new DefenceFields("flat"),
-      jump: new JumpFields("flat"),
+      jump: new JumpFields(),
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

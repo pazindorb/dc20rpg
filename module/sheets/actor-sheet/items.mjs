@@ -140,18 +140,13 @@ export function prepareItemsForNpc(context, actor) {
         containers.push(item);
         break;
 
-      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
-        if (hasApCost) _addItemToTable(item, main, "action");
-        else _addItemToTable(item, main, "inventory");
-        break;
-
-      case 'spell': case 'maneuver': case 'feature':
-        if (hasApCost) _addItemToTable(item, main, "action");
-        else _addItemToTable(item, main, "feature");
-        break;
-
       case 'basicAction': 
         if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
+        break;
+
+      default:
+        if (hasApCost) _addItemToTable(item, main, "action");
+        else _addItemToTable(item, main, "feature");
         break;
     }
   }

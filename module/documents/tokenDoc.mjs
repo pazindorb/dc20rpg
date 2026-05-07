@@ -274,7 +274,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const linkedTemplates = this.flags.dc20rpg?.linkedTemplates || [];
     for (const templateId of linkedTemplates) {
       const template = canvas.templates.documentCollection.get(templateId);
-      if (template) template.delete();
+      if (template) await template.delete();
     }
     return await super._preDelete(options, user);
   }
