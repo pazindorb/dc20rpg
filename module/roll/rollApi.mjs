@@ -226,10 +226,12 @@ export class DC20Roll {
     // 1. Subtract Cost
     if (details.costs) {
       for (const [key, value] of Object.entries(details.costs)) {
+        if (!actor.resources[key]) continue;
         if (!actor.resources[key].canSpend(value)) return;
       }
       // Do spend resources
       for (const [key, value] of Object.entries(details.costs)) {
+        if (!actor.resources[key]) continue;
         actor.resources[key].spend(value);
       }
     }
