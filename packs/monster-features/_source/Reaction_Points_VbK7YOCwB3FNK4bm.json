@@ -1,0 +1,429 @@
+{
+  "name": "Reaction Points",
+  "type": "feature",
+  "img": "icons/magic/unholy/orb-glowing-yellow-purple.webp",
+  "system": {
+    "itemKey": "",
+    "description": "<p>Reaction Points allow a monster to act more frequently outside of its own Turn, keeping the fight dynamic and unpredictable.</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Using Reaction Points</span></strong></span></p><p>A monster can spend Reaction Points to take Actions, Reactions, or perform AP Enhancements in the following ways:</p><ul><li><p><strong>Reactions:</strong> The monster can spend Reaction Points to take Reactions available to them.</p><p class=\"block-color-blue_background\"><em><strong>Example:</strong> If the monster has the ability to perform a Spell Duel, they could spend 2 AP to challenge a Spell cast by another creature. Alternatively, they could spend 2 Reaction Points instead of 2 Action Points to perform the Spell Duel.</em></p></li><li><p><strong>Actions (End of PC Turn):</strong> At the end of a PC Turn, the monster can spend Reaction Points instead of Action Points to take an Action. If an effect prevents you from taking Reactions, you can still spend Reaction Points to take Actions at the end of a PC Turn. If multiple PCs share the same PC Turn, the monster can take a number of Actions up to the number of PCs that occupy that PC Turn.</p><p class=\"block-color-blue_background\"><em><strong>Example:</strong> If 2 PCs are sharing a Turn (see Shared Initiative in the Core Rules), when their Turn ends, a monster with Reaction Points can take 2 Actions (1 Action per PC). They could take the Attack Action twice, take the Move Action then the Attack Action, or another other 2 Actions of their choice.</em></p></li><li><p><strong>AP Enhancements:</strong> When the monster spends Reaction Points to take an Action or Reaction, they can spend additional Reaction Points to perform AP Enhancements with that Action or Reaction. The total amount of Action Points and Reactions Points spent on an Action or Reaction can’t exceed 4.</p><p class=\"block-color-blue_background\"><em><strong>Example:</strong> A PC just ended their Turn. The monster can spend 1 Reaction Point to take the Attack Action and make an Attack against a target within range. The monster can add any AP Enhancements to the Attack, spending an amount of Reaction Points equal to the AP cost required. The AP cost of the Attack plus the Enhancements can’t exceed 4 AP, because the monster can’t spend more than 4 Reaction Points per Action.</em></p></li></ul><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Regaining Reaction Points</span></strong></span></p><p>The monster regains all spent Reaction Points at the end of its Turn.</p>",
+    "shortInfo": "",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "NQwaYKoZ0yfTx3TD": {
+        "command": "const points = await DC20.dialog.SimplePopup.input(\"How many Reaction Points should the monster have?\")\nif (!points) return;\n\nitem.system.resource.customMaxFormula = points;",
+        "trigger": "onCreate",
+        "disabled": false,
+        "name": "Select Reaction Points",
+        "title": "",
+        "global": false
+      }
+    },
+    "usable": true,
+    "isReaction": false,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false,
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "mar",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "ap": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {
+          "reaction-points": {
+            "label": "Reaction Points",
+            "img": "icons/magic/unholy/orb-smoking-green.webp",
+            "key": "reaction-points",
+            "value": null
+          }
+        }
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {},
+    "enhancements": {
+      "k89Nu7qrdZjaiEHV": {
+        "name": "Use Reaction Points",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>A monster can spend Reaction Points to take Actions, Reactions, or perform AP Enhancements in the following ways:</p><ul><li><p><strong>Reactions:</strong> The monster can spend Reaction Points to take Reactions available to them.</p></li><li><p><strong>Actions (End of PC Turn):</strong> At the end of a PC Turn, the monster can spend Reaction Points instead of Action Points to take an Action. If an effect prevents you from taking Reactions, you can still spend Reaction Points to take Actions at the end of a PC Turn. If multiple PCs share the same PC Turn, the monster can take a number of Actions up to the number of PCs that occupy that PC Turn.</p></li><li><p><strong>AP Enhancements:</strong> When the monster spends Reaction Points to take an Action or Reaction, they can spend additional Reaction Points to perform AP Enhancements with that Action or Reaction. The total amount of Action Points and Reactions Points spent on an Action or Reaction can’t exceed 4.</p></li></ul>",
+        "hide": false,
+        "resources": {
+          "ap": -1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {
+            "reaction-points": {
+              "label": "Reaction Points",
+              "img": "icons/magic/unholy/orb-smoking-green.webp",
+              "key": "reaction-points",
+              "value": 1
+            }
+          }
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        },
+        "key": "k89Nu7qrdZjaiEHV",
+        "sourceItemId": "xxSvU3ljNQm9jtqF",
+        "sourceItemName": "Reaction Points",
+        "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
+        "active": false,
+        "drmCheck": false
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.costs.resources.ap=[1, 2, 3, 4]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "range": {
+      "melee": 1,
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Advancement",
+        "customTitle": "",
+        "tip": "",
+        "level": 1,
+        "applied": false,
+        "additionalAdvancement": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "progressPath": false,
+        "mustChoose": false,
+        "doNotAddToKnownLimit": false,
+        "pointAmount": 1,
+        "talent": false,
+        "allowToAddItems": false,
+        "addItemsOptions": {
+          "itemType": "",
+          "preFilters": "",
+          "helpText": "",
+          "itemLimit": null,
+          "classSpellFilter": false
+        },
+        "macro": "",
+        "items": {}
+      }
+    },
+    "tip": "",
+    "featureType": "monster",
+    "featureOrigin": "Legendary",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "isResource": true,
+    "resource": {
+      "name": "Reaction Points",
+      "resourceKey": "reaction-points",
+      "reset": "roundEnd",
+      "useStandardTable": false,
+      "customMaxFormula": "3",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.5.0",
+    "createdTime": 1778503209698,
+    "modifiedTime": 1778503209698,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "VbK7YOCwB3FNK4bm",
+  "sort": 0,
+  "_key": "!items!VbK7YOCwB3FNK4bm"
+}

@@ -179,7 +179,7 @@ export class DC20CharacterData extends DC20BaseActorData {
 
     return this.mergeSchema(super.defineSchema(), {
       sheetData: new SheetDataFields("character"),
-      attributes: new AttributeFields(-2, true),
+      attributes: new AttributeFields(-2),
       attributePoints: new PointFields(12),
       resources: new ResourceFields(true),
       skillPoints: new f.SchemaField({

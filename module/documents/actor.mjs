@@ -715,7 +715,7 @@ export class DC20RpgActor extends Actor {
    *                          (item) => item.name === "My specific weapon"
    * @param {boolean} toSelect - if true, method will return items as an object of {id: name} fields;
    */
-  getAllItemsWithType(types, filters=[], toSelect) {
+  getAllItemsWithType(types=[], filters=[], toSelect) {
     const items = this.items.filter(item => types.includes(item.type));
     const matched = items.filter(item => this.#matchFilters(item, filters));
     if (toSelect) {

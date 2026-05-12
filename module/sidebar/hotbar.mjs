@@ -379,12 +379,13 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   _resource(resource, clazz) {
+    const label = getValueFromPath(this.actor, `system.resources.${resource.key}.label`);
     const value = getValueFromPath(this.actor, `system.resources.${resource.key}.value`);
 
     return `
       <div class="${clazz}">
         <input data-cType="actor-numeric" data-path="system.resources.${resource.key}.value" type="number" value="${value}"
-        data-dtype="Number" title="${resource.label}" style="background: linear-gradient(to bottom, ${resource.color}, #161616);">
+        data-dtype="Number" title="${label}" style="background: linear-gradient(to bottom, ${resource.color}, #161616);">
       </div>
     `;
   }

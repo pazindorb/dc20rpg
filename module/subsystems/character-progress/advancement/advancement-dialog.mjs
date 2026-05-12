@@ -23,6 +23,7 @@ export class ActorAdvancement extends Dialog {
     this.spendPoints = false;
     
     this.actor = actor;
+    if (dialogData.level) this.actor.system.details.level = dialogData.level; // There is a bug where actor might not refresh in time
     this.advancements = advancements;
     this.oldSystemData = oldSystemData;
     this.tips = [];
@@ -186,8 +187,8 @@ export class ActorAdvancement extends Dialog {
     const actorLevel = this.actor.system.details.level;
     if (actorLevel >= 17) return {legendary: "Legendary Multiclass"}
     if (actorLevel >= 13) return {grandmaster: "Grandmaster Multiclass"}
-    if (actorLevel >= 10) return {master: "Master Multiclass"}
-    if (actorLevel >= 7) return {expert: "Expert Multiclass"}
+    if (actorLevel >= 8) return {master: "Master Multiclass"}
+    if (actorLevel >= 6) return {expert: "Expert Multiclass"}
     if (actorLevel >= 4) return {adept: "Adept Multiclass"}
     return {basic: "Multiclass"}
   }
@@ -844,7 +845,7 @@ export class ActorAdvancement extends Dialog {
 /**
  * Creates and returns ActorAdvancement dialog. 
  */
-export function actorAdvancementDialog(actor, advancements, oldSystemData, openSubclassSelector) {
-  const dialog = new ActorAdvancement(actor, advancements, oldSystemData, openSubclassSelector, {title: `You Become Stronger`});
+export function actorAdvancementDialog(actor, advancements, oldSystemData, openSubclassSelector, level) {
+  const dialog = new ActorAdvancement(actor, advancements, oldSystemData, openSubclassSelector, {title: `You Become Stronger`, level: level});
   dialog.render(true);
 }
