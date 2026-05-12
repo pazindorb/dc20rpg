@@ -127,8 +127,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.10.0.2", "0.10.5.0", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
-  // await testMigration("0.10.0.2", "0.10.5.0");
+  // await testMigration("0.10.5.0", "0.10.5.1", new Set(["dc20-core-rulebook", "dc20-magic-pack", "dc20-player-options-pack"]));
+  // await testMigration("0.10.5.0", "0.10.5.1");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
