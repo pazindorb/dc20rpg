@@ -4,7 +4,7 @@
   "img": "icons/magic/control/voodoo-doll-pain-damage-yellow.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You reposition a grappled creature to shield yourself from damage.</p><p><em><strong>Range:</strong> Melee</em></p><p><strong>Trigger:</strong> A creature that’s not Grappled by you Hits you with an Attack.</p><p><strong>Reaction:</strong> Make a Martial Check against the Grappled target’s Might Save.</p><ul><li><p><strong>Check Success:</strong> The damage from the Attack is shared by you and the Grappled creature, and you can move the Grappled creature to any Space adjacent to you immediately afterwards.</p></li></ul><p><strong>DC Tip:</strong> If the triggering Attack involved a Save (as with a Dynamic Attack Save) that moves you or your Grapple target out of your reach, you can still perform this Maneuver to resolve the damage (as if it the Hit happens moments before the forced movement).</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Switch: (1 SP)</strong> After you complete the Reaction, you switch places with the Grappled target. This movement doesn’t provoke Opportunity Attacks against either you or the target.</p><p><strong>Partial Block: (1 SP)</strong> Your portion of the shared damage is reduced to 0.</p><p><strong>Full Block: (2 SP)</strong> The Grappled creature takes all the damage from the Attack instead.</p>",
+    "description": "<p>You reposition a grappled creature to shield yourself from damage.</p><p><em><strong>Range:</strong> Melee</em></p><p><strong>Trigger:</strong> A creature that’s not Grappled by you Hits you with an Attack.</p><p><strong>Reaction:</strong> Make a Martial Check against the Grappled target’s Might Save.</p><ul><li><p><strong>Check Success:</strong> The damage from the Attack is shared by you and the Grappled creature, and you can move the Grappled creature to any Space adjacent to you immediately afterwards.</p></li></ul><p><strong>DC Tip:</strong> If the triggering Attack involved a Save (as with a Dynamic Attack Save) that moves you or your Grapple target out of your reach, you can still perform this Maneuver to resolve the damage (as if it the Hit happens moments before the forced movement).</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Switch: (1 SP)</strong> After you complete the Reaction, you switch places with the Grappled target. This movement doesn’t provoke Opportunity Attacks against either you or the target.</p><p><strong>Partial Block: (1 SP)</strong> Your portion of the shared damage is reduced to 0.</p><p><strong>Full Block: (2 SP)</strong> The Attack made against you is made against the Grappled creature instead. They take all of the damage and effects instead of you, and if the Attack is accompanied by a Save (as with a Dynamic Attack Save), they make the Save instead of the you. If they were also originally a target of the Attack, they resolve both separately.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -305,7 +305,7 @@
         "name": "Full Block",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The Grappled creature takes all the damage from the Attack instead.</p>",
+        "description": "<p>The Attack made against you is made against the Grappled creature instead. They take all of the damage and effects instead of you, and if the Attack is accompanied by a Save (as with a Dynamic Attack Save), they make the Save instead of the you. If they were also originally a target of the Attack, they resolve both separately.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -524,11 +524,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766079829738,
-    "modifiedTime": 1767307114021,
+    "modifiedTime": 1776954766877,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

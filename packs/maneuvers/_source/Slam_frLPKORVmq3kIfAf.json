@@ -4,7 +4,7 @@
   "img": "icons/skills/melee/unarmed-punch-fist-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You slam a Grappled creature.</p><p><em><strong>Range:</strong> Melee</em></p><p>Make a Melee Martial Attack against the target’s AD.</p><ul><li><p><strong>Hit:</strong> The target takes 1 Bludgeoning damage.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Multi-Slam: (1 AP + 1 SP, Repeatable) </strong>This Attack targets another creature you have Grappled.</p><p><strong>Charging Slam: (1 AP + 1 SP, Repeatable)</strong> You move up to your Speed pulling the Grappled creatures with you. 1 Grappled creature takes additional damage equal to the number of Spaces moved as you slam them.</p><p><strong>Wall Rake: (1 AP + 1 SP, Repeatable)</strong> You slam 1 Grappled creature into a wall within 1 Space and move up to your Speed along the wall, ending your movement within 1 Space of the wall. The target makes a Repeated Might Save against your Save DC. <strong>Save Failure:</strong> They gain 1 stack of Bleeding per Space moved.</p><p><strong>DC Tip:</strong> Remember that you are Slowed while Grappling a creature, so you would move half as far. If you gain an ability that let’s you move without being Slowed while Grappling a creature, you could move the full distance.</p>",
+    "description": "<p>You slam a Grappled creature.</p><p><em><strong>Range:</strong> Melee</em></p><p>Make a Melee Martial Attack against the target’s AD.</p><ul><li><p><strong>Hit:</strong> The target takes 1 Bludgeoning damage.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Finishing Slam: (1 SP)</strong> You deal 2 additional damage. The Grapple ends.</p><p><strong>Stunned: (2 SP, Repeatable)</strong> The target makes a Physical Save. <strong>Save Failure:</strong> They are Stunned 1 for 1 Round. You can use this Enhancement a maximum of two times.</p><p><strong>Wall Rake: (X SP)</strong> You slam 1 Grappled creature into a wall within 1 Space and move up to X Spaces along the wall, ending your movement within 1 Space of the wall. The target makes a Repeated Might Save against your Save DC. <strong>Save Failure:</strong> They gain Bleeding X.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -143,14 +143,14 @@
       }
     },
     "enhancements": {
-      "UJ0xqXiJdML0LOZ2": {
-        "name": "Multi-Slam",
+      "YE0Tb7ufnYHzEa5h": {
+        "name": "Finishing Slam",
         "number": 0,
         "preventModification": false,
-        "description": "<p>This Attack targets another creature you have Grappled.</p>",
+        "description": "<p>You deal 2 additional damage. The Grapple ends.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
           "mana": null,
           "stamina": 1,
@@ -167,8 +167,8 @@
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "2",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -176,9 +176,11 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
+            "dontModifyFailFormula": false,
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
@@ -192,8 +194,7 @@
             "contestedKey": "",
             "dcCalculation": "spell",
             "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": false,
           "againstStatus": {
@@ -205,6 +206,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -228,17 +230,17 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "LsARdtOZfqhvCtog": {
-        "name": "Charging Slam",
+      "emfp665Zpbo8afgz": {
+        "name": "Stunned",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You move up to your Speed pulling the Grappled creatures with you. 1 Grappled creature takes additional damage equal to the number of Spaces moved as you slam them.</p><p><em><strong>System Tip:</strong> This is not automated.</em></p>",
+        "description": "<p>(Repeatable) The target makes a Physical Save. </p><p><strong>Save Failure:</strong> They are Stunned 1 for 1 Round. </p><p>You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
           "mana": null,
-          "stamina": 1,
+          "stamina": 2,
           "grit": null,
           "restPoints": null,
           "custom": {}
@@ -261,28 +263,29 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
+            "dontModifyFailFormula": false,
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": false,
+          "addsNewRollRequest": true,
           "rollRequest": {
             "category": "save",
-            "saveKey": "",
+            "saveKey": "phy",
             "contestedKey": "",
-            "dcCalculation": "spell",
+            "dcCalculation": "martial",
             "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "stunned",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -290,6 +293,7 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": 1,
             "repeatedSave": false,
             "repeatedSaveKey": "phy"
           },
@@ -313,17 +317,17 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "iDI1sWto84a6l7Wc": {
+      "aqnazcDO6JeBJv1G": {
         "name": "Wall Rake",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You slam 1 Grappled creature into a wall within 1 Space and move up to your Speed along the wall, ending your movement within 1 Space of the wall. The target makes a Repeated Might Save against your Save DC. </p><ul><li><p><strong>Save Failure:</strong> They gain 1 stack of Bleeding per Space moved.</p></li></ul>",
+        "description": "<p>You slam 1 Grappled creature into a wall within 1 Space and move up to X Spaces along the wall, ending your movement within 1 Space of the wall. </p><p>The target makes a Repeated Might Save against your Save DC. <strong>Save Failure:</strong> They gain Bleeding X.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
+          "ap": null,
           "health": null,
           "mana": null,
-          "stamina": 1,
+          "stamina": null,
           "grit": null,
           "restPoints": null,
           "custom": {}
@@ -346,9 +350,11 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
+            "dontModifyFailFormula": false,
             "each5": false,
             "each5Formula": "",
             "dontMerge": false,
@@ -362,8 +368,7 @@
             "contestedKey": "",
             "dcCalculation": "martial",
             "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
+            "addMasteryToDC": true
           },
           "addsAgainstStatus": true,
           "againstStatus": {
@@ -375,9 +380,9 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
+            "forXRounds": null,
             "repeatedSave": true,
-            "repeatedSaveKey": "mig",
-            "forXRounds": null
+            "repeatedSaveKey": "mig"
           },
           "addsEffect": null,
           "macros": {
@@ -537,11 +542,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766074468748,
-    "modifiedTime": 1767782572324,
+    "modifiedTime": 1776954680968,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

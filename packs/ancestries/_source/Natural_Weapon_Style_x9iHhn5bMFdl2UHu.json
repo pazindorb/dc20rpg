@@ -1,0 +1,187 @@
+{
+  "folder": "TLOwkSMrDkOYuEiD",
+  "name": "Natural Weapon Style",
+  "type": "feature",
+  "img": "icons/creatures/abilities/paw-glowing-yellow.webp",
+  "system": {
+    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>You can choose <strong>1</strong> <strong>Weapon</strong> <strong>Style</strong> that fits your desired Natural Weapon. You can benefit from the chosen Weapon Style with your Natural Weapon.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "1",
+      "useFor": "system.itemKey=[\"naturalWeapon\"]",
+      "name": "Natural Weapon Style Passive"
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "system.itemKey=[\"naturalWeapon\"]"
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Beastborn",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "macros": {
+      "AHf8Dv5BdkCIqqJb": {
+        "name": "Select Natural Weapon Passive ",
+        "trigger": "onCreate",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
+        "disabled": false,
+        "title": ""
+      },
+      "1N3CzZhu9xSex1Zy": {
+        "name": "Change Natural Weapon Passive",
+        "trigger": "onDemand",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
+        "disabled": false,
+        "title": "Change Natural Weapon Passive"
+      },
+      "5OaWxjNLGI4Laxtf": {
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: \"\"});",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove Weapon Style",
+        "title": "",
+        "global": false
+      }
+    },
+    "itemKey": "naturalWeaponPassive",
+    "featureSourceItem": "",
+    "requirements": {
+      "level": 0
+    },
+    "conditionals": {}
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.0",
+    "createdTime": 1720112470033,
+    "modifiedTime": 1777357985882,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "exportSource": null
+  },
+  "_id": "x9iHhn5bMFdl2UHu",
+  "sort": 500000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!x9iHhn5bMFdl2UHu"
+}

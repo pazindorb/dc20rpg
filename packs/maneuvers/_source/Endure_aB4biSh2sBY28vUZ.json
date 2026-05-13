@@ -4,7 +4,7 @@
   "img": "icons/magic/control/silhouette-aura-energy.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You push through an attack.</p><p><em><strong>Range:</strong> Self (or 1 Space if wielding a Shield)</em></p><p><strong>Trigger:</strong> A target you can see within range (including yourself) is Hit by an Attack.</p><p><strong>Reaction:</strong> The target takes 1 less damage from the Attack.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Heroic Endure: (1 SP, Repeatable) </strong>The target takes 1 less damage from the Attack.</p><p><strong>Steadfast: (1 SP)</strong> The target isn’t Vulnerable to damage from the Attack.</p><p><strong>Repel: (1 SP)</strong> After the Attack, if the Attacker is within 1 Space of you or the target, they make a Might Save against your Save DC. <strong>Save Failure:</strong> They are pushed 1 Space away. <strong>Save Failure (each 5):</strong> +1 Space pushed.</p>",
+    "description": "<p>You push through an attack.</p><p><em><strong>Range:</strong> Self (or 1 Space if wielding a Shield)</em></p><p><strong>Trigger:</strong> A target you can see within range (including yourself) is Hit by an Attack.</p><p><strong>Reaction:</strong> The target takes 1 less damage from the Attack.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Heroic Endure: (X SP) </strong>The target takes 1 less damage from the Attack.</p><p><strong>Steadfast: (1 SP)</strong> The target isn’t Vulnerable to damage from the Attack.</p><p><strong>Repel: (X SP)</strong> After the Attack, if the Attacker is within 1 Space of you or the target, they make a Might Save against your Save DC. <strong>Save Failure:</strong> They are pushed 1 Space away. <strong>Save Failure (each 5):</strong> +1 Space pushed.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -355,7 +355,8 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "forXRounds": null
           },
           "addsEffect": null,
           "macros": {
@@ -591,11 +592,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766068596181,
-    "modifiedTime": 1766069973256,
+    "modifiedTime": 1776954441181,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
   "system": {
-    "description": "<p class=\"pf0\"><span class=\"cf1\">You can spend <strong>1 AP + 1 MP</strong> in Combat to channel</span><span class=\"cf0\"> </span><span class=\"cf1\">raw magical energy for 1 minute, or until you become</span><span class=\"cf0\"> </span><span class=\"cf1\">Incapacitated, die, or choose to end it early at any time for</span><span class=\"cf0\"> </span><span class=\"cf1\">free.</span></p><p class=\"pf0\"><span class=\"cf1\">For the duration, your magic is overloaded and you’re</span><span class=\"cf0\"> </span><span class=\"cf1\">subjected to the following effects:</span></p><ul><li>You gain +5 to all Spell Attacks and Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion X}</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+    "description": "<p class=\"pf0\"><span class=\"cf1\">You can spend <strong>1 AP + 1 MP</strong> in Combat to channel</span><span class=\"cf0\"> </span><span class=\"cf1\">raw magical energy for 1 minute, or until you become</span><span class=\"cf0\"> </span><span class=\"cf1\">Incapacitated, die, or choose to end it early at any time for</span><span class=\"cf0\"> </span><span class=\"cf1\">free.</span></p><p class=\"pf0\"><span class=\"cf1\">For the duration, your magic is overloaded and you’re</span><span class=\"cf0\"> </span><span class=\"cf1\">subjected to the following effects:</span></p><ul><li>You gain +5 to all Spell Attacks and Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -165,7 +165,7 @@
     "itemKey": "overloadMagic",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "quickRoll": true,
+    "quickRoll": false,
     "macros": {
       "ZawALHFbKN942cic": {
         "name": "onItemToggle",
@@ -194,7 +194,8 @@
         "untilTargetNextTurnEnd": false,
         "untilFirstTimeTriggered": false,
         "repeatedSave": false,
-        "repeatedSaveKey": "phy"
+        "repeatedSaveKey": "phy",
+        "forXRounds": null
       }
     },
     "rollRequests": {
@@ -346,11 +347,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350033956,
-    "modifiedTime": 1768418409936,
+    "modifiedTime": 1776869118063,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

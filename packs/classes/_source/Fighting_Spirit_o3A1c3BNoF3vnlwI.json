@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/social/intimidation-impressing.webp",
   "system": {
-    "description": "<p>You stand ready for Combat at any moment, granting you the following benefits:</p><ul><li><p><strong>Combat Readiness:</strong> At the start of your first turn in Combat, you gain one of the following benefits:</p><ul><li><p><strong>Brace:</strong> You gain the benefits of the Dodge Action and ADV on the next Save you make.</p></li><li><p><strong>Advance:</strong> You gain the benefits of the Move Action and ADV on the next Physical Check you make.</p></li></ul></li><li><p><strong>Second Wind:</strong> Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 2 SP.</p></li></ul><p></p><p><em><strong>System Tip:</strong> Roll this item to trigger <strong>Combat Readiness.</strong></em></p>",
+    "description": "<p>You stand ready for Combat at any moment, granting you the following benefits:</p><ul><li><p><strong>Combat Readiness:</strong> At the start of your first turn in Combat, you gain one of the following benefits:</p><ul><li><p><strong>Fortify:</strong> You gain the benefits of the Dodge Action and ADV on the next Save you make.</p></li><li><p><strong>Advance:</strong> You gain the benefits of the Move Action and ADV on the next Martial Attack or Physical Check you make.</p></li></ul></li><li><p><strong>Second Wind:</strong> Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 2 SP.</p></li></ul><p></p><p><em><strong>System Tip:</strong> Roll this item to trigger <strong>Combat Readiness.</strong></em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -164,7 +164,7 @@
       "MWR4SWwQdnR1rWjz": {
         "name": "Combat Readiness",
         "trigger": "preItemRoll",
-        "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
+        "command": "const selectOptions = {\n  fortify: \"Fortify\",\n  advance: \"Advance\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//    FORTIFY    //\n//===============//\nif (selected === \"fortify\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const fortify = game.dc20rpg.effects.getEffectByKey(\"fortify\", item);\n  if (fortify) await game.dc20rpg.effects.createEffectOn(fortify.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
         "disabled": false,
         "title": ""
       }
@@ -229,7 +229,8 @@
       "ignoreMHP": false,
       "subtract": false
     },
-    "featureSourceItem": "champion"
+    "featureSourceItem": "champion",
+    "conditionals": {}
   },
   "effects": [
     {
@@ -282,18 +283,17 @@
             "resetWhenEnabled": false,
             "onTimeEnd": ""
           },
-          "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()",
           "effectKey": "secondWind"
         }
       },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.0.2",
         "createdTime": null,
-        "modifiedTime": 1767119035117,
+        "modifiedTime": 1776287188550,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -311,7 +311,7 @@
         "startTurn": null
       },
       "disabled": false,
-      "description": "<p>You have ADV on the next Physical Check<span> you make.</span></p>",
+      "description": "<p>You have ADV on the next Martial Attack or Physical Check<span> you make.</span></p>",
       "flags": {
         "dc20rpg": {
           "duration": {
@@ -352,6 +352,24 @@
           "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
           "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.martial.area",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
         }
       ],
       "origin": "Actor.0Y8OFGsNsMSEWKdW",
@@ -372,11 +390,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.sIxJsqtrjssed4Y1",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
-        "modifiedTime": 1769594876840,
+        "modifiedTime": 1776444095743,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -438,7 +456,7 @@
         }
       ],
       "origin": "Actor.0Y8OFGsNsMSEWKdW",
-      "name": "Brace",
+      "name": "Fortify",
       "_id": "PAXrK0u8OdGUUuu0",
       "type": "base",
       "system": {
@@ -446,7 +464,7 @@
         "disableWhen": {
           "mode": "=="
         },
-        "effectKey": "brace"
+        "effectKey": "fortify"
       },
       "tint": "#ffffff",
       "transfer": false,
@@ -455,11 +473,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.5aMwjGU6cgMn9LWQ",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.0.2",
         "createdTime": null,
-        "modifiedTime": 1766696771353,
+        "modifiedTime": 1776443969486,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -637,15 +655,17 @@
     }
   ],
   "folder": "1teXNA4X8W8tzM5c",
-  "flags": {},
+  "flags": {
+    "dc20rpg": {}
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.1",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350034491,
-    "modifiedTime": 1769595199407,
+    "modifiedTime": 1776444056818,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

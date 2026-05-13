@@ -4,7 +4,7 @@
   "img": "icons/magic/air/wind-tornado-spiral-blue-gray.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You seize the air and compel it to create one of the following effects at a point you can see within range:</p><p><strong>Push:</strong> Choose another creature within Range. Make a Spell Check Contested by its Might Save, you are considered as Medium sized for the purposes of moving creatures with this Spell.</p><ul><li><p><strong>Success:</strong> The target is pushed 1 Space horizontally in a direction of your choice.</p></li><li><p><strong>Success (each 5):</strong> The target is pushed 1 additional Space.</p></li></ul><p><em><strong>System Tip:</strong> Default spell behavior.</em></p><p><strong>Move Object:</strong> Choose one object that is neither held nor carried and that weighs less than 200 pounds (100 kg). Make a DC 15 Spell Check.</p><ul><li><p><strong>Failure:</strong> The object is pushed 1 Space horizontally in a direction of your choice.</p></li><li><p><strong>Success:</strong> The object is pushed up to 2 Spaces.</p></li><li><p><strong>Success (each 5):</strong> up to 1 additional Space.</p></li></ul><p>This distance is increased by 2 Spaces if the object weights less than 50 Pounds (25 kg).</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Distance: (1 MP, Repeatable)</strong> The target is pushed an additional 2 Spaces.</p><p><strong>Grand Gust: (1 MP, Repeatable)</strong> Your size category for using Push increases by 1 (up to a maximum of Colossal) and the maximum weight you can affect with Move Object increases by 200 pounds (100 kg).</p><p><strong>Harsh Wind: (2 MP)</strong> On a Success, the target is also Blinded and Deafened for 1 round.</p>",
+    "description": "<p>You produce a gust of wind that targets a Medium Size or smaller creature or object within range. The Spell has no effect on secured or worn objects.</p><p><strong>Creature or Held Object:</strong> If you target a creature or an object held by a creature, make a Spell Check contested by the creature’s Might Save.</p><ul><li><p><strong>Save Failure:</strong> The target is pushed horizontally 1 Space in a direction of your choice.</p></li><li><p><strong>Failure (each 5):</strong> The target is pushed 1 additional Space.</p></li></ul><p>If the target is a creature, you can choose to reduce the total distance the target is pushed by 1 Space to knock them Prone instead.</p><p><strong>Loose Object:</strong> If the target is a loose object, make a DC 15 Spell Check.</p><ul><li><p><strong>Check Failure:</strong> The target is pushed horizontally 1 Space in a direction of your choice.</p></li><li><p><strong>Check Success:</strong> The target is pushed 2 Spaces in a direction of your choice.</p></li><li><p><strong>Success (each 5):</strong> The target is pushed 1 additional Space.</p></li></ul><p><strong>Smaller Target:</strong> The target is pushed up to 2 Spaces additional Spaces for each Size smaller it is than the maximum Size you can target.</p><p></p><p><em><strong>System Tip:</strong> Creature or Held Object is the default configured item behavior.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Knock Over: (1 AP)</strong> If the target collides with another creature of the same Size or smaller as part of this movement, the creature it collides with must make a Might Save against your Save DC. <strong>Save Failure:</strong> The target is knocked Prone. Save Failure (each 5): The target is also pushed 1 Space in the same direction.</p><p><strong>Size: (1 MP, Repeatable)</strong> The maximum size of a creature or object you can target increases by 1 step (Medium → Large → Huge → Gargantuan → Colossal → Titanic). The cost of this Enhancement increases to 2 MP for each size increase beyond Large.</p><p><em><strong>Example:</strong> You use the Size Enhancement twice to target a Huge creature. The first one costs 1 MP (to target Large), and the second one costs 2 MP (to target Huge) for a total of 3 MP.</em></p><p><strong>Targets: (1 AP + X MP)</strong> You can target X additional creatures or objects within range. When you choose this Enhancement, the cost of all other Enhancements is doubled. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -130,32 +130,6 @@
       "untilFirstTimeTriggered": false
     },
     "againstStatuses": {
-      "km34jCOQLlVisOLC": {
-        "id": "",
-        "supressFromChatMessage": false,
-        "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": false,
-        "untilTargetNextTurnStart": false,
-        "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false,
-        "forOneMinute": false,
-        "forXRounds": 1,
-        "repeatedSave": false,
-        "repeatedSaveKey": "phy"
-      },
-      "Xg11823kgowuiDD3": {
-        "id": "",
-        "supressFromChatMessage": false,
-        "untilYourNextTurnStart": false,
-        "untilYourNextTurnEnd": false,
-        "untilTargetNextTurnStart": false,
-        "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false,
-        "forOneMinute": false,
-        "forXRounds": 1,
-        "repeatedSave": false,
-        "repeatedSaveKey": "phy"
-      },
       "BkHlvbaPoQpcCxF1": {
         "id": "movement",
         "supressFromChatMessage": true,
@@ -197,92 +171,6 @@
       }
     },
     "enhancements": {
-      "BQmKMzlCcy9i7RYn": {
-        "name": "Move Object",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement if you want to use Move Object effect. Spell Spell defaults to Push.</p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "item.system.check.againstDC = true;\nitem.system.formulas.JHINvUJdfIWIYLuv.formula = \"2\";\nitem.system.formulas.JHINvUJdfIWIYLuv.failFormula = \"1\";\nitem.system.formulas.JHINvUJdfIWIYLuv.perTarget = false;\ndelete item.system.rollRequests[\"0jOcAmDfhSYOMlrL\"]",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
       "gLUHxm1LPMrMstWb": {
         "name": "Range",
         "number": 0,
@@ -369,16 +257,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "79T3ZXI2LkDox1C7": {
-        "name": "Distance",
+      "nVITkAo96uiBBMTL": {
+        "name": "Smaller Target",
         "number": 0,
         "preventModification": false,
-        "description": "",
+        "description": "<p>The target is pushed up to 2 Spaces additional Spaces for each Size smaller it is than the maximum Size you can target.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -402,6 +290,7 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -455,16 +344,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "JwTqoGvBkUJHCRGG": {
-        "name": "Grand Gust",
+      "7RiBzycF5bGQs4nC": {
+        "name": "Knock Prone",
         "number": 0,
         "preventModification": false,
-        "description": "<p>Your size category for using Push increases by 1 (up to a maximum of Colossal) and the maximum weight you can affect with Move Object increases by 200 pounds (100 kg).</p>",
+        "description": "<p>You can choose to reduce the total distance the target is pushed by 1 Space to knock them Prone instead.</p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 1,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -475,12 +364,12 @@
           "fromOriginal": false
         },
         "modifications": {
-          "modifiesCoreFormula": true,
+          "modifiesCoreFormula": false,
           "coreFormulaModification": "",
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": "-1",
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
@@ -488,6 +377,7 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -507,9 +397,9 @@
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
-            "id": "",
+            "id": "prone",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -541,16 +431,16 @@
           "changeStaminaSpendLimit": 0
         }
       },
-      "EZRr7YWQdBFVgUio": {
-        "name": "Harsh Wind",
+      "iKAh40LMl32SkWVo": {
+        "name": "Knock Over",
         "number": 0,
         "preventModification": false,
-        "description": "<p>On a Success, the target is also Blinded and Deafened for 1 round.</p>",
+        "description": "<p>If the target collides with another creature of the same Size or smaller as part of this movement, the creature it collides with must make a Might Save against your Save DC. </p><p><strong>Save Failure:</strong> The target is knocked Prone. </p><p><strong>Save Failure (each 5):</strong> The target is also pushed 1 Space in the same direction.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
+          "ap": 1,
           "health": null,
-          "mana": 2,
+          "mana": null,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -574,6 +464,94 @@
           "formula": {
             "formula": "",
             "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "prone",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "42kTuz2rpRS1YIod": {
+        "name": "Size",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The maximum size of a creature or object you can target increases by 1 step (Medium → Large → Huge → Gargantuan → Colossal → Titanic).</p><p>The cost of this Enhancement increases to 2 MP for each size increase beyond Large.</p><p><em><strong>Example:</strong> You use the Size Enhancement twice to target a Huge creature. The first one costs 1 MP (to target Large), and the second one costs 2 MP (to target Huge) for a total of 3 MP.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -595,7 +573,7 @@
           },
           "addsAgainstStatus": false,
           "againstStatus": {
-            "id": "blinded",
+            "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": false,
@@ -609,7 +587,181 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.againstStatuses.km34jCOQLlVisOLC.id = \"blinded\";\nitem.system.againstStatuses.Xg11823kgowuiDD3.id = \"deafened\";",
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "m8WWDOIA5FFOkfng": {
+        "name": "Targets",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You can target X additional creatures or objects within range. When you choose this Enhancement, the cost of all other Enhancements is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "kVK7TP0Tgrd008Pw": {
+        "name": "Targets - AP Cost",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
+        "hide": false,
+        "resources": {
+          "ap": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -792,8 +944,6 @@
     },
     "spellTags": {
       "air": "Air",
-      "blinded": "Blinded",
-      "deafened": "Deafened",
       "motion": "Motion"
     }
   },
@@ -804,11 +954,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767783798325,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1777664953446,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

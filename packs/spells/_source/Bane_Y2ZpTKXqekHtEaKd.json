@@ -4,7 +4,7 @@
   "img": "icons/magic/death/skull-horned-worn-fire-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>Make a Spell Check against a the Repeated Charisma Save.</p><p><strong>Save Failure:</strong> The target is Cursed for the duration. While Cursed in this way, the target subtracts a d6 from its Checks for the duration. The Curse can be removed by any effect that ends a Basic Curse.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Targets: (1 AP + X MP)</strong> You increase the number of targets by X.</p><p><strong>Full Bane: (2 MP)</strong> The target also subtract the same die from its Saves. The cost of this Enhancement increases to 4 MP if you use the Targets Enhancement.</p><p><strong>Greater Bane: (1 MP, Repeatable)</strong> The size of the die increases by 1 step (d6→d8→d10→d12).</p>",
+    "description": "<p>You attempt to impose 1 of the Curses below on a creature of your choice within range. Make a Spell Check against the target’s Repeated Charisma Save.</p><p><strong>Save Failure:</strong> The target is Cursed for the duration. The Curse can be removed by any effect that ends a Basic Curse.</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Curses</span></strong></span></p><ul><li><p><strong>Attacks:</strong> The target subtracts a d6 from its Attack Checks for the duration.</p></li><li><p><strong>Saves:</strong> The target subtracts a d6 from its Saves (except against this Spell) for the duration.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Targets: (1 AP + X MP)</strong> You can target X additional creatures within range. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p><strong>Full Bane: (1 MP)</strong> The target suffers from both Curses. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p><strong>Greater Bane: (1 MP, Repeatable)</strong> The size of the die increases by 1 step (d6→d8→d10→d12).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "Xw63KTRMLdajHFHg": {
-        "command": "const effect = item.getEffectByKey(\"bane\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\nconst full = enhancements.get(\"6I4hf5EzKEwUw3Ki\");\nconst greater = enhancements.get(\"2V0UDp6caiOiYgJj\");\n\nconst fromEnh = greater?.number || 0;\nlet diceValue = Math.min(6 + 2 * fromEnh, 12);\nconst dice = `d${diceValue}`;\n\nfor (const change of effect.changes) {\n  change.value = change.value.replace(\"#DICE#\", dice);\n}\n\nif (full) {\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.mig\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.agi\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.cha\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n  effect.changes.push({\n    key: \"system.dynamicRollModifier.onYou.saves.int\",\n    mode: 2,\n    value: `\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1${dice}\"`\n  })\n}",
+        "command": "const effect = item.getEffectByKey(\"bane\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\n\n// Greater Bane Active \nconst greaterBane = enhancements.get(\"2V0UDp6caiOiYgJj\");\nif (greaterBane) {\n  effect.flags.dc20rpg = {greaterBane: greaterBane.number};\n}\n\n// Full Bane Active - nothing more to do here\nif (enhancements.get(\"6I4hf5EzKEwUw3Ki\")) return;\n\n// Select Curse\nlet curse = await DC20.dialog.SimplePopup.select(\"Select Curse\", {attacks: \"Attacks\", saves: \"Saves\"});\n\nconst newChanges = [];\nfor (const change of effect.changes) {\n  if (change.key.includes(\"events\")) newChanges.push(change);\n  if (change.key.includes(\".saves.\") && curse === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".deathSave\") && curse === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".martial.\") && curse === \"attacks\") newChanges.push(change);\n  if (change.key.includes(\".spell.\") && curse === \"attacks\") newChanges.push(change);\n}\neffect.changes = newChanges;",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Handle Bane",
@@ -418,12 +418,12 @@
         "name": "Full Bane",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The target also subtract the same die from its Saves. The cost of this Enhancement increases to 4 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
+        "description": "<p>The target suffers from both Curses. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
         "hide": false,
         "resources": {
           "ap": null,
           "health": null,
-          "mana": 2,
+          "mana": 1,
           "stamina": null,
           "grit": null,
           "restPoints": null,
@@ -789,7 +789,7 @@
           "onTimeEnd": "delete"
         },
         "effectKey": "bane",
-        "macro": "",
+        "macro": "const greaterBane = effect.flags.dc20rpg?.greaterBane || 0;\nconst dice = Math.min(6 + (2 * greaterBane), 12);\nconst changes = effect.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({changes: changes});",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -841,45 +841,51 @@
           "priority": null
         },
         {
-          "key": "system.dynamicRollModifier.onYou.checks.spe",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mar",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mig",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.agi",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.cha",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.int",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
           "key": "system.dynamicRollModifier.onYou.checks.att",
           "mode": 2,
           "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.saves.mig",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.saves.agi",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.saves.cha",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.saves.int",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.dynamicRollModifier.onYou.deathSave",
+          "mode": 2,
+          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Bane\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Bane - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -892,10 +898,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "13.351",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1777548054559
       },
       "_key": "!items.effects!Y2ZpTKXqekHtEaKd.LwRRA2z8w9yFpMKg"
     }
@@ -906,11 +913,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1768066976590,
-    "modifiedTime": 1768123068770,
+    "modifiedTime": 1777554407057,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

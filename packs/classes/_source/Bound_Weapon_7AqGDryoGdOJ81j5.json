@@ -84,7 +84,7 @@
           "grit": null,
           "custom": {},
           "restPoints": null,
-          "ap": null
+          "ap": -1
         },
         "charges": {
           "consume": false,
@@ -156,98 +156,9 @@
           },
           "changeStaminaSpendLimit": null
         },
-        "description": "<p><span class=\"cf0\">When you make a Martial Attack with the</span><span class=\"cf1\"> </span><span class=\"cf0\">Weapon, you can spend 1 or more SP to deal <strong>+1</strong> Bound</span><span class=\"cf1\"> </span><span class=\"cf0\">Damage per SP spent. When you do, you also gain the</span><span class=\"cf1\"> </span><span class=\"cf0\">benefits of 1 Martial Enhancement of your choice for free.</span></p>",
+        "description": "<p><span class=\"cf0\">When you make a Martial Attack with the</span><span class=\"cf1\"> </span><span class=\"cf0\">Weapon, you can spend 1 or more SP to deal <strong>+1</strong> Bound</span><span class=\"cf1\"> </span><span class=\"cf0\">Damage per SP spent. When you do, you also gain the</span><span class=\"cf1\"> </span><span class=\"cf0\">benefits of 1 Martial Enhancement of your choice for free.</span></p><p><em><strong>System Tip:</strong> This enhancement will just give you 1 AP that you can spend on any Martial Enhancement of your choice - remember about it.</em></p>",
         "hide": false,
         "key": "tXOWadltDwewJwss",
-        "sourceItemId": "7AqGDryoGdOJ81j5",
-        "sourceItemName": "Bound Weapon",
-        "sourceItemImg": "icons/magic/light/swords-light-glowing-white.webp",
-        "active": false
-      },
-      "AF8IpxNcnblXbdyh": {
-        "name": "Free Martial Enhancement",
-        "number": 0,
-        "resources": {
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": -1
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy",
-            "forOneMinute": false
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": null,
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeStaminaSpendLimit": null
-        },
-        "description": "<p><span class=\"cf0\">When you make a Martial Attack with the</span><span class=\"cf1\"> </span><span class=\"cf0\">Weapon, you can spend 1 or more SP to deal <strong>+1</strong> Bound</span><span class=\"cf1\"> </span><span class=\"cf0\">Damage per SP spent. When you do, you also gain the</span><span class=\"cf1\"> </span><span class=\"cf0\">benefits of 1 Martial Enhancement of your choice for free.</span></p>",
-        "hide": false,
-        "key": "AF8IpxNcnblXbdyh",
         "sourceItemId": "7AqGDryoGdOJ81j5",
         "sourceItemName": "Bound Weapon",
         "sourceItemImg": "icons/magic/light/swords-light-glowing-white.webp",
@@ -346,16 +257,16 @@
     },
     "macros": {
       "1knHaCb86zZ2whfi": {
-        "name": "Change Bound Damage and Weapon",
+        "name": "Change Bound Damage",
         "trigger": "onDemand",
-        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nconst damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"boundedDamage\", selected);\n}",
+        "command": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"boundedDamage\", selected);\n}",
         "disabled": false,
-        "title": "Change Bound Damage and Weapon"
+        "title": "Change Bound Damage"
       },
       "4V4jywix43dxomFi": {
         "name": "Add To Keyword",
         "trigger": "onCreate",
-        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`});\n}\n\n// 2. Select Damage Type\nlet boundedDamage = actor.system.keywords.boundedDamage;\nlet newValue = boundedDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"boundedDamage\", newValue: newValue});",
+        "command": "// 1. Select Weapon\nconst weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  item.update({\n    [\"system.copyEnhancements.copyFor\"]: `_id=[\"${weaponId}\"]`,\n    [\"flags.dc20rpg.boundWeaponId\"]: weaponId\n  });\n  weapon.update({\n    [\"flags.dc20rpg.boundWeapon\"]: true\n  })\n}\n\n// 2. Select Damage Type\nlet boundedDamage = actor.system.keywords.boundedDamage;\nlet newValue = boundedDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Bounded Damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"boundedDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"boundedDamage\", newValue: newValue});",
         "disabled": false,
         "title": ""
       },
@@ -372,6 +283,14 @@
         "disabled": false,
         "name": "Update Bounded Damage",
         "title": ""
+      },
+      "z7VGoccFkeuNRUIj": {
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.boundWeaponId);\nif (weapon) {\n  item.update({\n    [\"system.copyEnhancements.copyFor\"]: `_id=[\"${weaponId}\"]`,\n    [\"flags.dc20rpg.boundWeaponId\"]: weaponId\n  });\n  weapon.update({\n    [\"flags.dc20rpg.boundWeapon\"]: true\n  })\n  if (oldWeapon) {\n    oldWeapon.update({\n      [\"flags.dc20rpg.-=boundWeapon\"]: null\n    })\n  }\n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Change Bound Weapon",
+        "title": "Change Bound Weapon",
+        "global": false
       }
     },
     "itemKey": "boundWeapon",
@@ -406,11 +325,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1739350034896,
-    "modifiedTime": 1767180451112,
+    "modifiedTime": 1776892126832,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

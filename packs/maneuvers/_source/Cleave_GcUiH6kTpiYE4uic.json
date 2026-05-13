@@ -4,7 +4,7 @@
   "img": "icons/skills/melee/strike-sword-slashing-red.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You swing wide to attack targets around you.</p><p><em><strong>Range:</strong> 1 Space Arc (Self)</em></p><p>Make an Area Martial Attack against the AD of every target within range.</p><ul><li><p><strong>Hit:</strong> The target takes the damage of your Weapon or Unarmed Strike.</p></li></ul><p><strong>Reach Weapon:</strong> If you have a Reach Weapon, you can extend the Point of Origin 1 Space away from you. The Arc must still be facing away from you.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Damage: (2 SP, Repeatable) </strong>The damage increases by 1.</p><p><strong>Area: (2 SP, Repeatable)</strong> The Arc increases by 1 Space.</p><p><strong>Careful Cleave: (1 SP, Repeatable)</strong> You can choose 1 target in the area to avoid with the Attack.</p>",
+    "description": "<p>You swing wide to attack targets around you.</p><p><em><strong>Range:</strong> 1 Space Arc (Self)</em></p><p>Make an Area Martial Attack against the AD of every target within range.</p><ul><li><p><strong>Hit:</strong> The target takes the damage of your Weapon or Unarmed Strike.</p></li></ul><p><strong>Reach Weapon:</strong> If you have a Reach Weapon, you can extend the Point of Origin 1 Space away from you. The Arc must still be facing away from you.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Damage: (2 SP, Repeatable) </strong>The damage increases by 1.</p><p><strong>Area: (2 SP, Repeatable)</strong> The Arc increases by 1 Space.</p><p><strong>Careful Cleave: (X SP)</strong> You can choose 1 target in the area to avoid with the Attack.</p><p><strong>Sweep: (2 SP)</strong> Each Target makes an Agility Save. <strong>Save Failure:</strong> The target is knocked Prone.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -375,6 +375,93 @@
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
+      },
+      "XoRMD1mBMgMKBwbh": {
+        "name": "Sweep",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>Each Target makes an Agility Save. </p><p><strong>Save Failure:</strong> The target is knocked Prone.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": null,
+          "stamina": 2,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "agi",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "prone",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -514,11 +601,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766048551168,
-    "modifiedTime": 1766048606438,
+    "modifiedTime": 1776955359337,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -526,6 +613,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "GcUiH6kTpiYE4uic",
-  "sort": 0,
+  "sort": 200000,
   "_key": "!items!GcUiH6kTpiYE4uic"
 }

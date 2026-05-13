@@ -4,7 +4,7 @@
   "img": "icons/magic/control/silhouette-hold-change-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You take a moment to catch your breath and refocus.</p><p><em><strong>Range:</strong> Self</em></p><p>Make a DC 10 Martial Check.</p><ul><li><p><strong>Failure:</strong> You gain 1 Temp HP for 1 Round.</p></li><li><p><strong>Success:</strong> You gain 2 Temp HP for 1 Round.</p></li><li><p><strong>Success (each 5):</strong> +1 Temp HP.</p></li></ul><p><em><strong>System Tip:</strong> Temp HP will not be removed automatically after 1 Round.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Increased Temp HP: (1 SP) </strong>You gain +2 Temp HP.</p><p><strong>Physical Resolve: (1 SP)</strong> You gain ADV on Physical Saves for the duration.</p><p><strong>Mental Resolve: (1 SP)</strong> You gain ADV on Mental Saves for the duration.</p>",
+    "description": "<p>You take a moment to catch your breath and refocus.</p><p><em><strong>Range:</strong> Self</em></p><p>Make a DC 15 Martial Check.</p><ul><li><p><strong>Failure:</strong> You gain 2 Temp HP for 1 Round.</p></li><li><p><strong>Success:</strong> You gain 3 Temp HP for 1 Round.</p></li><li><p><strong>Success (each 5):</strong> +1 Temp HP.</p></li></ul><p><em><strong>System Tip:</strong> Temp HP will not be removed automatically after 1 Round.</em></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Maneuver Enhancements</span></strong></span></p><p><strong>Increased Temp HP: (1 SP, Repeatable) </strong>You gain +2 Temp HP.</p><p><strong>Physical Resolve: (1 SP)</strong> You gain ADV on Physical Saves for the duration.</p><p><strong>Mental Resolve: (1 SP)</strong> You gain ADV on Mental Saves for the duration.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -72,7 +72,7 @@
       },
       "contestedKey": "phy",
       "againstDC": true,
-      "checkDC": 10,
+      "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -121,11 +121,11 @@
     "rollRequests": {},
     "formulas": {
       "UOjXNzqJ5iMZe6Fh": {
-        "formula": "2",
+        "formula": "3",
         "type": "temporary",
         "category": "healing",
         "fail": true,
-        "failFormula": "1",
+        "failFormula": "2",
         "each5": true,
         "each5Formula": "1",
         "dontMerge": false,
@@ -687,11 +687,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1766069405385,
-    "modifiedTime": 1766069973256,
+    "modifiedTime": 1776955496684,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

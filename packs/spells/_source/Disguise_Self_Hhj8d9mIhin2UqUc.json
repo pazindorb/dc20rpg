@@ -4,7 +4,7 @@
   "img": "icons/creatures/mammals/unicorn-horned-white.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You alter your appearance to that of a specific person that you have seen or a general member of that ancestry. Your new form needs to be of the same size as you and you do not gain the traits, Features, or statistics of that form.</span></p><p class=\"pf0\"><span class=\"cf0\">Make a DC 15 Spell Check.</span></p><ul><li><p class=\"pf0\"><span class=\"cf0\"><strong>Failure:</strong> Creatures gain ADV on Checks made to identify you.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Success:</strong> Creatures make Checks to identify you as normal.</span></p></li><li><p class=\"pf0\"><span class=\"cf0\"><strong>Success (5):</strong> Creatures gain DisADV on Checks made to identify you.</span></p></li></ul><p class=\"pf0\"><span class=\"cf0\"><strong>Being Identified:</strong> A creature can make an Investigation Check against your Save DC to discern that your form is not natural and has been altered by magic.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Duration: (1 MP, Repeatable) </strong>The duration increases by 1 step (10 min → 1 hour → 8 hour → Long Rest). You no longer need to Sustain the Spell and you can end it at any time for free.</p><p><strong>Size: (1 MP)</strong> You can choose the appearance of a creature 1 size smaller or larger than you. Your size does not change.</p><p><strong>Mimicry: (1 MP)</strong> You can perfectly mimic the voice, accent, and mannerisms of a creature you’ve heard speak for at least 1 minute.</p><p><strong>Alter Form: (1 MP)</strong> When you Sustain this Spell or by spending 1 AP, you can alter your appearance to a new form of your choice.</p>",
+    "description": "<p><span class=\"cf0\">You alter your appearance to that of a specific person that you have seen or a general member of that ancestry. Your new form needs to be of the same size as you and you do not gain the traits, Features, or statistics of that form. You can end this Spell at any time for free.</span></p><p class=\"pf0\"><span class=\"cf0\"><strong>Being Identified:</strong> A creature can make an Investigation Check against your Save DC to discern that your form is not natural and has been altered by magic.</span></p><p class=\"pf0\"></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Duration: (1 MP, Repeatable) </strong>The duration increases by 1 step (10 min → 1 hour → 8 hour → Long Rest). You no longer need to Sustain the Spell and you can end it at any time for free.</p><p><strong>Size: (1 MP)</strong> You can choose the appearance of a creature 1 size smaller or larger than you. Your size does not change.</p><p><strong>Mimicry: (1 MP)</strong> You can perfectly mimic the voice, accent, and mannerisms of a creature you’ve heard speak for at least 1 minute.</p><p><strong>Alter Form: (1 MP)</strong> Once per Round for the duration, you can spend 1 AP to alter your appearance to a different form of your choice.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -191,7 +191,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.duration.type = \"continuous\";",
+            "preItemRoll": "",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -383,7 +383,7 @@
         "name": "Alter Form",
         "number": 0,
         "preventModification": false,
-        "description": "<p>When you Sustain this Spell or by spending 1 AP, you can alter your appearance to a new form of your choice.</p>",
+        "description": "<p>Once per Round for the duration, you can spend 1 AP to alter your appearance to a different form of your choice.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -479,7 +479,7 @@
     },
     "duration": {
       "value": 10,
-      "type": "sustain",
+      "type": "continuous",
       "timeUnit": "minutes"
     },
     "target": {
@@ -639,11 +639,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767536269130,
-    "modifiedTime": 1767633474828,
+    "modifiedTime": 1777379433185,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -651,6 +651,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "Hhj8d9mIhin2UqUc",
-  "sort": 300000,
+  "sort": 1700000,
   "_key": "!items!Hhj8d9mIhin2UqUc"
 }

@@ -4,7 +4,7 @@
   "img": "icons/magic/acid/pouring-gas-smoke-liquid.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span class=\"cf0\">You produce a stream of acid that project in a 4 Space Line. Make an Area Spell Attack against the AD of every target within the area.</span></p><p><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Corrosion damage.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Acidic</span></strong></span></p><p><span class=\"cf0\">Mundane materials (wood, leather, rope, non-magical metals) not being worn or held erode or decay, weakening structures and gear over time.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The length of the Line increases by 6 Spaces.</p><p><strong>Dissolve: (1 MP)</strong> Each target makes a Repeated Agility Save. <strong>Save Failure:</strong> They no longer benefit from PDR or EDR for the 1 minute.</p><p><strong>Hinder: (2 MP)</strong> Each target makes a Repeated Agility Save. <strong>Save Failure:</strong> The Target becomes covered in acid for 1 minute. While covered in acid, the target is Hindered. A creature within 1 Space (including itself) spends 1 AP to make a Survival Check against your Save DC, removing the acid on a Success.</p>",
+    "description": "<p><span class=\"cf0\">You produce a stream of acid that project in a 8 Space Line. Make an Area Spell Attack against the AD of every target within the area.</span></p><p><span class=\"cf0\"><strong>Hit:</strong> The target takes 1 Corrosion damage.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Passive: Acidic</span></strong></span></p><p><span class=\"cf0\">Mundane materials (wood, leather, rope, non-magical metals) not being worn or held erode or decay, weakening structures and gear over time.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Damage: (1 MP, Repeatable)</strong> The damage increases by 1.</p><p><strong>Area: (1 MP, Repeatable)</strong> The length of the Line increases by 4 Spaces.</p><p><strong>Dissolve: (1 MP)</strong> Each target makes a Repeated Agility Save. <strong>Save Failure:</strong> They no longer benefit from PDR or EDR for the 1 minute.</p><p><strong>Hinder: (2 MP)</strong> Each target makes a Repeated Agility Save. <strong>Save Failure:</strong> The Target becomes covered in acid for 1 minute. While covered in acid, the target is Hindered. A creature within 1 Space (including itself) spends 1 AP to make a Survival Check against your Save DC, removing the acid on a Success.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -227,7 +227,7 @@
         "name": "Area",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The length of the Line increases by 6 Spaces.</p>",
+        "description": "<p>The length of the Line increases by 4 Spaces.</p>",
         "hide": false,
         "resources": {
           "ap": null,
@@ -748,11 +748,11 @@
     },
     "target": {
       "count": null,
-      "type": "",
+      "type": "self",
       "areas": {
         "default": {
           "area": "line",
-          "distance": 4,
+          "distance": 8,
           "width": 1,
           "unit": "",
           "difficult": ""
@@ -904,11 +904,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767701468674,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1777657209699,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

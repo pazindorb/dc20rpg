@@ -4,7 +4,7 @@
   "img": "icons/magic/water/vortex-water-whirlpool-blue.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>An oily substance covers the ground in 2 Space diameter Sphere area within range. When you cast the Spell, make a Spell Check against the Agility Save of each target in the area.</p><p><strong>Check Success:</strong> The target falls Prone.</p><p><strong>Covered:</strong> The affected Spaces are Difficult Terrain for the duration. When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target falls Prone.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 space.</p><p><strong>Spreading Oil: (1 MP)</strong> Whenever a creature falls Prone in a Covered Space, it becomes afflicted by Spreading Oil for the duration. When the creature enters a Space, that Space becomes Covered. A creature afflicted by Spreading Oil makes a Repeated Agility Save at the end of each of its turns, ending the effect on a Success.</p><p><strong>Flammable: (X MP)</strong> Any oil produced by this Spell becomes flammable. If fire touches the Space it ignites. When a creature enters the area for the first time on its turn, or starts its turn in an ignited Space, it makes a Repeated Physical Save against your Save DC. <strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p>",
+    "description": "<p>An oily substance covers the ground in 3 Space diameter Sphere area within range. When you cast the Spell, make a Spell Check against the Agility Save of each target in the area.</p><p><strong>Check Success:</strong> The target falls Prone.</p><p>The affected Spaces are Difficult Terrain for the duration. The first time per turn a creature enters a Space within the area, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target falls Prone.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Area: (1 MP, Repeatable)</strong> The diameter of the Sphere increases by 1 space.</p><p><strong>Spreading Oil: (1 MP)</strong> Whenever a creature falls Prone in a Covered Space, it becomes afflicted by Spreading Oil for the duration. When the creature enters a Space, that Space becomes Covered. A creature afflicted by Spreading Oil makes a Repeated Agility Save at the end of each of its turns, ending the effect on a Success.</p><p><strong>Flammable: (X MP)</strong> Any oil produced by this Spell becomes flammable. If fire touches the Space it ignites. When a creature enters the area for the first time on its turn, or starts its turn in an ignited Space, it makes a Repeated Physical Save against your Save DC. <strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p><p><em><strong>DC Tip:</strong> Ignited Spaces remain Covered for the duration, creatures still make Saves against falling Prone.</em></p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -496,7 +496,7 @@
     },
     "range": {
       "melee": 1,
-      "normal": 5,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
@@ -511,7 +511,7 @@
       "areas": {
         "default": {
           "area": "sphere",
-          "distance": 2,
+          "distance": 3,
           "width": null,
           "unit": "",
           "difficult": "all",
@@ -741,11 +741,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767620016493,
-    "modifiedTime": 1767780298496,
+    "modifiedTime": 1777379433185,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -753,6 +753,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "hz4EAxGwrGHXHIcy",
-  "sort": 700000,
+  "sort": 2000000,
   "_key": "!items!hz4EAxGwrGHXHIcy"
 }

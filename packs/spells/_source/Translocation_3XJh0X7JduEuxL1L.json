@@ -4,7 +4,7 @@
   "img": "icons/magic/earth/orb-stone-smoke-teal.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You teleport an object that is not being held or carried or a creature other than yourself to another Space within range.</p><p><strong>Object:</strong> Make a DC 15 Spell Check to teleport an object within range to another Space within range.</p><ul><li><p><strong>Failure:</strong> You can teleport a small or smaller object up to 100 lbs (50 kg).</p></li><li><p><strong>Success:</strong> You can teleport a medium or smaller object of up to 200lbs (100 kg).</p></li><li><p><strong>Success (10):</strong> You can teleport a large or smaller object of up to 300lbs (150 kg).</p></li></ul><p><strong>Creature:</strong> Make a Spell Check against the Charisma Save of an up to Medium size creature within range.</p><ul><li><p><strong>Check Success:</strong> You teleport the creature up to 3 Spaces to an unoccupied Space you can see that is also within range.</p><p><em><strong>DC Tip:</strong> Friendly creatures can choose to fail the Save!</em></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><span class=\"cf0\"><strong>Range: (1 AP, Repeatable)</strong> The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</span></p><p><strong>Distance: (1 MP, Repeatable)</strong> The distance of the teleport increases by 3 Spaces.</p><p><strong>Size: (1 MP, Repeatable)</strong> The maximum size of the creature or object you can teleport increases by 1. The maximum weight of the object you can teleport also increases by 100 lbs (50 kg).</p><p><strong>Swap: (2 MP)</strong> Choose another object that is not being held or carried or creature within range (you can choose yourself). If the Spell Succeeds on both targets, they swap location provided they are within 3 Spaces of each other. The distance is increased by 3 Spaces for each time you use the Distance Enhancement. If the Spell only Succeed on only 1 target, you can teleport that target as normal.</p>",
+    "description": "<p>You teleport a Medium or smaller object or willing creature other than yourself within range up to 3 Spaces to an unoccupied Space also within range. If the target is Immobilized the Spell fails.</p><p><strong>Held Object:</strong> If you target an object being held or carried by an unwilling creature, you must first succeed a Spell Check contested by the creature’s Charisma Save or the Spell fails.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><span class=\"cf0\"><strong>Range: (1 AP, Repeatable)</strong> The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</span></p><p><strong>Distance: (1 MP, Repeatable)</strong> The distance of the teleport increases by 3 Spaces.</p><p><strong>Hostile: (1 MP)</strong> You can target unwilling creatures, but must first succeed on a Spell Check contested by the target’s Charisma Save or the Spell fails.</p><p><strong>Unbound: (1 MP)</strong> The Spell no longer fails if the target is Immobilized.</p><p><strong>Size: (1 MP, Repeatable)</strong> The maximum size of the creature or object you can teleport increases by 1. The maximum weight of the object you can teleport also increases by 100 lbs (50 kg).</p><p><strong>Swap: (2 MP)</strong> Choose another object that is not being held or carried or creature within range (you can choose yourself). If the Spell Succeeds on both targets, they swap location provided they are within 3 Spaces of each other. The distance is increased by 3 Spaces for each time you use the Distance Enhancement. If the Spell only Succeed on only 1 target, you can teleport that target as normal.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -35,16 +35,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "vDXXxndajZmsnIEr": {
-        "command": "const selected = await DC20.dialog.SimplePopup.open(\"confirm\", {confirmLabel: \"Creature\", denyLabel: \"Object\", message: \"Are you translocating creature or object?\"});\n\n// Creature\nif (selected) {\n  item.system.check.againstDC = false;\n}\n// Object\nelse {\n  delete item.system.rollRequests.ElLrmrehIGnUNN9z;\n  delete item.system.formulas.rsxwpa0G9ufaIXr1; \n}",
-        "trigger": "preItemRoll",
-        "disabled": false,
-        "name": "Object or Creature",
-        "title": "",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -83,7 +74,7 @@
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
+      "againstDC": false,
       "checkDC": 15,
       "respectSizeRules": false,
       "failEffect": ""
@@ -496,6 +487,180 @@
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0
         }
+      },
+      "ufLjmwde4qf1fIMM": {
+        "name": "Hostile",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>You can target unwilling creatures, but must first succeed on a Spell Check contested by the target’s Charisma Save or the Spell fails.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "cha",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
+      },
+      "FKcFBacrBtqLiSv4": {
+        "name": "Unbound",
+        "number": 0,
+        "preventModification": false,
+        "description": "<p>The Spell no longer fails if the target is Immobilized.</p>",
+        "hide": false,
+        "resources": {
+          "ap": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "restPoints": null,
+          "custom": {}
+        },
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0
+        }
       }
     },
     "copyEnhancements": {
@@ -671,11 +836,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.0.2",
     "createdTime": 1767467138082,
-    "modifiedTime": 1767467138082,
+    "modifiedTime": 1777188865572,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -683,6 +848,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "3XJh0X7JduEuxL1L",
-  "sort": 0,
+  "sort": 100000,
   "_key": "!items!3XJh0X7JduEuxL1L"
 }

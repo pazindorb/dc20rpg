@@ -1,0 +1,380 @@
+{
+  "name": "Elemental Trait",
+  "type": "feature",
+  "img": "icons/creatures/magical/spirit-fire-yellow.webp",
+  "system": {
+    "description": "<p>When you summon the elemental you choose Air, Earth, Water, or Fire, the elemental gains the below trait corresponding to the type chosen:</p><ul><li><p><strong>Air:</strong> The creature has Lightning Resistance (Half), +5 Jump Distance, and can hold its breath indefinitely. The creature has an Agility equal to your Prime Modifier, a Might of 1 and their Natural Weapon deals Lightning or Slashing damage (chosen when you summon the Elemental).</p></li><li><p><strong>Earth:</strong> The creature has PDR, a Burrow Speed equal to its Speed, and Tremorsense 3 Spaces. The creature has a Might equal to your Prime Modifier, an Agility of 1, and their Natural Weapon deals Bludgeoning or Piercing damage (chosen when you summon the elemental).</p></li><li><p><strong>Fire:</strong> The creature has Fire Resistance (Half), automatically deals 1 Fire damage to creatures within 1 Space that Hit it with a Melee Attack, and can emit 5 Space of Bright Light at will. The creature has an Agility equal to your Prime Modifier, a Might of 1, and their Natural Weapon deals Fire damage.</p><p><em><strong>System Tip:</strong> Fire damage on hit is not automated.</em></p></li><li><p><strong>Water:</strong> The creature has Cold and Corrosion Resistance (Half), a Swim Speed equal to its Speed, and can breath underwater. The creature has a Might equal to your Prime Modifier, an Agility of 1, and their Natural Weapon deals Cold or Corrosion damage (chosen when you summon the Elemental).</p></li></ul><p><em><strong>System Tip:</strong> Use on demand macro to select Elemental Trait. Remember to do that before you choose any other trait.</em></p>",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": false,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "formulaMod": "physical",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "ignoreCloseQuarters": false
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "ap": null,
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "reset": "",
+        "showAsResource": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1,
+        "deleteOnZero": false
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": "",
+          "difficult": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "bonus": "0",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "items": {}
+      }
+    },
+    "featureType": "other",
+    "featureOrigin": "Summon Traits",
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "itemKey": "",
+    "shortInfo": "",
+    "requirements": {
+      "level": 1,
+      "items": "",
+      "unique": true
+    },
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "quickRoll": false,
+    "macros": {
+      "Y3bBzRNTckQyg0av": {
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Elemental Type\", {fire: \"Fire\", earth: \"Earth\", air: \"Air\", water: \"Water\"});\nif (!selected) return;\n\n// Select natural weapon damage\nconst naturalWeapon = actor.getItemByKey(\"naturalWeapon\");\nif (naturalWeapon) {\n  const damageType = selected === \"fire\" ? \"fire\" : (await DC20.dialog.SimplePopup.select(\"Select Damage Type\", getDamageOptions(selected)) || \"fire\");\n  naturalWeapon.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: damageType});\n}\n\n// Set effect\nconst effect = item.effects.get(\"bwOgUaMeRa8UH14J\");\nif (effect) {\n  const changes = [];\n  setChanges(selected, changes);\n  effect.update({changes: changes});\n}\n\n// Set attributes\nswitch (selected) {\n  case \"fire\": case \"air\":\n    actor.update({\n      [\"system.attributes.mig.current\"]: 1,\n      [\"system.attributes.agi.current\"]: 3,\n    })\n    break;\n\n  case \"earth\": case \"water\":\n    actor.update({\n      [\"system.attributes.mig.current\"]: 3,\n      [\"system.attributes.agi.current\"]: 1,\n    })\n    break;\n}\n\nfunction getDamageOptions(selected) {\n  switch (selected) {\n    case \"earth\": return {bludgeoning: \"Bludgeoning\", piercing: \"Piercing\"}\n    case \"air\":   return {lightning: \"Lightning\", slashing: \"Slashing\" }\n    case \"water\": return {cold: \"Cold\", corrosion: \"Corrosion\"}\n  }\n}\n\nfunction setChanges(selected, changes) {\n  switch (selected) {\n    case \"fire\":  \n      changes.push({key: \"system.damageReduction.damageTypes.fire.resistance\", mode: 5, value: true});\n      break;\n    \n    case \"earth\": \n      changes.push(\n        {key: \"system.damageReduction.pdr.active\", mode: 5, value: true},\n        {key: \"system.movement.burrow.fullSpeed\", mode: 5, value: true},\n        {key: \"system.senses.tremorsense.range\", mode: 5, value: 3}\n      )\n      break;\n    \n    case \"air\":   \n      changes.push(\n        {key: \"system.damageReduction.damageTypes.lightning.resistance\", mode: 5, value: true},\n        {key: \"system.jump.bonus\", mode: 2, value: 5},\n      )\n      break;\n    \n    case \"water\": \n      changes.push(\n        {key: \"system.damageReduction.damageTypes.cold.resistance\", mode: 5, value: true},\n        {key: \"system.damageReduction.damageTypes.corrosion.resistance\", mode: 5, value: true},\n        {key: \"system.movement.swimming.fullSpeed\", mode: 5, value: true},\n      )\n      break;\n  }\n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Select Elemental",
+        "title": "Select Elemental",
+        "global": false
+      }
+    },
+    "usable": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "duration": "round"
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "conditionals": {},
+    "tip": "",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [
+    {
+      "name": "Elemental Trait",
+      "img": "icons/creatures/magical/spirit-fire-yellow.webp",
+      "origin": "Item.71LqEq5leyJI2mFc",
+      "duration": {
+        "startTime": 0,
+        "combat": null,
+        "seconds": null,
+        "startRound": 38,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "_id": "bwOgUaMeRa8UH14J",
+      "type": "base",
+      "system": {
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "fromStatus": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": true,
+        "nonessential": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "enableStatusOnCreation": [],
+        "disableStatusOnRemoval": [],
+        "requireEnhancement": "",
+        "chatMessageId": ""
+      },
+      "changes": [],
+      "description": "<p>Elemental trait effects.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.0.2",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "modifiedTime": 1777448548258
+      },
+      "_key": "!items.effects!i6wFUovbhaDEr6Vs.bwOgUaMeRa8UH14J"
+    }
+  ],
+  "folder": "eqhYedTEm5LLsILe",
+  "flags": {
+    "dc20rpg": {
+      "tableName": "jYTzAgAWLeHVMdlN"
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.10.0.2",
+    "createdTime": 1777448116569,
+    "modifiedTime": 1777453795804,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_id": "i6wFUovbhaDEr6Vs",
+  "sort": 1100000,
+  "_key": "!items!i6wFUovbhaDEr6Vs"
+}
