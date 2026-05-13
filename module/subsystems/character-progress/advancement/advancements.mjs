@@ -3,14 +3,14 @@ import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { actorAdvancementDialog } from "./advancement-dialog.mjs";
 import { updateAdvancement } from "./advancement-util.mjs";
 
-export function createNewAdvancement() {
+export function createNewAdvancement(additionalAdvancement=false) {
 	return { 
 		name: "Advancement",
 		customTitle: "",
 		tip: "",
 		level: 1,
 		applied: false,
-		additionalAdvancement: false,
+		additionalAdvancement: additionalAdvancement,
 		repeatable: false,
 		repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		progressPath: false,
@@ -56,7 +56,7 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry, backg
 	}
 
 	const subclassId = actor.system.details.subclass.id;
-	actorAdvancementDialog(actor, advancements, oldSystem, (level === 3 && !subclassId));
+	actorAdvancementDialog(actor, advancements, oldSystem, (level === 3 && !subclassId), level);
 }
 
 export async function handleSpellList(toCheck, toUpdate) {

@@ -134,17 +134,25 @@ export class ItemCreatorDialog extends DC20Dialog {
 
     // Disable Heavy if Two Handed not active
     if (properties.twoHanded && properties.heavy) {
-      this._disableIfNotActive(properties.heavy, properties.twoHanded);
+      if (!properties.twoHanded.active) {
+        properties.heavy.active = false;
+        properties.heavy.disabled = true;
+      }
+      else {
+        properties.heavy.disabled = false;
+      }
     }
 
-    // Disable Thrown if Toss not active
-    if (properties.toss && properties.thrown) {
-      this._disableIfNotActive(properties.thrown, properties.toss);
-    }
-
-    // Disable Returning if Toss not active
-    if (properties.toss && properties.returning) {
-      this._disableIfNotActive(properties.returning, properties.toss);
+    // Disable Returning if Toss and throw not active
+    if (properties.toss && properties.thrown && properties.returning) {
+      const anyActive = properties.toss.active || properties.thrown.active;
+      if (!anyActive) {
+        properties.returning.active = false;
+        properties.returning.disabled = true;
+      }
+      else {
+        properties.returning.disabled = false;
+      }
     }
 
     // Copy Damage and Style to Multi Faceted Property
@@ -159,16 +167,6 @@ export class ItemCreatorDialog extends DC20Dialog {
       if (properties?.reload?.active) damage++;
       if (properties?.heavy?.active) damage++;
       this.blueprint.system.formulas.weaponDamage.formula = String(damage);
-    }
-  }
-
-  _disableIfNotActive(toDisable, toCheck) {
-    if (!toCheck.active) {
-      toDisable.active = false;
-      toDisable.disabled = true;
-    }
-    else {
-      toDisable.disabled = false;
     }
   }
   // ==================== CONTEXT =====================

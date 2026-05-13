@@ -39,6 +39,7 @@ export function prepareNpcData(context) {
 }
 
 export function prepareStorageData(context) {
+  context.canUserModify = context.document.canUserModify(game.user, "update");
   context.isGM = game.user.isGM;
   context.gridTemplate = _getGridTemplate(context.system.storageType);
 

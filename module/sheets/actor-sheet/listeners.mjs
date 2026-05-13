@@ -217,6 +217,7 @@ export function activateCompanionListeners(html, actor) {
     actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
   });
   html.find(".remove-companion-owner").click(() => actor.update({["system.companionOwnerId"]: ""}));
+  html.find(".add-companion-owner").click(() => _onAddCompanionOwner(actor));
 }
 
 export function activateStorageListeners(html, actor) {
@@ -286,6 +287,15 @@ async function _onInfusionRoll(actor, infusion) {
   const item = actor.items.get(itemId);
   if (!item) return;
   item.infusions.apply(infusion, actor.uuid);
+}
+
+async function _onAddCompanionOwner(actor) {
+  const options = {};
+  game.actors.filter(actor => actor.type === "character" && actor.isOwner).forEach(actor => options[actor.id] = actor.name);
+
+  const selected = await DC20.dialog.SimplePopup.select("Select Owner", options);
+  if (!selected) return;
+  actor.update({["system.companionOwnerId"]: selected})
 }
 
 function _onCreateNewEffect(type, actor) {

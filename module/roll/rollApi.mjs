@@ -35,7 +35,7 @@ export class DC20Roll {
         rollType = "initiative";
         break;
 
-      case "mig": case "agi": case "int": case "cha": case "prime":
+      case "mig": case "agi": case "int": case "cha": 
         partial = ` + @${key}`;
         rollType = "attributeCheck";
         break;
@@ -53,6 +53,11 @@ export class DC20Roll {
       case "spe":
         partial = " + @check.spell";
         rollType = "spellCheck";
+        break;
+
+      case "prime":
+        partial = " + @prime";
+        rollType = "primeCheck";
         break;
 
       case "language": 
@@ -86,7 +91,6 @@ export class DC20Roll {
 
     const ROLL_KEYS = rollType === "save" ? CONFIG.DC20RPG.ROLL_KEYS.saveTypes : CONFIG.DC20RPG.ROLL_KEYS.allChecks;
     ROLL_KEYS.language = "Language Check";
-    ROLL_KEYS.att = "Attack Check";
     let label = options.customLabel || getLabelFromKey(key, ROLL_KEYS);
     const rollTitle = options.rollTitle || getLabelFromKey(key, ROLL_KEYS);
     
@@ -134,11 +138,7 @@ export class DC20Roll {
 
     // 1. Subtract Cost
     const costsSubracted = rollMenu.free ? true : await item.use.respectUseCost();
-    if (!costsSubracted) {
-      resetEnhancements(item, actor, false);
-      rollMenu.clear();
-      return;
-    }
+    if (!costsSubracted) return;
 
     // 2. Add changes related to ammo
     if (item.ammo?.active) {
@@ -220,11 +220,7 @@ export class DC20Roll {
 
     // 1. Subtract Cost
     const costsSubracted = rollMenu.free ? true : await sheetRollData.respectUseCost();
-    if (!costsSubracted) {
-      sheetRollData.clearEnhancements();
-      rollMenu.clear();
-      return;
-    }
+    if (!costsSubracted) return;
 
     // 2. Pre Item Roll Events
     if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(sheetRollData.type)) await runEventsFor("rollCheck", actor);

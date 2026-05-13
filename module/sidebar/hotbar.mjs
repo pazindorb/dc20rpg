@@ -278,6 +278,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
 
+  // TODO UPDATE FILTERS BORDER MARKERS ETC
   _borderColor(item) {
     const actionType = item.system?.actionType;
     const attackCheckType = item.system?.attack?.checkType;
@@ -300,7 +301,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     let actionIcon = "";
     if (actionType === "attack" && attackCheckType === "martial") actionIcon = "fa-sword";
     else if (actionType === "attack" && attackCheckType === "spell") actionIcon = "fa-hat-wizard";
-    else if (actionType === "check" && checkType === "att") actionIcon = "fa-sword";
     else if (actionType === "check" && checkType === "spe") actionIcon = "fa-hat-wizard";
     else if (actionType === "check") actionIcon = "fa-books";
     
@@ -334,7 +334,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const checkType = item.system?.check?.checkKey;
     const reaction = item.system?.isReaction;
 
-    const attackFilter = (actionType === "attack" && attackCheckType === "attack") || (actionType === "check" && checkType === "att");
+    const attackFilter = (actionType === "attack" && attackCheckType === "attack") || (actionType === "check" && checkType === "mar");
     const spellFilter = (actionType === "attack" && attackCheckType === "spell") || (actionType === "check" && checkType === "spe");
     const skillFilter = (actionType === "check" && (checkType !== "spe" && checkType !== "att"))
 
@@ -377,12 +377,13 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
   _resource(resource, clazz) {
+    const label = getValueFromPath(this.actor, `system.resources.${resource.key}.label`);
     const value = getValueFromPath(this.actor, `system.resources.${resource.key}.value`);
 
     return `
       <div class="${clazz}">
         <input data-cType="actor-numeric" data-path="system.resources.${resource.key}.value" type="number" value="${value}"
-        data-dtype="Number" title="${resource.label}" style="background: linear-gradient(to bottom, ${resource.color}, #161616);">
+        data-dtype="Number" title="${label}" style="background: linear-gradient(to bottom, ${resource.color}, #161616);">
       </div>
     `;
   }

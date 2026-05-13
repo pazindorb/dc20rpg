@@ -51,7 +51,7 @@
       <div class="selected-options margin-top-2">
         {{#each system.spellTags as |option key|}}
           <div class="option">
-            <span>{{labelFromKey option @root.config.ROLL_KEYS.allChecks}}</span>
+            <span>{{option}}</span>
             <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.spellTags" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.spell.removeSpellTag"}}"></a>
           </div>
         {{/each}}

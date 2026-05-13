@@ -268,7 +268,9 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (userId === game.user.id) {
       // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
       this.update(this.constructor.getInitialDuration());
-      runInstantEvents(this, this.parent);
+      if (this.parent.documentName === "Actor") {
+        runInstantEvents(this, this.parent);
+      }
       this._shouldAddToSustainList(data.system.sustained);
     }
     if (data.system.refreshTarget) {

@@ -195,7 +195,16 @@ export function getDefaultItemFilters(preSelectedFilters) {
   }
 }
 
-export function getDefaultActorFilters() {
+export function getDefaultActorFilters(preSelectedFilters) {
+  let parsedFilters = {};
+  if (preSelectedFilters) {
+    try {
+      parsedFilters = JSON.parse(preSelectedFilters);
+    } catch (e) {
+      ui.notifications.error(`Cannot parse pre selected filters '${preSelectedFilters}' with error: ${e}`)
+    }
+  }
+  
   return {
     name: _filter("name", "name", "text", parsedFilters["name"]),
     level: {

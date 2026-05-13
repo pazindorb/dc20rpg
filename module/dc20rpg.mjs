@@ -127,8 +127,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.10.0.0", "0.10.1.0", new Set(["dc20-core-rulebook", "dc20-magic-pack"]));
-  // await testMigration("0.10.0.0", "0.10.1.0");
+  // await testMigration("0.10.5.0", "0.10.5.1", new Set(["dc20-core-rulebook", "dc20-magic-pack", "dc20-player-options-pack"]));
+  // await testMigration("0.10.5.0", "0.10.5.1");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -151,6 +151,11 @@ Hooks.once("ready", async function() {
   overrideCoreKeybindActions();
 
   if(game.user.isGM) await createGmToolsMenu();
+
+  ui.notifications.error = (message, options) => {
+    if (ui.notifications.skipErrors) return;
+    return ui.notifications.notify(message, "error", options);
+  }
 
   // Hide tooltip when releasing button
   window.addEventListener('keyup', (event) => {

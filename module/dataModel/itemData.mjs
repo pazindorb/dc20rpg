@@ -103,7 +103,7 @@ class DC20UsableItemData extends DC20BaseItemData {
       conditionals: new f.ObjectField({required: true}),  // TODO backward compatibilty remove as part of 0.11.0 update
       targetModifiers: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
-      advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement()}}),
+      advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement(true)}}),
       tip: new f.StringField({required: true, initial: ""}),
       keyword: new f.SchemaField({
         key: new f.StringField({required: true, initial: ""}),

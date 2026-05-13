@@ -220,7 +220,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       const mt = canvas.templates.placeables.find(template => template.id === templateId);
       if (!mt) idsToRemove.add(templateId);
       else {
-        await mt.document.update({
+        await mt.document.gmUpdate({
           x: this.object.center.x,
           y: this.object.center.y
         }, {skipLinkedEffectApplication: true});
@@ -238,7 +238,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const linkedTemplates = this.flags.dc20rpg?.linkedTemplates || [];
     for (const templateId of linkedTemplates) {
       const template = canvas.templates.documentCollection.get(templateId);
-      if (template) template.delete();
+      if (template) await template.delete();
     }
     return await super._preDelete(options, user);
   }

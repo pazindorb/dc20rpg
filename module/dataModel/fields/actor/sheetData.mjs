@@ -161,12 +161,7 @@ function npcFields() {
           name: "dc20rpg.table.header.feature",
           order: 1,
           custom: false
-        },
-        inventory: {
-					name: "dc20rpg.table.header.inventory",
-					order: 2,
-					custom: false
-				}
+        }
       }})
     })
   })

@@ -391,7 +391,7 @@ async function _addFlavorFeatureAdvancement(multiclass, extraAdvancements, advan
 
   const label = `${multiclass.name} - Flavor Feature`;
   const key = generateKey();
-  const extra = createNewAdvancement();
+  const extra = createNewAdvancement(true);
   extra.img = img;
   extra.name = label,
   extra.customTitle = label;
@@ -399,7 +399,6 @@ async function _addFlavorFeatureAdvancement(multiclass, extraAdvancements, advan
   extra.level = advancement.level;
   extra.parentItem = advancement.parentItem;
   extra.createdBy = advancement.key;
-  extra.additionalAdvancement = true;
   extra.items = flavorFeatures;
   extraAdvancements.set(key, extra);
 }

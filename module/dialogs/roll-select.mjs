@@ -11,7 +11,6 @@ export class RollSelect extends DC20Dialog {
 
     this.actor = actor;
     const actorOptions = actor.getRollOptions();
-    delete actorOptions.save.prime;
 
     const selectOptions = {};
     if (options.basic) selectOptions.basic = actorOptions.basic;

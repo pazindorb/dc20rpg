@@ -242,15 +242,6 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "outsideOfCombatRule", {
-    name: "Use Outside of combat rules",
-    hint: "If selected 'Outside of Combat' rules for AP, MP and SP will be respected. See 'Combat Resources' chapter.",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-	});
-
   // ======================================
   // ==             OTHERS               ==
   // ======================================

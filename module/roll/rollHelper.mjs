@@ -331,6 +331,10 @@ export function sheetRollDataFrom(data={}, actor) {
   sheetData.collectUseCost = () => _collectUseCost(actor, sheetData);
   sheetData.respectUseCost = async () => await _respectUseCost(actor, sheetData);
   sheetData.useCostDisplayData = () => _useCostDisplayData(actor, sheetData);
+  sheetData.canSubtractCost = () => {
+    const cost = _collectUseCost(actor, sheetData);
+    return _canSubtractCost(cost, actor, true);
+  };
   sheetData.clearEnhancements = async () => await _clearEnhancements(sheetData);
   return sheetData;
 }
@@ -364,13 +368,18 @@ function _collectUseCost(actor, sheetData) {
 async function _respectUseCost(actor, sheetData) {
   if (!actor) return false;
   const cost = _collectUseCost(actor, sheetData);
-
-  const canUse = _canSpendResources(cost, actor) && _canSubtractCharges(cost, actor);
-  if (!canUse) return false;
+  if (!_canSubtractCost(cost, actor)) return false;
 
   await _spendResources(cost, actor);
   await _subtractCharges(cost, actor);
   return true;
+}
+
+function _canSubtractCost(cost, actor, skipErrors=false) {
+  if (skipErrors) ui.notifications.skipErrors = true;
+  const result = _canSpendResources(cost, actor) && _canSubtractCharges(cost, actor);
+  if (skipErrors) delete ui.notifications.skipErrors;
+  return result;
 }
 
 function _canSpendResources(cost, actor) {

@@ -139,7 +139,7 @@
         </div>
         {{#ifCond enhancement.altCostMax '>' 0}}
         <div class="column usage costs alt-cost" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-          <a data-cType="toggle" data-max="{{enhancement.altCostMax}}" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.altCost" data-tooltip="{{localize 'dc20rpg.sheet.rollDialog.altCost'}}">
+          <a data-cType="toggle" data-max="{{enhancement.altCostMax}}" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.altCost" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.altCost'}}">
             {{enhancement.altCost}}
           </a>
           {{{cost-printer enhancement.useCost true true false false}}}
@@ -283,7 +283,7 @@
 
   {{!-- Cost --}}
   {{#if expectedCost}}
-  <fieldset class="expected-cost">
+  <fieldset class="expected-cost {{#unless canSubtractCost}}to-expensive{{/unless}}">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
     {{#ifCond expectedCost.resources.mana '||' expectedCost.resources.stamina}}
     <div class="spend-limit">

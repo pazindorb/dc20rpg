@@ -140,7 +140,7 @@ export function initDC20Config() {
     men: "Mental Save",
   }
   const attributeChecks = {};
-  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.attributesWithPrime).forEach(([key, label]) => {
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.attributes).forEach(([key, label]) => {
     saveTypes[key] = `${label} Save`;
     attributeChecks[key] = `${label} Check`;
   });
@@ -151,6 +151,7 @@ export function initDC20Config() {
   CONFIG.DC20RPG.ROLL_KEYS.baseChecks = {
     mar: "Martial Check",
     spe: "Spell Check",
+    prime: "Prime Check"
   }
 
   // Prepare Skill Checks
@@ -238,6 +239,7 @@ DC20RPG.allEventTriggers = {
   actorWithIdEndsNextTurn: "Caster ends its next turn",
   targetConfirm: "Target Confirmed",
   combatStart: "Combat Start",
+  combatEnd: "Combat End",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
   resourceChange: "Resource Change",
@@ -416,10 +418,7 @@ DC20RPG.DROPDOWN_DATA.storageTypes = {
   vendor: "Vendor"
 }
 
-DC20RPG.DROPDOWN_DATA.attributesWithPrime = {
-  prime: "Prime",
-  ...DC20RPG.TRANSLATION_LABELS.attributes
-}
+DC20RPG.DROPDOWN_DATA.attributes = DC20RPG.TRANSLATION_LABELS.attributes
 
 DC20RPG.DROPDOWN_DATA.shortAttributes = {
   mig: "MIG",
@@ -872,7 +871,8 @@ DC20RPG.DROPDOWN_DATA.weaponStyles = {
 }
 
 DC20RPG.DROPDOWN_DATA.jumpCalculationKeys = {
-  ...DC20RPG.DROPDOWN_DATA.attributesWithPrime,
+  ...DC20RPG.DROPDOWN_DATA.attributes,
+  prime: "Prime",
   flat: "Flat Value"
 }
 
@@ -940,6 +940,7 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
   weapon: "Weapon",
   ...DC20RPG.DROPDOWN_DATA.damageTypes,
   ...DC20RPG.DROPDOWN_DATA.conditions,
+  prone: "Prone",
   ...DC20RPG.DROPDOWN_DATA.creatureTypes,
 }
 

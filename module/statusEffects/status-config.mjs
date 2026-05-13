@@ -898,6 +898,12 @@ function _intimidated() {
         value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true, "customMessage": "Is that check made against the source of the Intimidated condition?"'
       },
       {
+        key: "system.dynamicRollModifier.onYou.checks.prime",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true, "customMessage": "Is that check made against the source of the Intimidated condition?"'
+      },
+      {
         key: "system.dynamicRollModifier.onYou.checks.mar",
         mode: 2,
         priority: undefined,
@@ -963,6 +969,12 @@ function _frightened() {
       },
       {
         key: "system.dynamicRollModifier.onYou.checks.cha",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
+      },
+      {
+        key: "system.dynamicRollModifier.onYou.checks.prime",
         mode: 2,
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'

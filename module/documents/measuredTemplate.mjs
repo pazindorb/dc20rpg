@@ -116,6 +116,26 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
     await this.update({["flags.dc20rpg.effectAppliedTokens"]: Array.from(applied)});
   }
 
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
+  /**
+   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
+   * No object will be returned by this method.
+   */
+  async gmUpdate(updateData={}, operation={}) {
+    if (!this.canUserModify(game.user, "update")) {
+      emitEventToGM("updateDocument", {
+        docUuid: this.uuid,
+        updateData: updateData,
+        operation: operation
+      });
+    }
+    else {
+      await this.update(updateData, operation);
+    }
+  }
+
   /** @override */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);

@@ -4,7 +4,7 @@ import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { getLabelFromKey, getValueFromPath } from "../helpers/utils.mjs";
 import { DC20Roll } from "./rollApi.mjs";
 
-export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
+export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modifier: ""}) {
   let results = [];
   const rollConfig = item.system.rollConfig;
   const rollMenu = item.system.rollMenu;
@@ -74,7 +74,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0}) {
   return _finalResult(results, initial, []);
 }
 
-export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0}) {
+export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, modifier: ""}) {
   let results = [];
   const rollMenu = actor.system.rollMenu;
   const attacker = actor.getActiveTokens()[0];
@@ -197,11 +197,8 @@ function _validateAttackTypeAndRange(modification, attackType, rangeType) {
 //========================================
 function _getCheckPath(details, actor) {
   switch (details.type) {
-    case "attributeCheck": case "spellCheck": case "martialCheck":
-      if (details.checkKey === "prime") {
-        return `checks.${actor.system.details.primeAttrKey}`;
-      }
-      else return `checks.${details.checkKey}`;
+    case "attributeCheck": case "spellCheck": case "martialCheck": case "primeCheck":
+      return `checks.${details.checkKey}`;
     case "attackCheck": return "attack";
     case "initiative":  return "initiative";
     case "deathSave":   return "deathSave";
@@ -239,10 +236,7 @@ function _getSkillPath(actor, checkKey) {
   if (!skill) skill = actor.skillAndLanguage.trades?.[checkKey];
   if (!skill) return;
 
-  let attribute = skill.baseAttribute;
-  if (attribute === "prime") attribute = actor.system.details.primeAttrKey;
-
-  return `checks.${attribute}`;
+  return `checks.${skill.baseAttribute}`;
 }
 
 //========================================
@@ -576,10 +570,12 @@ function _finalResult(results, initial, statusIds=[]) {
   }
 
   // Add initial values if provided 
-  if (initial.adv || initial.dis) {
+  if (initial.adv || initial.dis || initial.modifier) {
     finalResult.adv += initial.adv;
     finalResult.dis += initial.dis;
-    roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}]`});
+    finalResult.modifier += initial.modifier;
+    finalResult.label += " + Initial Roll Menu State"
+    roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}, modifier: ${initial.modifier}]`});
   }
 
   const allDRMs = {

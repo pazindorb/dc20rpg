@@ -35,6 +35,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        prime: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
       resources: new ResourceFields(false),
       help: new f.SchemaField({
@@ -178,7 +179,7 @@ export class DC20CharacterData extends DC20BaseActorData {
 
     return this.mergeSchema(super.defineSchema(), {
       sheetData: new SheetDataFields("character"),
-      attributes: new AttributeFields(-2, true),
+      attributes: new AttributeFields(-2),
       attributePoints: new PointFields(12),
       resources: new ResourceFields(true),
       skillPoints: new f.SchemaField({
@@ -225,7 +226,6 @@ export class DC20CharacterData extends DC20BaseActorData {
         staminaFeature: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
         infuser: new f.BooleanField({required: true, initial: false}),
-        primeAttrKey: new f.StringField({required: true}),
       }),
       size: new SizeFields(true),
       movement: new MovementFields(false),
@@ -260,7 +260,7 @@ export class DC20NpcData extends DC20BaseActorData {
 
     return this.mergeSchema(super.defineSchema(), {
       defences: new DefenceFields("flat"),
-      jump: new JumpFields("flat"),
+      jump: new JumpFields(),
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

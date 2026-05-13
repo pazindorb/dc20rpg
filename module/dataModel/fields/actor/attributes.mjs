@@ -1,11 +1,11 @@
 export default class AttributeFields extends foundry.data.fields.SchemaField {
-  constructor(initialValue=0, saveMastery=false, fields={}, options={}) {
+  constructor(initialValue=0, fields={}, options={}) {
     const f = foundry.data.fields;
     const numberInitial = { required: true, nullable: false, integer: true, initial: initialValue };
     const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const attribute = () => ({
-      saveMastery: new f.BooleanField({required: true, initial: saveMastery}),
+      saveMastery: new f.BooleanField({required: true, initial: true}),
       value: new f.NumberField(numberInitial),
       current: new f.NumberField(numberInitial),
       save: new f.NumberField(numberInitial),

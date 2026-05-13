@@ -300,10 +300,10 @@ export function getEffectModifiableKeys() {
     ..._damageReduction(),
 
     // Flat Damage/healing Modification
-    "system.damageReduction.flat": "Flat Damage Modification On You (Value)",
-    "system.damageReduction.flatHalf": "Flat Damage Modification On You (Half)",
-    "system.healingReduction.flat": "Flat Healing Modification On You (Value)",
-    "system.healingReduction.flatHalf": "Flat Healing Modification On You (Half)",
+    "system.damageReduction.flat": "Flat Damage Reduction On You (Value)",
+    "system.damageReduction.flatHalf": "Flat Damage Reduction On You (Half)",
+    "system.healingReduction.flat": "Flat Healing Reduction On You (Value)",
+    "system.healingReduction.flatHalf": "Flat Healing Reduction On You (Half)",
 
     // Status resistances
     ..._statusResistances(),
@@ -348,7 +348,7 @@ export function getEffectModifiableKeys() {
     "system.movement.flying.halfSpeed": "Flying equal Half Ground Speed",
     "system.jump.bonus": "Jump Distance Bonus",
     "system.jump.multiplier": "Jump Distance Multiplier",
-    "system.jump.key": "Jump Attribute",
+    "system.jump.key": "Jump Calculation Attribute",
 
     // Senses
     "system.senses.darkvision.range": "Darkvision: Base range (always)",
@@ -440,6 +440,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.checks.agi": "DRM: Agility Check",
     "system.dynamicRollModifier.onYou.checks.cha": "DRM: Charisma Check",
     "system.dynamicRollModifier.onYou.checks.int": "DRM: Intelligence Check",
+    "system.dynamicRollModifier.onYou.checks.prime": "DRM: Prime Check",
     "system.dynamicRollModifier.onYou.checks.mar": "DRM: Martial Check",
     "system.dynamicRollModifier.onYou.checks.spe": "DRM: Spell Check",
     "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
@@ -456,6 +457,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.againstYou.checks.agi": "DRM (Against): Agility Check",
     "system.dynamicRollModifier.againstYou.checks.cha": "DRM (Against): Charisma Check",
     "system.dynamicRollModifier.againstYou.checks.int": "DRM (Against): Intelligence Check",
+    "system.dynamicRollModifier.againstYou.checks.prime": "DRM (Against): Prime Check",
     "system.dynamicRollModifier.againstYou.checks.mar": "DRM (Against): Martial Check",
     "system.dynamicRollModifier.againstYou.checks.spe": "DRM (Against): Spell Check",
     "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",

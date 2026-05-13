@@ -128,21 +128,22 @@ export class RollDialog extends DC20Dialog {
       this.sheetRollData = sheetRollDataFrom(data, this.actor);
       this.updateObject = this.actor;
     }
+    this.quickRoll = !!options.quickRoll;
     this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
     this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
     this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
     this.modifyFormula = options.customFormula || false;
-    this._autoDRMCheck(options);
+    this._autoDRMCheck();
   }
 
-  _autoDRMCheck(options) {
+  _autoDRMCheck() {
     if (this.autoDRMCheck) {
-      this._DRMCheck(false, options.quickRoll); // it deals with quick roll as well
+      this._DRMCheck(false); // it deals with quick roll as well
     }
     else {
       this.DRMChecked = false;
-      if (options.quickRoll) this._onRoll();
+      if (this.quickRoll) this._onRoll();
     }
   }
 
@@ -281,6 +282,7 @@ export class RollDialog extends DC20Dialog {
       }
 
       context.expectedCost = this.item.use?.useCostDisplayData();
+      context.canSubtractCost = context.rollMenu.free || this.item.use?.canSubtractCost();
       context.rollLabel = `Roll Item: ${this.item.name}`;
       context.canSpendGrit = false;
       context.hasModifications = true;
@@ -289,6 +291,7 @@ export class RollDialog extends DC20Dialog {
     // SHEET ROLL
     else {
       context.expectedCost = this.sheetRollData.useCostDisplayData();
+      context.canSubtractCost = context.rollMenu.free || this.sheetRollData.canSubtractCost();
       context.enhancements = this._prepareEnhancements(this.sheetRollData.enhancements);
       context.canSpendGrit = this.sheetRollData.type === "save";
       context.hasModifications = false;
@@ -451,6 +454,9 @@ export class RollDialog extends DC20Dialog {
     const roll = this.itemRoll 
                   ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode})
                   : await DC20Roll.rollFormula(coreFormula, this.sheetRollData, this.actor, {rollMode: this.rollMode});
+    
+    const preventClose = roll === undefined && !this.quickRoll;
+    if (preventClose) return this.render();
     this.promiseResolve(roll);
     this.close();
   }
@@ -465,14 +471,14 @@ export class RollDialog extends DC20Dialog {
     this.render();
   }
 
-  async _DRMCheck(display, quickRoll) {
+  async _DRMCheck(display) {
     this.DRMChecked = true;
     let [finalValue, result] = [{}, {}];
     if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
     else [finalValue, result] = await runSheetDRMCheck(this.sheetRollData, this.actor, this.initialRollMenuValue);
     
     await this._updateRollMenu(finalValue);
-    if (quickRoll) {
+    if (this.quickRoll) {
       this._prepareCoreFormula();
       return this._onRoll();
     }
