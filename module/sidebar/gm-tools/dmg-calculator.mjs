@@ -81,7 +81,7 @@ export class DamageCalculator extends DC20Dialog {
       const system = wrapper.token.actor.system
       let fallKey = system.jump.key || "agi";
       if (fallKey === "flat") fallKey = "agi";
-      const attribute = Math.max(system.attributes[fallKey].value, 0);
+      const attribute = fallKey === "prime" ? system.details.prime : Math.max(system.attributes[fallKey].value, 0);
 
       let dmg = this.distance;
       if (fall && !wrapper.uncontrolled && attribute >= dmg) dmg = 0;

@@ -352,7 +352,7 @@ export class DC20RpgActor extends Actor {
     effect = enhanceStatusEffectWithExtras(effect, extras);
     
     const stacks = extras.stacks || 1; 
-    for (let i = 0; i < stacks; i++) await DC20RpgActiveEffect.gmCreate(effect.toObject(), {parent: this});
+    for (let i = 0; i < stacks; i++) await DC20RpgActiveEffect.gmCreate(effect.toObject(false), {parent: this});
   }
 
   async #deleteStatusEffect(statusId) {

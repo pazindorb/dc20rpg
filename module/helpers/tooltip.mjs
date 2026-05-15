@@ -41,6 +41,7 @@ export function tooltipListeners(event, type, isEntering, data, html, options) {
       case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html, options); break;
       case "item": itemTooltip(item, event, html, options); break;
       case "enhancement": enhTooltip(item, dataset.enhKey, event, html, options); break;
+      case "custom": textTooltip(dataset.description, dataset.header, dataset.img, event, html, options)
     }
 }
 

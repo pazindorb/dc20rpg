@@ -223,6 +223,7 @@ export class RollDialog extends DC20Dialog {
     context.header = {
       img: this.updateObject.img,
       name: this.sheetRollData?.rollTitle || this.updateObject.name,
+      description: this.sheetRollData?.description
     }
     context.rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     context.rollMenu = this.updateObject.system.rollMenu;

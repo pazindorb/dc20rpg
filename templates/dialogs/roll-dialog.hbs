@@ -1,7 +1,9 @@
 <form id="roll-prompt" class="dialog-v13 dialog-content standard-form {{cssClass}} scrollable">
 
   <div class="header">
-    <div class="name-wrapper" {{#if item}}data-hover="tooltip" data-tooltip-type="item" data-item-id="{{item._id}}"{{/if}}>
+    <div class="name-wrapper" 
+    {{#if item}}data-hover="tooltip" data-tooltip-type="item" data-item-id="{{item._id}}"{{/if}} 
+    {{#if header.description}}data-hover="tooltip" data-tooltip-type="custom" data-header="{{header.name}}" data-img="{{header.img}}" data-description="{{header.description}}" {{/if}}>
       <img src="{{header.img}}"/>
       <span>{{header.name}}</span>
     </div>
