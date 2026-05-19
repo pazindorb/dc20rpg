@@ -9,7 +9,15 @@ export function makeCalculations(item) {
   if (item.system.targetModifiers) _calculateSaveDCForTargetModifiers(item);
   if (item.system.infusions) _calculateMagicPower(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
+  _checkIdentified(item);
   _combatTraining(item);
+}
+
+function _checkIdentified(item) {
+  if (!item.identified) {
+    item.name = game.i18n.localize("dc20rpg.item.sheet.unidentified");
+    item.system.description = game.i18n.localize("dc20rpg.item.sheet.unidentified");
+  }
 }
 
 function _calculateRollModifier(item) {

@@ -1,7 +1,6 @@
 import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
   changesCache = new Map();

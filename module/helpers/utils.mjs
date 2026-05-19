@@ -233,6 +233,13 @@ export function toSelectOptions(objectArray, key, label) {
   return options;
 }
 
+export function applyStatusToEffect(effect, statusId) {
+  const status = CONFIG.statusEffects.find(s => s.id === statusId);
+  if (Array.isArray(effect.statuses)) effect.statuses.push(statusId)
+  else effect.statuses.add(statusId)
+  status.changes.forEach(change => effect.changes.push(change));
+}
+
 export function toggleCheck(item, itemSpecificCondition) {
   if (item.system.toggle?.toggleable && itemSpecificCondition) return item.system.toggle.toggledOn;
   return true;

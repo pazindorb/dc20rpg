@@ -2,21 +2,107 @@ import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function itemDetailsToHtml(item) {
   if (!item) return "";
+  if (!item.identified) return "";
+
+  const tier1 = [];
+  const tier2 = [];
+  const tier3 = [];
+  
+  _merge(tier1, _action(item));
+  _merge(tier1, _rollRequest(item));
+  _merge(tier1, _formulas(item));
+  _merge(tier2, _magicPower(item));
+  _merge(tier2, _duration(item));
+  _merge(tier2, _range(item));
+  _merge(tier2, _target(item));
+  _merge(tier2, _area(item));
+  _merge(tier3, _weaponStyle(item));
+  _merge(tier3, _properties(item));
+  if (item.type === "spell") {
+    _merge(tier3, _spellDetails(item));
+  }
+  if (item.type === "infusion") {
+    _merge(tier3, _infusionDetails(item));
+  }
+
+  let firstChild = " style='margin-top:0px'";
   let content = "";
-  content += _range(item);
-  content += _target(item);
-  content += _duration(item);
-  content += _weaponStyle(item);
-  content += _props(item);
-  content += _spellDetails(item);
-  content += _infusionDetails(item);
+  if (tier1.length > 0) {
+    content += `<div class="info-box-wrapper"${firstChild}>${tier1.join("\n")}</div>`;
+    firstChild = "";
+  }
+  if (tier2.length > 0) {
+    content += `<div class="info-box-wrapper"${firstChild}>${tier2.join("\n")}</div>`;
+    firstChild = "";
+  }
+  if (tier3.length > 0) {
+    content += `<div class="info-box-wrapper"${firstChild}>${tier3.join("\n")}</div>`;
+  }
   return content;
 }
 
+function _merge(array1, array2) {
+  array2.forEach(elem => array1.push(elem));
+}
+
+function _infoBox(text, color="", tier="", tooltipData={cssClass: "", data: ""}) {
+  return `<div class="info-box ${color} ${tier} ${tooltipData.cssClass}" ${tooltipData.data}>${text}</div>`
+}
+
+function _action(item) {
+  const action = [];
+  switch (item.system.actionType) {
+    case "attack":
+      const attack = item.system.attack;
+      action.push(_infoBox(`${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}`, "purple", "tier1"));
+      action.push(_infoBox(`Targets ${attack.targetDefence === "area" ? "AD" : "PD"}`, "purple", "tier1"));
+      break;
+
+    case "check":
+      const check = item.system.check;
+      const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
+      action.push(_infoBox(`${checkDC} ${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}`, "purple", "tier1"));
+      break;
+  }
+  return action;
+}
+
+function _rollRequest(item) {
+  const rollRequest = [];
+  if (item.system.rollRequests) {
+    for (const request of Object.values(item.system.rollRequests)) {
+      if (request?.category === "save") {
+        rollRequest.push(_infoBox(`DC ${request.dc} ${getLabelFromKey(request.saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes)}`, "blue", "tier1"));
+      }
+      if (request?.category === "contest") {
+        rollRequest.push(_infoBox(`Contested by ${getLabelFromKey(request.contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests)}`, "blue", "tier1"));
+      }
+    }
+  }
+  return rollRequest;
+}
+
+function _formulas(item) {
+  const formulas = [];
+  if (item.system.formulas) {
+    for (const formula of Object.values(item.system.formulas)) {
+      if (formula.category === "damage") {
+        formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`, "red", "tier1"));
+      }
+      if (formula.category === "healing") {
+        formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes)}`, "green", "tier1"));
+      }
+      if (formula.category === "other") {
+        formulas.push(_infoBox(`${formula.formula} ${formula.label}`, "gold", "tier1"));
+      }
+    }
+  }
+  return formulas;
+}
 
 function _range(item) {
   const range = item.system?.range;
-  let content = "";
+  const content = [];
 
   if (range) {
     const melee = range.melee;
@@ -25,224 +111,182 @@ function _range(item) {
     const unit = range.unit ? range.unit : "Spaces";
 
     if (normal) {
-      content += `<div class='detail'> ${normal}`;
-      if (max) content += `/${max}`;
-      content += ` ${unit} Range </div>`;
+      let label = normal;
+      if (max) label += `/${max}`;
+      content.push(_infoBox(`${label} ${unit} Range`, "", "tier2"));
     }
     if (melee && melee > 1) {
-      content += `<div class='detail'> ${melee}`;
-      content += ` ${unit} Melee Range </div>`;
+      content.push(_infoBox(`${melee} ${unit} Melee Range`, "", "tier2"));
     }
   }
   return content;
 }
 
 function _target(item) {
-  const target =  item.system?.target;
-  let content = "";
-
-  if (target) {
-    content += _invidual(target);
-    content += _area(target);
-  }
-  return content;
-}
-  
-function _invidual(target) {
-  let content = "";
-  const type = target.type;
+  const content = [];
+  const target =  item.system.target;
+  const type = target?.type;
   const count = target.count;
-
   if (type) {
-    content += "<div class='detail'>";
-    if (count) content += ` ${count}`;
-    content += ` ${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets)}`;
-    content += "</div>";
+    let label = getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
+    if (count) label = count + " " + label;
+    content.push(_infoBox(label, "", "tier2"));
   }
   return content;
 }
   
-function _area(target) {
-  let content = "";
+function _area(item) {
+  const areas =  item.system?.target?.areas;
+  const content = [];
+  if (!areas) return content;
 
-  Object.values(target.areas).forEach(ar => {
-    const area = ar.area;
-    const unit = ar.unit;
-    const distance = ar.distance;
-    const width = ar.width;
+  Object.values(areas).forEach(area => {
+    const areaType = area.area;
+    const areaUnit = area.unit;
+    const distance = area.distance;
+    const width = area.width;
   
-    if (area) {
-      content += "<div class='detail'>";
+    if (areaType) {
+      let size = "";
+      let unit = "";
       if (distance) {
-        content += area === "line" ? ` ${distance}/${width}` : ` ${distance}`;
-        content += unit ? ` ${unit}` : " Spaces";
+        size = areaType === "line" ? `${distance}/${width}` : `${distance}`;
+        unit = areaUnit ? ` ${areaUnit} ` : " Spaces ";
       }
-      content += ` ${getLabelFromKey(area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes)}`
-      content += "</div>";
+      content.push(_infoBox(`${size}${unit}${getLabelFromKey(areaType, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes)}`, "blue", "tier2"));
     }
   });
   return content;
 }
 
+function _magicPower(item) {
+  const content = [];
+  if (item.system.magicPower != null) {
+    content.push(_infoBox(`${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${item.system.magicPower}`, "gold", "tier2"));
+  }
+  return content;
+}
+
 function _duration(item) {
+  const content = [];
   const duration =  item.system?.duration;
-  let content = "";
 
   if (duration) {
     const type = duration.type;
     const value = duration.value;
     const timeUnit = duration.timeUnit;
 
-    if (type && timeUnit) {
-      content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)} (`;
-      if (value) content += `${value}`;
-      content += ` ${getLabelFromKey(timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits)}`;
-      content += ")</div>";
-    }
-    else if (type) {
-      content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)}`;
-      content += "</div>";
+    if (type) {
+      let label = getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations);
+      if (value && timeUnit) label += ` (${value} ${getLabelFromKey(timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits)})`
+      content.push(_infoBox(`${label}`, "", "tier2"));
     }
   }
   return content;
 }
 
 function _weaponStyle(item) {
+  const content = [];
   const weaponStyle = item.system?.weaponStyle;
-  if (!weaponStyle) return "";
-
-  return `<div class='detail green-box box journal-tooltip box-style'
-  data-uuid="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}"
-  data-header="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}"> 
-  ${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}
-  </div>`;
-}
-
-function _props(item) {
-  const properties =  item.system?.properties;
-  let content = "";
-  if (properties) {
-    Object.entries(properties).forEach(([key, prop]) => {
-      if (prop.active) {
-        content += `<div class='detail box journal-tooltip box-style'
-        data-uuid="${prop.journalUuid}"
-        data-header="${prop.label}"
-        > 
-        ${prop.label}`;
-        if (prop.value) content += ` (${prop.value})`;
-        content += "</div>";
-      }
-    });
+  if (weaponStyle) {
+    const label = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
+    content.push(_infoBox(label, "green", "tier3", {
+      cssClass: "journal-tooltip", 
+      data: `
+      data-hover="tooltip"
+      data-tooltip-type="journal"
+      data-uuid="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}" 
+      data-header="${label}"`
+    }));
   }
   return content;
 }
 
-function _spellDetails(item) {
-  if (item.type !== "spell") return "";
+function _properties(item) {
+  const content = [];
+  const properties =  item.system?.properties;
+  if (!properties) return content;
 
+  Object.values(properties).forEach((property) => {
+    if (property.active) {
+      let label = property.label;
+      if (property.value) label += label ` (${property.value})`;
+      content.push(_infoBox(label, "grey", "tier3", {
+        cssClass: "journal-tooltip", 
+        data: `
+        data-hover="tooltip"
+        data-tooltip-type="journal"
+        data-uuid="${property.journalUuid}" 
+        data-header="${property.label}"`
+      }));
+    }
+  });
+  return content;
+}
+
+function _spellDetails(item) {
+  const content = [];
   const components = item.system.components;
+  const spellType = item.system.spellType;
   const spellSource = item.system.spellSource;
   const spellSchool = item.system.spellSchool;
   const spellTags = item.system.spellTags;
 
-  let content = "";
+
+  // Ritual
+  if (spellType === "ritual") {
+    content.push(_infoBox("Ritual", "blue", "tier3", {data: "data-tooltip='Can be casted as Ritual'"}));
+  }
+
   // Spell School 
-  if (spellSchool) content += `<div class='detail box'> ${getLabelFromKey(spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools)}</div>`;
+  if (spellSchool) {
+    content.push(_infoBox(getLabelFromKey(spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools), "purple", "tier3", {data: "data-tooltip='Spell School'"}));
+  }
 
   // Spell Sources
   Object.entries(spellSource).forEach(([key, source]) => {
     if (source.active) {
-      content += `<div class='detail green-box box journal-tooltip box-style'
-      data-uuid="${getLabelFromKey(key, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.spellSources)}"
-      data-header="${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources)}"> 
-      ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources)}
-      </div>`;
+      content.push(_infoBox(getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources), "green", "tier3", {data: "data-tooltip='Spell Source'"}));
     }
   });
 
   // Spell Tags
-  Object.values(spellTags).forEach(spellTag => content += `<div class='detail red-box box'> ${spellTag}</div>`)
+  Object.values(spellTags).forEach(spellTag => content.push(_infoBox(spellTag, "gray", "tier3", {data: "data-tooltip='Spell Tag'"})))
   
   // Components
-  Object.entries(components).forEach(([key, comp]) => {
-    if (comp.active) {
-      content += `<div class='detail'> ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components)}`;
-      if (key === "material") {
-        if (comp.description) {
-          const cost = comp.cost ? ` (${comp.cost} GP)` : "";
-          const consumed = comp.consumed ? " [Consumed]" : "";
-          content += `: ${comp.description}${cost}${consumed}`;
-        } 
-      }
-      content += "</div>";
+  if (!components.verbal.active) content.push(_infoBox('<i class="fa-solid fa-square-xmark" style="margin-right: 3px;"></i> Verbal', "red", "tier3", {data: "data-tooltip='Do not require Verbal Component'"}));
+  if (!components.somatic.active) content.push(_infoBox('<i class="fa-solid fa-square-xmark" style="margin-right: 3px;"></i> Somatic', "red", "tier3", {data: "data-tooltip='Do not require Somatic Component'"}));
+  if (components.material.active) {
+    let label = "Material";
+    if (components.material.description) {
+      label += `: ${components.material.description}`;
+      const cost = components.material.cost;
+      const consumed = components.material.consumed;
+      if (cost) label += ` (${cost} GP)`;
+      if (consumed) label += ` [Consumed]`;
     }
-  });
+    content.push(_infoBox(label, "gold", "tier3", {data: "data-tooltip='Require Material Component'"}));
+  }
   
   return content;
 }
 
 function _infusionDetails(item) {
-  let content = "";
-  if (item.type === "infusion") {
-    const infusion = item.system.infusion;
-    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power} </div>`;
+  const content = [];
+  const infusion = item.system.infusion;
+  const power = infusion.variablePower ? "?" : infusion.power;
+  content.push(_infoBox(`${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${power}`, "gold", "tier3"));
 
-    Object.entries(infusion.tags).forEach(([key, tag]) => {
-      if (tag.active) {
-        let label = tag.label;
-        if (tag.melee && !tag.ranged) label = game.i18n.localize("dc20rpg.item.sheet.infusion.melee");
-        if (!tag.melee && tag.ranged) label = game.i18n.localize("dc20rpg.item.sheet.infusion.ranged");
-        if (tag.ammo) label += ` or ${game.i18n.localize("dc20rpg.item.sheet.infusion.ammo")}`;
-        if (tag.max && !tag.max.includes("@magicPower")) label += ` (${tag.max})`;
-        content += `<div class='detail box journal-tooltip box-style'
-        data-uuid="${tag.journalUuid}"
-        data-header="${tag.label}"
-        > ${label}`;
-        content += "</div>";
-      }
-    });
-  }
-  if (item.system.magicPower != null) {
-    content += `<div class='detail'> ${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${item.system.magicPower} </div>`;
-  }
+  Object.values(infusion.tags).forEach(tag => {
+    if (!tag.active) return;
+    let label = tag.label;
+    if (tag.melee && !tag.ranged) label = game.i18n.localize("dc20rpg.item.sheet.infusion.melee");
+    if (!tag.melee && tag.ranged) label = game.i18n.localize("dc20rpg.item.sheet.infusion.ranged");
+    if (tag.ammo) label += ` or ${game.i18n.localize("dc20rpg.item.sheet.infusion.ammo")}`;
+
+    if (tag.max && !tag.max.includes("@magicPower")) label += ` (${tag.max})`;
+    content.push(_infoBox(label, "", "tier3"));
+  });
+
   return content;
-}
-
-export function getFormulaHtmlForCategory(category, item) {
-  const types = { ...CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes }
-  let formulas = item.system.formulas;
-  let formulaString = "";
-
-  let filteredFormulas = Object.values(formulas)
-    .filter(formula => formula.category === category);
-
-  for (let i = 0; i < filteredFormulas.length; i++) {
-    let formula = filteredFormulas[i];
-    if (formula.formula === "") continue;
-    formulaString += formula.formula;
-    formulaString += category !== "other" ? ` ${getLabelFromKey(formula.type, types)}` : ` ${formula.label}`;
-    formulaString += " + ";
-  }
-
-  if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
-  return formulaString;
-}
-
-export function getRollRequestHtmlForCategory(category, item) {
-  const rollRequests = item.system.rollRequests;
-  if (!rollRequests) return "";
-
-  const filtered = Object.values(rollRequests).filter(request => request.category === category);
-
-  let rollRequestString = "";
-  for (let i = 0; i < filtered.length; i++) {
-    if (category === "save") rollRequestString += " " + getLabelFromKey(filtered[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes) + "";
-    if (category === "contest") rollRequestString += "  " + getLabelFromKey(filtered[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests) + "";
-    rollRequestString += " or ";
-  }
-
-  if (rollRequestString !== "") rollRequestString = rollRequestString.substring(0, rollRequestString.length - 4);
-  return rollRequestString;
 }

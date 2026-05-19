@@ -16,7 +16,6 @@ import { prepareRollData } from "./item/item-rollData.mjs";
  * @extends {Item}
  */
 export class DC20RpgItem extends Item {
-  static enhLoopCounter = 0;
 
   get itemKey() {
     return this.system.itemKey;

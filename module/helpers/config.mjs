@@ -19,18 +19,20 @@ import { createToken, deleteToken, getAllTokensForActor, getSelectedTokens, getT
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn, updateEffectOn } from "./effects.mjs";
 import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName,runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
 import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
-import { toSelectOptions } from "./utils.mjs";
+import { applyStatusToEffect, toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Enhancement, Formula, ItemMacro, RollRequest, TargetModifier } from "../documents/item/item-creators.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { tooltipElement, tooltipListeners } from "./tooltip.mjs";
 import { DC20RpgToken } from "../placeable-objects/token.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
 import { DC20ChatMessage, sendDescriptionToChat } from "../sidebar/chat/chat-message.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 
 export function prepareDC20tools() {
   window.DC20 = {
     tools: {
       toSelectOptions,
+      applyStatusToEffect
     },
     tooltip: {
       tooltipElement,
@@ -54,6 +56,7 @@ export function prepareDC20tools() {
     DC20ChatMessage,
     DC20RpgActor,
     DC20RpgItem,
+    DC20RpgActiveEffect,
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     DC20RpgTokenDocument,
@@ -790,8 +793,8 @@ DC20RPG.DROPDOWN_DATA.resetTypes = {
   long4h: "Long Rest (First 4h)",
   combatStart: "Combat Start",
   combatEnd: "Combat End",
-  roundStart: "Round Start",
-  roundEnd: "Round End",
+  roundStart: "Turn Start",
+  roundEnd: "Turn End",
 }
 
 DC20RPG.DROPDOWN_DATA.chargesResets = {

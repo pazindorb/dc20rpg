@@ -1,166 +1,56 @@
-import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../item-sheet/item-sheet-details.mjs";
+import { itemDetailsToHtml } from "../item-sheet/item-sheet-details.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateItemData(context, item) {
-  context.userIsGM = game.user.isGM;
-  context.config = CONFIG.DC20RPG;
-  context.system = item.system;
-  context.flags = item.flags;
-  context.properties = item.properties;
+  context.name = item.name;
+  context.img = item.img;
+  context.type = item.type;
+  
+  context.system = foundry.utils.deepClone(item.system);
+  context.flags = foundry.utils.deepClone(item.flags);
+  context.properties = foundry.utils.deepClone(item.properties);
+  context.config = foundry.utils.deepClone(CONFIG.DC20RPG);
 
-  context.hasOwner = false;
-  let actor = item.actor ?? null;
-  if (actor) context.hasOwner = true;
+  context.hasOwner = !!item.actor;
+  context.userIsGM = game.user.isGM;
+  context.hasRollConfig = ["check", "attack"].includes(item.system.actionType);
 }
 
 export function prepareItemData(context, item) {
   _prepareEnhancements(context);
   _prepareAdvancements(context);
   _prepareItemUsageCosts(context, item);
+  _prepareQuickDetail(context, item);
+  _prepareDropdownData(context, item);
 }
 
 export function preprareSheetData(context, item) {
-  context.sheetData = {};
-  _prepareTypesAndSubtypes(context, item);
-  _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "spellFocus", "consumable", "feature", "maneuver", "spell", "infusion", "basicAction"].includes(item.type)) {
-    _prepareActionInfo(context, item);
-    _prepareFormulas(context, item);
-  }
-  if (item.type === "weapon") {
-    let propertyCost = item.system.weaponType === "ranged" ? 1 : 0;
-    Object.entries(item.system.properties).forEach(([key, prop]) => {
-      if (prop.active) propertyCost += prop.cost;
-    })
-    context.propertyCost = propertyCost;
-  }
-  if (item.type === "equipment" || item.type === "spellFocus") {
-    let propertyCost = 0;
-    Object.entries(item.system.properties).forEach(([key, prop]) => {
-      const propValue = prop.value || 1;
-      if (prop.active) propertyCost += (prop.cost * propValue);
-    })
-    context.propertyCost = propertyCost;
-  }
-  if (item.type === "feature") {
-    const options = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[item.system.featureType];
-    context.featureSourceItems = options || null;
-  }
+  context.sheetData = {
+    infoBoxes: itemDetailsToHtml(item)
+  };
+  // TODO: Configure poperty cost in the item (set default when changin between melee and ranged weapon?)
 }
 
-function _prepareDetailsBoxes(context, item) {
-  const infoBoxes = {};
-  infoBoxes.rollDetails = _prepareRollDetailsBoxes(context);
-  infoBoxes.properties = _preparePropertiesBoxes(context);
-  infoBoxes.spellSources = _prepareSpellSources(context);
-  infoBoxes.spellProperties = _prepareSpellPropertiesBoxes(context);
+export function prepareContainer(item, context) {
+  const tables = {
+    weapon: {label: "Weapons", items: {}},
+    equipment: {label: "Equipment", items: {}},
+    consumable: {label: "Consumables", items: {}},
+    container: {label: "Containers", items: {}},
+    loot: {label: "Loot", items: {}},
+    feature: {label: "Features", items: {}},
+    maneuver: {label: "Maneuvers", items: {}},
+    spell: {label: "Spells", items: {}},
+    other: {label: "Others", items: {}},
+  };
 
-  context.sheetData.infoBoxes = infoBoxes;
-}
-
-function _prepareRollDetailsBoxes(context) {
-  const rollDetails = {};
-
-  // Range
-  const range = context.system.range;
-  if (range && range.normal) {
-    const unit = range.unit ? range.unit : "Spaces";
-    const max = range.max ? `/${range.max}` : "";
-    rollDetails.range = `${range.normal}${max} ${unit} Range`;
-  }
-
-  if (range && range.melee && range.melee > 1) {
-    const unit = range.unit ? range.unit : "Spaces";
-    rollDetails.meleeRange = `${range.melee} ${unit} Melee Range`;
-  }
-  
-  // Duration
-  const duration = context.system.duration;
-  if (duration && duration.type) {
-    const value = duration.value ? duration.value : "";
-    const type = getLabelFromKey(duration.type, CONFIG.DC20RPG.DROPDOWN_DATA.durations);
-    const timeUnit = getLabelFromKey(duration.timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits);
-
-    if (duration.timeUnit) rollDetails.duration = `${type}<br> (${value} ${timeUnit})`;
-    else rollDetails.duration = type;
-  }
-
-  // Target
-  const target = context.system.target;
-  if (target) {
-    if (target.type) {
-      const targetType = getLabelFromKey(target.type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
-      rollDetails.target = `${target.count} ${targetType}`;
-    }
-    if (target.area) {
-      const distance = target.area === "line" ? `${target.distance}/${target.width}` : target.distance;
-      const arenaType = getLabelFromKey(target.area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes);
-      const unit = range.unit ? range.unit : "Spaces";
-      rollDetails.area = `${distance} ${unit} ${arenaType}`;
-    }
-  }
-
-  return rollDetails;
-}
-
-function _preparePropertiesBoxes(context) {
-  const properties = {};
-  const systemProperties = context.system.properties;
-  
-  if (!systemProperties) return properties;
-
-  for (const [key, prop] of Object.entries(systemProperties)) {
-    if (prop.active) {
-      let label = prop.label;
-
-      if (prop.value) {
-        const value = prop.value !== null ? ` (${prop.value})` : "";
-        label += value;
-      }
-
-      properties[key] = label;
-    }
-  }
-
-  return properties;
-}
-
-function _prepareSpellSources(context) {
-  const properties = {};
-  const spellSource = context.system.spellSource;
-  if (!spellSource) return properties;
-
-  for (const [key, prop] of Object.entries(spellSource)) {
-    if (prop.active) {
-      properties[key] = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellSources);
-    }
-  }
-
-  return properties;
-}
-
-function _prepareSpellPropertiesBoxes(context) {
-  const properties = {};
-  const spellComponents = context.system.components;
-
-  if (!spellComponents) return properties;
-
-  for (const [key, prop] of Object.entries(spellComponents)) {
-    if (prop.active) {
-      let label = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components);
-
-      if (key === "material") {
-        const description = prop.description ? prop.description : "";
-        const cost = prop.cost ? ` (${prop.cost} GP)` : "";
-        const consumed = prop.consumed ? " [Consumed]" : "";
-        label += `: ${description}${cost}${consumed}`;
-      }
-
-      properties[key] = label;
-    }
-  }
-
-  return properties;
+  Object.entries(item.system.contents).forEach(([key, item]) => {
+    let tableKey = item.type;
+    if (!tables[tableKey]) tableKey = "other"
+    tables[tableKey].items[key] = item;
+    tables[tableKey].notEmpty = true;
+  });
+  context.tables = tables;
 }
 
 function _prepareEnhancements(context) {
@@ -192,6 +82,30 @@ function _prepareItemUsageCosts(context, item) {
   if (!item.use) return;
   context.useCost = item.use.useCostDisplayData(true);
 } 
+
+function _prepareQuickDetail(context, item) {
+  const quickDetail = [];
+
+  // Weapon Melee/Ranged
+  // Equipment Type
+  // Consumable Type
+
+  // Equipment Slot
+  if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
+    const slot = item.system.statuses.slotLink.predefined;
+    if (slot) quickDetail.push(`Equipment Slot: ${slot}`)
+  }
+
+  // Maneuver Type?
+  // Use Weapon as part of the attack?
+
+  // Feature Source (Class - jaka, Talent, Ancestry, etc (Jeśli inner fature to text z Feature Origin przepisac))
+  
+  // Class Type (Martial, Spellcaster, Hybrid)
+  // Subclass Source (z jakiej klasy)
+
+  context.quickDetail = quickDetail.join(", ");
+}
 
 function _prepareTypesAndSubtypes(context, item) {
   const itemType = item.type;
@@ -263,55 +177,9 @@ function _prepareTypesAndSubtypes(context, item) {
   }
 }
 
-function _prepareActionInfo(context, item) {
-  context.sheetData.damageFormula = getFormulaHtmlForCategory("damage", item);
-  context.sheetData.healingFormula = getFormulaHtmlForCategory("healing", item);
-  context.sheetData.otherFormula = getFormulaHtmlForCategory("other", item);
-  context.sheetData.saves = getRollRequestHtmlForCategory("save", item);
-  context.sheetData.contests = getRollRequestHtmlForCategory("contest", item);
-}
-
-function _prepareFormulas(context) {
-  const damage = {}
-  const healing = {};
-  const other = {};
-
-  Object.entries(context.system.formulas).forEach(([key, formula]) => {
-    switch (formula.category) {
-      case "damage": 
-        formula.types = CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes;
-        damage[key] = formula; 
-        break;
-      case "healing": 
-        formula.types = CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes;
-        healing[key] = formula; 
-        break;
-      case "other": 
-        other[key] = formula; 
-        break;
-    }
-  })
-  context.formulas = [damage, healing, other];
-}
-
-export function prepareContainer(item, context) {
-  const tables = {
-    weapon: {label: "Weapons", items: {}},
-    equipment: {label: "Equipment", items: {}},
-    consumable: {label: "Consumables", items: {}},
-    container: {label: "Containers", items: {}},
-    loot: {label: "Loot", items: {}},
-    feature: {label: "Features", items: {}},
-    maneuver: {label: "Maneuvers", items: {}},
-    spell: {label: "Spells", items: {}},
-    other: {label: "Others", items: {}},
-  };
-
-  Object.entries(item.system.contents).forEach(([key, item]) => {
-    let tableKey = item.type;
-    if (!tables[tableKey]) tableKey = "other"
-    tables[tableKey].items[key] = item;
-    tables[tableKey].notEmpty = true;
-  });
-  context.tables = tables;
+function _prepareDropdownData(context, item) {
+  if (item.type === "feature") {
+    const options = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[item.system.featureType];
+    context.featureSourceItems = options || null;
+  }
 }

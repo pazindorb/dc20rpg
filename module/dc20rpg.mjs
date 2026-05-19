@@ -3,7 +3,7 @@ import { DC20RpgItem } from "./documents/item.mjs";
 import { DC20RpgCombatant } from "./documents/combatant.mjs";
 import { DC20RpgCombat } from "./documents/combat.mjs";
 import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
-import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
+import { DC20ItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG, initDC20Config, prepareDC20tools } from "./helpers/config.mjs";
@@ -103,7 +103,7 @@ Hooks.once('init', async function() {
 
   // Register sheet application classes
   foundry.documents.collections.Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
-  foundry.documents.collections.Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
+  foundry.documents.collections.Items.registerSheet("dc20rpg", DC20ItemSheet, { makeDefault: true });
   const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
   DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
