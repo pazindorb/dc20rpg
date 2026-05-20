@@ -23,7 +23,7 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         requiredTotalMinimum: new f.NumberField(initNull),
         reset: new f.StringField({required: true, nullable: false, initial: ""}),
         showAsResource: new f.BooleanField({required: true, initial: false}),
-        subtract: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        subtract: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         deleteOnZero: new f.BooleanField({required: true, initial: false}),
       })
     }
