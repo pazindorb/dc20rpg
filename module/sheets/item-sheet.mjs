@@ -1,17 +1,18 @@
 import { prepareActiveEffectsForItem } from "../helpers/effects.mjs";
 import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/item-sheet-data.mjs";
-import { generateKey } from "../helpers/utils.mjs";
+import { generateKey, getValueFromPath } from "../helpers/utils.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
-import { actions } from "./item-sheet/item-sheet-actions.mjs";
 import { getForItemType } from "./item-sheet/item-sheet-helper.mjs";
+import { removeMultiSelect } from "../helpers/listenerEvents.mjs";
+import { removeItemFromContainer, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
 export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ItemSheetV2) {
-  editableDescription = false;
+  sheetFlags = {};
 
   static DEFAULT_OPTIONS = {
     ...super.DEFAULT_OPTIONS,
@@ -20,7 +21,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       closeOnSubmit: false
     },
     position: {
-      width: 500,
+      width: 550,
       height: 600
     },
     classes: ["dc20rpg themed item-v13"],
@@ -29,29 +30,30 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   /** @override */
   static PARTS = {
     header: {template: "systems/dc20rpg/templates/sheets/item/header.hbs"},
-    core: {template: "systems/dc20rpg/templates/sheets/item/core.hbs", scrollable: [""]},
-    config: {template: "systems/dc20rpg/templates/sheets/item/config.hbs", scrollable: [""]},
-    roll: {template: "systems/dc20rpg/templates/sheets/item/roll.hbs", scrollable: [""]},
-    usage: {template: "systems/dc20rpg/templates/sheets/item/usage.hbs", scrollable: [""]},
-    magic: {template: "systems/dc20rpg/templates/sheets/item/magic.hbs", scrollable: [""]},
-    area: {template: "systems/dc20rpg/templates/sheets/item/area.hbs", scrollable: [""]},
-    enhancements: {template: "systems/dc20rpg/templates/sheets/item/enhancements.hbs", scrollable: [""]},
-    targetModifiers: {template: "systems/dc20rpg/templates/sheets/item/targetModifiers.hbs", scrollable: [""]},
-    effects: {template: "systems/dc20rpg/templates/sheets/item/effects.hbs", scrollable: [""]},
-    advanced: {template: "systems/dc20rpg/templates/sheets/item/advanced.hbs", scrollable: [""]},
-    classTable: {template: "systems/dc20rpg/templates/sheets/item/classTable.hbs", scrollable: [""]},
-    advancement: {template: "systems/dc20rpg/templates/sheets/item/advancement.hbs", scrollable: [""]},
-    contents: {template: "systems/dc20rpg/templates/sheets/item/contents.hbs", scrollable: [""]},
-    infusion: {template: "systems/dc20rpg/templates/sheets/item/infusion.hbs", scrollable: [""]}
+    core: {template: "systems/dc20rpg/templates/sheets/item/core.hbs"},
+    config: {template: "systems/dc20rpg/templates/sheets/item/config.hbs", scrollable: [".scrollable"]},
+    action: {template: "systems/dc20rpg/templates/sheets/item/action.hbs", scrollable: [".scrollable"]},
+    usage: {template: "systems/dc20rpg/templates/sheets/item/usage.hbs", scrollable: [".scrollable"]},
+    magic: {template: "systems/dc20rpg/templates/sheets/item/magic.hbs", scrollable: [".scrollable"]},
+    area: {template: "systems/dc20rpg/templates/sheets/item/area.hbs", scrollable: [".scrollable"]},
+    enhancements: {template: "systems/dc20rpg/templates/sheets/item/enhancements.hbs", scrollable: [".scrollable"]},
+    targetModifiers: {template: "systems/dc20rpg/templates/sheets/item/targetModifiers.hbs", scrollable: [".scrollable"]},
+    effects: {template: "systems/dc20rpg/templates/sheets/item/effects.hbs", scrollable: [".scrollable"]},
+    advanced: {template: "systems/dc20rpg/templates/sheets/item/advanced.hbs", scrollable: [".scrollable"]},
+    classTable: {template: "systems/dc20rpg/templates/sheets/item/classTable.hbs", scrollable: [".scrollable"]},
+    advancement: {template: "systems/dc20rpg/templates/sheets/item/advancement.hbs", scrollable: [".scrollable"]},
+    contents: {template: "systems/dc20rpg/templates/sheets/item/contents.hbs", scrollable: [".scrollable"]},
+    infusion: {template: "systems/dc20rpg/templates/sheets/item/infusion.hbs", scrollable: [".scrollable"]}
   };
 
   /** @override */
   static TABS = {
     sheet: {
       tabs: [
+        {id: "contents", icon: "fa-solid fa-sack"},
         {id: "core", icon: "fa-solid fa-list-ul"},
         {id: "config", icon: "fa-solid fa-gear"},
-        {id: "roll", icon: "fa-regular fa-dice-d20"},
+        {id: "action", icon: "fa-solid fa-dice-d6"},
         {id: "usage", icon: "fa-solid fa-coins"},
         {id: "area", icon: "fa-solid fa-bullseye"},
         {id: "enhancements", icon: "fa-solid fa-layer-plus"},
@@ -61,7 +63,6 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         {id: "advanced", icon: "fa-solid fa-gears"},
         {id: "classTable", icon: "fa-regular fa-table"},
         {id: "advancement", icon: "fa-solid fa-star"},
-        {id: "contents", icon: "fa-solid fa-sack"},
         {id: "infusion", icon: "fa-solid fa-wand-magic-sparkles"}
       ],
       initial: "core",
@@ -69,13 +70,21 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     }
   };
 
+  constructor(options = {}) {
+    super(options);
+    if (this.item.type === "container") this.tabGroups.sheet = "contents";
+  }
+
   /** @override */
   _initializeApplicationOptions(options) {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.resizable = true;
     initialized.window.icon = getForItemType(options.document.type, "icon");
-    initialized.actions = foundry.utils.mergeObject(initialized.actions, actions);
-    initialized.actions.editDescription = this._onEditDescription;
+
+    initialized.actions.sheetEdit = this._onEditSheetFlag;
+    initialized.actions.multiSelectRemove = this._onMultiSelectRemove;
+    initialized.actions.createSubdoc = this._onCreateSubdoc;
+    initialized.actions.removeSubdoc = this._onRemoveSubdoc; 
     return initialized;
   }
 
@@ -171,7 +180,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     prepareActiveEffectsForItem(this.item, context);
     if (this.item.type === "container") prepareContainer(this.item, context);
 
-    context.editableDescription = this.editableDescription;
+    context.sheetFlags = this.sheetFlags;
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
     context.enriched.description = await TextEditor.enrichHTML(context.system.description, {
@@ -184,25 +193,36 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
 
   async _onRender(context, options) {
     await super._onRender(context, options);
+    // Description
     this.element.querySelector(".description-box prose-mirror")?.addEventListener("save", () => {
-      this.editableDescription = false;
+      this.sheetFlags.editDescription = false;
       this.render();
     });
-  }
 
-  _onEditDescription(event, target) {
-    this.editableDescription = true;
-    this.render();
+    // Drag and Drop
+    new CONFIG.ux.DragDrop({
+      dragSelector: ".draggable",
+      permissions: {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this)
+      },
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        drop: this._onDrop.bind(this)
+      }
+    }).bind(this.element);
   }
 
   // ==================== LISTENERS =====================
   _attachFrameListeners() {
     super._attachFrameListeners();
-    // this.window.content.addEventListener("drop", this._onDrop.bind(this));
     this.window.content.addEventListener("mouseover", this._onHover.bind(this));
     this.window.content.addEventListener("mouseout", this._onHover.bind(this));
+    this.window.content.addEventListener("click", this._onClick.bind(this));
+    this.window.content.addEventListener("change", this._onChange.bind(this));
   }
 
+  // ================== DRAG AND DROP ===================
   _onDragStart(event) {
     // Create drag data
     let dragData;
@@ -228,13 +248,11 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   _canDragDrop(selector) {
-    if (this.item.type === "container") return true;
-    else return super._canDragDrop(selector);
+    return true;
   }
 
   _canDragStart(selector) {
-    if (this.item.type === "container") return true;
-    else return super._canDragStart(selector);
+    return true;
   }
 
   async _onDrop(event) {
@@ -291,42 +309,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   async _onDropResource(droppedObject) {
-    this._addCustomResource(droppedObject, droppedObject.key);
+    this.#addCustomResource(droppedObject, droppedObject.key);
   }
 
-  async _onDropEffect(droppedObject) {
-    const effect = await ActiveEffect.fromDropData(droppedObject);
-    DC20RpgActiveEffect.gmCreate(effect, {parent: this.item, ignoreResponse: true});
-  }
-
-  _onHover(event) {
-    const target = this._getHoverTarget(event.target);
-    const dataset = target.dataset;
-    const hover = dataset.hover;
-    const isEntering = event.type === "mouseover";
-
-    const data = {dataset: dataset};
-    if (dataset.itemId) {
-      if (this.item?.id === dataset.itemId) {
-        data.item = this.item;
-      }
-      else {
-        data.item = this.actor.items.get(dataset.itemId);
-      }
-    }
-
-    switch (hover) {
-      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element)); break;
-    }
-  }
-
-  _getHoverTarget(element) {
-    if (element.className === "window-content" || !element.parentElement) return element;
-    if (element.dataset.hover) return element;
-    return this._getHoverTarget(element.parentElement);
-  }
-
-  _addCustomResource(customResource, key) {
+  #addCustomResource(customResource, key) {
     if (!this.item.system.costs.resources.custom) return;
     customResource.value = null;
 
@@ -343,5 +329,122 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       }
     }
     this.item.update(updateData);
+  }
+
+  async _onDropEffect(droppedObject) {
+    const effect = await ActiveEffect.fromDropData(droppedObject);
+    DC20RpgActiveEffect.gmCreate(effect, {parent: this.item, ignoreResponse: true});
+  }
+
+  // ================= LISTENER ACTIONS =================
+  async _onClick(event) {
+    const target = this.#getTarget(event.target, "ctype");
+    const dataset = target.dataset;
+    const cType = dataset.ctype;
+    const value = dataset.value;
+    const path = dataset.path;
+
+    switch (cType) {
+      case "activable": await this._onActivable(path); break;
+    }
+  }
+
+  async _onActivable(path) {
+    const value = getValueFromPath(this.item, path);
+    await this.item.update({[path]: !value});
+  }
+
+  async _onChange(event) {
+    const target = this.#getTarget(event.target, "ctype");
+    const dataset = target.dataset;
+    const cType = dataset.ctype;
+    const path = dataset.path;
+    const value = target.value;
+
+    switch (cType) {
+      case "multi-select": await this._onMultiSelectChange(path, value, target); break;
+      case "roll-template": await rollTemplateSelect(value, this.item); break;
+    }
+  }
+  
+  async _onMultiSelectChange(path, value, target) {
+    if (!value) return;
+    const index = target.options.selectedIndex;
+    const label = target.options[index].text;
+    const object = getValueFromPath(this.item, path);
+    object[value] = label;
+    await this.item.update({[path]: object});
+  }
+
+  _onHover(event) {
+    const target = this.#getTarget(event.target, "hover");
+    const dataset = target.dataset || {};
+    const hover = dataset.hover;
+    const isEntering = event.type === "mouseover";
+
+    const data = {dataset: dataset};
+    if (dataset.itemId) {
+      if (this.item?.id === dataset.itemId) {
+        data.item = this.item;
+      }
+      else {
+        data.item = this.actor.items.get(dataset.itemId);
+      }
+    }
+    // Handle tooltips for items stored in container
+    if (this.item.type === "container" && dataset.tooltipType === "item") {
+      const itemKey = dataset.itemKey;
+      data.item = this.item.system.contents[itemKey];
+    }
+
+    switch (hover) {
+      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element)); break;
+    }
+  }
+
+  #getTarget(element, targetKey) {
+    if (element.className === "window-content" || !element.parentElement) return element;
+    if (element.dataset.hasOwnProperty(targetKey)) return element;
+    return this.#getTarget(element.parentElement, targetKey);
+  }
+
+  // ==================== ACTIONS ====================
+  _onEditSheetFlag(event, target) {
+    const key = target.dataset.key;
+    const value = !!this.sheetFlags[key];
+    this.sheetFlags[key] = !value;
+    this.render();
+  }
+
+  _onMultiSelectRemove(event, target) {
+    removeMultiSelect(this.item, target.dataset.path, target.dataset.key);
+  }
+
+  _onCreateSubdoc(event, target) {
+    const type = target.dataset.type;
+
+    switch(type) {
+      case "rollRequest": this.item.createRollRequest(); break;
+      case "againstStatus": this.item.createAgainstStatus(); break;
+      case "formula": this.item.createFormula(); break;
+      case "enhancement": this.item.createNewEnhancement(); break;
+      case "targetModifier": this.item.createNewTargetModifier(); break;
+      case "itemMacro": this.item.createNewItemMacro(); break;
+    }
+  }
+
+  _onRemoveSubdoc(event, target) {
+    const type = target.dataset.type;
+    const key = target.dataset.key;
+
+    switch(type) {
+      case "rollRequest": this.item.removeRollRequest(key); break;
+      case "againstStatus": this.item.removeAgainstStatus(key); break;
+      case "formula": this.item.removeFormula(key); break;
+      case "enhancement": this.item.removeNewEnhancement(key); break;
+      case "targetModifier": this.item.removeNewTargetModifier(key); break;
+      case "itemMacro": this.item.removeNewItemMacro(key); break;
+      case "itemContent": removeItemFromContainer(this.item, key); break;
+    }
   }
 }

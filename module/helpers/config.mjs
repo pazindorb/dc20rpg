@@ -435,8 +435,7 @@ DC20RPG.DROPDOWN_DATA.shortAttributes = {
 DC20RPG.DROPDOWN_DATA.dcCalculationTypes = {
   spell: "Spellcasting",
   martial: "Martial",
-  flat: "Flat",
-  ...DC20RPG.TRANSLATION_LABELS.attributes
+  flat: "Flat"
 }
 
 DC20RPG.DROPDOWN_DATA.basicActionsCategories = {
@@ -822,8 +821,9 @@ DC20RPG.DROPDOWN_DATA.rollTemplates = {
 DC20RPG.DROPDOWN_DATA.actionTypes = {
   attack: "Attack",
   check: "Check",
-  other: "Other",
-  help: "Help"
+  help: "Help",
+  move: "Move",
+  other: "Other"
 }
 
 DC20RPG.DROPDOWN_DATA.attackTypes = {

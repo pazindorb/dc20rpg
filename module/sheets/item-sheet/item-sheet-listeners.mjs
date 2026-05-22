@@ -151,7 +151,7 @@ async function _onClassIdSelection(event, item) {
   });
 }
 
-function _onRollTemplateSelect(selected, item) {
+export function rollTemplateSelect(selected, item) {
   const system = {};
   const saveRequest = {
     category: "save",
@@ -266,7 +266,7 @@ async function _onHover(ev, html) {
   }
 }
 
-async function _onRemoveItemFromContainer(container, itemKey) {
+export async function removeItemFromContainer(container, itemKey) {
   // We need to create that item on actor for the moment just to make sure all preDelete functions are called correctly
   if (container.actor) {
     const itemData = container.system.contents[itemKey];

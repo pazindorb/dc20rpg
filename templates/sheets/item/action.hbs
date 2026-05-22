@@ -1,0 +1,416 @@
+<section class="item-sheet-section tab action standard-form {{tabs.action.cssClass}}" data-group="sheet" data-tab="action">
+<div class="scrollable">
+
+  <div class="item-specific-config">
+    {{!-- Use Roll Template --}}
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.rollTemplate"}}</label>
+      <select data-cType="roll-template">
+        {{selectOptions @root.config.DROPDOWN_DATA.rollTemplates blank=""}}
+      </select>
+    </div>
+    {{!-- Action Type --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.actionType"}}</label>
+      <select name="system.actionType">
+        {{selectOptions @root.config.DROPDOWN_DATA.actionTypes selected=system.actionType blank=""}}
+      </select>
+    </div>
+  </div>
+
+  {{!-- Attack configuration --}}
+  {{#ifCond system.actionType '===' "attack"}}
+    <div class="sub-header margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.attack.title"}}</label>
+      <a class="fa-solid {{#if sheetFlags.actionBoxClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="actionBoxClosed"></a>
+    </div>
+    {{#unless sheetFlags.actionBoxClosed}}
+    <div class="content-wrapper">
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.rangeType"}}</label>
+        <select name="system.attack.rangeType">
+          {{selectOptions @root.config.DROPDOWN_DATA.rangeTypes selected=system.attack.rangeType}}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.attack.checkType"}}</label>
+        <select name="system.attack.checkType">
+          {{selectOptions @root.config.DROPDOWN_DATA.attackTypes selected=system.attack.checkType}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.attack.defences"}}</label>
+        <select name="system.attack.targetDefence">
+          {{selectOptions @root.config.DROPDOWN_DATA.defences selected=system.attack.targetDefence}}
+        </select>
+      </div>
+    </div>
+    {{/unless}}
+  {{/ifCond}}
+
+  {{!-- Check configuration --}}
+  {{#ifCond system.actionType '===' "check"}}
+    <div class="sub-header margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.check.title"}}</label>
+      <a class="fa-solid {{#if sheetFlags.actionBoxClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="actionBoxClosed"></a>
+    </div>
+    {{#unless sheetFlags.actionBoxClosed}}
+    <div class="content-wrapper">
+      <div class="form-group">
+        {{#if system.check.multiCheck.active}}
+        <label>{{localize "dc20rpg.item.sheet.check.defaultCheckKey"}}</label>
+        {{else}}
+        <label>{{localize "dc20rpg.item.sheet.check.checkKey"}}</label>
+        {{/if}}
+        <select name="system.check.checkKey">
+          {{selectOptions @root.config.ROLL_KEYS.allChecks selected=system.check.checkKey blank=""}}
+        </select>
+      </div>
+
+      {{!-- Multi Select Check --}}
+      <div class="multi-select-wrapper">
+        <div class="form-group">
+          <label>{{localize "dc20rpg.item.sheet.check.multiCheck"}}</label>
+          <div class="form-fields">
+            {{#if system.check.multiCheck.active}}
+            <select class="multi-select" data-cType="multi-select" data-path="system.check.multiCheck.options">
+              {{selectOptions @root.config.ROLL_KEYS.allChecks blank=""}}
+            </select>
+            {{/if}}
+            <input type="checkbox" name="system.check.multiCheck.active" {{checked system.check.multiCheck.active}}/>
+          </div>
+        </div>
+        {{#if system.check.multiCheck.active}}
+        <div class="selected-options margin-top-2">
+          {{#each system.check.multiCheck.options as |option key|}}
+            <div class="option">
+              <label>{{labelFromKey option @root.config.ROLL_KEYS.allChecks}}</label>
+              <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.check.multiCheck.options" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.spell.removeCheckOption"}}"></a>
+            </div>
+          {{/each}}
+        </div>
+        {{/if}}
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.check.againstDC"}}</label>
+        <input type="checkbox" name="system.check.againstDC" {{checked system.check.againstDC}}/>
+      </div>
+      {{#if system.check.againstDC}}
+      <div class="form-group short-form">
+        <label>{{localize "dc20rpg.item.sheet.check.checkDC"}}</label>
+        <input type="text" name="system.check.checkDC" value="{{system.check.checkDC}}" data-dtype="Number" placeholder="-">
+      </div>
+      {{/if}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.rollConfig.respectSizeRules"}}</label>
+        <input type="checkbox" name="system.rollConfig.respectSizeRules" {{checked system.rollConfig.respectSizeRules}}/>
+        <p class="hint">{{localize "dc20rpg.item.sheet.rollConfig.respectSizeRulesTitle"}}</p>
+      </div>
+    </div>
+    {{/unless}}
+  {{/ifCond}}
+
+  {{!-- Help Action --}}
+  {{#ifCond system.actionType '===' "help"}}
+    <div class="sub-header margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.help.title"}}</label>
+      <a class="fa-solid {{#if sheetFlags.actionBoxClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="actionBoxClosed"></a>
+    </div>
+    {{#unless sheetFlags.actionBoxClosed}}
+    <div class="content-wrapper">
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</label>
+        <input type="checkbox" name="system.help.ignoreMHP" {{checked system.help.ignoreMHP}}/>
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.help.subtract"}}</label>
+        <input type="checkbox" name="system.help.subtract" {{checked system.help.subtract}}/>
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.help.duration"}}</label>
+        <select name="system.help.duration">
+          {{selectOptions @root.config.DROPDOWN_DATA.helpDiceDuration selected=system.help.duration}}
+        </select>
+        <p class="hint">{{localize "dc20rpg.item.sheet.help.durationTitle"}}</p>
+      </div>
+    </div>
+    {{/unless}}
+  {{/ifCond}}
+
+  {{!-- Move Action --}}
+  {{#ifCond system.actionType '===' "move"}}
+    TODO
+  {{/ifCond}}
+
+  {{#if hasRollConfig}}
+  {{!-- Roll Config --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.rollConfig.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.rollConfigClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="rollConfigClosed"></a>
+  </div>
+  {{#unless sheetFlags.rollConfigClosed}}
+  <div class="content-wrapper">
+    {{!-- Roll Bonus --}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.rollConfig.rollBonus"}}</label>
+      <input type="text" name="system.rollConfig.rollBonus" value="{{system.rollConfig.rollBonus}}" placeholder="-" data-dtype="Number">
+    </div>
+
+    {{!-- Crit --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.rollConfig.crit"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" name="system.rollConfig.canCrit" {{checked system.rollConfig.canCrit}} data-tooltip="{{localize "dc20rpg.item.sheet.rollConfig.canCrit"}}"/>
+        <label>{{localize "dc20rpg.item.sheet.rollConfig.critThreshold"}}</label>
+        <input style="max-width: 50px;" type="text" name="system.rollConfig.critThreshold" {{#unless system.rollConfig.canCrit}}disabled{{/unless}} value="{{system.rollConfig.critThreshold}}" placeholder="-" data-dtype="Number">
+      </div>
+    </div>
+
+    {{!-- Crit Fail --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.rollConfig.critFail"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" name="system.rollConfig.canCritFail" {{checked system.rollConfig.canCritFail}} data-tooltip="{{localize "dc20rpg.item.sheet.rollConfig.canCritFail"}}"/>
+        <label>{{localize "dc20rpg.item.sheet.rollConfig.critFailThreshold"}}</label>
+        <input style="max-width: 50px;" type="text" name="system.rollConfig.critFailThreshold" {{#unless system.rollConfig.canCritFail}}disabled{{/unless}} value="{{system.rollConfig.critFailThreshold}}" placeholder="-" data-dtype="Number">
+      </div>
+    </div>
+
+    {{!-- Skip Bonus Damage --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.rollConfig.skipBonusDamage.title"}}</label>
+      <div class="right-part-row">
+        <a class="margin-left-3 margin-right-3 fa-lg fa-square-h {{#if system.rollConfig.skipBonusDamage.heavy}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.rollConfig.skipBonusDamage.heavy" data-tooltip="{{localize "dc20rpg.item.sheet.rollConfig.skipBonusDamage.heavy"}}"></a>
+        <a class="margin-left-3 margin-right-3 fa-lg fa-square-b {{#if system.rollConfig.skipBonusDamage.brutal}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.rollConfig.skipBonusDamage.brutal" data-tooltip="{{localize "dc20rpg.item.sheet.rollConfig.skipBonusDamage.brutal"}}"></a>
+        <a class="margin-left-3 margin-right-3 fa-lg fa-square-c {{#if system.rollConfig.skipBonusDamage.crit}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.rollConfig.skipBonusDamage.crit" data-tooltip="{{localize "dc20rpg.item.sheet.rollConfig.skipBonusDamage.crit"}}"></a>
+        <a class="margin-left-3 margin-right-3 fa-lg fa-square-t {{#if system.rollConfig.skipBonusDamage.targetModifiers}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.rollConfig.skipBonusDamage.targetModifiers" data-tooltip="{{localize "dc20rpg.item.sheet.rollConfig.skipBonusDamage.targetModifiers"}}"></a>
+      </div>
+    </div>
+    {{!-- TODO: Add config to ignoreCloseQuarters? --}}
+  </div>
+  {{/unless}}
+  {{/if}}
+
+
+  {{!-- Roll Request --}}
+  {{#if (arrayIncludes system.actionType arrayString="attack check other")}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.rollRequests.title"}}</label>
+    <div class="button-wrapper">
+      <a class="fa-solid fa-square-plus fa-lg margin-right-5" data-action="createSubdoc" data-type="rollRequest" data-tooltip="{{localize "dc20rpg.item.sheet.rollRequests.add"}}"></a>
+      <a class="fa-solid {{#if sheetFlags.rollRequestClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="rollRequestClosed"></a>
+    </div>
+  </div>
+  {{#unless sheetFlags.rollRequestClosed}}
+  {{#each system.rollRequests as |request key|}}
+  <div class="content-wrapper">
+    <div class="form-group">
+      <div class="left-part-row">
+        <label>{{localize "dc20rpg.item.sheet.rollRequests.category"}}</label>
+        <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.rollRequests.remove"}}" data-action="removeSubdoc" data-type="rollRequest" data-key="{{key}}"></a>
+      </div>
+      <select name="system.rollRequests.{{key}}.category">
+        {{selectOptions @root.config.DROPDOWN_DATA.rollRequestCategory selected=request.category blank=""}}
+      </select>
+    </div>
+
+    {{!-- Contest --}}
+    {{#ifCond request.category '===' "contest"}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.rollRequests.contestedKey"}}</label>
+      <select name="system.rollRequests.{{key}}.contestedKey">
+        {{selectOptions @root.config.ROLL_KEYS.contests selected=request.contestedKey blank=""}}
+      </select>
+    </div>
+    {{/ifCond}}
+
+    {{!-- Save --}}
+    {{#ifCond request.category '===' "save"}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.rollRequests.saveKey"}}</label>
+      <select name="system.rollRequests.{{key}}.saveKey">
+        {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=request.saveKey blank=""}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.rollRequests.dc"}}</label>
+      <div class="form-fields">
+        <input {{#ifCond request.dcCalculation  '!==' "flat"}} disabled {{/ifCond}} style="max-width: 50px;" type="text" name="system.rollRequests.{{key}}.dc" value="{{request.dc}}" data-dtype="Number" placeholder="-">
+        <select name="system.rollRequests.{{key}}.dcCalculation">
+          {{selectOptions @root.config.DROPDOWN_DATA.dcCalculationTypes selected=request.dcCalculation}}
+        </select>
+      </div>
+    </div>
+    {{/ifCond}}
+    </div>
+    {{/each}}
+  {{/unless}}
+  {{/if}}
+
+  {{!-- Against Status --}}
+  {{#if (arrayIncludes system.actionType arrayString="attack check other")}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.againstStatus.title"}}</label>
+    <div class="button-wrapper">
+      <a class="fa-solid fa-square-plus fa-lg margin-right-5" data-action="createSubdoc" data-type="againstStatus" data-tooltip="{{localize "dc20rpg.item.sheet.againstStatus.add"}}"></a>
+      <a class="fa-solid {{#if sheetFlags.againstStatusClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="againstStatusClosed"></a>
+    </div>
+  </div>
+  {{#unless sheetFlags.againstStatusClosed}}
+    {{#each system.againstStatuses as |status key|}}
+    <div class="content-wrapper">
+      {{!-- Status Id + Stacks --}}
+      <div class="form-group">
+        <div class="left-part-row">
+          <label>{{localize "dc20rpg.item.sheet.status.id"}}</label>
+          <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-action="removeSubdoc" data-type="againstStatus" data-key="{{key}}"></a>
+        </div>
+        <div class="form-fields">
+          <select name="system.againstStatuses.{{key}}.id">
+            {{selectOptions @root.config.DROPDOWN_DATA.allStatuses selected=status.id blank=""}}
+          </select>
+          <label>{{localize "dc20rpg.item.sheet.status.stacks"}}</label>
+          <input type="number" placeholder="1" name="system.againstStatuses.{{key}}.stacks" style="max-width: 50px;" value="{{status.stacks}}" data-dtype="Number" data-tooltip="{{localize "dc20rpg.item.sheet.status.stacksTitle"}}">
+        </div>
+      </div>
+
+      {{!-- Removal Trigger --}}
+      <div class="form-group">
+        <div class="left-part-row">
+          <label>{{localize "dc20rpg.item.sheet.status.trigger"}}</label>
+          <a class="fa-lg {{#if status.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" data-cType="activable" style="margin-right:3px;"
+              data-path="system.againstStatuses.{{key}}.supressFromChatMessage" data-tooltip="{{localize "dc20rpg.item.sheet.status.supressFromChatMessage"}}"></a>
+        </div>
+        <div class="right-part-row">
+          <a class="fa-lg fa-square-t {{#if status.untilFirstTimeTriggered}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.againstStatuses.{{key}}.untilFirstTimeTriggered" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilFirstTimeTriggered"}}"></a>
+          <i class="margin-left-10 fa-solid fa-user"></i>
+          <a class="margin-left-3 fa-lg fa-square-s {{#if status.untilYourNextTurnStart}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.againstStatuses.{{key}}.untilYourNextTurnStart" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilYourNextTurnStart"}}"></a>
+          <a class="margin-left-2 fa-lg fa-square-e {{#if status.untilYourNextTurnEnd}}fa-solid{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.againstStatuses.{{key}}.untilYourNextTurnEnd" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilYourNextTurnEnd"}}"></a>
+          <i class="margin-left-10 fa-solid fa-crosshairs"></i>
+          <a class="margin-left-3 fa-lg fa-square-s {{#if status.untilTargetNextTurnStart}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.againstStatuses.{{key}}.untilTargetNextTurnStart" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilTargetNextTurnStart"}}"></a>
+          <a class="margin-left-2 fa-lg fa-square-e {{#if status.untilTargetNextTurnEnd}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="system.againstStatuses.{{key}}.untilTargetNextTurnEnd" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilTargetNextTurnEnd"}}"></a>
+        </div>
+      </div>
+
+      {{!-- Duration (Rounds) --}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.status.duration"}}</label>
+        <div class="form-fields">
+          {{#unless status.forOneMinute}}
+          <label>{{localize "dc20rpg.item.sheet.status.forXRounds"}}</label>
+          <input type="text" name="system.againstStatuses.{{key}}.forXRounds" style="max-width: 50px;" value="{{status.forXRounds}}" data-dtype="Number" placeholder="-">
+          {{/unless}}
+          <label>{{localize "dc20rpg.item.sheet.status.forOneMinute"}}</label>
+          <input type="checkbox" name="system.againstStatuses.{{key}}.forOneMinute" {{checked status.forOneMinute}}/>
+        </div>
+      </div>
+
+      {{!-- Repeated Save --}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.status.repeatedSave"}}</label>
+        <div class="form-fields">
+          {{#if status.repeatedSave}}
+          <select class="margin-left-5" name="system.againstStatuses.{{key}}.repeatedSaveKey">
+            {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=status.repeatedSaveKey blank=""}}
+          </select>
+          {{/if}}
+          <input type="checkbox" name="system.againstStatuses.{{key}}.repeatedSave" {{checked status.repeatedSave}}/>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  {{/unless}}
+  {{/if}}
+
+  {{!-- Formulas --}}
+  {{#if (arrayIncludes system.actionType arrayString="attack check other")}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.formulas.title"}}</label>
+    <div class="button-wrapper">
+      <a class="fa-solid fa-square-plus fa-lg margin-right-5" data-action="createSubdoc" data-type="formula" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.add"}}"></a>
+      <a class="fa-solid {{#if sheetFlags.formulaClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="formulaClosed"></a>
+    </div>
+  </div>
+  {{#unless sheetFlags.formulaClosed}}
+  {{#each system.formulas as |formula key|}}
+  <div class="content-wrapper">
+    {{!-- Category --}}
+    <div class="form-group">
+      <div class="left-part-row">
+        <label>{{localize "dc20rpg.item.sheet.formulas.category"}}</label>
+        <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.formula.remove"}}" data-action="removeSubdoc" data-type="formula" data-key="{{key}}"></a>
+      </div>
+      <select name="system.formulas.{{key}}.category">
+        {{selectOptions @root.config.DROPDOWN_DATA.allFormulaCategories selected=formula.category blank=""}}
+      </select>
+    </div>
+
+    {{!-- Formula --}}
+    <div class="form-group">
+      <div class="left-part-row">
+        <label>{{localize "dc20rpg.item.sheet.formulas.formula"}}</label>
+        {{#ifCond formula.category "===" "other"}}
+        <a class="margin-right-3 fa-solid {{#if formula.perTarget}}fa-user{{else}}fa-user-slash{{/if}}" data-cType="activable" data-path="system.formulas.{{key}}.perTarget" 
+              data-tooltip="{{#if formula.perTarget}}[Enabled]{{else}}[Disabled]{{/if}} {{localize "dc20rpg.item.sheet.formulas.perTarget"}}"></a>
+        {{else}}
+        <a class="margin-right-3 fa-solid {{#if formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="system.formulas.{{key}}.dontMerge" data-cType="activable"
+              {{#if formula.dontMerge}}data-tooltip="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}data-tooltip="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
+        {{/ifCond}}
+      </div>
+      <div class="form-fields">
+        <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}">
+        {{#ifCond formula.category "===" "damage"}}
+        <select class="margin-left-3" name="system.formulas.{{key}}.type" data-tooltip="{{varLocalize "dc20rpg.item.sheet.formulas." formula.category "type"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.damageTypes selected=formula.type blank=""}}
+        </select>
+        {{/ifCond}}
+        {{#ifCond formula.category "===" "healing"}}
+        <select class="margin-left-3" name="system.formulas.{{key}}.type" data-tooltip="{{varLocalize "dc20rpg.item.sheet.formulas." formula.category "type"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.healingTypes selected=formula.type blank=""}}
+        </select>
+        {{/ifCond}}
+      </div>
+    </div>
+
+    {{!-- Extra Formulas --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.formulas.extraFormulas"}}</label>
+      <div class="form-fields">
+        <a class="fa-lg fa-square-5 {{#if formula.each5}}fa-solid checked{{else}}fa-regular{{/if}}" style="max-width: 15px;" data-cType="activable" data-path="system.formulas.{{key}}.each5" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}"></a> 
+        {{#if formula.each5}}
+        <input type="text" name="system.formulas.{{key}}.each5Formula" value="{{formula.each5Formula}}" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.each5"}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
+        {{/if}}
+        <a class="fa-lg fa-square-f {{#if formula.fail}}fa-solid checked{{else}}fa-regular{{/if}}" style="max-width: 15px;" data-cType="activable" data-path="system.formulas.{{key}}.fail" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.addFail"}}"></a>
+        {{#if formula.fail}}
+        <input type="text" name="system.formulas.{{key}}.failFormula" value="{{formula.each5Formula}}" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.each5"}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
+        <input type="checkbox" name="system.formulas.{{key}}.dontModifyFailFormula" {{checked formula.dontModifyFailFormula}} data-tooltip="{{localize "dc20rpg.item.sheet.formulas.dontModifyFailFormula"}}"/>
+        {{/if}}
+      </div>
+    </div>
+
+    {{!-- Override Target Defence --}}
+    {{#ifCond @root.system.actionType "===" "attack"}}{{#ifCond formula.category "===" "damage"}}
+    <div class="form-group">
+      <label style="flex: 2;">{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}</label>
+      <select name="system.formulas.{{key}}.overrideDefence">
+        {{selectOptions @root.config.DROPDOWN_DATA.defences selected=formula.overrideDefence blank=""}}
+      </select>
+    </div>
+    {{/ifCond}}{{/ifCond}}
+
+    {{!-- Other Formula Label --}}
+    {{#ifCond formula.category "===" "other"}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</label>
+      <input type="text" name="system.formulas.{{key}}.label" value="{{formula.label}}">
+    </div>
+    {{/ifCond}}
+  </div>
+  {{/each}}
+  {{/unless}}
+  {{/if}}
+
+</div>
+</section>

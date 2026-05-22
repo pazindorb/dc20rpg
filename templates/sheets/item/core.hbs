@@ -1,13 +1,14 @@
 <section class="item-sheet-section tab core {{tabs.core.cssClass}}" data-group="sheet" data-tab="core">
-  <hr/>
-  {{{sheetData.infoBoxes}}}
+  {{#if sheetData.infoBoxes}}
+  <hr/>{{{sheetData.infoBoxes}}}
+  {{/if}}
   <hr style="margin-bottom: 10px;"/>
-  <div class="description-box"> 
-    {{#if editableDescription}}
+  <div class="description-box">
+    {{#if sheetFlags.editDescription}}
     <prose-mirror name="system.description" value="{{ system.description }}" document-uuid="{{ item.uuid }}" class="sized" compact>{{{ enriched.description }}}</prose-mirror>
     {{else}}
     {{#if editable}}
-    <button type="button" class="description-edit-button" data-action="editDescription" data-tooltip="{{localize 'dc20rpg.item.sheet.description'}}">
+    <button type="button" class="description-edit-button" data-action="sheetEdit" data-key="editDescription" data-tooltip="{{localize 'dc20rpg.item.sheet.description'}}">
       <i class="fa-solid fa-pen-to-square"></i>
     </button>
     {{/if}}

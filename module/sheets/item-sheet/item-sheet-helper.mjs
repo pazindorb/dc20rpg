@@ -7,6 +7,7 @@ export function getForItemType(type, value) {
 
 function _getIconForItem(type) {
   switch(type) {
+    case "basicAction": return "fa-solid fa-dice-d6";
     case "weapon": return "fa-solid fa-sword";
     case "equipment": return "fa-solid fa-helmet-battle";
     case "consumable": return "fa-solid fa-flask-round-potion";
@@ -27,8 +28,8 @@ function _getTabsForItem(type) {
   let allowed = [];
   switch(type) {
     case "weapon": case "equipment": case "spellFocus": case "consumable": 
-    case "feature": case "maneuver": case "spell": case "infusion":
-      allowed = ["core", "config", "roll", "usage", "area", "enhancements", "targetModifiers", "effects", "advanced"];
+    case "feature": case "maneuver": case "spell": case "infusion": case "basicAction":
+      allowed = ["core", "config", "action", "usage", "area", "enhancements", "targetModifiers", "effects", "advanced"];
       break;
 
     case "container": 

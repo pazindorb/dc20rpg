@@ -82,14 +82,9 @@ function _getSaveDCFromActor(request, actor) {
     case "martial":
       return saveDC.value.martial;
     case "spell":
-      return saveDC.value.spell; 
+      return saveDC.value.spell;
     default:
-      let dc = 10;
-      const key = request.dcCalculation;
-      if (!key) return 0;
-      dc += actor.system.attributes[key].value;
-      if (request.addMastery) dc += actor.system.details.combatMastery;
-      return dc;
+      return 0;
   }
 }
 

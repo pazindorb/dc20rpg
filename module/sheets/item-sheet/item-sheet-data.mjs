@@ -8,7 +8,9 @@ export function duplicateItemData(context, item) {
   
   context.system = foundry.utils.deepClone(item.system);
   context.flags = foundry.utils.deepClone(item.flags);
-  context.properties = foundry.utils.deepClone(item.properties);
+  if (["weapon", "equipment", "spellFocus"].includes(item.type)) {
+    context.properties = foundry.utils.deepClone(item.properties);
+  }
   context.config = foundry.utils.deepClone(CONFIG.DC20RPG);
 
   context.hasOwner = !!item.actor;
@@ -87,94 +89,72 @@ function _prepareQuickDetail(context, item) {
   const quickDetail = [];
 
   // Weapon Melee/Ranged
+  if (item.type === "weapon") {
+    const label = `${getLabelFromKey(item.system.weaponType, CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes)} ${getLabelFromKey(item.system.weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}`;
+    quickDetail.push(label);
+  }
+
   // Equipment Type
+  if (item.type === "equipment") {
+    quickDetail.push(getLabelFromKey(item.system.equipmentType, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes));
+  } 
+
   // Consumable Type
+  if (item.type === "consumable") {
+    quickDetail.push(getLabelFromKey(item.system.consumableType, CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes));
+  } 
 
   // Equipment Slot
-  if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
+  if (["weapon", "equipment", "spellFocus", "consumable", "loot"].includes(item.type)) {
     const slot = item.system.statuses.slotLink.predefined;
-    if (slot) quickDetail.push(`Equipment Slot: ${slot}`)
+    if (slot) {
+      const label = CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots[slot];
+      quickDetail.push(`Equipment Slot: ${label}`)
+    }
   }
 
-  // Maneuver Type?
-  // Use Weapon as part of the attack?
+  // Maneuver Type
+  if (item.type === "maneuver") {
+    const label = `${getLabelFromKey(item.system.maneuverType, CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes)} ${game.i18n.localize("TYPES.Item.maneuver")}`;
+    quickDetail.push(label);
+  }
 
-  // Feature Source (Class - jaka, Talent, Ancestry, etc (Jeśli inner fature to text z Feature Origin przepisac))
+  // Spell Type
+  if (item.type === "spell") {
+    if (item.system.spellType === "ritual") {
+      quickDetail.push(getLabelFromKey(item.system.spellType, CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes))
+    }
+    quickDetail.push(`Spell School: ${getLabelFromKey(item.system.spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools)}`);
+  }
+
+  // Feature Source
+  if (item.type === "feature" && item.system.featureType) {
+    const label = `${getLabelFromKey(item.system.featureType, CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes)}: ${item.system.featureOrigin}`;
+    quickDetail.push(label);
+  }
+
+  // Basic Action
+  if (item.type === "basicAction") {
+    quickDetail.push(`Category: ${getLabelFromKey(item.system.category, CONFIG.DC20RPG.DROPDOWN_DATA.basicActionsCategories)}`);
+  }
   
   // Class Type (Martial, Spellcaster, Hybrid)
+  if (item.type === "class") {
+    const isMartial = item.system.martial;  
+    const isSpellcaster = item.system.spellcaster;
+    let classType = '';
+    if (isMartial && isSpellcaster) classType = CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes["hybrid"];
+    else if (isMartial) classType = CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes["martial"];
+    else if (isSpellcaster) classType = CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes["spellcaster"];
+    quickDetail.push(classType);
+  }
+
   // Subclass Source (z jakiej klasy)
+  if (item.type === "subclass") {
+    quickDetail.push(`Class: ${item.system.forClass.name}`);
+  }
 
   context.quickDetail = quickDetail.join(", ");
-}
-
-function _prepareTypesAndSubtypes(context, item) {
-  const itemType = item.type;
-  context.sheetData.fallbackType = getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
-
-  switch (itemType) {
-    case "weapon": {
-      context.sheetData.type = getLabelFromKey(item.system.weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles);
-      context.sheetData.subtype = getLabelFromKey(item.system.weaponType, CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes);
-      break;
-    }
-    case "equipment": {
-      context.sheetData.type = getLabelFromKey(item.system.equipmentType, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes);
-      context.sheetData.subtype = getLabelFromKey(item.system.statuses.slotLink.predefined, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots) || "?";
-      break;
-    }
-    case "spellFocus": {
-      context.sheetData.type = "";
-      context.sheetData.subtype = game.i18n.localize("TYPES.Item.spellFocus");
-    }
-    case "consumable": {
-      context.sheetData.type = getLabelFromKey(item.system.consumableType, CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes);
-      context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes);
-      break;
-    }
-    case "feature": {
-      context.sheetData.type = getLabelFromKey(item.system.featureType, CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes);
-      context.sheetData.subtype = item.system.featureOrigin;
-      break;
-    }
-    case "maneuver": {
-      context.sheetData.type = getLabelFromKey(item.system.maneuverType, CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes);
-      context.sheetData.subtype = game.i18n.localize("TYPES.Item.maneuver");
-      break;
-    }
-    case "spell": {
-      context.sheetData.type = getLabelFromKey(item.system.spellType, CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes);
-      context.sheetData.subtype = getLabelFromKey(item.system.spellSchool, CONFIG.DC20RPG.DROPDOWN_DATA.spellSchools);
-      break;
-    }
-    case "infusion": {
-      const infusion = item.system.infusion;
-      context.sheetData.type = getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
-      context.sheetData.subtype = `${game.i18n.localize("dc20rpg.item.sheet.infusions.power")}: ${infusion.variablePower ? "?" : infusion.power}`;
-      break;
-    }
-    case "basicAction": {
-      context.sheetData.type = game.i18n.localize("dc20rpg.item.sheet.header.action");
-      context.sheetData.subtype = getLabelFromKey(item.system.category, CONFIG.DC20RPG.DROPDOWN_DATA.basicActionsCategories);
-      break;
-    }
-    case "subclass": {
-      context.sheetData.type = game.i18n.localize("TYPES.Item.subclass");
-      context.sheetData.subtype = item.system.forClass.name;
-      break;
-    }
-    case "class": {
-      const isMartial = item.system.martial;  
-      const isSpellcaster = item.system.spellcaster;
-      let classType = '';
-      if (isMartial && isSpellcaster) classType = getLabelFromKey("hybrid", CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes);
-      else if (isMartial) classType = getLabelFromKey("martial", CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes);
-      else if (isSpellcaster) classType = getLabelFromKey("spellcaster", CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes);
-      
-      context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
-      context.sheetData.type = classType;
-      break;
-    }
-  }
 }
 
 function _prepareDropdownData(context, item) {

@@ -9,8 +9,10 @@ export function itemDetailsToHtml(item) {
   const tier3 = [];
   
   _merge(tier1, _action(item));
-  _merge(tier1, _rollRequest(item));
-  _merge(tier1, _formulas(item));
+  if (["attack", "check", "other"].includes(item.system.actionType)) {
+    _merge(tier1, _rollRequest(item));
+    _merge(tier1, _formulas(item));
+  }
   _merge(tier2, _magicPower(item));
   _merge(tier2, _duration(item));
   _merge(tier2, _range(item));
@@ -63,6 +65,13 @@ function _action(item) {
       const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
       action.push(_infoBox(`${checkDC} ${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}`, "purple", "tier1"));
       break;
+
+    case "help":
+      const help = item.system.help;
+      let label = "Help";
+      if (help.duration) label += ` (Duration: ${getLabelFromKey(help.duration, CONFIG.DC20RPG.DROPDOWN_DATA.helpDiceDuration)})`;
+      if (help.subtract) label += ` [Subtracted]`;
+      action.push(_infoBox(label, "purple", "tier1"))
   }
   return action;
 }
@@ -86,6 +95,7 @@ function _formulas(item) {
   const formulas = [];
   if (item.system.formulas) {
     for (const formula of Object.values(item.system.formulas)) {
+      if (!formula.formula) continue;
       if (formula.category === "damage") {
         formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`, "red", "tier1"));
       }
@@ -126,9 +136,9 @@ function _target(item) {
   const content = [];
   const target =  item.system.target;
   const type = target?.type;
-  const count = target.count;
   if (type) {
     let label = getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
+    const count = target?.count;
     if (count) label = count + " " + label;
     content.push(_infoBox(label, "", "tier2"));
   }
@@ -210,8 +220,8 @@ function _properties(item) {
   Object.values(properties).forEach((property) => {
     if (property.active) {
       let label = property.label;
-      if (property.value) label += label ` (${property.value})`;
-      content.push(_infoBox(label, "grey", "tier3", {
+      if (property.value) label += ` (${property.value})`;
+      content.push(_infoBox(label, "gray", "tier3", {
         cssClass: "journal-tooltip", 
         data: `
         data-hover="tooltip"

@@ -5060,11 +5060,9 @@
   font-family: "Signika", sans-serif;
 }
 .dc20rpg .item-list .item-row .column .select-other-item select, .dc20rpg .item-list .enh-row .column .select-other-item select {
-  background-color: 0;
   border: 0px;
 }
 .dc20rpg .item-list .item-row .column select, .dc20rpg .item-list .item-row .column input, .dc20rpg .item-list .enh-row .column select, .dc20rpg .item-list .enh-row .column input {
-  background-color: transparent;
   border: 0;
   text-align: center;
 }
@@ -10828,6 +10826,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-bottom: 5px;
 }
 .dc20rpg.item-v13 .item-sheet-header .extra-buttons {
   margin-left: -18px;
@@ -10976,14 +10975,26 @@
   height: 35px;
   width: 35px;
   margin-top: 0;
-  border: 2px solid var(--content-link-border-color);
+  border: 2px solid var(--color-text-primary);
   border-left: 0;
-  background-color: var(--content-link-icon-color);
-  color: #9c26e0;
+  background-color: var(--color-light-5);
+  color: var(--color-text-primary);
   font-size: 16px;
+  text-shadow: 0 0 BLACK;
 }
 .dc20rpg.item-v13 .item-sheet-section {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  min-height: 0;
   overflow: auto;
+}
+.dc20rpg.item-v13 .item-sheet-section .scrollable {
+  padding: 0px;
+  --scroll-margin: 0;
+}
+.dc20rpg.item-v13 .item-sheet-section.tab:not(.active) {
+  display: none;
 }
 .dc20rpg.item-v13 .item-sheet-section.core {
   display: -webkit-box;
@@ -10993,11 +11004,6 @@
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
 }
 .dc20rpg.item-v13 .item-sheet-section .description-box {
   position: relative;
@@ -11023,7 +11029,6 @@
 .dc20rpg.item-v13 .item-sheet-section .description-box .editor-content,
 .dc20rpg.item-v13 .item-sheet-section .description-box .cm-editor,
 .dc20rpg.item-v13 .item-sheet-section .description-box .cm-scroller {
-  height: 100%;
   min-height: 0;
 }
 .dc20rpg.item-v13 .item-sheet-section .description-box .cm-scroller {
@@ -11078,6 +11083,190 @@
 .dc20rpg.item-v13 .item-sheet-section .inventory-details .inventory-field i {
   width: 18px;
   text-align: center;
+}
+.dc20rpg.item-v13 .item-sheet-section .sub-header {
+  font-size: 20px;
+  font-family: "Humaroid";
+  background-color: var(--content-link-border-color);
+  border: 2px solid var(--color-tabs-border);
+  color: var(--color-text-primary);
+  border-radius: 5px 5px 0px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 8px 16px;
+  text-shadow: -1px 0 #424242, 0 1px #424242, 1px 0 #424242, 0 -1px #424242;
+}
+.dc20rpg.item-v13 .item-sheet-section .sub-header input {
+  background-color: var(--color-cool-4);
+}
+.dc20rpg.item-v13 .item-sheet-section .sub-header .button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+.dc20rpg.item-v13 .item-sheet-section .content-wrapper {
+  padding: 10px;
+  border: 2px solid var(--color-tabs-border);
+  border-top: 0;
+  border-radius: 0px 0px 5px 5px;
+  -webkit-box-shadow: 0 0 10px var(--color-light-5) inset;
+  box-shadow: 0 0 10px var(--color-light-5) inset;
+}
+.dc20rpg.item-v13 .item-sheet-section .content-wrapper .form-group {
+  margin-top: 6px;
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group {
+  padding: 0 6px;
+  min-height: 32px;
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group input {
+  text-align: end;
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group.short-form input {
+  max-width: 50px;
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group .right-part-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group .left-part-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--color-text-secondary);
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group .left-part-row label {
+  font-weight: bold;
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group .left-part-row label:hover {
+  color: var(--color-text-primary);
+}
+.dc20rpg.item-v13 .item-sheet-section .form-group a.checked {
+  color: var(--color-warm-1);
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box {
+  font-family: "Humaroid";
+  padding: 4px;
+  font-size: 18px;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  border: 2px solid var(--color-light-5);
+  background-color: var(--color-light-2);
+  color: var(--color-light-5);
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box:hover {
+  -webkit-box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
+  box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
+  text-shadow: none;
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box.disabled {
+  -webkit-filter: opacity(0.8);
+  filter: opacity(0.8);
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box.active {
+  background-color: var(--color-light-5);
+  border-color: var(--color-light-2);
+  color: var(--color-light-2);
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box.active:hover {
+  -webkit-box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
+  box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box.disable {
+  -webkit-filter: brightness(0.7);
+  filter: brightness(0.7);
+}
+.dc20rpg.item-v13 .item-sheet-section .activable-box.disable:hover {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  cursor: default;
+}
+.dc20rpg.item-v13 .item-sheet-section .multi-select-wrapper {
+  margin-top: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg.item-v13 .item-sheet-section .multi-select-wrapper .selected-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap;
+  gap: 2px;
+}
+.dc20rpg.item-v13 .item-sheet-section .multi-select-wrapper .selected-options .option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 3px;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-tabs-border);
+  background-color: var(--color-cool-4);
+}
+.dc20rpg.item-v13 .item-sheet-section .item-list .item-header {
+  background: -webkit-gradient(linear, left top, right top, from(var(--content-link-border-color)), to(var(--color-text-selection-bg)));
+  background: linear-gradient(to right, var(--content-link-border-color), var(--color-text-selection-bg));
+}
+.dc20rpg.item-v13 .item-sheet-section .item-list .item-row {
+  background-color: var(--color-cool-4);
+  border-color: var(--color-tabs-border);
+}
+.dc20rpg.item-v13 .item-sheet-section .item-list .column {
+  border-color: var(--color-tabs-border);
 }
 .dc20rpg.fixed-600-size {
   min-width: 600px;

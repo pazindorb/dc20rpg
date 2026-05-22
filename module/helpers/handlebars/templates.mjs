@@ -10,7 +10,6 @@ export async function preloadHandlebarsTemplates() {
 export function allPartials() {
   return {
     ...actorPartials(),
-    ...itemPartials(),
     ...chatPartials(),
     ...sharedPartials()
   };
@@ -26,23 +25,6 @@ function actorPartials() {
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
     "Traits Table": "systems/dc20rpg/templates/actor_v2/parts/shared/traits-table.hbs",
     "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs"
-  }
-}
-
-function itemPartials() {
-  return {
-    "Header": "systems/dc20rpg/templates/item_v2/parts/shared/header.hbs",
-    "Advanced": "systems/dc20rpg/templates/item_v2/parts/shared/advanced.hbs",
-    "Properties": "systems/dc20rpg/templates/item_v2/parts/shared/properties.hbs",
-    "Roll": "systems/dc20rpg/templates/item_v2/parts/shared/roll.hbs",
-    "Roll Details": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/roll-details.hbs",
-    "Usage Cost": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/usage-cost.hbs",
-    "Target": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/target.hbs",
-    "Advancements": "systems/dc20rpg/templates/item_v2/parts/shared/advancements.hbs",
-    "Basic Config": "systems/dc20rpg/templates/item_v2/parts/shared/basic-config.hbs", 
-    "Advancement Core": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/adv-core.hbs",
-    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/enhancements.hbs",
-    "Target Modifiers": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/target-modifiers.hbs"
   }
 }
 
