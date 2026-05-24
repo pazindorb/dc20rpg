@@ -1,6 +1,14 @@
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 
+export function shouldOverrideActionType(item) {
+  for (const enhancement of item.enhancements.active.values()) {
+    if (enhancement.modifications.actionChange) {
+      item.system.actionType = enhancement.modifications.actionType;
+    }
+  }
+}
+
 export function makeCalculations(item) {
   if (item.system.rollConfig) _calculateRollModifier(item);
   if (item.system.rollRequests) _calculateSaveDC(item);

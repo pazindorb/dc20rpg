@@ -5,7 +5,9 @@ import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
 import { getForItemType } from "./item-sheet/item-sheet-helper.mjs";
 import { removeMultiSelect } from "../helpers/listenerEvents.mjs";
-import { removeItemFromContainer, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
+import { removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
+import { createTemporaryMacro } from "../helpers/macros.mjs";
+import { createEditorDialog } from "../dialogs/editor.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -84,7 +86,12 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.sheetEdit = this._onEditSheetFlag;
     initialized.actions.multiSelectRemove = this._onMultiSelectRemove;
     initialized.actions.createSubdoc = this._onCreateSubdoc;
-    initialized.actions.removeSubdoc = this._onRemoveSubdoc; 
+    initialized.actions.removeSubdoc = this._onRemoveSubdoc;
+    initialized.actions.addRootedEffect = this._onAddRootedEffect;
+    initialized.actions.editRootedEffect = this._onEditRootedEffect;
+    initialized.actions.removeRootedEffect = this._onRemoveRootedEffect;
+    initialized.actions.editRottedMacro = this._onRootedMacroEdit;
+    initialized.actions.enhancementDescrption = this._onEditEnhancementDescription;
     return initialized;
   }
 
@@ -421,6 +428,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   _onCreateSubdoc(event, target) {
+    event.preventDefault();
     const type = target.dataset.type;
 
     switch(type) {
@@ -434,6 +442,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   _onRemoveSubdoc(event, target) {
+    event.preventDefault();
     const type = target.dataset.type;
     const key = target.dataset.key;
 
@@ -441,10 +450,123 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "rollRequest": this.item.removeRollRequest(key); break;
       case "againstStatus": this.item.removeAgainstStatus(key); break;
       case "formula": this.item.removeFormula(key); break;
-      case "enhancement": this.item.removeNewEnhancement(key); break;
-      case "targetModifier": this.item.removeNewTargetModifier(key); break;
-      case "itemMacro": this.item.removeNewItemMacro(key); break;
+      case "enhancement": this.item.removeEnhancement(key); break;
+      case "targetModifier": this.item.removeTargetModifier(key); break;
+      case "itemMacro": this.item.removeItemMacro(key); break;
       case "itemContent": removeItemFromContainer(this.item, key); break;
+      case "resource": removeResourceFromItem(this.item, key); break;
     }
+  }
+
+  async _onAddRootedEffect(event, target) {
+    const key = target.dataset.key;
+    const creationData = {
+      img: this.item.img,
+      origin: this.uuid,
+      duration: {rounds: 1},
+      disabled: false,
+      system: {
+        addToChat: true,
+        applyToTemplate: true,
+        transfer: false
+      },
+      flags: {dc20rpg: {}}
+    } 
+    
+    switch (target.dataset.type) {
+      case "enhancement":
+        const enhancements = this.item.system.enhancements;
+        const enhancement = enhancements[key];
+        if (!enhancement) return;
+        creationData.name = enhancement.name;
+        creationData.flags.dc20rpg.itemSavePath = `system.enhancements.${key}.modifications.addsEffect`;
+        break;
+
+      case "targetModifier":
+        const targetModifiers = this.item.system.targetModifiers;
+        const modifier = targetModifiers[key];
+        if (!modifier) return;
+        creationData.name = modifier.name;
+        creationData.flags.dc20rpg.itemSavePath = `system.targetModifiers.${key}.effect`;
+        break;
+    }
+
+    const created = await ActiveEffect.create(creationData, {parent: this.item});
+    created.sheet.render(true);
+  }
+
+  async _onEditRootedEffect(event, target) {
+    const key = target.dataset.key;
+
+    let effectData = null;
+    switch (target.dataset.type) {
+      case "enhancement":
+        const enhancements = this.item.system.enhancements;
+        const enhancement = enhancements[key];
+        if (!enhancement) return;
+        effectData = enhancement.modifications.addsEffect;
+        break;
+
+      case "targetModifier":
+        const targetModifiers = this.item.system.targetModifiers;
+        const modifier = targetModifiers[key];
+        if (!modifier) return;
+        effectData = modifier.effect;
+        break;
+    }
+
+    if (!effectData) return;
+    const created = await ActiveEffect.create(effectData, {parent: this.item});
+    created.sheet.render(true);
+  }
+
+  _onRemoveRootedEffect(event, target) {
+    const key = target.dataset.key;
+    switch (target.dataset.type) {
+      case "enhancement":
+        this.item.update({[`system.enhancements.${key}.modifications.addsEffect`]: null});
+        break;
+
+      case "targetModifier":
+        this.item.update({[`system.targetModifiers.${key}.effect`]: null});
+        break;
+    }
+  }
+
+  async _onRootedMacroEdit(event, target) {
+    const flags = {item: this.item}
+    const key = target.dataset.key;
+
+    let command = null;
+    switch (target.dataset.type) {
+      case "enhancement":
+        const enhancements = this.item.system.enhancements;
+        const enhancement = enhancements[key];
+        if (!enhancement) return;
+        
+        const macroKey = target.dataset.macroKey;
+        const macros = enhancement.modifications.macros || {};
+        command = macros[macroKey] || "";
+        flags.updatePath = `system.enhancements.${key}.modifications.macros.${macroKey}`;
+        break;
+
+      case "targetModifier":
+        const targetModifiers = this.item.system.targetModifiers;
+        const modifier = targetModifiers[key];
+        if (!modifier) return;
+
+        
+        break;
+    }
+
+    if (command === null) return;
+
+    const macro = await createTemporaryMacro(command, this.item, flags);
+    macro.canUserExecute = (user) => false;
+    macro.sheet.render(true);
+  }
+
+  _onEditEnhancementDescription(event, target) {
+    createEditorDialog(this.item, target.dataset.path)
   }
 }

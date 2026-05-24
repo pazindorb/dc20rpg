@@ -505,6 +505,10 @@ export function registerHandlebarsCreators() {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.overrideTargetDefence')}<br><b>${getLabelFromKey(mods.targetDefenceType, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}</b>`;
       component += _descriptionIcon(description, "fa-share");
     }
+    if (mods.actionChange) {
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.actionChange')} <b>${getLabelFromKey(mods.actionType, CONFIG.DC20RPG.DROPDOWN_DATA.actionTypes)}</b>`
+      component += _descriptionIcon(description, "fa-dice-d6", "style='margin-top: -3px;'");
+    }
     if (mods.overrideDamageType) {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
       component += _descriptionIcon(description, "fa-fire");
@@ -564,11 +568,11 @@ function _formulas(formulas, icon, types) {
   return _descriptionIcon(`<p>${description}</p>`, icon);
 }
 
-function _descriptionIcon(description, icon) {
+function _descriptionIcon(description, icon, iconStyle="") {
   return `
   <div class="description-icon" title="">
     <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
-      <i class="fa-solid ${icon}"></i>
+      <i class="fa-solid ${icon}" ${iconStyle}></i>
     </div>
   </div>
   `
@@ -594,7 +598,7 @@ export function costPrinter(cost, resources=false, charges=false, quantity=false
       
       const weight = isMinor ? "fa-light" : "fa-solid";
       const icon = resource.custom ? `<img src=${resource.img} class="cost-img">` : `<i class="${resource.icon} ${weight}"></i>`;
-      component += _toCost(key, icon, resource.amount, resource.label);
+      component += _toCost(key, icon, resource.amount, resource.label, resource.custom);
     }
   }
 
@@ -619,9 +623,9 @@ export function costPrinter(cost, resources=false, charges=false, quantity=false
   return component ? `<ul class="cost-printer">${component}</ul>` : "";
 }
 
-function _toCost(key, icon, amount, title) {
+function _toCost(key, icon, amount, title, custom) {
   const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
-  const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
+  const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b ${custom ? 'style="color:black;"' : ""}>${Math.abs(amount)}</b>`;
   return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
 }
 

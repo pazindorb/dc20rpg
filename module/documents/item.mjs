@@ -5,7 +5,7 @@ import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { makeCalculations } from "./item/item-calculations.mjs";
+import { makeCalculations, shouldOverrideActionType } from "./item/item-calculations.mjs";
 import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { enrichWithHelpers } from "./item/item-helpers.mjs";
@@ -85,6 +85,7 @@ export class DC20RpgItem extends Item {
     makeCalculations(this);
     translateLabels(this);
     enrichWithHelpers(this);
+    shouldOverrideActionType(this);
     this.prepared = true; // Mark item as prepared
   }
 

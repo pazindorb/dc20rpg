@@ -1,0 +1,60 @@
+{{!-- Status Id + Stacks --}}
+<div class="form-group">
+  <div class="left-part-row">
+    <label>{{localize "dc20rpg.item.sheet.status.id"}}</label>
+    {{#if removeKey}}
+    <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-action="removeSubdoc" data-type="againstStatus" data-key="{{removeKey}}"></a>
+    {{/if}}
+  </div>
+  <div class="form-fields">
+    <select name="{{path}}.id">
+      {{selectOptions @root.config.DROPDOWN_DATA.allStatuses selected=status.id blank=""}}
+    </select>
+    <label>{{localize "dc20rpg.item.sheet.status.stacks"}}</label>
+    <input type="number" placeholder="1" name="{{path}}.stacks" style="max-width: 50px;" value="{{status.stacks}}" data-dtype="Number" data-tooltip="{{localize "dc20rpg.item.sheet.status.stacksTitle"}}">
+  </div>
+</div>
+
+{{!-- Removal Trigger --}}
+<div class="form-group">
+  <div class="left-part-row">
+    <label>{{localize "dc20rpg.item.sheet.status.trigger"}}</label>
+    <a class="fa-lg {{#if status.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" data-cType="activable" style="margin-right:3px;"
+        data-path="{{path}}.supressFromChatMessage" data-tooltip="{{localize "dc20rpg.item.sheet.status.supressFromChatMessage"}}"></a>
+  </div>
+  <div class="right-part-row">
+    <a class="fa-lg fa-square-t {{#if status.untilFirstTimeTriggered}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="{{path}}.untilFirstTimeTriggered" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilFirstTimeTriggered"}}"></a>
+    <i class="margin-left-10 fa-solid fa-user"></i>
+    <a class="margin-left-3 fa-lg fa-square-s {{#if status.untilYourNextTurnStart}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="{{path}}.untilYourNextTurnStart" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilYourNextTurnStart"}}"></a>
+    <a class="margin-left-2 fa-lg fa-square-e {{#if status.untilYourNextTurnEnd}}fa-solid{{else}}fa-regular{{/if}}" data-cType="activable" data-path="{{path}}.untilYourNextTurnEnd" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilYourNextTurnEnd"}}"></a>
+    <i class="margin-left-10 fa-solid fa-crosshairs"></i>
+    <a class="margin-left-3 fa-lg fa-square-s {{#if status.untilTargetNextTurnStart}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="{{path}}.untilTargetNextTurnStart" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilTargetNextTurnStart"}}"></a>
+    <a class="margin-left-2 fa-lg fa-square-e {{#if status.untilTargetNextTurnEnd}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="{{path}}.untilTargetNextTurnEnd" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilTargetNextTurnEnd"}}"></a>
+  </div>
+</div>
+
+{{!-- Duration (Rounds) --}}
+<div class="form-group">
+  <label>{{localize "dc20rpg.item.sheet.status.duration"}}</label>
+  <div class="form-fields">
+    {{#unless status.forOneMinute}}
+    <label>{{localize "dc20rpg.item.sheet.status.forXRounds"}}</label>
+    <input type="text" name="{{path}}.forXRounds" style="max-width: 50px;" value="{{status.forXRounds}}" data-dtype="Number" placeholder="-">
+    {{/unless}}
+    <label>{{localize "dc20rpg.item.sheet.status.forOneMinute"}}</label>
+    <input type="checkbox" name="{{path}}.forOneMinute" {{checked status.forOneMinute}}/>
+  </div>
+</div>
+
+{{!-- Repeated Save --}}
+<div class="form-group symetric">
+  <label>{{localize "dc20rpg.item.sheet.status.repeatedSave"}}</label>
+  <div class="form-fields">
+    {{#if status.repeatedSave}}
+    <select class="margin-left-5" name="{{path}}.repeatedSaveKey">
+      {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=status.repeatedSaveKey blank=""}}
+    </select>
+    {{/if}}
+    <input type="checkbox" name="{{path}}.repeatedSave" {{checked status.repeatedSave}}/>
+  </div>
+</div>

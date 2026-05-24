@@ -1,3 +1,50 @@
-<section class="item-sheet-section tab area {{tabs.area.cssClass}}" data-group="sheet" data-tab="area">
-  area
+<section class="item-sheet-section tab area standard-form {{tabs.area.cssClass}}" data-group="sheet" data-tab="area">
+<div class="scrollable">
+
+  <div class="item-specific-config">
+
+    {{!-- Target --}}
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.target.target"}}</label>
+      <div class="form-fields">
+        <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.targetNo"}}">
+        <select name="system.target.type">
+          {{selectOptions @root.config.DROPDOWN_DATA.invidualTargets selected=system.target.type blank=""}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Range --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.target.range"}}</label>
+      <div class="form-fields">
+        <i style="max-width: 15px;" class="fa-solid fa-bow-arrow"></i>
+        <input style="max-width: 45px;" type="text" name="system.range.normal" value="{{system.range.normal}}" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.normal"}}">
+        <i style="max-width: 15px;" class="fa-solid fa-bullseye-arrow"></i>
+        <input style="max-width: 45px;" type="text" name="system.range.max" value="{{system.range.max}}" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.max"}}">
+        <i style="max-width: 15px;" class="fa-solid fa-sword"></i>
+        <input style="max-width: 45px;" type="text" name="system.range.melee" value="{{system.range.melee}}" placeholder="1" data-tooltip="{{localize "dc20rpg.item.sheet.target.meleeRange"}}">
+        <input type="text" name="system.range.unit" value="{{system.range.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" data-tooltip="{{localize "dc20rpg.item.sheet.target.unit"}}">
+      </div>
+    </div>
+
+    {{!-- Duration --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.target.duration"}}</label>
+      <div class="form-fields">
+        <select name="system.duration.type" data-tooltip="{{localize "dc20rpg.item.sheet.target.durationType"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.durations selected=system.duration.type blank=""}}
+        </select>
+        <input style="max-width: 45px;" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.duration"}}">
+        <select name="system.duration.timeUnit" data-tooltip="{{localize "dc20rpg.item.sheet.target.timeUnit"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=system.duration.timeUnit blank=""}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Areas --}}
+  <p class="margin-top-20">TODO: Area preparation - do it as a part of v14 Area Rework</p>
+
+</div>
 </section>

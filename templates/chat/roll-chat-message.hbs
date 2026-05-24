@@ -30,10 +30,12 @@
   {{/if}}
 
   {{!-- Core Roll --}}
+  {{#if coreRoll}}
   <div class="roll-box first-roll" data-tooltip="{{coreRoll.source}}">
     <span class="title">{{coreRoll.label}}</span>
     {{> "systems/dc20rpg/templates/chat/partial/core-roll.hbs" coreRoll}}
   </div>
+  {{/if}}
   {{#ifCond extraRolls.length ">" 0}}
   <div class="extra-box-wrapper {{#ifCond extraRolls.length ">" 1}}half-box{{/ifCond}}" data-tooltip="{{coreRoll.source}}">
   {{#each extraRolls}}

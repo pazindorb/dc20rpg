@@ -85,7 +85,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (messageType === "roll") {
       const [coreRoll, formulas] = this.#rollsInChatFormat(rolls);
       const targeted = game.user.targets.filter(token => token.actor).map(token => token.id);
-      coreRoll.mainRoll = true;
+      if (coreRoll) coreRoll.mainRoll = true;
       system.targeted = Array.from(targeted);
       system.coreRoll = coreRoll;
       system.formulas = formulas;
@@ -243,6 +243,8 @@ export class DC20ChatMessage extends ChatMessage {
   #prepareCoreRoll() {
     const rollLevel = this.system.rollLevel;
     const coreRoll = this.system.coreRoll;
+    if (!coreRoll) return;
+
     const extraRolls = this.system.extraRolls;
     let winner = coreRoll;
     
@@ -301,7 +303,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   async #prepareTarget(target) {
     const roll = this.winningRoll;
-    target.setCoreRollValue(roll.total);
+    if (roll) target.setCoreRollValue(roll.total);
 
     const targetRollStore = this.system.targetRollStore;
     const cached = targetRollStore?.[target.targetHash];
@@ -312,8 +314,8 @@ export class DC20ChatMessage extends ChatMessage {
     const rollConfig = this.system?.rollConfig || {};
 
     const calcData = {
-      isCritSuccess: roll.crit,
-      isCritFail: roll.fail,
+      isCritSuccess: roll?.crit || false,
+      isCritFail: roll?.fail || false,
       canCrit: rollConfig.canCrit,
       canCritFail: rollConfig.canCritFail,
       skipFor: rollConfig.skipBonusDamage || {/** Add conditional flag for every roll? */},

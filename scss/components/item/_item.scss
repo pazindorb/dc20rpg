@@ -298,10 +298,35 @@ $selection: var(--color-text-selection-bg);
       }
     }
 
+    &.symetric {
+      label { 
+        flex: 2;
+      }
+    }
+
     .right-part-row {
       display: flex;
       justify-content: end;
       align-items: center;
+
+      .edit-rooted-effect {
+        max-height: 25px;
+        max-width: 25px;
+        min-height: 25px;
+        min-width: 25px;
+        border: 1px solid $border;
+        border-radius: 2px;
+        margin-right: 5px;
+
+        &:hover {
+          cursor: pointer;
+          border-color: $text-contrast;
+        }
+      }
+
+      a.empty {
+        filter: opacity(0.5);
+      }
     }
 
     .left-part-row {
@@ -379,7 +404,8 @@ $selection: var(--color-text-selection-bg);
       align-items: center;
       justify-content: end;
       flex-flow: wrap;
-      gap: 2px;
+      gap: 3px;
+      margin-top: 5px;
 
       .option {
         display: flex;
@@ -409,6 +435,68 @@ $selection: var(--color-text-selection-bg);
 
     .column {
       border-color: $border;
+    }
+  }
+
+  .resource-wrapper {
+    gap: 10px 2px;
+
+    .wrapper {
+      max-width: 30px;
+      max-height: 30px;
+      min-width: 30px;
+      min-height: 30px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 5px;
+      background-color: $background-input;
+      text-shadow: -1px 0 #cccccc, 0 1px #cccccc, 1px 0 #cccccc, 0 -1px #cccccc;
+      border: 2px solid $border;
+
+      i {
+        margin-top: 3px;
+      }
+
+      &.ap {
+        color: $action-point;
+      }
+
+      &.stamina {
+        color: $stamina;
+      }
+      
+      &.mana {
+        color: $mana;
+      }
+
+      &.health {
+        color: $health;
+      }
+
+      &.grit {
+        color: $grit;
+      }
+
+      &.rest-points {
+        color: #00887d;
+      }
+    }
+
+    .resource-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      max-width: 30px;
+      max-height: 30px;
+      min-width: 30px;
+      min-height: 30px;
+
+      border: 2px solid $border;
+      border-radius: 5px;
     }
   }
 }

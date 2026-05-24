@@ -1,0 +1,41 @@
+{{!-- Category --}}
+<div class="form-group">
+  <div class="left-part-row">
+    <label>{{localize "dc20rpg.item.sheet.rollRequests.category"}}</label>
+    {{#if removeKey}}
+    <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.rollRequests.remove"}}" data-action="removeSubdoc" data-type="rollRequest" data-key="{{removeKey}}"></a>
+    {{/if}}
+  </div>
+  <select name="{{path}}.category">
+    {{selectOptions @root.config.DROPDOWN_DATA.rollRequestCategory selected=request.category blank=""}}
+  </select>
+</div>
+
+{{!-- Contest --}}
+{{#ifCond request.category '===' "contest"}}
+<div class="form-group symetric">
+  <label>{{localize "dc20rpg.item.sheet.rollRequests.contestedKey"}}</label>
+  <select name="{{path}}.contestedKey">
+    {{selectOptions @root.config.ROLL_KEYS.contests selected=request.contestedKey blank=""}}
+  </select>
+</div>
+{{/ifCond}}
+
+{{!-- Save --}}
+{{#ifCond request.category '===' "save"}}
+<div class="form-group symetric">
+  <label>{{localize "dc20rpg.item.sheet.rollRequests.saveKey"}}</label>
+  <select name="{{path}}.saveKey">
+    {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=request.saveKey blank=""}}
+  </select>
+</div>
+<div class="form-group symetric">
+  <label>{{localize "dc20rpg.item.sheet.rollRequests.dc"}}</label>
+  <div class="form-fields">
+    <input {{#ifCond request.dcCalculation  '!==' "flat"}} disabled {{/ifCond}} style="max-width: 50px;" type="text" name="{{path}}.dc" value="{{request.dc}}" data-dtype="Number" placeholder="-">
+    <select name="{{path}}.dcCalculation">
+      {{selectOptions @root.config.DROPDOWN_DATA.dcCalculationTypes selected=request.dcCalculation}}
+    </select>
+  </div>
+</div>
+{{/ifCond}}

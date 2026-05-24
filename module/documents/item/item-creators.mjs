@@ -40,6 +40,8 @@ export class Enhancement {
     addsAgainstStatus: false,
     againstStatus: new AgainstStatus(),
     addsEffect: null,
+    actionChange: false,
+    actionType: "",
     macros: {
       preItemRoll: "",
       postItemRoll: ""

@@ -11,7 +11,8 @@ export function allPartials() {
   return {
     ...actorPartials(),
     ...chatPartials(),
-    ...sharedPartials()
+    ...sharedPartials(),
+    ...itemPartials()
   };
 }
 
@@ -25,6 +26,14 @@ function actorPartials() {
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
     "Traits Table": "systems/dc20rpg/templates/actor_v2/parts/shared/traits-table.hbs",
     "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs"
+  }
+}
+
+function itemPartials() {
+  return {
+    "Roll Request": "systems/dc20rpg/templates/sheets/item/partials/rollRequest.hbs",
+    "Against Status": "systems/dc20rpg/templates/sheets/item/partials/againstStatus.hbs",
+    "Formula": "systems/dc20rpg/templates/sheets/item/partials/formula.hbs",
   }
 }
 
