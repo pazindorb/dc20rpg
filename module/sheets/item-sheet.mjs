@@ -4,7 +4,6 @@ import { generateKey, getValueFromPath } from "../helpers/utils.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
 import { getForItemType } from "./item-sheet/item-sheet-helper.mjs";
-import { removeMultiSelect } from "../helpers/listenerEvents.mjs";
 import { removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { createEditorDialog } from "../dialogs/editor.mjs";
@@ -92,6 +91,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.removeRootedEffect = this._onRemoveRootedEffect;
     initialized.actions.editRottedMacro = this._onRootedMacroEdit;
     initialized.actions.enhancementDescrption = this._onEditEnhancementDescription;
+    initialized.actions.editEffect = this._onEditEffect;
+    initialized.actions.updateEffect = this._onUpdateEffect;
     return initialized;
   }
 
@@ -226,6 +227,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     this.window.content.addEventListener("mouseover", this._onHover.bind(this));
     this.window.content.addEventListener("mouseout", this._onHover.bind(this));
     this.window.content.addEventListener("click", this._onClick.bind(this));
+    this.window.content.addEventListener("mousedown", this._onMouseDown.bind(this));
     this.window.content.addEventListener("change", this._onChange.bind(this));
   }
 
@@ -344,6 +346,17 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   // ================= LISTENER ACTIONS =================
+  async _onMouseDown(event) {
+    if (event.which !== 2) return;
+
+    const target = this.#getTarget(event.target, "middleClick");
+    const middleClick = target.dataset.middleClick;
+
+    switch (middleClick) {
+      case "editEffect": this._onEditEffect(event, target); break;
+    }
+  }
+
   async _onClick(event) {
     const target = this.#getTarget(event.target, "ctype");
     const dataset = target.dataset;
@@ -398,6 +411,11 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         data.item = this.actor.items.get(dataset.itemId);
       }
     }
+
+    if (dataset.effectId) {
+      data.effect = this.item.effects.get(dataset.effectId);
+    }
+
     // Handle tooltips for items stored in container
     if (this.item.type === "container" && dataset.tooltipType === "item") {
       const itemKey = dataset.itemKey;
@@ -424,7 +442,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   _onMultiSelectRemove(event, target) {
-    removeMultiSelect(this.item, target.dataset.path, target.dataset.key);
+    this.item.update({[`${target.dataset.path}.-=${target.dataset.key}`]: null});
   }
 
   _onCreateSubdoc(event, target) {
@@ -438,7 +456,28 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "enhancement": this.item.createNewEnhancement(); break;
       case "targetModifier": this.item.createNewTargetModifier(); break;
       case "itemMacro": this.item.createNewItemMacro(); break;
+      case "effect": 
+        const temporary = target.dataset.effectType === "temporary"
+        DC20RpgActiveEffect.create(this.#effectCreationData(temporary), {parent: this.item}); break;
     }
+  }
+
+  #effectCreationData(temporary=false, rotted=false) {
+    const creationData = {
+      name: this.item.name,
+      img: this.item.img,
+      origin: this.item.uuid,
+      disabled: false,
+      system: {
+        addToChat: rotted,
+        applyToTemplate: rotted,
+      },
+      transfer: false,
+      flags: {dc20rpg: {}}
+    } 
+
+    if (temporary) creationData.duration = {rounds: 1};
+    return creationData;
   }
 
   _onRemoveSubdoc(event, target) {
@@ -455,23 +494,16 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "itemMacro": this.item.removeItemMacro(key); break;
       case "itemContent": removeItemFromContainer(this.item, key); break;
       case "resource": removeResourceFromItem(this.item, key); break;
+      case "effect": 
+        const effect = this.item.effects.get(target.dataset.effectId);
+        if (effect) effect.delete();
+        break;
     }
   }
 
   async _onAddRootedEffect(event, target) {
     const key = target.dataset.key;
-    const creationData = {
-      img: this.item.img,
-      origin: this.uuid,
-      duration: {rounds: 1},
-      disabled: false,
-      system: {
-        addToChat: true,
-        applyToTemplate: true,
-        transfer: false
-      },
-      flags: {dc20rpg: {}}
-    } 
+    const creationData = this.#effectCreationData(true, true);
     
     switch (target.dataset.type) {
       case "enhancement":
@@ -491,7 +523,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         break;
     }
 
-    const created = await ActiveEffect.create(creationData, {parent: this.item});
+    const created = await DC20RpgActiveEffect.create(creationData, {parent: this.item});
     created.sheet.render(true);
   }
 
@@ -516,7 +548,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     }
 
     if (!effectData) return;
-    const created = await ActiveEffect.create(effectData, {parent: this.item});
+    const created = await DC20RpgActiveEffect.create(effectData, {parent: this.item});
     created.sheet.render(true);
   }
 
@@ -555,7 +587,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const modifier = targetModifiers[key];
         if (!modifier) return;
 
-        
+        command = modifier.condition || "";
+        flags.updatePath = `system.targetModifiers.${key}.condition`;
         break;
     }
 
@@ -568,5 +601,19 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
 
   _onEditEnhancementDescription(event, target) {
     createEditorDialog(this.item, target.dataset.path)
+  }
+
+  _onEditEffect(event, target) {
+    const effect = this.item.effects.get(target.dataset.effectId);
+    if (effect) effect.sheet.render(true);
+  }
+
+  _onUpdateEffect(event, target) {
+    const effect = this.item.effects.get(target.dataset.effectId);
+    if (!effect) return;
+
+    const path = target.dataset.path;
+    const value = getValueFromPath(effect, path);
+    effect.update({[path]: !value});
   }
 }

@@ -499,4 +499,46 @@ $selection: var(--color-text-selection-bg);
       border-radius: 5px;
     }
   }
+
+  .effect-wrapper {
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    
+    background-color: $background-input;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid $border;
+    border-top: 0;
+    
+    img {
+      max-width: 40px;
+      max-height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+      border: 1px solid $border;
+      border-radius: 5px;
+    }
+
+    input {
+      font-family: $font-header;
+      font-size: 20px;
+      width: 100%;
+      background-color: transparent;
+      margin: 10px;
+      color: $text-primary;
+      border: 0;
+    }
+
+    .menu-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
+
+    a {
+      &.checked {
+        color: $checkbox;
+      }
+    }
+  }
 }

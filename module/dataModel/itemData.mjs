@@ -153,7 +153,7 @@ class DC20ItemItemData extends DC20BaseItemData {
       }),
       properties: new PropertyFields(),
       customProperties: new f.ObjectField({required: true}),
-      effectsConfig: new EffectsConfigFields({mustEquip: new f.BooleanField({required: true, initial: true})})
+      effectsConfig: new EffectsConfigFields()
     })
   }
 }

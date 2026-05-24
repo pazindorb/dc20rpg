@@ -435,7 +435,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
         const item = effect.getSourceItem();
         if (item) {
           // Equippable
-          if (item.system.effectsConfig?.mustEquip) effect.equippable = true; 
+          if (effect.system.requireEquip) effect.equippable = true; 
 
           // Toggleable
           if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) effect.itemId = item.id; 

@@ -1,3 +1,155 @@
-<section class="item-sheet-section tab targetModifiers {{tabs.targetModifiers.cssClass}}" data-group="sheet" data-tab="targetModifiers">
-  targetModifiers
+<section class="item-sheet-section tab targetModifiers standard-form {{tabs.targetModifiers.cssClass}}" data-group="sheet" data-tab="targetModifiers">
+<div class="scrollable">
+
+  <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="targetModifier"><i class="fa-regular fa-crosshairs-simple fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.targetModifiers.addTargetModifier"}}</button>
+
+  {{#each system.targetModifiers as |modifier key|}}
+  <div class="sub-header margin-top-10">
+    <label>{{modifier.name}}</label>
+    <div class="button-wrapper">
+      <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.targetModifiers.removeTargetModifier"}}" data-action="removeSubdoc" data-type="targetModifier" data-key="{{key}}"></a>
+      <a class="fa-solid {{#if (lookup @root.sheetFlags key)}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="{{key}}"></a>
+    </div>
+  </div>
+  {{#unless (lookup @root.sheetFlags key)}}
+  <div class="content-wrapper">
+    {{!-- Name --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.displayName"}}</label>
+      <input type="text" name="system.targetModifiers.{{key}}.name" value="{{modifier.name}}" placeholder="-">
+    </div>
+
+    {{!-- Use for --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.useFor"}}</label>
+      <input class="formula" type="text" name="system.targetModifiers.{{key}}.useFor" value="{{modifier.useFor}}">
+    </div>
+
+    {{!-- Condition macro --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.condition"}}</label>
+      <div class="right-part-row">
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless modifier.condition}}empty{{/unless}}" data-action="editRottedMacro" data-type="targetModifier" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.targetModifiers.condition"}}"></a>
+      </div>
+    </div>
+
+    {{!-- Link with toggle --}}
+    {{#if @root.system.toggle.toggleable}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.linkWithToggle"}}</label>
+      <input type="checkbox" name="system.targetModifiers.{{key}}.linkWithToggle" {{checked modifier.linkWithToggle}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.targetModifiers.linkWithToggleTitle"}}</p>
+    </div>
+    {{/if}}
+    <hr/>
+
+    {{!-- Modifies Formula --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.bonus"}}</label>
+      <input class="formula" type="text" name="system.targetModifiers.{{key}}.bonus" value="{{modifier.bonus}}">
+    </div>
+
+    {{!-- Ignore DR --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.ignoreDR"}}</label>
+      <div class="right-part-row">
+        <a class="fa-lg fa-shield {{#if modifier.flags.ignorePdr}}fa-solid checked{{else}}fa-regular{{/if}} margin-left-5" 
+            data-cType="activable" data-path="system.targetModifiers.{{key}}.flags.ignorePdr" data-tooltip="{{localize "dc20rpg.item.sheet.targetModifiers.ignorePDR"}}"></a>
+        <a class="fa-lg fa-fire-flame-curved {{#if modifier.flags.ignoreEdr}}fa-solid checked{{else}}fa-regular{{/if}} margin-left-5" 
+            data-cType="activable" data-path="system.targetModifiers.{{key}}.flags.ignoreEdr" data-tooltip="{{localize "dc20rpg.item.sheet.targetModifiers.ignoreEDR"}}"></a>
+        <a class="fa-lg fa-brain {{#if modifier.flags.ignoreMdr}}fa-solid checked{{else}}fa-regular{{/if}} margin-left-5" 
+            data-cType="activable" data-path="system.targetModifiers.{{key}}.flags.ignoreMdr" data-tooltip="{{localize "dc20rpg.item.sheet.targetModifiers.ignoreMDR"}}"></a>
+      </div>
+    </div>
+
+    {{!-- Ignore Resistance --}}
+    <div class="multi-select-wrapper">
+      <div class="form-group symetric">
+        <label>{{localize "dc20rpg.item.sheet.targetModifiers.ignoreResistance"}}</label>
+        <div class="form-fields">
+          <select class="multi-select" data-cType="multi-select" data-path="system.targetModifiers.{{key}}.flags.ignoreResistance">
+            {{selectOptions @root.config.DROPDOWN_DATA.damageResistances blank=""}}
+          </select>
+        </div>
+      </div>
+      <div class="selected-options">
+        {{#each modifier.flags.ignoreResistance as |label type|}}
+          <div class="option">
+            <label>{{label}}</label>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.targetModifiers.{{key}}.flags.ignoreResistance" data-key="{{type}}" data-tooltip="{{localize "dc20rpg.item.sheet.spell.removeCheckOption"}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Ignore Immunity --}}
+    <div class="multi-select-wrapper">
+      <div class="form-group symetric">
+        <label>{{localize "dc20rpg.item.sheet.targetModifiers.ignoreImmune"}}</label>
+        <div class="form-fields">
+          <select class="multi-select" data-cType="multi-select" data-path="system.targetModifiers.{{key}}.flags.ignoreImmune">
+            {{selectOptions @root.config.DROPDOWN_DATA.damageResistances blank=""}}
+          </select>
+        </div>
+      </div>
+      <div class="selected-options">
+        {{#each modifier.flags.ignoreImmune as |label type|}}
+          <div class="option">
+            <label>{{label}}</label>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.targetModifiers.{{key}}.flags.ignoreImmune" data-key="{{type}}" data-tooltip="{{localize "dc20rpg.item.sheet.spell.removeCheckOption"}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <hr/>
+    
+    {{!-- Adds Formula --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsNewFormula"}}</label>
+      <input type="checkbox" name="system.targetModifiers.{{key}}.addsNewFormula" {{checked modifier.addsNewFormula}}/>
+    </div>
+    {{#if modifier.addsNewFormula}}
+      {{> "systems/dc20rpg/templates/sheets/item/partials/formula.hbs" 
+        path=(concat "system.targetModifiers." key ".formula")
+        formula=modifier.formula
+        categories=@root.config.DROPDOWN_DATA.formulaCategories
+      }}
+    {{/if}}    
+    <hr/>
+
+    {{!-- Adds Roll Request --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsNewRollRequest"}}</label>
+      <input type="checkbox" name="system.targetModifiers.{{key}}.addsNewRollRequest" {{checked modifier.addsNewRollRequest}}/>
+    </div>
+    {{#if modifier.addsNewRollRequest}}
+      {{> "systems/dc20rpg/templates/sheets/item/partials/rollRequest.hbs" 
+        path=(concat "system.targetModifiers." key ".rollRequest")
+        request=modifier.rollRequest
+      }}
+    {{/if}}
+    <hr/>
+
+    {{!-- Adds Effect --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.targetModifiers.addEffect"}}</label>
+      <div class="right-part-row">
+        {{#if modifier.effect}} 
+        <img src="{{modifier.effect.img}}" data-action="editRootedEffect" data-type="targetModifier" data-key="{{key}}" class="edit-rooted-effect" data-tooltip="{{localize "dc20rpg.sheet.effects.edit"}}"/>
+
+        <a class="fa-message {{#if modifier.effect.system.addToChat}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.targetModifiers.{{key}}.effect.system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
+        <a class="fa-bullseye {{#if modifier.effect.system.applyToTemplate}}fa-solid checked{{else}}fa-light{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.targetModifiers.{{key}}.effect.system.applyToTemplate" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToTemplate"}}"></a>
+        <a class="fa-lg fa-square-minus fa-solid" data-action="removeRootedEffect" data-type="targetModifier" data-key="{{key}}" style="margin-right: 4px"></a>
+        {{else}}
+        <a class="fa-lg fa-square-plus fa-solid" data-action="addRootedEffect" data-type="targetModifier" data-key="{{key}}" style="margin-right: 4px"></a>
+        {{/if}}
+      </div>
+    </div>
+
+  </div>
+  {{/unless}}
+  {{/each}}
+</div>
 </section>

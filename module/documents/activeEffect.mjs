@@ -37,6 +37,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         macro: new fields.StringField({required: true}),
         addToChat: new fields.BooleanField({required: true, initial: false}),
         applyToTemplate: new fields.BooleanField({required: true, initial: true}),
+        requireEquip: new fields.BooleanField({required: true, initial: false}),
         nonessential: new fields.BooleanField({required: true, initial: false}),
         refreshTarget: new fields.BooleanField({required: true, initial: false}),
         disableWhen: new fields.SchemaField({
@@ -88,7 +89,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (!effectConfig) return false;
 
     if (item.system.toggle?.toggleable) return effectConfig.linkWithToggle;
-    else return effectConfig.mustEquip;
+    else return this.system.requireEquip;
   }
 
   get stateChangeLocked() {
@@ -101,7 +102,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     const toggleable = item.system.toggle?.toggleable;
     if (toggleable && effectConfig.linkWithToggle && !effectConfig.toggleItem) return true;
     if (toggleable && effectConfig.linkWithToggle && effectConfig.toggleItem) return false;
-    return effectConfig.mustEquip;
+    return this.system.requireEquip;
   }
 
   get isCondition() {

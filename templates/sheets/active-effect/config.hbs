@@ -5,6 +5,7 @@
     {{#unless source.flags.dc20rpg.enhKey}}
       {{formGroup fields.system.fields.addToChat value=source.system.addToChat rootId=rootId label=(localize "dc20rpg.effect.sheet.addToChat") hint=(localize "dc20rpg.effect.sheet.addToChatTitle")}}
       {{formGroup fields.system.fields.applyToTemplate value=source.system.applyToTemplate rootId=rootId label=(localize "dc20rpg.effect.sheet.applyToTemplate") hint=(localize "dc20rpg.effect.sheet.applyToTemplateTitle")}}
+      {{formGroup fields.system.fields.requireEquip value=source.system.requireEquip rootId=rootId label=(localize "dc20rpg.effect.sheet.mustEquip") hint=(localize "dc20rpg.effect.sheet.mustEquipTitle")}}
     {{/unless}}      
 
     {{#if isActorEffect}}

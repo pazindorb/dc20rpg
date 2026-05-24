@@ -7,7 +7,7 @@
     {{/ifCond}} {{/if}}
   </div>
   <select name="{{path}}.category" {{#ifCond removeKey '===' "weaponDamage"}}disabled{{/ifCond}}>
-    {{selectOptions @root.config.DROPDOWN_DATA.allFormulaCategories selected=formula.category blank=""}}
+    {{selectOptions categories selected=formula.category blank=""}}
   </select>
 </div>
 

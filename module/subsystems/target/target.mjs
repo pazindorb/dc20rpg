@@ -328,7 +328,7 @@ export class DC20Target {
     final.modified = await this.#targetModifierBonus(final.modified, calcData);
 
     if (options.isDamage) {
-      if (calcData.isAttack && attackHit < 5) this.#applyDamageReduction(final.modified, reduction);
+      if (options.isAttack && attackHit < 5) this.#applyDamageReduction(final.modified, reduction);
       final.modified = this.#damageModifications(final.modified, reduction);
       final.clear = this.#damageModifications(final.clear, reduction);
     }
@@ -678,7 +678,7 @@ export class DC20Target {
         source: modifier.name,
         type: original.type,
         value: formulaRoll._total,
-        label: type,
+        label: game.i18n.localize(`dc20rpg.${category}.${original.type}`),
         each5Value: null,
         failValue: null
       }

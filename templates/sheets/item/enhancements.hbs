@@ -16,20 +16,23 @@
       <label>{{localize "dc20rpg.item.sheet.config.copyFor"}}</label>
       <input type="text" name="system.copyEnhancements.copyFor" value="{{system.copyEnhancements.copyFor}}">
     </div>
+    {{#if @root.system.toggle.toggleable}}
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</label>
       <input type="checkbox" name="system.copyEnhancements.linkWithToggle" {{checked system.copyEnhancements.linkWithToggle}}/>
       <p class="hint">{{localize "dc20rpg.item.sheet.enh.linkWithToggleTitle"}}</p>
     </div>
+    {{/if}}
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.enh.onlyMaintained"}}</label>
       <input type="checkbox" name="system.copyEnhancements.onlyMaintained" {{checked system.copyEnhancements.onlyMaintained}}/>
       <p class="hint">{{localize "dc20rpg.item.sheet.enh.onlyMaintainedTitle"}}</p>
     </div>
     {{/if}}
-    <button style="margin-top: 15px; width: 100%;" data-action="createSubdoc" data-type="enhancement"><i class="fa-solid fa-layer-plus fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}</button>
   </div>
   {{/unless}}
+
+  <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="enhancement"><i class="fa-solid fa-layer-plus fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}</button>
 
   {{#each enhancements as |enhancement key|}}
   <div class="sub-header margin-top-10">
@@ -274,6 +277,7 @@
       {{> "systems/dc20rpg/templates/sheets/item/partials/formula.hbs" 
         path=(concat "system.enhancements." key ".modifications.formula")
         formula=enhancement.modifications.formula 
+        categories=@root.config.DROPDOWN_DATA.allFormulaCategories
       }}
     {{/if}}    
     <hr/>
@@ -291,7 +295,7 @@
     {{/if}}   
     <hr/> 
 
-    {{!-- Adds Against Effect --}}
+    {{!-- Adds Against Status --}}
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.enh.addsAgainstStatus"}}</label>
       <input type="checkbox" name="system.enhancements.{{key}}.modifications.addsAgainstStatus" {{checked enhancement.modifications.addsAgainstStatus}}/>
@@ -312,11 +316,10 @@
         <img src="{{enhancement.modifications.addsEffect.img}}" data-action="editRootedEffect" data-type="enhancement" data-key="{{key}}" class="edit-rooted-effect" data-tooltip="{{localize "dc20rpg.sheet.effects.edit"}}"/>
         
         <a class="fa-message {{#if enhancement.modifications.addsEffect.system.addToChat}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
-            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToTemplate"}}"></a>
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
         <a class="fa-bullseye {{#if enhancement.modifications.addsEffect.system.applyToTemplate}}fa-solid checked{{else}}fa-light{{/if}} margin-right-5" 
-            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.applyToTemplate" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.applyToTemplate" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToTemplate"}}"></a>
         <a class="fa-lg fa-square-minus fa-solid" data-action="removeRootedEffect" data-type="enhancement" data-key="{{key}}" style="margin-right: 4px"></a>
-        {{!-- Add chat button, add template button --}}
         {{else}}
         <a class="fa-lg fa-square-plus fa-solid" data-action="addRootedEffect" data-type="enhancement" data-key="{{key}}" style="margin-right: 4px"></a>
         {{/if}}

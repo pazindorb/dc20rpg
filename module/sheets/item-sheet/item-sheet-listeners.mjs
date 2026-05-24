@@ -1,4 +1,4 @@
-import { addToMultiSelect, datasetOf, labelOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
+import { addToMultiSelect, datasetOf, labelOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, generateKey } from "../../helpers/utils.mjs";
 import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
@@ -73,7 +73,6 @@ export function activateCommonLinsters(html, item) {
     const label = labelOf(ev);
     addToMultiSelect(item, path, key, label);
   });
-  html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
   html.find('.add-enhancement').click(() => item.createNewEnhancement());

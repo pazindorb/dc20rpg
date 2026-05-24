@@ -36,18 +36,21 @@ export function tooltipListeners(event, type, isEntering, data, html, options) {
     }
     const dataset = data.dataset;
     const item = data.item;
+    const effect = data.effect;
 
     switch (type) {
       case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html, options); break;
       case "item": itemTooltip(item, event, html, options); break;
+      case "effect": effectTooltip(effect, event, html, options); break;
       case "enhancement": enhTooltip(item, dataset.enhKey, event, html, options); break;
-      case "custom": textTooltip(dataset.description, dataset.header, dataset.img, event, html, options)
+      case "custom": textTooltip(dataset.description, dataset.header, dataset.img, event, html, options); break;
     }
 }
 
 export function effectTooltip(effect, event, html, options={}) {
   if (!effect) return _showTooltip(html, event, "-", "Effect not found", "");
-  const header = _itemHeader(effect);
+  
+  const header = _effectHeader(effect);
   const description = `<div class='description'> ${_enhanceDescription(effect.description)} </div>`;
   _showTooltip(html, event, header, description, null, options);
 }
@@ -296,6 +299,13 @@ function _itemDetails(item) {
   const identified = item?.system?.statuses ? item.system.statuses.identified : true;
   if (identified) return itemDetailsToHtml(item);
   else return null;
+}
+
+function _effectHeader(effect) {
+  return `
+    <img class="image" src="${effect.img}"/>
+    <input disabled value="${effect.name}" data-tooltip="${effect.name}"/>
+  `
 }
 
 function _itemAction(item) {

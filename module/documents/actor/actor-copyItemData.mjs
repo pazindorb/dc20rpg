@@ -271,8 +271,10 @@ function _customResources(items, actor) {
 function _targetModifiers(items, actor) {
 	for (const item of items) {
 		if (item.type === "infusion") continue; // We want to skip target modifier from infusons
-		for (const tm of Object.values(item.system.targetModifiers)) {
+		for (const original of Object.values(item.system.targetModifiers)) {
+			const tm = foundry.utils.deepClone(original);
 			if (toggleCheck(item, tm.linkWithToggle)) {
+				tm.useFor = tm.useFor.replaceAll("#THIS#", `_id=["${item.id}"]`)
 				actor.system.targetModifiers.push(tm);
 			}
 		}

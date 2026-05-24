@@ -121,7 +121,7 @@ function _checkToggleableEffects(effect, item) {
 
 function _checkEquippedAndAttunedEffects(effect, item) {
   if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) return; // Toggle overrides equiped
-  if (!item.system.effectsConfig?.mustEquip) return;
+  if (!effect.system.requireEquip) return;
 
   const statuses = item.system.statuses;
   if (!statuses) return;
