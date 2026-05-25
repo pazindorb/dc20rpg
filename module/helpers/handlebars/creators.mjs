@@ -637,7 +637,7 @@ function _scalingValuePrinter(system, paths, labels, secondPage=false) {
     let row = `<td>${i+1}</td>`;
     paths.forEach(path => {
       const values = getValueFromPath(system, path);
-      row += `<td><input value=${values[i]} name="system.${path}.${i}"/></td>`
+      row += `<td data-tooltip="Level: ${i+1}"><input value=${values[i]} name="system.${path}.${i}"/></td>`
     });
 
     // workaround for validation errors

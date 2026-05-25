@@ -1,3 +1,53 @@
-<section class="item-sheet-section tab advancement {{tabs.advancement.cssClass}}" data-group="sheet" data-tab="advancement">
-  advancement
+<section class="item-sheet-section tab advancement standard-form {{tabs.advancement.cssClass}}" data-group="sheet" data-tab="advancement">
+<div class="scrollable">
+
+  <div class="sub-header margin-top-10 margin-bottom-10" style="border-radius: 5px;">
+    <label>{{localize "dc20rpg.item.sheet.advancements.title"}}</label>
+    {{#unless @root.hasOwner}}
+    <div class="button-wrapper">
+      <a class="fa-solid fa-file-circle-plus fa-lg margin-right-5" data-action="blueprintAdvancement" data-tooltip="{{localize "dc20rpg.item.sheet.advancements.fromBlueprint"}}"></a>
+      <a class="fa-solid fa-square-plus fa-lg" data-action="createSubdoc" data-type="advancement" data-tooltip="{{localize "dc20rpg.item.sheet.advancements.newAdv"}}"></a>
+    </div>
+    {{else}}
+    <span><i style="font-size: 16px;">{{localize "dc20rpg.item.sheet.advancements.nonEditable"}}</i></span>
+    {{/unless}}
+  </div>
+
+  {{#each advByLevel as |level number|}}
+  <div class="advancements-table">
+    {{!-- Header --}}
+    <div class="advancement-header">
+      <div class="column name margin-left-10  ">{{localize "dc20rpg.item.sheet.advancements.name"}}</div>
+      <div class="column">{{localize "dc20rpg.item.sheet.advancements.path"}}</div>
+      <div class="column">{{localize "dc20rpg.item.sheet.advancements.choice"}}</div>
+      <div class="column">{{localize "dc20rpg.item.sheet.advancements.level"}} {{number}}</div>
+    </div>
+
+    {{!-- Row --}}
+    {{#each level as |advancement key|}}
+    <div class="advancement-row {{#if advancement.additionalAdvancement}}additional-advancements{{/if}}">
+      <div class="column name">    
+        <span class="margin-left-10">{{advancement.name}}</span>
+      </div>
+      <div class="column">
+        {{#if advancement.progressPath}}<i class="fa-lg fa-solid fa-square-check"></i>{{/if}}
+      </div>
+      <div class="column">
+        {{#if advancement.mustChoose}}
+        <i class="fa-lg fa-solid fa-square-check"></i>
+        <span class="margin-left-3">({{advancement.pointAmount}})</span>
+        {{/if}}
+      </div>
+      <div class="column config">
+        {{#unless @root.hasOwner}}
+        <a class="fas fa-edit margin-right-3" data-key="{{key}}" data-action="editAdvancement" data-tooltip="{{localize "dc20rpg.item.sheet.advancements.editAdv"}}"></a>
+        <a class="fas fa-trash margin-left-3" data-key="{{key}}" data-action="removeSubdoc" data-type="advancement" data-tooltip="{{localize "dc20rpg.item.sheet.advancements.removeAdv"}}"></a>
+        {{/unless}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+
+</div>
 </section>

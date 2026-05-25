@@ -178,12 +178,9 @@ function _class(actor) {
 
 function _ancestry(actor) {
 	const details = actor.system.details;
-	const movement = actor.system.movement;
 
 	const ancestry = actor.items.get(details.ancestry.id);
 	if (!ancestry) return;
-
-	if (!movement.ground.useCustom) movement.ground.value = ancestry.system.movement.speed;
 }
 
 function _subclass(actor) {

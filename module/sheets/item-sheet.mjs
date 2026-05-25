@@ -7,7 +7,7 @@ import { getForItemType } from "./item-sheet/item-sheet-helper.mjs";
 import { removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { createEditorDialog } from "../dialogs/editor.mjs";
-import { configureAdvancementDialog } from "../subsystems/character-progress/advancement/advancement-configuration.mjs";
+import { blueprintAdvancements, configureAdvancementDialog } from "../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 
 /**
@@ -42,6 +42,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     enhancements: {template: "systems/dc20rpg/templates/sheets/item/enhancements.hbs", scrollable: [".scrollable"]},
     targetModifiers: {template: "systems/dc20rpg/templates/sheets/item/targetModifiers.hbs", scrollable: [".scrollable"]},
     effects: {template: "systems/dc20rpg/templates/sheets/item/effects.hbs", scrollable: [".scrollable"]},
+    csabConfig: {template: "systems/dc20rpg/templates/sheets/item/csabConfig.hbs", scrollable: [".scrollable"]},
     advanced: {template: "systems/dc20rpg/templates/sheets/item/advanced.hbs", scrollable: [".scrollable"]},
     classTable: {template: "systems/dc20rpg/templates/sheets/item/classTable.hbs", scrollable: [".scrollable"]},
     advancement: {template: "systems/dc20rpg/templates/sheets/item/advancement.hbs", scrollable: [".scrollable"]},
@@ -65,6 +66,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         {id: "effects", icon: "fa-solid fa-person-rays"},
         {id: "magic", icon: "fa-solid fa-wand-magic-sparkles"},
         {id: "advanced", icon: "fa-solid fa-gears"},
+        {id: "csabConfig", icon: "fa-solid fa-gear"},
         {id: "classTable", icon: "fa-regular fa-table"},
         {id: "advancement", icon: "fa-solid fa-star"}
       ],
@@ -99,6 +101,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.editAdvancement = this._onEditAdvancement;
     initialized.actions.addMagicProperty = this._onAddMagicProperty;
     initialized.actions.removeMagicProperty = this._onRemoveMagicProperty;
+    initialized.actions.blueprintAdvancement = () => blueprintAdvancements(this.item);
     return initialized;
   }
 
@@ -390,6 +393,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     switch (cType) {
       case "multi-select": await this._onMultiSelectChange(path, value, target); break;
       case "roll-template": await rollTemplateSelect(value, this.item); break;
+      case "select-class-id": 
+        const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[value];
+        this.item.update({ ["system.forClass"]: { classSpecialId: value, name: className } });
+      break;
     }
   }
   
@@ -467,10 +474,24 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "enhancement": this.item.createNewEnhancement(); break;
       case "targetModifier": this.item.createNewTargetModifier(); break;
       case "itemMacro": this.item.createNewItemMacro(); break;
+      case "startingEquipment": this._createStartingEquipment(); break;
+      case "advancement": configureAdvancementDialog(this.item);
       case "effect": 
         const temporary = target.dataset.effectType === "temporary"
         DC20RpgActiveEffect.create(this.#effectCreationData(temporary), {parent: this.item}); break;
     }
+  }
+
+  _createStartingEquipment() {
+    this.item.update({[`system.startingEquipment.${generateKey()}`]: {
+      label: "Starting Equipment",
+      weapon: false,
+      ranged: false,
+      spellFocus: false,
+      armor: false,
+      shield: false,
+      itemData: {},
+    }});
   }
 
   #effectCreationData(temporary=false, rotted=false) {
@@ -505,6 +526,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "itemMacro": this.item.removeItemMacro(key); break;
       case "itemContent": removeItemFromContainer(this.item, key); break;
       case "resource": removeResourceFromItem(this.item, key); break;
+      case "advancement": this.item.update({[`system.advancements.-=${key}`]: null}); break;
+      case "startingEquipment": 
+        this.item.update({[`system.startingEquipment.-=${target.dataset.key}`]: null})
+        break;
       case "effect": 
         const effect = this.item.effects.get(target.dataset.effectId);
         if (effect) effect.delete();

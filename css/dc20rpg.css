@@ -11421,6 +11421,87 @@
   width: 100%;
   background-color: transparent;
 }
+.dc20rpg.item-v13 .item-sheet-section .starting-equipment .right-part-row .letter-circle-icon {
+  margin-right: 5px;
+}
+.dc20rpg.item-v13 .item-sheet-section .starting-equipment .right-part-row .letter-circle-icon a {
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+  border: 1px solid var(--color-tabs-border);
+  background-color: var(--color-cool-4);
+  text-shadow: none;
+}
+.dc20rpg.item-v13 .item-sheet-section .starting-equipment .right-part-row .letter-circle-icon a.active {
+  background-color: var(--content-link-icon-color);
+  color: var(--color-shadow-primary);
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table {
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-header {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 75px 75px 75px;
+  border-radius: 5px 5px 0 0;
+  background: -webkit-gradient(linear, left top, right top, from(var(--content-link-border-color)), to(var(--color-text-selection-bg)));
+  background: linear-gradient(to right, var(--content-link-border-color), var(--color-text-selection-bg));
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-header .column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-header .name {
+  overflow: hidden;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-row {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 75px 75px 75px;
+  background-color: var(--color-cool-4);
+  border: 2px solid var(--color-tabs-border);
+  border-top: 0;
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-row.additional-advancements {
+  -webkit-filter: opacity(0.7);
+  filter: opacity(0.7);
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-row .column {
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-right: 1px solid var(--color-tabs-border);
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-row .column:last-child {
+  border-right: 0;
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-row .name {
+  overflow: hidden;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+}
+.dc20rpg.item-v13 .item-sheet-section .advancements-table .advancement-row .config {
+  font-size: 14px;
+}
 .dc20rpg.fixed-600-size {
   min-width: 600px;
 }

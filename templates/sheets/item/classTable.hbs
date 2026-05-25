@@ -1,3 +1,16 @@
-<section class="item-sheet-section tab classTable {{tabs.classTable.cssClass}}" data-group="sheet" data-tab="classTable">
-  classTable
+<section class="item-sheet-section tab classTable standard-form {{tabs.classTable.cssClass}}" data-group="sheet" data-tab="classTable">
+<div class="scrollable" style="overflow-x: auto;">
+  
+  <div class="scaling-value">
+    {{{
+      scaling-value-printer 
+      system 
+      (array "scaling.maxHpBonus.values" "scaling.bonusStamina.values" "scaling.bonusMana.values" "scaling.maneuversKnown.values" "scaling.spellsKnown.values" "scaling.skillPoints.values" "scaling.tradePoints.values" "scaling.attributePoints.values") 
+      (array system.scaling.maxHpBonus.label system.scaling.bonusStamina.label system.scaling.bonusMana.label system.scaling.maneuversKnown.label system.scaling.spellsKnown.label system.scaling.skillPoints.label system.scaling.tradePoints.label system.scaling.attributePoints.label ) 
+      sheetFlags.classTablePage
+    }}}
+    <button class="page-change-button" data-action="sheetEdit" data-key="classTablePage"><i class="fa-solid {{#if sheetFlags.classTablePage}}fa-square-arrow-left{{else}}fa-square-arrow-right{{/if}} margin-right-5"></i>{{localize "dc20rpg.item.sheet.changePage"}}</button>
+  </div>
+
+</div>
 </section>

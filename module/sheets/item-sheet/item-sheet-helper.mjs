@@ -41,7 +41,7 @@ function _getTabsForItem(type) {
       break;
 
     case "class": case "subclass": case "background": case "ancestry":
-      allowed = ["core", "config", "advancement"];
+      allowed = ["core", "csabConfig", "advancement"];
       break;
   }
 
