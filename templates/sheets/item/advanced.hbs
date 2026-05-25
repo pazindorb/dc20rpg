@@ -1,3 +1,139 @@
-<section class="item-sheet-section tab advanced {{tabs.advanced.cssClass}}" data-group="sheet" data-tab="advanced">
-  advanced
+<section class="item-sheet-section tab advanced standard-form {{tabs.advanced.cssClass}}" data-group="sheet" data-tab="advanced">
+<div class="scrollable">
+
+  {{!-- Macro --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.macros.title"}}</label>
+    <div class="button-wrapper">
+      <a class="fa-solid fa-square-plus fa-lg margin-right-5" data-action="createSubdoc" data-type="itemMacro" data-tooltip="{{localize "dc20rpg.item.sheet.macro.addNewMacro"}}"></a>
+      <a class="fa-solid {{#if sheetFlags.macroClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="macroClosed"></a>
+    </div>
+  </div>
+  {{#unless sheetFlags.macroClosed}}
+  {{#each system.macros as |macro key|}}
+  <div class="content-wrapper">
+    {{!-- Name --}}
+    <div class="form-group">
+      <div class="left-part-row">
+        <label>{{localize "dc20rpg.item.sheet.macros.name"}}</label>
+        <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.macros.remove"}}" data-action="removeSubdoc" data-type="itemMacro" data-key="{{key}}"></a>
+      </div>
+      <input class="input" type="text" name="system.macros.{{key}}.name" value="{{macro.name}}">
+    </div>
+
+    {{!-- Trigger --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.macros.trigger"}}</label>
+      <div class="form-fields">
+        {{#ifCond macro.trigger '===' "onDemand"}}
+        <input class="input" type="text" name="system.macros.{{key}}.title" value="{{macro.title}}" data-toltip="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
+        {{/ifCond}}
+        <select name="system.macros.{{key}}.trigger">
+          {{selectOptions @root.config.macroTriggers selected=macro.trigger blank=""}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Config --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.macros.config"}}</label>
+      <div class="right-part-row">
+        <a class="fa-solid fa-lg fa-globe margin-right-5 {{#unless macro.global}}empty{{/unless}}" data-cType="activable" data-tooltip="{{localize "dc20rpg.item.sheet.macros.global"}}" data-path="system.macros.{{key}}.global"></a>
+        <a class="fa-solid fa-lg fa-power-off margin-right-10 {{#unless macro.disabled}}empty{{/unless}}" data-cType="activable" data-tooltip="{{localize "dc20rpg.item.sheet.macros.disable"}}" data-path="system.macros.{{key}}.disabled"></a>
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless macro.command}}empty{{/unless}}" data-action="editMacro" data-tooltip="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="{{key}}"></a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  {{/unless}}
+
+  {{!-- Advancement --}}
+  {{#ifCond type '===' "feature"}}
+  <div class="sub-header margin-top-10" style="border-radius: 5px;">
+    <label>{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}</label>
+    <div class="button-wrapper">
+      {{#if system.hasAdvancement}}
+      <a class="fa-pen-to-square fa-solid fa-lg margin-right-5" data-action="editAdvancement" data-key="default" data-tooltip="{{localize "dc20rpg.item.sheet.advancement.editAdvancement"}}"></a>
+      {{/if}}
+      <a class="fa-lg {{#if system.hasAdvancement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-cType="activable" data-path="system.hasAdvancement" data-tooltip="{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}"></a>
+    </div>
+  </div>
+  {{/ifCond}}
+
+  {{!-- Keyword --}}
+  {{#ifCond type '===' "feature"}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.keyword.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.keywordClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="keywordClosed"></a>
+  </div>
+  {{#unless sheetFlags.keywordClosed}}
+  <div class="content-wrapper">
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.keyword.key"}}</label>
+      <input type="text" name="system.keyword.key" value="{{system.keyword.key}}">
+    </div>
+    {{#if system.keyword.key}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.keyword.message"}}</label>
+        <input type="text" name="system.keyword.message" value="{{system.keyword.message}}">
+      </div>
+      <div class="form-group symetric">
+        <label>{{localize "dc20rpg.item.sheet.keyword.selectOptions"}}</label>
+        <textarea name="system.keyword.selectOptions">{{system.keyword.selectOptions}}</textarea>
+      </div>
+    {{/if}}
+  </div>
+  {{/unless}}
+  {{/ifCond}}
+
+  {{!-- Resource --}}
+  {{#ifCond type '===' "feature"}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.resource.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.resourceClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="resourceClosed"></a>
+  </div>
+  {{#unless sheetFlags.resourceClosed}}
+  <div class="content-wrapper">
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.resource.providesResource"}}</label>
+      <input type="checkbox" name="system.isResource" {{checked system.isResource}}/>
+    </div>
+    {{#if system.isResource}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.resource.resourceKey"}}</label>
+      <input type="text" name="system.resource.resourceKey" value="{{system.resource.resourceKey}}">
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.resource.name"}}</label>
+      <input type="text" name="system.resource.name" value="{{system.resource.name}}">
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.resource.reset"}}</label>
+      <select name="system.resource.reset">
+        {{selectOptions @root.config.DROPDOWN_DATA.resetTypes selected=system.resource.reset blank=""}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.resource.useStandardTable"}}</label>
+      <input type="checkbox" name="system.resource.useStandardTable" {{checked system.resource.useStandardTable}}/>
+    </div>
+      {{#if system.resource.useStandardTable}}
+      {{!-- Standard table --}}
+      <div class="scaling-value">
+        {{{scaling-value-printer system (array "resource.values") (array system.resource.name) sheetFlags.resourcePage}}}
+        <button class="page-change-button" data-action="sheetEdit" data-key="resourcePage"><i class="fa-solid {{#if sheetFlags.resourcePage}}fa-square-arrow-left{{else}}fa-square-arrow-right{{/if}} margin-right-5"></i>{{localize "dc20rpg.item.sheet.changePage"}}</button>
+      </div>
+      {{else}}
+      {{!-- Custom Max Formula --}}
+      <div class="form-group symetric">
+        <label>{{localize "dc20rpg.item.sheet.resource.customMaxFormula"}}</label>
+        <input type="text" name="system.resource.customMaxFormula" value="{{system.resource.customMaxFormula}}">
+      </div>
+      {{/if}}
+    {{/if}}
+  </div>
+  {{/unless}}
+  {{/ifCond}}
+
+</div>
 </section>

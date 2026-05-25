@@ -541,4 +541,37 @@ $selection: var(--color-text-selection-bg);
       }
     }
   }
+
+  .scaling-value {
+    font-size: 16px;
+
+    table {
+      border: 1px solid $border;
+    }
+
+    .page-change-button {
+      width: 100%;
+    }
+
+    th {
+      background-color: $background-input;
+      border-bottom: 1px solid $border;
+    }
+
+    td, th {
+      text-align: center;
+      border-right: 1px solid $border;
+
+      &:last-child {
+        border-right: 0;
+      }
+    }
+
+    input {
+      border: 0;
+      text-align: center;
+      width: 100%;
+      background-color: transparent;
+    }
+  }
 }

@@ -4,42 +4,43 @@
   <div class="sub-header margin-top-10">
     <label>{{localize "dc20rpg.item.sheet.usage.resources"}}</label>
   </div>
-
-  <div class="grid grid-5col resource-wrapper">
-    {{!-- Basic Resources --}}
-    <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.ap"}}">
-      <div class="wrapper ap"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
-      <input type="text" name="system.costs.resources.ap" value="{{system.costs.resources.ap}}" placeholder="-" data-dtype="Number">
+  <div class="content-wrapper">
+    <div class="grid grid-5col resource-wrapper">
+      {{!-- Basic Resources --}}
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.ap"}}">
+        <div class="wrapper ap"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
+        <input type="text" name="system.costs.resources.ap" value="{{system.costs.resources.ap}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.stamina"}}">
+        <div class="wrapper stamina"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
+        <input type="text" name="system.costs.resources.stamina" value="{{system.costs.resources.stamina}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.mana"}}">
+        <div class="wrapper mana"><i class="fa-lg fa-solid fa-star"></i></div>
+        <input type="text" name="system.costs.resources.mana" value="{{system.costs.resources.mana}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.health"}}">
+        <div class="wrapper health"><i class="fa-lg fa-solid fa-heart"></i></div>
+        <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.grit"}}">
+        <div class="wrapper grit"><i class="fa-lg fa-solid fa-clover"></i></div>
+        <input type="text" name="system.costs.resources.grit" value="{{system.costs.resources.grit}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.restPoints"}}">
+        <div class="wrapper rest-points"><i class="fa-lg fa-solid fa-campground"></i></div>
+        <input type="text" name="system.costs.resources.restPoints" value="{{system.costs.resources.restPoints}}" placeholder="-" data-dtype="Number">
+      </div>
+      
+      {{!-- Custom Resources --}}
+      {{#each system.costs.resources.custom as |cost key|}}
+      <div class="form-group" data-tooltip="{{cost.label}}">
+        <img class="resource-img" src="{{cost.img}}"/>
+        <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
+        <a style="color:#af0a0a" class="fa-solid fa-trash" data-action="removeSubdoc" data-type="resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"></a>
+      </div>
+      {{/each}}
     </div>
-    <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.stamina"}}">
-      <div class="wrapper stamina"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
-      <input type="text" name="system.costs.resources.stamina" value="{{system.costs.resources.stamina}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.mana"}}">
-      <div class="wrapper mana"><i class="fa-lg fa-solid fa-star"></i></div>
-      <input type="text" name="system.costs.resources.mana" value="{{system.costs.resources.mana}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.health"}}">
-      <div class="wrapper health"><i class="fa-lg fa-solid fa-heart"></i></div>
-      <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.grit"}}">
-      <div class="wrapper grit"><i class="fa-lg fa-solid fa-clover"></i></div>
-      <input type="text" name="system.costs.resources.grit" value="{{system.costs.resources.grit}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.restPoints"}}">
-      <div class="wrapper rest-points"><i class="fa-lg fa-solid fa-campground"></i></div>
-      <input type="text" name="system.costs.resources.restPoints" value="{{system.costs.resources.restPoints}}" placeholder="-" data-dtype="Number">
-    </div>
-    
-    {{!-- Custom Resources --}}
-    {{#each system.costs.resources.custom as |cost key|}}
-    <div class="form-group" data-tooltip="{{cost.label}}">
-      <img class="resource-img" src="{{cost.img}}"/>
-      <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
-      <a style="color:#af0a0a" class="fa-solid fa-trash" data-action="removeSubdoc" data-type="resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"></a>
-    </div>
-    {{/each}}
   </div>
 
   <div class="sub-header margin-top-20">

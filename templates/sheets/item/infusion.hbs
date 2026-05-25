@@ -1,3 +1,108 @@
-<section class="item-sheet-section tab infusion {{tabs.infusion.cssClass}}" data-group="sheet" data-tab="infusion">
-  infusion
+<section class="item-sheet-section tab infusion standard-form {{tabs.infusion.cssClass}}" data-group="sheet" data-tab="infusion">
+<div class="scrollable">
+  <div class="item-specific-config">
+
+    <div class="form-group margin-top-5 short-form">
+      <label>{{localize "dc20rpg.item.sheet.infusion.power"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" name="system.infusion.variablePower" {{checked system.infusion.variablePower}} data-tooltip="{{localize "dc20rpg.item.sheet.infusion.variablePower"}}"/>
+        <input type="text" {{#if system.infusion.variablePower}}disabled value="?"{{else}}name="system.infusion.power" value="{{system.infusion.power}}"{{/if}} data-dtype="Number" placeholder="-">
+      </div>
+    </div>
+
+    <div class="form-group margin-top-5 symetric">
+      <label>{{localize "dc20rpg.item.sheet.infusion.infusionKey"}}</label>
+      <input type="text" name="system.infusion.infusionKey" value="{{system.infusion.infusionKey}}" placeholder="-">
+    </div>
+
+    <div class="form-group margin-top-5 symetric">
+      <label>{{localize "dc20rpg.item.sheet.infusion.costReduction"}}</label>
+      <input type="text" name="system.infusion.costReduction" value="{{system.infusion.costReduction}}" placeholder="-">
+      <p class="hint">{{localize "dc20rpg.item.sheet.infusion.costReductionTitle"}}</p>
+    </div>
+  </div>
+
+  {{!-- Tags --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.infusion.tags"}}</label>
+    <a class="fa-solid {{#if sheetFlags.infusionTagsClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="infusionTagsClosed"></a>
+  </div>
+  {{#unless sheetFlags.infusionTagsClosed}}
+  <div class="content-wrapper">
+    <div class="properties">
+      <div class="grid grid-5col grid-gap-5 margin-top-3">
+        {{#each system.infusion.tags as |tag key|}}
+          <a class="activable-box {{#if tag.active}}active{{/if}}" data-key="{{key}}" data-cType="activable" data-path="system.infusion.tags.{{key}}.active">{{tag.label}}</a>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Tags Config --}}
+      {{#if system.infusion.tags.uses.active}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.limited"}}</label>
+        <input type="checkbox" name="system.infusion.tags.uses.limited" {{checked system.infusion.tags.uses.limited}}/>
+        <p class="hint">{{localize "dc20rpg.item.sheet.infusion.limitedTitle"}}</p>
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.usesMax"}}</label>
+        <input type="text" name="system.infusion.tags.uses.max" value="{{system.infusion.tags.uses.max}}" placeholder="-">
+      </div>
+      {{#unless system.infusion.tags.uses.limited}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.usesResetOn"}}</label>
+        <select name="system.infusion.tags.uses.reset">
+          {{selectOptions @root.config.DROPDOWN_DATA.restTypesDaily selected=system.infusion.tags.uses.reset blank=""}}
+        </select>
+      </div>
+      {{/unless}}
+      {{/if}}
+
+      {{#if system.infusion.tags.charges.active}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.chargesMax"}}</label>
+        <input type="text" name="system.infusion.tags.charges.max" value="{{system.infusion.tags.charges.max}}" placeholder="-">
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.chargesResetOn"}}</label>
+        <select name="system.infusion.tags.charges.reset">
+          {{selectOptions @root.config.DROPDOWN_DATA.chargesResets selected=system.infusion.tags.charges.reset blank=""}}
+        </select>
+      </div>
+      {{/if}}
+
+      {{#if system.infusion.tags.weapon.active}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.melee"}}</label>
+        <input type="checkbox" name="system.infusion.tags.weapon.melee" {{checked system.infusion.tags.weapon.melee}}/>
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.ranged"}}</label>
+        <input type="checkbox" name="system.infusion.tags.weapon.ranged" {{checked system.infusion.tags.weapon.ranged}}/>
+      </div>
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.infusion.ammo"}}</label>
+        <input type="checkbox" name="system.infusion.tags.weapon.ammo" {{checked system.infusion.tags.weapon.ammo}}/>
+      </div>
+      {{/if}}
+  </div>
+  {{/unless}}
+
+  {{!-- Configuration --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.infusion.infuse"}}</label>
+    <a class="fa-solid {{#if sheetFlags.infusionConfigClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="infusionConfigClosed"></a>
+  </div>
+  {{#unless sheetFlags.infusionConfigClosed}}
+  <div class="content-wrapper">
+    {{#each system.infusion.copy as |copy key|}}
+      <div class="form-group">
+        <label>{{localize (concat "dc20rpg.item.sheet.infusion." key)}}</label>
+        <input type="checkbox" name="system.infusion.copy.{{key}}" {{checked copy}}/>
+      </div>
+    {{/each}}
+  </div>
+  {{/unless}}
+
+</div>
 </section>

@@ -7,6 +7,8 @@ import { getForItemType } from "./item-sheet/item-sheet-helper.mjs";
 import { removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { createEditorDialog } from "../dialogs/editor.mjs";
+import { configureAdvancementDialog } from "../subsystems/character-progress/advancement/advancement-configuration.mjs";
+import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -54,8 +56,9 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         {id: "contents", icon: "fa-solid fa-sack"},
         {id: "core", icon: "fa-solid fa-list-ul"},
         {id: "config", icon: "fa-solid fa-gear"},
-        {id: "action", icon: "fa-solid fa-dice-d6"},
+        {id: "infusion", icon: "fa-solid fa-crystal-ball"},
         {id: "usage", icon: "fa-solid fa-coins"},
+        {id: "action", icon: "fa-solid fa-dice-d6"},
         {id: "area", icon: "fa-solid fa-bullseye"},
         {id: "enhancements", icon: "fa-solid fa-layer-plus"},
         {id: "targetModifiers", icon: "fa-regular fa-crosshairs-simple"},
@@ -63,8 +66,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         {id: "magic", icon: "fa-solid fa-wand-magic-sparkles"},
         {id: "advanced", icon: "fa-solid fa-gears"},
         {id: "classTable", icon: "fa-regular fa-table"},
-        {id: "advancement", icon: "fa-solid fa-star"},
-        {id: "infusion", icon: "fa-solid fa-wand-magic-sparkles"}
+        {id: "advancement", icon: "fa-solid fa-star"}
       ],
       initial: "core",
       labelPrefix: "ITEM.TABS",
@@ -93,6 +95,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.enhancementDescrption = this._onEditEnhancementDescription;
     initialized.actions.editEffect = this._onEditEffect;
     initialized.actions.updateEffect = this._onUpdateEffect;
+    initialized.actions.editMacro = this._onEditMacro;
+    initialized.actions.editAdvancement = this._onEditAdvancement;
+    initialized.actions.addMagicProperty = this._onAddMagicProperty;
+    initialized.actions.removeMagicProperty = this._onRemoveMagicProperty;
     return initialized;
   }
 
@@ -396,7 +402,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     await this.item.update({[path]: object});
   }
 
-  _onHover(event) {
+  async _onHover(event) {
     const target = this.#getTarget(event.target, "hover");
     const dataset = target.dataset || {};
     const hover = dataset.hover;
@@ -410,6 +416,11 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       else {
         data.item = this.actor.items.get(dataset.itemId);
       }
+    }
+
+    if (dataset.itemUuid && !data.item) {
+      data.item = await fromUuid(dataset.itemUuid);
+      if (!data.item) return;
     }
 
     if (dataset.effectId) {
@@ -615,5 +626,21 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const path = target.dataset.path;
     const value = getValueFromPath(effect, path);
     effect.update({[path]: !value});
+  }
+
+  _onEditMacro(event, target) {
+    this.item.editItemMacro(target.dataset.key);
+  }
+
+  _onEditAdvancement(event, target) {
+    configureAdvancementDialog(this.item, target.dataset.key);
+  }
+
+  _onAddMagicProperty(event, target) {
+    createItemBrowser("infusion", true, this)
+  }
+
+  _onRemoveMagicProperty(event, target) {
+    this.item.infusions.active[target.dataset.key].remove();
   }
 }

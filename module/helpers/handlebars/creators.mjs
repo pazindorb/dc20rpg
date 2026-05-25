@@ -1,5 +1,5 @@
 import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
-import { getLabelFromKey } from "../utils.mjs";
+import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 
 export function registerHandlebarsCreators() {
@@ -12,6 +12,8 @@ export function registerHandlebarsCreators() {
     }
     return dataBindings;
   });
+
+  Handlebars.registerHelper('array', (...args) => args.slice(0, -1));
   
   Handlebars.registerHelper('small-button', (listener, icon, title, data) => {
     title = title ? `title="${title}"` : "";
@@ -285,6 +287,7 @@ export function registerHandlebarsCreators() {
   })
 
   Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => costPrinter(cost, resources, charges, quantity, showMinorAction));
+  Handlebars.registerHelper('scaling-value-printer', (system, paths, labels, secondPage) => _scalingValuePrinter(system, paths, labels, secondPage));
 
   Handlebars.registerHelper('item-config', (item, options) => {
     if (!item) return '';
@@ -621,6 +624,27 @@ export function costPrinter(cost, resources=false, charges=false, quantity=false
   }
 
   return component ? `<ul class="cost-printer">${component}</ul>` : "";
+}
+
+function _scalingValuePrinter(system, paths, labels, secondPage=false) {
+  // Prepare Header
+  const header = ["<th>Level</th>"];
+  labels.forEach(label => header.push(`<th>${label}</th>`));
+
+  // Prepare Rows
+  const rows = [];
+  for (let i = 0; i < 20; i++) {
+    let row = `<td>${i+1}</td>`;
+    paths.forEach(path => {
+      const values = getValueFromPath(system, path);
+      row += `<td><input value=${values[i]} name="system.${path}.${i}"/></td>`
+    });
+
+    // workaround for validation errors
+    const shouldHide = secondPage ? i <= 9 : i > 9;
+    rows.push(`<tr ${shouldHide ? 'style="display: none;"' : ""}>${row}</tr>`);
+  }
+  return `<table><theader>${header.join("")}</theader><tbody>${rows.join("")}</tbody></table>`;
 }
 
 function _toCost(key, icon, amount, title, custom) {
