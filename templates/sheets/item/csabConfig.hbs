@@ -7,15 +7,15 @@
     <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
     <p class="hint">{{localize "dc20rpg.item.sheet.uniqueItemKeyTitle"}}</p>
   </div>
+
+  {{!-- Class Specific --}}
+  {{#ifCond type '===' "class"}}
   {{!-- Has Spell List --}}
   <div class="form-group margin-top-5">
     <label>{{localize "dc20rpg.item.sheet.class.hasSpellList"}}</label>
     <input type="checkbox" name="system.hasSpellList" {{checked system.hasSpellList}}/>
   </div>
 
-
-  {{!-- Class Specific --}}
-  {{#ifCond type '===' "class"}}
   {{!-- Class Category --}}
   <div class="sub-header margin-top-10">
     <label>{{localize "dc20rpg.item.sheet.class.category"}}</label>

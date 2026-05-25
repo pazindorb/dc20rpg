@@ -342,23 +342,6 @@ export async function rerunAdvancement(actor, classId) {
   await changeLevel("true", classId, actor);
 }
 
-// This is outdated - needs to be reworke
-export async function createScrollFromSpell(spell) {
-  if (spell.type !== "spell") return;
-
-  // Prepare Scroll data;
-  const scroll = spell.toObject();
-  scroll.name += " - Scroll";
-  scroll.type = 'consumable';
-  scroll.system.consumableType = "scroll";
-  scroll.system.enhancements = {};
-  scroll.system.costs.resources = { ap: 2 };
-
-  if (spell.actor) DC20RpgItem.gmCreate(scroll, {parent: spell.actor});
-  else Item.create(scroll);
-  spell.sheet.close();
-}
-
 export async function clearOverridenScalingValue(item, index) {
   const hasPath = [false, true, false, true, false, true, false, true, false, false];
   if (!hasPath[index]) return;

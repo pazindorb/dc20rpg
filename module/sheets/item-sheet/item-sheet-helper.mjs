@@ -4,7 +4,6 @@ export function getForItemType(type, value) {
     case "tabs": return _getTabsForItem(type);
   }
 }
-
 function _getIconForItem(type) {
   switch(type) {
     case "basicAction": return "fa-solid fa-dice-d6";
@@ -23,7 +22,6 @@ function _getIconForItem(type) {
     default: return "fa-solid fa-suitcase";
   }
 }
-
 function _getTabsForItem(type) {
   let allowed = [];
   switch(type) {
@@ -52,4 +50,68 @@ function _getTabsForItem(type) {
   if (type === "infusion") allowed.push("infusion");
   allowed.push("header");
   return allowed;
+}
+
+export async function removeResourceFromItem(item, key) {
+  const enhUpdateData = {};
+  if (item.system.enhancements) {
+    Object.keys(item.system.enhancements)
+            .forEach(enhKey=> enhUpdateData[`enhancements.${enhKey}.resources.custom.-=${key}`] = null); 
+  }
+
+  const updateData = {
+    system: {
+      [`costs.resources.custom.-=${key}`]: null,
+      ...enhUpdateData
+    }
+  }
+  await item.update(updateData);
+}
+
+export function rollTemplateSelect(selected, item) {
+  const system = {};
+  const saveRequest = {
+    category: "save",
+    saveKey: "phy",
+    contestedKey: "",
+    dcCalculation: "spell",
+    dc: 0,
+    addMasteryToDC: true,
+  };
+  const contestRequest = {
+    category: "contest",
+    saveKey: "phy",
+    contestedKey: "",
+    dcCalculation: "spell",
+    dc: 0,
+    addMasteryToDC: true,
+  };
+
+  // Set action type
+  if (["dynamic", "attack"].includes(selected)) system.actionType = "attack";
+  if (["check", "contest"].includes(selected)) system.actionType = "check";
+  if (["save"].includes(selected)) system.actionType = "other";
+  
+  // Set save request
+  if (["dynamic", "save"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: saveRequest};
+  if (["contest"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: contestRequest};
+  if (["check", "attack"].includes(selected)) system.rollRequests = {['-=rollRequestFromTemplate']: null};
+
+  // Set check against DC or not
+  if (selected === "contest") system.check = {againstDC: false};
+  if (selected === "check") system.check = {againstDC: true};
+  
+  item.update({system: system});
+}
+
+export async function removeItemFromContainer(container, itemKey) {
+  // We need to create that item on actor for the moment just to make sure all preDelete functions are called correctly
+  if (container.actor) {
+    const itemData = container.system.contents[itemKey];
+    if (itemData) {
+      const item = await DC20RpgItem.create(itemData, {parent: container.actor});
+      item.delete();
+    }
+  }
+  await container.update({[`system.contents.-=${itemKey}`]: null});
 }

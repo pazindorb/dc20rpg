@@ -18,7 +18,7 @@
     {{/if}}    
   </div>
 
-  {{#if system.inventory}}
+  {{#if system.inventory}} {{#if system.statuses.identified}}
   <footer class="inventory-details">
     <label class="inventory-field" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.cost'}}">
       <i class="fa-solid fa-coins"></i>
@@ -38,5 +38,5 @@
       <input type="text" name="system.rarity" value="{{system.rarity}}" placeholder="Rarity" {{#unless editable}}disabled{{/unless}}/>
     </label>
   </footer>
-  {{/if}}  
+  {{/if}} {{/if}} 
 </section>

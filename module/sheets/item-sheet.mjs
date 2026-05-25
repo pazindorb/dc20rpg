@@ -3,12 +3,12 @@ import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData
 import { generateKey, getValueFromPath } from "../helpers/utils.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
-import { getForItemType } from "./item-sheet/item-sheet-helper.mjs";
-import { removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-listeners.mjs";
+import { getForItemType, removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-helper.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { createEditorDialog } from "../dialogs/editor.mjs";
 import { blueprintAdvancements, configureAdvancementDialog } from "../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
+import { openItemCreator } from "../dialogs/item-creator.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -85,6 +85,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.resizable = true;
     initialized.window.icon = getForItemType(options.document.type, "icon");
+    if (options.document.type === "class") initialized.position.width = 800;
 
     initialized.actions.sheetEdit = this._onEditSheetFlag;
     initialized.actions.multiSelectRemove = this._onMultiSelectRemove;
@@ -102,6 +103,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.addMagicProperty = this._onAddMagicProperty;
     initialized.actions.removeMagicProperty = this._onRemoveMagicProperty;
     initialized.actions.blueprintAdvancement = () => blueprintAdvancements(this.item);
+    initialized.actions.openItemCreator = this._onOpenItemCreator
     return initialized;
   }
 
@@ -210,6 +212,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
 
   async _onRender(context, options) {
     await super._onRender(context, options);
+    this.element.querySelector('img[data-edit="img"]')?.addEventListener("click", this._onEditImage.bind(this));
+
     // Description
     this.element.querySelector(".description-box prose-mirror")?.addEventListener("save", () => {
       this.sheetFlags.editDescription = false;
@@ -381,6 +385,19 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   async _onActivable(path) {
     const value = getValueFromPath(this.item, path);
     await this.item.update({[path]: !value});
+  }
+
+  _onEditImage(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    new FilePicker({
+      type: "image",
+      displayMode: "tiles",
+      current: this.item.img,
+      callback: path => {
+        if (path) this.item.update({img: path});
+      }
+    }).render();
   }
 
   async _onChange(event) {
@@ -667,5 +684,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
 
   _onRemoveMagicProperty(event, target) {
     this.item.infusions.active[target.dataset.key].remove();
+  }
+
+  async _onOpenItemCreator(event, target) {
+    const itemData = await openItemCreator(this.item.type, {blueprint: this.item.toObject()});
+    if (itemData) await this.item.update(itemData);
   }
 }

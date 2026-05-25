@@ -1,11 +1,21 @@
 <header class="item-sheet-header">
   <div class="extra-buttons">
-    {{!-- <a class="fa-solid fa-x"></a> --}}
+    {{!-- Identify --}}
+    {{#if system.inventory}} {{#if userIsGM}}
+    <a class="fa-solid fa-eye" data-cType="activable" data-path="system.statuses.identified" data-tooltip="{{localize "dc20rpg.item.sheet.identify"}}"
+    {{#unless system.statuses.identified}}style="background-color: #971f1f;"{{/unless}} ></a>
+    {{/if}} {{/if}}
+
+    {{!-- Item creator --}}
+    {{#if (arrayIncludes type arrayString="weapon equipment spellFocus")}}
+    <a class="fa-solid fa-screwdriver-wrench" data-action="openItemCreator" data-tooltip="{{localize "dc20rpg.item.sheet.openItemCreator"}}"></a>
+    {{/if}}
+
     {{!-- <a class="fa-solid fa-plus"></a> --}}
   </div>
 
   <div class="item-img">
-    <img src="{{img}}" data-edit="img"/>
+    <img src="{{img}}" data-edit="img" title="{{localize 'dc20rpg.sheet.editImage'}}"/>
   </div>
 
   <div class="item-header-details">

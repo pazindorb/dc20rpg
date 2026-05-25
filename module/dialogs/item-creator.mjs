@@ -26,10 +26,10 @@ export class ItemCreatorDialog extends DC20Dialog {
       return;
     }
 
-    const createData = {
-      name: blueprint?.name || "Blueprint",
-      img: blueprint?.img || this._blueprintImg(itemType),
-      type: itemType,
+    const createData = blueprint ? blueprint : {
+      name: "Blueprint",
+      img: this._blueprintImg(itemType),
+      type: itemType
     }
 
     const item = new Item(createData);
