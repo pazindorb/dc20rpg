@@ -1,4 +1,3 @@
-import { makeMoveAction } from "../helpers/actors/actions.mjs";
 import { toggleStatusOn } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
@@ -61,8 +60,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     const subtracted = actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
 
-    const selectedMovement = this.document.movementAction;
-    makeMoveAction(actor, {moveType: selectedMovement});
+    actor.moveAction({moveType: "token"});
   }
 
   async _onEffect(event, target) {

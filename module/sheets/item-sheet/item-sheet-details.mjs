@@ -15,6 +15,7 @@ export function itemDetailsToHtml(item) {
   }
   _merge(tier2, _magicPower(item));
   _merge(tier2, _duration(item));
+  _merge(tier2, _castTime(item));
   _merge(tier2, _range(item));
   _merge(tier2, _target(item));
   _merge(tier2, _area(item));
@@ -192,6 +193,22 @@ function _duration(item) {
       content.push(_infoBox(`${label}`, "", "tier2"));
     }
   }
+  return content;
+}
+
+function _castTime(item) {
+  const content = [];
+  const castTime =  item.system?.castTime;
+
+  if (castTime) {
+    const value = castTime.value;
+    const timeUnit = castTime.timeUnit;
+
+    if (value && timeUnit) {
+      content.push(_infoBox(`Cast Time: ${value} ${getLabelFromKey(timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits)}`, "", "tier2"));
+    }
+  }
+
   return content;
 }
 

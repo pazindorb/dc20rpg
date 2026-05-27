@@ -567,6 +567,12 @@ DC20RPG.DROPDOWN_DATA.moveTypes = {
   flying: "Flying Speed",
 }
 
+DC20RPG.DROPDOWN_DATA.moveSelectOptions = {
+  "": "Use available Movement Types",
+  token: "Use token Movement Type",
+  ...DC20RPG.DROPDOWN_DATA.moveTypes
+}
+
 DC20RPG.DROPDOWN_DATA.logicalExpressions = {
   "==": "=",
   "!=": "!=",

@@ -355,6 +355,30 @@ $selection: var(--color-text-selection-bg);
     }
   }
 
+  .properties {
+
+    .property-cost {
+      padding: 0px 10px;
+      margin-left: 5px;
+      
+      background-color: $activable-on;
+      border-radius: 3px;
+      border: 1px solid $border;
+
+      .fa-coins {
+        font-size: 14px;
+        margin-right: 5px;
+      }
+    }
+
+    .property-remove-button {
+      position: absolute; 
+      right: 4px; 
+      top: 3px;
+      color: $text-contrast;
+    }
+  }
+
   .activable-box {
     font-family: $font-header;
     padding: 4px;

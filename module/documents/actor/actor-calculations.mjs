@@ -420,9 +420,9 @@ function _basicTargetModifiers(actor) {
 	});
 
 	// Impactful Unarmed Strikes
-	if (actor.system.details.armor.heavyEquipped) {
+	if (actor.system.details.armor.impactfulUnarmedStries) {
 		actor.system.targetModifiers.push({
-		condition: `hit != null && hit >= 5;`,  
+		condition: `return hit != null && hit >= 5;`,  
 			bonus: '1', 
 			useFor: `system.itemKey=["unarmedStrike"]`, 
 			name: "Impactful Unarmed Strikes",

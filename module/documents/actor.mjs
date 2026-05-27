@@ -93,7 +93,9 @@ export class DC20RpgActor extends Actor {
     return events;
   }
 
+  /** @deprecated since v0.10.0 until 0.10.5 */
   get hasOtherMoveOptions() {
+    foundry.utils.logCompatibilityWarning("The 'actor.hasOtherMoveOptions' method is deprecated, and will be removed in the later system version.", { since: " 0.10.6", until: "0.11.0", once: true });
     const movements = this.system.movement;
     if (movements.burrow.current > 0) return true;
     if (movements.climbing.current > 0) return true;

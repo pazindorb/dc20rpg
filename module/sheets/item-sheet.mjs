@@ -3,7 +3,7 @@ import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData
 import { generateKey, getValueFromPath } from "../helpers/utils.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
-import { getForItemType, removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-helper.mjs";
+import { createCustomProperty, getForItemType, removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-helper.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { createEditorDialog } from "../dialogs/editor.mjs";
 import { blueprintAdvancements, configureAdvancementDialog } from "../subsystems/character-progress/advancement/advancement-configuration.mjs";
@@ -492,7 +492,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "targetModifier": this.item.createNewTargetModifier(); break;
       case "itemMacro": this.item.createNewItemMacro(); break;
       case "startingEquipment": this._createStartingEquipment(); break;
-      case "advancement": configureAdvancementDialog(this.item);
+      case "advancement": configureAdvancementDialog(this.item); break;
+      case "property": createCustomProperty(this.item); break;
       case "effect": 
         const temporary = target.dataset.effectType === "temporary"
         DC20RpgActiveEffect.create(this.#effectCreationData(temporary), {parent: this.item}); break;
@@ -543,6 +544,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "itemMacro": this.item.removeItemMacro(key); break;
       case "itemContent": removeItemFromContainer(this.item, key); break;
       case "resource": removeResourceFromItem(this.item, key); break;
+      case "property": this._onRemoveCustomProperty(key); break;
       case "advancement": this.item.update({[`system.advancements.-=${key}`]: null}); break;
       case "startingEquipment": 
         this.item.update({[`system.startingEquipment.-=${target.dataset.key}`]: null})
@@ -689,5 +691,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   async _onOpenItemCreator(event, target) {
     const itemData = await openItemCreator(this.item.type, {blueprint: this.item.toObject()});
     if (itemData) await this.item.update(itemData);
+  }
+
+  _onRemoveCustomProperty(key) {
+    if (!this.item.properties) return;
+    this.item.properties[key].remove();
   }
 }

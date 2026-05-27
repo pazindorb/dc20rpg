@@ -2,7 +2,7 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
@@ -624,7 +624,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const subtracted = this.actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
 
-    await makeMoveAction(this.actor);
+    this.actor.moveAction();
     this.render();
   }
 

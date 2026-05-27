@@ -17,6 +17,14 @@
           {{selectOptions @root.config.DROPDOWN_DATA.weaponStyles selected=system.weaponStyle blank=""}}
         </select>
       </div>
+      <div class="form-group margin-top-5">
+        <label>{{localize "dc20rpg.item.sheet.weapon.unarmedStrike"}}</label>
+        <input type="checkbox" name="system.unarmedStrike" {{checked system.unarmedStrike}}/>
+      </div>
+      <div class="form-group margin-top-5">
+        <label>{{localize "dc20rpg.item.sheet.weapon.naturalWeapon"}}</label>
+        <input type="checkbox" name="system.naturalWeapon" {{checked system.naturalWeapon}}/>
+      </div>
     {{/ifCond}}
 
     {{!-- Equipment Specific --}}
@@ -26,6 +34,10 @@
         <select name="system.equipmentType">
           {{selectOptions @root.config.DROPDOWN_DATA.equipmentTypes selected=system.equipmentType blank=""}}
         </select>
+      </div>
+      <div class="form-group margin-top-5">
+        <label>{{localize "dc20rpg.item.sheet.equipment.impactfulUnarmedStries"}}</label>
+        <input type="checkbox" name="system.impactfulUnarmedStries" {{checked system.impactfulUnarmedStries}}/>
       </div>
     {{/ifCond}}
 
@@ -175,19 +187,27 @@
   {{#if properties}}
   <div class="properties">
     <div class="sub-header margin-top-10">
-      <span>{{localize "dc20rpg.item.sheet.config.itemProperties"}}</span>
-      <span title="{{localize "dc20rpg.dialog.weaponCreator.pointsCost"}}">({{propertyCost}})</span>
+      <label>{{localize "dc20rpg.item.sheet.config.itemProperties"}}</label>
+      <div class="button-wrapper">
+        <a class="fa-solid fa-square-plus fa-lg margin-right-5" data-action="createSubdoc" data-type="property" data-tooltip="{{localize "dc20rpg.item.sheet.properties.add"}}"></a>
+        <div class="property-cost" data-tooltip="{{localize "dc20rpg.dialog.weaponCreator.pointsCost"}}"><i class="fa-solid fa-coins"></i> {{propertyCost}}</div>
+      </div>
     </div>
     <div class="grid grid-4col grid-gap-5 margin-top-3">
       {{#each properties as |property key|}}
         {{#if property.display}}
-        <a class="activable-box {{#ifCond key '===' 'multiFaceted'}}disabled{{/ifCond}} {{#if property.active}}active{{/if}}"
-              data-header="{{property.label}}  ({{property.cost}})" data-uuid="{{property.journalUuid}}"
-              data-key="{{key}}" data-hover="tooltip" data-tooltip-type="journal"
-              {{#ifCond key '===' 'multiFaceted'}} data-tooltip="{{localize "dc20rpg.item.sheet.config.editableOnlyOnCreator"}}" {{/ifCond}}
-              {{#ifCond key '!==' 'multiFaceted'}} data-cType="activable" data-path="system.properties.{{key}}.active" {{/ifCond}}
-        >{{property.label}}
-        </a>
+        <div style="position: relative;">
+          <a class="activable-box {{#ifCond key '===' 'multiFaceted'}}disabled{{/ifCond}} {{#if property.active}}active{{/if}}"
+                data-header="{{property.label}}  ({{property.cost}})" data-uuid="{{property.journalUuid}}"
+                data-key="{{key}}" data-hover="tooltip" data-tooltip-type="journal"
+                {{#ifCond key '===' 'multiFaceted'}} data-tooltip="{{localize "dc20rpg.item.sheet.config.editableOnlyOnCreator"}}" {{/ifCond}}
+                {{#ifCond key '!==' 'multiFaceted'}} data-cType="activable" data-path="{{property.updatePath}}.active" {{/ifCond}}
+          >{{property.label}}
+          </a>
+          {{#if property.custom}}
+          <a class="fa-solid fa-xmark property-remove-button" data-action="removeSubdoc" data-type="property" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.properties.remove"}}"></a>
+          {{/if}}
+        </div>
         {{/if}}
       {{/each}}
     </div>

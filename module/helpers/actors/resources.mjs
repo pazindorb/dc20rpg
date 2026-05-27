@@ -1,36 +1,6 @@
 import { DC20Target } from "../../subsystems/target/target.mjs";
 
 //=============================================
-//              CUSTOM RESOURCES              =
-//=============================================
-// TODO: Should we somehow mark monster as legendary and call this method there?
-export function createLegenedaryResources(actor) {
-  const lap = {
-    name: "Legendary Action Points",
-    img: "icons/commodities/currency/coin-embossed-sword-copper.webp",
-    value: 3,
-    maxFormula: "3",
-    max: 0,
-    reset: "roundEnd"
-  }
-
-  const bossPoints = {
-    name: "Boss Points",
-    img: "icons/commodities/bones/skull-hollow-orange.webp",
-    value: 3,
-    maxFormula: "3",
-    max: 0,
-    reset: ""
-  }
-
-  const updateData = {
-    lap: lap,
-    boss: bossPoints
-  }
-  actor.update({['system.resources.custom'] : updateData});
-}
-
-//=============================================
 //              HP MANIPULATION               =
 //=============================================
 /** @deprecated since v0.10.0 until 0.10.5 */

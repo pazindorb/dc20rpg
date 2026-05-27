@@ -28,6 +28,17 @@
       </div>
     </div>
 
+    {{!-- Cast Time --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.target.castTime"}}</label>
+      <div class="form-fields">
+        <input type="text" name="system.castTime.value" value="{{system.castTime.value}}" data-dtype="Number" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.castTime"}}">
+        <select name="system.castTime.timeUnit" data-tooltip="{{localize "dc20rpg.item.sheet.target.timeUnit"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=system.castTime.timeUnit blank=""}}
+        </select>
+      </div>
+    </div>
+
     {{!-- Duration --}}
     <div class="form-group margin-top-10">
       <label>{{localize "dc20rpg.item.sheet.target.duration"}}</label>

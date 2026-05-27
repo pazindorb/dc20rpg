@@ -481,12 +481,14 @@ function _enrichPropertiesObject(item) {
       const subtype = item.system.weaponType || item.system.equipmentType;
       correctSubtype = property.subtype.includes(subtype);
     }
-    const correctType = property.type.includes(item.type);
+    const correctType = property?.type?.includes(item.type);
     property.display = property.forceDisplay || (correctType && correctSubtype);
     
     property.toggle = async () => property.custom 
                     ? await item.update({[`system.customProperties.${key}.active`]: !property.active})
                     : await item.update({[`system.properties.${key}.active`]: !property.active});
+
+    property.updatePath = property.custom ? `system.customProperties.${key}` : `system.properties.${key}`;
   });
   item.addCustomProperty = async (data, key) => await _addCustomProperty(item, data, key);
 

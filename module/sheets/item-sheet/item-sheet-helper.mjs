@@ -1,3 +1,5 @@
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+
 export function getForItemType(type, value) {
   switch (value) {
     case "icon": return _getIconForItem(type);
@@ -114,4 +116,27 @@ export async function removeItemFromContainer(container, itemKey) {
     }
   }
   await container.update({[`system.contents.-=${itemKey}`]: null});
+}
+
+export async function createCustomProperty(item) {
+  if (!item.properties) return;
+
+  const questions = [
+    { type: "input", label: "Property Key" },
+    { type: "input", label: "Property Label" },
+    { type: "input", label: "Property Cost" },
+    { type: "input", label: "Description Source (Journal Uuid)" }
+  ];
+  const answers = await SimplePopup.open("input", {
+    header: "Create Custom Property",
+    inputs: questions
+  });
+  if (!answers) return;
+  
+  const key = answers[0];
+  const label = answers[1];
+  const cost = parseInt(answers[2]);
+  const journalUuid = answers[3];
+
+  item.addCustomProperty({label: label, cost: cost, journalUuid: journalUuid}, key);
 }

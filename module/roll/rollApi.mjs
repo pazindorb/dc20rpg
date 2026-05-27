@@ -1,5 +1,5 @@
 import { runEventsFor } from "../helpers/actors/events.mjs";
-import { finishRoll, finishSheetRoll, resetEnhancements } from "../helpers/actors/rollsFromActor.mjs";
+import { finishRoll, finishSheetRoll } from "../helpers/actors/rollsFromActor.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import * as helper from "./rollHelper.mjs"
@@ -172,9 +172,14 @@ export class DC20Roll {
       formula: await helper.evaluateFormulaRoll(item, rollData, evalData)
     }
     if (actionType === "help") {
-      let ignoreMHP = item.system.help?.ignoreMHP;
+      const help = item.system.help || {};
+      let ignoreMHP = help.ignoreMHP;
       if (!ignoreMHP) ignoreMHP = rollMenu.ignoreMCP;
-      actor.help.prepare({ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, duration: item.system.help?.duration})
+      actor.help.prepare({ignoreMHP: ignoreMHP, subtract: help.subtract, duration: help.duration})
+    }
+    if (actionType === "move") {
+      const move = item.system.move || {};
+      await actor.moveAction({movePoints: move.movePoints, moveType: move.moveType, bonusMove: move.bonusMove})
     }
 
     // 6. Post Item Roll
@@ -191,6 +196,10 @@ export class DC20Roll {
       }
       else if (actionType === "help") {
         chatMessageData.rollTitle += " - Help Action";
+        DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
+      }
+      else if (actionType === "move") {
+        chatMessageData.rollTitle += " - Move Action";
         DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
       }
       else {

@@ -50,6 +50,11 @@ class DC20UsableItemData extends DC20BaseItemData {
         subtract: new f.BooleanField({required: true, initial: false}),
         duration: new f.StringField({required: true, initial: "round"}),
       }),
+      move: new f.SchemaField({
+        movePoints: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+        moveType: new f.StringField({required: true, initial: ""}),
+        bonusMove: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+      }),
       toggle: new f.SchemaField({
         toggleable: new f.BooleanField({required: true, initial: false}),
         toggledOn: new f.BooleanField({required: true, initial: false}),
@@ -85,6 +90,10 @@ class DC20UsableItemData extends DC20BaseItemData {
       duration: new f.SchemaField({
         value: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         type: new f.StringField({required: true, initial: ""}),
+        timeUnit: new f.StringField({required: true, initial: ""}),
+      }),
+      castTime: new f.SchemaField({
+        value: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         timeUnit: new f.StringField({required: true, initial: ""}),
       }),
       target: new f.SchemaField({
@@ -191,6 +200,8 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
       actionType: new f.StringField({required: true, initial: "attack"}),
+      unarmedStrike: new f.BooleanField({required: true, initial: false}),
+      naturalWeapon: new f.BooleanField({required: true, initial: false}),
       formulas: new f.ObjectField({required: true, initial: {
         weaponDamage: {
           formula: "1",
@@ -225,6 +236,7 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
     return this.mergeSchema(super.defineSchema(), {
       combatTraining: new f.BooleanField({required: true, initial: false}),
       equipmentType: new f.StringField({required: true, initial: ""}),
+      impactfulUnarmedStries: new f.BooleanField({required: true, initial: false})
     })
   }
 }
@@ -284,7 +296,8 @@ export class DC20FeatureData extends DC20UsableItemData {
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),
         resourceKey: new f.StringField({required: true, initial: "key"}),
-        reset: new f.StringField({required: true, initial: ""}),
+        reset: new f.StringField({required: true, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
+        refresh: new f.ObjectField({required: true, initial: {}}),
         useStandardTable: new f.BooleanField({required: true, initial: true}),
         customMaxFormula: new f.StringField({required: true, initial: ""}),
         values: new f.ArrayField(
@@ -390,13 +403,15 @@ export class DC20InfusionData extends DC20UsableItemData {
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.charges"}),
             max: new f.StringField({required: true, initial: ""}),
-            reset: new f.StringField({required: true, initial: ""}),
+            refresh: new f.ObjectField({required: true, initial: {}}),
+            reset: new f.StringField({required: true, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
           }),
           uses: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.uses"}),
             max: new f.StringField({required: true, initial: ""}),
-            reset: new f.StringField({required: true, initial: ""}),
+            reset: new f.StringField({required: true, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
+            refresh: new f.ObjectField({required: true, initial: {}}),
             limited: new f.BooleanField({required: true, initial: false}),
           }),
         }),

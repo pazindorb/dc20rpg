@@ -21,24 +21,45 @@ export async function makeMoveAction(actor, options={}) {
   if (!movePoints) {
     let moveKey = options.moveType;
     if (!moveKey) {
-      if (actor.hasOtherMoveOptions) {
-        moveKey = await SimplePopup.open("input", {
-          header: game.i18n.localize("dc20rpg.dialog.movementType.title"),
-          inputs: [{
-            type: "select",
-            options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,
-            preselected: "ground"
-          }]
-        });
-      }
-      else moveKey = "ground";
+      moveKey = await _fromAvailableMovement(actor);
+    }
+    if (moveKey === "token") {
+      moveKey = _fromTokenMovement(actor);
     }
     movePoints = actor.system.movement[moveKey].current;
   }
 
+  const bonusMovePoints = options.bonusMove || 0;
   const currentMovePoints = actor.system.movePoints || 0;
-  const newMovePoints = currentMovePoints + movePoints;
+  const newMovePoints = currentMovePoints + movePoints + bonusMovePoints;
   await actor.update({["system.movePoints"]: newMovePoints});
+}
+
+async function _fromAvailableMovement(actor) {
+  const options = {};
+  for (const [key, movement] of (Object.entries(actor.system.movement))) {
+    if (movement.current > 0) options[key] = movement.label;
+  }
+
+  const keys = Object.keys(options)
+  if (keys.length === 0) return "ground";
+  if (keys.length === 1) return keys[0];
+
+  let moveKey = await SimplePopup.open("input", {
+    header: game.i18n.localize("dc20rpg.dialog.movementType.title"),
+    inputs: [{
+      type: "select",
+      options: options,
+      preselected: "ground"
+    }]
+  });
+  return moveKey || "ground"; // Fallback
+}
+
+function _fromTokenMovement(actor) {
+  const token = actor.getActiveTokens()[0];
+  if (!token) return "ground";
+  return token.document.movementAction;
 }
 
 export async function clearMovePoints(actor) {

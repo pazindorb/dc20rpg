@@ -1,7 +1,6 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { RestDialog } from "../../dialogs/rest.mjs";
 import { activateTrait, changeLevel, createNewTable, deactivateTrait, deleteTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
-import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
 import { addFlatDamageReductionEffect } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown, toSelectOptions } from "../../helpers/utils.mjs";
@@ -199,8 +198,6 @@ export function activateCharacterLinsters(html, actor) {
 }
 
 export function activateNpcLinsters(html, actor) {
-  // Custom Resources
-  html.find(".add-legendary-resources").click(() => createLegenedaryResources(actor));
 }
 
 export function activateCompanionListeners(html, actor) {

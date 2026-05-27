@@ -10,6 +10,7 @@ export function duplicateItemData(context, item) {
   context.flags = foundry.utils.deepClone(item.flags);
   if (["weapon", "equipment", "spellFocus"].includes(item.type)) {
     context.properties = foundry.utils.deepClone(item.properties);
+    context.propertyCost = _activePropertiesCost(item.properties);
   }
   context.config = foundry.utils.deepClone(CONFIG.DC20RPG);
 
@@ -162,4 +163,14 @@ function _prepareDropdownData(context, item) {
     const options = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[item.system.featureType];
     context.featureSourceItems = options || null;
   }
+}
+
+function _activePropertiesCost(properties) {
+  if (!properties) return 0;
+
+  let cost = 0;
+  Object.values(properties)
+          .filter(property => property.active)
+          .forEach(property => cost += property.cost);
+  return cost;
 }

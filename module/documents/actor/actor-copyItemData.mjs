@@ -62,6 +62,7 @@ export function prepareEquippedItemsFlags(actor) {
 		armorEquipped: false,
 		heavyEquipped: false,
 		shieldEquipped: false,
+		impactfulUnarmedStries: false,
 		shieldBonus: {
 			ad: 0,
 			pd: 0
@@ -86,7 +87,9 @@ export function prepareEquippedItemsFlags(actor) {
 				if (properties.pdIncrease.active) {
 					equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
 				}
-				
+			}
+			if (item.system.impactfulUnarmedStries) {
+				equippedFlags.impactfulUnarmedStries = true;
 			}
 		}
 	});
@@ -94,7 +97,8 @@ export function prepareEquippedItemsFlags(actor) {
 		armorEquipped: equippedFlags.armorEquipped,
 		heavyEquipped: equippedFlags.heavyEquipped,
 		shieldEquipped: equippedFlags.shieldEquipped,
-		shieldBonus: equippedFlags.shieldBonus
+		shieldBonus: equippedFlags.shieldBonus,
+		impactfulUnarmedStries: equippedFlags.impactfulUnarmedStries,
 	}
 }
 
