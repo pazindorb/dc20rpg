@@ -879,6 +879,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   // Prepare infusion data
   const cost =  infuserUuid ? Math.max(infusion.power - infusion.costReduction - item.system.infusionCostReduction, 0) : null;
   const data = {
+    img: infusionItem.img,
     name: infusionItem.name,
     infusionKey: infusion.infusionKey,
     power: infusion.power,
@@ -952,8 +953,9 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     formula += data.tags.charges.maxFormula;
     updateData.system.costs.charges.maxChargesFormula = formula;
 
-    if (!chargesItem.reset) {
-      updateData.system.costs.charges.reset = charges.reset;
+    // Todo: better handle charger refreshment - for now it both applying refresh and removing works like shit
+    if (Object.values(chargesItem.refresh).length === 0) {
+      updateData.system.costs.charges.refresh = charges.refresh;
     }
   }
 
@@ -1144,7 +1146,8 @@ async function _clearTags(infusion, item) {
 
     if (!allInfusions.hasCharges) {
       updateData.system.costs.charges.deleteOnZero = false;
-      updateData.system.costs.charges.reset = "";
+      // Todo: better handle charger refreshment - for now it both applying refresh and removing works like shit
+      updateData.system.costs.charges.refresh = {}; 
     }
   }
 

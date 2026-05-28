@@ -111,7 +111,7 @@ async function _createNewCustomResourceFromItem(item, actor) {
     label: resource.name,
     img: item.img,
     maxFormula: maxFormula,
-    reset: resource.reset
+    refresh: resource.refresh
   }
   await actor.resources.createCustomResource(newResource, resourceKey);
 }

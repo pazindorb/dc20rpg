@@ -2667,8 +2667,30 @@
   }
 
   .multi-select-wrapper {
+    margin-top: 3px;
     display: flex;
     flex-direction: column;
+
+    .selected-options {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      flex-flow: wrap;
+      gap: 3px;
+      margin-top: 5px;
+
+      .option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 12px;
+        padding: 3px;
+        border-radius: 3px;
+        border: 1px solid var(--border-color);
+        background-color: var(--color-cool-4);
+      }
+    }
   }
 
   .message {

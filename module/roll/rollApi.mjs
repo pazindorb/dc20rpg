@@ -215,7 +215,7 @@ export class DC20Roll {
       item.reset();
     }
     // Remove all items marked with "deleteAfter"
-    for (const itm of actor.items) {
+    for (const itm of actor.items.values()) {
       if (itm.deleteAfter) itm.delete();
     }
 

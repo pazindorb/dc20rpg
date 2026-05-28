@@ -306,7 +306,7 @@ export function sheetRollDataFrom(data={}, actor) {
   // Prepare enhancemenets
   const copyHash = `${sheetData.checkKey}#${sheetData.type}`;
   const enhancemetns = new Map();
-  for (const item of actor.items) {
+  for (const item of actor.items.values()) {
     if (!item.enhancements) continue;
 
     for (const [key, enhancement] of item.enhancements.maintained.entries()) {

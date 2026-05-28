@@ -17,6 +17,7 @@ export function enrichWithHelpers(actor) {
     _enrichEquipmentSlots(actor);
   }
   _enrichSpecialActions(actor);
+  _enrichRefreshResourcesAndItems(actor);
 }
 
 //==================================//==================================
@@ -162,7 +163,7 @@ async function _createCustomResource(data={}, key, actor) {
     value: 0,
     maxFormula: null,
     max: 0,
-    reset: "",
+    refresh: {},
     ...data
   }
   await actor.update({[`system.resources.custom.${resourceKey}`] : newResource});
@@ -758,3 +759,65 @@ function _helpDiceTooltip(help) {
 //===================================
 //            HELD ACTION           =
 //===================================
+
+
+
+//==================================//==================================
+//                       REFRESH RESOURCES/ITEMS                       =
+//==================================//==================================
+function _enrichRefreshResourcesAndItems(actor) {
+  actor.refresh = {
+    on: async (refreshType, options) => await _refreshOn(refreshType, actor, options)
+  }
+}
+
+async function _refreshOn(refreshType, actor, options={}) {
+  await _refreshResources(refreshType, actor, options.restHistory);
+
+  const items = actor.items.filter(item => item.system.usable);
+  for (const item of items) {
+    await _refreshItem(refreshType, item);
+  }
+}
+
+async function _refreshResources(refreshType, actor, restHistory) {
+  for (const resource of actor.resources.iterate()) {
+    if (!resource.refresh[refreshType]) continue;
+
+    let regainType = refreshType === "halfOnShort" ? "half" : "max";
+    if (resource.key === "restPoints" && regainType === "max") {
+      regainType = "formula";
+    }
+
+    const oldValue = resource.value;
+    await resource.regain(regainType);
+
+    if (restHistory) {
+      const newValue = this.actor.resources[resource.key].value;
+      restHistory.resources[resource.key] = newValue - oldValue;
+    }
+  }
+}
+
+async function _refreshItem(refreshType, item) {
+  if (!item.system.usable) return;
+
+  // Reset charges
+  if (item.use.hasCharges) {
+    const refreshOn = item.system.costs.charges?.refresh || {};
+    if (refreshOn[refreshType]) {
+      const half = refreshType === "halfOnShort";
+      await item.use.regainCharges(half);
+    }
+  };
+
+  // Reset Magic Property use
+  if (item.infusions) {
+    for (const infusion of Object.values(item.infusions.active)) {
+      const uses = infusion.tags.uses || {};
+      if (uses.active && uses.refresh[refreshType]) {
+        await infusion.regain();
+      }
+    }
+  }
+}

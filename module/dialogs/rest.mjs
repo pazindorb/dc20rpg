@@ -120,90 +120,49 @@ export class RestDialog extends DC20Dialog {
   async _onFinishRest(event) {
     event.preventDefault();
     let closeAfter = true;
-    
-    const availableTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.restTypes);
-    const index = availableTypes.indexOf(this.selectedRestType);
-    if (index === -1) {
-      ui.notifications.warn("Rest Type does not exist");
-      return;
-    }
-    const restTypes = availableTypes.slice(0, index+1);
-    if (this.newDay) restTypes.push("day");
-    if (restTypes.find(x => x === "short")) restTypes.push("halfOnShort");
-    if (this.selectedRestType === "full") restTypes.push("long4h");
-    if (this.selectedRestType === "long") {
-      const halfFinished = this.actor.system.rest.longRest.half;
-      if (!halfFinished) {
-        restTypes[restTypes.indexOf("long")] = "long4h";
-      }
+    let refreshType = this.selectedRestType;
+
+    const halfFinished = this.actor.system.rest.longRest.half;
+    if (refreshType === "long" && !halfFinished) {
+      refreshType = "long4h";
     }
 
-    await this._refreshResources(restTypes);
-    await this._refreshItems(restTypes);
+    if (this.newDay) {
+      this.newDay = false;
+      await this.actor.refresh.on("day");
+    }
+    await this.actor.refresh.on(refreshType);
+    switch (refreshType) {
+      case "short":
+        await this.actor.refresh.on("halfOnShort");
+        break;
 
-    let runEvent = true;
-    if (this.selectedRestType === "long") {
-      await this._respectActivity();
-      const halfFinished = this.actor.system.rest.longRest.half;
-      if (!halfFinished) { // 1nd Half of Long Rest
+      case "long4h":
+        await this._respectActivity();
         await this.actor.update({["system.rest.longRest.half"]: true});
         closeAfter = false;
-      }
-      else { // 2st Half of Long Rest
+        break;
+
+      case "long":
+        await this._respectActivity();
         await this._clearDoomed();
-        this._resetLongRest();
         this._shouldRollExhaustionSave();
+        this._resetLongRest();
+        break;
 
-        // We don't want to run short and quick rest events twice (we did in 1st part of the Long Rest)
-        await runEventsFor("rest", this.actor, ["long"]); 
-        runEvent = false;
-      }
-    }
-    if (this.selectedRestType === "full") {
-      await this._clearExhaustion();
-      await this._clearDoomed();
+      case "full":
+        await this._clearExhaustion();
+        await this._clearDoomed();
+        break;
     }
 
-    if (runEvent) await runEventsFor("rest", this.actor, restTypeFilter(restTypes));
+    await runEventsFor("rest", this.actor, restTypeFilter(refreshType));
+
     if (closeAfter) {
-      this._finishRestChatMessage();
+      this.#finishWithRestChatMessage();
       this.close();
     }
     this.render();
-  }
-
-  async _refreshResources(resetTypes) {
-    for (const resource of this.actor.resources.iterate()) {
-      if (resetTypes.includes(resource.reset)) {
-        let regainType = resource.reset === "halfOnShort" && !resetTypes.includes("long") ? "half" : "max";
-        if (resource.key === "restPoints" && regainType === "max") regainType = "formula";
-        const oldValue = resource.value;
-        await resource.regain(regainType);
-        const newValue = this.actor.resources[resource.key].value;
-        this.history.resources[resource.key] = newValue - oldValue;
-      }
-    }
-  }
-
-  async _refreshItems(restTypes) {
-    for (const item of this.actor.items) {
-      if (!item.system.usable) continue;
-      if (item.use.hasCharges) {
-        const charges = item.system.costs.charges;
-        if (restTypes.includes(charges.reset)) {
-          const half = charges.reset === "halfOnShort" && !restTypes.includes("long") ? true : false;
-          await item.use.regainCharges(half);
-        }
-      }
-      
-      if (item.infusions) {
-        for (const infusion of Object.values(item.infusions.active)) {
-          const uses = infusion.tags.uses;
-          if (!uses?.active) continue;
-          if (restTypes.includes(uses.reset)) await infusion.regain();
-        }
-      }
-    }
   }
 
   async _respectActivity() {
@@ -260,7 +219,7 @@ export class RestDialog extends DC20Dialog {
     });
   }
 
-  _finishRestChatMessage() {
+  #finishWithRestChatMessage() {
     let content = "";
     if (this.history.rpToHP) {
       content += `<li>Rest Points spent on Health: ${this.history.rpToHP}</li>`;

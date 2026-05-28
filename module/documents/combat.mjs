@@ -166,7 +166,7 @@ export class DC20RpgCombat extends Combat {
         numberOfPCs++;
         successPCs += this._checkInvidualOutcomes(combatant);
       }
-      this._refreshOnCombatStart(actor);
+      actor.refresh.on("combatStart");
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
     });
@@ -195,7 +195,7 @@ export class DC20RpgCombat extends Combat {
       clearHeldAction(combatant.actor);
       combatant.actor.help.clear();
       combatant.actor.help.clear(null, "combat");
-      this._refreshOnCombatEnd(actor);
+      actor.refresh.on("combatEnd");
       runEventsFor("combatEnd", actor);
       reenableEventsOn("combatEnd", actor);
     });
@@ -325,7 +325,7 @@ export class DC20RpgCombat extends Combat {
       await this._respectRoundCounterForEffects();
       this._deathsDoorCheck(actor);
       this._sustainCheck(actor);
-      this._refreshOnRoundStart(actor);
+      await actor.refresh.on("roundStart");
       runEventsFor("turnStart", actor);
       reenableEventsOn("turnStart", actor);
       this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
@@ -350,7 +350,7 @@ export class DC20RpgCombat extends Combat {
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
 
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
-    this._refreshOnRoundEnd(actor);
+    await actor.refresh.on("roundEnd");
     runEventsFor("turnEnd", actor);
     runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
@@ -385,51 +385,6 @@ export class DC20RpgCombat extends Combat {
       runEventsFor(trigger, actor, filters);
       reenableEventsOn(trigger, actor, filters);
     });
-  }
-
-  async _refreshOnRoundStart(actor) {
-    await this._refreshResources(actor, ["roundStart"]);
-    await this._refreshItems(actor, ["roundStart"]);
-  }
-
-  // TODO: REMOVE "round" in the future - replaced by "roundEnd"
-  async _refreshOnRoundEnd(actor) {
-    await this._refreshResources(actor, ["round", "roundEnd"]);
-    await this._refreshItems(actor, ["round", "roundEnd"]);
-  }
-
-  async _refreshOnCombatEnd(actor) {
-    await this._refreshResources(actor, ["round", "roundEnd", "roundStart", "combat"]);
-    await this._refreshItems(actor, ["round", "roundEnd", "roundStart", "combat"]);
-  }
-
-  // TODO: REMOVE "combat" in the future - replaced by "combatStart"
-  async _refreshOnCombatStart(actor) {
-    await this._refreshResources(actor, ["combat", "combatStart"]);
-    await this._refreshItems(actor, ["combat", "combatStart"]);
-  }
-
-  async _refreshResources(actor, resetTypes) {
-    if (!actor) return;
-    for (const resource of actor.resources.iterate()) {
-      if (resetTypes.includes(resource.reset)) {
-        await resource.regain("max");
-      }
-    }
-  }
-
-  async _refreshItems(actor, resetTypes) {
-    if (!actor) return;
-
-    for (const item of actor.items) {
-      if (!item.system.usable) continue;
-      if (!item.use.hasCharges) continue;
-      
-      const charges = item.system.costs.charges;
-      if (resetTypes.includes(charges.reset)) {
-        await item.use.regainCharges();
-      }
-    }
   }
 
   // =================================

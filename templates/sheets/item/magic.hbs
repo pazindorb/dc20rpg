@@ -4,10 +4,13 @@
     <label>{{localize "dc20rpg.item.sheet.infusions.title"}}</label>
     <a class="fa-solid fa-square-plus fa-lg" data-action="addMagicProperty" data-tooltip="{{localize "dc20rpg.item.sheet.infusions.add"}}"></a>
   </div>
+  {{#each system.infusions as |infusion key|}}
   <div class="content-wrapper">
-    {{#each system.infusions as |infusion key|}} {{log infusion}}
-    <div class="form-group" data-hover="tooltip" data-tooltip-type="item" data-item-uuid="{{infusion.infusionItemUuid}}">
-      <label>{{infusion.name}}</label>
+    <div class="form-group magic-property" data-hover="tooltip" data-tooltip-type="item" data-item-uuid="{{infusion.infusionItemUuid}}">
+      <div class="left-part-row">
+        <img src="{{infusion.img}}"/>
+        <label>{{infusion.name}}</label>
+      </div>
       <div class="right-part-row">
         {{#if infusion.tags.uses.active}}
           <input style="width: 50%; margin-right:5px;" type="text" data-dType="Number" name="system.infusions.{{key}}.tags.uses.current" value="{{infusion.tags.uses.current}}">
@@ -20,7 +23,7 @@
         <a class="fa-lg fa-trash fa-solid margin-left-5" data-action="removeMagicProperty" data-key="{{key}}" title="{{localize 'dc20rpg.item.sheet.infusions.remove'}}"></a>
       </div>
     </div>
-    {{/each}}
   </div>
+  {{/each}}
 </div>
 </section>

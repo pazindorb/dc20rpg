@@ -523,13 +523,13 @@ export function triggerOnlyForIdFilter(expecetdId) {
   return [filter];
 }
 
-export function restTypeFilter(expectedRests) {
+export function restTypeFilter(refreshType) {
   const filter = {
     required: false,
     eventField: "restType",
     filterMethod: (field) => {
       if (!field) return true;
-      return expectedRests.includes(field);
+      return field === refreshType;
     }
   }
   return [filter];

@@ -99,13 +99,13 @@
         {{#ifCond this '===' "charges"}}
         <div class="column charges" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.charges'}}">
           {{#ifCond item.system.costs.charges.max '!==' null}}
-          <input class="current-charges update-charges" type="text" value="{{item.system.costs.charges.current}}" data-dtype="Number" data-item-id="{{item._id}}" {{#ifCond item.system.costs.charges.reset "===" "charges"}}style="width:23px"{{/ifCond}}/>
+          <input class="current-charges update-charges" type="text" value="{{item.system.costs.charges.current}}" data-dtype="Number" data-item-id="{{item._id}}" {{#if item.system.costs.charges.refresh.charges}}style="width:23px"{{/if}}/>
           <span class="separator">/</span>
           <span class="max-charges">{{item.system.costs.charges.max}}</span>
             {{!-- Recharge button --}}
-            {{#ifCond item.system.costs.charges.reset "===" "charges"}}
+            {{#if item.system.costs.charges.refresh.charges}}
             <a class="recharge-item fa-solid fa-bolt" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{item._id}}" style="margin-left:2px;margin-top:-2px;"></a>
-            {{/ifCond}}
+            {{/if}}
           {{/ifCond}}
         </div>
         {{/ifCond}}

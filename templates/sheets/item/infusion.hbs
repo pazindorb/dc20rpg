@@ -49,11 +49,21 @@
         <input type="text" name="system.infusion.tags.uses.max" value="{{system.infusion.tags.uses.max}}" placeholder="-">
       </div>
       {{#unless system.infusion.tags.uses.limited}}
-      <div class="form-group">
-        <label>{{localize "dc20rpg.item.sheet.infusion.usesResetOn"}}</label>
-        <select name="system.infusion.tags.uses.reset">
-          {{selectOptions @root.config.DROPDOWN_DATA.restTypesDaily selected=system.infusion.tags.uses.reset blank=""}}
-        </select>
+      <div class="multi-select-wrapper">
+        <div class="form-group">
+          <label>{{localize "dc20rpg.item.sheet.infusion.usesRefreshOn"}}</label>
+          <select class="multi-select" data-cType="multi-select" data-path="system.infusion.tags.uses.refresh">
+            {{selectOptions @root.config.DROPDOWN_DATA.restTypesDaily blank=""}}
+          </select>
+        </div>
+        <div class="selected-options">
+          {{#each system.infusion.tags.uses.refresh as |option key|}}
+            <div class="option">
+              <span>{{option}}</span>
+              <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.infusion.tags.uses.refresh" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.resource.resourceRefreshType"}}"></a>
+            </div>
+          {{/each}}
+        </div>
       </div>
       {{/unless}}
       {{/if}}
@@ -63,11 +73,21 @@
         <label>{{localize "dc20rpg.item.sheet.infusion.chargesMax"}}</label>
         <input type="text" name="system.infusion.tags.charges.max" value="{{system.infusion.tags.charges.max}}" placeholder="-">
       </div>
-      <div class="form-group">
-        <label>{{localize "dc20rpg.item.sheet.infusion.chargesResetOn"}}</label>
-        <select name="system.infusion.tags.charges.reset">
-          {{selectOptions @root.config.DROPDOWN_DATA.chargesResets selected=system.infusion.tags.charges.reset blank=""}}
-        </select>
+      <div class="multi-select-wrapper">
+        <div class="form-group">
+          <label>{{localize "dc20rpg.item.sheet.infusion.chargesRefreshOn"}}</label>
+          <select class="multi-select" data-cType="multi-select" data-path="system.infusion.tags.charges.refresh">
+            {{selectOptions @root.config.DROPDOWN_DATA.chargesResets blank=""}}
+          </select>
+        </div>
+        <div class="selected-options">
+          {{#each system.infusion.tags.charges.refresh as |option key|}}
+            <div class="option">
+              <span>{{option}}</span>
+              <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.infusion.tags.charges.refresh" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.resource.resourceRefreshType"}}"></a>
+            </div>
+          {{/each}}
+        </div>
       </div>
       {{/if}}
 
