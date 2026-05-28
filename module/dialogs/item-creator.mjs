@@ -58,7 +58,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     initialized.window.title = "Item Creator";
     initialized.window.icon = "fa-solid fa-hammer-crash";
     initialized.position.width = 520;
-    initialized.actions.createItem = this._onCreateItemAction;
+    initialized.actions.createItem = this._onCreateItem;
     return initialized;
   }
   // ====================== INIT ======================
@@ -199,11 +199,15 @@ export class ItemCreatorDialog extends DC20Dialog {
     });
   }
 
-  async _onCreateItemAction(event) {
+  async _onCreateItem(event) {
     event.preventDefault();
 
     // Prepare item before creation
     const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "spellFocus";
+    if (["melee", "ranged"].includes(subType)) {
+      this.blueprint.system.attack.rangeType = subType;
+      this.blueprint.system.attack.closeQuarters = subType === "ranged"; // Set Close Quarters
+    }
     if (["melee", "ranged", "lshield", "hshield"].includes(subType)) {
       this.blueprint.system.costs.resources.ap = 1;
       this.blueprint.system.statuses.slotLink.predefined = "weapon";

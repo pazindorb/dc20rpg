@@ -764,7 +764,7 @@ function _activeEnhancements(item) {
 
 function _shouldRunDRMCheck(enhancement) {
   const mod = enhancement.modifications
-  return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula;
+  return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula || mod.actionChange;
 }
 
 //==================================//==================================

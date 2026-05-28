@@ -24,23 +24,20 @@ export function finishRoll(actor, item, rollMenu, coreRoll) {
   if (actor.shouldSustain(item)) actor.addSustain(item);
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   rollMenu.clear();
-  resetEnhancements(item, actor, true);
+  resetEnhancements(item, actor);
   _toggleItem(item);
   runPostRollEffectActions();
   reenablePreTriggerEvents();
   delete item.damageOverride;
 }
 
-export function resetEnhancements(item, actor, itemRollFinished) {
+export function resetEnhancements(item, actor) {
   if (!item.allEnhancements) return;
   
   item.allEnhancements.forEach((enh, key) => { 
     if (enh.number !== 0) {
       const enhOwningItem = actor.items.get(enh.sourceItemId);
-      if (enhOwningItem) {
-        runTemporaryItemMacro(enhOwningItem, "enhancementReset", actor, {enhancement: enh, itemRollFinished: itemRollFinished, enhKey: key});
-        enh.clear();
-      }
+      if (enhOwningItem) enh.clear();
     }
   });
 }

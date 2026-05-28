@@ -28,6 +28,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       rollMenu: new RollMenu(true),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
       quickRoll: new f.BooleanField({required: true, initial: false}),
+      skipChatMessage: new f.BooleanField({required: true, initial: false}),
       macros: new f.ObjectField({required: true})
     }
   }
@@ -67,6 +68,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         rangeType: new f.StringField({required: true, initial: "melee"}),
         checkType: new f.StringField({required: true, initial: "martial"}),
         targetDefence: new f.StringField({required: true, initial: "precision"}),
+        closeQuarters: new f.BooleanField({required: true, initial: false}),
       }),
       check: new CheckFields(),
       rollConfig: new RollConfigFields(),
@@ -444,6 +446,7 @@ export class DC20SpellData extends DC20UsableItemData {
         rangeType: new f.StringField({required: true, initial: "melee"}),
         checkType: new f.StringField({required: true, initial: "spell"}),
         targetDefence: new f.StringField({required: true, initial: "precision"}),
+        closeQuarters: new f.BooleanField({required: true, initial: false}),
       }),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields(),

@@ -825,13 +825,13 @@ export class DC20ChatMessage extends ChatMessage {
     if (data.targetHash) {
       const target = this.targets[data.targetHash];
       const request = target.rollRequests[data.category][data.key];
-      const statuses = target.statuses.map(status => status.id);
+      const statuses = target.statuses.filter(status => !status.ignoreForDrm).map(status => status.id);
       const details = this.#getDetailsForRequest(request, isContest, statuses);
       this.#sendRollRequest(target.actor, details, isContest);
     }
     else {
       const request = this.system.rollRequests[data.category][data.key];
-      const statuses = this.system.statuses.map(status => status.id);
+      const statuses = this.system.statuses.filter(status => !status.ignoreForDrm).map(status => status.id);
       const details = this.#getDetailsForRequest(request, isContest, statuses);
       if (canvas.tokens) canvas.tokens.placeables.forEach(token => {
         if (!token.controlled) return;

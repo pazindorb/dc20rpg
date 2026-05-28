@@ -288,7 +288,6 @@ DC20RPG.macroTriggers = {
   preItemRoll: "Before Item Roll",
   postItemRoll: "After Item Roll",
   postChatMessageCreated: "After Chat Message Created",
-  enhancementReset: "On Enhancement Reset",
   onKeywordUpdate: "On Keyword Update",
   infusion: "Infuse Item",
   removeInfusion: "Remove Item Infusion",
@@ -839,7 +838,7 @@ DC20RPG.DROPDOWN_DATA.attackTypes = {
 
 DC20RPG.DROPDOWN_DATA.rangeTypes = {
   melee: "Melee Attack",
-  ranged: "Range Attack",
+  ranged: "Ranged Attack",
   area: "Area Attack"
 }
 

@@ -14,7 +14,6 @@ export default class RollConfigFields extends foundry.data.fields.SchemaField {
         crit: new f.BooleanField({required: true, initial: false}),
         targetModifiers: new f.BooleanField({required: true, initial: false}), 
       }),
-      ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
       respectSizeRules: new f.BooleanField({required: true, initial: false}),
       ...fields
     };

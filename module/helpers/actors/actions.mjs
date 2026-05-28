@@ -119,7 +119,7 @@ export function holdAction(item, actor) {
     rollsHeldAction: false
   }
   actor.update({["flags.dc20rpg.actionHeld"]: actionHeld});
-  resetEnhancements(item, actor, true);
+  resetEnhancements(item, actor);
   rollMenu.clear();
 }
 

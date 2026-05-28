@@ -187,7 +187,7 @@ export class DC20Roll {
     await helper.runEnhancementMacro(item, "postItemRoll", {rolls: rolls});
 
     // 7. Send to chat
-    if (!item.doNotSendToChat && !options.skipChatMessage) {
+    if (!item.doNotSendToChat && !options.skipChatMessage && !item.system.skipChatMessage) {
       const chatMessageData = item.toChatMessageData();
       options.item = item;
 

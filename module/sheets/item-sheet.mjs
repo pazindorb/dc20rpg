@@ -413,7 +413,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "select-class-id": 
         const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[value];
         this.item.update({ ["system.forClass"]: { classSpecialId: value, name: className } });
-      break;
+        break;
+      case "range-type": 
+        this.item.update({["system.attack.rangeType"]: value, ["system.attack.closeQuarters"]: value === "ranged"});
+        break;
     }
   }
   

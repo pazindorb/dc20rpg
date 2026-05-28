@@ -19,8 +19,12 @@
 <div class="form-group">
   <div class="left-part-row">
     <label>{{localize "dc20rpg.item.sheet.status.trigger"}}</label>
-    <a class="fa-lg {{#if status.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" data-cType="activable" style="margin-right:3px;"
-        data-path="{{path}}.supressFromChatMessage" data-tooltip="{{localize "dc20rpg.item.sheet.status.supressFromChatMessage"}}"></a>
+    <div class="display:flex;">
+      <a class="fa-lg fa-solid fa-dice" data-cType="activable" style="margin-right:3px; {{#unless status.ignoreForDrm}}filter: opacity(0.6);{{/unless}}"
+          data-path="{{path}}.ignoreForDrm" data-tooltip="{{localize "dc20rpg.item.sheet.status.ignoreForDrm"}}"></a>
+      <a class="fa-lg fa-solid fa-eye" data-cType="activable" style="margin-right:3px; {{#unless status.supressFromChatMessage}}filter: opacity(0.6);{{/unless}}"
+          data-path="{{path}}.supressFromChatMessage" data-tooltip="{{localize "dc20rpg.item.sheet.status.supressFromChatMessage"}}"></a>
+    </div>
   </div>
   <div class="right-part-row">
     <a class="fa-lg fa-square-t {{#if status.untilFirstTimeTriggered}}fa-solid checked{{else}}fa-regular{{/if}}" data-cType="activable" data-path="{{path}}.untilFirstTimeTriggered" data-tooltip="{{localize "dc20rpg.item.sheet.status.untilFirstTimeTriggered"}}"></a>
