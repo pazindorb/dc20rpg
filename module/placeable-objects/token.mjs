@@ -101,7 +101,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
   get isFlanked() {
     if (this.actor.system.globalModifier.ignore.flanking) return;
-    if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
+    if (!game.settings.get("dc20rpg", "enableFlankingCheck")) return;
     const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
     const coreDisposition = [this.document.disposition];
     if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);

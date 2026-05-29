@@ -67,6 +67,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
         restPoints: new f.SchemaField({
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.restPoints"}), 
+          maxFormula: new f.StringField({ required: true, initial: "@resources.health.max"}),
           reset: new f.StringField({initial: "long4h"}), // TODO: backward compatibilty Remove as part of 0.11.0
           refresh: new f.ObjectField({required: true, initial: {
             long4h: "Long Rest (First 4h)",

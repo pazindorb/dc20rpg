@@ -320,13 +320,15 @@ export function getEffectModifiableKeys() {
     "system.resources.grit.bonus": "Grit: Max Value Bonus",
     "system.resources.grit.maxFormula" : "Grit: Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points: Max Value Bonus",
+    "system.resources.restPoints.maxFormula" : "Rest Points: Calculation Formula",
     "system.resources.restPoints.regenerationFormula" : "Rest Points: Regeneration Formula",
     
     // Help Dice
     "system.help.maxDice": "Help Dice: Max Dice",
 
     // Death
-    "system.death.bonus": "Death's Door Threshold Bonus",
+    "system.death.bonus": "Death's Door: Threshold Bonus",
+    "system.death.formula": "Death's Door: Calculation Formula",
 
     // Movement
     "system.moveCost": "Cost of moving 1 Space",

@@ -58,16 +58,6 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  // Removed with changes related to v13. Do we want to bring it back one day?
-  // settings.register("dc20rpg", "snapMovement", {
-  //   name: "Snap Movement",
-  //   hint: "If selected, Token will move to the closest space when there is not enough Move Points to its final destination.",
-  //   scope: "world",
-  //   config: true,
-  //   default: false,
-  //   type: Boolean
-  // });
-
   settings.register("dc20rpg", "spendMoreApOnMovePoints", {
     name: "Spend AP on Move Points automatically",
     hint: "If selected, Not enough Move Points will cause AP to be spent automatically on Move Points.",
@@ -128,20 +118,29 @@ export function registerGameSettings(settings) {
 	});
 
   settings.register("dc20rpg", "enableRangeCheck", {
-    name: "Enable Range Check",
+    name: "Respect Range Rules",
     hint: "If selected, Normal/Long/Out of Range rulles will be respected (e.g. Weapon Ranges).",
     scope: "world",
     config: true,
-    default: false,
+    default: true,
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "enablePositionCheck", {
-    name: "Enable Position Check",
-    hint: "If selected, Token positioning rules will be respected (e.g. Close Quarters, Flanking).",
+  settings.register("dc20rpg", "enableFlankingCheck", {
+    name: "Enable Flanking Rules",
+    hint: "Respect Flanking and Cover Rules",
     scope: "world",
     config: true,
-    default: false,
+    default: true,
+    type: Boolean
+	});
+
+  settings.register("dc20rpg", "enableCloseQuarters", {
+    name: "Enable Close Quarters",
+    hint: "Respect Close Quarters/Unwieldy Property Rules",
+    scope: "world",
+    config: true,
+    default: true,
     type: Boolean
 	});
 
@@ -155,6 +154,21 @@ export function registerGameSettings(settings) {
       separated: "Separated Group",
       hostile: "Part of the Hostile Group",
       friendly: "Part of the Friendly Group"
+    }}),
+	});
+
+  // ======================================
+  // ==           CANVAS DROP            ==
+  // ======================================
+  settings.register("dc20rpg", "dropCanvasItemSize", {
+    name: "Default size of dropped item",
+    scope: "world",
+    config: true,
+    default: "tiny",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "tiny", choices: {
+      tiny: "Tiny",
+      small: "Small",
+      medium: "Medium",
     }}),
 	});
 

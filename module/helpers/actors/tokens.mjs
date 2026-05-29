@@ -285,6 +285,18 @@ export async function canvasItemDrop(canvas, data, event) {
   const confirmed = await SimplePopup.confirm("Do you want to drop that item?");
   if (!confirmed) return;
 
+  // Change item token size
+  let size = {};
+  switch (game.settings.get("dc20rpg","dropCanvasItemSize")) {
+    case "tiny":
+      size = {width: 0.40, height: 0.40};
+      break;
+
+    case "small":
+      size = {width: 0.65, height: 0.65};
+      break;
+  }
+
   const itemData = item.toObject();
   item.gmDelete({transfer: true});
 
@@ -305,8 +317,7 @@ export async function canvasItemDrop(canvas, data, event) {
     texture: {src: itemData.img},
     disposition: -2,
     displayName: 0,
-    width: 0.65,
-    height: 0.65,
+    ...size
   });
   await DC20RpgTokenDocument.gmCreate(tokenData.toObject(), {parent: canvas.scene});
 }

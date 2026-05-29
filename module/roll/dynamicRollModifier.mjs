@@ -374,7 +374,7 @@ function _apGritModifications(actor, rollMenu) {
 //            POSITION CHECK             =
 //========================================
 function _closeQuartersCheck(attacker) {
-  if (!game.settings.get("dc20rpg", "enablePositionCheck")) return [];
+  if (!game.settings.get("dc20rpg", "enableCloseQuarters")) return [];
   if (!attacker) return [];
 
   let closeQuarters = false;
@@ -386,27 +386,28 @@ function _closeQuartersCheck(attacker) {
 }
 
 function _targetPositionCheck(target, attacker, rangeType, item) {
-  if (!game.settings.get("dc20rpg", "enablePositionCheck")) return [];
+  const rollMenu = item.system.rollMenu;
   const result = [];
 
-  const rollMenu = item.system.rollMenu;
-  // FLANKING
-  if (rollMenu.flanks || (rangeType === "melee" && target.isFlanked)) {
-    result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+  // Flanking
+  if (game.settings.get("dc20rpg", "enableFlankingCheck")) {
+    if (rollMenu.flanks || (rangeType === "melee" && target.isFlanked)) {
+      result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+    }
+  }
+  
+  // Unwieldy Property
+  if (item.system.properties?.unwieldy?.active && attacker.neighbours.has(target.id)) {
+    result.push({type: "dis", value: 1, label: "Unwieldy Property", target: true, targetHash: target.actor.targetHash});
   }
 
-  // COVER
+  // Cover
   const cover = target.actor.system.globalModifier.provide || {};
   if (rollMenu.tqCover || cover.tqCover) {
     result.push({modifier: "- 5", label: "Three-Quarter Cover", target: true, targetHash: target.actor.targetHash});
   }
   else if (rollMenu.halfCover || cover.halfCover) {
     result.push({modifier: "- 2", label: "Half Cover", target: true, targetHash: target.actor.targetHash});
-  }
-
-  // UNWIELDY PROPERTY
-  if (item.system.properties?.unwieldy?.active && attacker && attacker.neighbours.has(target.id)) {
-    result.push({type: "dis", value: 1, label: "Unwieldy Property", target: true, targetHash: target.actor.targetHash});
   }
 
   return result;
