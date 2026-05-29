@@ -32,6 +32,7 @@ export function enrichWithHelpers(item) {
     _enrichDurationObject(item);
   }
 
+  item.collectRottedEffects = () => collectRottedEffects(item);
   item.toChatMessageData = () => convertToChatMessageData(item);
 }
 
@@ -736,7 +737,8 @@ function _allEnhancements(item, collected=new Set(), iteration=0) {
   }
 
   //========== COPIED ENHANNCEMENTS ==========//
-  for (const copyable of parent.copyableEnhancements) {
+  const copyableEnhancements = parent.copyableEnhancements || [];
+  for (const copyable of copyableEnhancements) {
     if (copyable.itemId === item.id) continue;
     if (_itemMeetsUseConditions(copyable.copyFor, item)) {
       const itm = parent.items.get(copyable.itemId);
@@ -1450,4 +1452,38 @@ function _checkAND(combinations, item) {
     }
   };
   return true;
+}
+
+//==================================//==================================
+//                  HELPER TO HANDLE ROOTED EFFECTS                    =
+//==================================//==================================
+function collectRottedEffects(item) {
+  const rootedEffects = [];
+  // From enhancements
+  if (item.system.enhancements) {
+    for (const [key, enhancement] of Object.entries(item.system.enhancements)) {
+      const path = `system.enhancements.${key}.modifications.addsEffect`;
+      const effect = enhancement.modifications.addsEffect;
+      if (effect) {
+        effect.update = async (updateData) => await _updateRottedEffect(path, updateData, item);
+        rootedEffects.push(effect);
+      }
+    }
+  }
+  // From targetModifiers
+  if (item.system.targetModifiers) {
+    for (const [key, modifier] of Object.entries(item.system.targetModifiers)) {
+      const path = `system.targetModifiers.${key}.effect`;
+      const effect = modifier.effect;
+      if (effect) {
+        effect.update = async (updateData) => await _updateRottedEffect(path, updateData, item);
+        rootedEffects.push(effect);
+      }
+    }
+  }
+  return rootedEffects;
+}
+
+async function _updateRottedEffect(path, updateData, item) {
+  await item.update({[path]: updateData});
 }

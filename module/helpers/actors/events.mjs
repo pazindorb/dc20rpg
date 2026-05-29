@@ -3,7 +3,6 @@ import { DC20Roll } from "../../roll/rollApi.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
 import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 import { DC20Target } from "../../subsystems/target/target.mjs";
-import { runTemporaryMacro } from "../macros.mjs";
 
 let preTriggerTurnedOffEvents = [];
 
@@ -107,9 +106,7 @@ async function _runMacroEvents(events, actor, extraMacroData) {
   for (const event of events) {
     const effect = actor.getEffectById(event.effectId);
     if (!effect) continue;
-    const command = effect.system.macro;
-    if (!command) continue;
-    await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: extraMacroData});
+    await effect.runMacro({event: event, extras: extraMacroData});
   }
 }
 async function _runCustomEvents(events, actor) {

@@ -23,6 +23,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
     
     // Close Quarters
+    let closeQuartersResult = [];
     const actorIgnoreCloseQuarters = actor.system.globalModifier[attack.checkType].ignore.closeQuarters;
     if (!actorIgnoreCloseQuarters) {
       let considerCloseQuarters = attack.closeQuarters;
@@ -31,10 +32,11 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
         considerCloseQuarters = rollMenu.rangeType === "ranged";
       }
       if (considerCloseQuarters) {
-        const closeQuartersResult = _closeQuartersCheck(attacker);
-        results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
+        closeQuartersResult = _closeQuartersCheck(attacker);
       }
     }
+
+    results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
 
     // Target Checks
     const attackTargetPath = "system.dynamicRollModifier.againstYou.attack";
