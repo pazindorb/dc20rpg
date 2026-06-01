@@ -321,8 +321,7 @@ export class DC20RpgCombat extends Combat {
 
     // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
-      
-      await this._respectRoundCounterForEffects();
+
       this._deathsDoorCheck(actor);
       this._sustainCheck(actor);
       await actor.refresh.on("roundStart");
@@ -365,16 +364,6 @@ export class DC20RpgCombat extends Combat {
       const companion = this.combatants.get(companionId);
       if(companion) this._onEndTurn(companion, context, true);
     });
-  }
-
-  async _respectRoundCounterForEffects() {
-    for (const combatant of this.combatants) {
-      const actor = combatant.actor;
-      if (!actor) continue;
-      for (const effect of actor.temporaryEffects) {
-        await effect.respectRoundCounter()
-      }
-    }
   }
 
   async _runEventsForAllCombatants(trigger, filters, currentRound) {
@@ -434,7 +423,7 @@ export class DC20RpgCombat extends Combat {
     const change = (checkPath) => {
       return {
         key: `system.dynamicRollModifier.onYou.${checkPath}`,
-        mode: 2,
+        type: "add",
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Initiative Critical Success", "confirmation": true, "afterRoll": "delete"'
       }
@@ -450,24 +439,24 @@ export class DC20RpgCombat extends Combat {
       img: "icons/svg/angel.svg",
       origin: actor.uuid,
       duration: {
-        rounds: 2
+        rounds: 1,
+        expiry: "turnStart",
       },
       system: {
+        changes: changes,
         duration: {
-          useCounter: true,
-          onTimeEnd: "delete"
+          expiryAction: "delete"
         }
       },
       description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
       disabled: false,
-      changes: changes
     }
   }
 
   _getInitiativeCritFailEffectData(actor) {
     const changes = [{
       key: `system.dynamicRollModifier.againstYou.attack`,
-      mode: 2,
+      type: "add",
       priority: undefined,
       value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
     }];
@@ -477,17 +466,17 @@ export class DC20RpgCombat extends Combat {
       img: "icons/svg/coins.svg",
       origin: actor.uuid,
       duration: {
-        rounds: 2
+        rounds: 1,
+        expiry: "turnStart",
       },
       system: {
+        changes: changes,
         duration: {
-          useCounter: true,
-          onTimeEnd: "delete"
+          expiryAction: "delete"
         }
       },
       description: "The first Attack made against you during the first Round of Combat has ADV.",
       disabled: false,
-      changes: changes
     }
   }
 

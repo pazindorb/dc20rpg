@@ -37,6 +37,8 @@ import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
 import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
+import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
+import { refreshActiveEffectRegistry } from "./helpers/effects.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -84,6 +86,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.dataModels.npc = DC20NpcData;
   CONFIG.Actor.dataModels.companion = DC20CompanionData;
   CONFIG.Actor.dataModels.storage = DC20StorageData;
+  CONFIG.ActiveEffect.dataModels.base = DC20BaseActiveEffectData;
   CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.spellFocus = itemDM.DC20SpellFocusData;
@@ -102,6 +105,7 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.background = itemDM.DC20BackgroundData;
 
   // Register sheet application classes
+  foundry.documents.ActiveEffect.registry.refresh = refreshActiveEffectRegistry;
   foundry.documents.collections.Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
   foundry.documents.collections.Items.registerSheet("dc20rpg", DC20ItemSheet, { makeDefault: true });
   const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;

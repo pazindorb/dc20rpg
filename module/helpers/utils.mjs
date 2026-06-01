@@ -158,13 +158,17 @@ export function mapToObject(map) {
   return object;
 }
 
-export function translateLabels(object) {
+export function translateLabels(object, visited = new WeakSet()) {
+  if (typeof object !== "object" || object === null) return;
+  if (visited.has(object)) return;
+  visited.add(object);
+
   for (const key in object) {
-    if (object.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
       const value = object[key];
-      
-      if (key === "label") object[key] = game.i18n.localize(object.label) ?? object.label;
-      if (typeof value === "object" && value !== null) translateLabels(value);
+
+      if (key === "label" && typeof value === "string") object[key] = game.i18n.localize(value) ?? value;
+      if (typeof value === "object" && value !== null) translateLabels(value, visited);
     }
   }
 }
@@ -237,7 +241,7 @@ export function applyStatusToEffect(effect, statusId) {
   const status = CONFIG.statusEffects.find(s => s.id === statusId);
   if (Array.isArray(effect.statuses)) effect.statuses.push(statusId)
   else effect.statuses.add(statusId)
-  status.changes.forEach(change => effect.changes.push(change));
+  status.system.changes.forEach(change => effect.system.changes.push(change));
 }
 
 export function toggleCheck(item, itemSpecificCondition) {

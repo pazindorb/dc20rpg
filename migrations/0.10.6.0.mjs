@@ -250,7 +250,7 @@ async function _migrateEffectStatusesAndDrm(effect) {
 
   // Update DRM
   const changes = [];
-  for (const change of effect.changes) {
+  for (const change of effect.system.changes) {
     const isDrm = change.key.includes("system.dynamicRollModifier") && change.key.includes(".martial.melee")
     if (!isDrm) continue;
 
@@ -274,7 +274,7 @@ async function _migrateEffectStatusesAndDrm(effect) {
 function _attackDrmFrom(type, range, target, value) {
   return {
     key: `system.dynamicRollModifier.${target}.attack`,
-    mode: 2,
+    type: "add",
     value: `${value}, "attackType": "${type}", "rangeType": "${range}"`
   }
 }
@@ -289,6 +289,7 @@ async function _updateEffects(object) {
     // Collect effect from conditonals and enhancements
     for (const effect of object.collectRottedEffects()) {
       await _migrateEffectStatusesAndDrm(effect);
+      await effect.update({["system.addToChat"]: true});
     }
   }
 }

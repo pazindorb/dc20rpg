@@ -624,7 +624,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   async _onRootedMacroEdit(event, target) {
-    const flags = {item: this.item}
+    const flags = {itemUuid: this.item.uuid}
     const key = target.dataset.key;
 
     let command = null;

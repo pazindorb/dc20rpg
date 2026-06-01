@@ -8,79 +8,6 @@ import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
  */
 export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect {
 
-  /** @override */
-  static defineSchema() {
-    const fields = foundry.data.fields;
-    
-    return this.mergeSchema(super.defineSchema(), {
-      changes: new fields.ArrayField(new fields.SchemaField({
-        key: new fields.StringField({required: true}),
-        value: new fields.StringField({required: true}),
-        mode: new fields.NumberField({required: true, nullable: false, integer: true, initial: CONST.ACTIVE_EFFECT_MODES.ADD}),
-        priority: new fields.NumberField(),
-        useCustom: new fields.BooleanField({required: true, initial: false})
-      })),
-      system: new fields.SchemaField({
-        sustained: new fields.SchemaField({
-          isSustained: new fields.BooleanField({required: true, initial: false}),
-          actorUuid: new fields.StringField({required: true}),
-          itemId: new fields.StringField({required: true}),
-        }),
-        statusId: new fields.StringField({required: true}),
-        condition: new fields.BooleanField({required: true, initial: false}),
-        duration: new fields.SchemaField({
-          useCounter: new fields.BooleanField({required: true, initial: false}),
-          resetWhenEnabled: new fields.BooleanField({required: true, initial: false}),
-          onTimeEnd: new fields.StringField({required: true})
-        }),
-        effectKey: new fields.StringField({required: true}),
-        macro: new fields.StringField({required: true}),
-        addToChat: new fields.BooleanField({required: true, initial: false}),
-        applyToTemplate: new fields.BooleanField({required: true, initial: true}),
-        requireEquip: new fields.BooleanField({required: true, initial: false}),
-        nonessential: new fields.BooleanField({required: true, initial: false}),
-        refreshTarget: new fields.BooleanField({required: true, initial: false}),
-        disableWhen: new fields.SchemaField({
-          path: new fields.StringField({required: true}),
-          mode: new fields.StringField({required: true}),
-          value: new fields.StringField({required: true})
-        }),
-        chatMessageId: new fields.StringField({required: true, initial: ""})
-      })
-    })
-  }
-
-  static mergeSchema(a, b) {
-    Object.assign(a, b);
-    return a;
-  }
-
-  // We want to modify schema with our fields so we cannot use base document here
-  /** @override */
-  static get schema() {
-    if ( this._schema ) return this._schema;
-    const fields = foundry.data.fields;
-    if ( !this.hasOwnProperty("_schema") ) {
-      const schema = new fields.SchemaField(Object.freeze(this.defineSchema()));
-      Object.defineProperty(this, "_schema", {value: schema, writable: false});
-    }
-    return this._schema;
-  }
-
-  get roundsLeft() {
-    const useCounter = this.system.duration?.useCounter;
-    const activeCombat = game.combats.active;
-    if (useCounter && activeCombat) {
-      const duration = this.duration;
-      const beforeTurn = duration.startTurn > activeCombat.lastActiveTurn ? 1 : 0;
-      const roundsLeft = duration.rounds + duration.startRound + beforeTurn - activeCombat.round;
-      return roundsLeft;
-    }
-    else {
-      return null;
-    }
-  }
-
   get isLinkedToItem() {
     if (!this.transfer) return false;
     const item = this.getSourceItem();
@@ -110,7 +37,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   get hasManualEvent() {
-    for (const change of this.changes) {
+    for (const change of this.system.changes) {
       if (change.key === "system.events") {
         if (change.value.includes('"trigger": "manual"') || change.value.includes('"reenable": "turnStart"')) return true;
       } 
@@ -164,9 +91,8 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     const updateData = {disabled: false};
     // Check If we should use round counter
     const duration = this.system.duration;
-    if (duration?.useCounter && duration?.resetWhenEnabled && !dontUpdateTimer) {
-      const initial =  this.constructor.getInitialDuration();
-      updateData.duration = initial.duration;
+    if (duration?.resetWhenEnabled && !dontUpdateTimer) {
+      updateData.start = this.constructor.getEffectStart();
     }
     await this.gmUpdate(updateData);
     const actor = this.getOwningActor();
@@ -177,12 +103,12 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   /**@override */
-  apply(actor, change) {
+  static applyChange(targetDoc, change, options) {
     this.#injectEffectIdToChange(change);
-    super.apply(actor, change);
+    super.applyChange(targetDoc, change, options);
   }
 
-  #injectEffectIdToChange(change) {
+  static #injectEffectIdToChange(change) {
     const effect = change.effect;
     if (!effect) return;
 
@@ -190,12 +116,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (change.key.includes("system.events") || change.key.includes("system.dynamicRollModifier") || change.key.includes("system.globalFormulaModifiers")) {
       change.value = `"effectId": "${effect.id}", ` + change.value;
     }
-  }
-
-  /**@override */
-  static async fromStatusEffect(statusId, options={}) {
-    const effect = await super.fromStatusEffect(statusId, options);
-    return effect;
   }
 
   /**
@@ -241,6 +161,14 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return await gmDelete(operation, this);
   }
 
+  toObject(source=true) {
+    const data = super.toObject(source);
+    for (const field in data.duration) {
+      if (data.duration[field] === Infinity) data.duration[field] = null;
+    }
+    return data;
+  }
+
   // If we are removing a status from effect we need to run check 
   async _preUpdate(changed, options, user) {
     super._preUpdate(changed, options, user);
@@ -251,6 +179,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       if (this.preventCreation) return false;
+      this.updateSource({start: {...this.constructor.getEffectStart(), ...data.start}});
     }
     super._preCreate(data, options, user);
   }
@@ -267,8 +196,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
     if (userId === game.user.id) {
-      // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
-      this.update(this.constructor.getInitialDuration());
       if (this.parent.documentName === "Actor") {
         runInstantEvents(this, this.parent);
       }
@@ -283,26 +210,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (!sustained.isSustained) return;
     const actor = await fromUuid(sustained.actorUuid);
     if (actor) actor.addEffectToSustain(sustained.itemId, this.uuid);
-  }
-
-  async respectRoundCounter() {
-    const durationFlag = this.system.duration; 
-    if (!durationFlag) return;
-    if (!durationFlag.useCounter) return;
-    if (this.roundsLeft === null) return;
-    if (this.roundsLeft > 0) return;
-
-    const onTimeEnd = durationFlag.onTimeEnd;
-    if (!onTimeEnd) return;
-
-    if (onTimeEnd === "disable") await this.disable();
-    if (onTimeEnd === "delete") {
-      DC20ChatMessage.effectRemovalMessage(this.getOwningActor(), this);
-      await this.gmDelete({ignoreResponse: true});
-    }
-    if (onTimeEnd === "runMacro") {
-      await this.runMacro({timer: true});
-    }
   }
 
   async runMacro(additionalFields) {

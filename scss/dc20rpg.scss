@@ -47,6 +47,12 @@
     min-width: 400px;
     min-height: 300px;
     @import 'components/item/item';
+
+    &.minimized {
+      min-width: 0px;
+      min-height: 0px;
+      overflow: hidden;
+    }
   }
 
   &.fixed-600-size {

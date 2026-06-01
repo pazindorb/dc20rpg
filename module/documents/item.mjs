@@ -259,7 +259,7 @@ export class DC20RpgItem extends Item {
   editItemMacro(key) {
     const command = this.system.macros[key]?.command;
     if (!command === undefined) return;
-    const macro = createTemporaryMacro(command, this, {item: this, updatePath: `system.macros.${key}.command`});
+    const macro = createTemporaryMacro(command, this, {itemUuid: this.uuid, updatePath: `system.macros.${key}.command`});
     macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }

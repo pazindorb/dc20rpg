@@ -32,7 +32,7 @@ export function prepareStatuses(actor) {
           img: status.img,
           description: status.description,
           stackable: status.stackable,
-          condition: status.system.condition, // TODO move from system.condition to condition? not sure
+          condition: status.system.condition,
           stack: 1,
           effects: [{name: effect.name, id: effect.id, isStatusEffect: isStatusEffect, isLocked: isLocked}]
         })
@@ -81,7 +81,7 @@ function dazedCheck(actor) {
 
 export function enhanceEffects(actor) {
   for (const effect of actor.allEffects) {
-    for (const change of effect.changes) {
+    for (const change of effect.system.changes) {
       const value = change.value;
       
       // formulas start with "<:" and end with ":>"

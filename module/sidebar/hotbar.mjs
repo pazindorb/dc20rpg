@@ -414,11 +414,11 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     for(const effect of actor.allEffects) {
-      if (effect.isTemporary) {
+      if (effect.isTemporary || effect.showIcon === CONST.ACTIVE_EFFECT_SHOW_ICON.ALWAYS) {
         const enriched = await TextEditor.enrichHTML(effect.description, {secrets:true, autoLink:true});
         const descriptionColumn = enriched ? `<hr/>${enriched}` : "";
         
-        const timeLeft = effect.roundsLeft ? `<p><i class="fa-solid fa-stopwatch margin-right-5"></i> ${effect.roundsLeft} Rounds Left</p>` : "";
+        const timeLeft = effect.duration.label !== "None" ? `<p><i class="fa-solid fa-stopwatch margin-right-5"></i> Expire in: ${effect.duration.label}</p>` : "";
         const suspended = effect.suspended ? `<p><i class="fa-solid fa-power-off margin-right-5"></i> ${effect.suspended} </p>` : "";
         const statuses = await this._prepareInnerStatuses(effect.statuses, effect.name);
 

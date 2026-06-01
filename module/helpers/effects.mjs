@@ -3,6 +3,68 @@ import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
+/** @override */
+//NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates. This method modifies ActiveEffectRegistry.refresh method. 
+export async function refreshActiveEffectRegistry(event, context) {
+  // Setup per-parent groupings for batched modifications and callbacks
+  /** @type {Map<Actor, ActiveEffect[]>} */
+  const refreshed = new Map();
+  /** @type {Map<Actor|Item, ActiveEffect[]>} */
+  const expired = new Map();
+
+  for ( const effect of this ) {
+    if ( context?.actors && !context.actors.has(effect.actor) ) continue;
+
+    // These events never entail a change in remaining duration
+    // Combat start and end also don't but can lead to a duration getting reframed as time-based or combat-based
+    if ( !["roundEnd", "turnEnd"].includes(event) ) {
+      const oldRemaining = effect.duration.secondsRemaining ?? effect.duration.remaining;
+      const oldUnits = effect.duration.units;
+      const updated = effect.updateDuration(context);
+      const newRemaining = updated.secondsRemaining ?? updated.remaining;
+      const remainingChanged = oldRemaining !== newRemaining;
+      const unitsChanged = oldUnits !== updated.units;
+      if ( remainingChanged || unitsChanged || (newRemaining <= 0) || (newRemaining === Infinity) ) {
+        if ( !refreshed.has(effect.actor) ) refreshed.set(effect.actor, []);
+        refreshed.get(effect.actor).push(effect);
+      }
+    }
+    const durationReached = (effect.duration.remaining <= 0) || !Number.isFinite(effect.duration.remaining);
+    if ( durationReached && effect.isExpiryEvent(event, context) ) {
+      this.delete(effect);
+      if ( !expired.has(effect.parent) ) expired.set(effect.parent, []);
+      expired.get(effect.parent).push(effect);
+    }
+  }
+
+  // Notify actors of updated durations
+  for ( const [actor, effects] of refreshed.entries() ) {
+    actor.onUpdateEffectDurations(effects, event, context);
+  }
+
+  // Perform the configured action for expired effects
+  if ( game.users.activeGM?.isSelf ) {
+    for (const [actor, effects] of expired.entries()) {
+      for (const effect of effects) {
+        switch (effect.system.duration.expiryAction) {
+          case "disable": 
+            await effect.disable(); 
+            break;
+
+          case "delete": 
+            DC20ChatMessage.effectRemovalMessage(actor, effect);
+            await effect.gmDelete({ignoreResponse: true});
+            break;
+
+          case "runMacro":
+            await effect.runMacro({timer: true});
+            break;
+        }
+      }
+    }
+  }
+}
+
 export function prepareActiveEffects(owner, context) {
   const hideNonessentialEffects = !owner.system.sheetData.show.nonessentialEffects;
 
@@ -30,7 +92,7 @@ export function prepareActiveEffects(owner, context) {
   for ( const effect of owner.allEffects ) {
     if (effect.system.statusId) continue; // Skip effect that is just a status
     effect.originName = effect.parent.name;
-    effect.timeLeft = effect.roundsLeft;
+    effect.timeLeft = effect.duration.label !== "None" ? effect.duration.label : "";
     effect.canChangeState = effect.stateChangeLocked;
     effect.manualTrigger = effect.hasManualEvent;
     if (effect.system.nonessential && hideNonessentialEffects) continue;
@@ -200,30 +262,32 @@ export async function addFlatDamageReductionEffect(actor) {
     name: "Grit - Damage Reduction",
     img: "systems/dc20rpg/images/sheet/header/grit.svg",
     description: "<p>You are spending Grit to reduce incoming damage</p>",
-    duration: {rounds: 1},
+    duration: {
+      rounds: 1,
+      expiry: "turnStart",
+    },
     system: {
       duration: {
-        useCounter: true,
-        onTimeEnd: "delete"
-      }
+        expiryAction: "delete"
+      },
+      changes: [
+        {
+          key: "system.damageReduction.flat",
+          type: "add",
+          value:"1"
+        },
+        {
+          key: "system.events",
+          type: "add",
+          value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+        },
+        {
+          key: "system.events",
+          type: "add",
+          value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+        }
+      ]
     },
-    changes: [
-      {
-        key: "system.damageReduction.flat",
-        mode: 2,
-        value:"1"
-      },
-      {
-        key: "system.events",
-        mode: 2,
-        value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
-      },
-      {
-        key: "system.events",
-        mode: 2,
-        value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
-      }
-    ]
   }
   await DC20RpgActiveEffect.gmCreate(damageReduction, {parent: actor});
 }
@@ -233,7 +297,7 @@ export function injectFormula(effect, effectOwner) {
   if (!effectOwner) return;
   const rollData = effectOwner.getRollData();
 
-  for (const change of effect.changes) {
+  for (const change of effect.system.changes) {
     const value = change.value;
     
     // formulas start with "<#" and end with "#>"

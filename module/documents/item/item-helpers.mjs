@@ -1394,7 +1394,7 @@ function _collectFromItemAndEnhancements(item) {
       statuses.push(enh.modifications.againstStatus)
     }
 
-    if (enh.modifications.addsEffect) {
+    if (enh.modifications.addsEffect && enh.modifications.addsEffect.system.addToChat) {
       effects.push(enh.modifications.addsEffect);
     }
 

@@ -53,7 +53,7 @@ export class DC20RpgActor extends Actor {
     for ( const effect of this.allApplicableEffects()) {
       effects.push(effect);
     }
-    const sorted = effects.sort((a, b) => b.changes.length - a.changes.length);
+    const sorted = effects.sort((a, b) => b.system.changes.length - a.system.changes.length);
     return sorted;
   }
 
@@ -63,7 +63,7 @@ export class DC20RpgActor extends Actor {
   get allEvents() {
     const events = [];
     for (const effect of this.allApplicableEffects()) {
-      for (const change of effect.changes) {
+      for (const change of effect.system.changes) {
         if (change.key === "system.events") {
           const changeValue = `"effectId": "${effect.id}", ` + change.value; // We need to inject effect id
           const paresed = parseEvent(changeValue);
@@ -80,7 +80,7 @@ export class DC20RpgActor extends Actor {
   get activeEvents() {
     const events = [];
     for (const effect of this.allApplicableEffects()) {
-      for (const change of effect.changes) {
+      for (const change of effect.system.changes) {
         if (change.key === "system.events") {
           const changeValue = `"effectId": "${effect.id}", ` + change.value; // We need to inject effect id
           const paresed = parseEvent(changeValue);
@@ -209,7 +209,7 @@ export class DC20RpgActor extends Actor {
 
     enhanceEffects(this);
     for (const document of this.getEmbeddedCollection("effects")) document._safePrepareData();
-    this.applyActiveEffects();
+    this.applyActiveEffects("initial");
     
     prepareRollDataForItems(this);
     for (const document of this.getEmbeddedCollection("items")) document._safePrepareData();
@@ -221,31 +221,65 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  applyActiveEffects() {
-    const overrides = {};
+  /** @override */
+  // NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
+  // Why: We are handling statuses differently in DC20, We needed to remove line 
+  // setting those from this method, sadly we had to override whole thing
+  applyActiveEffects(phase) {
+    const ActiveEffect = foundry.documents.ActiveEffect.implementation;
+    if ( typeof phase !== "string" ) {
+      phase = this._completedActiveEffectPhases.has("initial") ? "final" : "initial";
+      const message = 'Actor#applyActiveEffects must be called with a string phase identifier, with "initial"'
+        + " as the first phase.";
+      foundry.utils.logCompatibilityWarning(message, {since: 14, until: 16, once: true});
+    }
+    else if ( !(phase in ActiveEffect.CHANGE_PHASES) ) {
+      const error = new Error(`"${phase}" is not a registered ActiveEffect application phase.`);
+      Hooks.onError("Actor#applyActiveEffects", error, {log: "error"});
+    }
+    if ( this._completedActiveEffectPhases.has(phase) ) {
+      const error = new Error(`ActiveEffect application phase "${phase}" has already completed and cannot be run again`
+        + " in this Actor's data-preparation cycle.");
+      Hooks.onError("Actor#applyActiveEffects", error, {log: "error"});
+      return;
+    }
+    this._completedActiveEffectPhases.add(phase);
 
     // Organize non-disabled effects by their application priority
+    /** @type {ActiveEffectChangeData[]} */
     const changes = [];
+    /** @type {ActiveEffectChangeData[]} */
+    const tokenChanges = [];
     for ( const effect of this.allApplicableEffects() ) {
       if ( !effect.active ) continue;
-      changes.push(...effect.changes.map(change => {
-        const c = foundry.utils.deepClone(change);
-        c.effect = effect;
-        c.priority = c.priority ?? (c.mode * 10);
-        return c;
-      }));
+      for ( const change of effect.system.changes ) {
+        if ( (change.key === "") || (change.phase !== phase) ) continue;
+        const copy = foundry.utils.deepClone(change);
+        copy.effect = effect;
+        if ( copy.key?.startsWith("token.") ) { // Keep Token changes separate for later application
+          copy.key = copy.key.slice(6);
+          tokenChanges.push(copy);
+        }
+        else changes.push(copy);
+      }
+      if ( phase === "initial" ) {
+        // for ( const statusId of effect.statuses ) this.statuses.add(statusId); // OVERRIDE NOTE: THIS PART WAS REMOVED FROM THE ORINGAL
+      }
     }
     changes.sort((a, b) => a.priority - b.priority);
+    ActiveEffect._shimChanges(changes);
+    this.tokenActiveEffectChanges[phase] = tokenChanges;
 
     // Apply all changes
+    const overrides = {};
+    const replacementData = this.getRollData();
     for ( const change of changes ) {
-      if ( !change.key ) continue;
-      const changes = change.effect.apply(this, change);
-      Object.assign(overrides, changes);
+      const result = ActiveEffect.applyChange(this, change, {replacementData});
+      if ( foundry.utils.isPlainObject(result) ) Object.assign(overrides, result);
     }
 
     // Expand the set of final overrides
-    this.overrides = foundry.utils.expandObject(overrides);
+    foundry.utils.mergeObject(this.overrides, foundry.utils.expandObject(overrides));
   }
 
   /**

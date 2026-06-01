@@ -1,9 +1,9 @@
 import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
+import { applyStatusToEffect } from "../helpers/utils.mjs";
 
 export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
-  changesCache = new Map();
 
   static DEFAULT_OPTIONS = {
     ...super.DEFAULT_OPTIONS,
@@ -16,17 +16,6 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
   constructor(dialogData = {}, options = {}) {
     super(dialogData, options);
     this.effectKeys = getEffectModifiableKeys();
-    this.itemEnhancements = this._getItemEnhacements();
-  }
-
-  _getItemEnhacements() {
-    const item = this.document.parent;
-    if (item.documentName !== "Item") return {};
-    else {
-      const dropdownData = {};
-      item.allEnhancements.forEach((value, key) => dropdownData[key] = value.name)
-      return dropdownData;
-    }
   }
 
     /** @override */
@@ -66,87 +55,51 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
 
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    context.disableRoundCounter = !this.document.system.duration.useCounter;
-    context.source.system.duration.useCounter = this.document.system.duration.useCounter;
+    context.system = this.document.system;
     context.logicalExpressions = CONFIG.DC20RPG.DROPDOWN_DATA.logicalExpressions;
     context.effectKeys = this.effectKeys;
-    context.itemEnhancements = this.itemEnhancements;
-    context.onTimeEndOptions = {
+    context.changeTypes = ActiveEffect.CHANGE_TYPES;
+    context.expiryActions = {
       "": "",
       disable: "Disable Effect",
       delete: "Delete Effect",
       runMacro: "Run Macro"
     };
 
-    if (options.isFirstRender) {
-      this._prepareChangesCache(context.source.changes, context.effectKeys);
-    }
-    this._setUseCustomFlagFromCache(context.source.changes);
     return context;
-  }
-
-  _prepareChangesCache(changes, keys) {
-    for (let i = 0; i < changes.length; i++) {
-      if (!changes[i].key) this.changesCache.set(i, false);
-      else if (keys[changes[i].key]) this.changesCache.set(i, false);
-      else this.changesCache.set(i, true);
-    }
-  }
-
-  _setUseCustomFlagFromCache(changes) {
-    for (let i = 0; i < changes.length; i++) {
-      changes[i].useCustom = this.changesCache.get(i) || false;
-    }
   }
 
   async _onSystemsBuilder(event, target) {
     const dataset = target.dataset;
     const type = dataset.type;
-    const changeIndex = dataset.index; 
+    const index = dataset.index; 
     const isSkill = dataset.isSkill;
     const isAttack = dataset.isAttack;
 
-    const changes = this.document.changes;
+    const changes = this.document.system.changes;
     if (!changes) return;
-    const change = changes[changeIndex];
-    if (change === undefined) return;
+    const change = changes[index];
+    if (!change) return;
 
     const result = await createSystemsBuilder(type, change.value, {isSkill: isSkill, isAttack: isAttack});
     if (result) {
-      changes[changeIndex].value = result;
-      this.document.update({changes: changes});
+      changes[index].value = result;
+      this.document.update({["system.changes"]: changes});
     }
   }
 
   async _onEffectMacro(event, target) {
     const command = this.document.system?.macro || "";
-    const macro = await createTemporaryMacro(command, this.document, {effect: this.document});
+    const macro = await createTemporaryMacro(command, this.document, {effectUuid: this.document.uuid});
     macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }
 
   async _onAddStatusEffectChanges(event, target) {
-    let changes = this.document.changes;
     for (const statusId of this.document.statuses) {
-      const status = CONFIG.statusEffects.find(s => s.id === statusId);
-      if (status) changes = [...changes, ...status.changes];
+      applyStatusToEffect(this.document, statusId)
     }
-    this.document.update({changes: changes});
-  }
-
-  _onChangeForm(formConfig, event) {
-    super._onChangeForm(formConfig, event);
-    if (event.target?.name?.startsWith("cache.")) {
-      return this.#updateCache(event);
-    }
-  }
-
-  #updateCache(event) {
-    const [type, stringIndex, field] = event.target.name.split(".");
-    const index = parseInt(stringIndex);
-    const value = this.changesCache.get(index) || false;
-    this.changesCache.set(index, !value);
-    this.render();
+    this.document.update({["system.changes"]: this.document.system.changes});
   }
 
   async close(options) {

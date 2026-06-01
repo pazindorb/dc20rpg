@@ -350,9 +350,9 @@ async function _enableEffect(effectId, actor) {
 }
 
 export async function runInstantEvents(effect, actor) {
-  if (!effect.changes) return;
+  if (!effect.system.changes) return;
 
-  for (const change of effect.changes) {
+  for (const change of effect.system.changes) {
     if (change.key === "system.events" && change.value.includes('"instant"')) {
       const event = await parseEvent(change.value);
 

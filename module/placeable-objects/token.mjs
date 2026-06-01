@@ -25,7 +25,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       glide: {
@@ -36,7 +35,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       flying: {
@@ -47,7 +45,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       swimming: {
@@ -58,7 +55,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       burrow: {
@@ -69,7 +65,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       climbing: {
@@ -80,7 +75,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       displace: {
@@ -253,30 +247,38 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     this.effects.overlay = null;
 
     // Categorize effects
-    const activeEffects = this.actor?.temporaryEffects || [];
-    const overlayEffect = activeEffects.findLast(e => e.img && e.getFlag("core", "overlay"));
+    const SHOW_ICON = CONST.ACTIVE_EFFECT_SHOW_ICON;
+    const activeEffects = this.actor?.appliedEffects.filter(e => ((e.showIcon === SHOW_ICON.ALWAYS)
+      || ((e.showIcon === SHOW_ICON.CONDITIONAL) && e.isTemporary))) ?? [];
+    const overlayEffect = activeEffects.findLast(e => e.flags.core?.overlay);
 
+    //====== INJECTED ====== 
     // Flatten the same active effect images
-    const flattenedImages = [];
-    const uniqueImages = [];
+    const flattenedImages = new Map();
     activeEffects.forEach(effect => {
-      if (uniqueImages.indexOf(effect.img) === -1) {
-        flattenedImages.push(effect);
-        uniqueImages.push(effect.img);
+      if (flattenedImages.has(effect.img)) {
+        const eff = flattenedImages.get(effect.img);
+        eff.numberOfImages += 1;
+        flattenedImages.set(effect.img, eff);
+      }
+      else {
+        effect.numberOfImages = 1;
+        flattenedImages.set(effect.img, effect);
       }
     });
+    //====== INJECTED ====== 
 
     // Draw effects
     const promises = [];
-    for (let i = 0; i < flattenedImages.length; i++) {
-      const effect = flattenedImages[i];
-    // for ( const [i, effect] of activeEffects.entries() ) {
+    let index = 0;
+    // for ( const [i, effect] of activeEffects.entries() ) { //NOTE: Replaced this line with the one bellow
+    for (const effect of flattenedImages.values()) {
       if ( !effect.img ) continue;
       const promise = effect === overlayEffect
         ? this._drawOverlay(effect.img, effect.tint)
-        : this._drawEffect(effect.img, effect.tint);
+        : this._drawEffectStack(effect);
       promises.push(promise.then(e => {
-        if ( e ) e.zIndex = i;
+        if ( e ) e.zIndex = index++;
       }));
     }
     await Promise.allSettled(promises);
@@ -284,6 +286,33 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     this.effects.sortChildren();
     this.effects.renderable = true;
     this.renderFlags.set({refreshEffects: true});
+  }
+
+  async _drawEffectStack(effect) {
+    const e = await this._drawEffect(effect.img, effect.tint);
+    if ( !e || (effect.numberOfImages <= 1) ) return e;
+
+    const width = e.texture?.width ?? e.width;
+    const height = e.texture?.height ?? e.height;
+    const textureSize = Math.min(width, height);
+    const badge = e.addChild(new PIXI.Container());
+    badge.position.set(width / 2, height / 2);
+
+    badge.addChild(new PIXI.Graphics()
+      .beginFill(0x000000, 0.65)
+      .lineStyle(Math.max(2, textureSize * 0.04), 0xffffff, 0.9)
+      .endFill());
+
+    const label = badge.addChild(new PIXI.Text(String(effect.numberOfImages), {
+      fontFamily: CONFIG.canvasTextStyle.fontFamily,
+      fontSize: Math.max(24, textureSize * 0.75),
+      fontWeight: "bold",
+      fill: 0xcc0a0a,
+      stroke: 0x000000,
+      strokeThickness: Math.max(2, textureSize * 0.04)
+    }));
+    label.anchor.set(0.5);
+    return e;
   }
 
   async _draw(options) {
