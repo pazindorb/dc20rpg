@@ -37,7 +37,7 @@
       <div class="form-group" data-tooltip="{{cost.label}}">
         <img class="resource-img" src="{{cost.img}}"/>
         <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
-        <a style="color:#af0a0a" class="fa-solid fa-trash" data-action="removeSubdoc" data-type="resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"></a>
+        <a style="color:#af0a0a; margin-left:-5px; max-width: 20px;" class="fa-solid fa-trash" data-action="removeSubdoc" data-type="resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"></a>
       </div>
       {{/each}}
     </div>

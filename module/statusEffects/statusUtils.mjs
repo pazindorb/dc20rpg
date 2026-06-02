@@ -27,7 +27,7 @@ export function getStatusWithId(actor, statusId) {
 
 export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
-  const changes = effect.changes;
+  const changes = effect.system.changes;
 
   if (extras.mergeDescription) {
     effect.description += extras.mergeDescription;
@@ -64,16 +64,18 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   }
 
   if (extras.forOneMinute) {
-    effect.duration.rounds = 5;
-    effect.system.duration.useCounter = true;
-    effect.system.duration.onTimeEnd = "delete";
+    effect.duration.value = 5;
+    effect.duration.units = "rounds";
+    effect.duration.expiry = "turnStart";
+    effect.system.duration.expiryAction = "delete";
   }
   else if (extras.forXRounds) {
-    effect.duration.rounds = extras.forXRounds;
-    effect.system.duration.useCounter = true;
-    effect.system.duration.onTimeEnd = "delete";
+    effect.duration.value = extras.forXRounds;
+    effect.duration.units = "rounds";
+    effect.duration.expiry = "turnStart";
+    effect.system.duration.expiryAction = "delete";
   }
-  effect.changes = changes;
+  effect.system.changes = changes;
   return effect;
 }
 
@@ -105,7 +107,7 @@ function _newEvent(trigger, label, actorId) {
   if (actorId) change = `"actorId": "${actorId}",` + change;
   return {
     key: "system.events",
-    mode: 2,
+    type: "add",
     priority: null,
     value: change
   }
@@ -123,7 +125,7 @@ function _repeatedSave(label, checkKey, against, statusId) {
   `;
   return {
     key: "system.events",
-    mode: 2,
+    type: "add",
     priority: null,
     value: change
   }

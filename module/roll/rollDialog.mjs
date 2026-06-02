@@ -129,7 +129,7 @@ export class RollDialog extends DC20Dialog {
       this.updateObject = this.actor;
     }
     this.quickRoll = !!options.quickRoll;
-    this.rollMode = options.rollMode || game.settings.get("core", "rollMode");
+    this.messageMode = options.messageMode || options.rollMode || game.settings.get("core", "messageMode");
     this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
     this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
@@ -245,13 +245,13 @@ export class RollDialog extends DC20Dialog {
     };
     context.disableRollLevel = context.rollMenu.autoFail || context.rollMenu.autoCrit;
     context.DRMChecked = this.DRMChecked;
-    context.rollModes = {
-      publicroll: "Public Roll",
-      gmroll: "GM Roll",
-      blindroll: "Blind Roll",
-      selfroll: "Self Roll"
+    context.messageModes = {
+      public: "Public Roll",
+      gm: "GM Roll",
+      blind: "Blind Roll",
+      self: "Self Roll"
     };
-    context.rollMode = this.rollMode;
+    context.messageMode = this.messageMode;
     if (context.rollMenu) {
       switch (context.rollMenu.rangeType) {
         case "melee": context.rangeIcon = "fa-sword"; break;
@@ -453,8 +453,8 @@ export class RollDialog extends DC20Dialog {
     }
 
     const roll = this.itemRoll 
-                  ? await DC20Roll.rollItem(coreFormula, this.item, {rollMode: this.rollMode})
-                  : await DC20Roll.rollFormula(coreFormula, this.sheetRollData, this.actor, {rollMode: this.rollMode});
+                  ? await DC20Roll.rollItem(coreFormula, this.item, {messageMode: this.messageMode})
+                  : await DC20Roll.rollFormula(coreFormula, this.sheetRollData, this.actor, {messageMode: this.messageMode});
     
     const preventClose = roll === undefined && !this.quickRoll;
     if (preventClose) return this.render();
@@ -635,7 +635,7 @@ export class RollDialog extends DC20Dialog {
       this.render();
     }
     else if (cType === "roll-mode") {
-      this.rollMode = value;
+      this.messageMode = value;
       this.render();
     }
     else {

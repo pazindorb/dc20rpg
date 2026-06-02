@@ -24,7 +24,7 @@ export class ActorRequestDialog extends DC20Dialog {
       this.rollOptions = {
         rollLevel: {adv: 0, dis: 0},
         rollDC: null,
-        rollMode: ""
+        messageMode: ""
       }
 
       const selectOptions = {};
@@ -94,11 +94,11 @@ export class ActorRequestDialog extends DC20Dialog {
     context.showRollModification = !(!!this.selectOptions.rest) && !context.showCloseButton;
     
     context.rollOptions = this.rollOptions;
-    context.rollModes = {
-      publicroll: "Public Roll",
-      gmroll: "GM Roll",
-      blindroll: "Blind Roll",
-      selfroll: "Self Roll"
+    context.messageModes = {
+      public: "Public Roll",
+      gm: "GM Roll",
+      blind: "Blind Roll",
+      self: "Self Roll"
     };
 
     let grid = "1fr";
@@ -140,7 +140,7 @@ export class ActorRequestDialog extends DC20Dialog {
       sendToActorOwners: true, 
       initialRollMenuValue: this._initialRollLevel()
     }
-    if (rOpt.rollMode) options.rollMode = rOpt.rollMode;
+    if (rOpt.messageMode) options.messageMode = rOpt.messageMode;
     if (rOpt.rollDC) options.against = rOpt.rollDC;
 
     for (const wrapper of Object.values(this.selectableActors)) {

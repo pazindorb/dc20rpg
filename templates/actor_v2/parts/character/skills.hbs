@@ -40,7 +40,7 @@
 				</select>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 				<div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
-				<a class="rollable fa-solid fa-dice-d20 fa-lg" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}"></a>
+				<a class="rollable fa-light fa-dice-d20 fa-lg" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}"></a>
 				{{#ifCond skill.custom '&&' @root.editMode}}
 				<div class="letter-circle-icon small clickable remove" title="{{localize 'dc20rpg.sheet.skills.removeSkill'}}">
 					<a class="remove-skill" data-key="{{key}}">X</a>
@@ -98,7 +98,7 @@
 				</select>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.trades.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 				<div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
-				<a class="rollable fa-solid fa-dice-d20 fa-lg" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}"></a>
+				<a class="rollable fa-light fa-dice-d20 fa-lg" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}"></a>
 				{{#ifCond skill.custom '&&' @root.editMode}}
 				<div class="letter-circle-icon small clickable remove" title="{{localize 'dc20rpg.sheet.skills.removeTradeSkill'}}">
 					<a class="remove-trade" data-key="{{key}}">X</a>
@@ -148,7 +148,7 @@
 				</div>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.languages.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 				{{#ifCond skill.mastery '===' 1}}
-				<a class="rollable fa-solid fa-dice-d20 fa-lg" data-type="check" data-key="language" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+				<a class="rollable fa-light fa-dice-d20 fa-lg" data-type="check" data-key="language" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
 				{{/ifCond}}
 				{{#ifCond skill.custom '&&' @root.editMode}}
 				<div class="letter-circle-icon small clickable remove" title="{{localize 'dc20rpg.sheet.skills.removeLanguage'}}">

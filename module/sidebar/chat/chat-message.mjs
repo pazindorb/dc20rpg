@@ -114,7 +114,7 @@ export class DC20ChatMessage extends ChatMessage {
       data.rolls = this.#rollsObjectToArray(rolls),
       data.sound = CONFIG.sounds.dice
     }
-    data = DC20ChatMessage.applyRollMode(data, options.rollMode || "roll");
+    data = DC20ChatMessage.applyMode(data, options.messageMode || game.settings.get("core", "messageMode"));
 
     const message = await DC20ChatMessage.create(data, options);
     if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
@@ -143,19 +143,30 @@ export class DC20ChatMessage extends ChatMessage {
     chatFormat.dice = chatFormat._dice;
     chatFormat.formula = chatFormat._formula;
     chatFormat.total = chatFormat._total;
+    chatFormat.terms = chatFormat.terms.map(term => term);
     delete chatFormat._total;
     delete chatFormat._formula;
     delete chatFormat._dice;
+    delete chatFormat._resolver;
+    delete chatFormat.data;
     return chatFormat;
   }
 
   static #rollsObjectToArray(rolls) {
     const array = [];
-    if (rolls.core) array.push(rolls.core);
+    if (rolls.core) {
+      const roll = foundry.utils.deepClone(rolls.core);
+      delete roll.data;
+      array.push(roll);
+    }
     if (rolls.formula) {
       rolls.formula.forEach(roll => {
-        array.push(roll.clear);
-        array.push(roll.modified);
+        const clear = foundry.utils.deepClone(roll.clear);
+        const modified = foundry.utils.deepClone(roll.modified);
+        delete clear.data;
+        delete modified.data;
+        array.push(clear);
+        array.push(modified);
       });
     }
     return array;
@@ -893,13 +904,13 @@ export class DC20ChatMessage extends ChatMessage {
   #replaceKeywords(effect, actor) {
     const saveDC = actor.system.saveDC.value;
     const against = Math.max(saveDC.spell, saveDC.martial);
-    for (let i = 0; i < effect.changes.length; i++) {
-      let changeValue = effect.changes[i].value;
+    for (let i = 0; i < effect.system.changes.length; i++) {
+      let changeValue = effect.system.changes[i].value;
       if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
-        effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
+        effect.system.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
       if (typeof changeValue === "string" && changeValue.includes("#SAVE_DC#")) {
-        effect.changes[i].value = changeValue.replaceAll("#SAVE_DC#", against);
+        effect.system.changes[i].value = changeValue.replaceAll("#SAVE_DC#", against);
       }
     }
   }
