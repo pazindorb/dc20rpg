@@ -279,17 +279,42 @@ function _attackDrmFrom(type, range, target, value) {
   }
 }
 
+async function _migrateEffectDuration(effect) {
+  let hasUpdates = false;
+  const updateData = {
+    duration: {},
+    system: {duration: {}}
+  }
+  if (effect.duration.rounds) {
+    hasUpdates = true;
+    updateData.duration.value = effect.duration.rounds;
+    updateData.duration.units = "rounds";
+  }
+  if (effect.system?.duration?.useCounter) {
+    hasUpdates = true;
+    updateData.duration.expiry = "turnStart";
+    updateData.system.duration.expiryAction = effect.system.duration.onTimeEnd;
+  }
+
+  if (hasUpdates) await effect.update(updateData);
+}
+
 // ======================= COMMON =======================
 async function _updateEffects(object) {
   for (const effect of object.effects.values()) {
     await _migrateEffectStatusesAndDrm(effect);
+    await _migrateEffectDuration(effect);
   }
 
   if (object.documentName === "Item") {
     // Collect effect from conditonals and enhancements
     for (const effect of object.collectRottedEffects()) {
+      await effect.update({
+        ["system.changes"]: effect.changes,
+        ["system.addToChat"]: true
+      });
       await _migrateEffectStatusesAndDrm(effect);
-      await effect.update({["system.addToChat"]: true});
+      await _migrateEffectDuration(effect);
     }
   }
 }

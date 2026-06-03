@@ -595,6 +595,9 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const enhancement = enhancements[key];
         if (!enhancement) return;
         effectData = enhancement.modifications.addsEffect;
+        if (!effectData.flags?.dc20rpg?.itemSavePath) {
+          effectData.flags.dc20rpg.itemSavePath = `system.enhancements.${key}.modifications.addsEffect`;
+        }
         break;
 
       case "targetModifier":
@@ -602,6 +605,9 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const modifier = targetModifiers[key];
         if (!modifier) return;
         effectData = modifier.effect;
+        if (!effectData.flags?.dc20rpg?.itemSavePath) {
+          effectData.flags.dc20rpg.itemSavePath = `system.targetModifiers.${key}.effect`;
+        }
         break;
     }
 

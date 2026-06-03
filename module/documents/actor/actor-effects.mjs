@@ -2,7 +2,6 @@ import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { getValueFromPath, parseFromString } from "../../helpers/utils.mjs";
 
 export function prepareStatuses(actor) {
-  const allStatuses = new Map();
   for (const effect of actor.allEffects) {
     effect.suspended = false;
     if (effect.disabled) continue;
@@ -11,8 +10,8 @@ export function prepareStatuses(actor) {
       const isStatusEffect = !!effect.system.statusId;
       const isLocked = effect.system.statusId !== statusId;
 
-      if (allStatuses.has(statusId)) {
-        const status = allStatuses.get(statusId);
+      if (actor.statuses.has(statusId)) {
+        const status = actor.statuses.get(statusId);
         status.effects.push({name: effect.name, id: effect.id, isStatusEffect: isStatusEffect, isLocked: isLocked});
         if (status.stackable) status.stack += 1;
         else {
@@ -26,7 +25,7 @@ export function prepareStatuses(actor) {
           ui.notifications.error(`Status with id '${statusId}' not found in the system conifg.`);
           continue;
         }
-        allStatuses.set(statusId, {
+        actor.statuses.set(statusId, {
           id: statusId,
           name: status.name,
           img: status.img,
@@ -39,7 +38,6 @@ export function prepareStatuses(actor) {
       }
     }
   }
-  actor.statuses = allStatuses;
 }
 
 export function runSpecialStatusChecks(actor) {

@@ -164,6 +164,11 @@ export class DC20RpgActor extends Actor {
   //====================================
   //=           PREPARE DATA           =
   //====================================
+  _configure(options={}) {
+    super._configure(options);
+    Object.defineProperty(this, "statuses", {value: new Map(), writable: true, configurable: true, enumerable: true});
+  }
+
   prepareBaseData() {
     if (this.type === "companion") this._prepareCompanionOwner();
     super.prepareBaseData();
