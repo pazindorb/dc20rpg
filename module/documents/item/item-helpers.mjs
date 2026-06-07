@@ -1297,21 +1297,10 @@ async function _clearInfuserPenalties(infusion, actor) {
 //                                 AREA                                =
 //==================================//==================================
 function _enrichAreaObject(item) {
-  item.addArea = async (key) => await _addNewAreaToItem(item, key);
-  item.removeArea = async (key) => await item.update({[`system.target.areas.-=${key}`]: null});
-}
-
-async function _addNewAreaToItem(item, key=generateKey()) {
-  await item.update({[`system.target.areas.${key}`]: {
-    area: "",
-    distance: null,
-    width: null,
-    unit: "",
-    difficult: "",
-    hideHighlight: false,
-    passiveAura: false,
-    linkWithToggle: false
-  }});
+  item.addArea = async (key) => {
+    foundry.utils.logCompatibilityWarning("The 'item.addArea ' method is deprecated, and will be removed in the later system version. Use 'item.createArea' instead.", { since: " 0.10.6", until: "0.11.0", once: true });
+    await item.createArea({}, key)
+  }
 }
 
 function _enrichDurationObject(item) {

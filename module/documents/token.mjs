@@ -140,6 +140,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   //              MOVEMENT              =
   //=====================================
   async _preUpdateMovement(movement, operation) {
+    super._preUpdateMovement(movement, operation);
     const freeMove = game.keyboard.downKeys.has("KeyF");
     const teleport = operation.teleport;
     const shouldSubtract = this.shouldSubtractMovePoints();
@@ -182,6 +183,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   _onUpdateMovement(movement, operation, user) {
+    super._onUpdateMovement(movement, operation, user);
     if (user.id === game.user.id && this.actor) {
       // Revert movement points 
       if (operation.isUndo) {

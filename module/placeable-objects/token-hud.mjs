@@ -16,7 +16,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     initialized.actions.ap = this._onApAction;
     initialized.actions.move = this._onMoveAction;
     initialized.actions.effect = {handler: this._onEffect, buttons: [0, 2]};
-    initialized.actions.aura = this._onAuraAction;
+    initialized.actions.region = this._onRemoveRegionAction;
     return initialized;
   }
 
@@ -25,8 +25,8 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     const context = await super._prepareContext(options);
     this.oldDisplay = this.document.displayBars;
     this.document.displayBars = 40;
-    this._prepareStatusEffects(context.statusEffects);
-    context.linkedTemplates = this._prepareLinkedTemplates();
+    this.#prepareStatusEffects(context.statusEffects);
+    context.attachedRegions = this.#prepareAttachedRegions();
     context.movePoints = this.actor?.system?.movePoints || 0;
 
     if (!this.actor) {
@@ -71,26 +71,21 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     await toggleStatusOn(statusId, actor, event.which);
   }
 
-  async _onAuraAction(event, target) {
-    const auraId = target.dataset.auraId;
-    const template = canvas.templates.documentCollection.get(auraId);
-    if (template) {
-      const linkedIds = this.document.flags.dc20rpg?.linkedTemplates || [];
-      const updatedLinkedIds = linkedIds.filter(linkedId => linkedId !== auraId);
-      await template.delete();
-      await this.document.update({["flags.dc20rpg.linkedTemplates"]: updatedLinkedIds});
-    }
+  async _onRemoveRegionAction(event, target) {
+    const uuid = target.dataset.regionUuid;
+    const region = await fromUuid(uuid);
+    if (region) region.delete();
   }
 
   async _onSubmit(event, form, formData) {
     if ((event.type === "change") && event.target.name === "movePoints") {
-      return this._onMovePointsSubmit(event);
+      return this.#onMovePointsSubmit(event);
     }
 
     return super._onSubmit(event, form, formData);
   }
 
-  _onMovePointsSubmit(event) {
+  #onMovePointsSubmit(event) {
     const newValue = event.target.value;
     const actor = this.actor;
     if (!actor) return;
@@ -120,7 +115,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     }
   }
 
-  _prepareStatusEffects(statusContext) {
+  #prepareStatusEffects(statusContext) {
     statusContext.bloodied.hide = true;
     statusContext.wellBloodied.hide = true;
     statusContext.fullyStunned.hide = true;
@@ -189,37 +184,31 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     return choices;
   }
 
-  _prepareLinkedTemplates() {
-    const linkedIds = this.document.flags.dc20rpg?.linkedTemplates;
-    if (!linkedIds) return [];
+  #prepareAttachedRegions() {
+    const regions = this.document.regions;
+    if (!regions) return [];
 
-    const linkedTemplates = [];
-    for (const templateId of linkedIds) {
-      const template = canvas.templates.documentCollection.get(templateId);
-      if (!template) continue;
-
-      const itemData = template.flags?.dc20rpg?.itemData || {};
-      linkedTemplates.push({
-        id: templateId,
-        img: itemData.itemImg || "icons/svg/explosion.svg",
-        name: itemData.itemName || "Unknown Source",
-      })
-    }
-    return linkedTemplates;
+    return regions.map(region => {
+      const itemData = region.flags.itemData || {};
+      return {
+        name: region.name,
+        uuid: region.uuid,
+        img: itemData.img || "icons/svg/explosion.svg",
+      }
+    });
   }
 
   async _onRender(context, options) {
     await super._onRender(context, options);
-
-    const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
-    if (!movePointsWrapper) return;
-    // We want to show move points wrapper at the start
-    movePointsWrapper.classList.remove("hidden");
+    this.#showHideMovePoints();
   }
 
   togglePalette(palette, active) {
     super.togglePalette(palette, active);
-    // We want to show or hide move points wrapper
+    this.#showHideMovePoints();
+  }
+
+  #showHideMovePoints() {
     const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
     if (!movePointsWrapper) return;
     if (this.activePalette) movePointsWrapper.classList.add("hidden");

@@ -6,7 +6,7 @@ import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
 import { DC20ItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
-import { DC20RPG, initDC20Config, prepareDC20tools } from "./helpers/config.mjs";
+import { DC20RPG, initDC20Config, prepareDC20Tools } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemHotbarDropMacro } from "./helpers/macros.mjs";
 import { registerDC20Statues } from "./statusEffects/status-config.mjs";
@@ -50,7 +50,7 @@ Hooks.once('init', async function() {
   
   CONFIG.DC20RPG = DC20RPG;
   initDC20Config();
-  prepareDC20tools();
+  prepareDC20Tools();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";

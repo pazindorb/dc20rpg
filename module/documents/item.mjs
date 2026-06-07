@@ -5,6 +5,7 @@ import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
+import { Area } from "../subsystems/area/area.mjs";
 import { makeCalculations, shouldOverrideActionType } from "./item/item-calculations.mjs";
 import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
@@ -176,6 +177,19 @@ export class DC20RpgItem extends Item {
       dragData.actorType = this.actor.type;
     }
     return dragData;
+  }
+
+  //=========================
+  //          AREA          =
+  //=========================
+  async createArea(area={}, areaKey) {
+    return await Area.create(area, {parent: this, key: areaKey});
+  }
+  async removeArea(key) {
+    await this.update({[`system.areas.-=${key}`]: null});
+  }
+  getAreaObjectExample() {
+    return new Area();
   }
 
   //=========================

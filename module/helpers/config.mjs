@@ -27,8 +27,9 @@ import { DC20RpgToken } from "../placeable-objects/token.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
 import { DC20ChatMessage, sendDescriptionToChat } from "../sidebar/chat/chat-message.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
+import { Area } from "../subsystems/area/area.mjs";
 
-export function prepareDC20tools() {
+export function prepareDC20Tools() {
   window.DC20 = {
     tools: {
       toSelectOptions,
@@ -45,6 +46,7 @@ export function prepareDC20tools() {
       RollSelect,
       RestDialog,
     },
+    Area,
     TargetModifier,
     Enhancement,
     Formula,
@@ -743,13 +745,13 @@ DC20RPG.DROPDOWN_DATA.areaTypes = {
   arc: "Arc",
   aura: "Aura",
   cone: "Cone",
-  cube: "Cube",
-  cylinder: "Cylinder",
   line: "Line",
-  sphere: "Sphere",
-  radius: "Radius",
   wall: "Wall",
-  area: "Custom Area"
+  ring: "Ring",
+  sphere: "Sphere",
+  cylinder: "Cylinder",
+  dome: "Dome",
+  zone: "Zone",
 }
 
 DC20RPG.DROPDOWN_DATA.auraTypes = {
