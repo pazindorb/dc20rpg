@@ -60,25 +60,8 @@
   </fieldset>
   {{/if}}
 
-  {{!-- Measured Templates --}}
-  {{#if hasTemplates}}
-  <fieldset class="measurement-templates">
-    <legend>{{localize "dc20rpg.dialog.rollDialog.templates"}}</legend>
-
-    {{#each measurementTemplates as |template key|}}
-    <div class="template">
-      {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-minus margin-right-2" data-key="{{key}}" data-action="changeSpace" data-direction="down"></a>
-      {{/unless}}
-      <a class="template-button {{#if template.selected}}selected{{/if}}" data-action="template" data-key="{{key}}">
-        {{template.label}}
-      </a>
-      {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-plus margin-left-2" data-key="{{key}}" data-action="changeSpace" data-direction="up"></a>
-      {{/unless}}
-    </div>
-    {{/each}}
-  </fieldset>
+  {{#if hasAreas}}
+  <button data-action="placeAreas" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.placeAreaHint'}}"><i class="fa-light fa-bullseye fa-lg margin-right-5"></i> {{localize "dc20rpg.dialog.rollDialog.placeArea"}}</button>
   {{/if}}
 
   {{!-- Enhancements & Modifications --}}
