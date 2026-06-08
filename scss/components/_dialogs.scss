@@ -1242,51 +1242,6 @@
     }
   }
 
-  .measurement-templates {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-
-    .template {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .template-button, .template-side-button {
-        text-align: center;
-        font-size: 13px;
-        margin-top: 3px;
-  
-        color: var(--text-color-2);
-        font-weight: bold;
-        background-color: var(--activable-off);
-        border: 1px solid var(--text-color-2);
-        border-radius: 3px;
-        padding: 4px;
-        width: 100%;
-  
-        &.disabled {
-          cursor: default;
-          filter: saturate(0.5);
-  
-          &:hover {
-            text-shadow: none;
-          }
-        }
-  
-        &.selected {
-          box-shadow:  0 0 8px var(--activable-off) inset;
-          color: var(--activable-off);
-          background-color: var(--activable-on);
-        }
-      }
-
-      .template-side-button {
-        width: 25px;
-      }
-    }
-  }
-
   .expected-cost {
     display: flex;
     flex-direction: row;
@@ -1364,6 +1319,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 30px;
 
     input {
       width: 100%;
@@ -3087,6 +3043,57 @@
       &:last-child {
         border-bottom: none;
       }
+    }
+  }
+}
+
+#area-placer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .area-button, .area-side-button {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 5px;
+
+      color: var(--text-color-2);
+      font-weight: bold;
+      background-color: var(--activable-off);
+      border: 1px solid var(--text-color-2);
+      border-radius: 3px;
+      padding: 6px;
+      width: 100%;
+
+      &.disabled {
+        cursor: default;
+        filter: saturate(0.5);
+
+        &:hover {
+          text-shadow: none;
+        }
+      }
+
+      &.placing {
+        box-shadow:  0 0 8px var(--activable-off) inset;
+        color: var(--activable-off);
+        background-color: var(--activable-on);
+      }
+
+    &:hover {
+      text-shadow: none;
+      box-shadow:  0 0 8px 3px var(--text-color-2) inset;
+    }
+    }
+
+    .area-side-button {
+      width: 30px;
+      min-width: 30px;
     }
   }
 }

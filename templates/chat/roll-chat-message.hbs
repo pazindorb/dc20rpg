@@ -54,23 +54,8 @@
   </div>
   {{/each}}
 
-  {{!-- Measurement Templates --}}
-  {{#if measurementTemplates}}
-  <div class="measurement-templates">
-    {{#each measurementTemplates as |template key|}}
-    <div class="template">
-      {{#unless template.selected}} {{#ifCond @root.userIsGM '||' @root.canUserModify}}
-      <a class="template-side-button fa-solid fa-minus margin-right-2 reduce-template-space" data-key="{{key}}"></a>
-      {{/ifCond}} {{/unless}}
-      <a class="template-button {{#ifCond @root.userIsGM '||' @root.canUserModify}}create-template{{#if template.selected}} selected{{/if}}{{else}}disabled{{/ifCond}} " data-key="{{key}}">
-        {{template.label}}
-      </a>
-      {{#unless template.selected}} {{#ifCond @root.userIsGM '||' @root.canUserModify}}
-      <a class="template-side-button fa-solid fa-plus margin-left-2 add-template-space" data-key="{{key}}"></a>
-      {{/ifCond}} {{/unless}}
-    </div>
-    {{/each}}
-  </div>
+  {{#if hasAreas}}
+  <button data-action="placeAreas"><i class="fa-light fa-bullseye fa-lg margin-right-5"></i> {{localize 'dc20rpg.chat.placeArea'}}</button>
   {{/if}}
 
   {{#if itemRoll}}

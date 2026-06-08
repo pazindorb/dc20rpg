@@ -438,55 +438,6 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
         }
       }
 
-      .measurement-templates {
-        border-top: 1px solid var(--main-color);
-        padding: 5px;
-        margin-top: 6px;
-        display: flex;
-        flex-direction: column;
-
-        .template {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          .template-button, .template-side-button {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 3px;
-      
-            color: var(--main-darker);
-            font-weight: bold;
-            background-color: var(--main-light);
-            border: 1px solid var(--main-color);
-            border-radius: 3px;
-            
-            box-shadow:  0 0 8px var(--main-darker) inset;
-            padding: 4px;
-            width: 100%;
-      
-            &.disabled {
-              cursor: default;
-              filter: saturate(0.5);
-      
-              &:hover {
-                text-shadow: none;
-              }
-            }
-      
-            &.selected {
-              box-shadow:  0 0 8px var(--main-light) inset;
-              color: var(--main-light);
-              background-color: var(--main-darker);
-            }
-          }
-
-          .template-side-button {
-            width: 25px;
-          }
-        }
-      }
-
       .applier {
 
         .chat-button {

@@ -2893,56 +2893,6 @@
   width: 28px;
   text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
 }
-.dc20rpg #roll-prompt .measurement-templates {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 0;
-}
-.dc20rpg #roll-prompt .measurement-templates .template {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
-  text-align: center;
-  font-size: 13px;
-  margin-top: 3px;
-  color: var(--text-color-2);
-  font-weight: bold;
-  background-color: var(--activable-off);
-  border: 1px solid var(--text-color-2);
-  border-radius: 3px;
-  padding: 4px;
-  width: 100%;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled {
-  cursor: default;
-  -webkit-filter: saturate(0.5);
-  filter: saturate(0.5);
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled:hover, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled:hover {
-  text-shadow: none;
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-button.selected, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.selected {
-  -webkit-box-shadow: 0 0 8px var(--activable-off) inset;
-  box-shadow: 0 0 8px var(--activable-off) inset;
-  color: var(--activable-off);
-  background-color: var(--activable-on);
-}
-.dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
-  width: 25px;
-}
 .dc20rpg #roll-prompt .expected-cost {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3036,6 +2986,7 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  height: 30px;
 }
 .dc20rpg #roll-prompt .formula-wrapper input {
   width: 100%;
@@ -4875,6 +4826,62 @@
 }
 .dc20rpg #drm-dialog .result-wrapper .result-row:last-child {
   border-bottom: none;
+}
+.dc20rpg #area-placer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 0;
+}
+.dc20rpg #area-placer .area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #area-placer .area .area-button, .dc20rpg #area-placer .area .area-side-button {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 5px;
+  color: var(--text-color-2);
+  font-weight: bold;
+  background-color: var(--activable-off);
+  border: 1px solid var(--text-color-2);
+  border-radius: 3px;
+  padding: 6px;
+  width: 100%;
+}
+.dc20rpg #area-placer .area .area-button.disabled, .dc20rpg #area-placer .area .area-side-button.disabled {
+  cursor: default;
+  -webkit-filter: saturate(0.5);
+  filter: saturate(0.5);
+}
+.dc20rpg #area-placer .area .area-button.disabled:hover, .dc20rpg #area-placer .area .area-side-button.disabled:hover {
+  text-shadow: none;
+}
+.dc20rpg #area-placer .area .area-button.placing, .dc20rpg #area-placer .area .area-side-button.placing {
+  -webkit-box-shadow: 0 0 8px var(--activable-off) inset;
+  box-shadow: 0 0 8px var(--activable-off) inset;
+  color: var(--activable-off);
+  background-color: var(--activable-on);
+}
+.dc20rpg #area-placer .area .area-button:hover, .dc20rpg #area-placer .area .area-side-button:hover {
+  text-shadow: none;
+  -webkit-box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+  box-shadow: 0 0 8px 3px var(--text-color-2) inset;
+}
+.dc20rpg #area-placer .area .area-side-button {
+  width: 30px;
+  min-width: 30px;
 }
 .dc20rpg .item-list {
   margin-bottom: 10px;
@@ -12027,60 +12034,6 @@
 .chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-total.not-winner {
   -webkit-filter: opacity(0.6);
   filter: opacity(0.6);
-}
-.chat-message .message-content .chat_v2 .measurement-templates {
-  border-top: 1px solid var(--main-color);
-  padding: 5px;
-  margin-top: 6px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-.chat-message .message-content .chat_v2 .measurement-templates .template {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.chat-message .message-content .chat_v2 .measurement-templates .template .template-button, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button {
-  text-align: center;
-  font-size: 13px;
-  margin-top: 3px;
-  color: var(--main-darker);
-  font-weight: bold;
-  background-color: var(--main-light);
-  border: 1px solid var(--main-color);
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 8px var(--main-darker) inset;
-  box-shadow: 0 0 8px var(--main-darker) inset;
-  padding: 4px;
-  width: 100%;
-}
-.chat-message .message-content .chat_v2 .measurement-templates .template .template-button.disabled, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button.disabled {
-  cursor: default;
-  -webkit-filter: saturate(0.5);
-  filter: saturate(0.5);
-}
-.chat-message .message-content .chat_v2 .measurement-templates .template .template-button.disabled:hover, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button.disabled:hover {
-  text-shadow: none;
-}
-.chat-message .message-content .chat_v2 .measurement-templates .template .template-button.selected, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button.selected {
-  -webkit-box-shadow: 0 0 8px var(--main-light) inset;
-  box-shadow: 0 0 8px var(--main-light) inset;
-  color: var(--main-light);
-  background-color: var(--main-darker);
-}
-.chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button {
-  width: 25px;
 }
 .chat-message .message-content .chat_v2 .applier .chat-button {
   border: 1px solid var(--main-color);

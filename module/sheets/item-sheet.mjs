@@ -94,7 +94,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.addRootedEffect = this._onAddRootedEffect;
     initialized.actions.editRootedEffect = this._onEditRootedEffect;
     initialized.actions.removeRootedEffect = this._onRemoveRootedEffect;
-    initialized.actions.editRottedMacro = this._onRootedMacroEdit;
+    initialized.actions.editRootedMacro = this._onRootedMacroEdit;
     initialized.actions.enhancementDescrption = this._onEditEnhancementDescription;
     initialized.actions.editEffect = this._onEditEffect;
     initialized.actions.updateEffect = this._onUpdateEffect;
@@ -488,6 +488,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const type = target.dataset.type;
 
     switch(type) {
+      case "area": this.item.createArea(); break;
       case "rollRequest": this.item.createRollRequest(); break;
       case "againstStatus": this.item.createAgainstStatus(); break;
       case "formula": this.item.createFormula(); break;
@@ -515,15 +516,15 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     }});
   }
 
-  #effectCreationData(temporary=false, rotted=false) {
+  #effectCreationData(temporary=false, rooted=false) {
     const creationData = {
       name: this.item.name,
       img: this.item.img,
       origin: this.item.uuid,
       disabled: false,
       system: {
-        addToChat: rotted,
-        applyToTemplate: rotted,
+        addToChat: rooted,
+        applyToTemplate: rooted,
       },
       transfer: false,
       flags: {dc20rpg: {}}
@@ -539,6 +540,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const key = target.dataset.key;
 
     switch(type) {
+      case "area": this.item.removeArea(key); break;
       case "rollRequest": this.item.removeRollRequest(key); break;
       case "againstStatus": this.item.removeAgainstStatus(key); break;
       case "formula": this.item.removeFormula(key); break;
@@ -579,6 +581,14 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         creationData.name = modifier.name;
         creationData.flags.dc20rpg.itemSavePath = `system.targetModifiers.${key}.effect`;
         break;
+
+      case "area":
+        const areas = this.item.system.areas;
+        const area = areas[key];
+        if (!area) return;
+        creationData.name = this.item.name;
+        creationData.flags.dc20rpg.itemSavePath = `system.areas.${key}.effect`;
+        break;
     }
 
     const created = await DC20RpgActiveEffect.create(creationData, {parent: this.item});
@@ -595,9 +605,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const enhancement = enhancements[key];
         if (!enhancement) return;
         effectData = enhancement.modifications.addsEffect;
-        if (!effectData.flags?.dc20rpg?.itemSavePath) {
-          effectData.flags.dc20rpg.itemSavePath = `system.enhancements.${key}.modifications.addsEffect`;
-        }
+        effectData.flags.dc20rpg.itemSavePath = `system.enhancements.${key}.modifications.addsEffect`;
         break;
 
       case "targetModifier":
@@ -605,9 +613,15 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const modifier = targetModifiers[key];
         if (!modifier) return;
         effectData = modifier.effect;
-        if (!effectData.flags?.dc20rpg?.itemSavePath) {
-          effectData.flags.dc20rpg.itemSavePath = `system.targetModifiers.${key}.effect`;
-        }
+        effectData.flags.dc20rpg.itemSavePath = `system.targetModifiers.${key}.effect`;
+        break;
+
+      case "area":
+        const areas = this.item.system.areas;
+        const area = areas[key];
+        if (!area) return;
+        effectData = area.effect;
+        effectData.flags.dc20rpg.itemSavePath = `system.areas.${key}.effect`;
         break;
     }
 
@@ -625,6 +639,10 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
 
       case "targetModifier":
         this.item.update({[`system.targetModifiers.${key}.effect`]: null});
+        break;
+
+      case "area":
+        this.item.update({[`system.areas.${key}.effect`]: null});
         break;
     }
   }
@@ -653,6 +671,15 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
 
         command = modifier.condition || "";
         flags.updatePath = `system.targetModifiers.${key}.condition`;
+        break;
+
+      case "area":
+        const areas = this.item.system.areas;
+        const area = areas[key];
+        if (!area) return;
+
+        command = area.macro || "";
+        flags.updatePath = `system.areas.${key}.macro`;
         break;
     }
 

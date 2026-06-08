@@ -32,7 +32,7 @@ export function enrichWithHelpers(item) {
     _enrichDurationObject(item);
   }
 
-  item.collectRottedEffects = () => collectRottedEffects(item);
+  item.collectRootedEffects = () => collectRootedEffects(item);
   item.toChatMessageData = () => convertToChatMessageData(item);
 }
 
@@ -1446,7 +1446,7 @@ function _checkAND(combinations, item) {
 //==================================//==================================
 //                  HELPER TO HANDLE ROOTED EFFECTS                    =
 //==================================//==================================
-function collectRottedEffects(item) {
+function collectRootedEffects(item) {
   const rootedEffects = [];
   // From enhancements
   if (item.system.enhancements) {
@@ -1454,7 +1454,7 @@ function collectRottedEffects(item) {
       const path = `system.enhancements.${key}.modifications.addsEffect`;
       const effect = enhancement.modifications.addsEffect;
       if (effect) {
-        effect.update = async (updateData) => await _updateRottedEffect(path, updateData, item);
+        effect.update = async (updateData) => await _updateRootedEffect(path, updateData, item);
         rootedEffects.push(effect);
       }
     }
@@ -1465,7 +1465,18 @@ function collectRottedEffects(item) {
       const path = `system.targetModifiers.${key}.effect`;
       const effect = modifier.effect;
       if (effect) {
-        effect.update = async (updateData) => await _updateRottedEffect(path, updateData, item);
+        effect.update = async (updateData) => await _updateRootedEffect(path, updateData, item);
+        rootedEffects.push(effect);
+      }
+    }
+  }
+  // From areas
+  if (item.system.areas) {
+    for (const [key, area] of Object.entries(item.system.areas)) {
+      const path = `system.areas.${key}.effect`;
+      const effect = area.effect;
+      if (effect) {
+        effect.update = async (updateData) => await _updateRootedEffect(path, updateData, item);
         rootedEffects.push(effect);
       }
     }
@@ -1473,6 +1484,6 @@ function collectRottedEffects(item) {
   return rootedEffects;
 }
 
-async function _updateRottedEffect(path, updateData, item) {
+async function _updateRootedEffect(path, updateData, item) {
   await item.update({[path]: updateData});
 }
