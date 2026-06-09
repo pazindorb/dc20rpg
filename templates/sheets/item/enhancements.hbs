@@ -164,6 +164,17 @@
       </div>
     </div>
 
+    {{!-- Area Size --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.modifyArea"}}</label>
+      <div class="form-fields">
+        <span>{{localize "dc20rpg.item.sheet.enh.distance"}}</span>
+        <input type="text" name="system.enhancements.{{key}}.modifications.areaDistance" value="{{enhancement.modifications.areaDistance}}" placeholder="-">
+        <span>{{localize "dc20rpg.item.sheet.enh.width"}}</span>
+        <input type="text" name="system.enhancements.{{key}}.modifications.areaWidth" value="{{enhancement.modifications.areaWidth}}" placeholder="-">
+      </div>
+    </div>
+
     {{!-- Duration --}}
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.enh.changeDuration"}}</label>
@@ -179,11 +190,6 @@
         {{/if}}
         <input type="checkbox" name="system.enhancements.{{key}}.modifications.changeDuration" {{checked enhancement.modifications.changeDuration}}/>
       </div>
-    </div>
-
-    {{!-- TODO: Change Area Size --}}
-    <div class="form-group">
-      TODO: Change Area Size
     </div>
     <hr/>
 

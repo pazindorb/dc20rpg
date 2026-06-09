@@ -886,19 +886,16 @@ DC20RPG.DROPDOWN_DATA.jumpCalculationKeys = {
   flat: "Flat Value"
 }
 
-DC20RPG.DROPDOWN_DATA.templatesActivationEffectTypes = {
+DC20RPG.DROPDOWN_DATA.difficultTerrainActivationTypes = {
   "": "None",
   all: "All Tokens",
   enemy: "Enemy Tokens",
   ally: "Ally Tokens",
-  selector: "Token Selector"
 }
 
-DC20RPG.DROPDOWN_DATA.difficultTerrainTypes = {
-  "": "None",
-  all: "All Tokens",
-  friendly: "Friendly Disposition Tokens",
-  hostile: "Hostile Disposition Tokens"
+DC20RPG.DROPDOWN_DATA.applyEffectActivationTypes = {
+  ...DC20RPG.DROPDOWN_DATA.difficultTerrainTypes,
+  selector: "Token Selector"
 }
 
 DC20RPG.DROPDOWN_DATA.helpDiceDuration = {

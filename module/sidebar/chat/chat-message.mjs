@@ -1,7 +1,6 @@
-import { getActorFromIds, getTokensInsideMeasurementTemplate } from "../../helpers/actors/tokens.mjs";
-import { getMesuredTemplateEffects, injectFormula } from "../../helpers/effects.mjs";
+import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
+import { injectFormula } from "../../helpers/effects.mjs";
 import { datasetOf } from "../../helpers/listenerEvents.mjs";
-import { TokenSelector } from "../../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { runEventsFor, triggerOnlyForIdFilter } from "../../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../../helpers/sockets.mjs";
@@ -10,7 +9,6 @@ import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20Roll } from "../../roll/rollApi.mjs";
 import DC20RpgActiveEffect from "../../documents/activeEffect.mjs";
 import { DC20Target } from "../../subsystems/target/target.mjs";
-import DC20RpgMeasuredTemplate from "../../placeable-objects/measuredTemplate.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -80,8 +78,9 @@ export class DC20ChatMessage extends ChatMessage {
       ...systemData,
       messageType: messageType,
     }
-    if (systemData.areas) system.measurementTemplates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(systemData.areas);
-
+    const areas = systemData.areas || {};
+    system.hasAreas = Object.keys(areas).length > 0;
+  
     if (messageType === "roll") {
       const [coreRoll, formulas] = this.#rollsInChatFormat(rolls);
       const targeted = game.user.targets.filter(token => token.actor).map(token => token.id);
@@ -351,7 +350,8 @@ export class DC20ChatMessage extends ChatMessage {
     }
 
     const targetSpecificEffects = await target.getTargetSpecificEffects(calcData);
-    target.effects = [...this.system.effects, ...targetSpecificEffects];
+    const chatEffects = this.system.effects.filter(effect => effect.system.addToChat);
+    target.effects = [...chatEffects, ...targetSpecificEffects];
 
     const targetSpecificStatuses = await target.getTargetSpecificStatuses(calcData);
     this.#prepareStatuses(targetSpecificStatuses)
@@ -429,6 +429,7 @@ export class DC20ChatMessage extends ChatMessage {
     context.dummyTarget = !!this.targets.dummy;
     context.targetTab = this.targetTab;
     context.shareFormula = this.shareFormula;
+    context.effects = this.system.effects.filter(effect => effect.system.addToChat);
     return await foundry.applications.handlebars.renderTemplate(this.#ROLL_TEMPLATE, context);
   }
 
@@ -533,9 +534,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.modify-core-roll').click(ev => {ev.stopPropagation(); this.#onModifyCoreRoll()});
 
     // Templates
-    html.find('.create-template').click(ev => this.#onCreateMeasuredTemplate(datasetOf(ev).key));
-    html.find('.add-template-space').click(ev => this.#onAddTemplateSpace(datasetOf(ev).key));
-    html.find('.reduce-template-space').click(ev => this.#onReduceTemplateSpace(datasetOf(ev).key));
+    html.find('.place-areas').click(ev => this.#onPlaceAreas(ev));
 
     // Targets
     html.find('.tab-selection').click(ev => this.#onTargetSelectionSwap(datasetOf(ev).tab));
@@ -721,54 +720,33 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   //===============================
-  //=     MEASUREMENT TEMPLATE    =
+  //=       AREAS - REGIONS       =
   //===============================
-  async #onCreateMeasuredTemplate(key) {
-    const template = this.system.measurementTemplates[key];
-    if (!template) return;
+  async #onPlaceAreas(event) {
+    event.preventDefault();
+    const { AreaPlacer } = await import("../../subsystems/area/areaPlacer.mjs");
 
-    const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
-    const item = actor.items.get(this.flags.dc20rpg.itemId);
-    this.system.effects.forEach(effect => effect.system.chatMessageId = this.id);
-    const applyEffects = getMesuredTemplateEffects(item, this.system.applicableEffects, actor);
-    const itemData = {
-      itemId: this.flags.dc20rpg.itemId, 
+    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const effects = this.system.effects
+                      .filter(effectData => effectData.system.applyToTemplate)
+                      .map(effectData => {
+                        this.#enhanceEffectData(effectData, true);
+                        effectData.flags.dc20rpg.templateCallTime = Date.now();
+                        return effectData;
+                      });
+    const areaData = {
       actorId: this.speaker.actor, 
-      tokenId: this.speaker.token, 
-      applyEffects: applyEffects, 
-      itemImg: item.img,
-      itemName: item.name
+      actorUuid: actor.uuid,
+      tokenId: this.speaker.token,
+      itemId: this.system.itemId, 
+      itemImg: this.system.image,
+      itemName: this.system.name
+    };
+    const options = {effects: effects, areaData: areaData, tokenId: this.speaker.token};
+    if (this.system.sustain) {
+      options.sustain = {itemId: this.system.itemId, actorUuid: actor.uuid}
     }
-    const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
-    
-    // We will skip Target Selector if we are using Measurement Template to apply effects because it is confusing
-    if (applyEffects.applyFor) return;
-
-    let tokens = {};
-    for (let i = 0; i < measuredTemplates.length; i++) {
-      const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
-      tokens = {
-        ...tokens,
-        ...collectedTokens
-      }
-    }
-    
-    if (Object.keys(tokens).length > 0) tokens = await TokenSelector.open(tokens, "Select Targets");
-    this.addTokensToTargets(tokens);
-  }
-
-  #onAddTemplateSpace(key) {
-    const template = this.system.measurementTemplates[key];
-    if (!template) return;
-    DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1);
-    ui.chat.updateMessage(this);
-  }
-
-  #onReduceTemplateSpace(key) {
-    const template = this.system.measurementTemplates[key];
-    if (!template) return;
-    DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1);
-    ui.chat.updateMessage(this);
+    AreaPlacer.create(this.system.areas, options);
   }
 
   //==============================
@@ -889,14 +867,14 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  #enhanceEffectData(effectData) {
+  #enhanceEffectData(effectData, area=false) {
     const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
     effectData.system.chatMessageId = this.id;
     effectData.flags.dc20rpg.applierId = this.speaker.actor;
 
     this.#replaceKeywords(effectData, actor);
     injectFormula(effectData, actor);
-    if (this.system.sustain) {
+    if (this.system.sustain && !area) {
       this.#linkWithSustain(effectData, actor);
     }
   }

@@ -99,7 +99,15 @@
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.area.difficultTerrain"}}</label>
       <select name="system.areas.{{key}}.difficultTerrain">
-        {{selectOptions @root.config.DROPDOWN_DATA.difficultTerrainTypes selected=area.difficultTerrain blank=""}}
+        {{selectOptions @root.config.DROPDOWN_DATA.difficultTerrainActivationTypes selected=area.difficultTerrain blank=""}}
+      </select>
+    </div>
+
+    {{!-- Apply effects For --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.applyEffectsFor"}}</label>
+      <select name="system.areas.{{key}}.applyEffectsFor">
+        {{selectOptions @root.config.DROPDOWN_DATA.applyEffectActivationTypes selected=area.applyEffectsFor blank=""}}
       </select>
     </div>
 

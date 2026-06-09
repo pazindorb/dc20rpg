@@ -1322,7 +1322,6 @@ function _enrichDurationObject(item) {
 //==================================//==================================
 function convertToChatMessageData(item) {
   const actor = item.actor;
-  const shouldSustain = actor.shouldSustain(item);
   const targetModifiers = actor.system.targetModifiers.filter(modifier => _itemMeetsUseConditions(modifier.useFor, item))
   
   const identified = item.identified
@@ -1330,7 +1329,7 @@ function convertToChatMessageData(item) {
   const description = identified ? item.system.description : "<b>Unidentified</b>";
   const htmlDetails = identified ? itemDetailsToHtml(item) : "";
 
-  const [rollRequests, statuses, effects, overrideTargetDefence] = _collectFromItemAndEnhancements(item);
+  const [rollRequests, statuses, effects, overrideTargetDefence, areas] = _collectFromItemAndEnhancements(item);
   const actionType = item.system.actionType;
   const CHAT_DATA = {
     itemId: item.id,
@@ -1340,12 +1339,12 @@ function convertToChatMessageData(item) {
     rollTitle: name,
     name: name,
     actionType: actionType,
-    areas: item.system.target?.areas,
+    areas: areas,
     statuses: statuses,
     effects: effects,
     rollRequests: rollRequests,
     targetModifiers: targetModifiers,
-    sustain: shouldSustain,
+    sustain: actor.shouldSustain(item),
     rollConfig: item.system.rollConfig || {}
   }
 
@@ -1374,16 +1373,19 @@ function _collectFromItemAndEnhancements(item) {
       _requestPerCategory(request, saves, contests);
     }
   }
-  const effects = item.effects.filter(effect => effect.system.addToChat).map(effect => effect.toObject(false));
+  const effects = item.effects.filter(effect => effect.system.addToChat || effect.system.applyToTemplate).map(effect => effect.toObject(false));
   const statuses = item.system.againstStatuses ? Object.values(item.system.againstStatuses) : [];
-  
+  const areas = foundry.utils.deepClone(item.system.areas);
+  const areaKeys = Object.keys(areas);
+
   // COLLECT FROM ENHANCEMENTS
   item.enhancements.active.values().forEach(enh => {
     if (enh.modifications.addsAgainstStatus && enh.modifications.againstStatus?.id) {
       statuses.push(enh.modifications.againstStatus)
     }
 
-    if (enh.modifications.addsEffect && enh.modifications.addsEffect.system.addToChat) {
+    const addsEffect = enh.modifications.addsEffect;
+    if (addsEffect && (addsEffect.system.addToChat || addsEffect.system.applyToTemplate)) {
       effects.push(enh.modifications.addsEffect);
     }
 
@@ -1394,9 +1396,20 @@ function _collectFromItemAndEnhancements(item) {
     if (enh.modifications.overrideTargetDefence && enh.modifications.targetDefenceType) {
       overrideTargetDefence = enh.modifications.targetDefenceType;
     }
+
+    if (enh.modifications.areaDistance) {
+      for (const key of areaKeys) {
+        if (areas[key].distance) areas[key].distance += (enh.modifications.areaDistance * enh.number);
+      }
+    }
+    if (enh.modifications.areaWidth) {
+      for (const key of areaKeys) {
+        if (areas[key].width) areas[key].width += (enh.modifications.areaWidth * enh.number);
+      }
+    }
   });
 
-  return [{saves: saves, contests: contests}, statuses, effects, overrideTargetDefence];
+  return [{saves: saves, contests: contests}, statuses, effects, overrideTargetDefence, areas];
 }
 
 function _requestPerCategory(request, saves, contests) {

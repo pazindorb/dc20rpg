@@ -703,6 +703,7 @@ export class DC20RpgActor extends Actor {
       itemId: item.id,
       description: item.system.description,
       linkedEffects: [],
+      linkedRegions: [],
       toggleOff: item.system?.toggle?.offOnSustainDrop
     }});
   }
@@ -715,12 +716,12 @@ export class DC20RpgActor extends Actor {
     await this.gmUpdate({[`system.sustain.${key}.linkedEffects`]: linkedEffects});
   }
 
-  async addTemplateToSustain(key, templateUuid) {
-    // TODO
-  }
-
-  async addAuraToSustain(key, auraUuid) {
-    // TODO
+  async addRegionToSustain(key, regionUuid) {
+    const sustain = this.system.sustain[key];
+    if (!sustain) return;
+    const linkedRegions = sustain.linkedRegions;
+    linkedRegions.push(regionUuid);
+    await this.gmUpdate({[`system.sustain.${key}.linkedRegions`]: linkedRegions});
   }
 
   async dropSustain(key, message) {
@@ -731,6 +732,11 @@ export class DC20RpgActor extends Actor {
     for (const effectUuid of sustain.linkedEffects) {
       const effect = await fromUuid(effectUuid);
       if (effect) await effect.gmDelete();
+    }
+    // Delete regions when sustain drops
+    for (const regionUuid of sustain.linkedRegions) {
+      const region = await fromUuid(regionUuid);
+      if (region) await region.delete();
     }
     // Toggle item off when sustain drops
     if (sustain.toggleOff) {

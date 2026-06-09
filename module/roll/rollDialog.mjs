@@ -1,18 +1,15 @@
 import { holdAction } from "../helpers/actors/actions.mjs";
-import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
-import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 import { DC20Dialog } from "../dialogs/dc20Dialog.mjs";
-import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { getValueFromPath } from "../helpers/utils.mjs";
 import { runItemDRMCheck, runSheetDRMCheck } from "./dynamicRollModifier.mjs";
 import { DC20Roll } from "./rollApi.mjs";
 import { DRMDialog } from "./drmDialog.mjs";
 import { sheetRollDataFrom } from "./rollHelper.mjs";
+import { AreaPlacer } from "../subsystems/area/areaPlacer.mjs";
 
 export class RollDialog extends DC20Dialog {
 
@@ -121,7 +118,8 @@ export class RollDialog extends DC20Dialog {
 
       this._prepareAttackRange();
       this._prepareHeldAction();
-      this._prepareMeasurementTemplates();
+      const areas = this.item.system.areas || {};
+      this.hasAreas = Object.keys(areas).length > 0;
     }
     else {
       this.itemRoll = false;
@@ -145,16 +143,6 @@ export class RollDialog extends DC20Dialog {
       this.DRMChecked = false;
       if (this.quickRoll) this._onRoll();
     }
-  }
-
-  _prepareMeasurementTemplates() {
-    const areas = this.item.system.target?.areas;
-    if (!areas) this.measurementTemplates = {};
-    const measurementTemplates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(areas);
-    if (Object.keys(measurementTemplates).length > 0) {
-      this.measurementTemplates = measurementTemplates;
-    }
-    else this.measurementTemplates = {};
   }
 
   async _prepareAttackRange() {
@@ -204,8 +192,7 @@ export class RollDialog extends DC20Dialog {
     initialized.actions.multiFaceted = this._onMultiFaceted;
     initialized.actions.reloadWeapon = this._onWeaponReload;
 
-    initialized.actions.template = this._onCreateMeasuredTemplate;
-    initialized.actions.changeSpace = this._onChangeTemplateSpace;
+    initialized.actions.placeAreas = this._onPlaceAreas;
 
     return initialized;
   }
@@ -272,9 +259,7 @@ export class RollDialog extends DC20Dialog {
       context.item = this.item;
       context.enhancements = this._prepareEnhancements(this.item.enhancements.all, this.item);
       context.hasDetails = context.usesWeapon || context.multiCheck || context.usesAmmo || context.multiFaceted;
-
-      context.measurementTemplates = this.measurementTemplates;
-      context.hasTemplates = Object.keys(context.measurementTemplates).length > 0;
+      context.hasAreas = this.hasAreas;
 
       if (context.usesAmmo) context.ammoSelection = this.item.ammo.options();
       if (context.usesWeapon) context.weaponSelection = this.actor.getAllItemsWithType(["weapon"], [], true);
@@ -501,59 +486,34 @@ export class RollDialog extends DC20Dialog {
     });
   }
 
-  async _onCreateMeasuredTemplate(event, target) {
-    const key = target.dataset.key;
-    const template = this.measurementTemplates[key];
-    if (!template) return;
+  _onPlaceAreas(event, target) {
+    event.preventDefault();
+    if (!this.hasAreas) return;
 
-    const applyEffects = getMesuredTemplateEffects(this.item, [], this.actor);
-    const itemData = {
-      itemId: this.item.id, 
-      actorId: this.actor.id, 
-      tokenId: this.actor.token?.id, 
-      applyEffects: applyEffects, 
-      itemImg: this.item.img, 
-      itemName: this.item.name
-    };
-    const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
-
-    // We will skip Target Selector if we are using selector for applying effects
-    if (applyEffects.applyFor === "selector") return;
-
-    let tokens = {};
-    for (let i = 0; i < measuredTemplates.length; i++) {
-      const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
-      tokens = {
-        ...tokens,
-        ...collectedTokens
-      }
-    }
-    
-    if (Object.keys(tokens).length > 0) tokens = await TokenSelector.open(tokens, "Select Targets");
-    if (tokens.length > 0) {
-      const user = game.user;
-      if (!user) return;
-
-      user.targets.forEach(target => {
-        target.setTarget(false, { user: user });
-      });
-
-      for (const token of tokens) {
-        token.setTarget(true, { user: user, releaseOthers: false });
-      }
-
-      if (this.autoDRMCheck) this._DRMCheck(false);
-    }
+    const areas = this.#prepareAreas();
+    const options = {targetMode: true};
+    const token = this.actor.getActiveTokens()[0];
+    if (token) options.tokenId = token.id;
+    AreaPlacer.create(areas, options);
   }
 
-  _onChangeTemplateSpace(event, target) {
-    const key = target.dataset.key;
-    const direction = target.dataset.direction;
-    const template = this.measurementTemplates[key];
-    if (!template) return;
-    if (direction === "up") DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1); // TODO: Rework to be a template method
-    if (direction === "down") DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1); // TODO: Rework to be a template method
-    this.render();
+  #prepareAreas() {
+    const areas = foundry.utils.deepClone(this.item.system.areas);
+    const areaKeys = Object.keys(areas);
+
+    this.item.enhancements.active.values().forEach(enh => {
+      if (enh.modifications.areaDistance) {
+        for (const key of areaKeys) {
+          if (areas[key].distance) areas[key].distance += (enh.modifications.areaDistance * enh.number);
+        }
+      }
+      if (enh.modifications.areaWidth) {
+        for (const key of areaKeys) {
+          if (areas[key].width) areas[key].width += (enh.modifications.areaWidth * enh.number);
+        }
+      }
+    });
+    return areas;
   }
 
   async _onMultiFaceted(event, target) {
