@@ -52,12 +52,13 @@ export class Area {
   }
 
   async place(options={}) {
+    this.minimized = [];
     if (!this.type) {
       ui.notifications.error("You need to specify Area type first!") 
       return;
     }
 
-    this.#minimizeApps();
+    if (!options.token) this.#minimizeApps();
     const data = this.#prepareData(options);
     const region = options.token ? await this.#placeOnToken(options.token, data) : await this.#placeOnSelector(data);
     this.#maximizeApps();
@@ -92,16 +93,23 @@ export class Area {
 
   #prepareData(options={}) {
     const typeLabel = CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes[this.type];
-    const name = !!this.areaData ? `${this.areaData.name} - ${typeLabel}` : typeLabel;
+    const name = this.areaData?.itemName ? `${this.areaData.itemName} - ${typeLabel}` : typeLabel;
+    const flags = {
+      dc20rpg: foundry.utils.mergeObject(
+        {img: this.areaData?.itemImg}, 
+        options.flags
+      ) 
+    }
+
     const data = {
       name: name,
+      flags: flags,
       shapes: this.#regionShapes(),
-      color: this.hideHighlight ? "#ffffff" : game.user.color,
-      restriction: {enabled: true},
+      color: game.user.color,
       levels: [canvas.level.id],
       highlightMode: "coverage",
       displayMeasurements: false,
-      visibility: CONST.REGION_VISIBILITY.OBSERVER,
+      visibility: this.hideHighlight ? CONST.REGION_VISIBILITY.LAYER : CONST.REGION_VISIBILITY.OBSERVER,
       restriction: {enabled: this.blockByWalls},
       ownership: {[game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER}
     };

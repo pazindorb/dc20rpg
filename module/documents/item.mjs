@@ -1,9 +1,7 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
-import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { Area } from "../subsystems/area/area.mjs";
 import { makeCalculations, shouldOverrideActionType } from "./item/item-calculations.mjs";
@@ -316,47 +314,30 @@ export class DC20RpgItem extends Item {
     let newState = !this.system.toggle.toggledOn;
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
+
     await runTemporaryItemMacro(this, "onItemToggle", this.actor, {on: newState, off: !newState, equipping: false});
     await this.gmUpdate({["system.toggle.toggledOn"]: newState});
-    this.#createLinkedAura(newState);
+
+    // Handle crating linked areas - przenieść to, chyba do tokena 
+    if (newState) this.#handleAreaPlacement();
+    else this.#handleAreaRemoval();
   }
 
-  #createLinkedAura(newState) {
+  async #handleAreaPlacement() {
+    if (!this.actor) return;
+    const token = this.actor.getActiveTokens()[0];
+    if (token) await token.toggleableAreaCheck(this);
+  }
+
+  async #handleAreaRemoval() {
     if (!this.actor) return;
     const token = this.actor.getActiveTokens()[0];
     if (!token) return;
 
-    if (newState) {
-      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(this.system?.target?.areas);
-      for (const template of Object.values(templates)) {
-        if (this.#getLinkedTemplate(token)) continue;
-        if (template.passiveAura || (template.linkWithToggle && this.toggledOn)) {
-          const applyEffects = getMesuredTemplateEffects(this, [], this.actor);
-          const itemData = {
-            itemId: this.id, 
-            actorId: this.actor.id, 
-            tokenId: token.id, 
-            applyEffects: applyEffects, 
-            itemImg: this.img, 
-            itemName: this.name
-          };
-          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
-        }
-      }
-    }
-    else {
-      const template = this.#getLinkedTemplate(token);
-      if (template) template.delete();
-    }
-  }
-
-  #getLinkedTemplate(token) {
-    const linkedTemplates = token.document.flags?.dc20rpg?.linkedTemplates || [];
-    for (const templateId of linkedTemplates) {
-      const template = canvas.templates.documentCollection.get(templateId);
-      if (template?.flags?.dc20rpg?.itemData?.itemId === this.id) return template
-    }
-    return null;
+    const regions = token.document.regions
+            .filter(region => region.attachment?.token?.id === token.id)
+            .filter(region => region.flags.dc20rpg.toggledBy === this.id);
+    for (const region of regions) await region.delete();
   }
 
   async equip(options={forceEquip: false, forceUneqip: false}) {

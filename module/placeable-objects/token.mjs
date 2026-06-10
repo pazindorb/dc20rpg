@@ -1,9 +1,10 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
-import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
 import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
+import { Area } from "../subsystems/area/area.mjs";
 import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
@@ -247,10 +248,13 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     this.effects.overlay = null;
 
     // Categorize effects
+    //====== MODIFIED ======
     const SHOW_ICON = CONST.ACTIVE_EFFECT_SHOW_ICON;
-    const activeEffects = this.actor?.appliedEffects.filter(e => ((e.showIcon === SHOW_ICON.ALWAYS)
-      || ((e.showIcon === SHOW_ICON.CONDITIONAL) && e.isTemporary))) ?? [];
+    const activeEffects = this.actor?.allEffects
+            .filter(effect => !effect.disabled)
+            .filter(effect => (effect.showIcon === SHOW_ICON.ALWAYS) || ((effect.showIcon === SHOW_ICON.CONDITIONAL) && effect.isTemporary)) ?? [];
     const overlayEffect = activeEffects.findLast(e => e.flags.core?.overlay);
+    //====== MODIFIED ======
 
     //====== INJECTED ====== 
     // Flatten the same active effect images
@@ -602,38 +606,65 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
   /** @override */
   _onCreate(data, options, userId) {
     if (userId === game.user.id && this.actor) {
-      this._passiveAuraCheck();
+      this.#passiveAreaCheck();
     }
     super._onCreate(data, options, userId);
   }
 
-  async _passiveAuraCheck() {
-    for (const item of this.actor.items) {
-      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(item.system?.target?.areas);
-      for (const template of Object.values(templates)) {
-        if (template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
-          // If aura already exist we don't want to create it for the second time
-          for (const token of this.actor.getActiveTokens()) {
-            const linkedTemplates = token.document.flags.dc20rpg?.linkedTemplates || [];
-            for (const templateId of linkedTemplates) {
-              const template = canvas.templates.documentCollection.get(templateId);
-              if (template?.flags?.dc20rpg?.itemData?.itemId === item.id) return;
-            }
-          }
+  async toggleableAreaCheck(item) {
+      if (!item.system.areas) return;
+      const areas = Object.values(item.system.areas).filter(area => this.#isToggled(area, true));
+      if (areas.length === 0) return;
 
-          const applyEffects = getMesuredTemplateEffects(item, [], this.actor);
-          const itemData = {
-            itemId: item.id, 
-            actorId: this.actor.id, 
-            tokenId: this.id, 
-            applyEffects: applyEffects, 
-            itemImg: item.img, 
-            itemName: item.name
-          };
-          await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
-        }
+      const [areaData, effects] = this.#prepareAreaDataAndCollectEffects(item);
+      const area = Area.enrich(areas[0], {areaData: areaData, effects: effects, actor: this.actor});
+      if (area) await area.place({token: this, flags: {toggledBy: item.id}});
+  }
+
+  async #passiveAreaCheck() {
+    for (const item of this.actor.items) {
+      if (!item.system.areas) continue;
+      const areas = Object.values(item.system.areas).filter(area => this.#isPassiveArea(area)|| this.#isToggled(area, item.toggledOn));
+      if (areas.length === 0) continue;
+
+      const [areaData, effects] = this.#prepareAreaDataAndCollectEffects(item);
+      const area = Area.enrich(areas[0], {areaData: areaData, effects: effects, actor: this.actor});
+      if (!area) continue;
+
+      const options = {token: this};
+      if (this.#isToggled(area, item.toggledOn)) {
+        options.flags = {toggledBy: item.id};
       }
+      await area.place(options);
     }
+  }
+
+  #isPassiveArea(area) {
+    return area.alwaysActive && area.selfOnly && area.attachToToken;
+  }
+
+  #isToggled(area, toggledOn) {
+    return toggledOn && area.linkWithToggle && area.selfOnly && area.attachToToken;
+  }
+
+  #prepareAreaDataAndCollectEffects(item) {
+    const areaData = {
+      actorId: this.actor.id, 
+      actorUuid: this.actor.uuid,
+      tokenId: this.id,
+      itemId: item.id, 
+      itemImg: item.img,
+      itemName: item.name
+    };
+    const effects = item.effects
+                      .filter(effect => effect.system.applyToTemplate)
+                      .map(effect => {
+                        const effectData = effect.toObject();
+                        DC20RpgActiveEffect.enhanceEffectData(effectData, {actor: this.actor});
+                        effectData.flags.dc20rpg.templateCallTime = Date.now();
+                        return effectData;
+                      });
+    return [areaData, effects]
   }
 
   //======================================

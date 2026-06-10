@@ -1,5 +1,6 @@
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
+import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 
@@ -46,6 +47,64 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   //======================================
+  //=           STATIC HELPERS           =
+  //======================================
+  static enhanceEffectData(effectData, options={}) {
+    const actor = options.actor;
+    if (!actor) return;
+
+    this.#replaceKeywords(effectData, actor);
+    this.#injectFormula(effectData, actor);
+    if (options.sustain) {
+      this.#linkWithSustain(effectData, actor, options.itemId);
+    }
+  }
+
+  static #replaceKeywords(effect, actor) {
+    const saveDC = actor.system.saveDC.value;
+    const against = Math.max(saveDC.spell, saveDC.martial);
+    for (let i = 0; i < effect.system.changes.length; i++) {
+      let changeValue = effect.system.changes[i].value;
+      if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
+        changeValue = changeValue.replaceAll("#SPEAKER_ID#", actor.id);
+      }
+      if (typeof changeValue === "string" && changeValue.includes("#SAVE_DC#")) {
+        changeValue = changeValue.replaceAll("#SAVE_DC#", against);
+      }
+      effect.system.changes[i].value = changeValue;
+    }
+  }
+
+  static #linkWithSustain(effect, actor, itemId) {
+    effect.system.sustained = {
+      itemId: itemId,
+      actorUuid: actor.uuid,
+      isSustained: true
+    }
+  }
+
+  static #injectFormula(effect, actor) {
+    const rollData = actor.getRollData();
+
+    for (const change of effect.system.changes) {
+      const value = change.value;
+      
+      // formulas start with "<#" and end with "#>"
+      if (typeof value === "string" && value.includes("<#") && value.includes("#>")) {
+        // We want to calculate that formula and repleace it with value calculated
+        const formulaRegex = /<#(.*?)#>/g;
+        const formulasFound = value.match(formulaRegex);
+
+        formulasFound.forEach(formula => {
+          const formulaString = formula.slice(2,-2); // We need to remove <# and #>
+          const calculated = evaluateDicelessFormula(formulaString, rollData);
+          change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
+        })
+      }
+    }
+  }
+
+  //======================================
   //=            PREPARE DATA            =
   //======================================
   prepareDerivedData() {
@@ -62,10 +121,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
       }
-      else {
-        const parentItem = this.getSourceItem();
-        await parentItem.toggle({forceOff: true});
-      }
     }
     await this.gmUpdate({disabled: true});
     const actor = this.getOwningActor();
@@ -81,10 +136,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       if (this.stateChangeLocked && !ignoreStateChangeLock) {
         ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
-      }
-      else {
-        const parentItem = this.getSourceItem();
-        await parentItem.toggle({forceOn: true});
       }
     }
 

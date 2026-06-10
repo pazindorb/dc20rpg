@@ -1,5 +1,4 @@
 import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
-import { injectFormula } from "../../helpers/effects.mjs";
 import { datasetOf } from "../../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { runEventsFor, triggerOnlyForIdFilter } from "../../helpers/actors/events.mjs";
@@ -730,7 +729,7 @@ export class DC20ChatMessage extends ChatMessage {
     const effects = this.system.effects
                       .filter(effectData => effectData.system.applyToTemplate)
                       .map(effectData => {
-                        this.#enhanceEffectData(effectData, true);
+                        DC20RpgActiveEffect.enhanceEffectData(effectData, {actor: actor});
                         effectData.flags.dc20rpg.templateCallTime = Date.now();
                         return effectData;
                       });
@@ -851,53 +850,25 @@ export class DC20ChatMessage extends ChatMessage {
   //=   APPLY EFFECT  =
   //===================
   #onApplyEffect(data) {
+    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const enhanceData = {sustain: this.system.sustain, actor: actor, itemId: this.system.itemId};
     if (data.targetHash) {
       const target = this.targets[data.targetHash];
       const effectData = target.effects[data.index];
-      this.#enhanceEffectData(effectData);
+      DC20RpgActiveEffect.enhanceEffectData(effectData, enhanceData);
+      effectData.system.chatMessageId = this.id;
+      effectData.flags.dc20rpg.applierId = this.speaker.actor;
       DC20RpgActiveEffect.gmCreate(effectData, {parent: target.actor});
     }
     else {
       const effectData = this.system.effects[data.index];
-      this.#enhanceEffectData(effectData);
+      DC20RpgActiveEffect.enhanceEffectData(effectData, enhanceData);
+      effectData.system.chatMessageId = this.id;
+      effectData.flags.dc20rpg.applierId = this.speaker.actor;
       if (canvas.tokens) canvas.tokens.placeables.forEach(token => {
         if (!token.controlled) return;
         DC20RpgActiveEffect.gmCreate(effectData, {parent: token.actor, ignoreResponse: true});
       });
-    }
-  }
-
-  #enhanceEffectData(effectData, area=false) {
-    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
-    effectData.system.chatMessageId = this.id;
-    effectData.flags.dc20rpg.applierId = this.speaker.actor;
-
-    this.#replaceKeywords(effectData, actor);
-    injectFormula(effectData, actor);
-    if (this.system.sustain && !area) {
-      this.#linkWithSustain(effectData, actor);
-    }
-  }
-
-  #replaceKeywords(effect, actor) {
-    const saveDC = actor.system.saveDC.value;
-    const against = Math.max(saveDC.spell, saveDC.martial);
-    for (let i = 0; i < effect.system.changes.length; i++) {
-      let changeValue = effect.system.changes[i].value;
-      if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
-        effect.system.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
-      }
-      if (typeof changeValue === "string" && changeValue.includes("#SAVE_DC#")) {
-        effect.system.changes[i].value = changeValue.replaceAll("#SAVE_DC#", against);
-      }
-    }
-  }
-
-  #linkWithSustain(effect, actor) {
-    effect.system.sustained = {
-      itemId: this.system.itemId,
-      actorUuid: actor.uuid,
-      isSustained: true
     }
   }
 

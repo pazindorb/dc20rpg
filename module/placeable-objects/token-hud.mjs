@@ -185,15 +185,15 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
   }
 
   #prepareAttachedRegions() {
-    const regions = this.document.regions;
+    const regions = this.document.regions.filter(region => region.attachment?.token?.id === this.object.id)
     if (!regions) return [];
 
     return regions.map(region => {
-      const itemData = region.flags.itemData || {};
+      const img = region.flags?.dc20rpg?.img;
       return {
         name: region.name,
         uuid: region.uuid,
-        img: itemData.img || "icons/svg/explosion.svg",
+        img: img || "icons/svg/explosion.svg",
       }
     });
   }

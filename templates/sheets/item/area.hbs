@@ -111,6 +111,13 @@
       </select>
     </div>
 
+    {{!-- Hide Highligh --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.hideHighlight"}}</label>
+      <input type="checkbox" name="system.areas.{{key}}.hideHighlight" {{checked area.hideHighlight}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.area.hideHighlightHint"}}</p>
+    </div>
+
     {{!-- Attach to Token --}}
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.area.attachToToken"}}</label>

@@ -894,7 +894,7 @@ DC20RPG.DROPDOWN_DATA.difficultTerrainActivationTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.applyEffectActivationTypes = {
-  ...DC20RPG.DROPDOWN_DATA.difficultTerrainTypes,
+  ...DC20RPG.DROPDOWN_DATA.difficultTerrainActivationTypes,
   selector: "Token Selector"
 }
 

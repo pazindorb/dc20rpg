@@ -293,50 +293,6 @@ export async function addFlatDamageReductionEffect(actor) {
 }
 
 //===========================================================
-export function injectFormula(effect, effectOwner) {
-  if (!effectOwner) return;
-  const rollData = effectOwner.getRollData();
-
-  for (const change of effect.system.changes) {
-    const value = change.value;
-    
-    // formulas start with "<#" and end with "#>"
-    if (typeof value === "string" && value.includes("<#") && value.includes("#>")) {
-      // We want to calculate that formula and repleace it with value calculated
-      const formulaRegex = /<#(.*?)#>/g;
-      const formulasFound = value.match(formulaRegex);
-
-      formulasFound.forEach(formula => {
-        const formulaString = formula.slice(2,-2); // We need to remove <# and #>
-        const calculated = evaluateDicelessFormula(formulaString, rollData);
-        change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
-      })
-    }
-  }
-}
-
-export function getMesuredTemplateEffects(item, applicableEffects=[], actor) {
-  if (!item) return {applyFor: "", effects: []};
-  if (item.effects.size === 0 && applicableEffects.length === 0) return {applyFor: "", effects: []};
-  if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
-
-  let effects = applicableEffects.length > 0 ? applicableEffects : item.effects.toObject();
-  effects = effects.filter(effect => effect.system.applyToTemplate);
-  if (actor) {
-    for (const effect of effects) {
-      if (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};
-      effect.flags.dc20rpg.templateCallTime = Date.now();
-      injectFormula(effect, actor);
-    }
-  }
-
-  return {
-    applyFor: item.system.effectsConfig.addToTemplates,
-    effects: effects
-  }
-}
-
-//===========================================================
 /**
  * List of default actor keys that are expected to be modified by effects
  */
