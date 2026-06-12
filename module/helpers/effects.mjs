@@ -440,6 +440,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.prevent.criticalHit": "Prevent Critical Hit benefits against you", 
     "system.globalModifier.prevent.flanking": "This creature cannot flank",
     
+    "system.globalModifier.melee.threat": "Modify Melee Range Threat",
     "system.globalModifier.martial.range.melee": "Martial Melee Range (bonus)",
     "system.globalModifier.martial.range.normal": "Martial Normal Range (bonus)",
     "system.globalModifier.martial.range.max": "Martial Max Range (bonus)",

@@ -1041,7 +1041,14 @@ DC20RPG.PROPERTIES = {
     subtype: ["melee"],
     cost: 1,
     value: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
+    applyProperty: (actor, properties) => {
+      let reachBonus = 0;
+      for (const prop of properties) {
+        if (prop.property.value > reachBonus) reachBonus = prop.property.value;
+      }
+      actor.system.globalModifier.melee.threat += reachBonus;
+    }
   },
   reload: {
     label: "dc20rpg.properties.reload",

@@ -25,7 +25,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   _setSceneMaxMeleeThreat() {
     if (!canvas.tokens) return;
 
-    const meleeThreat = this.actor.system.details.meleeThreat; 
+    const meleeThreat = this.actor.system.globalModifier.melee.threat; 
     if (!canvas.tokens.maxMeleeThreat) {
       canvas.tokens.maxMeleeThreat = meleeThreat;
     }

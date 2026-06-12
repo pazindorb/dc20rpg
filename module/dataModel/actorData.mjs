@@ -102,7 +102,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       combatTraining: new CombatTraining(),
       rollMenu: new RollMenu(false),
       globalFormulaModifiers: new GFModFields(),
-      globalModifier: new f.SchemaField({  
+      globalModifier: new f.SchemaField({ 
+        melee: new f.SchemaField({ 
+          threat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        }),
         martial: new f.SchemaField({
           range: new f.SchemaField({
             melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

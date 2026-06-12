@@ -1,4 +1,5 @@
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
+import { DC20RpgTokenDocument } from "../documents/token.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { getLabelFromKey, getValueFromPath } from "../helpers/utils.mjs";
@@ -32,7 +33,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
         considerCloseQuarters = rollMenu.rangeType === "ranged";
       }
       if (considerCloseQuarters) {
-        closeQuartersResult = _closeQuartersCheck(attacker);
+        closeQuartersResult = await _closeQuartersCheck(attacker);
       }
     }
 
@@ -43,8 +44,8 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
     for (const token of game.user.targets) {
       if (!token.actor) continue;
       const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, validationData, true);
-      const targetPositionResult = attacker ? _targetPositionCheck(token, attacker, rangeType, item) : [];
-      const targetRangeResult = attacker ? _targetRangeCheck(token, attacker, rangeType, item) : [];
+      const targetPositionResult = attacker ? await _targetPositionCheck(token, attacker, rangeType, item) : [];
+      const targetRangeResult = attacker ? await _targetRangeCheck(token, attacker, rangeType, item) : [];
       results = [...results, ...targetAttackResult, ...targetPositionResult, ...targetRangeResult];      
     }
   }
@@ -165,7 +166,7 @@ async function _shouldApply(modification, target, validationData) {
     if (modification.runMacro) {
       const effect = target.effects.get(modification.effectId);
       if (!effect) return false;
-      const result = await effect.runMacro({drm: true, target: target, modification: modification, validationData: validationData});
+      const result = await effect.runMacro({drm: true, target: target, actorAskingForCheck: validationData.actorAskingForCheck, modification: modification, validationData: validationData});
       return !!result;
     }
     else return true;
@@ -373,32 +374,47 @@ function _apGritModifications(actor, rollMenu) {
 //========================================
 //            POSITION CHECK             =
 //========================================
-function _closeQuartersCheck(attacker) {
+async function _closeQuartersCheck(attacker) {
   if (!game.settings.get("dc20rpg", "enableCloseQuarters")) return [];
   if (!attacker) return [];
 
   let closeQuarters = false;
-  attacker.enemyNeighbours.values().forEach(token => {
-    if (!token.actor.hasAnyStatus(["incapacitated", "dead"])) closeQuarters = true;
-  });
+  const enemyDispositions = DC20RpgTokenDocument.getEnemyTokenDispositionsFor(attacker.document.disposition);
+  const tokens = await attacker.getTokensInRange(canvas.tokens.maxMeleeThreat || 1);
+  for (const token of tokens) {
+    if (!enemyDispositions.includes(token.document.disposition)) continue;       // Enemy
+    if (token.actor.hasAnyStatus(["incapacitated", "dead"])) continue;           // Not incapacitated or dead
+
+    const meleeThreatRange = token.actor.system?.globalModifier?.melee?.threat || 1;
+    const inMeleeRange = await token.isTokenInRange(attacker, meleeThreatRange);
+    if (inMeleeRange) {
+      closeQuarters = true;
+      break; 
+    }
+  }
   if (closeQuarters) return [{type: "dis", value: 1, label: "Close Quarters", targetHash: attacker.actor.targetHash}]
   return [];
 }
 
-function _targetPositionCheck(target, attacker, rangeType, item) {
+async function _targetPositionCheck(target, attacker, rangeType, item) {
   const rollMenu = item.system.rollMenu;
   const result = [];
 
   // Flanking
   if (game.settings.get("dc20rpg", "enableFlankingCheck")) {
-    if (rollMenu.flanks || (rangeType === "melee" && target.isFlanked)) {
+    if (rollMenu.flanks) {
       result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+    }
+    else if (rangeType === "melee") {
+      const isFlanked = await target.isTokenFlanked(attacker);
+      if (isFlanked) result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
     }
   }
   
   // Unwieldy Property
-  if (item.system.properties?.unwieldy?.active && attacker.neighbours.has(target.id)) {
-    result.push({type: "dis", value: 1, label: "Unwieldy Property", target: true, targetHash: target.actor.targetHash});
+  if (item.system.properties?.unwieldy?.active) {
+    const shouldTrigger = await attacker.isTokenInRange(target, 1);       // DisADV on Attacks against target within 1 Space
+    if (shouldTrigger) result.push({type: "dis", value: 1, label: "Unwieldy Property", target: true, targetHash: target.actor.targetHash});
   }
 
   // Cover
@@ -416,7 +432,7 @@ function _targetPositionCheck(target, attacker, rangeType, item) {
 //========================================
 //              RANGE CHECK              =
 //========================================
-function _targetRangeCheck(target, attacker, rangeType, item) {
+async function _targetRangeCheck(target, attacker, rangeType, item) {
   if (!game.settings.get("dc20rpg", "enableRangeCheck")) return [];
   if (rangeType === "area") return [];
   if (!attacker) return [];
@@ -426,10 +442,10 @@ function _targetRangeCheck(target, attacker, rangeType, item) {
   const checkType = _checkType(item);
   if (rangeType === "melee") {
     const melee = (range.melee || 1) + _bonusRange("melee", checkType, item, attacker.actor);
-    if (!attacker.isTokenInRange(target, melee)) {
-      result.push(_outOfRange(target));
-    }
+    const inRange = await attacker.isTokenInRange(target, melee);
+    if (!inRange) result.push(_outOfRange(target));
   }
+
   if (rangeType === "ranged") {
     const longRange = !attacker.actor.system.globalModifier[checkType].ignore.longRange;
     let normal = range.normal;
@@ -444,16 +460,17 @@ function _targetRangeCheck(target, attacker, rangeType, item) {
     if (normal != null && max != null) {
       normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
       max = max + _bonusRange("max", checkType, item, attacker.actor);
-      if (!attacker.isTokenInRange(target, max)) {
+      if (!(await attacker.isTokenInRange(target, max))) {
         result.push(_outOfRange(target));  // Out of max range
       }
-      else if (!attacker.isTokenInRange(target, normal) && longRange) {
+      else if (!(await attacker.isTokenInRange(target, normal)) && longRange) {
         result.push(_longRange(target));  // In long range
       }
     }
     else if (normal != null) {
       normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
-      if (!attacker.isTokenInRange(target, normal)) {
+      const inRange = await attacker.isTokenInRange(target, normal)
+      if (!inRange) {
         result.push(_outOfRange(target));
       }
     }
