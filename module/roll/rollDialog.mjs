@@ -10,6 +10,7 @@ import { DC20Roll } from "./rollApi.mjs";
 import { DRMDialog } from "./drmDialog.mjs";
 import { sheetRollDataFrom } from "./rollHelper.mjs";
 import { AreaPlacer } from "../subsystems/area/areaPlacer.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 export class RollDialog extends DC20Dialog {
 
@@ -458,11 +459,18 @@ export class RollDialog extends DC20Dialog {
   }
 
   async _DRMCheck(display) {
+    let drmRunningPopup = null;
+    if (display) {
+      drmRunningPopup = new SimplePopup("info", {hideButtons: true, header: "DRM Check", information: [`Waiting for Dynamic Roll Modifier Check to finish...`]});
+      await drmRunningPopup.render(true);
+    }
+
     this.DRMChecked = true;
     let [finalValue, result] = [{}, {}];
     if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
     else [finalValue, result] = await runSheetDRMCheck(this.sheetRollData, this.actor, this.initialRollMenuValue);
     
+    if (drmRunningPopup) drmRunningPopup.close();
     await this._updateRollMenu(finalValue);
     if (this.quickRoll) {
       this._prepareCoreFormula();

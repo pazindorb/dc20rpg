@@ -23,10 +23,8 @@ import * as itemDM from "./dataModel/itemData.mjs";
 import { DC20RpgTokenDocument } from "./documents/token.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
-import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { DC20PrototypeTokenConfig, DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
-import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
@@ -39,6 +37,7 @@ import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
 import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
 import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
 import { refreshActiveEffectRegistry } from "./helpers/effects.mjs";
+import { DC20TerrainData } from "./placeable-objects/terrrain-data.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -74,11 +73,9 @@ Hooks.once('init', async function() {
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
   CONFIG.Token.movement.actions = DC20RpgToken.movementActions();
+  CONFIG.Token.movement.TerrainData = DC20TerrainData;
   CONFIG.Token.movement.defaultAction = "ground";
   CONFIG.Token.movement.defaultSpeed = 5;
-  CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
-  CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
-  CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;
   CONFIG.ui.hotbar = DC20Hotbar;
 
   // Register data models

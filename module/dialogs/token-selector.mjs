@@ -6,6 +6,7 @@ export class TokenSelector extends DC20Dialog {
     root: {
       classes: ["dc20rpg"],
       template: "systems/dc20rpg/templates/dialogs/token-selector.hbs",
+      scrollable: [".scrollable"]
     }
   };
 

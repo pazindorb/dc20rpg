@@ -1,5 +1,6 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
 import { TokenSelector } from "../../dialogs/token-selector.mjs";
+import { getTokensInsideRegion } from "../../helpers/utils.mjs";
 import { Area } from "./area.mjs";
 
 export class AreaPlacer extends DC20Dialog {
@@ -109,23 +110,14 @@ export class AreaPlacer extends DC20Dialog {
   }
 
   async #openTokenSelector(region) {
-    const tokens = await this.#waitForRegionTokens(region);
+    const tokens = getTokensInsideRegion(region);
     if (tokens.length > 0) {
       const placeables = tokens.map(token => token.object);
-      const selected = await TokenSelector.open(placeables, "Select Tokens");
+      const selected = await TokenSelector.open(placeables);
       const tokenIds = selected.map(token => token.id)
       canvas.tokens.setTargets(tokenIds, {mode: "replace"});
     }
     region.delete();
-  }
-
-  async #waitForRegionTokens(region) {
-    for (let i = 0; i < 30; i++) {
-      const tokens = region.tokens;
-      if (tokens?.size || Object.keys(tokens ?? {}).length) return [...tokens];
-      await new Promise(resolve => requestAnimationFrame(resolve));
-    }
-    return [...region.tokens] ?? [];
   }
 }
 

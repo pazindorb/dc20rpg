@@ -23,16 +23,17 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
   /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
+    if (!this.actor) {
+      context.nonActor = true;
+      context.canConfigure = true;
+      return context;
+    }
+
     this.oldDisplay = this.document.displayBars;
     this.document.displayBars = 40;
     this.#prepareStatusEffects(context.statusEffects);
     context.attachedRegions = this.#prepareAttachedRegions();
     context.movePoints = this.actor?.system?.movePoints || 0;
-
-    if (!this.actor) {
-      context.nonActor = true;
-      context.canConfigure = true;
-    }
     return context;
   }
 

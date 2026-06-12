@@ -1,4 +1,5 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
+import { DC20RpgTokenDocument } from "../../documents/token.mjs";
 import { DC20RpgActorSheet } from "../../sheets/actor-sheet.mjs";
 import { DC20ItemSheet } from "../../sheets/item-sheet.mjs";
 
@@ -96,7 +97,11 @@ export class Area {
     const name = this.areaData?.itemName ? `${this.areaData.itemName} - ${typeLabel}` : typeLabel;
     const flags = {
       dc20rpg: foundry.utils.mergeObject(
-        {img: this.areaData?.itemImg}, 
+        {
+          img: this.areaData?.itemImg,
+          applyDtFor: this.#resolveTokenDisposition(this.difficultTerrain),
+          applyEffectsFor: this.#resolveTokenDisposition(this.applyEffectsFor)
+        }, 
         options.flags
       ) 
     }
@@ -115,13 +120,25 @@ export class Area {
     };
     
     // We want to skip that for target mode
-    if (!options.targetMode) {
-      // data.behaviors = TODO PREPARE BASED ON ITEM AND STUFF
-
-      // trigger macro
-    }
+    if (!options.targetMode) data.behaviors = this.#prepareBehaviors();
     
     return data;
+  }
+
+  #prepareBehaviors() {
+    const behaviors = [];
+
+    if (this.difficultTerrain) {
+      behaviors.push({
+        name: "Difficult Terrain",
+        type: "modifyMovementCost",
+        system: {
+          difficulties: {ground: 2, swimming: 1, glide: 1, flying: 1, climbing: 1, burrow: 1}
+        }
+      })
+    }
+
+    return behaviors;
   }
 
   #regionShapes() {
@@ -217,5 +234,20 @@ export class Area {
     if (!region || !sustain) return;
     const actor = await fromUuid(sustain.actorUuid)
     if (actor) actor.addRegionToSustain(sustain.itemId, region.uuid);
+  }
+
+  #resolveTokenDisposition(type) {
+    if (!this.actor) return "all"; // In that case we assume it should be applied to all
+    
+    const token = this.actor.getActiveTokens()[0];
+    const disposition = token ? token.document.disposition : this.actor.prototypeToken.disposition;
+    if (type === "enemy") {
+      return DC20RpgTokenDocument.getEnemyTokenDispositionsFor(disposition);
+    }
+    if (type === "ally") {
+      return DC20RpgTokenDocument.getFriendlyTokenDispositionsFor(disposition);
+    }
+    if (type === "") return "never";
+    return type;
   }
 } 

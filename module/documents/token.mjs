@@ -1,5 +1,4 @@
 import { runEventsFor } from "../helpers/actors/events.mjs";
-import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
@@ -12,20 +11,31 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.flags?.dc20rpg?.itemData !== undefined;
   }
 
-  get isFlanked() {
-    return this.object.isFlanked;
-  }
-
   /**@override*/
   prepareData() {
-    this._prepareSystemSpecificVisionModes();
     super.prepareData();
-    this._setTokenSize();
+    
+    if (this.actor) {
+      this._prepareSystemSpecificVisionModes();
+      this._setTokenSize();
+      this._setSceneMaxMeleeThreat();
+    }
+  }
+
+  _setSceneMaxMeleeThreat() {
+    if (!canvas.tokens) return;
+
+    const meleeThreat = this.actor.system.details.meleeThreat; 
+    if (!canvas.tokens.maxMeleeThreat) {
+      canvas.tokens.maxMeleeThreat = meleeThreat;
+    }
+    if (meleeThreat > canvas.tokens.maxMeleeThreat) {
+      canvas.tokens.maxMeleeThreat = meleeThreat;
+    }
   }
 
   _prepareSystemSpecificVisionModes() {
     if (!this.sight.enabled) return; // Only when using vision
-    if (!this.actor) return;
     
     const senses = this.actor.system.senses;
     const sight = this.sight;
@@ -103,20 +113,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (userId === game.user.id && this.actor) {
       if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
         runEventsFor("move", this.actor);
-        
-        // Wait for movement to finish before triggering measured template check
-        let counter = 0;  // Max amount of loops
-        const timeoutID = setInterval(async () => {
-          if (counter > 100 || (
-                (!changed.hasOwnProperty("x") || this.object.x === changed.x) && 
-                (!changed.hasOwnProperty("y") || this.object.y === changed.y)
-              )) {
-            await this.updateLinkedTemplates();
-            await checkMeasuredTemplateWithEffects();
-            clearInterval(timeoutID);
-          }
-          else counter++;
-        }, 100);
       }
     }
   }
@@ -211,37 +207,38 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   //=====================================
-  //          LINKED TEMPLATES          =
+  //          TOKEN DISPOSITION         =
   //=====================================
-  async updateLinkedTemplates() {
-    const linkedTemplates = this.flags.dc20rpg?.linkedTemplates;
-    if (!linkedTemplates) return;
-    
-    const idsToRemove = new Set();
-    for (const templateId of linkedTemplates) {
-      const mt = canvas.templates.placeables.find(template => template.id === templateId);
-      if (!mt) idsToRemove.add(templateId);
-      else {
-        await mt.document.gmUpdate({
-          x: this.object.center.x,
-          y: this.object.center.y
-        }, {skipLinkedEffectApplication: true});
-      }
+  static getEnemyTokenDispositionsFor(disposition) {
+    const neutralIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
+    const enemy = [];
 
-      if (idsToRemove.size > 0) {
-        const templatesLeft = new Set(linkedTemplates).difference(idsToRemove);
-        await this.update({["flags.dc20rpg.linkedTemplates"]: Array.from(templatesLeft)});
-      } 
+    if (disposition === 0) {
+      if (neutralIdentity !== "friendly") enemy.push(1);
+      if (neutralIdentity !== "hostile") enemy.push(-1);
     }
+    
+    if (disposition === -1) enemy.push(1);
+    if (disposition === 1) enemy.push(-1);
+    if (neutralIdentity === "friendly" && disposition === -1) enemy.push(0);
+    if (neutralIdentity === "hostile" && disposition === 1) enemy.push(0);
+    if (neutralIdentity === "separated" && disposition !== 0) enemy.push(0);
+    return enemy;
   }
 
-  async _preDelete(options={}, user) {
-    // Remove existing aura
-    const linkedTemplates = this.flags.dc20rpg?.linkedTemplates || [];
-    for (const templateId of linkedTemplates) {
-      const template = canvas.templates.documentCollection.get(templateId);
-      if (template) await template.delete();
+  static getFriendlyTokenDispositionsFor(disposition) {
+    const neutralIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
+    const friendly = [];
+
+    friendly.push(disposition);
+
+    if (disposition === 0) {
+      if (neutralIdentity === "friendly") friendly.push(1);
+      if (neutralIdentity === "hostile") friendly.push(-1);
     }
-    return await super._preDelete(options, user);
+
+    if (neutralIdentity === "friendly" && disposition === 1) friendly.push(0);
+    if (neutralIdentity === "hostile" && disposition === -1) friendly.push(0);
+    return friendly;
   }
 }

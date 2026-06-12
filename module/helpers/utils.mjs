@@ -173,53 +173,10 @@ export function translateLabels(object, visited = new WeakSet()) {
   }
 }
 
-export function isPointInPolygon(x, y, polygon) {
-  let isInside = false;
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const xi = polygon[i].x, yi = polygon[i].y;
-    const xj = polygon[j].x, yj = polygon[j].y;
-
-    // Check if the point is on the edge or crosses
-    const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-    if (intersect) isInside = !isInside;
-  }
-  return isInside;
-}
-
-export function isPointInSquare(x, y, square) {
-  const minX = square.x1y1.x;
-  const maxX = square.x2y1.x;
-  const minY = square.x1y1.y;
-  const maxY = square.x1y2.y;
-
-  if (x < minX || x > maxX) return false;
-  if (y < minY || y > maxY) return false;
-  return true;
-}
-
-export function distanceBetweenPoints(x1, y1, x2, y2) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-export function getPointsOnLine(x1, y1, x2, y2, interval) {
-  const points = [];
-  
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const totalDistance = Math.sqrt(dx * dx + dy * dy);
-  
-  const unitVectorX = dx / totalDistance;
-  const unitVectorY = dy / totalDistance;
-
-  // Add points along the line at specified intervals
-  for (let d = 0; d <= totalDistance; d += interval) {
-      const newX = x1 + unitVectorX * d;
-      const newY = y1 + unitVectorY * d;
-      points.push({ x: newX, y: newY });
-  }
-  return points;
+export function getTokensInsideRegion(regionDocument) {
+  return canvas.tokens.placeables
+    .filter(token => token.document.testInsideRegion(regionDocument))
+    .map(token => token.document);
 }
 
 export function roundFloat(float) {

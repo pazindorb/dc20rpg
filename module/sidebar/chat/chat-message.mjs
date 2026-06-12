@@ -741,7 +741,7 @@ export class DC20ChatMessage extends ChatMessage {
       itemImg: this.system.image,
       itemName: this.system.name
     };
-    const options = {effects: effects, areaData: areaData, tokenId: this.speaker.token};
+    const options = {effects: effects, areaData: areaData, tokenId: this.speaker.token, actor: actor};
     if (this.system.sustain) {
       options.sustain = {itemId: this.system.itemId, actorUuid: actor.uuid}
     }

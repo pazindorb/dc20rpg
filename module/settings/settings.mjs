@@ -212,7 +212,7 @@ export function registerGameSettings(settings) {
   settings.register("dc20rpg", "tokenHotbar", {
     scope: "client",
     config: false,
-    default: false,
+    default: true,
     type: Boolean
   });
 

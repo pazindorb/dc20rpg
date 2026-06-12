@@ -1135,11 +1135,12 @@ function _deafened() {
       statusId: "deafened",
       condition: true,
       macro: `
-      if(drm) {
-        const token = target.getActiveTokens()[0];
-        if (!token) return false;
-        return token.isFlanked;
-      }`,
+if(drm) {
+  const attacker = actorAskingForCheck.getActiveTokens()[0];
+  const token = target.getActiveTokens()[0];
+  if (!token || !attacker) return false;
+  return token.isTokenFlanked(attacker);
+}`,
       changes: [
         {
           key: "system.dynamicRollModifier.onYou.skills",
