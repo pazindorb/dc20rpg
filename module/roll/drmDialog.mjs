@@ -36,11 +36,11 @@ export class DRMDialog extends DC20Dialog {
     }
     for (const [statusId, values] of statuses) {
       const statusName = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses);
-      resultPerTarget.push({label: `From ${statusName}`, values: this._toDisplayFormat(values)})
+      resultPerTarget.push({label: `From Status: ${statusName}`, values: this._toDisplayFormat(values)})
     }
     for (const [hash, values] of targets) {
       const actor = DC20Target.getActorFromTargetHash(hash); 
-      resultPerTarget.push({label: `From ${actor.name}`, values: this._toDisplayFormat(values)})
+      resultPerTarget.push({label: `From Token: ${actor.name}`, values: this._toDisplayFormat(values)})
     }
 
     if (this.#isEmpty(resultPerTarget)) {

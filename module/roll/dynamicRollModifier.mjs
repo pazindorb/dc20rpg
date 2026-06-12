@@ -41,11 +41,12 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
 
     // Target Checks
     const attackTargetPath = "system.dynamicRollModifier.againstYou.attack";
+    const tokensInAttackRange = await _collectTokensInAttackRange(attacker, rangeType, item); 
     for (const token of game.user.targets) {
       if (!token.actor) continue;
       const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, validationData, true);
       const targetPositionResult = attacker ? await _targetPositionCheck(token, attacker, rangeType, item) : [];
-      const targetRangeResult = attacker ? await _targetRangeCheck(token, attacker, rangeType, item) : [];
+      const targetRangeResult = attacker ? _targetRangeCheck(token, attacker, rangeType, item, tokensInAttackRange) : [];
       results = [...results, ...targetAttackResult, ...targetPositionResult, ...targetRangeResult];      
     }
   }
@@ -432,47 +433,60 @@ async function _targetPositionCheck(target, attacker, rangeType, item) {
 //========================================
 //              RANGE CHECK              =
 //========================================
-async function _targetRangeCheck(target, attacker, rangeType, item) {
-  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return [];
-  if (rangeType === "area") return [];
-  if (!attacker) return [];
+async function _collectTokensInAttackRange(attacker, rangeType, item) {
+  const ranges = {max: null, normal: null};
+  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return ranges;
+  if (rangeType === "area") return ranges;
+  if (!attacker) return ranges;
 
-  const result = [];
   const range = item.system.range;
   const checkType = _checkType(item);
   if (rangeType === "melee") {
     const melee = (range.melee || 1) + _bonusRange("melee", checkType, item, attacker.actor);
-    const inRange = await attacker.isTokenInRange(target, melee);
-    if (!inRange) result.push(_outOfRange(target));
+    ranges.normal = await attacker.getTokensInRange(melee);
   }
 
   if (rangeType === "ranged") {
-    const longRange = !attacker.actor.system.globalModifier[checkType].ignore.longRange;
     let normal = range.normal;
     let max = range.max;
 
-    // Check for Improvised Weapon (when weapon is thrown without "toss" or "throw" property);
+    // Apply Improvised Weapon (when weapon is thrown without "toss" or "throw" property);
     if (normal == null && item.system.inventory) normal = 0;
     if (max == null && item.system.inventory) {
       max = 2 * Math.max(1, attacker.actor.system.attributes.mig.current); 
     }
 
-    if (normal != null && max != null) {
+    if (normal != null) {
       normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
-      max = max + _bonusRange("max", checkType, item, attacker.actor);
-      if (!(await attacker.isTokenInRange(target, max))) {
-        result.push(_outOfRange(target));  // Out of max range
-      }
-      else if (!(await attacker.isTokenInRange(target, normal)) && longRange) {
-        result.push(_longRange(target));  // In long range
-      }
+      ranges.normal = await attacker.getTokensInRange(normal);
     }
-    else if (normal != null) {
-      normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
-      const inRange = await attacker.isTokenInRange(target, normal)
-      if (!inRange) {
-        result.push(_outOfRange(target));
-      }
+    if (max != null) {
+      max = max + _bonusRange("max", checkType, item, attacker.actor);
+      ranges.max = await attacker.getTokensInRange(max);
+    }
+  }
+
+  return ranges;
+}
+
+function _targetRangeCheck(target, attacker, rangeType, item, tokensInAttackRange={max: null, normal: null}) {
+  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return [];
+  if (rangeType === "area") return [];
+  if (!attacker) return [];
+
+  const checkType = _checkType(item);
+  const longRange = !attacker.actor.system.globalModifier[checkType].ignore.longRange;
+  const result = [];
+  if (tokensInAttackRange.max != null) {
+    const inRange = !!tokensInAttackRange.max.find(token => token.id === target.id);
+    if (!inRange) result.push(_outOfRange(target));
+  }
+
+  if (tokensInAttackRange.normal != null) {
+    const inRange = !!tokensInAttackRange.normal.find(token => token.id === target.id);
+    if (!inRange) {
+      if (tokensInAttackRange.max == null) result.push(_outOfRange(target));
+      else if (longRange) result.push(_longRange(target));
     }
   }
   return result;
@@ -680,34 +694,34 @@ function _markManualChanges(values, common) {
 
     if (rollModifier !== common.modifier) {
       manualChanges = true;
-      value.push({manual: `For this target/status, you need to modify that roll with: '${rollModifier}'.`});
+      value.push({manual: `For this Target/Status, you need to modify that roll with: '${rollModifier}'.`});
     }
     if (rollLevel.level !== common.level) {
       manualChanges = true;
       // ADV -> ADV
       if (rollLevel.level > 0 && common.level >= 0) {
-        value.push({manual: `For this target/status, you should roll ${rollLevel.level - common.level} more advantage dice.`});
+        value.push({manual: `For this Target/Status, you should roll ${rollLevel.level - common.level} more advantage dice.`});
       }
       // DIS -> DIS
       if (rollLevel.level < 0 && common.level <= 0) {
-        value.push({manual: `For this target/status, you should roll ${Math.abs(rollLevel.level) - Math.abs(common.level)} more disadvantage dice.`});
+        value.push({manual: `For this Target/Status, you should roll ${Math.abs(rollLevel.level) - Math.abs(common.level)} more disadvantage dice.`});
       }
       // ADV -> DIS
       if (rollLevel.level < 0 && common.level > 0) {
-        value.push({manual: `For this target/status, you need to remove all advantages and roll ${Math.abs(rollLevel.level)} disadvantage dice.`});
+        value.push({manual: `For this Target/Status, you need to remove all advantages and roll ${Math.abs(rollLevel.level)} disadvantage dice.`});
       }
       // DIS -> ADV
       if (rollLevel.level > 0 && common.level < 0) {
-        value.push({manual: `For this target/status, you need to remove all disadvantages and roll ${rollLevel.level} advantage dice.`});
+        value.push({manual: `For this Target/Status, you need to remove all disadvantages and roll ${rollLevel.level} advantage dice.`});
       }
     }
     if (crit !== common.autoCrit) {
       manualChanges = true;
-      value.push({manual: "For this target/status this role should be a guaranteed critical success."});
+      value.push({manual: "For this Target/Status this roll should be a guaranteed critical success."});
     }
     if (fail !== common.autoFail) {
       manualChanges = true;
-      value.push({manual: "For this target/status this role should be a guaranteed fail."});
+      value.push({manual: "For this Target/Status this roll should be a guaranteed fail."});
     }
   }
   return manualChanges;
