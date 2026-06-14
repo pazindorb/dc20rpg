@@ -1,5 +1,8 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import DC20RpgActiveEffect from "../../documents/activeEffect.mjs";
 import { DC20RpgTokenDocument } from "../../documents/token.mjs";
+import { runTemporaryMacro } from "../../helpers/macros.mjs";
 import { DC20RpgActorSheet } from "../../sheets/actor-sheet.mjs";
 import { DC20ItemSheet } from "../../sheets/item-sheet.mjs";
 
@@ -20,7 +23,8 @@ export class Area {
   effect = null;
   difficultTerrain = "";
   applyEffectsFor = "";
-  macro = "";
+  preCreation = "";
+  postCreation = "";
 
   constructor(data) {
     foundry.utils.mergeObject(this, data);
@@ -61,9 +65,11 @@ export class Area {
 
     if (!options.token) this.#minimizeApps();
     const data = this.#prepareData(options);
+    await this.#runMacro("preCreation", {data: data, options: options});
     const region = options.token ? await this.#placeOnToken(options.token, data) : await this.#placeOnSelector(data);
     this.#maximizeApps();
     this.#handleSustain(region, options.sustain);
+    await this.#runMacro("postCreation", {region: region, options: options});
     return region;
   }
 
@@ -100,7 +106,6 @@ export class Area {
         {
           img: this.areaData?.itemImg,
           applyDtFor: this.#resolveTokenDisposition(this.difficultTerrain),
-          applyEffectsFor: this.#resolveTokenDisposition(this.applyEffectsFor)
         }, 
         options.flags
       ) 
@@ -121,7 +126,6 @@ export class Area {
     
     // We want to skip that for target mode
     if (!options.targetMode) data.behaviors = this.#prepareBehaviors();
-    
     return data;
   }
 
@@ -137,8 +141,66 @@ export class Area {
         }
       })
     }
+    if (this.effects.length > 0) {
+      const scriptData = {
+        effects: foundry.utils.deepClone(this.effects),
+        applyEffectsFor: this.#resolveTokenDisposition(this.applyEffectsFor),
+        scriptId: foundry.utils.randomID(14),
+        areaOwnerId: game.user.id
+      };
+      behaviors.push({
+        name: "Apply Effects",
+        type: "executeScript",
+        system: {
+          events: ["tokenEnter"],
+          source: `DC20.Area.applyEffectScript(${JSON.stringify(scriptData)}, event);`
+        }
+      })
+      behaviors.push({
+        name: "Delete Effects",
+        type: "executeScript",
+        system: {
+          events: ["tokenExit"],
+          source: `DC20.Area.removeEffectScript(${JSON.stringify(scriptData.scriptId)}, event);`
+        }
+      })
+    }
 
     return behaviors;
+  }
+
+  static async applyEffectScript(scriptData, event) {
+    const token = event?.data?.token;
+    const actor = token?.actor;
+    if (!actor) return;
+
+    const applyFor = scriptData.applyEffectsFor;
+    let apply = false;
+    if (applyFor === "never") return;
+    else if (applyFor === "all") apply = true;
+    else if (applyFor === "ask") {
+      apply = await SimplePopup.open("confirm", 
+        {header: `Apply Effect`, message: `Do you want to apply Area Effect to '${token.name}'`, confirmLabel: "Apply", denyLabel: "Do not apply"}, 
+        {users: [scriptData.areaOwnerId]}
+      )
+    }
+    else apply = applyFor.includes(token.disposition);
+    if (!apply) return;
+
+    for (const effect of scriptData.effects) {
+      effect.flags.dc20rpg.scriptId = scriptData.scriptId;
+      await DC20RpgActiveEffect.gmCreate(effect, {parent: actor, ignoreResponse: true});
+    }
+  }
+
+  static async removeEffectScript(scriptId, event) {
+    const token = event?.data?.token;
+    const actor = token?.actor;
+    if (!actor) return;
+
+    for (const effect of actor.allEffects) {
+      if (effect.flags?.dc20rpg?.scriptId === scriptId) await effect.gmDelete({ignoreResponse: true});
+    }
   }
 
   #regionShapes() {
@@ -194,7 +256,6 @@ export class Area {
         shape.height = 1;
         shape.shape = canvas.grid.isGridless ? CONST.TOKEN_SHAPES.RECTANGLE_1 : canvas.grid.type;
 
-        // shape.
         for (let i = 1; i < this.distance; i++) shapes.push(shape);
         break;
     }
@@ -234,6 +295,12 @@ export class Area {
     if (!region || !sustain) return;
     const actor = await fromUuid(sustain.actorUuid)
     if (actor) actor.addRegionToSustain(sustain.itemId, region.uuid);
+  }
+
+  async #runMacro(macroKey, data) {
+    const command = this[macroKey];
+    if (!command) return;
+    await runTemporaryMacro(command, {name: "Area Macro"}, {area: this, ...data});
   }
 
   #resolveTokenDisposition(type) {

@@ -172,9 +172,16 @@
 
     {{!-- Area macro --}}
     <div class="form-group">
-      <label>{{localize "dc20rpg.item.sheet.area.macro"}}</label>
+      <label>{{localize "dc20rpg.item.sheet.area.preCreation"}}</label>
       <div class="right-part-row">
-        <a class="fa-pen-to-square fa-solid fa-lg {{#unless area.macro}}empty{{/unless}}" data-action="editRootedMacro" data-type="area" data-key="{{key}}"></a>
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless area.preCreation}}empty{{/unless}}" data-action="editRootedMacro" data-type="area" data-key="{{key}}" data-macro-key="preCreation"></a>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.postCreation"}}</label>
+      <div class="right-part-row">
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless area.postCreation}}empty{{/unless}}" data-action="editRootedMacro" data-type="area" data-key="{{key}}" data-macro-key="postCreation"></a>
       </div>
     </div>
 

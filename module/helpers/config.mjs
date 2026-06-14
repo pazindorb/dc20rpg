@@ -751,12 +751,6 @@ DC20RPG.DROPDOWN_DATA.areaTypes = {
   zone: "Zone",
 }
 
-DC20RPG.DROPDOWN_DATA.auraTypes = {
-  "": "Target Selector",
-  "self": "Self Apply",
-  "passive": "Passive Self Apply"
-}
-
 DC20RPG.DROPDOWN_DATA.durations = {
   instantaneous: "Instantaneous",
   continuous: "Continuous",
@@ -892,7 +886,7 @@ DC20RPG.DROPDOWN_DATA.difficultTerrainActivationTypes = {
 
 DC20RPG.DROPDOWN_DATA.applyEffectActivationTypes = {
   ...DC20RPG.DROPDOWN_DATA.difficultTerrainActivationTypes,
-  selector: "Token Selector"
+  ask: "Ask per Token"
 }
 
 DC20RPG.DROPDOWN_DATA.helpDiceDuration = {

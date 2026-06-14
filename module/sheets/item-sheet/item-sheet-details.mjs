@@ -147,12 +147,12 @@ function _target(item) {
 }
   
 function _area(item) {
-  const areas =  item.system?.target?.areas;
+  const areas =  item.system?.areas;
   const content = [];
   if (!areas) return content;
 
   Object.values(areas).forEach(area => {
-    const areaType = area.area;
+    const areaType = area.type;
     const areaUnit = area.unit;
     const distance = area.distance;
     const width = area.width;

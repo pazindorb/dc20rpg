@@ -650,6 +650,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   async _onRootedMacroEdit(event, target) {
     const flags = {itemUuid: this.item.uuid}
     const key = target.dataset.key;
+    const macroKey = target.dataset.macroKey;
 
     let command = null;
     switch (target.dataset.type) {
@@ -658,7 +659,6 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const enhancement = enhancements[key];
         if (!enhancement) return;
         
-        const macroKey = target.dataset.macroKey;
         const macros = enhancement.modifications.macros || {};
         command = macros[macroKey] || "";
         flags.updatePath = `system.enhancements.${key}.modifications.macros.${macroKey}`;
@@ -678,8 +678,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const area = areas[key];
         if (!area) return;
 
-        command = area.macro || "";
-        flags.updatePath = `system.areas.${key}.macro`;
+        command = area[macroKey] || "";
+        flags.updatePath = `system.areas.${key}.${macroKey}`;
         break;
     }
 

@@ -51,6 +51,7 @@ async function _updateActorItems(actor) {
   for (const item of actor.items.values()) {
     await _migrateEnhancements(item);
     await _migrateItemResetToRefresh(item);
+    await _migrateAreas(item);
     await _migrateConditionalToTargetModifier(item);
     await _migrateFromAttackFormulaAndCheck(item);
     await _enableCloseQuartersOnRangedAttacks(item);
@@ -73,6 +74,7 @@ async function _migrateItems(migrateModules) {
   for (const item of game.items) {
     await _migrateEnhancements(item);
     await _migrateItemResetToRefresh(item);
+    await _migrateAreas(item);
     await _migrateConditionalToTargetModifier(item);
     await _migrateFromAttackFormulaAndCheck(item);
     await _enableCloseQuartersOnRangedAttacks(item);
@@ -90,6 +92,7 @@ async function _migrateItems(migrateModules) {
       for (const item of content) {
         await _migrateEnhancements(item);
         await _migrateItemResetToRefresh(item);
+        await _migrateAreas(item);
         await _migrateConditionalToTargetModifier(item);
         await _migrateFromAttackFormulaAndCheck(item);
         await _enableCloseQuartersOnRangedAttacks(item);
@@ -244,6 +247,64 @@ async function _migratePropertiesToNewConfigurableSystem(item) {
   await item.update({["system.properties"]: properties})
 }
 
+async function _migrateAreas(item) {
+  const areas = Object.entries(item.system?.target?.areas || {});
+  if (!areas.length === 0) return;
+
+  const selfOnly = item.system?.target?.type === "self";
+  const addEffectToTemplate = item.system?.effectsConfig?.addToTemplates || "";
+  const updateData = {};
+  for (const [key, original] of areas) {
+    const area = new DC20.Area();
+    area.type = _migrateAreaType(original.area);
+    area.distance = original.distance;
+    area.width = original.width;
+    area.unit = original.unit;
+    area.difficultTerrain = _determineTokenDispositionFrom(original.difficult);
+    area.hideHighlight = original.hideHighlight;
+    area.applyEffectsFor = _determineTokenDispositionFrom(addEffectToTemplate);
+    if (original.passiveAura) {
+      area.attachToToken = true;
+      area.selfOnly = true;
+      area.alwaysActive = true;
+    }
+    if (selfOnly) {
+      area.attachToToken = true;
+      area.selfOnly = true;
+    }
+    if (original.linkWithToggle) {
+      area.attachToToken = true;
+      area.linkWithToggle = true;
+    }
+    if (original.area === "aura") {
+      area.attachToToken = true;
+    }
+    if (original.area === "cube") {
+      area.width = area.distance;
+    }
+    updateData[key] = area;
+  }
+  await item.update({system: {areas: updateData}});
+}
+
+function _migrateAreaType(type) {
+  switch (type) {
+    case "radius": return "aura";
+    case "area":   return "zone";
+    case "cube":   return "line";
+    default:       return type;
+  }
+}
+
+function _determineTokenDispositionFrom(type) {
+  switch (type) {
+    case "selector": return "ask";
+    case "friendly": return "ally";
+    case "hostile":  return "enemy";
+    default: return type;
+  }
+}
+
 // ======================= EFFECT =======================
 async function _migrateEffectStatusesAndDrm(effect) {
   let hasUpdates = false;
@@ -308,7 +369,7 @@ async function _updateEffects(object) {
 
   if (object.documentName === "Item") {
     // Collect effect from conditonals and enhancements
-    for (const effect of object.collectRottedEffects()) {
+    for (const effect of object.collectRootedEffects()) {
       await effect.update({
         ["system.changes"]: effect.changes,
         ["system.addToChat"]: true
