@@ -43,19 +43,24 @@ export class DC20Target {
       dummy: true,
       img: "icons/svg/target.svg",
       system: {
-        damageReduction: {damageTypes: {
-          corrosion: {},
-          cold: {},
-          fire: {},
-          lightning: {},
-          poison: {},
-          radiant: {},
-          psychic: {},
-          umbral: {},
-          piercing: {},
-          slashing: {},
-          bludgeoning: {}
-        }},
+        damageReduction: {
+          pdr: {active: false},
+          edr: {active: false},
+          mdr: {active: false},
+          damageTypes: {
+            corrosion: {},
+            cold: {},
+            fire: {},
+            lightning: {},
+            poison: {},
+            radiant: {},
+            psychic: {},
+            umbral: {},
+            piercing: {},
+            slashing: {},
+            bludgeoning: {}
+          }
+        },
         healingReduction: {},
         defences: {},
         resources: {health: {max: 1, current: 1, temp: 0, value: 1}},

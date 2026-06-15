@@ -5,6 +5,7 @@ import { DC20RpgTokenDocument } from "../../documents/token.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
 import { DC20RpgActorSheet } from "../../sheets/actor-sheet.mjs";
 import { DC20ItemSheet } from "../../sheets/item-sheet.mjs";
+import { gmCreate } from "../../helpers/sockets.mjs";
 
 export class Area {
   type = "";
@@ -23,6 +24,7 @@ export class Area {
   effect = null;
   difficultTerrain = "";
   applyEffectsFor = "";
+  preventEffectRemoval = false;
   preCreation = "";
   postCreation = "";
 
@@ -89,13 +91,20 @@ export class Area {
       }
     }
     data.shapes = shapes;
-    data.attachment = {token: token.document};
+    data.attachment = {token: token.document.id};
     
-    return await CONFIG.Region.documentClass.create(data, {parent: canvas.scene})
+    return await this.#createRegion(data);
   }
 
   async #placeOnSelector(data) {
-    return await canvas.regions.placeRegion(data, {attachToToken: this.attachToToken});
+    const region = await canvas.regions.placeRegion(data, {attachToToken: this.attachToToken, create: false});
+    if (!region) return;
+    return await this.#createRegion(region.toObject());
+  }
+
+  async #createRegion(data) {
+    const regions = await gmCreate(data, {parent: canvas.scene, forceGM: !game.user.isGM}, CONFIG.Region.documentClass);
+    return regions?.[0];
   }
 
   #prepareData(options={}) {
@@ -119,7 +128,7 @@ export class Area {
       levels: [canvas.level.id],
       highlightMode: "coverage",
       displayMeasurements: false,
-      visibility: this.hideHighlight ? CONST.REGION_VISIBILITY.LAYER : CONST.REGION_VISIBILITY.OBSERVER,
+      visibility: this.hideHighlight ? CONST.REGION_VISIBILITY.LAYER : CONST.REGION_VISIBILITY.ALWAYS,
       restriction: {enabled: this.blockByWalls},
       ownership: {[game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER}
     };
@@ -161,7 +170,7 @@ export class Area {
         type: "executeScript",
         system: {
           events: ["tokenExit"],
-          source: `DC20.Area.removeEffectScript(${JSON.stringify(scriptData.scriptId)}, event);`
+          source: `DC20.Area.removeEffectScript(${JSON.stringify(scriptData.scriptId)}, ${this.preventEffectRemoval}, event);`
         }
       })
     }
@@ -170,6 +179,7 @@ export class Area {
   }
 
   static async applyEffectScript(scriptData, event) {
+    if (game.user.id === game.users.activeGM.id) return;
     const token = event?.data?.token;
     const actor = token?.actor;
     if (!actor) return;
@@ -193,7 +203,9 @@ export class Area {
     }
   }
 
-  static async removeEffectScript(scriptId, event) {
+  static async removeEffectScript(scriptId, preventEffectRemoval, event) {
+    if (game.user.id === game.users.activeGM.id) return;
+    if (preventEffectRemoval) return;
     const token = event?.data?.token;
     const actor = token?.actor;
     if (!actor) return;

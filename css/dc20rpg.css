@@ -1022,6 +1022,36 @@
   cursor: pointer;
 }
 
+#dc20-area-delete-controls {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+}
+#dc20-area-delete-controls .dc20-area-delete-control {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  padding: 0;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--primary-dark);
+  border-radius: 4px;
+  background: rgba(25, 25, 25, 0.85);
+  color: var(--secondary-lighter);
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: auto;
+}
+#dc20-area-delete-controls .dc20-area-delete-control:hover {
+  -webkit-box-shadow: 0 0 5px 1px var(--secondary-lighter);
+  box-shadow: 0 0 5px 1px var(--secondary-lighter);
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
 /* Styles limited to dc20rpg sheets */
 .dc20rpg .bold {
   font-weight: bold;

@@ -111,6 +111,15 @@
       </select>
     </div>
 
+    {{#if area.applyEffectsFor}}
+    {{!-- Prevent Effect Removal --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.preventEffectRemoval"}}</label>
+      <input type="checkbox" name="system.areas.{{key}}.preventEffectRemoval" {{checked area.preventEffectRemoval}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.area.preventEffectRemovalHint"}}</p>
+    </div>
+    {{/if}}
+
     {{!-- Hide Highligh --}}
     <div class="form-group">
       <label>{{localize "dc20rpg.item.sheet.area.hideHighlight"}}</label>

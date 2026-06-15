@@ -38,6 +38,7 @@ import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
 import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
 import { refreshActiveEffectRegistry } from "./helpers/effects.mjs";
 import { DC20TerrainData } from "./placeable-objects/terrrain-data.mjs";
+import { registerAreaDeleteControls } from "./subsystems/area/areaDeleteControls.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -148,6 +149,7 @@ Hooks.once("ready", async function() {
   });
 
   registerSystemSockets();
+  registerAreaDeleteControls();
   registerUniqueSystemItems();
   overrideCoreKeybindActions();
 
