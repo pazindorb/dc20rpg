@@ -21,6 +21,13 @@
 		<i class="fa-solid fa-bring-forward" inert></i>
 	</button>
 
+	{{!-- Transformation --}}
+	{{#if isTransformed}}
+	<button type="button" class="control-icon" data-action="transformation" data-tooltip aria-label="{{localize "HUD.Transformation"}}">
+		<i class="fa-solid fa-transporter-1" inert></i>
+	</button>
+	{{/if}}
+
 	{{#if isGM}}
 	<button type="button" class="control-icon {{lockedClass}}" data-action="locked"
 		data-tooltip aria-label="{{localize (ifThen lockedClass "HUD.Unlock" "HUD.Lock")}}">

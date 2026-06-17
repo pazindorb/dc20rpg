@@ -2,6 +2,7 @@ import { runEventsFor } from "../helpers/actors/events.mjs";
 import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
 import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -99,6 +100,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   async _updateSize(size) {
+    if (!game.user.isActiveGM) return;
     if (this.width !== size && this.height !== size && this._id) {
       await this.update({
         _id: this._id,
@@ -204,6 +206,127 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (this.actor?.type !== "storage") return;
     if (this.actor.system.storageType === "randomLootTable") generateRandomLootTable(this.actor);
     if (!this.actorLink && this.actor.ownership.default === 0) this.actor.update({["ownership.default"]: 1});
+  }
+
+  //=====================================
+  //           TRANSFORMATION           =
+  //=====================================
+  async transformation(transformTo) {
+    const transformFrom = this.actor;
+    if (!transformFrom || !transformTo) return;
+    const transformationHistory = this.flags.dc20rpg?.transformationHistory;
+    if (transformationHistory) {
+      ui.notifications.error("This token has already been transformed - revert the previous transformation before applying the new one.");
+      return;
+    }
+
+    const token = await transformTo.getTokenDocument({}, {parent: this.parent}); // Create dummy token
+    const updateData =  foundry.utils.deepClone(token.toObject());
+    const originalData = foundry.utils.deepClone(this.toObject());
+    const transferableEffects = [];
+
+    // Prepare Update data
+    updateData.x = originalData.x;
+    updateData.y = originalData.y;
+    updateData.elevation = originalData.elevation;
+    updateData.actorId = transformTo.id;
+    updateData.disposition = originalData.disposition;
+
+    // Check and prepare actor overship
+    if (updateData.actorLink) {
+      if (originalData.actorLink === false) {
+        // We cannot allow it - delta changes break it
+        ui.notifications.error(`You cannot transform unlinked actor '${transformFrom.name}' into a linked one ('${transformTo.name}') - Use actor with an unlinked token.`);
+        return;
+      }
+
+      for (const ownerId of Object.keys(transformFrom.ownership)) {
+        if (ownerId === "default") continue;
+        if (transformTo.ownership[ownerId] !== 3) {
+          ui.notifications.error(`You cannot transform this token into '${transformTo.name}' - This is an actor that is linked to the token and not all owners of '${transformFrom.name}' are also owners of '${transformTo.name}'. Use actor with an unlinked token or change permissions of '${transformTo.name}'.`);
+          return;
+        }
+      }
+    }
+
+    // ====== HANDLE TRANSFERING DATA BETWEEN TOKENS ======
+    const transformationConfig = await SimplePopup.open("input", {header: "Transformation configuration", inputs: [
+      {type: "checkbox", label: "Transfer Temporary Effects"},
+      {type: "checkbox", label: "Transfer Statuses"},
+      {type: "checkbox", label: "Transfer Linked Regions"},
+    ]})
+    const transferEffects = !!transformationConfig?.[0];
+    const transferStatuses = !!transformationConfig?.[1];
+    const transferRegions = !!transformationConfig?.[2];
+    // TEMPORARY EFFECTS 
+    if (transferEffects) {
+      for (const effect of this.actor.effects) { // TODO: Should we use allEffects instead? So we transfer temporary effects from items such as rage?
+        if (effect.isTemporary) transferableEffects.push(effect.toObject());
+      }
+      originalData.transferableEffects = transferableEffects;
+    }
+    // STATUSES
+    if (transferStatuses) {
+      for (const effect of this.actor.effects) {
+        if (effect.isStatus) transferableEffects.push(effect.toObject());
+      }
+      originalData.transferableEffects = transferableEffects;
+    }
+    // ATTACHED REGIONS
+    if (!transferRegions) {
+      originalData.removedRegions = []
+      this.regions.filter(region => region.attachment?.token?.id === this.id)
+                  .forEach(region => {
+                    originalData.removedRegions.push(region.toObject());
+                    gmDelete({ignoreResponse: true}, region);
+                  })
+    }
+    // ====== HANDLE TRANSFERING DATA BETWEEN TOKENS ======
+
+    await this.clearDelta();
+    updateData.flags = {dc20rpg: {transformationHistory: originalData}}
+    await this.gmUpdate(updateData);
+
+    if (!updateData.actorLink) await this.actor.gmUpdate({ownership: transformFrom.ownership});
+    await this.actor.gmUpdate({
+      ["flags.dc20rpg.transformationHash"]: foundry.utils.randomID(),
+      ["effects"]: transferableEffects,
+
+    });
+    ui.hotbar.render();
+  }
+
+  async revertTransformation() {
+    const transformationHistory = this.flags.dc20rpg?.transformationHistory;
+    if (!transformationHistory) return;
+
+    transformationHistory.x = this.x;
+    transformationHistory.y = this.y;
+    transformationHistory.elevation = this.elevation;
+    transformationHistory.flags = {dc20rpg: {["-=transformationHistory"]: null}};
+    await this.clearDelta();
+
+    // Recreate Removed Regions
+    if (transformationHistory.removedRegions) {
+      const options = {parent: canvas.scene, forceGM: !game.user.isGM, ignoreResponse: true};
+      for (const regionData of transformationHistory.removedRegions) {
+        await gmCreate(regionData, options, CONFIG.Region.documentClass);
+      }
+    }
+    // Remove Transfered Effects (only for linked tokens - unlinked actors are destroyed anyway)
+    if (transformationHistory.transferableEffects && this.actorLink) {
+      const effectIds = transformationHistory.transferableEffects.map(effect => effect._id);
+      await this.actor.deleteEmbeddedDocuments("ActiveEffect", effectIds);
+    }
+
+    await this.gmUpdate(transformationHistory);
+    await this.actor.gmUpdate({["flags.dc20rpg.transformationHash"]: foundry.utils.randomID()});
+    ui.hotbar.render();
+  }
+
+  async clearDelta() {
+    if (this.actorLink) return;
+    await this.delta?.restore();
   }
 
   //=====================================

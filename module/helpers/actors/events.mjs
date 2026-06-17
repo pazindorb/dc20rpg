@@ -490,19 +490,19 @@ export function currentRoundFilter(actor, currentRound) {
     filterMethod: (field) => {
       const effect = actor.getEffectById(field);
       if (!effect) return true;
-      return effect.duration.startRound < currentRound;
+      return effect.start.round < currentRound;
     }
   }
   return [filter];
 }
 
-export function actorIdFilter(actorId) {
+export function actorIdFilter(actorId, transformedId) {
   const filter = {
     required: true,
     eventField: "actorId",
     filterMethod: (field) => {
       if (!field) return true;
-      return field === actorId
+      return field === actorId || field === transformedId
     }
   }
   return [filter];

@@ -145,9 +145,18 @@ export function preConfigurePrototype(actor) {
   actor.update(updateData);
 }
 
-export async function canvasItemDrop(canvas, data, event) {
-  if (data.type !== "Item") return;
+export function canvasDrop(canvas, data, event) {
+  if (data.type === "Item") {
+    _canvasItemDrop(canvas, data, event);
+    return false;
+  }
+  if (data.type === "Actor") {
+    _canvasActorDrop(canvas, data, event);
+    return false;
+  }
+}
 
+async function _canvasItemDrop(canvas, data, event) {
   const item = await fromUuid(data.uuid);
   if (!item) return;
 
@@ -192,4 +201,14 @@ export async function canvasItemDrop(canvas, data, event) {
     ...size
   });
   await DC20RpgTokenDocument.gmCreate(tokenData.toObject(), {parent: canvas.scene});
+}
+
+async function _canvasActorDrop(canvas, data, event) {
+  const token = canvas.tokens.placeables.find(token => token.bounds.contains(data.x, data.y));
+  if (token && token.actor) {
+    const actor = await fromUuid(data.uuid);  
+    const confirmed = await SimplePopup.confirm(`Do you want to transform '${token.actor.name}' into '${actor.name}'`); // TODO: Change it to fully configurable window? Ask about transfering effects/conditons + templates? (only temporary ones?) - if false we need to remove those from actor data
+    if (confirmed) return token.document.transformation(actor);
+  }
+  return canvas.tokens._onDropActorData(event, data);
 }

@@ -30,7 +30,7 @@ import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
-import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
+import { canvasDrop } from "./helpers/actors/tokens.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
@@ -194,4 +194,6 @@ Hooks.on("createScene", async (scene, options, userId) => {
     });
   }
 });
-Hooks.on("dropCanvasData", async (canvas, data, event) => canvasItemDrop(canvas, data, event));
+Hooks.on("dropCanvasData", (canvas, data, event) => {
+  return canvasDrop(canvas, data, event)
+});

@@ -261,13 +261,17 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     return e;
   }
 
+  _applyRenderFlags(flags) {
+    if (flags.refreshEffects) flags.refreshBars = true;
+    super._applyRenderFlags(flags);
+  }
+
   async _draw(options) {
     await super._draw(options);
 
     // Add apDisplay bellow bars
     const bars = this.bars;
-    bars.apDisplay = bars.addChild(new PIXI.Container());
-    bars.apDisplay.width = this.document.getSize().width;
+    bars.apDisplay ||= bars.addChild(new PIXI.Graphics());
   }
 
   /** @override */

@@ -17,6 +17,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     initialized.actions.move = this._onMoveAction;
     initialized.actions.effect = {handler: this._onEffect, buttons: [0, 2]};
     initialized.actions.region = this._onRemoveRegionAction;
+    initialized.actions.transformation = this._onTransformation;
     return initialized;
   }
 
@@ -34,6 +35,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     this.#prepareStatusEffects(context.statusEffects);
     context.attachedRegions = this.#prepareAttachedRegions();
     context.movePoints = this.actor?.system?.movePoints || 0;
+    context.isTransformed = !!this.document.flags?.dc20rpg?.transformationHistory;
     return context;
   }
 
@@ -76,6 +78,10 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     const uuid = target.dataset.regionUuid;
     const region = await fromUuid(uuid);
     if (region) region.delete();
+  }
+
+  async _onTransformation(event, target) {
+    this.document.revertTransformation();
   }
 
   async _onSubmit(event, form, formData) {

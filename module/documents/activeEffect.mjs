@@ -37,6 +37,10 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return this.system.condition;
   }
 
+  get isStatus() {
+    return !!this.system.statusId;
+  }
+
   get hasManualEvent() {
     for (const change of this.system.changes) {
       if (change.key === "system.events") {

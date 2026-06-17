@@ -318,6 +318,7 @@ export class DC20RpgCombat extends Combat {
     for (const combatant of combatants) {
       const actor = combatant.actor;
       if (!actor) continue;
+      const transformedActorId = combatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
 
     // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
@@ -327,7 +328,7 @@ export class DC20RpgCombat extends Combat {
       await actor.refresh.on("roundStart");
       runEventsFor("turnStart", actor);
       reenableEventsOn("turnStart", actor);
-      this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
+      this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id, transformedActorId));
       actor.help.clear();
       clearHeldAction(actor);
       await super._onStartTurn(combatant, context);
@@ -344,6 +345,7 @@ export class DC20RpgCombat extends Combat {
   async _onEndTurn(combatant, context, sharedInitiative) {
     const actor = combatant.actor;
     if (!actor) return;
+    const transformedActorId = combatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
 
     // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
@@ -353,8 +355,8 @@ export class DC20RpgCombat extends Combat {
     runEventsFor("turnEnd", actor);
     runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
-    this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id));
-    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id), currentRound);
+    this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id, transformedActorId));
+    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id, transformedActorId), currentRound);
     await actor.mcp.clear();
     clearMovePoints(actor);
     await super._onEndTurn(combatant, context);
