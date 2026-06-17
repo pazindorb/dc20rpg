@@ -31,7 +31,7 @@
             <span class="roll-result {{wrapper.outcome}}" data-tooltip="{{localize (concat 'dc20rpg.dialog.dmgCalculator.roll.' wrapper.outcome)}}" style="border: 1px solid;padding: 5px;border-radius: 5px;">{{wrapper.result}}</span>
             {{else}}
               {{#if wrapper.awaiting}}
-              <i class="fa-regular fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>
+              <i class="fa-light fa-dice-d20 fa-lg dice-roll" data-tooltip="{{localize "dc20rpg.dialog.actorRequest.awaitingResult"}}"></i>
               {{else}}
               <input class="check-big" type="checkbox" data-cType="boolean" data-path="tokens.{{tokenId}}.uncontrolled" {{checked wrapper.uncontrolled}} data-tooltip="{{localize 'dc20rpg.dialog.dmgCalculator.uncontrolled'}}"/>
               <button data-action="askForRoll" data-token-id="{{tokenId}}" data-tooltip="{{localize "dc20rpg.dialog.dmgCalculator.rollCheck"}} (DC {{wrapper.rollDC}})"><i class="fa-solid fa-dice"></i> DC {{wrapper.rollDC}}</button>

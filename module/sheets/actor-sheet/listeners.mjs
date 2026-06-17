@@ -167,6 +167,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.effect-tooltip').hover(ev => effectTooltip(actor.getEffectById(datasetOf(ev).effectId), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
+  html.find(".item-row").on("dragover", ev => hideTooltip(ev, html));
 }
 
 export function activateCharacterLinsters(html, actor) {

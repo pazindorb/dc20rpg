@@ -50,6 +50,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       }),
       statusResistances: new ConditionsFields(),
       customCondition: new f.StringField({initial: ""}),
+      additionalInfo: new f.StringField({initial: ""}),
       size: new SizeFields(),
       jump: new JumpFields(),
       movement: new MovementFields(),

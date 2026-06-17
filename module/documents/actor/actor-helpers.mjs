@@ -508,6 +508,7 @@ function _enrichSlot(actor, slot) {
 }
 
 async function _equipSlot(item, slot, actor) {
+  if (!item.system.inventory) return;
   if (slot.isEquipped) await _unequipSlot(slot, actor);
   if (item.equipped) await item.equip({forceUneqip: true});
 

@@ -495,6 +495,14 @@
             {{/each}}
           </div>
         </div>
+
+        {{!-- NPC Note --}}
+        <div class="oneliner">
+          <div class="oneliner-header">
+            <span>{{localize "dc20rpg.sheet.additionalInfo"}}</span>
+          </div> 
+          <textarea type="text" class="additional-info {{#unless editMode}}disabled{{/unless}}" name="system.additionalInfo">{{system.additionalInfo}}</textarea>
+        </div>
         </div>
 
         <div class="table-wrapper">
@@ -829,7 +837,7 @@
                   </div>
                   <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
                   <div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
-                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}">
+                  <a class="rollable fa-light fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-type="check" data-key="{{key}}">
                   </a>
                   {{#ifCond skill.custom '&&' @root.editMode}}
                   <div class="letter-circle-icon small clickable remove" title="{{localize 'dc20rpg.sheet.skills.removeSkill'}}">
@@ -857,7 +865,7 @@
                   </div>
                   <input class="name" type="text" name="system.languages.{{key}}.label" value="{{lang.label}}" title="{{lang.label}}">
                   {{#ifCond mastery '===' 1}}
-                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" data-type="check" data-key="language" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+                  <a class="rollable fa-light fa-dice-d20 fa-lg margin-right-3" data-type="check" data-key="language" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
                   {{/ifCond}}
                 </div>
                 {{/each}}

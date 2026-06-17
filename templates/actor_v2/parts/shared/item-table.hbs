@@ -18,7 +18,7 @@
       {{/ifCond}}
 
       {{#ifCond this '===' "action"}}
-      <div class="column action" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
+      <div class="column action" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-light fa-dice-d20"></i></div>
       {{/ifCond}}
 
       {{#ifCond this '===' "cost"}}
@@ -64,7 +64,7 @@
           <div class="item-img-wrapper">
             <a class="original"><img src="{{item.img}}"/></a>
             <a class="hovered">
-              <i class="hover-icon fa-solid fa-dice-d20 fa-2x"></i>
+              <i class="hover-icon fa-light fa-dice-d20 fa-2x"></i>
             </a> 
           </div>
           <div class="item-name" data-item-id="{{item._id}}">{{item.name}}</div>
