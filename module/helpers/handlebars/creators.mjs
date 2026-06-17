@@ -250,15 +250,6 @@ export function registerHandlebarsCreators() {
     let content = "";
     if (!slots) return content;
 
-    const sectionIcon = options.hash.sectionIcon;
-    if (sectionIcon) {
-      const section = `
-      <div class="section-icon">
-        <i class="${sectionIcon} fa-lg"></i>
-      </div>`
-      content += section;
-    }
-
     for (const [key, slot] of Object.entries(slots)) {
       const img = slot.itemId ?
         `<img class="full" src="${slot.itemImg}" data-tooltip="${game.i18n.localize(slot.slotName)}: ${slot.itemName}"/>` :
@@ -280,7 +271,7 @@ export function registerHandlebarsCreators() {
 
     if (!content) return content;
     return `
-      <div class="slot-section ${sectionIcon ? "slot-bar" : ""}">
+      <div class="slot-section">
         ${content}
       </div>
     `;

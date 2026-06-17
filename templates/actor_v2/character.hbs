@@ -7,6 +7,13 @@
   {{!-- Sidetab --}}
   <div class="char-sheet-details {{#if expandedSidebar}}expand{{/if}} pc-sidetab">
     <a class="sidetab-button {{#if expandedSidebar}}fa-square-caret-right{{else}}fa-square-caret-left{{/if}} fa-duotone fa-swap-opacity fa-2x"></a>
+    {{!-- Slot Manager --}}
+    <div class="slot-manager">
+      <a class="activable  fa-2x fa-solid {{#if system.sheetData.show.slots}}fa-image-user{{else}}fa-square-star{{/if}}" title="{{localize 'dc20rpg.sheet.showSlots'}}" data-path="system.sheetData.show.slots"></a>
+      {{#if system.sheetData.show.slots}}
+      <a class="add-slot fa-square-plus fa-2x fa-solid margin-top-5" title="{{localize 'dc20rpg.sheet.addSlot'}}"></a>
+      {{/if}}
+    </div>
     <div class="sidetab-content">
       <div class="baner">
         {{!-- Level --}}
@@ -51,6 +58,31 @@
           <input {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
         </div>
 
+        {{#if system.sheetData.show.slots}}
+        <div class="slot-selector">
+          <div class="slot-wrapper">
+            <div class="left-slots">
+              {{{slot-printer system.equipmentSlots.head "head" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.mantle "mantle" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.body "body" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.hand "hand" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.waist "waist" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.feet "feet" editMode=@root.editMode}}}
+            </div>
+
+            <div class="right-slots">
+              {{{slot-printer system.equipmentSlots.neck "neck" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.ring "ring" editMode=@root.editMode}}}
+              {{{slot-printer system.equipmentSlots.trinket "trinket" editMode=@root.editMode}}}
+            </div>
+          </div>
+          <div class="slot-wrapper weapon-slots">
+            {{{slot-printer system.equipmentSlots.weapon "weapon" editMode=@root.editMode}}}
+          </div>
+          <div class="characer-img"><img src="{{actor.img}}"/></div>
+        </div>
+        {{else}}
+
         {{!-- Size --}}
         <div class="row margin-top-10" title="{{localize 'dc20rpg.sheet.size'}}">
           <div class="left-part-row margin-left-2">
@@ -92,15 +124,18 @@
           <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
         {{/each}}
         </div>
+        {{/if}}
       </div>
 
       {{!-- Unique Items --}}
+      {{#unless system.sheetData.show.slots}}
       <div class="unique-items item-list">
         {{{unique-item class 'class' (localize 'dc20rpg.sheet.class') 'icons/svg/mystery-man.svg' @root.system.details.level editMode}}}
         {{{unique-item subclass 'subclass' (localize 'dc20rpg.sheet.subclass') 'icons/svg/ice-aura.svg' @root.system.details.level editMode}}}
         {{{unique-item ancestry 'ancestry' (localize 'dc20rpg.sheet.ancestry') 'icons/svg/angel.svg' @root.system.details.level editMode}}}
         {{{unique-item background 'background' (localize 'dc20rpg.sheet.background') 'icons/svg/village.svg' @root.system.details.level editMode}}}
       </div>
+      {{/unless}}
     </div>
     
   </div>
@@ -579,10 +614,6 @@
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" name="system.sheetData.header.filter.inventory" value="{{system.sheetData.header.filter.inventory}}"/>
         </div>
-        <div class="slot-manager">
-          <a class="add-slot fa-square-plus fa-lg fa-solid" title="{{localize 'dc20rpg.sheet.addSlot'}}"></a>
-          <a class="activable fa-image-user fa-lg {{#if system.sheetData.show.slots}}fa-solid{{else}}fa-regular{{/if}}" title="{{localize 'dc20rpg.sheet.showSlots'}}" data-path="system.sheetData.show.slots"></a>
-        </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
           {{#each system.currency as |value key|}}
@@ -608,34 +639,10 @@
       </div>
       {{/if}}
 
-      <div class="second-row {{#if system.sheetData.show.slots}}slot-open{{/if}}">
-        {{#if system.sheetData.show.slots}}
-        <div class="slot-selector margin-right-5">
-          <div class="slot-wrapper">
-            {{{slot-printer system.equipmentSlots.head "head" sectionIcon="fa-solid fa-helmet-battle" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.neck "neck" sectionIcon="fa-solid fa-medal" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.mantle "mantle" sectionIcon="fa-solid fa-booth-curtain" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.body "body" sectionIcon="fa-solid fa-shirt-long-sleeve" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.waist "waist" sectionIcon="fa-solid fa-bacon" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.hand "hand" sectionIcon="fa-solid fa-hand" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.feet "feet" sectionIcon="fa-solid fa-boot-heeled" editMode=@root.editMode}}}
-
-            {{{slot-printer system.equipmentSlots.weapon "weapon" sectionIcon="fa-solid fa-sword" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.ring "ring" sectionIcon="fa-solid fa-ring-diamond" editMode=@root.editMode}}}
-            {{{slot-printer system.equipmentSlots.trinket "trinket" sectionIcon="fa-solid fa-book-sparkles" editMode=@root.editMode}}}
-          </div>
-          <div class="characer-img"><img src="{{actor.img}}"/></div>
-        </div>
-        <div class="table-wrapper">
-          {{#each inventory as |table key|}} 
-          {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost"}}
-          {{/each}}
-        </div>
-        {{else}}
-          {{#each inventory as |table key|}} 
-          {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
-          {{/each}}
-        {{/if}}
+      <div class="second-row">
+        {{#each inventory as |table key|}} 
+        {{item-table table key=key navTab="inventory" editMode=@root.editMode columns="name action charges cost weight quantity config" itemConfig="macro activable status favorite" editModeConfig="edit copy delete"}}
+        {{/each}}
       </div>
     </div>
         

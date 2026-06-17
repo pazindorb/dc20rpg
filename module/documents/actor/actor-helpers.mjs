@@ -92,10 +92,11 @@ async function _regainResource(amount, resource, actor) {
 
   if (!resource.isCustom) actor = actor.companionShareFor(resource.key); // Key or full key? not important for now as we can only share health
   
-  const current = resource.value;
+  const valuePath = resource.key === "health" ? "current" : "value"; // For health we need to regain current hp as value is combination of both current + temporary
+  const current = resource[valuePath];
   const max = resource.max;
   const newAmount = Math.min(current + amount, max);
-  await actor.update({[`system.resources.${resource.fullKey}.value`] : newAmount});
+  await actor.update({[`system.resources.${resource.fullKey}.${valuePath}`] : newAmount});
 }
 
 async function _fromRegenerationFormula(resource, actor) {
@@ -474,17 +475,17 @@ function _defaultNamePerCategory(category) {
 
 function _defaultIconPerCategory(category) {
   switch (category) {
-    case "weapon":    return "icons/weapons/swords/sword-simple-white.webp";
-    case "head":      return "icons/equipment/head/helm-barbute-white.webp";
-    case "neck":      return "icons/equipment/neck/choker-simple-bone-fangs.webp";
+    case "weapon":    return "icons/skills/melee/unarmed-punch-fist.webp";
+    case "head":      return "icons/equipment/head/cap-steel.webp";
+    case "neck":      return "icons/equipment/neck/amulet-simple-rough-teal.webp";
     case "mantle":    return "icons/equipment/back/mantle-collared-white.webp";
-    case "body":      return "icons/equipment/chest/breastplate-leather-brown-belted.webp";
-    case "waist":     return "icons/equipment/waist/belt-buckle-horned.webp";
-    case "hand":      return "icons/magic/perception/hand-eye-black.webp";
-    case "ring":      return "icons/equipment/finger/ring-faceted-white.webp";
-    case "feet":      return "icons/equipment/feet/boots-galosh-white.webp";
-    case "trinket":   return "icons/tools/instruments/horn-white-gray.webp";
-    default:          return "icons/weapons/bows/shortbow-white.webp";
+    case "body":      return "icons/equipment/chest/breastplate-layered-leather-brown-silver.webp";
+    case "waist":     return "icons/equipment/waist/belt-bukle-square-leather.webp";
+    case "hand":      return "icons/equipment/hand/glove-studded-leather-yellow.webp";
+    case "ring":      return "icons/equipment/finger/ring-faceted-grey.webp";
+    case "feet":      return "icons/equipment/feet/boots-collared-green.webp";
+    case "trinket":   return "icons/containers/bags/sack-worn-brown.webp";
+    default:          return "icons/skills/melee/unarmed-punch-fist.webp";
   }
 }
 

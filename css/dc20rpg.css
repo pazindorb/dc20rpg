@@ -7207,22 +7207,21 @@
   margin-left: 2px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .char-name {
-  font-family: "A Absolute Empire";
+  font-family: "Humaroid";
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  margin: 5px 5px 0 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .char-name input {
-  border-radius: 5px;
+  border-radius: 0 0 5px 5px;
   color: white;
-  padding: 0px;
-  font-size: 16px;
+  padding: 4px 2px 2px 2px;
+  font-size: 22px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   height: 100%;
   width: 100%;
-  padding: 3px 3px 0 3px;
   border: 2px solid var(--primary-darker);
+  border-top: 0;
   background-color: var(--primary-light);
   text-indent: 5px;
 }
@@ -7244,6 +7243,23 @@
   left: -25px;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   top: 250px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .slot-manager {
+  color: var(--primary-color);
+  position: relative;
+  left: -25px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  top: 300px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg .actor_v2 .char-sheet-details .slot-manager a {
+  height: 30px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .unique-items {
   margin-top: 15px;
@@ -9587,6 +9603,9 @@
 .dc20rpg .actor_v2 .pc-sidetab .sidetab-button {
   color: var(--pc-main) !important;
 }
+.dc20rpg .actor_v2 .pc-sidetab .slot-manager {
+  color: var(--pc-main) !important;
+}
 .dc20rpg .actor_v2 .pc-sidetab .unique-item:not(.empty) {
   background-color: var(--pc-unique-item-color) !important;
 }
@@ -9667,6 +9686,142 @@
 .dc20rpg .actor_v2 .pc-sidetab .sidetab-content .baner .masteries .mastery.active {
   -webkit-filter: invert(0);
   filter: invert(0);
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector {
+  padding: 10px 0;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .characer-img {
+  margin: 0 5px;
+  -webkit-box-shadow: 0 0 10px 5px var(--pc-main-dark);
+  box-shadow: 0 0 10px 5px var(--pc-main-dark);
+  border-radius: 5px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .characer-img img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 333px;
+  width: 100%;
+  border: 2px solid var(--pc-main-dark);
+  border-radius: 5px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+  height: 0px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .weapon-slots {
+  width: 100%;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .weapon-slots .slot-section {
+  margin-top: 320px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .left-slots {
+  margin-top: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .right-slots {
+  margin-top: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-box-align: end !important;
+  -ms-flex-align: end !important;
+  align-items: flex-end !important;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .right-slots .slot-section {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .right-slots .slot-section .delete-slot {
+  left: -13px;
+  top: 13px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section .slot {
+  margin: 1px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section .slot img {
+  width: 45px;
+  height: 45px;
+  border-radius: 4px;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section .slot img.empty {
+  border: 2px solid #c9c9c9;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section .slot img:not(.empty) {
+  border: 2px solid #51a100;
+  -webkit-box-shadow: 0 0 5px 0px #51a100;
+  box-shadow: 0 0 5px 0px #51a100;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section .delete-slot {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+  left: 10px;
+  top: -10px;
+  color: var(--dark-red);
+  height: 0px;
+  width: 0px;
+  z-index: 1;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg .actor_v2 .pc-sidetab .slot-selector .slot-section .delete-slot:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 3px var(--primary-light) inset;
+  box-shadow: 0 0 5px 3px var(--primary-light) inset;
 }
 .dc20rpg .actor_v2 .pc-header {
   background-color: var(--pc-header-image-color);
@@ -10453,104 +10608,6 @@
 }
 .dc20rpg .actor_v2 .pc-body .effects-tab .status-table .status {
   border-color: var(--pc-main) !important;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .second-row {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .second-row.slot-open {
-  grid-template-columns: 1fr 2fr;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .characer-img {
-  margin-left: 35px;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .characer-img img {
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
-  height: 333px;
-  width: 100%;
-  border: 2px solid var(--pc-main-dark);
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  height: 0px;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: start;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-bottom: 3px;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .section-icon {
-  width: 35px;
-  height: 45px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  color: var(--pc-secondary-light);
-  border-right: 1px solid var(--pc-main-dark);
-  background-color: var(--pc-main-dark);
-  border-radius: 10px 0 0 10px;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot img {
-  width: 45px;
-  height: 45px;
-  border: 2px solid var(--pc-main-dark);
-  border-radius: 0;
-  border-right: 0;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot img.empty {
-  -webkit-filter: opacity(0.9);
-  filter: opacity(0.9);
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .slot:last-child {
-  border-right: 2px solid var(--pc-main-dark);
-  border-radius: 0 5px 5px 0;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .delete-slot {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  position: relative;
-  left: 10px;
-  top: -10px;
-  color: var(--dark-red);
-  height: 0px;
-  width: 0px;
-  z-index: 1;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg .actor_v2 .pc-body .inventory-tab .slot-selector .slot-wrapper .slot-section .delete-slot:hover {
-  cursor: pointer;
-  -webkit-box-shadow: 0 0 5px 3px var(--primary-light) inset;
-  box-shadow: 0 0 5px 3px var(--primary-light) inset;
 }
 .dc20rpg .actor_v2 .storage-header {
   height: 200px;
