@@ -132,6 +132,7 @@ export class RollDialog extends DC20Dialog {
     this.initialRollMenuValue = options.initialRollMenuValue;
     this.promiseResolve = null;
     this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
+    this.forceTargets = game.settings.get("dc20rpg", "forceTargets");
     this.modifyFormula = options.customFormula || false;
     this._autoDRMCheck();
   }
@@ -430,7 +431,10 @@ export class RollDialog extends DC20Dialog {
   }
 
   async _onRoll(event) {
-    if(event) event.preventDefault();
+    if (event) event.preventDefault();
+    const canProceed = await this.#canProceed();
+    if (!canProceed) return this.render(true);
+
     const formula = this.modifyFormula || this.coreFormula.map(obj => obj.value).join(" ");
     const source = this.modifyFormula ? "Custom Formula" : this.coreFormula.map(obj => obj.source).join(" + ");
     const coreFormula = {
@@ -446,6 +450,41 @@ export class RollDialog extends DC20Dialog {
     if (preventClose) return this.render();
     this.promiseResolve(roll);
     this.close();
+  }
+
+  async #canProceed() {
+    return await this.#validateTargets();
+  }
+
+  async #validateTargets() {
+    if (!this.item) return true;
+    if (!this.forceTargets) return true;
+    const config = this.item.system.target;
+    if (!config) return true;
+
+    const targets = game.user.targets;
+    if (config.type === "self") {
+      const myToken = this.actor.getActiveTokens()[0];
+      if (!myToken) return true;
+
+      if (!targets.has(myToken)) {
+        const message = "This item configures the 'Target' as 'Self'. You haven't selected yourself as a target. Do you want to select yourself now? Remember that after changing targets, you should run a DRM check again.";
+        const confirmed = await SimplePopup.open("confirm", {header: "Target Confirmation", information: [message], confirmLabel: "Select Self", denyLabel: "Keep current selection"});
+        if (confirmed) {
+          canvas.tokens.setTargets([myToken.id], {mode: "replace"});
+          return false;
+        }
+      }
+    }
+    if (["ally", "enemy", "creature"].includes(config.type)) {
+      if (targets.size === 0) {
+        ui.notifications.warn("You must select a Target before making this roll. Remember that after changing targets, you should run a DRM check again.")
+        return false;
+      }
+    }
+
+    // TODO: Should we add check if number of targets > count? - In that case enhancements should modify it
+    return true;
   }
 
   async _onDRMCheck(event) {

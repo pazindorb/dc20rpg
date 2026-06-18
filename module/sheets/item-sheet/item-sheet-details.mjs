@@ -124,10 +124,10 @@ function _range(item) {
     if (normal) {
       let label = normal;
       if (max) label += `/${max}`;
-      content.push(_infoBox(`${label} ${unit} Range`, "", "tier2"));
+      content.push(_infoBox(`Range: ${label} ${unit}`, "", "tier2"));
     }
     if (melee && melee > 1) {
-      content.push(_infoBox(`${melee} ${unit} Melee Range`, "", "tier2"));
+      content.push(_infoBox(`Melee Range: ${melee} ${unit}`, "", "tier2"));
     }
   }
   return content;
@@ -138,7 +138,7 @@ function _target(item) {
   const target =  item.system.target;
   const type = target?.type;
   if (type) {
-    let label = getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
+    let label = "Target: " + getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
     const count = target?.count;
     if (count) label = count + " " + label;
     content.push(_infoBox(label, "", "tier2"));
@@ -164,7 +164,7 @@ function _area(item) {
         size = areaType === "line" ? `${distance}/${width}` : `${distance}`;
         unit = areaUnit ? ` ${areaUnit} ` : " Spaces ";
       }
-      content.push(_infoBox(`${size}${unit}${getLabelFromKey(areaType, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes)}`, "blue", "tier2"));
+      content.push(_infoBox(`Area: ${size}${unit}${getLabelFromKey(areaType, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes)}`, "blue", "tier2"));
     }
   });
   return content;

@@ -73,7 +73,7 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "disableDifficultTerrain", {
     name: "Disable Difficult Terrain",
-    hint: "If selected, Difficult Terrain won't influence token movement costs.",
+    hint: "If selected, Difficult Terrain and Token Collision will not affect the tokens movement cost.",
     scope: "world",
     config: true,
     default: false,
@@ -106,8 +106,17 @@ export function registerGameSettings(settings) {
 	});
 
   // ======================================
-  // ==           TARGETTING             ==
+  // ==           TARGETING             ==
   // ======================================
+  settings.register("dc20rpg", "forceTargets", {
+    name: "Force Targeting",
+    hint: "If selected, Player will be forced to select target before making a check (only if item requires targets).",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "autoDRMCheck", {
     name: "Run DRM Check Automatically",
     hint: "If selected, Dynamic Roll Modifier Check will run automatically when performing a roll.",
