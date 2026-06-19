@@ -1,16 +1,28 @@
-$border: var(--color-tabs-border);
-$border-light: var(--color-form-label);
-$background-on: var(--content-link-icon-color);
-$background-off: var(--content-link-border-color);
-$background-input: var(--color-cool-4);
-$text-primary: var(--color-text-primary);
-$text-secondary: var(--color-text-secondary);
-$text-contrast: var(--color-shadow-primary);
-$checkbox: var(--color-warm-1);
-$activable-off: var(--color-light-2);
-$activable-on: var(--color-light-5);
-$color-dark: var(--color-dark-6);
-$selection: var(--color-text-selection-bg);
+&.themed  {
+  --text-contrast: var(--color-shadow-primary);
+  --text-secondary: var(--color-text-secondary);
+  --background-on: var(--content-link-icon-color);
+  --border: var(--color-tabs-border);
+  --selection: var(--color-text-selection-bg);
+}
+
+&.theme-light {
+  --activable-off: #dfdfdf;
+  --activable-on: #5a265f;
+  --text-primary: var(--color-light-1);
+  --background-input: #dfdfdf;
+  --background-off: #917996;
+  --checkbox: #741a89;
+}
+
+&.theme-dark {
+  --activable-off: var(--color-light-2);
+  --activable-on: var(--color-light-5);
+  --text-primary: var(--color-text-primary);
+  --background-input: var(--color-cool-4);
+  --background-off: var(--content-link-border-color);
+  --checkbox: var(--color-warm-1);
+}
 
 .window-content {
   display: flex;
@@ -35,11 +47,11 @@ $selection: var(--color-text-selection-bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: $background-off;
-      border: 1px solid $border;
+      background-color: var(--background-off);
+      border: 1px solid var(--border);
 
       &:hover {
-        box-shadow:  0 0 6px 2px $background-on inset;
+        box-shadow:  0 0 6px 2px var(--background-on) inset;
       }
     }
   }
@@ -56,7 +68,7 @@ $selection: var(--color-text-selection-bg);
       height: 90px;
       width: 90px;
       border-radius: 5px;
-      border: 2px solid $border;
+      border: 2px solid var(--border);
     }
   }
 
@@ -93,8 +105,8 @@ $selection: var(--color-text-selection-bg);
     .cost-printer {
       border-radius: 4px;
       padding: 4px;
-      background-color: $background-off;
-      border: 2px solid $border;
+      background-color: var(--background-off);
+      border: 2px solid var(--border);
       width: 100px;
       min-width: 100px;
       display: flex;
@@ -140,18 +152,18 @@ $selection: var(--color-text-selection-bg);
     margin: 4px 0;
     height: 30px;
     width: 30px;
-    border: 1px solid $border;
+    border: 1px solid var(--border);
     border-left: 0;
-    background-color: $background-input;
+    background-color: var(--background-input);
 
     &.active {
       height: 35px;
       width: 35px;
       margin-top: 0;
-      border: 2px solid $text-primary;
+      border: 2px solid var(--text-primary);
       border-left: 0;
-      background-color: $activable-on;
-      color: $text-primary;
+      background-color: var(--activable-on);
+      color: var(--text-primary);
       font-size: 16px;
       text-shadow: 0 0 BLACK;
     }
@@ -219,9 +231,9 @@ $selection: var(--color-text-selection-bg);
       align-items: center;
       justify-content: center;
       padding: 0;
-      border: 1px solid $border;
+      border: 1px solid var(--border);
       border-radius: 3px;
-      background-color: $background-off;
+      background-color: var(--background-off);
     }
 
     &:hover .description-edit-button {
@@ -235,8 +247,8 @@ $selection: var(--color-text-selection-bg);
     gap: 6px;
     padding: 6px;
     margin-top: auto;
-    border-top: 1px solid $border;
-    background-color: $background-input;
+    border-top: 1px solid var(--border);
+    background-color: var(--background-input);
 
     .inventory-field {
       display: flex;
@@ -254,9 +266,9 @@ $selection: var(--color-text-selection-bg);
   .sub-header {
     font-size: 20px;
     font-family: $font-header;
-    background-color: $background-off;
-    border: 2px solid $border;
-    color: $text-primary;
+    background-color: var(--background-off);
+    border: 2px solid var(--border);
+    color: var(--text-primary);
     border-radius: 5px 5px 0px 0px;
 
     display: flex;
@@ -266,7 +278,7 @@ $selection: var(--color-text-selection-bg);
     text-shadow: -1px 0 #424242, 0 1px #424242, 1px 0 #424242, 0 -1px #424242;
 
     input {
-      background-color: $background-input;
+      background-color: var(--background-input);
     }
 
     .button-wrapper {
@@ -278,10 +290,10 @@ $selection: var(--color-text-selection-bg);
 
   .content-wrapper {
     padding: 10px;
-    border: 2px solid $border;
+    border: 2px solid var(--border);
     border-top: 0;
     border-radius: 0px 0px 5px 5px;
-    box-shadow: 0 0 10px $activable-on inset;
+    box-shadow: 0 0 10px var(--activable-on) inset;
 
     .form-group {
       margin-top: 6px;
@@ -318,13 +330,13 @@ $selection: var(--color-text-selection-bg);
         max-width: 25px;
         min-height: 25px;
         min-width: 25px;
-        border: 1px solid $border;
+        border: 1px solid var(--border);
         border-radius: 2px;
         margin-right: 5px;
 
         &:hover {
           cursor: pointer;
-          border-color: $text-contrast;
+          border-color: var(--text-contrast);
         }
       }
 
@@ -337,20 +349,20 @@ $selection: var(--color-text-selection-bg);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: $text-secondary;
+      color: var(--text-secondary);
 
       label {
         font-weight: bold;
 
         &:hover {
-          color: $text-primary;
+          color: var(--text-primary);
         }
       }
     }
 
     a {
       &.checked {
-        color: $checkbox;
+        color: var(--checkbox);
       }
     }
   }
@@ -361,9 +373,9 @@ $selection: var(--color-text-selection-bg);
       padding: 0px 10px;
       margin-left: 5px;
       
-      background-color: $activable-on;
+      background-color: var(--activable-on);
       border-radius: 3px;
-      border: 1px solid $border;
+      border: 1px solid var(--border);
 
       .fa-coins {
         font-size: 14px;
@@ -375,7 +387,7 @@ $selection: var(--color-text-selection-bg);
       position: absolute; 
       right: 4px; 
       top: 3px;
-      color: $text-contrast;
+      color: var(--text-contrast);
     }
   }
 
@@ -396,7 +408,7 @@ $selection: var(--color-text-selection-bg);
       max-height: 40px;
       min-width: 40px;
       min-height: 40px;
-      border: 1px solid $border;
+      border: 1px solid var(--border);
       border-radius: 5px;
     }
   }
@@ -411,9 +423,9 @@ $selection: var(--color-text-selection-bg);
     align-items: center;
     text-align: center;
 
-    border: 2px solid $activable-on;
-    background-color: $activable-off;
-    color: $activable-on;
+    border: 2px solid var(--activable-on);
+    background-color: var(--activable-off);
+    color: var(--activable-on);
 
     &:hover {
       box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
@@ -425,9 +437,9 @@ $selection: var(--color-text-selection-bg);
     }
 
     &.active {
-      background-color: $activable-on;
-      border-color: $activable-off;
-      color: $activable-off;
+      background-color: var(--activable-on);
+      border-color: var(--activable-off);
+      color: var(--activable-off);
 
       &:hover {
         box-shadow: 0 0 4px 2px var(--color-warm-2) inset;
@@ -465,9 +477,9 @@ $selection: var(--color-text-selection-bg);
         font-size: 12px;
         padding: 3px;
         border-radius: 3px;
-        color: $text-secondary;
-        border: 1px solid $border;
-        background-color: $background-input;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        background-color: var(--background-input);
       }
     }
   }
@@ -475,16 +487,16 @@ $selection: var(--color-text-selection-bg);
   .item-list { 
 
     .item-header {
-      background: linear-gradient(to right, $background-off, $selection);
+      background: linear-gradient(to right, var(--background-off), var(--selection));
     }
     
     .item-row {
-      background-color: $background-input;
-      border-color: $border;
+      background-color: var(--background-input);
+      border-color: var(--border);
     }
 
     .column {
-      border-color: $border;
+      border-color: var(--border);
     }
   }
 
@@ -502,9 +514,9 @@ $selection: var(--color-text-selection-bg);
       justify-content: center;
 
       border-radius: 5px;
-      background-color: $background-input;
+      background-color: var(--background-input);
       text-shadow: -1px 0 #cccccc, 0 1px #cccccc, 1px 0 #cccccc, 0 -1px #cccccc;
-      border: 2px solid $border;
+      border: 2px solid var(--border);
 
       i {
         margin-top: 3px;
@@ -545,7 +557,7 @@ $selection: var(--color-text-selection-bg);
       min-width: 30px;
       min-height: 30px;
 
-      border: 2px solid $border;
+      border: 2px solid var(--border);
       border-radius: 5px;
     }
   }
@@ -555,9 +567,9 @@ $selection: var(--color-text-selection-bg);
     display: flex;
     align-items: center;
     
-    background-color: $background-input;
+    background-color: var(--background-input);
     border-radius: 0 0 5px 5px;
-    border: 1px solid $border;
+    border: 1px solid var(--border);
     border-top: 0;
     
     img {
@@ -565,7 +577,7 @@ $selection: var(--color-text-selection-bg);
       max-height: 40px;
       min-width: 40px;
       min-height: 40px;
-      border: 1px solid $border;
+      border: 1px solid var(--border);
       border-radius: 5px;
     }
 
@@ -575,7 +587,7 @@ $selection: var(--color-text-selection-bg);
       width: 100%;
       background-color: transparent;
       margin: 10px;
-      color: $text-primary;
+      // color: var(--text-primary);
       border: 0;
     }
 
@@ -587,7 +599,7 @@ $selection: var(--color-text-selection-bg);
 
     a {
       &.checked {
-        color: $checkbox;
+        color: var(--checkbox);
       }
     }
   }
@@ -596,7 +608,7 @@ $selection: var(--color-text-selection-bg);
     font-size: 16px;
 
     table {
-      border: 1px solid $border;
+      border: 1px solid var(--border);
     }
 
     .page-change-button {
@@ -604,13 +616,13 @@ $selection: var(--color-text-selection-bg);
     }
 
     th {
-      background-color: $background-input;
-      border-bottom: 1px solid $border;
+      background-color: var(--background-input);
+      border-bottom: 1px solid var(--border);
     }
 
     td, th {
       text-align: center;
-      border-right: 1px solid $border;
+      border-right: 1px solid var(--border);
 
       &:last-child {
         border-right: 0;
@@ -636,13 +648,13 @@ $selection: var(--color-text-selection-bg);
           width: 25px;
           height: 25px;
           font-size: 14px;
-          border: 1px solid $border;
-          background-color: $background-input;
+          border: 1px solid var(--border);
+          background-color: var(--background-input);
           text-shadow: none;
 
           &.active {
-            background-color: $background-on;
-            color: $text-contrast;
+            background-color: var(--background-on);
+            color: var(--text-contrast);
           }
         }
       }
@@ -658,7 +670,7 @@ $selection: var(--color-text-selection-bg);
       display: grid;
       grid-template-columns: 1fr 75px 75px 75px;
       border-radius: 5px 5px 0 0;
-      background: linear-gradient(to right, $background-off, $selection);
+      background: linear-gradient(to right, var(--background-off), var(--selection));
   
       .column {
         display: flex;
@@ -676,8 +688,8 @@ $selection: var(--color-text-selection-bg);
       padding: 10px;
       display: grid;
       grid-template-columns: 1fr 75px 75px 75px;
-      background-color: $background-input;
-      border: 2px solid $border;
+      background-color: var(--background-input);
+      border: 2px solid var(--border);
       border-top: 0;
 
       &.additional-advancements {
@@ -690,7 +702,7 @@ $selection: var(--color-text-selection-bg);
         align-items: center;
         justify-content: center;
 
-        border-right: 1px solid $border;
+        border-right: 1px solid var(--border);
 
         &:last-child {
           border-right: 0;

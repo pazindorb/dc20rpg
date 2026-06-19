@@ -83,6 +83,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   /** @override */
   _initializeApplicationOptions(options) {
     const initialized = super._initializeApplicationOptions(options);
+    const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
+    initialized.classes.push(`theme-${colorTheme}`);
     initialized.window.resizable = true;
     initialized.window.icon = getForItemType(options.document.type, "icon");
     if (options.document.type === "class") initialized.position.width = 800;
