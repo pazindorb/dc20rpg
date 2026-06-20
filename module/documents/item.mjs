@@ -163,7 +163,7 @@ export class DC20RpgItem extends Item {
       // Handle removing keywords
       if (this.system.keyword?.key) {
         const keyword = this.actor.keywords.get(this.system.keyword.key);
-        await keyword.removeItem(this.id);
+        if (keyword) await keyword.removeItem(this.id);
       }
     }
     return await super._preDelete(options, user);

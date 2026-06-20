@@ -1,6 +1,6 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { RestDialog } from "../../dialogs/rest.mjs";
-import { activateTrait, changeLevel, createNewTable, deactivateTrait, deleteTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
+import { activateTrait, changeLevel, createNewTable, deactivateTrait, deleteTrait, editTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { addFlatDamageReductionEffect } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown, toSelectOptions } from "../../helpers/utils.mjs";
@@ -210,6 +210,7 @@ export function activateCompanionListeners(html, actor) {
     if (ev.which === 3) deactivateTrait(datasetOf(ev).traitKey, actor);
   });
   html.find(".trait-delete").click(ev =>  deleteTrait(datasetOf(ev).traitKey, actor));
+  html.find(".trait-edit").click(ev => editTrait(datasetOf(ev).traitKey, actor));
   html.find(".trait-repeatable").click(ev => {
     const trait = getTrait(actor, datasetOf(ev).traitKey);
     actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});

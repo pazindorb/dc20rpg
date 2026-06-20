@@ -735,4 +735,16 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     if (!this.item.properties) return;
     this.item.properties[key].remove();
   }
+
+  close(options) {
+    const actorSavePath = this.item.flags?.dc20rpg?.actorSavePath;
+    if (actorSavePath && this.item.actor) {
+      const itemData = this.item.toObject();
+      delete itemData.flags.dc20rpg.actorSavePath;
+      this.item.actor.update({[actorSavePath]: itemData});
+      if (!this.item.deleting) this.item.delete({strict: false});
+      this.item.deleting = true;
+    }
+    super.close(options);
+  }
 }

@@ -649,7 +649,7 @@ async function _createKeyword(data, item, actor) {
 async function _updateKeyword(keyword, value, forceUpdate, actor) {
   if (value == null) {
     if (forceUpdate || keyword.value == null) {
-      let options = {};
+      let options = null;
       if (isParsableJson(keyword.selectOptions)) options = JSON.parse(keyword.selectOptions);
       if (isPath(keyword.selectOptions)) options = getValueFromPath(window, keyword.selectOptions);
       value = keyword.selectOptions && options ? await SimplePopup.select(keyword.message, options) : await SimplePopup.input(keyword.message);

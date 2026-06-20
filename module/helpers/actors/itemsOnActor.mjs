@@ -414,6 +414,16 @@ export function createTrait(itemData, actor) {
   actor.update({[`system.traits.${generateKey()}`]: trait});
 }
 
+export async function editTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+
+  const data = foundry.utils.deepClone(trait.itemData);
+  data.flags.dc20rpg.actorSavePath = `system.traits.${traitKey}.itemData`;
+  const item = await DC20RpgItem.create(data, {parent: actor});
+  item.sheet.render(true);
+} 
+
 export async function deleteTrait(traitKey, actor) {
   const trait = actor.system?.traits[traitKey];
   if (!trait) return;
@@ -447,8 +457,8 @@ export async function deactivateTrait(traitKey, actor) {
 
 async function _handleItemsFromTraits(trait, actor) {
   if (trait.active > trait.itemIds.length) {
-    const createdItem = await DC20RpgItem.gmCreate(trait.itemData, {parent: actor});
-    trait.itemIds.push(createdItem[0].id);
+    const createdItem = await DC20RpgItem.create(trait.itemData, {parent: actor});
+    trait.itemIds.push(createdItem.id);
   }
 
   if (trait.active < trait.itemIds.length) {
