@@ -153,6 +153,7 @@ export function initDC20Config() {
   CONFIG.DC20RPG.ROLL_KEYS.baseChecks = {
     mar: "Martial Check",
     spe: "Spell Check",
+    att: "Attack Check",
     prime: "Prime Check"
   }
 

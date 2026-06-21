@@ -2,6 +2,7 @@ import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 import { runPostRollEffectActions } from "../effects.mjs";
+import DC20RpgActiveEffect from "../../documents/activeEffect.mjs";
 
 //=======================================
 //              FINISH ROLL             =
@@ -21,8 +22,11 @@ export function finishRoll(actor, item, rollMenu, coreRoll) {
     if (actor.inCombat && !rollMenu.ignoreMCP) actor.mcp.apply(checkKey);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
-  if (actor.shouldSustain(item)) actor.addSustain(item);
-  _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
+  if (actor.shouldSustain(item)) {
+    actor.addSustain(item);
+  }
+  _applySelfOnRollffects(item, actor);
+  _runCritAndCritFailEvents(coreRoll, actor, rollMenu);
   rollMenu.clear();
   resetEnhancements(item, actor);
   _toggleItem(item);
@@ -49,6 +53,21 @@ function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
   }
   if (coreRoll.crit && actor.inCombat && !rollMenu.autoCrit) {
     runEventsFor("crit", actor);
+  }
+}
+
+function _applySelfOnRollffects(item, actor) {
+  const effects = item.effects.filter(effect => effect.system.applyToSelf).map(effect => effect.toObject(false));
+  // COLLECT FROM ENHANCEMENTS
+  item.enhancements.active.values().forEach(enh => {
+    if (enh.modifications.addsEffect && effect.system.applyToSelf) {
+      effects.push(enh.modifications.addsEffect);
+    }
+  })
+
+  for (const effectData of effects) {
+    DC20RpgActiveEffect.enhanceEffectData(effectData, {actor: actor});
+    DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
   }
 }
 

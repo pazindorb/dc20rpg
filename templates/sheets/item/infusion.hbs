@@ -116,10 +116,12 @@
   {{#unless sheetFlags.infusionConfigClosed}}
   <div class="content-wrapper">
     {{#each system.infusion.copy as |copy key|}}
+    {{#ifCond key "!==" "conditionals"}}
       <div class="form-group">
         <label>{{localize (concat "dc20rpg.item.sheet.infusion." key)}}</label>
         <input type="checkbox" name="system.infusion.copy.{{key}}" {{checked copy}}/>
       </div>
+    {{/ifCond}}
     {{/each}}
   </div>
   {{/unless}}

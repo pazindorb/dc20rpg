@@ -104,7 +104,9 @@ function _formulas(item) {
         formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes)}`, "green", "tier1"));
       }
       if (formula.category === "other") {
-        formulas.push(_infoBox(`${formula.formula} ${formula.label}`, "gold", "tier1"));
+        let label = isNaN(formula.formula) ? "(formula)" : formula.formula; 
+        label += " " + formula.label;
+        formulas.push(_infoBox(label, "gold", "tier1"));
       }
     }
   }

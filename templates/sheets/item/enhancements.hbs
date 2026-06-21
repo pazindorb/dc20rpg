@@ -39,7 +39,7 @@
     <label>{{enhancement.name}}</label>
     <div class="button-wrapper">
       <a class="margin-right-5 fa-solid {{#if enhancement.hide}}fa-eye-slash{{else}}fa-eye{{/if}}" data-cType="activable" data-path="system.enhancements.{{key}}.hide" data-tooltip="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
-      <a class="margin-right-5 fa-solid fa-pen-to-square" data-tooltip="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-action="enhancementDescrption" data-path="system.enhancements.{{enhancementKey}}.description"></a>
+      <a class="margin-right-5 fa-solid fa-pen-to-square" data-tooltip="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-action="enhancementDescrption" data-path="system.enhancements.{{key}}.description"></a>
       <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.enh.remove"}}" data-action="removeSubdoc" data-type="enhancement" data-key="{{key}}"></a>
       <a class="fa-solid {{#if (lookup @root.sheetFlags key)}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="{{key}}"></a>
     </div>
@@ -321,6 +321,8 @@
         {{#if enhancement.modifications.addsEffect}} 
         <img src="{{enhancement.modifications.addsEffect.img}}" data-action="editRootedEffect" data-type="enhancement" data-key="{{key}}" class="edit-rooted-effect" data-tooltip="{{localize "dc20rpg.sheet.effects.edit"}}"/>
         
+        <a class="fa-user {{#if enhancement.modifications.addsEffect.system.applyToSelf}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.applyToSelf" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToSelf"}}"></a>
         <a class="fa-message {{#if enhancement.modifications.addsEffect.system.addToChat}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
             data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
         <a class="fa-bullseye {{#if enhancement.modifications.addsEffect.system.applyToTemplate}}fa-solid checked{{else}}fa-light{{/if}} margin-right-5" 

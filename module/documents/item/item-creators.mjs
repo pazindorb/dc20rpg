@@ -91,7 +91,7 @@ export class Enhancement {
 
     const enhancement = foundry.utils.mergeObject(new Enhancement(item), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.enhancements.${key}`]: enhancement});
+    await item.update({[`system.enhancements.${key}`]: {...enhancement}});
     return key;
   }
 } 
@@ -154,7 +154,7 @@ export class TargetModifier {
 
     const targetModifier = foundry.utils.mergeObject(new TargetModifier(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.targetModifiers.${key}`]: targetModifier});
+    await item.update({[`system.targetModifiers.${key}`]: {...targetModifier}});
     return key;
   }
 }

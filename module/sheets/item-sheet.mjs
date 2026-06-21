@@ -429,6 +429,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const object = getValueFromPath(this.item, path);
     object[value] = label;
     await this.item.update({[path]: object});
+    this.render();
   }
 
   async _onHover(event) {
@@ -481,8 +482,9 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     this.render();
   }
 
-  _onMultiSelectRemove(event, target) {
-    this.item.update({[`${target.dataset.path}.-=${target.dataset.key}`]: null});
+  async _onMultiSelectRemove(event, target) {
+    await this.item.update({[`${target.dataset.path}.-=${target.dataset.key}`]: null});
+    this.render();
   }
 
   _onCreateSubdoc(event, target) {
@@ -572,7 +574,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const enhancements = this.item.system.enhancements;
         const enhancement = enhancements[key];
         if (!enhancement) return;
-        creationData.name = enhancement.name;
+        creationData.name = enhancement.name || this.item.name;
         creationData.flags.dc20rpg.itemSavePath = `system.enhancements.${key}.modifications.addsEffect`;
         break;
 
@@ -580,7 +582,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
         const targetModifiers = this.item.system.targetModifiers;
         const modifier = targetModifiers[key];
         if (!modifier) return;
-        creationData.name = modifier.name;
+        creationData.name = modifier.name || this.item.name;
         creationData.flags.dc20rpg.itemSavePath = `system.targetModifiers.${key}.effect`;
         break;
 

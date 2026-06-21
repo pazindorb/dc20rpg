@@ -1083,7 +1083,7 @@ async function _removeInfusion(infusion, item) {
   for (const key of infusion.modifications.macros) {
     await item.update({[`system.macros.-=${key}`]: null});
   }
-  for (const key of infusion.modifications.targetModifiers) {
+  for (const key of (infusion.modifications.targetModifiers || [])) { // Workaround after conditional migration
     await item.update({[`system.targetModifiers.-=${key}`]: null});
   }
   for (const key of infusion.modifications.formulas) {

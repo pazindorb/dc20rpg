@@ -322,7 +322,9 @@ export class DC20ChatMessage extends ChatMessage {
     }
     const rollConfig = this.system?.rollConfig || {};
 
+    const applierHash = `${this.speaker.actor}#${this.speaker.token}`;
     const calcData = {
+      applierHash:applierHash,
       isCritSuccess: roll?.crit || false,
       isCritFail: roll?.fail || false,
       canCrit: rollConfig.canCrit,
@@ -850,6 +852,7 @@ export class DC20ChatMessage extends ChatMessage {
   //=   APPLY EFFECT  =
   //===================
   #onApplyEffect(data) {
+    const applierHash = `${this.speaker.actor}#${this.speaker.token}`;
     const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
     const enhanceData = {sustain: this.system.sustain, actor: actor, itemId: this.system.itemId};
     if (data.targetHash) {
@@ -857,14 +860,14 @@ export class DC20ChatMessage extends ChatMessage {
       const effectData = target.effects[data.index];
       DC20RpgActiveEffect.enhanceEffectData(effectData, enhanceData);
       effectData.system.chatMessageId = this.id;
-      effectData.flags.dc20rpg.applierId = this.speaker.actor;
-      DC20RpgActiveEffect.gmCreate(effectData, {parent: target.actor});
+      effectData.flags.dc20rpg.applierHash = applierHash;
+      DC20RpgActiveEffect.gmCreate(effectData, {parent: target.actor, ignoreResponse: true});
     }
     else {
       const effectData = this.system.effects[data.index];
       DC20RpgActiveEffect.enhanceEffectData(effectData, enhanceData);
       effectData.system.chatMessageId = this.id;
-      effectData.flags.dc20rpg.applierId = this.speaker.actor;
+      effectData.flags.dc20rpg.applierHash = applierHash;
       if (canvas.tokens) canvas.tokens.placeables.forEach(token => {
         if (!token.controlled) return;
         DC20RpgActiveEffect.gmCreate(effectData, {parent: token.actor, ignoreResponse: true});

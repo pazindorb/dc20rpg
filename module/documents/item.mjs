@@ -24,6 +24,14 @@ export class DC20RpgItem extends Item {
     return this.system.actionType === "attack";
   }
 
+  get isMartialAttack() {
+    return this.isAttack && this.system.attack.checkType === "martial";
+  }
+
+  get isSpellAttack() {
+    return this.isAttack && this.system.attack.checkType === "spell";
+  }
+
   get isCheck() {
     return this.system.actionType === "check";
   }

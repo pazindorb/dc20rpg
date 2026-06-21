@@ -277,7 +277,7 @@
       </div>
 
       {{!-- Mana Points --}}
-      <div class="resource mana-background margin-top-3" title="{{localize 'dc20rpg.resource.mana'}}">
+      <div class="resource mana-background margin-top-3" title="{{localize 'dc20rpg.resource.mana'}}{{#if system.resources.mana.infusions}} - Infusions reduce max mana by {{system.resources.mana.infusions}}{{/if}}">
         <img src="systems/dc20rpg/images/sheet/header/mana.svg" class="resource-icon mana">
         <div class="resource-bar-wrapper">
           <div class="resource-bar">
