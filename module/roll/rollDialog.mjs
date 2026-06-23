@@ -381,7 +381,8 @@ export class RollDialog extends DC20Dialog {
 
     const coreFormula = [];
     if (this.itemRoll) {
-      const d20Roll = DC20Roll.prepareItemCoreRollDetails(this.updateObject, {rollLevel: rollLevel});
+      const flatModifier = this.item.system?.rollConfig?.flatModifier;
+      const d20Roll = DC20Roll.prepareItemCoreRollDetails(this.updateObject, {rollLevel: rollLevel, flatModifier: flatModifier});
       if (d20Roll.roll) coreFormula.push({value: d20Roll.roll, source: "Base Core Formula"});
     }
     else {

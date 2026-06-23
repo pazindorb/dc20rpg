@@ -130,7 +130,19 @@ function _prepareQuickDetail(context, item) {
 
   // Feature Source
   if (item.type === "feature" && item.system.featureType) {
-    const label = `${getLabelFromKey(item.system.featureType, CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes)}: ${item.system.featureOrigin}`;
+    const origin = item.system.featureOrigin;
+    let label = "";
+    switch (item.system.featureType) {
+      case "class": label = "Class Feature/Talent"; break;
+      case "subclass": label = "Subclass Feature/Talent"; break;
+      case "talent": label = "General Talent"; break;
+      case "ancestry": label = "Ancestry Trait"; break;
+      case "inner": label = "Feature Source"; break;
+      case "background": label = "Background"; break;
+      case "monster": label = "Monster Feature/Trait"; break;
+      case "other": label = "Other Source"; break;
+    }
+    if (origin) label += ": " + origin;
     quickDetail.push(label);
   }
 

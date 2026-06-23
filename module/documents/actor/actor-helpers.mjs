@@ -631,9 +631,10 @@ function _enrichKeywordObject(actor) {
 
 async function _createKeyword(data, item, actor) {
   if (actor.keywords.has(data.key)) {
-    const keyword = actor.keywords.get(data.key);
+    let keyword = actor.keywords.get(data.key);
     if (item) {
       await keyword.addItem(item);
+      keyword = actor.keywords.get(data.key); // Refresh list
       await keyword.update(keyword.value);
     }
   }

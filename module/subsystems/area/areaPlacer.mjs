@@ -92,7 +92,7 @@ export class AreaPlacer extends DC20Dialog {
     this.areaPlacing = true;
     this.render();
 
-    if (this.areaOptions.tokenId && area.selfOnly) {
+    if (this.areaOptions.tokenId && area.attachToToken && area.selfOnly) {
       this.areaOptions.token = canvas.tokens.placeables.find(token => token.id === this.areaOptions.tokenId);
     }
     const region = await area.place(this.areaOptions);

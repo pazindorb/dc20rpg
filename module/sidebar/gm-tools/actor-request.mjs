@@ -166,7 +166,7 @@ export class ActorRequestDialog extends DC20Dialog {
 
   _initialRollLevel() {
     const rollLevel = this.rollOptions.rollLevel;
-    return {adv: rollLevel.adv, dis: rollLevel.dis};
+    return {adv: rollLevel.adv, dis: rollLevel.dis, modifier: ""};
   }
 
   async _onRest(key) {

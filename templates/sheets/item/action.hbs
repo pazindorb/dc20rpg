@@ -178,6 +178,13 @@
   </div>
   {{#unless sheetFlags.rollConfigClosed}}
   <div class="content-wrapper">
+    {{!-- Flat Modifier --}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.rollConfig.flatModifier"}}</label>
+      <input type="text" name="system.rollConfig.flatModifier" value="{{system.rollConfig.flatModifier}}" placeholder="-" data-dtype="Number">
+      <p class="hint">{{localize "dc20rpg.item.sheet.rollConfig.flatModifierHint"}}</p>
+    </div>
+
     {{!-- Roll Bonus --}}
     <div class="form-group short-form">
       <label>{{localize "dc20rpg.item.sheet.rollConfig.rollBonus"}}</label>

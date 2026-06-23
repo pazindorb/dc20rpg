@@ -8,7 +8,11 @@
   <div class="content-wrapper">
     <div class="form-group magic-property" data-hover="tooltip" data-tooltip-type="item" data-item-uuid="{{infusion.infusionItemUuid}}">
       <div class="left-part-row">
+        {{#if infusion.img}}
         <img src="{{infusion.img}}"/>
+        {{else}}
+        <img src="icons/magic/control/debuff-chains-green.webp"/>
+        {{/if}}
         <label>{{infusion.name}}</label>
       </div>
       <div class="right-part-row">

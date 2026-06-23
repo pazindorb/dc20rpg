@@ -86,8 +86,8 @@ export class DC20Roll {
       const type = options.rollLevel > 0 ? "kh" : "kl";
       dice = `${value}d20${type}`;
     }
-    const modifier = `${partial} + @rollBonus`
-    const formula = `${dice}${modifier}`;
+    const modifier = options.flatModifier ? ` + ${options.flatModifier}` : partial;
+    const formula = `${dice}${modifier} + @rollBonus`;
 
     const ROLL_KEYS = rollType === "save" ? CONFIG.DC20RPG.ROLL_KEYS.saveTypes : CONFIG.DC20RPG.ROLL_KEYS.allChecks;
     ROLL_KEYS.language = "Language Check";

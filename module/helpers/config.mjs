@@ -672,13 +672,13 @@ DC20RPG.DROPDOWN_DATA.allItemTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.featureSourceTypes = {
-  class: "Class Talent",
-  subclass: "Subclass Talent",
+  class: "Class Feature/Talent",
+  subclass: "Subclass Feature/Talent",
   talent: "General Talent",
   ancestry: "Ancestry Trait",
-  inner: "Inner Feature",
+  inner: "Internal Feature",
   background: "Background Talent",
-  monster: "Monster Feature",
+  monster: "Monster Feature/Trait",
   other: "Other"
 }
 

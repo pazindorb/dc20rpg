@@ -614,9 +614,9 @@ function _finalResult(results, initial, statusIds=[]) {
 
   // Add initial values if provided 
   if (initial.adv || initial.dis || initial.modifier) {
-    finalResult.adv += initial.adv;
-    finalResult.dis += initial.dis;
-    finalResult.modifier += initial.modifier;
+    finalResult.adv += initial.adv || 0;
+    finalResult.dis += initial.dis || 0;
+    finalResult.modifier += initial.modifier || "";
     finalResult.label += " + Initial Roll Menu State"
     roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}, modifier: ${initial.modifier}]`});
   }

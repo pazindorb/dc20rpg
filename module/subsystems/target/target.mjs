@@ -185,7 +185,7 @@ export class DC20Target {
     this.hit = this.#calculateHit(calcData.defenceKey);
     const options = {isAttack: true};
 
-    await this.#prepareTargetFlags();
+    await this.#prepareTargetFlags(calcData);
     await this.calculateDamage(calcData, options);
     await this.calculateHealing(calcData, options);
     this.calculateOtherFormulas(calcData);
@@ -202,7 +202,7 @@ export class DC20Target {
       this.contest = this.#calculateContest();
       options.isContest = true;
     }
-    await this.#prepareTargetFlags();
+    await this.#prepareTargetFlags(calcData);
     await this.calculateDamage(calcData, options);
     await this.calculateHealing(calcData, options);
     this.calculateOtherFormulas(calcData);
@@ -700,7 +700,7 @@ export class DC20Target {
     return formulas;
   }
 
-  async #prepareTargetFlags() {
+  async #prepareTargetFlags(calcData) {
     const ignore = {
       pdr: false,
       edr: false,
@@ -708,7 +708,7 @@ export class DC20Target {
       resistance: new Set(),
       immune: new Set()
     }
-    for (const modifier of await this.getMatchingTargetModifiers()) {
+    for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
       const flags = modifier.flags;
       if (flags) {
         if (flags.ignorePdr) ignore.pdr = true;

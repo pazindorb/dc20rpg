@@ -162,7 +162,7 @@ async function _migrateFromAttackFormulaAndCheck(item) {
 
   const af = item.system.attackFormula;
   if (af && af.rangeType) {
-    const checkType = af.checkType === "attack" ? "martial" : checkType;
+    const checkType = af.checkType === "attack" ? "martial" : af.checkType;
     updateData["system.attack.rangeType"] = af.rangeType;
     updateData["system.attack.checkType"] = checkType;
     updateData["system.attack.targetDefence"] = af.targetDefence;
@@ -201,9 +201,11 @@ async function _migrateConditionalToTargetModifier(item) {
 
     // Fix condition to match new macro version
     let condition = modifier.condition;
-    // This methods were removed nad will break item roll - better to remove them
     if (condition.includes("hasAnyCondition") || condition.includes("hasEffectWithName") || condition.includes("hasEffectWithKey")) {
-      condition = "";
+      condition = `
+        console.warn("This item: '${item.name}' uses removed conditional helper - it needs to be replaced with new condition macro approach, modify it on Target Modifiers tab.");
+        return false;
+      `;
     }
     modifier.condition = condition ? `return (${condition})` : "";
 
@@ -256,6 +258,7 @@ async function _migrateAreas(item) {
   const updateData = {};
   for (const [key, original] of areas) {
     const area = new DC20.Area();
+    if (!original.area) continue;
     area.type = _migrateAreaType(original.area);
     area.distance = original.distance;
     area.width = original.width;
@@ -269,7 +272,6 @@ async function _migrateAreas(item) {
       area.alwaysActive = true;
     }
     if (selfOnly) {
-      area.attachToToken = true;
       area.selfOnly = true;
     }
     if (original.linkWithToggle) {
@@ -282,7 +284,7 @@ async function _migrateAreas(item) {
     if (original.area === "cube") {
       area.width = area.distance;
     }
-    updateData[key] = area;
+    updateData[key] = {...area};
   }
   await item.update({system: {areas: updateData}});
 }
@@ -312,7 +314,7 @@ async function _migrateEffectStatusesAndDrm(effect) {
   // Update DRM
   const changes = [];
   for (const change of effect.system.changes) {
-    const isDrm = change.key.includes("system.dynamicRollModifier") && change.key.includes(".martial.melee")
+    const isDrm = change.key.includes("system.dynamicRollModifier")
     if (!isDrm) continue;
 
     if (change.key.includes(".martial.") || change.key.includes(".spell.")) {
@@ -324,8 +326,7 @@ async function _migrateEffectStatusesAndDrm(effect) {
       changes.push(change);
     }
   }
-  if (hasUpdates) await effect.update({changes: changes});
-
+  if (hasUpdates) await effect.update({["system.changes"]: changes});
 
   // Update Disable When
   if (effect.system?.disableWhen?.path === "statusIds") {
@@ -374,6 +375,9 @@ async function _updateEffects(object) {
         ["system.changes"]: effect.changes,
         ["system.addToChat"]: true
       });
+    }
+
+    for (const effect of object.collectRootedEffects()) {
       await _migrateEffectStatusesAndDrm(effect);
       await _migrateEffectDuration(effect);
     }

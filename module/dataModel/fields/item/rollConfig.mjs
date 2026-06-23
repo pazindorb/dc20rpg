@@ -3,6 +3,7 @@ export default class RollConfigFields extends foundry.data.fields.SchemaField {
     const f = foundry.data.fields;
 
     fields = {
+      flatModifier: new f.StringField({ required: true, initial: "" }),
       rollBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       canCrit: new f.BooleanField({required: true, initial: true}),
       canCritFail: new f.BooleanField({required: true, initial: true}),
