@@ -56,6 +56,7 @@ export class RollDialog extends DC20Dialog {
   static async create(actor, data={}, options={}) {
     if (data.documentName === "Item") {
       await runTemporaryItemMacro(data, "onRollPrompt", actor, {dialogOptions: options});
+      if (options.forceClose === true) return;
       options.quickRoll = options.quickRoll || data.system.quickRoll;
     }
     
@@ -163,9 +164,16 @@ export class RollDialog extends DC20Dialog {
     // Update enhancements
     const allEnhancements = this.item.enhancements.all;
     for (const [enhKey, enhNumber] of Object.entries(actionHeld.enhancements)) {
-      const itemId = allEnhancements.get(enhKey).sourceItemId;
-      const itemToUpdate = this.actor.items.get(itemId);
-      if (itemToUpdate) await itemToUpdate.update({[`system.enhancements.${enhKey}.number`]: enhNumber});
+      // Update item or actor enhancements
+      const enhancement = allEnhancements.get(enhKey);
+      if (enhancement.sourceActorId) {
+        await this.actor.update({[`system.enhancements.${enhKey}.number`]: enhNumber});
+      }
+      else if (enhancement.sourceItemId) {
+        const itemId = allEnhancements.get(enhKey).sourceItemId;
+        const itemToUpdate = this.actor.items.get(itemId);
+        if (itemToUpdate) await itemToUpdate.update({[`system.enhancements.${enhKey}.number`]: enhNumber});
+      }
     }
 
     // Update roll menu
@@ -584,7 +592,7 @@ export class RollDialog extends DC20Dialog {
   
   async _onToggle(path, which, max, min, dataset) {
     if (path.includes("system.enhancements")) {
-      await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.runDrmCheck === "true");
+      await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.actorId, dataset.runDrmCheck === "true");
     }
     else if (["apForAdv", "gritForAdv"].includes(path)) {
       await this._onToggleRollLevel(path, which, max, min);
@@ -594,20 +602,20 @@ export class RollDialog extends DC20Dialog {
     }
   }
 
-  async _onToggleEnhancement(path, which, max, min, itemId, runDrmCheck) {
-    const item = this._getItem(itemId);
-    const value = getValueFromPath(item, path);
+  async _onToggleEnhancement(path, which, max, min, itemId, actorId, runDrmCheck) {
+    const updateObject = actorId ? this.actor : this._getItem(itemId);
+    const value = getValueFromPath(updateObject, path);
     if (max == 1) { // we want this kind of toggle to work similar to activale type
       if (value === 1) which = 3;
       if (value === 0) which = 1;
     }
 
     if (which === 1) {
-      await item.update({[path]: Math.min(value + 1, max)});
+      await updateObject.update({[path]: Math.min(value + 1, max)});
       this.render();
     }
     if (which === 3) {
-      await item.update({[path]: Math.max(value - 1, min)});
+      await updateObject.update({[path]: Math.max(value - 1, min)});
       this.render();
     }
 

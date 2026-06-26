@@ -5,6 +5,7 @@ import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey, getValueFromPath, isParsableJson, isPath } from "../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../settings/skillConfig.mjs";
+import { Enhancement } from "../item/item-creators.mjs";
 
 export function enrichWithHelpers(actor) {
   enrichRollMenuObject(actor);
@@ -16,6 +17,7 @@ export function enrichWithHelpers(actor) {
   if (actor.system.equipmentSlots) {
     _enrichEquipmentSlots(actor);
   }
+  _enrichEnhancementsObject(actor);
   _enrichSpecialActions(actor);
   _enrichRefreshResourcesAndItems(actor);
 }
@@ -823,4 +825,25 @@ async function _refreshItem(refreshType, item) {
       }
     }
   }
+}
+
+//==================================//==================================
+//                      ACTOR SOURCED ENHANCEMENTS                     =
+//==================================//==================================
+function _enrichEnhancementsObject(actor) {
+  actor.enhancements = {
+    add: async (data, options) => await _addActorEnhancement(data, options, actor),
+    delete: async (key) => await actor.update({[`system.enhancements.-=${key}`]: null})
+  };
+}
+
+async function _addActorEnhancement(data={}, options={}, actor) {
+  if (!data.copyFor) {
+    ui.notifications.error("Cannot create actor enhancement, 'copyFor' field is missing");
+    return;
+  }
+
+  const enhancement = foundry.utils.mergeObject(new Enhancement(), data);
+  const key = options.key ? options.key : generateKey();
+  await actor.update({[`system.enhancements.${key}`]: {...enhancement}});
 }

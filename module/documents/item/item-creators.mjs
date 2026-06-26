@@ -34,11 +34,11 @@ export class Enhancement {
     overrideDamageType: false,
     damageType: "",
     addsNewFormula: false,
-    formula: new Formula(),
+    formula: {...new Formula()},
     addsNewRollRequest: false,
-    rollRequest: new RollRequest(),
+    rollRequest: {...new RollRequest()},
     addsAgainstStatus: false,
-    againstStatus: new AgainstStatus(),
+    againstStatus: {...new AgainstStatus()},
     addsEffect: null,
     actionChange: false,
     actionType: "",
@@ -119,7 +119,7 @@ export class Formula {
 
     const formula = foundry.utils.mergeObject(new Formula(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.formulas.${key}`]: formula});
+    await item.update({[`system.formulas.${key}`]: {...formula}});
     return key;
   }
 }
@@ -139,11 +139,11 @@ export class TargetModifier {
   };
   effect = null;
   addsNewRollRequest = false;
-  rollRequest = new RollRequest();
+  rollRequest = {...new RollRequest()};
   addsNewFormula = false;
-  formula = new Formula();
+  formula = {...new Formula()};
   addsAgainstStatus = false;
-  againstStatus = new AgainstStatus();
+  againstStatus = {...new AgainstStatus()};
   
   static async create(data={}, options={}) {
     const item = options.parent;
@@ -176,7 +176,7 @@ export class ItemMacro {
 
     const macro = foundry.utils.mergeObject(new ItemMacro(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.macros.${key}`]: macro});
+    await item.update({[`system.macros.${key}`]: {...macro}});
     return key;
   }
 }
@@ -198,7 +198,7 @@ export class RollRequest {
 
     const rollRequest = foundry.utils.mergeObject(new RollRequest(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.rollRequests.${key}`]: rollRequest});
+    await item.update({[`system.rollRequests.${key}`]: {...rollRequest}});
     return key;
   }
 }
@@ -227,7 +227,7 @@ export class AgainstStatus {
 
     const againstStatus = foundry.utils.mergeObject(new AgainstStatus(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.againstStatuses.${key}`]: againstStatus});
+    await item.update({[`system.againstStatuses.${key}`]: {...againstStatus}});
     return key;
   }
 }

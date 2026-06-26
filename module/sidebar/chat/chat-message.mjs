@@ -430,6 +430,7 @@ export class DC20ChatMessage extends ChatMessage {
     context.dummyTarget = !!this.targets.dummy;
     context.targetTab = this.targetTab;
     context.shareFormula = this.shareFormula;
+    context.targetsConfirmed = this.targetsConfirmed;
     context.effects = this.system.effects.filter(effect => effect.system.addToChat);
     return await foundry.applications.handlebars.renderTemplate(this.#ROLL_TEMPLATE, context);
   }
@@ -539,7 +540,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     // Targets
     html.find('.tab-selection').click(ev => this.#onTargetSelectionSwap(datasetOf(ev).tab));
-    html.find('.refresh-targets').click(() => this.#refreshTargets());
+    html.find('.refresh-targets').click(() => {this.#refreshTargets(); this.targetsConfirmed = false;});
     html.find('.remove-target').click(ev => this.#onRemoveTarget(datasetOf(ev).targetHash));
     html.find('.wrap-target').click(ev => this.#onWrapTarget(datasetOf(ev).targetHash));
     
@@ -943,7 +944,9 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   #onGmTargetConfirm() {
-    Object.values(this.targets).forEach(target => runEventsFor("targetConfirm", target.actor, triggerOnlyForIdFilter(this.speaker.actor)))
+    Object.values(this.targets).forEach(target => runEventsFor("targetConfirm", target.actor, triggerOnlyForIdFilter(this.speaker.actor)));
+    this.targetsConfirmed = true;
+    ui.chat.updateMessage(this);
   }
 
   #onGmApplyEffectAndStatus(failOnly) {

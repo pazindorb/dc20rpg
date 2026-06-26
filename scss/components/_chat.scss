@@ -517,6 +517,17 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           align-items: center;
           border-radius: 3px;
 
+          .target-confirm {
+
+            &.confirmed {
+              filter: opacity(0.8);
+            }
+
+            &:not(.confirmed) {
+              background-color: #b31010;
+            }
+          }
+
           a {
             border-right: 1px solid var(--main-color);
             display: flex;

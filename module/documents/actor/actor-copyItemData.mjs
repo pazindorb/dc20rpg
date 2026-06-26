@@ -8,6 +8,7 @@ export function prepareDataFromItems(actor) {
 	const equipment = [];
 	const customResources = []; 
 	const targetModifiers = [];
+	const actorEnhancements = foundry.utils.deepClone(actor.system.enhancements);
 	const copyableEnhancements = [];
 	const properties = [];
 	let staminaFeature = false;
@@ -36,9 +37,19 @@ export function prepareDataFromItems(actor) {
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
 		if (item.system.copyEnhancements?.copy) copyableEnhancements.push({
 			itemId: item.id,
-			copyFor: item.system.copyEnhancements.copyFor
+			copyFor: item.system.copyEnhancements.copyFor,
+			source: "item"
 		});
 	});
+
+	// Add actor sourced enhancements 
+	for (const [key, enh] of Object.entries(actorEnhancements)) {
+		copyableEnhancements.push({
+			source: "actor",
+			copyFor: enh.copyFor,
+			enhKey: key,
+		})
+	}
 
 	_equipment(equipment, actor);
 	_properties(properties, actor);

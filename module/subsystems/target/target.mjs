@@ -608,7 +608,7 @@ export class DC20Target {
     }
     const matching = [];
     for (const modifier of this.targetModifiers) {
-      const result = await runTemporaryMacro(modifier.condition, this, {...baseData, ...data});
+      const result = await runTemporaryMacro(modifier.condition, this, {...baseData, ...data, modifier: modifier});
       if (result === true) matching.push(modifier);
     }
     return matching;

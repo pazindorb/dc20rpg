@@ -1,4 +1,5 @@
 import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
+import { useCostFormat } from "../utils.mjs";
 
 let font = null;
 async function loadFont(pdfDoc) {
@@ -504,28 +505,8 @@ function _itemDetails(item) {
 }
 
 function _itemUseCost(item, actor) {
-  let text = "";
   const cost =  item.use.collectUseCost(true).resources;
-
-  if (cost.ap > 0) text += `${cost.ap} AP, `;
-  if (cost.stamina > 0) text += `${cost.stamina} SP, `;
-  if (cost.mana > 0) text += `${cost.mana} MP, `;
-  if (cost.health > 0) text += `${cost.health} HP, `;
-  if (cost.grit > 0) text += `${cost.grit} GP, `;
-  if (cost.restPoints > 0) text += `${cost.restPoints} RP, `;
-
-  // Prepare Custom resource cost
-  if (cost.custom) {
-    for (const custom of Object.values(cost.custom)) {
-      if (custom.value > 0) text += `${custom.value} ${custom.label}, `
-    }
-  }
-
-  if (text) {
-    text = text.slice(0,-2);
-    text = ` (${text})`;
-  }
-  return text;
+  return useCostFormat(cost);
 }
 
 function _removeLinks(description) {

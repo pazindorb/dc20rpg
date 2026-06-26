@@ -4913,6 +4913,38 @@
   width: 30px;
   min-width: 30px;
 }
+.dc20rpg #spell-store-dialog .button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #spell-store-dialog .select-wrapper fieldset {
+  width: 370px;
+}
+.dc20rpg #spell-store-dialog .img-option {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  font-size: 20px;
+  padding: 5px 10px;
+  height: 50px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.dc20rpg #spell-store-dialog .img-option img {
+  width: 40px;
+  height: 45px;
+  border: 0;
+}
+.dc20rpg #spell-store-dialog .img-option:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 5px var(--activable-on) inset;
+  box-shadow: 0 0 10px 5px var(--activable-on) inset;
+}
 .dc20rpg .item-list {
   margin-bottom: 10px;
 }
@@ -12285,6 +12317,13 @@
   -ms-flex-align: center;
   align-items: center;
   border-radius: 3px;
+}
+.chat-message .message-content .chat_v2 .applier .gm-menu .target-confirm.confirmed {
+  -webkit-filter: opacity(0.8);
+  filter: opacity(0.8);
+}
+.chat-message .message-content .chat_v2 .applier .gm-menu .target-confirm:not(.confirmed) {
+  background-color: #b31010;
 }
 .chat-message .message-content .chat_v2 .applier .gm-menu a {
   border-right: 1px solid var(--main-color);

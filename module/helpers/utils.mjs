@@ -205,3 +205,27 @@ export function toggleCheck(item, itemSpecificCondition) {
   if (item.system.toggle?.toggleable && itemSpecificCondition) return item.system.toggle.toggledOn;
   return true;
 }
+
+export function useCostFormat(cost) {
+  let text = "";
+
+  if (cost.ap > 0) text += `${cost.ap} AP, `;
+  if (cost.stamina > 0) text += `${cost.stamina} SP, `;
+  if (cost.mana > 0) text += `${cost.mana} MP, `;
+  if (cost.health > 0) text += `${cost.health} HP, `;
+  if (cost.grit > 0) text += `${cost.grit} GP, `;
+  if (cost.restPoints > 0) text += `${cost.restPoints} RP, `;
+
+  // Prepare Custom resource cost
+  if (cost.custom) {
+    for (const custom of Object.values(cost.custom)) {
+      if (custom.value > 0) text += `${custom.value} ${custom.label}, `
+    }
+  }
+
+  if (text) {
+    text = text.slice(0,-2);
+    text = ` (${text})`;
+  }
+  return text;
+}

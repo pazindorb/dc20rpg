@@ -3097,3 +3097,38 @@
     }
   }
 }
+
+#spell-store-dialog {
+
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+
+
+  }
+
+  .select-wrapper {
+    fieldset {
+      width: 370px;
+    }
+  }
+
+  .img-option {
+    width: stretch;
+    font-size: 20px;
+    padding: 5px 10px;
+    height: 50px;
+    justify-content: space-between;
+
+    img {
+      width: 40px;
+      height: 45px;
+      border: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      box-shadow:  0 0 10px 5px var(--activable-on) inset;
+    }
+  }
+}

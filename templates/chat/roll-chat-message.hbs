@@ -83,7 +83,7 @@
       <a class="chat-button small share-formula fa-solid {{#if shareFormula}}fa-circle-half-stroke{{else}}fa-circle{{/if}}" data-tooltip="{{localize "dc20rpg.chat.shareFormula"}}{{#if shareFormula}} - Enabled{{else}} - Disabled{{/if}}"></a>
       <a class="chat-button apply-all fa-solid fa-gavel" data-tooltip="{{localize "dc20rpg.chat.applyAll"}}"></a>
       <a class="chat-button send-all-roll-requests fa-solid fa-dice" data-tooltip="{{localize "dc20rpg.chat.sendRollRequests"}}"></a>
-      <a class="chat-button target-confirm fa-solid fa-circle-check" data-tooltip="{{localize "dc20rpg.chat.confirmTargets"}}"></a>
+      <a class="chat-button target-confirm {{#if targetsConfirmed}}confirmed{{/if}} fa-solid fa-circle-check" data-tooltip="{{localize "dc20rpg.chat.confirmTargets"}}"></a>
       <a class="chat-button apply-all-effects-fail fa-solid fa-wand-magic" data-tooltip="{{localize "dc20rpg.chat.applyToFailedRolls"}}"></a>
       <a class="chat-button apply-all-effects fa-solid fa-wand-magic-sparkles" data-tooltip="{{localize "dc20rpg.chat.applyAllEffects"}}"></a>
       <a class="chat-button small add-selected-to-targets fa-solid fa-crosshairs" data-tooltip="{{localize "dc20rpg.chat.addToTargets"}}"></a> 

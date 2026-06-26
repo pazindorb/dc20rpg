@@ -115,8 +115,8 @@
     {{#each enhancements as |enhancement key|}}
       {{#unless enhancement.hide}}
       <div class="enh-row">
-        <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceItemName}}">
-          <img class="img" src="{{enhancement.sourceItemImg}}"/>
+        <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceName}}">
+          <img class="img" src="{{enhancement.sourceImg}}"/>
           <div class="name margin-left-5">{{enhancement.name}}</div>
         </div> 
         <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
@@ -124,7 +124,7 @@
         </div>
         {{#ifCond enhancement.altCostMax '>' 0}}
         <div class="column usage costs alt-cost" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-          <a data-cType="toggle" data-max="{{enhancement.altCostMax}}" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.altCost" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.altCost'}}">
+          <a data-cType="toggle" data-max="{{enhancement.altCostMax}}" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-actor-id="{{enhancement.sourceActorId}}" data-path="system.enhancements.{{key}}.altCost" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.altCost'}}">
             {{enhancement.altCost}}
           </a>
           {{{cost-printer enhancement.useCost true true false false}}}
@@ -143,11 +143,11 @@
             {{/if}}
           {{else}}
             {{#if enhancement.repeatable}}
-            <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+            <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-actor-id="{{enhancement.sourceActorId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
               {{enhancement.number}}
             </a>
             {{else}}
-            <a data-cType="toggle" data-max="1" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}">
+            <a data-cType="toggle" data-max="1" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-actor-id="{{enhancement.sourceActorId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}">
               <i class="{{#ifCond enhancement.number '===' 0}}fa-regular fa-square{{else}}fa-solid fa-square-check{{/ifCond}}"></i>
             </a>
             {{/if}}

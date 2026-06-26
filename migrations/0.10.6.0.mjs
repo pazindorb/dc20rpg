@@ -332,6 +332,10 @@ async function _migrateEffectStatusesAndDrm(effect) {
   if (effect.system?.disableWhen?.path === "statusIds") {
     await effect.update({["system.disableWhen.path"]: "statuses"})
   }
+
+  if (effect.system?.statusId) {
+    await effect.update({["system.statusId"]: ""});
+  }
 }
 function _attackDrmFrom(type, range, target, value) {
   return {

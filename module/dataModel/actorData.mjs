@@ -159,6 +159,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       rollLevel: new RollLevelFields(),  // TODO backward compatibilty remove as part of 0.10.5 update
       dynamicRollModifier: new DynamicRollModifierFields(),
       targetModifiers: new f.ArrayField(new f.ObjectField(), {required: true}),
+      enhancements: new f.ObjectField({required: true}),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       sustain: new f.ObjectField({required: true, initial: {}}),
       journal: new f.StringField({required: true, initial: ""}),

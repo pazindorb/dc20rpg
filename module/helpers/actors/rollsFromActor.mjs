@@ -60,7 +60,7 @@ function _applySelfOnRollffects(item, actor) {
   const effects = item.effects.filter(effect => effect.system.applyToSelf).map(effect => effect.toObject(false));
   // COLLECT FROM ENHANCEMENTS
   item.enhancements.active.values().forEach(enh => {
-    if (enh.modifications.addsEffect && effect.system.applyToSelf) {
+    if (enh.modifications.addsEffect && enh.modifications.addsEffect.system.applyToSelf) {
       effects.push(enh.modifications.addsEffect);
     }
   })

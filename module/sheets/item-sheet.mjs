@@ -9,6 +9,7 @@ import { createEditorDialog } from "../dialogs/editor.mjs";
 import { blueprintAdvancements, configureAdvancementDialog } from "../subsystems/character-progress/advancement/advancement-configuration.mjs";
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 import { openItemCreator } from "../dialogs/item-creator.mjs";
+import { SpellStore } from "../dialogs/spell-store.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -105,7 +106,8 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.addMagicProperty = this._onAddMagicProperty;
     initialized.actions.removeMagicProperty = this._onRemoveMagicProperty;
     initialized.actions.blueprintAdvancement = () => blueprintAdvancements(this.item);
-    initialized.actions.openItemCreator = this._onOpenItemCreator
+    initialized.actions.openItemCreator = this._onOpenItemCreator;
+    initialized.actions.openSpellStore = () => SpellStore.open(this.item, {allowAddingSpells: true});
     return initialized;
   }
 

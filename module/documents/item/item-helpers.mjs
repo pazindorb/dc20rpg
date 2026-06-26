@@ -1,9 +1,10 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { SpellStore } from "../../dialogs/spell-store.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
 import { chargeDisplayData, extractResourceCost, getResourceDisplayData } from "../../helpers/resources.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
-import { generateKey, getValueFromPath, toggleCheck } from "../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, toggleCheck, useCostFormat } from "../../helpers/utils.mjs";
 import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
 import { DC20RpgItem } from "../item.mjs";
 import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
@@ -30,6 +31,9 @@ export function enrichWithHelpers(item) {
   }
   if (item.system.duration) {
     _enrichDurationObject(item);
+  }
+  if (item.system.spellstore) {
+    _enrichSpellstoreObject(item);
   }
 
   item.collectRootedEffects = () => collectRootedEffects(item);
@@ -200,7 +204,7 @@ function _collectUseCost(item, clean=false) {
     // Collect charges
     if (enhancement.charges?.subtract) {
       if (enhancement.charges.fromOriginal) {
-        _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
+        if (!enhancement.sourceActorId) _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
       }
       else {
         _collectCharges(cost, item.id, enhancement.charges.subtract * enhancement.number);
@@ -455,7 +459,7 @@ function _collectEnhancementCost(item, enhKey) {
   }
   if (enhancement.charges?.subtract) {
     if (enhancement.charges.fromOriginal) {
-      _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract);
+      if (!enhancement.sourceActorId) _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract);
     }
     else {
       _collectChharges(cost, item.id, enhancement.charges.subtract);
@@ -685,8 +689,8 @@ function _enrichEnhancementObject(item) {
   for (const [key, enhancement] of entries) {
     enhancement.key = key;
     enhancement.sourceItemId = item.id;
-    enhancement.sourceItemName = item.name;
-    enhancement.sourceItemImg = item.img;
+    enhancement.sourceName = item.name;
+    enhancement.sourceImg = item.img;
     enhancement.active = enhancement.number > 0
     enhancement.drmCheck = _shouldRunDRMCheck(enhancement);
 
@@ -741,13 +745,26 @@ function _allEnhancements(item, collected=new Set(), iteration=0) {
   for (const copyable of copyableEnhancements) {
     if (copyable.itemId === item.id) continue;
     if (_itemMeetsUseConditions(copyable.copyFor, item)) {
-      const itm = parent.items.get(copyable.itemId);
-      if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
-      if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
-      const copyConfig = itm.system.copyEnhancements;
-      if (copyConfig?.copy && toggleCheck(itm, copyConfig?.linkWithToggle)) {
-        if (copyConfig?.onlyMaintained) enhancements = new Map([...enhancements, ...itm.enhancements.maintained]);
-        else enhancements = new Map([...enhancements, ..._allEnhancements(itm, collected, iteration + 1)]);
+
+      // Collect enhancements from other items
+      if (copyable.source === "item") {
+        const itm = parent.items.get(copyable.itemId);
+        if (itm == null) continue;
+        if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
+        if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
+        const copyConfig = itm.system.copyEnhancements;
+        if (copyConfig?.copy && toggleCheck(itm, copyConfig?.linkWithToggle)) {
+          if (copyConfig?.onlyMaintained) enhancements = new Map([...enhancements, ...itm.enhancements.maintained]);
+          else enhancements = new Map([...enhancements, ..._allEnhancements(itm, collected, iteration + 1)]);
+        }
+      }
+
+      // Collect enhancements from actor
+      if (copyable.source === "actor") {
+        const enhancement = parent.system.enhancements[copyable.enhKey];
+        if (enhancement) {
+          enhancements.set(copyable.enhKey, _enrichActorEnhancement(parent, enhancement, copyable.enhKey, item));
+        }
       }
     }
   }
@@ -767,6 +784,28 @@ function _activeEnhancements(item) {
 function _shouldRunDRMCheck(enhancement) {
   const mod = enhancement.modifications
   return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula || mod.actionChange;
+}
+
+function _enrichActorEnhancement(actor, enh, enhKey, item) {
+  const enhancement = foundry.utils.deepClone(enh)
+  enhancement.key = enhKey;
+  enhancement.sourceActorId = actor.id;
+  enhancement.sourceItemId = item.id;
+  enhancement.sourceName = actor.name;
+  enhancement.sourceImg = enhancement.img || "icons/skills/movement/arrows-up-trio-red.webp";
+  enhancement.active = enhancement.number > 0
+  enhancement.drmCheck = _shouldRunDRMCheck(enhancement);
+
+  enhancement.toggleUp = async () => await _enhancementToggle(enhancement, true, actor);
+  enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, actor);
+  enhancement.clear = async () => {
+    const defaultState = enhancement.defaultState || 0;
+    await actor.update({
+      [`system.enhancements.${enhancement.key}.number`]: defaultState,
+      [`system.enhancements.${enhancement.key}.altCost`]: 0
+    })
+  };
+  return enhancement;
 }
 
 //==================================//==================================
@@ -879,7 +918,13 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   }
 
   // Prepare infusion data
-  const cost =  infuserUuid ? Math.max(infusion.power - infusion.costReduction - item.system.infusionCostReduction, 0) : null;
+  let cost = null;
+  if (infuserUuid) {
+    // Step 1: Calculate Cost (Minimum of 1)
+    cost = Math.max(infusion.power, 1);
+    // Step 2: Reduce that cost if item reduces it (ex. Arcane Armor) (Minimum of 0)
+    cost = Math.max(cost  - infusion.costReduction - item.system.infusionCostReduction, 0);
+  }
   const data = {
     img: infusionItem.img,
     name: infusionItem.name,
@@ -1315,6 +1360,137 @@ function _enrichDurationObject(item) {
   }
   item.duration = duration;
   item.sustainable = duration.type === "sustain";
+}
+
+function _enrichSpellstoreObject(item) {
+  const spellstore = {};
+  
+  spellstore.openSpellStore = (options) => SpellStore.open(item, options);
+  spellstore.getSpellData = (key) => item.system.spellstore[key];
+  spellstore.storeSpell = async (spell, options) => await _storeSpell(spell, item, options);
+  spellstore.castSpell = async (key, options) => await _castSpell(key, item, options);
+  spellstore.removeSpell = async (key) => await item.gmUpdate({[`system.spellstore.-=${key}`]: null});
+  spellstore.clearAll = async () => {
+    const updateData = {};
+    Object.keys(item.system.spellstore).forEach(key => updateData[`system.spellstore.-=${key}`] = null);
+    await item.gmUpdate(updateData);
+  };
+
+  item.spellstore = spellstore;
+}
+
+async function _castSpell(key, item, options={}) {
+  const actor = item.actor;
+  if (!actor) return;
+  const spellData = item.spellstore.getSpellData(key);
+  if (!spellData) return;
+  const result = await DC20RpgItem.gmCreate(spellData, {parent: actor});
+  if (!result) return;
+  const spell = result[0];
+  if (!spell) return;
+
+  const roll = await spell.roll();
+  spell.gmDelete({ignoreResponse: true});
+  if (roll && options.removeAfterCast || spellData.flags.dc20rpg?.spellstore?.removeAfterCast) {
+    item.spellstore.removeSpell(key);
+  }
+  return roll;
+}
+
+async function _storeSpell(spell, item, options={}) {
+  if (spell.type !== "spell") {
+    ui.notifications.warn("You can store only spells");
+    return null;
+  }
+
+  if (options.precast) await _handleSpellPrecast(spell);
+  const spellData = spell.toObject(false);
+  _prepareEnhancements(spellData, options);
+  _overrideResources(spellData, options);
+  _overideModifierAndSaveDC(spellData, options);
+
+  // Add special flag to the stored spell - some features might want to use it
+  if (options.flags) spellData.flags.dc20rpg.spellstore = options.flags;
+  const key = options.key || generateKey();
+
+  if (options.requireConfirm) return async () => await confirmStoring(spellData, spell, item, key);
+  else await confirmStoring(spellData, spell, item, key);
+}
+
+async function confirmStoring(spellData, spell, item, key) {
+  await item.gmUpdate({[`system.spellstore.${key}`]: spellData});
+  spell.reset();
+}
+
+async function _handleSpellPrecast(spell) {
+  const enhancements = Object.values(spell.system.enhancements); // Maybe all enhancemetns?
+  const inputs = [];
+  for (const enhancement of enhancements) {
+    if (enhancement.repeatable) {
+      inputs.push({
+        label: `${enhancement.name} ${useCostFormat(enhancement.resources)}`,
+        type: "input",
+        preselected: "0"
+      })
+    }
+    else {
+      inputs.push({
+        label: `${enhancement.name} ${useCostFormat(enhancement.resources)}`,
+        type: "checkbox"
+      })
+    }
+  }
+  const answers = await SimplePopup.open("input", {message: "Configure Spell Enhancements", inputs: inputs});
+  if (!answers) return;
+  for (let i = 0; i < enhancements.length; i++) {
+    const answer = parseInt(answers[i]);
+    enhancements[i].active = answer > 0;
+    enhancements[i].number = answer;
+  }
+}
+
+function _prepareEnhancements(spell, options) {
+  for (const enhancement of Object.values(spell.system.enhancements)) {
+    enhancement.preventModification = options.preventModification;
+  }
+}
+
+function _overrideResources(spell, options) {
+  const costs = options.overrideCost;
+  if (costs) {
+    spell.system.costs = costs;
+  }
+  if (options.skipEnhancementCost) {
+    for (const enhancement of Object.values(spell.system.enhancements)) {
+      enhancement.resources = {ap: null, grit: null, health: null, mana: null, restPoints: null, stamina: null, custom: {}};
+    }
+  }
+}
+
+function _overideModifierAndSaveDC(spell, options) {
+  if (options.flatDC != null) {
+    // Override roll request
+    for (const request of Object.values(spell.system.rollRequests)) {
+      request.dcCalculation = "flat";
+      request.dc = options.flatDC;
+    }
+
+    // Override enhancement roll request
+    for (const enhancement of Object.values(spell.system.enhancements)) {
+      enhancement.modifications.rollRequest.dcCalculation = "flat";
+      enhancement.modifications.rollRequest.dc = options.flatDC;
+    }
+
+    // Override target modifier roll request
+    for (const modifier of Object.values(spell.system.targetModifiers)) {
+      modifier.rollRequest.dcCalculation = "flat";
+      modifier.rollRequest.dc = options.flatDC;
+    }
+
+  }
+  if (options.flatModifier != null) {
+    spell.system.rollConfig.flatModifier = `${options.flatModifier}`;
+  }
 }
 
 //==================================//==================================
