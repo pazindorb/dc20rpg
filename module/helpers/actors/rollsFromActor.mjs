@@ -22,10 +22,11 @@ export function finishRoll(actor, item, rollMenu, coreRoll) {
     if (actor.inCombat && !rollMenu.ignoreMCP) actor.mcp.apply(checkKey);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
-  if (actor.shouldSustain(item)) {
+  const shouldSustain = actor.shouldSustain(item);
+  if (shouldSustain) {
     actor.addSustain(item);
   }
-  _applySelfOnRollffects(item, actor);
+  _applySelfOnRollffects(item, actor, shouldSustain);
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu);
   rollMenu.clear();
   resetEnhancements(item, actor);
@@ -56,7 +57,7 @@ function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
   }
 }
 
-function _applySelfOnRollffects(item, actor) {
+function _applySelfOnRollffects(item, actor, shouldSustain) {
   const effects = item.effects.filter(effect => effect.system.applyToSelf).map(effect => effect.toObject(false));
   // COLLECT FROM ENHANCEMENTS
   item.enhancements.active.values().forEach(enh => {
@@ -67,7 +68,14 @@ function _applySelfOnRollffects(item, actor) {
 
   for (const effectData of effects) {
     DC20RpgActiveEffect.enhanceEffectData(effectData, {actor: actor});
-    DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
+    if (shouldSustain) {
+      DC20RpgActiveEffect.gmCreate(effectData, {parent: actor}).then(created => {
+        if (created && created[0]) actor.addEffectToSustain(item.id, created[0].uuid)
+      })
+    }
+    else {
+      DC20RpgActiveEffect.gmCreate(effectData, {parent: actor, ignoreResponse: true});
+    }
   }
 }
 

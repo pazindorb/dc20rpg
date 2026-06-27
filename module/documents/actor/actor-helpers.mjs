@@ -839,8 +839,12 @@ function _enrichEnhancementsObject(actor) {
 
 async function _addActorEnhancement(data={}, options={}, actor) {
   if (!data.copyFor) {
-    ui.notifications.error("Cannot create actor enhancement, 'copyFor' field is missing");
+    ui.notifications.error("Cannot create actor enhancement without 'copyFor' field present.");
     return;
+  }
+  if (data.copyToSheetRoll) {
+    ui.notifications.warn("Cannot create actor enhancement cannot use 'copyToSheetRoll' field. Field was removed.");
+    delete data.copyToSheetRoll;
   }
 
   const enhancement = foundry.utils.mergeObject(new Enhancement(), data);

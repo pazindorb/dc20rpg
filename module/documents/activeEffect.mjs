@@ -59,6 +59,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
 
     this.#replaceKeywords(effectData, actor);
     this.#injectFormula(effectData, actor);
+    delete effectData.start; 
     if (options.sustain) {
       this.#linkWithSustain(effectData, actor, options.itemId);
     }

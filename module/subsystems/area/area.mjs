@@ -179,7 +179,7 @@ export class Area {
   }
 
   static async applyEffectScript(scriptData, event) {
-    if (game.user.isActiveGM) return;
+    if (!game.user.isActiveGM) return;
     const token = event?.data?.token;
     const actor = token?.actor;
     if (!actor) return;
@@ -204,7 +204,7 @@ export class Area {
   }
 
   static async removeEffectScript(scriptId, preventEffectRemoval, event) {
-    if (game.user.isActiveGM) return;
+    if (!game.user.isActiveGM) return;
     if (preventEffectRemoval) return;
     const token = event?.data?.token;
     const actor = token?.actor;

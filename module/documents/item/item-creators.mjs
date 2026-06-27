@@ -59,6 +59,7 @@ export class Enhancement {
     },
     areaWidth: null,
     areaDistance: null,
+    overrideAreaType: null,
     changeManaSpendLimit: 0,
     changeStaminaSpendLimit: 0,
     changeDuration: false,

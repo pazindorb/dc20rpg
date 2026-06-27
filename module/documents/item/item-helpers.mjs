@@ -1573,6 +1573,12 @@ function _collectFromItemAndEnhancements(item) {
       overrideTargetDefence = enh.modifications.targetDefenceType;
     }
 
+    if (enh.modifications.overrideAreaType) {
+      for (const key of areaKeys) {
+        areas[key].type = enh.modifications.overrideAreaType;
+      }
+    }
+
     if (enh.modifications.areaDistance) {
       for (const key of areaKeys) {
         if (areas[key].distance) areas[key].distance += (enh.modifications.areaDistance * enh.number);

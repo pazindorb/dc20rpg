@@ -174,6 +174,12 @@
         <input type="text" name="system.enhancements.{{key}}.modifications.areaWidth" value="{{enhancement.modifications.areaWidth}}" placeholder="-">
       </div>
     </div>
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.overrideAreaType"}}</label>
+      <select name="system.enhancements.{{key}}.modifications.overrideAreaType">
+        {{selectOptions @root.config.DROPDOWN_DATA.areaTypes selected=enhancement.modifications.overrideAreaType blank=""}}
+      </select>
+    </div>
 
     {{!-- Duration --}}
     <div class="form-group">

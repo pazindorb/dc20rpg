@@ -13,11 +13,9 @@ export class AreaPlacer extends DC20Dialog {
     super(options);
     const values = Object.values(areas);
     this.areaOptions = options;
-    this.areas = values.map(area => Area.enrich(area, options));
-    if (this.areas.length === 0) {
-      ui.notifications.error("There is no area to place!");
-      this.close();
-    }
+    this.areas = values
+                  .filter(area => area.type)
+                  .map(area => Area.enrich(area, options));
   }
 
   static PARTS = {
@@ -47,6 +45,7 @@ export class AreaPlacer extends DC20Dialog {
   }
 
   async _prepareContext(options) {
+    if (this.areas.length === 0) this.close();
     const context = await super._prepareContext(options);
     context.areas = this.areas.map(area => {
       const unit = area.unit || "Spaces";
