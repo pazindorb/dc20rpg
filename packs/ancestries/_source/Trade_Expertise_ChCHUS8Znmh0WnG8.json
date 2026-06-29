@@ -24,7 +24,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -141,7 +142,7 @@
     },
     "macros": {
       "B6jWzUTmneewVHen": {
-        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Trade Skill Expertise\", CONFIG.DC20RPG.trades);\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"tradeExpertise\", item);\n    if (itemEffect) {\n      itemEffect.changes[0].value = selected;\n      itemEffect.changes[2].value = selected;\n      itemEffect.update({changes: itemEffect.changes});\n    }\n  }",
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Trade Skill Expertise\", CONFIG.DC20RPG.trades);\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"tradeExpertise\", item);\n    if (itemEffect) {\n      itemEffect.system.changes[0].value = selected;\n      itemEffect.system.changes[2].value = selected;\n      itemEffect.update({[\"system.changes\"]: itemEffect.system.changes});\n    }\n  }",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Choose Trade Skill Expertise",
@@ -153,13 +154,10 @@
     {
       "origin": "Item.Om0fXcMSPzHVr1Yr",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Trade Expertise",
@@ -171,28 +169,28 @@
         "disableWhen": {
           "mode": "=="
         },
-        "effectKey": "tradeExpertise"
+        "effectKey": "tradeExpertise",
+        "changes": [
+          {
+            "key": "system.expertise.automated",
+            "value": "bla",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.skillPoints.trade.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.levelIncrease",
+            "value": "bla",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "bla",
-          "priority": null
-        },
-        {
-          "key": "system.skillPoints.trade.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.levelIncrease",
-          "mode": 2,
-          "value": "bla",
-          "priority": null
-        }
-      ],
       "description": "<p>Choose a Trade. Your Mastery Cap and Mastery Level in the chosen Trade both increase by 1.</p><p>You can only benefit from 1 Feature that increases your Trade Mastery Limit at a time.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -219,7 +217,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -227,6 +225,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!ChCHUS8Znmh0WnG8.Xj8LB26TzzRyA0Hp"
     }
   ],
@@ -239,11 +240,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.Jdff8hKlvN0puMN6",
-    "coreVersion": "13.347",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101005841,
-    "modifiedTime": 1760615360047,
+    "modifiedTime": 1782632865270,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

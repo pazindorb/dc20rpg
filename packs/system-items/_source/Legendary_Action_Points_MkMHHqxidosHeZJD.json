@@ -43,7 +43,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -187,7 +187,15 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><strong>Legendary Action:</strong> At the end of a turn, the monster can spend any number of Legendary Action points to take a number of Actions equal to the number of PCs occupying that turn.</p><p>Legendary Action Points are regained at start of the round.</p>",
         "hide": false,
@@ -196,7 +204,13 @@
         "sourceItemImg": "icons/magic/light/explosion-star-glow-yellow.webp",
         "enhCosts": 0,
         "key": "rF7NpC1SmkKu49xz",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -387,11 +401,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1751527276015,
-    "modifiedTime": 1765790105091,
+    "modifiedTime": 1781985655042,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MkMHHqxidosHeZJD",

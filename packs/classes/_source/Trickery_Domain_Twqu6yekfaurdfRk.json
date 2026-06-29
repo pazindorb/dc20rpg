@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -227,13 +227,10 @@
       "img": "icons/creatures/unholy/demon-hairy-winged-pink.webp",
       "origin": "Item.NoCM99xILxWo4msp",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Trickery Domain",
@@ -244,52 +241,52 @@
         "disableWhen": {
           "mode": "=="
         },
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Trickery Domain\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Trickery Domain\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>When you produce an <strong>MP Effect</strong> that targets at least 1 creature, you can choose 1 of the targets and create an illusory duplicate of it that lasts until the start of your next turn.</p><p>The next Attack made against the target has DisADV, and causes the illusory duplicate to disappear.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -313,14 +310,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": null,
-        "modifiedTime": 1768466302387,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983665092,
+        "modifiedTime": 1781983665092,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Twqu6yekfaurdfRk.QS9VbDRGsY8xPMBg"
     }
   ],
@@ -329,11 +329,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034708,
-    "modifiedTime": 1765897824658,
+    "modifiedTime": 1781983665077,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

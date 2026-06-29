@@ -46,7 +46,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -203,8 +203,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PEcUXx0YAu9AWw7d",
+        "sourceItemId": "Q0Iu7pD3RrXPuAvW",
+        "sourceItemName": "Whirlwind",
+        "sourceItemImg": "icons/skills/melee/strikes-sword-triple-gray.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "HX9IR8yF6zuvqEva": {
         "name": "Area",
@@ -288,8 +307,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "HX9IR8yF6zuvqEva",
+        "sourceItemId": "Q0Iu7pD3RrXPuAvW",
+        "sourceItemName": "Whirlwind",
+        "sourceItemImg": "icons/skills/melee/strikes-sword-triple-gray.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "fl4PSkSG6LfFu1Hz": {
         "name": "Vortex",
@@ -374,8 +412,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "fl4PSkSG6LfFu1Hz",
+        "sourceItemId": "Q0Iu7pD3RrXPuAvW",
+        "sourceItemName": "Whirlwind",
+        "sourceItemImg": "icons/skills/melee/strikes-sword-triple-gray.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -506,6 +563,30 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 1,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -515,11 +596,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766049110465,
-    "modifiedTime": 1776955359337,
+    "modifiedTime": 1781985655812,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

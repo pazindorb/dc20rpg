@@ -11,7 +11,8 @@
     "choicePointCost": 1,
     "requirements": {
       "level": 0,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "rollMenu": {
       "free": false,
@@ -37,18 +38,10 @@
     "quickRoll": false,
     "macros": {
       "AFS6rQ2ekUWivWvu": {
-        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"L1o3ELb9xIJey9Kc\"];\nconst dooming = enhancements[\"Xu8JkWylumnzZZ8t\"];\nconst draining = enhancements[\"j87mw00EWlQDPWlf\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"umbral\";\n\nconst umbralImbued = new DC20.Enhancement();\numbralImbued.name = \"Umbral Imbued\";\numbralImbued.modifications.formula = dmgFormula;\numbralImbued.modifications.addsNewFormula = true;\numbralImbued.description = `You deal ${1 + damage.number} Umbral damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=L1o3ELb9xIJey9Kc\"]: null,\n  [\"-=vDNPCxxKzcQ3bthb\"]: null,\n  [\"-=Xu8JkWylumnzZZ8t\"]: null,\n  [\"-=j87mw00EWlQDPWlf\"]: null,\n  umbralImbued: umbralImbued\n}\nif (dooming.number > 0) {\n  const blueprint = foundry.utils.deepClone(dooming);\n  blueprint.name = \"Umbral Imbued - Dooming Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.dooming = blueprint;\n}\nif (draining.number > 0) {\n  const blueprint = foundry.utils.deepClone(draining);\n  blueprint.name = \"Umbral Imbued - Draining Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.resources.restPoints = 1;\n  blueprint.number = 0;\n  newEnhancements.draining = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
-        "trigger": "postChatMessageCreated",
+        "command": "const effect = item.effects.get(\"CYPMkXCr6x3JqiLx\");\nif (!effect) return;\neffect.flags.dc20rpg.enhancements = foundry.utils.deepClone(item.system.enhancements)\neffect.system.macro = `\nif (event.trigger === \"instant\") {\n  const enhancements = effect.flags.dc20rpg.enhancements;\n  const damageEnh = enhancements[\"L1o3ELb9xIJey9Kc\"];\n  const dooming = enhancements[\"Xu8JkWylumnzZZ8t\"];\n  const draining = enhancements[\"j87mw00EWlQDPWlf\"];\n\n  const damage = 1 + damageEnh.number;\n  const dmgFormula = new DC20.Formula();\n  dmgFormula.formula = damage + \"\";\n  dmgFormula.type = \"umbral\";\n  const modifications = {\n    addsNewFormula: true,\n    formula: dmgFormula\n  }\n\n  let description = \"<p>You deal + \" + damage + \" Umbral Damage on Martial Attacks</p>\"\n  if (dooming.number > 0) {\n    description += dooming.description;\n    modifications.addsNewRollRequest = true;\n    modifications.rollRequest = dooming.modifications.rollRequest;\n    modifications.addsAgainstStatus = true;\n    modifications.againstStatus = dooming.modifications.againstStatus;\n  }\n\n  if (draining.number > 0) {\n    description += draining.description;\n  }\n\n  const enhancement = {\n    name: \"Umbral Strikes\",\n    img: effect.img,\n    description: description,\n    copyFor: \"isMartialAttack=[true]\",\n    modifications: modifications,\n    repeatable: false\n  }\n  actor.enhancements.add(enhancement, {key: \"umbralImbued\"})\n}\n\n\nif (event.trigger === \"effectRemoved\") {\n  actor.enhancements.delete(\"umbralImbued\");\n}\n`",
+        "trigger": "postItemRoll",
         "disabled": false,
-        "name": "Prepare Item after roll",
-        "title": "",
-        "global": false
-      },
-      "FDs9z3y7fQcvuJc4": {
-        "command": "if (!off) return;\n\nconst oldEnhancements = item.flags.dc20rpg.enhancements;\nif (!oldEnhancements) return;\nfor (const enh of Object.values(oldEnhancements)) {\n  enh.number = 0;\n}\n\noldEnhancements[\"-=umbralImbued\"] = null;\noldEnhancements[\"-=dooming\"] = null;\noldEnhancements[\"-=draining\"] = null;\nitem.update({\n  [\"flags.dc20rpg.-=enhancements\"]: null,\n  [\"system.copyEnhancements.copy\"]: false,\n  [\"system.enhancements\"]: oldEnhancements\n})",
-        "trigger": "onItemToggle",
-        "disabled": false,
-        "name": "Reset Item on toggle off",
+        "name": "Prepare Umbral Imbued Effect Macro",
         "title": "",
         "global": false
       }
@@ -61,25 +54,24 @@
       "duration": "round"
     },
     "toggle": {
-      "toggleable": true,
+      "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": true,
-      "offOnSustainDrop": true
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
-      "halfDmgOnMiss": false,
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
         "crit": false,
-        "conditionals": false
+        "targetModifiers": false
       },
       "ignoreCloseQuarters": false,
       "formulaMod": ""
@@ -91,22 +83,12 @@
         "active": false,
         "options": {}
       },
-      "contestedKey": "phy",
       "againstDC": true,
       "checkDC": 10,
-      "respectSizeRules": false,
-      "failEffect": ""
-    },
-    "save": {
-      "type": "phy",
-      "dc": 0,
-      "calculationKey": "spell",
-      "addMastery": false,
-      "failEffect": ""
+      "respectSizeRules": false
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "ap": 1,
         "stamina": null,
         "mana": 1,
@@ -126,17 +108,9 @@
         "reset": "",
         "showAsResource": false,
         "subtract": 1,
-        "deleteOnZero": false
+        "deleteOnZero": false,
+        "refresh": {}
       }
-    },
-    "againstEffect": {
-      "id": "",
-      "supressFromChatMessage": false,
-      "untilYourNextTurnStart": false,
-      "untilYourNextTurnEnd": false,
-      "untilTargetNextTurnStart": false,
-      "untilTargetNextTurnEnd": false,
-      "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
     "rollRequests": {},
@@ -149,12 +123,12 @@
         "description": "<p>Your Attacks affected by this Spell deal +1 Umbral damage.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2/4",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -225,8 +199,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "L1o3ELb9xIJey9Kc",
+        "sourceItemId": "OnxadnT5dE5qV5ei",
+        "sourceItemName": "Umbral Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "vDNPCxxKzcQ3bthb": {
         "name": "Effortless",
@@ -235,12 +230,12 @@
         "description": "<p>You no longer need to Sustain the Spell.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -311,8 +306,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "vDNPCxxKzcQ3bthb",
+        "sourceItemId": "OnxadnT5dE5qV5ei",
+        "sourceItemName": "Umbral Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "Xu8JkWylumnzZZ8t": {
         "name": "Dooming Strikes",
@@ -321,12 +337,12 @@
         "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Charisma Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Doomed X for 1 round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -378,7 +394,8 @@
             "forOneMinute": false,
             "forXRounds": 1,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -397,8 +414,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "Xu8JkWylumnzZZ8t",
+        "sourceItemId": "OnxadnT5dE5qV5ei",
+        "sourceItemName": "Umbral Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "j87mw00EWlQDPWlf": {
         "name": "Draining Strikes",
@@ -407,12 +445,12 @@
         "description": "<p>Once per attack, when you deal damage to a target with an Attack affected by this Spell, you can spend up to X Rest Points, regaining HP equal to the Rest Points Spent.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -429,7 +467,7 @@
           "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
-          "addsNewFormula": true,
+          "addsNewFormula": false,
           "formula": {
             "formula": "1",
             "type": "heal",
@@ -483,8 +521,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "j87mw00EWlQDPWlf",
+        "sourceItemId": "OnxadnT5dE5qV5ei",
+        "sourceItemName": "Umbral Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "XgPKu5erSkuIhKj3": {
         "name": "Range",
@@ -493,12 +552,12 @@
         "description": "<p>The range becomes 5 Spaces, allowing you to target other creatures with the Spell.</p><p></p><p><em><strong>System Tip:</strong> This is not automated.</em></p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -570,121 +629,43 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "key": "XgPKu5erSkuIhKj3",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+        "sourceItemId": "OnxadnT5dE5qV5ei",
+        "sourceItemName": "Umbral Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
         "active": false,
-        "drmCheck": false
-      },
-      "mfNMMnufeXG78qOQ": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        },
-        "key": "mfNMMnufeXG78qOQ",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
-        "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "B1rCWNfzeJzNwMkd": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You target X additional creatures of your choice within 5 Spaces that you can see. When you choose this Enhancement, the cost of all other Enhancements (except Range and Effortless) is doubled. </p><p>The AP cost of this Enhancement can’t be paid for with MP (see Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "description": "<p>You target X additional creatures of your choice within 5 Spaces that you can see. When you choose this Enhancement, the cost of all other Enhancements (except Range and Effortless) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (see Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -756,21 +737,35 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "key": "B1rCWNfzeJzNwMkd",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+        "sourceItemId": "OnxadnT5dE5qV5ei",
+        "sourceItemName": "Umbral Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
         "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "system.actionType=[\"attack\"]&&system.attackFormula.checkType=[\"attack\"]",
+      "copyFor": "isMartialAttack=[true]",
       "linkWithToggle": false,
-      "hideFromRollMenu": false,
       "onlyMaintained": true
     },
     "range": {
@@ -795,39 +790,6 @@
           "unit": "",
           "difficult": ""
         }
-      }
-    },
-    "conditional": {
-      "hasConditional": false,
-      "name": "",
-      "condition": "",
-      "useFor": "",
-      "linkWithToggle": false,
-      "bonus": "0",
-      "flags": {
-        "ignorePdr": false,
-        "ignoreEdr": false,
-        "ignoreMdr": false,
-        "ignoreResistance": {},
-        "ignoreImmune": {}
-      },
-      "effect": null,
-      "addsNewRollRequest": false,
-      "rollRequest": {
-        "category": "",
-        "saveKey": "",
-        "contestedKey": "",
-        "dcCalculation": "",
-        "dc": 0,
-        "addMasteryToDC": true
-      },
-      "addsNewFormula": false,
-      "formula": {
-        "formula": "",
-        "type": "",
-        "category": "damage",
-        "dontMerge": false,
-        "overrideDefence": ""
       }
     },
     "conditionals": {},
@@ -891,7 +853,6 @@
     "effectsConfig": {
       "linkWithToggle": false,
       "toggleItem": true,
-      "active": false,
       "addToChat": false,
       "addToTemplates": ""
     },
@@ -936,27 +897,150 @@
       "strike": "Strike",
       "umbral": "Umbral",
       "weapon": "Weapon"
+    },
+    "skipChatMessage": false,
+    "move": {
+      "movePoints": null,
+      "moveType": "",
+      "bonusMove": null
+    },
+    "attack": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "closeQuarters": false
+    },
+    "rollConfig": {
+      "flatModifier": "",
+      "rollBonus": 0,
+      "canCrit": true,
+      "canCritFail": true,
+      "critThreshold": 20,
+      "critFailThreshold": 1,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "targetModifiers": false
+      },
+      "respectSizeRules": false
+    },
+    "castTime": {
+      "value": null,
+      "timeUnit": ""
+    },
+    "areas": {},
+    "targetModifiers": {},
+    "keyword": {
+      "key": "",
+      "message": "",
+      "selectOptions": ""
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Umbral Imbued",
+      "img": "icons/magic/fire/dagger-rune-enchant-flame-strong-purple-pink.webp",
+      "origin": "Item.DpjFfRc45bY6Xj1y",
+      "disabled": false,
+      "system": {
+        "addToChat": true,
+        "applyToTemplate": false,
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0
+          },
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"withEffectKey\": \"umbralImbued\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0
+          }
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": "delete"
+        },
+        "effectKey": "umbralImbued",
+        "macro": "",
+        "applyToSelf": true,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "chatMessageId": ""
+      },
+      "transfer": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "duration": {
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "_id": "CYPMkXCr6x3JqiLx",
+      "type": "base",
+      "start": null,
+      "description": "<p>You are under the effect of Umbral Imbued spell.</p>",
+      "tint": "#ffffff",
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "_stats": {
+        "coreVersion": "14.363",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1782564626927,
+        "modifiedTime": 1782564626927,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!OnxadnT5dE5qV5ei.CYPMkXCr6x3JqiLx"
+    }
+  ],
   "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
-    "compendiumSource": null,
-    "duplicateSource": null,
-    "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
-    "createdTime": 1768217942902,
-    "modifiedTime": 1777583555267,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+    "systemVersion": "0.10.6.0",
+    "createdTime": 1782564626927,
+    "modifiedTime": 1782564626927,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "exportSource": null,
+    "compendiumSource": null,
+    "duplicateSource": null
   },
+  "_id": "OnxadnT5dE5qV5ei",
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "OnxadnT5dE5qV5ei",
-  "sort": 900000,
+  "sort": 0,
   "_key": "!items!OnxadnT5dE5qV5ei"
 }

@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -145,12 +145,12 @@
         "description": "The damage increases by 1.",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -221,8 +221,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "aeWRwdeOVTsJPO4m",
+        "sourceItemId": "qChKXjpEHtyRDgTD",
+        "sourceItemName": "Fire Blast",
+        "sourceItemImg": "icons/magic/fire/barrier-wall-explosion-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "wgnOIlzFzvR5UuVd": {
         "name": "Area",
@@ -231,12 +253,12 @@
         "description": "<p>The Aura’s radius increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -307,8 +329,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "wgnOIlzFzvR5UuVd",
+        "sourceItemId": "qChKXjpEHtyRDgTD",
+        "sourceItemName": "Fire Blast",
+        "sourceItemImg": "icons/magic/fire/barrier-wall-explosion-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "4vFS3n7yK0ySSZYv": {
         "name": "Mantle of Fire",
@@ -317,12 +361,12 @@
         "description": "<p><strong>(Sustained)</strong> The Spell’s duration becomes 1 minute. The heat lingers on you in a 1 Space Aura for the duration.</p><p>When a creature enters the area for the first time on its turn or starts its turn there, it makes a Repeated Physical Save against your Save DC.</p><p><strong>Save Failure:</strong> The target begins Burning X for 1 minute.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -374,7 +418,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": {
             "name": "Mantle of Fire",
@@ -386,15 +431,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 1,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "4vFS3n7yK0ySSZYv"
+                "enhKey": "4vFS3n7yK0ySSZYv",
+                "itemSavePath": "system.enhancements.4vFS3n7yK0ySSZYv.modifications.addsEffect"
               }
             },
-            "_id": "tiEnPvItXJXoBSuw",
+            "_id": "YwTDJ1kOHPN3hUHn",
             "type": "base",
             "system": {
               "sustained": {
@@ -408,11 +458,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "// We want to skip this if actor is the caster. Not the best solution but I have no time to make it better now.\nif (actor.getItemByKey(\"fireBlast\")) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"phy\", {against: event.against, statuses: [\"burning\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  const data = {\n    name: \"Burning - Mantle of Fire\",\n    description: \"<p>You take <strong>X</strong> Fire damage at the start of each of your turns.</p>\",\n    statuses: [\"burning\"],\n    img: \"systems/dc20rpg/images/statuses/burning.svg\"\n  }\n  const changes = []; \n  const stack = effect.flags.dc20rpg?.mantleStack || 1;\n  changes.push({\n    key: \"system.events\",\n    mode: 2,\n    value: `\"eventType\": \"damage\", \"label\": \"Burning\", \"trigger\": \"turnStart\", \"value\": ${stack}, \"type\": \"fire\"`\n  })\n  changes.push({\n    key: \"system.events\",\n    mode: 2,\n    value: `\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Burning - Repeated Save\", \"checkKey\": \"phy\", \"against\": ${event.against}, \"statuses\": [\"burning\"], \"onSuccess\": \"delete\", \"actorId\": \"${event.actorId}\"`\n  })\n  data.changes = changes;\n  game.dc20rpg.effects.createEffectOn(data, actor);\n}",
-              "addToChat": false,
+              "macro": "// We want to skip this if actor is the caster. Not the best solution but I have no time to make it better now.\nif (actor.getItemByKey(\"fireBlast\")) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"phy\", {against: event.against, statuses: [\"burning\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  const data = {\n    name: \"Burning - Mantle of Fire\",\n    description: \"<p>You take <strong>X</strong> Fire damage at the start of each of your turns.</p>\",\n    statuses: [\"burning\"],\n    img: \"systems/dc20rpg/images/statuses/burning.svg\",\n    showIcon: 2,\n    system: {}\n  }\n  const changes = []; \n  const stack = effect.flags.dc20rpg?.mantleStack || 1;\n  changes.push({\n    key: \"system.events\",\n    mode: 2,\n    value: `\"eventType\": \"damage\", \"label\": \"Burning\", \"trigger\": \"turnStart\", \"value\": ${stack}, \"type\": \"fire\"`\n  })\n  changes.push({\n    key: \"system.events\",\n    mode: 2,\n    value: `\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Burning - Repeated Save\", \"checkKey\": \"phy\", \"against\": ${event.against}, \"statuses\": [\"burning\"], \"onSuccess\": \"delete\", \"actorId\": \"${event.actorId}\"`\n  })\n  data.system.changes = changes;\n  CONFIG.ActiveEffect.documentClass.gmCreate(data, {parent: actor});\n}",
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -423,24 +474,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Mantle of Fire\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Mantle of Fire\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Mantle of Fire\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Mantle of Fire\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You need to make Repeated Physical Save against Save DC.</p><p><strong>Save Failure:</strong> You become Burning X for 1 minute.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -450,16 +506,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768593711307,
-              "modifiedTime": 1768593722814,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782573237180,
+              "modifiedTime": 1782573350410,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 1,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "item.system.target.areas.default.area = \"aura\";\nitem.system.duration.type = \"sustain\";\nitem.system.duration.value = 1;\nitem.system.duration.timeUnit = \"minutes\";\nenh.modifications.addsEffect.flags.dc20rpg.mantleStack = enh.number;",
+            "preItemRoll": "item.system.areas.default.attachToToken = true;\nitem.system.duration.type = \"sustain\";\nitem.system.duration.value = 1;\nitem.system.duration.timeUnit = \"minutes\";\nenh.modifications.addsEffect.flags.dc20rpg.mantleStack = enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -474,8 +540,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "4vFS3n7yK0ySSZYv",
+        "sourceItemId": "qChKXjpEHtyRDgTD",
+        "sourceItemName": "Fire Blast",
+        "sourceItemImg": "icons/magic/fire/barrier-wall-explosion-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -643,6 +731,31 @@
     "spellTags": {
       "burning": "Burning",
       "fire": "Fire"
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 1,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -652,11 +765,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767742123866,
-    "modifiedTime": 1768593724288,
+    "modifiedTime": 1782573357921,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

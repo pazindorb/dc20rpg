@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -168,6 +168,9 @@
     "featureSourceItem": "fiendborn",
     "requirements": {
       "level": 0
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -175,39 +178,36 @@
       "img": "icons/creatures/unholy/demon-female-succubus-orange.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.XpopoeFtxmib4jg2",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Charming Gaze",
       "_id": "zGielvpLHOREcIdB",
       "type": "base",
       "system": {
-        "statusId": "charmed",
+        "statusId": "",
         "disableWhen": {
           "mode": "=="
         },
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.checks.cha",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Charming Gaze - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"charmed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.checks.cha",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Charming Gaze - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"charmed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.259439ab9009626a]{Charmed} </strong>for 1 minute or until you succeeded on <strong>Repeated Charisma Save</strong>.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -228,14 +228,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1734564976064,
-        "modifiedTime": 1768466302892,
+        "modifiedTime": 1782396852149,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "showIcon": 2,
+      "start": null,
+      "folder": null,
       "_key": "!items.effects!XpopoeFtxmib4jg2.zGielvpLHOREcIdB"
     }
   ],
@@ -248,11 +251,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
-    "coreVersion": "13.347",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1760521817345,
+    "modifiedTime": 1781983705800,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

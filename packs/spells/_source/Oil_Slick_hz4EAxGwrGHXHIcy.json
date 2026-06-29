@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -229,8 +229,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "WLwLITadkC7qm8ez",
+        "sourceItemId": "hz4EAxGwrGHXHIcy",
+        "sourceItemName": "Oil Slick",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "VEKg4BdLlGnVhXai": {
         "name": "Area",
@@ -314,8 +333,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "VEKg4BdLlGnVhXai",
+        "sourceItemId": "hz4EAxGwrGHXHIcy",
+        "sourceItemName": "Oil Slick",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "1h5hYINvbPiokido": {
         "name": "Spreading Oil",
@@ -399,8 +437,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "1h5hYINvbPiokido",
+        "sourceItemId": "hz4EAxGwrGHXHIcy",
+        "sourceItemName": "Oil Slick",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "nQAtJDt46gvw28g5": {
         "name": "Flammable",
@@ -484,8 +541,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "nQAtJDt46gvw28g5",
+        "sourceItemId": "hz4EAxGwrGHXHIcy",
+        "sourceItemName": "Oil Slick",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -654,6 +730,30 @@
     "spellTags": {
       "burning": "Burning",
       "trap": "Trap"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "hideHighlight": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "all",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -662,11 +762,10 @@
       "img": "icons/magic/water/vortex-water-whirlpool-blue.webp",
       "origin": "Item.ClMLqcrZ3wn078ua",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -701,22 +800,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Oil Slick\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>This effect handle applying Oil Slick effect when new target enters the area or starts its turn in the covered area. Do not modify events as it might break the behavior.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -726,12 +825,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1768593578888
+        "modifiedTime": 1768593578888,
+        "createdTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!hz4EAxGwrGHXHIcy.abm8IPRIO57J6hWH"
     }
   ],
@@ -741,11 +851,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767620016493,
-    "modifiedTime": 1777379433185,
+    "modifiedTime": 1781985646474,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

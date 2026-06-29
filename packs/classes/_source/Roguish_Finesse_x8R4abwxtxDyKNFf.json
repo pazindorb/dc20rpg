@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -235,13 +235,10 @@
     {
       "origin": "Item.HpT1wwNybL3Sovb3",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Skill Expertise + Multi-Skilled",
@@ -252,88 +249,88 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.skillPoints.skill.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "awa",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "acr",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "ani",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "ath",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "inf",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "inm",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "inv",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "med",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "ste",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "sur",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "tri",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.expertise.automated",
+            "value": "ins",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.skillPoints.skill.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "awa",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "acr",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "ani",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "ath",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "inf",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "inm",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "inv",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "med",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "ste",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "sur",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "tri",
-          "priority": null
-        },
-        {
-          "key": "system.expertise.automated",
-          "mode": 2,
-          "value": "ins",
-          "priority": null
-        }
-      ],
       "description": "<ul><li><p><strong>Skill Expertise:</strong> Your Skill Mastery Limit increases by 1, up to Grandmaster (+10). A Skill can only benefit from one increase to its Mastery limit.</p></li><li><p><strong>Multi-Skilled:</strong> You gain 1 Skill Point.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -360,7 +357,7 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.HpT1wwNybL3Sovb3.ActiveEffect.rHQWIxBM8q26H5Rg",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -368,6 +365,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!x8R4abwxtxDyKNFf.ud6wQXYs0IykcJXj"
     }
   ],
@@ -376,11 +376,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035855,
-    "modifiedTime": 1750928888044,
+    "modifiedTime": 1781983667905,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

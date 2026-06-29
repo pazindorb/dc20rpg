@@ -42,7 +42,7 @@
     "isReaction": true,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -283,12 +283,10 @@
       "img": "icons/magic/control/debuff-energy-hold-blue-yellow.webp",
       "origin": "Actor.zPt9s0hUx0ReAJyc.Item.QATvl9FXW5g3JkxC",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -323,46 +321,52 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "priority": null
-        }
-      ],
       "description": "<p>When you’re targeted by an Attack from a creature you can see, you can impose DisADV on the Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -372,12 +376,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.5.0",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1778451208826
+        "modifiedTime": 1781983713023,
+        "createdTime": 1781983713023
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!GAJwWQbhu0HzHlmL.3DbuixcxTGoBJVk4"
     }
   ],
@@ -396,11 +411,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778451174068,
-    "modifiedTime": 1778451174068,
+    "modifiedTime": 1781983713009,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

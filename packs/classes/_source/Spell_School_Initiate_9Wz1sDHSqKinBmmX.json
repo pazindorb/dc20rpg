@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -152,7 +152,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span class=\"cf0\">When you cast a Spell from the chosen School, you can reduce its MP cost by 1. Its total MP cost before the reduction can’t exceed your Mana Spend Limit. </span></p><p><span class=\"cf0\">You can use this Feature once per Long Rest, but regain the ability to use it again when you roll for Initiative.</span></p>",
         "hide": false,
@@ -160,7 +168,13 @@
         "sourceItemId": "9Wz1sDHSqKinBmmX",
         "sourceItemName": "Spell School Initiate",
         "sourceItemImg": "icons/sundries/books/book-open-purple.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -343,11 +357,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035521,
-    "modifiedTime": 1768562315960,
+    "modifiedTime": 1781985628581,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

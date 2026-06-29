@@ -3,29 +3,21 @@
   "type": "basicAction",
   "img": "icons/svg/wingfoot.svg",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> to move up to your Speed in Spaces (default of 5).</p><p>You choose where to move, and can break up your movement by moving before and after taking a different Action.</p><p>You can’t end your turn in a Space occupied by another creature.</p><p></p><p><span ><em>A creature with 4 AP can take the Move Action to move 1 Space, take the Attack Action, move 1 Space again (2 total Spaces), take the Attack Action again, and then move 2 Spaces again (4 total Spaces).</em></span></p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to move up to your Speed in Spaces (default of 5).</p><p>You choose where to move, and can break up your movement by moving before and after taking a different Action.</p><p>You can’t end your turn in a Space occupied by another creature.</p><p></p><p><span><em>A creature with 4 AP can take the Move Action to move 1 Space, take the Attack Action, move 1 Space again (2 total Spaces), take the Attack Action again, and then move 2 Spaces again (4 total Spaces).</em></span></p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {
-      "TXdeNOrH8C8yuOHh": {
-        "name": "preItemRoll",
-        "trigger": "preItemRoll",
-        "command": "if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
-        "disabled": false,
-        "title": ""
-      }
-    },
+    "macros": {},
     "isReaction": false,
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "",
+    "actionType": "move",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -172,11 +164,11 @@
   "_stats": {
     "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
     "duplicateSource": "Item.N5w8JDg9ddpC8nkm",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1765885091001,
+    "modifiedTime": 1781984285697,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

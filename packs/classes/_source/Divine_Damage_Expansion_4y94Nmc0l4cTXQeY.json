@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -78,13 +78,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
           "custom": {},
-          "restPoints": null,
-          "ap": null
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": false,
@@ -153,7 +153,17 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>When you deal damage with a Spell you can convert the damage to your Divine Damage type.</p>",
         "hide": false,
@@ -161,7 +171,13 @@
         "sourceItemId": "4y94Nmc0l4cTXQeY",
         "sourceItemName": "Divine Damage Expansion",
         "sourceItemImg": "icons/magic/light/explosion-glow-spiral-teal.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -252,29 +268,8 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
     "macros": {
-      "iKzsxsrLKE1sNYYu": {
-        "name": "Change Divine Damage",
-        "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
-        "disabled": false,
-        "title": "Change Divine Damage"
-      },
-      "4HUcLBOXBMvO7JG3": {
-        "name": "Add To Keyword",
-        "trigger": "onCreate",
-        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
-        "disabled": false,
-        "title": ""
-      },
-      "heWgLGwigzC25mNz": {
-        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"divineDamage\", item._id)",
-        "trigger": "preDelete",
-        "disabled": false,
-        "name": "Remove From Keyword",
-        "title": ""
-      },
       "SJPV4OH1vkkIQN9Y": {
-        "command": "if (newValue) {\n  const itemEffect = item.effects.get(\"XgANRETYsCcZzv2m\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${newValue}.resist`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n  item.update({[\"system.enhancements.EWh2FAW0A2NT8OCQ.modifications.damageType\"]: newValue});\n}",
+        "command": "if (newValue) {\n  const itemEffect = item.effects.get(\"XgANRETYsCcZzv2m\");\n  if (itemEffect) {\n    itemEffect.system.changes[0].key=`system.damageReduction.damageTypes.${newValue}.resist`;\n    itemEffect.update({[\"system.changes\"]: itemEffect.system.changes});\n  }\n  item.update({[\"system.enhancements.EWh2FAW0A2NT8OCQ.modifications.damageType\"]: newValue});\n}",
         "trigger": "onKeywordUpdate",
         "disabled": false,
         "name": "Update Divine Damage",
@@ -340,6 +335,11 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "keyword": {
+      "key": "divine-damage",
+      "message": "Select Divine Damage",
+      "selectOptions": "{\n    \"corrosion\": \"Corrosion\",\n    \"cold\": \"Cold\",\n    \"fire\": \"Fire\",\n    \"lightning\": \"Lightning\",\n    \"poison\": \"Poison\",\n    \"psychic\": \"Psychic\",\n    \"radiant\": \"Radiant\",\n    \"umbral\": \"Umbral\"\n}"
     }
   },
   "effects": [
@@ -347,13 +347,10 @@
       "img": "icons/magic/light/explosion-glow-spiral-teal.webp",
       "origin": "Item.HV41nzr5JInq8RfE",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Divine Damage Expansion",
@@ -363,16 +360,17 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.radiant.resist",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ],
+        "applyToTemplate": false
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.radiant.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>You gain Resistance (1) to your Divine Damage type.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -396,14 +394,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256587,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1782332101564,
+        "modifiedTime": 1782332101564,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!4y94Nmc0l4cTXQeY.XgANRETYsCcZzv2m"
     }
   ],
@@ -412,11 +413,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035840,
-    "modifiedTime": 1768467030733,
+    "modifiedTime": 1782380813973,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -143,28 +144,26 @@
     {
       "origin": "Item.vAgcrxzJZ5rjcS4i",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Radiant Resistance",
       "img": "icons/magic/light/explosion-star-glow-yellow.webp",
       "_id": "xjdl7iySBGvlvZ0w",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.radiant.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.radiant.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
+      },
       "description": "<p><span>You have Resistance (Half) to Radiant damage.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -174,7 +173,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
@@ -182,6 +181,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!vAgcrxzJZ5rjcS4i.xjdl7iySBGvlvZ0w"
     }
   ],
@@ -194,11 +196,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.I8SRIZMXX4bntRDK",
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720098982783,
-    "modifiedTime": 1778079699644,
+    "modifiedTime": 1781983707835,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

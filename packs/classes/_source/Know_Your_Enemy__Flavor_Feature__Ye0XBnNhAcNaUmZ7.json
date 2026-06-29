@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -159,7 +159,15 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">You can spend 1 minute observing or interacting with a creature out of Combat</span></p>",
         "hide": false,
@@ -167,7 +175,13 @@
         "sourceItemId": "Ye0XBnNhAcNaUmZ7",
         "sourceItemName": "Know Your Enemy (Flavor Feature)",
         "sourceItemImg": "icons/sundries/gaming/chess-knight-white.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -320,7 +334,10 @@
       "subtract": false
     },
     "featureSourceItem": "champion",
-    "flavorFeature": true
+    "flavorFeature": true,
+    "rollConfig": {
+      "canCrit": false
+    }
   },
   "effects": [],
   "folder": "1teXNA4X8W8tzM5c",
@@ -328,11 +345,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034270,
-    "modifiedTime": 1761303729351,
+    "modifiedTime": 1781985629755,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

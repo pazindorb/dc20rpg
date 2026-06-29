@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -232,13 +232,10 @@
     {
       "origin": "Item.74dggIFfGiJVxUf4",
       "duration": {
-        "rounds": 5,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Rage",
@@ -250,80 +247,81 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": true,
-          "onTimeEnd": "disable"
+          "onTimeEnd": "disable",
+          "expiryAction": "disable"
         },
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": -5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.corrosion.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.fire.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.cold.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.lightning.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.poison.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.piercing.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.slashing.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.globalFormulaModifiers.damage.martial.melee",
+            "value": "\"value\": \"+ 1\", \"source\": \"Rage\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.mig",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "value": "-5",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.corrosion.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.fire.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.cold.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.lightning.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.poison.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.piercing.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.slashing.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.damage.martial.melee",
-          "value": "\"value\": \"+ 1\", \"source\": \"Rage\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.mig",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -350,14 +348,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1766693757293,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983664782,
+        "modifiedTime": 1781983664782,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!QgqpA1FKTonlLDGU.5U3if2bPcsRsZpD0"
     }
   ],
@@ -366,11 +367,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034081,
-    "modifiedTime": 1776753633604,
+    "modifiedTime": 1781983664767,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

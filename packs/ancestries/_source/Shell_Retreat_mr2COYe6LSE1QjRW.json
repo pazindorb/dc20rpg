@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -160,13 +160,10 @@
     {
       "origin": "Item.mr2COYe6LSE1QjRW",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Shell Retreat",
@@ -177,52 +174,52 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.mig",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Shell Retreat\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Shell Retreat\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.movement.ground.bonus",
+            "value": -100,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.damageReduction.pdr.active",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.edr.active",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.mig",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Shell Retreat\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Shell Retreat\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.movement.ground.bonus",
-          "value": "-100",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "value": "5",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.defences.area.bonuses.always",
-          "value": "5",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.pdr.active",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.edr.active",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
       "description": "<p>While in your shell, you gain <strong>+5 PD and AD</strong>, <strong>PDR, EDR</strong>, and <strong>ADV</strong> on <strong>Might Saves</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -249,7 +246,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -257,6 +254,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!mr2COYe6LSE1QjRW.OI0fq4X0su0E3TyU"
     }
   ],
@@ -269,11 +269,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.HCTTPmz5EtWAEfL7",
-    "coreVersion": "13.347",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1760521817622,
+    "modifiedTime": 1781983707138,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

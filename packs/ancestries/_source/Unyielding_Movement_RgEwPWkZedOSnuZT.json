@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -148,13 +148,10 @@
       "img": "icons/skills/movement/feet-winged-boots-blue.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.RgEwPWkZedOSnuZT",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Unyielding Movement",
@@ -165,16 +162,16 @@
         "disableWhen": {
           "mode": "=="
         },
-        "macro": "const isSlow = extras.createdEffect.statuses.has(\"slowed\");\n\nif (isSlow) {\n  const slowed = actor.statuses.find(status => status.id === \"slowed\")\n  \n  if (slowed && slowed.stack >= 1) {\n    ui.notifications.warn(\"Unyielding Movement - cannot be more slowed\");\n    extras.createdEffect.preventCreation = true\n  }\n}"
+        "macro": "const isSlow = extras.createdEffect.statuses.has(\"slowed\");\n\nif (isSlow) {\n  const slowed = actor.statuses.find(status => status.id === \"slowed\")\n  \n  if (slowed && slowed.stack >= 1) {\n    ui.notifications.warn(\"Unyielding Movement - cannot be more slowed\");\n    extras.createdEffect.preventCreation = true\n  }\n}",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectApplied\", \"label\": \"Unyielding Movement\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"effectApplied\", \"label\": \"Unyielding Movement\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are immune to being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 2}</strong> (or higher).</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -202,7 +199,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1737753354873,
@@ -210,6 +207,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!RgEwPWkZedOSnuZT.2Nsf89ZDAMOrGDRW"
     }
   ],
@@ -222,11 +222,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.XUw6c91HCBXpeARH",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1745570065717,
+    "modifiedTime": 1781983705195,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

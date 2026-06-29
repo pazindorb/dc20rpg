@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -143,13 +144,10 @@
     {
       "origin": "Item.7IttzE2JpQCyzhDN",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Natural Armor",
@@ -162,16 +160,16 @@
           "path": "system.details.armor.armorEquipped",
           "mode": "==",
           "value": "true"
-        }
+        },
+        "changes": [
+          {
+            "key": "system.damageReduction.pdr.active",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.pdr.active",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
       "description": "<p><span>While not wearing Heavy Armor, you gain +1 <strong>Physical Damage Reduction</strong>.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -198,7 +196,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -206,6 +204,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!7IttzE2JpQCyzhDN.VW9X5bXhzYrR6gEw"
     }
   ],
@@ -218,11 +219,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1745417048012,
+    "modifiedTime": 1781983702995,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

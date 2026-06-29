@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -78,13 +78,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
+          "health": "",
+          "mana": "1",
+          "stamina": "",
           "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
+          "grit": "",
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": false,
@@ -154,7 +154,18 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "description": "<p>When you use this Feature, you can spend additional <strong>MP</strong> (up to your Mana Spend Limit) to gain 2 additional <strong>Trait Points</strong> per <strong>MP</strong> spent.</p>",
         "hide": false,
@@ -162,20 +173,26 @@
         "sourceItemId": "Xugk5lne47k5w4AS",
         "sourceItemName": "Wild Form",
         "sourceItemImg": "icons/magic/nature/wolf-paw-glow-large-teal-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "RRfB6hdII1qsEuIz": {
         "name": "Shift Form",
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": -1,
-          "stamina": null,
-          "grit": null,
+          "health": "",
+          "mana": "-1",
+          "stamina": "",
+          "grit": "",
           "custom": {},
-          "restPoints": null,
-          "ap": null
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": false,
@@ -244,7 +261,18 @@
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 AP</strong> on your turn to shift back and forth between your<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"> True</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Form</strong> and any <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Wild</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Forms</strong> you currently have available.</span></p>",
         "hide": false,
@@ -252,7 +280,13 @@
         "sourceItemId": "Xugk5lne47k5w4AS",
         "sourceItemName": "Wild Form",
         "sourceItemImg": "icons/magic/nature/wolf-paw-glow-large-teal-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "8cVI3eMpA1IMYZI7": {
         "name": "Free Transformation",
@@ -261,12 +295,12 @@
         "description": "<p>Once per Long Rest, you can transform without spending MP or using MP enhancements.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": -1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "-1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -335,8 +369,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        }
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "8cVI3eMpA1IMYZI7",
+        "sourceItemId": "Xugk5lne47k5w4AS",
+        "sourceItemName": "Wild Form",
+        "sourceItemImg": "icons/magic/nature/wolf-paw-glow-large-teal-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -373,7 +429,11 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 0
+        "subtract": 0,
+        "refresh": {
+          "long": "Long Rest",
+          "full": "Full Rest"
+        }
       },
       "otherItem": {
         "itemId": "",
@@ -429,11 +489,19 @@
     "quickRoll": false,
     "macros": {
       "2a0iuMnMz1B29guE": {
-        "command": "const summon = await fromUuid(\"Compendium.dc20rpg.monsters.Actor.PDFgCRbQZDtroFnV\")\nif (!summon) {\n  ui.notifications.warn(\"Summon not found fix the macro.\");\n  return;\n}\n\nconst actorData = summon.toObject();\nactorData.ownership[game.user.id] = 3;\nactorData.system.companionOwnerId = actor.id;\n\nif (Actor.canUserCreate(game.user)) Actor.create(actorData);\nelse {\n  const activeGM = game.users.activeGM;\n  if (!activeGM) {\n    ui.notifications.error(\"You have no permissions to create a new Actor and there is no active GM. Actor cannot be created.\");\n    return;\n  }\n\n  game.socket.emit('system.dc20rpg', { \n    actorData: actorData,\n    gmUserId: activeGM.id,\n    type: \"createActor\"\n  });\n}",
+        "command": "const summon = await fromUuid(\"Compendium.dc20rpg.monsters.Actor.PDFgCRbQZDtroFnV\")\nif (!summon) {\n  ui.notifications.warn(\"Summon not found fix the macro.\");\n  return;\n}\n\nconst actorData = summon.toObject();\nactorData.ownership[game.user.id] = 3;\nactorData.system.companionOwnerId = actor.id;\nactorData.flags.dc20rpg.wildForm = true;\nconst created = await CONFIG.Actor.documentClass.gmCreate(actorData)\nif (!created || !created[0]) {\n  ui.notifications.error(\"Error while creating 'Wild Form' statblock.\");\n  return\n}\ncreated[0].sheet.render(true)",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Create new Wild Form",
         "title": "Create new Wild Form",
+        "global": false
+      },
+      "TA1E5Xn8fBXyAv8s": {
+        "command": "const token = actor.getActiveTokens()[0];\nif (!token) return;\n\nconst wildForms = game.actors\n                    .filter(actor => actor.type === \"companion\")\n                    .filter(actor => actor.flags?.dc20rpg?.wildForm)\n                    .filter(actor => actor.isOwner);\n\nif (wildForms.length === 0) {\n  ui.notifications.warn(`No matching Wild Forms found. Remember to use on demand macro to create them.`)\n  return\n}\n\nconst options = DC20.tools.toSelectOptions(wildForms, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Wild Form\", options);\nif (!selected) return;\n\nconst wildForm = wildForms.find(actor => actor.id === selected);\nif (!wildForm) {\n  ui.notifications.error(`Wild Form with id '${selected}' not found`)\n  return\n}\ntoken.document.transformation(wildForm)",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Transform",
+        "title": "Transform",
         "global": false
       }
     },
@@ -505,11 +573,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034841,
-    "modifiedTime": 1778568039410,
+    "modifiedTime": 1782676160024,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

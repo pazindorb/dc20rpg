@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "area",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -314,6 +314,30 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 1,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": true,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [
@@ -322,12 +346,10 @@
       "img": "icons/skills/melee/strikes-sword-scimitar.webp",
       "origin": "Item.qbdCI0MWY7eQm9AC",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -362,46 +384,52 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Reckless Whirlwind\", \"afterRoll\": \"delete\"",
-          "priority": null
-        }
-      ],
       "description": "<p>The next Attack against you has ADV</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -411,11 +439,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983713421,
+        "modifiedTime": 1781983713421
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!MSdtLEBQjuxHv3ZK.NFYhdKZzuhfkpqjR"
     }
   ],
@@ -425,11 +465,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778148717950,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781983713406,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

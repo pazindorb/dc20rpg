@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -206,8 +206,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "GZqLp7ULqqMMGGNf",
+        "sourceItemId": "TCcityaEWjhTKHWv",
+        "sourceItemName": "Mage Armor",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "ELMEPEQQOtq8T9Cp": {
         "name": "Duration",
@@ -291,8 +310,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "ELMEPEQQOtq8T9Cp",
+        "sourceItemId": "TCcityaEWjhTKHWv",
+        "sourceItemName": "Mage Armor",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "yeOxAuBEs6uqnLIS": {
         "name": "Greater Armor",
@@ -361,7 +399,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.defences.area.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.defences.area.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -376,8 +414,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "yeOxAuBEs6uqnLIS",
+        "sourceItemId": "TCcityaEWjhTKHWv",
+        "sourceItemName": "Mage Armor",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "hs1N2e7To5gRI0cG": {
         "name": "Heavily Warded",
@@ -446,7 +503,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.damageReduction.pdr.active\",\n  mode: 5,\n  value: \"true\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"mageArmor\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.damageReduction.pdr.active\",\n  mode: 5,\n  value: \"true\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -461,8 +518,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "hs1N2e7To5gRI0cG",
+        "sourceItemId": "TCcityaEWjhTKHWv",
+        "sourceItemName": "Mage Armor",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -638,12 +714,10 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
       "origin": "Item.ZfO7N2kMbGC0tpwr",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 12,
-        "startTurn": 0
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -677,16 +751,17 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          }
+        ],
+        "applyToTemplate": false
       },
-      "changes": [
-        {
-          "key": "system.defences.area.bonuses.always",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        }
-      ],
       "description": "<p>Magical protective coating around you - AD increased.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -696,11 +771,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782598762696,
+        "modifiedTime": 1782598762696
       },
+      "start": {
+        "combat": null,
+        "round": 12,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!TCcityaEWjhTKHWv.qzyHuzccTfVO56h2"
     }
   ],
@@ -710,11 +797,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767553037793,
-    "modifiedTime": 1777379433185,
+    "modifiedTime": 1782598796357,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

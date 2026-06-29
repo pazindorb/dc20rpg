@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -226,45 +226,62 @@
     {
       "origin": "Item.WvOSzsxyZT42SUnZ",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Wolf Stance",
       "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
-      "_id": "X8EX7mSnG98qcI62",
+      "_id": "To9Xp0N8STPNgp9C",
       "type": "base",
       "system": {
         "statusId": "",
         "disableWhen": {
-          "mode": "=="
-        }
+          "mode": "==",
+          "path": "",
+          "value": ""
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"rangeType\": \"melee\", \"value\": 1, \"type\": \"adv\", \"label\": \"Wolf Stance\", \"confirmation\": true, \"customMessage\": \"Is that an Opportunity Attack?\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"rangeType\": \"melee\", \"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true, \"customMessage\": \"Is that an Opportunity Attack?\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": false,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "chatMessageId": ""
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Wolf Stance\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<ul><li><p><span class=\"cf0\">After you make an Attack with an Unarmed Strike or a Melee Weapon, you can immediately move up to 1 Space without spending movement.</span></p></li><li><p><span class=\"cf1\">You have ADV on Opportunity Attacks, and creatures</span><span class=\"cf0\"> </span><span class=\"cf1\">have DisADV on Opportunity Attacks made against you.</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -286,17 +303,20 @@
         }
       },
       "_stats": {
-        "compendiumSource": null,
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.Ioc0SSJfi50h1J4j.ActiveEffect.X8EX7mSnG98qcI62",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1767170832365,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781987495013,
+        "modifiedTime": 1782160517311,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_key": "!items.effects!Ioc0SSJfi50h1J4j.X8EX7mSnG98qcI62"
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
+      "_key": "!items.effects!Ioc0SSJfi50h1J4j.To9Xp0N8STPNgp9C"
     }
   ],
   "folder": "8PuTMRT8o1FtiBCV",
@@ -304,11 +324,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035079,
-    "modifiedTime": 1767170822092,
+    "modifiedTime": 1781983663642,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

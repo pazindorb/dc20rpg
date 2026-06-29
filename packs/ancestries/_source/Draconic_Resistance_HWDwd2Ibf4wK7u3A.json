@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -135,60 +136,33 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "6cnjDrsI5jX8gNyE": {
-        "name": "Change Draconic Origin",
-        "trigger": "onDemand",
-        "command": "const selected = await item.callMacroWithKey(\"lMfyQ7jOMm9hKet8\");\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
-        "disabled": false,
-        "title": "Change Draconic Origin"
-      },
-      "uo0JLBXMor8Gqc18": {
-        "name": "Add To Keyword",
-        "trigger": "onCreate",
-        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) newValue = await item.callMacroWithKey(\"lMfyQ7jOMm9hKet8\");\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
-        "disabled": false,
-        "title": ""
-      },
       "pt8t48Zxbcba29l3": {
-        "command": "if (newValue) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${newValue}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
+        "command": "if (newValue) {\n  const effect = item.effects.get(\"SCi94rqWEjGNNySA\");\n  if (effect) {\n    effect.system.changes[0].key=`system.damageReduction.damageTypes.${newValue}.resistance`;\n    effect.update({[\"system.changes\"]: effect.system.changes});\n  }\n}",
         "trigger": "onKeywordUpdate",
         "disabled": false,
         "name": "Update Damage Reduction",
         "title": ""
-      },
-      "4npNolpJqHVk0XWt": {
-        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"draconicOrigin\", item._id)",
-        "trigger": "preDelete",
-        "disabled": false,
-        "name": "Remove From Keyword",
-        "title": ""
-      },
-      "lMfyQ7jOMm9hKet8": {
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Draconic Origin damage type\", damageTypes);\nreturn selected;",
-        "trigger": "",
-        "disabled": false,
-        "name": "Change Draconic Origin Dialog",
-        "title": "",
-        "global": false
       }
     },
     "itemKey": "draconicResistance",
     "featureSourceItem": "dragonborn",
     "requirements": {
       "level": 0
+    },
+    "keyword": {
+      "key": "draconic-origin",
+      "message": "Select Draconic Origin",
+      "selectOptions": "{\n    \"corrosion\": \"Corrosion\",\n    \"cold\": \"Cold\",\n    \"fire\": \"Fire\",\n    \"lightning\": \"Lightning\",\n    \"poison\": \"Poison\",\n    \"psychic\": \"Psychic\",\n    \"radiant\": \"Radiant\",\n    \"umbral\": \"Umbral\"\n}"
     }
   },
   "effects": [
     {
       "origin": "Item.3YH1b9nvHlw31AgA",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Draconic Resistance",
@@ -199,16 +173,18 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.fire.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ],
+        "applyToTemplate": false,
+        "effectKey": "draconicResistance"
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.fire.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
       "description": "<p><span>You gain Resistance to your Draconic damage type.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -227,14 +203,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880257357,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1782162397819,
+        "modifiedTime": 1782162453855,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!HWDwd2Ibf4wK7u3A.SCi94rqWEjGNNySA"
     }
   ],
@@ -247,11 +226,11 @@
   "_stats": {
     "compendiumSource": "Item.3YH1b9nvHlw31AgA",
     "duplicateSource": "Item.3YH1b9nvHlw31AgA",
-    "coreVersion": "13.347",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1760955376165,
+    "modifiedTime": 1782162995391,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

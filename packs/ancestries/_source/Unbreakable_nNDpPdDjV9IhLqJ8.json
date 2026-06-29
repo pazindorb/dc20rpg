@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -142,13 +143,10 @@
     {
       "origin": "Item.nNDpPdDjV9IhLqJ8",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Unbreakable",
@@ -159,16 +157,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.deathSave",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unbreakable\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.deathSave",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Unbreakable\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p> You have ADV on Death Saves.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -187,7 +185,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -195,6 +193,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!nNDpPdDjV9IhLqJ8.eynJRbUBIvWCdux5"
     }
   ],
@@ -207,11 +208,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.YjVhVucislfGFG8N",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101168854,
-    "modifiedTime": 1745412762430,
+    "modifiedTime": 1781983707169,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

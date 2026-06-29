@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -134,16 +135,16 @@
     },
     "macros": {
       "bdnQnUfyUQWnhh9X": {
-        "name": "onCreate",
+        "name": "Add Range",
         "trigger": "onCreate",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.range.normal\"]: 10});\n}",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon]);\nfor (const weapon of weapons) weapon.update({[\"system.range.normal\"]: 10});",
         "disabled": false,
         "title": ""
       },
       "UX6vnx0lElhqSCCK": {
-        "name": "preDelete",
+        "name": "Remove Range",
         "trigger": "preDelete",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.range.normal\"]: null});\n}",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon]);\nfor (const weapon of weapons) weapon.update({[\"system.range.normal\"]: null});",
         "disabled": false,
         "title": ""
       }
@@ -159,11 +160,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.347",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720112471487,
-    "modifiedTime": 1760367285476,
+    "modifiedTime": 1782124669544,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -17,7 +17,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -150,20 +150,20 @@
     },
     "category": "skillBased",
     "quickRoll": false,
-    "itemKey": "mountedDefense"
+    "itemKey": "mountedDefense",
+    "rollConfig": {
+      "canCrit": false
+    }
   },
   "effects": [
     {
       "img": "icons/svg/shield.svg",
       "origin": "Item.1KXLpI788cdgbe4O",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Mounted Defense",
@@ -174,22 +174,22 @@
         "disableWhen": {
           "mode": "=="
         },
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Mounted Defense\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "value": "2",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Mounted Defense\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p><span>The mount’s </span><span><strong>PD</strong></span> increases by 2 until the start of your next turn.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -216,7 +216,7 @@
       "_stats": {
         "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": null,
@@ -224,19 +224,19 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!1KXLpI788cdgbe4O.KR70WPqkYDtPZ1eD"
     },
     {
       "img": "icons/svg/shield.svg",
       "origin": "Item.1KXLpI788cdgbe4O",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Mounted Defense +2",
@@ -247,22 +247,22 @@
         "disableWhen": {
           "mode": "=="
         },
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 4,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Mounted Defense +2\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "value": "4",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Mounted Defense +2\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p><span>The mount’s <strong>PD</strong></span> increases by 4 until the start of your next turn.</p>",
       "tint": "#47b392",
       "transfer": false,
@@ -289,7 +289,7 @@
       "_stats": {
         "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": null,
@@ -297,19 +297,19 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!1KXLpI788cdgbe4O.ikVeaebEUee9EZmU"
     },
     {
       "img": "icons/svg/shield.svg",
       "origin": "Item.1KXLpI788cdgbe4O",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Mounted Defense +4",
@@ -320,22 +320,22 @@
         "disableWhen": {
           "mode": "=="
         },
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 6,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Mounted Defense +4\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "value": "6",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Mounted Defense +4\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p><span>The mount’s <strong>PD</strong></span> increases by 6 until the start of your next turn.</p>",
       "tint": "#e0bb00",
       "transfer": false,
@@ -362,7 +362,7 @@
       "_stats": {
         "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "createdTime": null,
@@ -370,6 +370,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!1KXLpI788cdgbe4O.ZM9cZtUFd9MyzZ0X"
     }
   ],
@@ -383,11 +386,11 @@
   "_stats": {
     "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
     "duplicateSource": "Item.Z9UxQK1yb6Ht05Xr",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1765885265085,
+    "modifiedTime": 1781983708579,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

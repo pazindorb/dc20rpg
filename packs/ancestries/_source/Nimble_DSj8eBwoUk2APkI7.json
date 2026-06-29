@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -150,13 +150,10 @@
       "img": "icons/svg/paralysis.svg",
       "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Full Dodge",
@@ -167,58 +164,60 @@
         "disableWhen": {
           "mode": "=="
         },
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.skills",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.skills",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You <span>impose DisADV on all Attacks or Grapples made against you until the start of your next turn.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -237,14 +236,17 @@
       "_stats": {
         "compendiumSource": "Actor.vaIihUqwHKbdP6c6.Item.wKRxHIGvo1awqRRF.ActiveEffect.q11dyOEQpnZF878I",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1734299336840,
-        "modifiedTime": 1768466302889,
+        "modifiedTime": 1781983703741,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!DSj8eBwoUk2APkI7.Gvox993cw5UtFSjm"
     }
   ],
@@ -257,11 +259,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.r5G4V1UADD3bNU5H",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720099590760,
-    "modifiedTime": 1765897532970,
+    "modifiedTime": 1781983703726,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

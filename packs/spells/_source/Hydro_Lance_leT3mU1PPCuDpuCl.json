@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "keKVKQtZYiIJ7qO6",
+        "sourceItemId": "leT3mU1PPCuDpuCl",
+        "sourceItemName": "Hydro Lance",
+        "sourceItemImg": "icons/magic/water/projectile-icecicle-glowing.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "QTQ1mmaUpvEmickW": {
         "name": "Area",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "QTQ1mmaUpvEmickW",
+        "sourceItemId": "leT3mU1PPCuDpuCl",
+        "sourceItemName": "Hydro Lance",
+        "sourceItemImg": "icons/magic/water/projectile-icecicle-glowing.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "fCLhFXV8kztKQhbB": {
         "name": "Knockback",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "fCLhFXV8kztKQhbB",
+        "sourceItemId": "leT3mU1PPCuDpuCl",
+        "sourceItemName": "Hydro Lance",
+        "sourceItemImg": "icons/magic/water/projectile-icecicle-glowing.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "c3K4bQin8hrOfvIh": {
         "name": "Bleeding",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "c3K4bQin8hrOfvIh",
+        "sourceItemId": "leT3mU1PPCuDpuCl",
+        "sourceItemName": "Hydro Lance",
+        "sourceItemImg": "icons/magic/water/projectile-icecicle-glowing.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -650,6 +726,30 @@
       "motion": "Motion",
       "piercing": "Piercing",
       "water": "Water"
+    },
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 8,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -659,11 +759,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767784254161,
-    "modifiedTime": 1777665004461,
+    "modifiedTime": 1781985647460,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

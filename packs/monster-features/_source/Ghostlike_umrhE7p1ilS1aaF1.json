@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -276,7 +276,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -284,11 +287,10 @@
       "img": "icons/magic/death/undead-ghost-strike-white.webp",
       "origin": "Item.CE1V9Yt9lE0T9q4W",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -323,34 +325,34 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.piercing.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.slashing.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.radiant.vulnerability",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.piercing.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.slashing.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.radiant.vulnerability",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature gains Resistance (Half) to Physical Damage and Vulnerability to Radiant Damage.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -360,11 +362,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!umrhE7p1ilS1aaF1.yffEeOfnAQBfkZzr"
     }
   ],
@@ -378,11 +392,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777455663990,
-    "modifiedTime": 1777455663990,
+    "modifiedTime": 1781983717049,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -145,13 +146,10 @@
       "img": "icons/magic/movement/trail-streak-impact-blue.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.vaGRVR43hH97F0vH",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Mighty Leap",
@@ -161,16 +159,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.jump.key",
+            "value": "mig",
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.jump.key",
-          "mode": 5,
-          "value": "mig",
-          "priority": null
-        }
-      ],
       "description": "<p>You can use your <strong>Might </strong>instead of <strong>Agility </strong>to determine your Jump Distance and the damage you take from Falling.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -194,7 +192,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1738068200012,
@@ -202,6 +200,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!vaGRVR43hH97F0vH.F8LpXv5h41NnRt45"
     }
   ],
@@ -214,11 +215,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.cIf3ulZCGxB1ZSso",
-    "coreVersion": "13.347",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1760614882957,
+    "modifiedTime": 1781983707862,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

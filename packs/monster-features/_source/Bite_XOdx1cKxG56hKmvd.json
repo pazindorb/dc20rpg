@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -192,8 +192,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "npdgi9YUqsXH46lo",
+        "sourceItemId": "XOdx1cKxG56hKmvd",
+        "sourceItemName": "Bite",
+        "sourceItemImg": "icons/creatures/abilities/mouth-teeth-rows-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -385,6 +404,9 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "attack": {
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -394,11 +416,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778158390630,
-    "modifiedTime": 1778158390630,
+    "modifiedTime": 1781985657547,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

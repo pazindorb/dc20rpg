@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -148,13 +148,10 @@
     {
       "origin": "Item.NthWjsVcyW4txwqE",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Halfling Bravery",
@@ -165,28 +162,28 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.statusResistances.intimidated.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.statusResistances.terrified.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.statusResistances.frightened.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.statusResistances.intimidated.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.terrified.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.frightened.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You have ADV on Saves against being <strong>Intimidated</strong>, <strong>Rattled</strong>, or <strong>Frightened.</strong></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -213,7 +210,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -221,6 +218,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!NthWjsVcyW4txwqE.6q7et61P6BHrRlqx"
     }
   ],
@@ -233,11 +233,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.yArFvjJmZae5JQFW",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101162913,
-    "modifiedTime": 1766929448725,
+    "modifiedTime": 1781983704974,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

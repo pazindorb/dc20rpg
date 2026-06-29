@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -224,8 +224,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Uy168TephejSRD6o",
+        "sourceItemId": "xnco2VUUY7URysuC",
+        "sourceItemName": "Illuminate",
+        "sourceItemImg": "icons/magic/light/orbs-firefly-hand-yellow.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "RPA4mZONZuL3mBAK": {
         "name": "Area",
@@ -234,12 +253,12 @@
         "description": "<p>The Sphere’s diameter is increased by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -311,8 +330,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "RPA4mZONZuL3mBAK",
+        "sourceItemId": "xnco2VUUY7URysuC",
+        "sourceItemName": "Illuminate",
+        "sourceItemImg": "icons/magic/light/orbs-firefly-hand-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "wRHUHIutMDGdmEL1": {
         "name": "Duration",
@@ -383,7 +424,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const illuminated = item.getEffectByKey(\"illuminated\");\nif (!illuminated) return\n\nilluminated.duration.rounds = 10;",
+            "preItemRoll": "const illuminated = item.getEffectByKey(\"illuminated\");\nif (!illuminated) return\n\nilluminated.duration.value = 5 * (enh.number + 1);",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -398,8 +439,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "wRHUHIutMDGdmEL1",
+        "sourceItemId": "xnco2VUUY7URysuC",
+        "sourceItemName": "Illuminate",
+        "sourceItemImg": "icons/magic/light/orbs-firefly-hand-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "nKIjJL2X6W9MMfsZ": {
         "name": "Expose",
@@ -470,7 +530,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const illuminated = item.getEffectByKey(\"illuminated\");\nif (!illuminated) return\n\nconst exposed = CONFIG.statusEffects.find(s => s.id === \"exposed\");\nilluminated.statuses.add(\"exposed\");\nfor (const change of exposed.changes) illuminated.changes.push(change)",
+            "preItemRoll": "const illuminated = item.getEffectByKey(\"illuminated\");\nif (!illuminated) return\n\nDC20.tools.applyStatusToEffect(illuminated, \"exposed\");",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -485,8 +545,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "nKIjJL2X6W9MMfsZ",
+        "sourceItemId": "xnco2VUUY7URysuC",
+        "sourceItemName": "Illuminate",
+        "sourceItemImg": "icons/magic/light/orbs-firefly-hand-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "B7XvXVsAuI5EGoQh": {
         "name": "Blinded",
@@ -557,7 +636,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const illuminated = item.getEffectByKey(\"illuminated\");\nif (!illuminated) return\n\nconst blinded = CONFIG.statusEffects.find(s => s.id === \"blinded\");\nilluminated.statuses.add(\"blinded\");\nfor (const change of blinded.changes) illuminated.changes.push(change)",
+            "preItemRoll": "const illuminated = item.getEffectByKey(\"illuminated\");\nif (!illuminated) return\n\nDC20.tools.applyStatusToEffect(illuminated, \"blinded\");",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -572,8 +651,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "B7XvXVsAuI5EGoQh",
+        "sourceItemId": "xnco2VUUY7URysuC",
+        "sourceItemName": "Illuminate",
+        "sourceItemImg": "icons/magic/light/orbs-firefly-hand-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -743,6 +841,9 @@
       "cleansing": "Cleansing",
       "healing": "Healing",
       "time": "Time"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -751,13 +852,10 @@
       "img": "icons/magic/light/orbs-firefly-hand-yellow.webp",
       "origin": "Item.Y0s8fQ332eaRoCoU",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": 8,
-        "startTurn": 1
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -777,7 +875,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "illuminated",
         "macro": "",
@@ -792,40 +891,18 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Illuminated - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": null
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Illuminated - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.fullyConcealed.immunity",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.partiallyConcealed.immunity",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.hidden.immunity",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.invisible.immunity",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
       "description": "<p>You emit 1 Space radius of Dim Light and can't benefit from being Concealed (such as being Invisible)</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -835,11 +912,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983700488,
+        "modifiedTime": 1782576709348
       },
+      "start": {
+        "combat": null,
+        "round": 8,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!xnco2VUUY7URysuC.g4oqUQ5z76sxShWo"
     }
   ],
@@ -849,11 +938,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777537367213,
-    "modifiedTime": 1777537367213,
+    "modifiedTime": 1782576695067,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

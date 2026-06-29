@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -144,28 +145,26 @@
     {
       "origin": "Item.0Tk93q1KB9WYSUVL",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Radiant Weakness",
       "img": "icons/magic/light/beam-explosion-orange.webp",
       "_id": "snD9siIJWu5L6sIX",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.radiant.vulnerable",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.radiant.vulnerable",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>You have Radiant Vulnerable 1.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -175,7 +174,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
@@ -183,6 +182,9 @@
         "lastModifiedBy": null,
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!0Tk93q1KB9WYSUVL.snD9siIJWu5L6sIX"
     }
   ],
@@ -195,11 +197,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1778079702764,
+    "modifiedTime": 1781983702045,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

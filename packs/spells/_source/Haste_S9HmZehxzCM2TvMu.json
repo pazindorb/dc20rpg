@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -206,8 +206,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "D4W7tB1aKvrLQGfQ",
+        "sourceItemId": "S9HmZehxzCM2TvMu",
+        "sourceItemName": "Haste",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "k5vi5ID1NaWfvNK6": {
         "name": "Enhanced Speed",
@@ -216,12 +235,12 @@
         "description": "<p>The target gains +3 Spaces of Movement each round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -291,8 +310,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "k5vi5ID1NaWfvNK6",
+        "sourceItemId": "S9HmZehxzCM2TvMu",
+        "sourceItemName": "Haste",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "RehLcy3qJvRjOnCk": {
         "name": "Phased Movement",
@@ -301,12 +341,12 @@
         "description": "<p>The target can move through other creature’s Spaces. Other creatures Spaces are considered Difficult Terrain.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -376,8 +416,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "RehLcy3qJvRjOnCk",
+        "sourceItemId": "S9HmZehxzCM2TvMu",
+        "sourceItemName": "Haste",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "tTPTEF7wSj31c2E1": {
         "name": "Disengage",
@@ -386,12 +447,12 @@
         "description": "<p>The target gains the benefits of the Disengage Action for the duration.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -446,7 +507,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.attack\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Haste - Disengage\", \"confirmation\": true'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -461,8 +522,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "tTPTEF7wSj31c2E1",
+        "sourceItemId": "S9HmZehxzCM2TvMu",
+        "sourceItemName": "Haste",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "9Vc60aC0VdWbWHt2": {
         "name": "Reflexes",
@@ -471,12 +553,12 @@
         "description": "<p>The target gains ADV on Agility Checks and Saves for the duration.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -531,7 +613,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.checks.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Haste - Reflexes\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Haste - Reflexes\"'\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"haste\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.checks.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Haste - Reflexes\"'\n})\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Haste - Reflexes\"'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -546,22 +628,43 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "9Vc60aC0VdWbWHt2",
+        "sourceItemId": "S9HmZehxzCM2TvMu",
+        "sourceItemName": "Haste",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "X9BQkAH5QYelBpgZ": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p><em><strong>System Tip:</strong> Use Targets - AP Cost enhancement together with this one.</em></p>",
+        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -633,95 +736,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "z3zVr4fqFIcSJn8N": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement together with Targets</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "X9BQkAH5QYelBpgZ",
+        "sourceItemId": "S9HmZehxzCM2TvMu",
+        "sourceItemName": "Haste",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -890,6 +927,9 @@
       "embolden": "Embolden",
       "motion": "Motion",
       "time": "Time"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -898,13 +938,10 @@
       "img": "icons/skills/movement/feet-winged-boots-brown.webp",
       "origin": "Item.CbgUmgPHbbwFjoyI",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -924,7 +961,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "haste",
         "macro": "// Select haste bonus speed value\nif (event.trigger === \"instant\") {\n  let rollValue = await DC20.dialog.SimplePopup.input(\"What was your Spell Check value?\");\n  rollValue = parseInt(rollValue) || 0;\n  let bonusSpeed = 0;\n  let outcome = \"fail\";\n\n  let successRate = Math.floor((rollValue - 15)/5);\n  if (successRate >= 0) {\n    outcome = \"success\";\n    bonusSpeed = successRate;\n  }\n  effect.update({[\"flags.dc20rpg.haste\"]: {outcome: outcome, bonusSpeed: bonusSpeed}})\n}\n\n\n// Apply bonus speed value\nif (event.trigger === \"turnStart\") {\n  const haste = effect.flags.dc20rpg.haste;\n  if (!haste) return;\n\n  let moveKey = \"ground\";\n  if (actor.hasOtherMoveOptions) {\n    moveKey = await SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n  }\n  const movePoints = actor.system.movement[moveKey].current;\n\n  const enhancedSpeed = effect.flags?.dc20rpg?.enhancedSpeed || 0;\n  let movement = haste.outcome === \"success\" ? movePoints : Math.ceil(movePoints/2);\n  movement += haste.bonusSpeed + enhancedSpeed;\n  actor.moveAction({movePoints: movement});\n  ui.notifications.notify(`Granted ${movement} Move Points from Haste.`);\n}",
@@ -937,22 +975,22 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Haste\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Haste - Bonus Movement\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Haste\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Haste - Bonus Movement\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You gain bonus movement points at the beginning of tour turn.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -962,11 +1000,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983683790,
+        "modifiedTime": 1781983683790
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!S9HmZehxzCM2TvMu.IbTbhdvY34ZPlCEd"
     }
   ],
@@ -976,11 +1026,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767439926985,
-    "modifiedTime": 1777057189193,
+    "modifiedTime": 1782598692415,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

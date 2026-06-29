@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -185,7 +185,9 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds"
             },
             "disabled": false,
             "flags": {
@@ -211,7 +213,7 @@
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -222,17 +224,17 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "mode": 2,
+                  "value": "\"eventType\": \"damage\", \"label\": \"Savage Cuts\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"true\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"damage\", \"label\": \"Savage Cuts\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"true\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are Bleeding. While Bleeding from this, you can’t remove Bleeding by regaining HP.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -268,8 +270,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "6xB7tftKHEtKsJxA",
+        "sourceItemId": "ewJGQ0Cs5U14c1Tx",
+        "sourceItemName": "Charging Axe",
+        "sourceItemImg": "icons/weapons/axes/shortaxe-hammer-steel.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "OVuARF8RYAd2Vhfh": {
         "name": "Sunder",
@@ -349,7 +370,10 @@
               "seconds": null,
               "startRound": null,
               "startTurn": null,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -371,11 +395,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -386,31 +411,31 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.damageReduction.damageTypes.slashing.vulnerable",
+                  "mode": 2,
+                  "value": "1",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.damageReduction.damageTypes.bludgeoning.vulnerable",
+                  "mode": 2,
+                  "value": "1",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.damageReduction.damageTypes.piercing.vulnerable",
+                  "mode": 2,
+                  "value": "1",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.damageReduction.damageTypes.slashing.vulnerable",
-                "mode": 2,
-                "value": "1",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.damageTypes.bludgeoning.vulnerable",
-                "mode": 2,
-                "value": "1",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.damageTypes.piercing.vulnerable",
-                "mode": 2,
-                "value": "1",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain Physical Vulnerability (1) for 1 Round.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -444,8 +469,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "OVuARF8RYAd2Vhfh",
+        "sourceItemId": "ewJGQ0Cs5U14c1Tx",
+        "sourceItemName": "Charging Axe",
+        "sourceItemImg": "icons/weapons/axes/shortaxe-hammer-steel.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -655,11 +699,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778148687474,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1782420987100,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

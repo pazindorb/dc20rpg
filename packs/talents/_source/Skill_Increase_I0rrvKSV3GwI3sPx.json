@@ -24,7 +24,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -143,28 +144,26 @@
     {
       "origin": "Item.SzNlzWe5eQDcj16s",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Skill Increase",
       "img": "icons/consumables/mushrooms/convex-green.webp",
       "_id": "uR5mgiKCo4SGKJnJ",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.skillPoints.skill.bonus",
-          "value": "4",
-          "mode": 2,
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.skillPoints.skill.bonus",
+            "value": 4,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>You gain 4 Skill Points.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -174,7 +173,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
@@ -182,6 +181,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!I0rrvKSV3GwI3sPx.uR5mgiKCo4SGKJnJ"
     }
   ],
@@ -194,11 +196,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.SzNlzWe5eQDcj16s",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.1",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1719850606087,
-    "modifiedTime": 1769590055718,
+    "modifiedTime": 1781983701262,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

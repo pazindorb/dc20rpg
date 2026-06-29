@@ -67,7 +67,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -224,8 +224,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "RjqowOso2aPpysFs",
+        "sourceItemId": "WjCVyefalIg70KOo",
+        "sourceItemName": "Solar Beam",
+        "sourceItemImg": "icons/magic/light/projectile-beam-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "CgvMe3EbcCWRnSQe": {
         "name": "Area",
@@ -310,8 +329,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "CgvMe3EbcCWRnSQe",
+        "sourceItemId": "WjCVyefalIg70KOo",
+        "sourceItemName": "Solar Beam",
+        "sourceItemImg": "icons/magic/light/projectile-beam-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "fsh3GvJweaTM2Ltm": {
         "name": "Burning Radiance",
@@ -396,8 +434,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "fsh3GvJweaTM2Ltm",
+        "sourceItemId": "WjCVyefalIg70KOo",
+        "sourceItemName": "Solar Beam",
+        "sourceItemImg": "icons/magic/light/projectile-beam-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "0HfaxypAIW3JO5sp": {
         "name": "Blinding",
@@ -482,8 +539,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "0HfaxypAIW3JO5sp",
+        "sourceItemId": "WjCVyefalIg70KOo",
+        "sourceItemName": "Solar Beam",
+        "sourceItemImg": "icons/magic/light/projectile-beam-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -653,6 +729,30 @@
       "burning": "Burning",
       "light": "Light",
       "radiant": "Radiant"
+    },
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 8,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [
@@ -661,12 +761,10 @@
       "img": "icons/magic/light/projectile-beam-yellow.webp",
       "origin": "Item.KoLBstp3heREfOHp",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 82,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -689,7 +787,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "solarBeamCharges",
-        "macro": "if (event.trigger === \"instant\") {\n  effect.update({[\"flags.dc20rpg.solarBeam\"]: 1})\n}\n\nif (event.trigger === \"turnStart\") {\n  const confirmed = await DC20.dialog.SimplePopup.confirm(\"Did you sustained Solar Beam?\");\n  if (!confirmed) return;\n  \n  const current = effect.flags.dc20rpg.solarBeam;\n  const newValue = Math.min(current + 1, 4)\n  effect.update({\n    [\"flags.dc20rpg.solarBeam\"]: newValue,\n    [\"name\"]: `Solar Beam - Charges (${newValue})`\n  })\n}\n\nif (event.trigger === \"effectRemoved\") {\n  const item = actor.getItemByKey(\"solarBeam\");\n  if (!item) {\n    ui.notifications.notify(\"Cannot roll 'Solar Beam' - item not found.\");\n    return;\n  }\n  \n  const burning = effect.flags.dc20rpg?.burning || 0;\n  const blinded = effect.flags.dc20rpg?.blinded;\n  const bonusDmg = effect.flags.dc20rpg.bonusDmg || 0;\n  const stacks = effect.flags.dc20rpg.solarBeam || 1;\n  const dmg = stacks + bonusDmg;\n\n  let solarBurning;\n  let solarBlinded;\n  if (burning) solarBurning = item.getEffectByKey(\"solarBurning\");\n  if (blinded) solarBlinded = item.getEffectByKey(\"solarBlinded\");\n\n  // Configure effects\n  if (solarBurning) {\n    solarBurning.changes[0].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": ${burning}, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"`\n    await solarBurning.update({\n      [\"changes\"]: solarBurning.changes,\n      [\"system.addToChat\"]: true\n    })\n  }\n  if (solarBlinded) await solarBlinded.update({ [\"system.addToChat\"]: true });\n\n  // Configure item\n  const updateData = {\n    system: {\n      actionType: \"attack\",\n      rollMenu: {free: true},\n      againstStatuses: {},\n      macros: {vdGDq9scIlVqB59Q: {disabled: true}},\n      enhancements: {\n        RjqowOso2aPpysFs: {hide: true},\n        CgvMe3EbcCWRnSQe: {hide: true},\n        fsh3GvJweaTM2Ltm: {hide: true},\n        [\"0HfaxypAIW3JO5sp\"]: {hide: true},\n      }\n    }\n  }\n  \n  // Dmg Formula\n  const formula = new DC20.Formula();\n  formula.formula = `${dmg}`;\n  formula.type = \"radiant\";\n  updateData.system.formulas = {solarBeam: formula};\n  \n  // Roll Request\n  if (solarBurning || solarBlinded) {\n    const request = new DC20.RollRequest();\n    request.saveKey = \"phy\";\n    updateData.system.rollRequests = {solarBeam: request}\n  }\n\n  // Against statuses\n  if (solarBurning) {\n    const stataus = new DC20.AgainstStatus();\n    stataus.id = \"burning\";\n    stataus.supressFromChatMessage = true;\n    updateData.system.againstStatuses.solarBurning = stataus;\n  }\n  if (solarBlinded) {\n    const stataus = new DC20.AgainstStatus();\n    stataus.id = \"blinded\";\n    stataus.supressFromChatMessage = true;\n    updateData.system.againstStatuses.solarBlinded = stataus;\n  }\n\n  await item.update(updateData)\n  const options = stacks === 4 ? {initialRollMenuValue: {adv: 1, dis: 0}} : {};\n  await item.roll(options);\n\n  // Cleanup\n  await item.update({\n    [\"system.actionType\"]: \"\",\n    [\"system.formulas.-=solarBeam\"]: null,\n    [\"system.rollRequests.-=solarBeam\"]: null,\n    [\"system.againstStatuses.-=solarBurning\"]: null,\n    [\"system.againstStatuses.-=solarBlinded\"]: null,\n    [\"system.macros.vdGDq9scIlVqB59Q.disabled\"]: false,\n    [\"system.enhancements.RjqowOso2aPpysFs.hide\"]: false,\n    [\"system.enhancements.CgvMe3EbcCWRnSQe.hide\"]: false,\n    [\"system.enhancements.fsh3GvJweaTM2Ltm.hide\"]: false,\n    [\"system.enhancements.0HfaxypAIW3JO5sp.hide\"]: false,\n  });\n  if (solarBurning) await solarBurning.update({ [\"system.addToChat\"]: false });\n  if (solarBlinded) await solarBlinded.update({ [\"system.addToChat\"]: false });\n}",
+        "macro": "if (event.trigger === \"instant\") {\n  effect.update({[\"flags.dc20rpg.solarBeam\"]: 1})\n}\n\nif (event.trigger === \"turnStart\") {\n  const confirmed = await DC20.dialog.SimplePopup.confirm(\"Did you sustained Solar Beam?\");\n  if (!confirmed) return;\n  \n  const current = effect.flags.dc20rpg.solarBeam;\n  const newValue = Math.min(current + 1, 4)\n  effect.update({\n    [\"flags.dc20rpg.solarBeam\"]: newValue,\n    [\"name\"]: `Solar Beam - Charges (${newValue})`\n  })\n}\n\nif (event.trigger === \"effectRemoved\") {\n  const item = actor.getItemByKey(\"solarBeam\");\n  if (!item) {\n    ui.notifications.notify(\"Cannot roll 'Solar Beam' - item not found.\");\n    return;\n  }\n  \n  const burning = effect.flags.dc20rpg?.burning || 0;\n  const blinded = effect.flags.dc20rpg?.blinded;\n  const bonusDmg = effect.flags.dc20rpg.bonusDmg || 0;\n  const stacks = effect.flags.dc20rpg.solarBeam || 1;\n  const dmg = stacks + bonusDmg;\n\n  let solarBurning;\n  let solarBlinded;\n  if (burning) solarBurning = item.getEffectByKey(\"solarBurning\");\n  if (blinded) solarBlinded = item.getEffectByKey(\"solarBlinded\");\n\n  // Configure effects\n  if (solarBurning) {\n    solarBurning.system.changes[0].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": ${burning}, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"`\n    await solarBurning.update({\n      [\"system.changes\"]: solarBurning.system.changes,\n      [\"system.addToChat\"]: true\n    })\n  }\n  if (solarBlinded) await solarBlinded.update({ [\"system.addToChat\"]: true });\n\n  // Configure item\n  const updateData = {\n    system: {\n      actionType: \"attack\",\n      rollMenu: {free: true},\n      againstStatuses: {},\n      macros: {vdGDq9scIlVqB59Q: {disabled: true}},\n      enhancements: {\n        RjqowOso2aPpysFs: {hide: true},\n        CgvMe3EbcCWRnSQe: {hide: true},\n        fsh3GvJweaTM2Ltm: {hide: true},\n        [\"0HfaxypAIW3JO5sp\"]: {hide: true},\n      }\n    }\n  }\n  \n  // Dmg Formula\n  const formula = new DC20.Formula();\n  formula.formula = `${dmg}`;\n  formula.type = \"radiant\";\n  updateData.system.formulas = {solarBeam: formula};\n  \n  // Roll Request\n  if (solarBurning || solarBlinded) {\n    const request = new DC20.RollRequest();\n    request.saveKey = \"phy\";\n    updateData.system.rollRequests = {solarBeam: request}\n  }\n\n  // Against statuses\n  if (solarBurning) {\n    const stataus = new DC20.AgainstStatus();\n    stataus.id = \"burning\";\n    stataus.supressFromChatMessage = true;\n    updateData.system.againstStatuses.solarBurning = stataus;\n  }\n  if (solarBlinded) {\n    const stataus = new DC20.AgainstStatus();\n    stataus.id = \"blinded\";\n    stataus.supressFromChatMessage = true;\n    updateData.system.againstStatuses.solarBlinded = stataus;\n  }\n\n  await item.update(updateData)\n  const options = stacks === 4 ? {initialRollMenuValue: {adv: 1, dis: 0}} : {};\n  await item.roll(options);\n\n  // Cleanup\n  await item.update({\n    [\"system.actionType\"]: \"\",\n    [\"system.formulas.-=solarBeam\"]: null,\n    [\"system.rollRequests.-=solarBeam\"]: null,\n    [\"system.againstStatuses.-=solarBurning\"]: null,\n    [\"system.againstStatuses.-=solarBlinded\"]: null,\n    [\"system.macros.vdGDq9scIlVqB59Q.disabled\"]: false,\n    [\"system.enhancements.RjqowOso2aPpysFs.hide\"]: false,\n    [\"system.enhancements.CgvMe3EbcCWRnSQe.hide\"]: false,\n    [\"system.enhancements.fsh3GvJweaTM2Ltm.hide\"]: false,\n    [\"system.enhancements.0HfaxypAIW3JO5sp.hide\"]: false,\n  });\n  if (solarBurning) await solarBurning.update({ [\"system.addToChat\"]: false });\n  if (solarBlinded) await solarBlinded.update({ [\"system.addToChat\"]: false });\n}",
         "addToChat": false,
         "applyToTemplate": true,
         "nonessential": false,
@@ -701,28 +799,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Solar Beam - Increase Charge\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Solar Beam\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"label\": \"Solar Beam - End\", \"withEffectKey\": \"solarBeamCharges\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Solar Beam - Increase Charge\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Solar Beam\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"label\": \"Solar Beam - End\", \"withEffectKey\": \"solarBeamCharges\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>Solar Beam charges counter.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -732,12 +830,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1768846089956
+        "modifiedTime": 1782630737716,
+        "createdTime": 1782630737716
       },
+      "start": {
+        "combat": null,
+        "round": 82,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!WjCVyefalIg70KOo.vF0cAGgPHZqVuJc7"
     },
     {
@@ -745,13 +854,10 @@
       "img": "systems/dc20rpg/images/statuses/burning.svg",
       "origin": "Item.KoLBstp3heREfOHp",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -771,7 +877,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "solarBurning",
         "macro": "",
@@ -786,22 +893,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": 1, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Burning - Repeated Save\", \"checkKey\": \"phy\", \"statuses\": [\"burning\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": 1, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Burning - Repeated Save\", \"checkKey\": \"phy\", \"statuses\": [\"burning\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "priority": null
-        }
-      ],
       "description": "<p>You take <strong>X</strong> Radiant damage at the start of each of your turns.</p><p><em><strong>Ending Burning:</strong></em> All stacks of the Condition end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water. Alternatively, a creature within 1 Space can spend <strong>1 AP</strong> to remove 1 stack of the Condition.</p>",
       "tint": "#ced06d",
       "transfer": false,
@@ -813,11 +920,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983686719,
+        "modifiedTime": 1781983686719
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!WjCVyefalIg70KOo.umVZPkJH1oHBRoM3"
     },
     {
@@ -825,13 +944,10 @@
       "img": "systems/dc20rpg/images/statuses/blinded.svg",
       "origin": "Item.KoLBstp3heREfOHp",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null,
-        "turns": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -845,13 +961,14 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "blinded",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "solarBlinded",
         "macro": "",
@@ -866,94 +983,102 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "type": "add",
+            "value": "\"label\": \"Blinded\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Burning\", \"value\": 1, \"type\": \"radiant\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "mode": 2,
-          "value": "\"label\": \"Blinded\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded (Hindered)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blinded (Exposed)\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You take <strong>X</strong> Radiant damage at the start of each of your turns.</p><p><em><strong>Ending Burning:</strong></em> All stacks of the Condition end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water. Alternatively, a creature within 1 Space can spend <strong>1 AP</strong> to remove 1 stack of the Condition.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -965,11 +1090,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983686725,
+        "modifiedTime": 1782396851734
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!WjCVyefalIg70KOo.we2SeXWlfdj7pnTz"
     }
   ],
@@ -979,11 +1116,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768056402174,
-    "modifiedTime": 1777535143842,
+    "modifiedTime": 1781985643295,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -132,7 +132,8 @@
         "forOneMinute": false,
         "repeatedSave": false,
         "repeatedSaveKey": "phy",
-        "forXRounds": null
+        "forXRounds": null,
+        "stacks": null
       }
     },
     "rollRequests": {
@@ -229,8 +230,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "eqPXCSdsRVTOQ6o3",
+        "sourceItemId": "cvsHJBsmJ6lTQpg4",
+        "sourceItemName": "Entangle",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "R0wDEHqm4E7aKr89": {
         "name": "Area",
@@ -239,12 +259,12 @@
         "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -314,8 +334,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "R0wDEHqm4E7aKr89",
+        "sourceItemId": "cvsHJBsmJ6lTQpg4",
+        "sourceItemName": "Entangle",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "gARfpLHZb5kvjFNb": {
         "name": "Grasping",
@@ -324,12 +366,12 @@
         "description": "<p><strong>(Sustained)</strong> When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -392,15 +434,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 50,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "gARfpLHZb5kvjFNb"
+                "enhKey": "gARfpLHZb5kvjFNb",
+                "itemSavePath": "system.enhancements.gARfpLHZb5kvjFNb.modifications.addsEffect"
               }
             },
-            "_id": "GOG7qzut94h2Xn66",
+            "_id": "pY6t3lvEpuRjGhig",
             "type": "base",
             "system": {
               "sustained": {
@@ -414,11 +461,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "if (actor.hasStatus(\"immobilized\")) return;\nconst effectData = effect.flags.dc20rpg?.entangle;\nif (!effectData) return;\n\neffectData.changes[0].value = effectData.changes[0].value.replace('\"against\": <#@saveDC.value.spell#>', `\"against\": ${event.against}`);\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: effectData.statuses, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  game.dc20rpg.effects.createEffectOn(effectData, actor);\n}",
-              "addToChat": false,
+              "macro": "if (actor.hasStatus(\"immobilized\")) return;\nconst effectData = effect.flags.dc20rpg?.entangle;\nif (!effectData) return;\n\neffectData.system.changes[0].value = effectData.system.changes[0].value.replace('\"against\": <#@saveDC.value.spell#>', `\"against\": ${event.against}`);\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: effectData.statuses, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  game.dc20rpg.effects.createEffectOn(effectData, actor);\n}",
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -429,24 +477,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Immobilized.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -456,13 +509,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767802684245,
-              "modifiedTime": 1767802692859,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782631316570,
+              "modifiedTime": 1782631341971,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 50,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -480,8 +543,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "gARfpLHZb5kvjFNb",
+        "sourceItemId": "cvsHJBsmJ6lTQpg4",
+        "sourceItemName": "Entangle",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "aTade7nOb9Uj6HSe": {
         "name": "Restrained",
@@ -490,12 +575,12 @@
         "description": "<p>Creatures Immobilized by Entangle are Restrained.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -547,11 +632,12 @@
             "forOneMinute": false,
             "repeatedSave": false,
             "repeatedSaveKey": "phy",
-            "forXRounds": null
+            "forXRounds": null,
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"entangle\");\nif (!effect) return;\n\n\neffect.statuses.add(\"restrained\");\neffect.statuses.add(\"grappled\");\neffect.changes.forEach(change => {\n  if (change.key === \"system.events\" && change.value.includes('\"statuses\": [\"immobilized\"]')) {\n    change.value = change.value.replace('\"statuses\": [\"immobilized\"]', '\"statuses\": [\"immobilized\", \"restrained\"]');\n  }\n})\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"entangle\");\nif (!effect) return;\n\n\n\neffect.statuses.add(\"restrained\");\neffect.statuses.add(\"grappled\");\neffect.system.changes.forEach(change => {\n  if (change.key === \"system.events\" && change.value.includes('\"statuses\": [\"immobilized\"]')) {\n    change.value = change.value.replace('\"statuses\": [\"immobilized\"]', '\"statuses\": [\"immobilized\", \"restrained\"]');\n  }\n})\n\n\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.attack\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Entangle)\"'\n})\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.attack\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Entangle)\"'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -566,8 +652,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "aTade7nOb9Uj6HSe",
+        "sourceItemId": "cvsHJBsmJ6lTQpg4",
+        "sourceItemName": "Entangle",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "4GZEiQ03OyC73uhj": {
         "name": "Spikey Terrain",
@@ -576,12 +684,12 @@
         "description": "<p>Creatures take X Piercing damage when they enter an Entangled Space after the Spell has been cast. They also take this damage if they fail a Save to end the Immobilized Condition inflicted by this Spell.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -644,15 +752,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 1,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "4GZEiQ03OyC73uhj"
+                "enhKey": "4GZEiQ03OyC73uhj",
+                "itemSavePath": "system.enhancements.4GZEiQ03OyC73uhj.modifications.addsEffect"
               }
             },
-            "_id": "RRRuMVJ97iAsC7pI",
+            "_id": "rpD8ybgB5FYWJvF2",
             "type": "base",
             "system": {
               "sustained": {
@@ -666,11 +779,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "const spikeyTerrain = effect.flags.dc20rpg.spikeyTerrain || 0;\nif (!spikeyTerrain) return;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nlet dmg = {\n  value: spikeyTerrain,\n  source: \"Spikey Terrain\",\n  type: \"piercing\"\n}\nconst calculationTarget = {\n  system: {damageReduction: actor.system.damageReduction}\n}\ndmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\ngame.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -681,17 +795,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Creature takes X Piercing damage when they enter an Entangled Space.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -701,13 +819,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768594298299,
-              "modifiedTime": 1768594312162,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782422480493,
+              "modifiedTime": 1782422480493,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 1,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "const entangle = item.getEffectByKey(\"entangle\");\nif (entangle) entangle.flags.dc20rpg.spikeyTerrain = enh.number;\n\nenh.modifications.addsEffect.flags.dc20rpg.spikeyTerrain = enh.number;",
@@ -725,8 +853,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "4GZEiQ03OyC73uhj",
+        "sourceItemId": "cvsHJBsmJ6lTQpg4",
+        "sourceItemName": "Entangle",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -896,6 +1046,30 @@
       "plants": "Plants",
       "piercing": "Piercing",
       "restrained": "Restrained"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "all",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -904,13 +1078,10 @@
       "img": "icons/magic/nature/root-vine-entangled-humanoid.webp",
       "origin": "Item.HQyczaYtSdERgT9y",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "startRound": null,
-        "startTurn": null,
-        "seconds": null,
-        "turns": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -924,13 +1095,14 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "immobilized",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "entangle",
         "macro": "const spikeyTerrain = effect.flags.dc20rpg?.spikeyTerrain || 0;\n\nif (spikeyTerrain) {\n  let dmg = {\n    value: spikeyTerrain,\n    source: \"Spikey Terrain\",\n    type: \"piercing\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n}",
@@ -945,28 +1117,28 @@
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
         "chatMessageId": "",
-        "applyToTemplate": false
+        "applyToTemplate": true,
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"manual\", \"label\": \"Entangle\", \"preTrigger\": \"spendAP\", \"checkKey\": \"agi\", \"against\": <#@saveDC.value.spell#>, \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.movement.ground.bonus",
+            "value": -100,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Immobilized\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"manual\", \"label\": \"Entangle\", \"preTrigger\": \"spendAP\", \"checkKey\": \"agi\", \"against\": <#@saveDC.value.spell#>, \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.movement.ground.bonus",
-          "value": "-100",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Immobilized\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are under the effect of Entangle.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -978,11 +1150,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983690273,
+        "modifiedTime": 1782422228415
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!cvsHJBsmJ6lTQpg4.hsGGz4kIZVOXySyF"
     }
   ],
@@ -992,11 +1176,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767802765144,
-    "modifiedTime": 1777379433185,
+    "modifiedTime": 1782631486089,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

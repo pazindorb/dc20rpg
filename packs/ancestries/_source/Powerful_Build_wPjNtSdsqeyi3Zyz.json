@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -144,13 +145,10 @@
     {
       "origin": "Item.wPjNtSdsqeyi3Zyz",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Powerful Build",
@@ -161,22 +159,22 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.size.size",
-          "mode": 5,
-          "value": "large",
-          "priority": null
         },
-        {
-          "key": "system.size.spaceOccupation",
-          "mode": 4,
-          "value": "1",
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "key": "system.size.size",
+            "value": "large",
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.size.spaceOccupation",
+            "value": 1,
+            "priority": null,
+            "type": "upgrade"
+          }
+        ]
+      },
       "description": "<p><span>You increase by 1 size, but you occupy the Space of a creature 1 size smaller.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -194,7 +192,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -202,6 +200,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!wPjNtSdsqeyi3Zyz.2JFkBoT9gz9GV6BJ"
     }
   ],
@@ -214,11 +215,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.1",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1762798000164,
+    "modifiedTime": 1781983707985,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

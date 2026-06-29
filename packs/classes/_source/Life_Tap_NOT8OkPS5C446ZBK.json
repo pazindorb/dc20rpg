@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -152,7 +152,15 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": -1,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>When you produce an <strong>MP Effect</strong>, you can spend <strong>HP</strong> in place of <strong>MP</strong>.</p><p>The total amount of HP and MP spent can't exceed your Mana Spend Limit.</p><p>You can use this Feature once per Long Rest, and regain the ability to use it again when you roll for Initiative.</p>",
         "hide": false,
@@ -160,7 +168,13 @@
         "sourceItemId": "NOT8OkPS5C446ZBK",
         "sourceItemName": "Life Tap",
         "sourceItemImg": "icons/commodities/treasure/plaque-skull-blue-green.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -322,11 +336,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034855,
-    "modifiedTime": 1776894409987,
+    "modifiedTime": 1781985629209,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

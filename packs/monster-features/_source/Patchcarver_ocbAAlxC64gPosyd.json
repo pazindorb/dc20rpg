@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "area",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -207,49 +207,7 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "conditionals": {
-      "g8uM5rjBkFHxKPJh": {
-        "name": "Extra Damage on Heavy",
-        "condition": "hit > 5",
-        "useFor": "system.itemKey=[\"aa_patchcarver\"]",
-        "linkWithToggle": false,
-        "bonus": "1",
-        "flags": {
-          "ignorePdr": false,
-          "ignoreEdr": false,
-          "ignoreMdr": false,
-          "ignoreResistance": {},
-          "ignoreImmune": {},
-          "reduceAd": "",
-          "reducePd": ""
-        },
-        "effect": null,
-        "addsNewRollRequest": false,
-        "rollRequest": {
-          "category": "save",
-          "saveKey": "",
-          "contestedKey": "",
-          "dcCalculation": "spell",
-          "dc": 0,
-          "addMasteryToDC": true
-        },
-        "addsNewFormula": false,
-        "formula": {
-          "formula": "",
-          "type": "",
-          "label": "",
-          "category": "damage",
-          "fail": false,
-          "failFormula": "",
-          "dontModifyFailFormula": false,
-          "each5": false,
-          "each5Formula": "",
-          "dontMerge": false,
-          "overrideDefence": "",
-          "perTarget": false
-        }
-      }
-    },
+    "conditionals": {},
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -339,6 +297,73 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 4,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "targetModifiers": {
+      "g8uM5rjBkFHxKPJh": {
+        "name": "Extra Damage on Heavy",
+        "condition": "return (hit > 5)",
+        "useFor": "system.itemKey=[\"aa_patchcarver\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreEdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "save",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "spell",
+          "dc": 0,
+          "addMasteryToDC": true
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "label": "",
+          "category": "damage",
+          "fail": false,
+          "failFormula": "",
+          "dontModifyFailFormula": false,
+          "each5": false,
+          "each5Formula": "",
+          "dontMerge": false,
+          "overrideDefence": "",
+          "perTarget": false
+        }
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -348,11 +373,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778148446745,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781983716481,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

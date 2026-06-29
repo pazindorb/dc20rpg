@@ -46,7 +46,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -128,12 +128,12 @@
         "description": "<p>The Attack deals +1 damage against 1 target of the Attack.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -203,8 +203,29 @@
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": null,
-          "specificFormulaKey": ""
-        }
+          "specificFormulaKey": "",
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "IMLTv3kcURrCFEMj",
+        "sourceItemId": "r6Lzh5dG0sJ0DgBu",
+        "sourceItemName": "Martial Enhancements",
+        "sourceItemImg": "icons/skills/melee/hand-grip-sword-white-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "HIwlrlBlxlCLv2Zz": {
         "name": "Range",
@@ -213,12 +234,12 @@
         "description": "<p>The Attack’s Range increase by 1 Space if it’s a Melee Attack, or by 5 Spaces if it’s a Ranged Attack. This Enhancement can only be performed once per Attack.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -282,13 +303,34 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": 1,
-            "normal": null,
-            "max": null
+            "melee": "1",
+            "normal": "",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        }
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "HIwlrlBlxlCLv2Zz",
+        "sourceItemId": "r6Lzh5dG0sJ0DgBu",
+        "sourceItemName": "Martial Enhancements",
+        "sourceItemImg": "icons/skills/melee/hand-grip-sword-white-brown.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "xi77VBZRytVXGNTh": {
         "name": "Daze",
@@ -297,12 +339,12 @@
         "description": "<p>A creature of your choice targeted by the Attack makes a Might Save against your Save DC.</p><p><strong>Save Failure:</strong> The target becomes Dazed until the end of their next turn.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -353,7 +395,8 @@
             "forOneMinute": false,
             "repeatedSave": false,
             "repeatedSaveKey": "phy",
-            "forXRounds": null
+            "forXRounds": null,
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -372,13 +415,34 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        }
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "xi77VBZRytVXGNTh",
+        "sourceItemId": "r6Lzh5dG0sJ0DgBu",
+        "sourceItemName": "Martial Enhancements",
+        "sourceItemImg": "icons/skills/melee/hand-grip-sword-white-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.attackFormula.checkType=[\"attack\"]&&system.actionType=[\"attack\"]&&system.combatTraining=[true]",
+      "copyFor": "isMartialAttack=[true]&&system.combatTraining=[true]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -508,11 +572,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1765872520750,
-    "modifiedTime": 1777359042190,
+    "modifiedTime": 1781985655314,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

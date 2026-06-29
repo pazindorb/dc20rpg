@@ -42,7 +42,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -283,11 +283,10 @@
       "img": "icons/magic/nature/wolf-paw-glow-small-orange.webp",
       "origin": "Scene.qPcxf78aUNNtYLjA.Token.VZsDr6ocd1yd2xk6.Actor.cEJYrnrTLGeu2hbU.Item.eLRix3MLEPHiNIQI",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -322,16 +321,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.globalModifier.ignore.difficultTerrain",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.globalModifier.ignore.difficultTerrain",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
       "description": "<p>You’re not affected by Difficult Terrain</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -341,11 +340,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!NeUqPyuKa3ZmNow9.rRDqTU9jIyDSLTnq"
     }
   ],
@@ -361,11 +372,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778451178740,
-    "modifiedTime": 1778451178765,
+    "modifiedTime": 1781983713544,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

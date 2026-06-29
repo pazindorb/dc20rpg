@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -285,7 +285,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -293,11 +296,10 @@
       "img": "icons/creatures/magical/spirit-fire-yellow.webp",
       "origin": "Item.71LqEq5leyJI2mFc",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -322,7 +324,7 @@
         "effectKey": "",
         "macro": "",
         "addToChat": false,
-        "applyToTemplate": true,
+        "applyToTemplate": false,
         "nonessential": false,
         "disableWhen": {
           "path": "",
@@ -332,9 +334,9 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": []
       },
-      "changes": [],
       "description": "<p>Elemental trait effects.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -344,12 +346,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1777448548258
+        "modifiedTime": 1782144605505,
+        "createdTime": 1782144605505
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!i6wFUovbhaDEr6Vs.bwOgUaMeRa8UH14J"
     }
   ],
@@ -363,11 +376,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777448116569,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1781983715964,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

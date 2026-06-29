@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -137,10 +138,11 @@
     "requirements": {
       "level": 0
     },
-    "conditionals": {
+    "conditionals": {},
+    "targetModifiers": {
       "a8vHbwxyxMdtXdYy": {
         "name": "Finishing Blow",
-        "condition": "target.hasAnyCondition([\"wellBloodied\"])",
+        "condition": "return target?.actor?.hasStatus(\"wellBloodied\")",
         "useFor": "true",
         "linkWithToggle": false,
         "bonus": "1",
@@ -181,11 +183,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.5",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1745758657672,
+    "modifiedTime": 1782375361665,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

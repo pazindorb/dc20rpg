@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -225,11 +225,12 @@
       "level": 2
     },
     "featureSourceItem": "rogue",
-    "conditionals": {
+    "conditionals": {},
+    "targetModifiers": {
       "WJR25zK69YpTHw2g": {
         "name": "Cheap Shot",
-        "condition": "target.isFlanked || target.hasAnyCondition([], true) || target.hasAnyCondition([\"prone\"]) || target.hasAnyCondition([], true)",
-        "useFor": "type=[\"weapon\"]",
+        "condition": "const actor = target?.actor;\nif (!actor) return false;\n\n// Has any condition\nfor (const status of actor.statuses.values()) {\n  if (status.condition) return true;\n}\n\n// Is Prone\nif (actor.hasStatus(\"prone\")) return true;\n\n// Is Flanked - Optimize number of async calls\nif (target.isFlanked !== undefined) return target.isFlanked;\nconst token = actor.getActiveTokens()[0];\nif (!token) return false;\nconst isFlanked = await token.isTokenFlanked();\ntarget.isFlanked = isFlanked;\nreturn isFlanked;",
+        "useFor": "isMartialAttack=[true]",
         "linkWithToggle": false,
         "bonus": "1",
         "flags": {
@@ -267,11 +268,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034048,
-    "modifiedTime": 1778137353503,
+    "modifiedTime": 1782121123934,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

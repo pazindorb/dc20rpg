@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,107 +221,41 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "g1yCBxIvPGI5cI6a": {
-        "name": "Passenger - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with Passenger enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "LHzUqpZyeoNaJ6c1",
+        "sourceItemId": "eNsKEXvPSM7BczZ0",
+        "sourceItemName": "Teleport",
+        "sourceItemImg": "icons/magic/movement/portal-vortex-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YTSapIT4SFRvtAr3": {
         "name": "Passenger",
         "number": 0,
         "preventModification": false,
-        "description": "<p><span class=\"cf0\">X willing creatures (that are not Immobilized) within 2 Spaces of you are also teleported, appearing in an unoccupied space within 2 Spaces of where you appear after teleporting. If used with Unbound, you can teleport other Immobilized creatures. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</span></p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Passenger - AP Cost</strong> enhancement as well.</em></p>",
+        "description": "<p><span class=\"cf0\">X willing creatures (that are not Immobilized) within 2 Spaces of you are also teleported, appearing in an unoccupied space within 2 Spaces of where you appear after teleporting. If used with Unbound, you can teleport other Immobilized creatures. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</span></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -391,8 +325,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "YTSapIT4SFRvtAr3",
+        "sourceItemId": "eNsKEXvPSM7BczZ0",
+        "sourceItemName": "Teleport",
+        "sourceItemImg": "icons/magic/movement/portal-vortex-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "PzAngcx3TZxoGx7M": {
         "name": "Temporal Shiver",
@@ -477,8 +432,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PzAngcx3TZxoGx7M",
+        "sourceItemId": "eNsKEXvPSM7BczZ0",
+        "sourceItemName": "Teleport",
+        "sourceItemImg": "icons/magic/movement/portal-vortex-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "dXK71HaWGG7zrSm4": {
         "name": "Temporal Repulse",
@@ -563,8 +537,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "dXK71HaWGG7zrSm4",
+        "sourceItemId": "eNsKEXvPSM7BczZ0",
+        "sourceItemName": "Teleport",
+        "sourceItemImg": "icons/magic/movement/portal-vortex-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "rL4mhntasumbIOua": {
         "name": "Unbound",
@@ -650,8 +643,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "rL4mhntasumbIOua",
+        "sourceItemId": "eNsKEXvPSM7BczZ0",
+        "sourceItemName": "Teleport",
+        "sourceItemImg": "icons/magic/movement/portal-vortex-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -820,6 +832,9 @@
       "teleportation": "Teleportation",
       "motion": "Motion",
       "slowed": "Slowed"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [],
@@ -829,11 +844,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767465214685,
-    "modifiedTime": 1777188795501,
+    "modifiedTime": 1782566069511,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

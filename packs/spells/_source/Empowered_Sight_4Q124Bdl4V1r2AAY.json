@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -206,8 +206,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "SeIOtoHyflINAPsJ",
+        "sourceItemId": "4Q124Bdl4V1r2AAY",
+        "sourceItemName": "Empowered Sight",
+        "sourceItemImg": "icons/magic/perception/eye-ringed-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "2TM6hCx5RgZ5ZhZZ": {
         "name": "Duration",
@@ -291,8 +310,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2TM6hCx5RgZ5ZhZZ",
+        "sourceItemId": "4Q124Bdl4V1r2AAY",
+        "sourceItemName": "Empowered Sight",
+        "sourceItemImg": "icons/magic/perception/eye-ringed-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "pIvYFVtifuJ52OQo": {
         "name": "See Invisibility",
@@ -361,7 +399,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"empoweredSight\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.senses.blindsight.range\",\n  mode: 4,\n  value: \"10\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"empoweredSight\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.senses.blindsight.range\",\n  mode: 4,\n  value: \"10\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -376,8 +414,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "pIvYFVtifuJ52OQo",
+        "sourceItemId": "4Q124Bdl4V1r2AAY",
+        "sourceItemName": "Empowered Sight",
+        "sourceItemImg": "icons/magic/perception/eye-ringed-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "X4pphffuHgWclh54": {
         "name": "True Sight",
@@ -446,7 +503,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"empoweredSight\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.senses.truesight.range\",\n  mode: 4,\n  value: \"10\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"empoweredSight\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.senses.truesight.range\",\n  mode: 4,\n  value: \"10\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -461,8 +518,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "X4pphffuHgWclh54",
+        "sourceItemId": "4Q124Bdl4V1r2AAY",
+        "sourceItemName": "Empowered Sight",
+        "sourceItemImg": "icons/magic/perception/eye-ringed-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "0X9oGYS0tW2VSGs9": {
         "name": "Piercing Sight",
@@ -546,8 +622,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "0X9oGYS0tW2VSGs9",
+        "sourceItemId": "4Q124Bdl4V1r2AAY",
+        "sourceItemName": "Empowered Sight",
+        "sourceItemImg": "icons/magic/perception/eye-ringed-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -723,12 +818,10 @@
       "img": "icons/magic/perception/eye-ringed-green.webp",
       "origin": "Item.iwPrkjDJxoisMXwW",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 2,
-        "startTurn": 0
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -761,16 +854,16 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.senses.darkvision.range",
+            "value": 10,
+            "priority": null,
+            "type": "upgrade"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.senses.darkvision.range",
-          "value": "10",
-          "mode": 4,
-          "priority": null
-        }
-      ],
       "description": "<p>Your eyesight is empowered.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -780,11 +873,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 2,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!4Q124Bdl4V1r2AAY.BFCR12ZLPGuvwzDF"
     }
   ],
@@ -794,11 +899,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767467949688,
-    "modifiedTime": 1777217503908,
+    "modifiedTime": 1782579396047,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

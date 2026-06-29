@@ -34,7 +34,7 @@
       "attunement": {
         "active": false,
         "slotCost": 0,
-        "label": "dc20rpg.properties.attunement",
+        "label": "Attunement",
         "journalUuid": "",
         "for": [
           "melee",
@@ -45,12 +45,26 @@
           "heavy",
           "other"
         ],
-        "cost": 0
+        "cost": 0,
+        "type": [
+          "weapon",
+          "equipment",
+          "spellFocus",
+          "consumable"
+        ],
+        "subtype": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ]
       },
       "adIncrease": {
         "active": false,
         "value": 2,
-        "label": "dc20rpg.properties.adIncrease",
+        "label": "AD Increase",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
         "for": [
           "lshield",
@@ -59,12 +73,21 @@
           "heavy"
         ],
         "cost": 1,
-        "valueCostMultiplier": true
+        "valueCostMultiplier": true,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ]
       },
       "pdIncrease": {
         "active": true,
         "value": 2,
-        "label": "dc20rpg.properties.pdIncrease",
+        "label": "PD Increase",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
         "for": [
           "lshield",
@@ -73,76 +96,134 @@
           "heavy"
         ],
         "cost": 1,
-        "valueCostMultiplier": true
+        "valueCostMultiplier": true,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ]
       },
       "edr": {
         "active": false,
-        "label": "dc20rpg.properties.edr",
+        "label": "EDR",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
         "for": [
           "hshield",
           "light",
           "heavy"
         ],
-        "cost": 2
+        "cost": 2,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "hshield",
+          "light",
+          "heavy"
+        ]
       },
       "pdr": {
         "active": true,
-        "label": "dc20rpg.properties.pdr",
+        "label": "PDR",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
         "for": [
           "hshield",
           "heavy"
         ],
-        "cost": 2
+        "cost": 2,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "hshield",
+          "heavy"
+        ]
       },
       "bulky": {
         "active": true,
-        "label": "dc20rpg.properties.bulky",
+        "label": "Bulky",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
         "for": [
           "hshield",
           "heavy"
         ],
-        "cost": -1
+        "cost": -1,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "hshield",
+          "heavy"
+        ]
       },
       "rigid": {
         "active": true,
-        "label": "dc20rpg.properties.rigid",
+        "label": "Rigid",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
         "for": [
           "hshield",
           "heavy"
         ],
-        "cost": -1
+        "cost": -1,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "hshield",
+          "heavy"
+        ]
       },
       "grasp": {
         "active": false,
-        "label": "dc20rpg.properties.grasp",
+        "label": "Grasp",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE",
         "for": [
           "lshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "lshield"
+        ]
       },
       "toss": {
         "active": false,
-        "label": "dc20rpg.properties.toss",
+        "label": "Toss",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
         "for": [
           "melee",
           "lshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon",
+          "equipment"
+        ],
+        "subtype": [
+          "melee",
+          "lshield"
+        ]
       },
       "mounted": {
         "active": false,
-        "label": "dc20rpg.properties.mounted",
+        "label": "Mounted",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
         "for": [
           "hshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "hshield"
+        ]
       }
     },
     "effectsConfig": {
@@ -166,7 +247,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,7 +302,7 @@
         "requiredTotalMinimum": null,
         "reset": "",
         "showAsResource": false,
-        "subtract": 1
+        "subtract": 0
       },
       "otherItem": {
         "itemId": "",
@@ -356,11 +437,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1744925943796,
-    "modifiedTime": 1761242996193,
+    "modifiedTime": 1781983671244,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

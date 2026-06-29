@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "5KkWNBvEG3icSxxf": {
-        "command": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\neffect.statuses.add(\"impaired\");\neffect.statuses.add(\"dazed\");\nconst impaired = CONFIG.statusEffects.find(e => e.id === \"impaired\")\nfor (const change of impaired.changes) effect.changes.push(change);\n\n\nconst dazed = CONFIG.statusEffects.find(e => e.id === \"dazed\")\nfor (const change of dazed.changes) effect.changes.push(change);",
+        "command": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\nDC20.tools.applyStatusToEffect(effect, \"impaired\")\nDC20.tools.applyStatusToEffect(effect, \"dazed\")",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Impaired and Dazed",
@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -239,8 +239,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "nSL4TuJAZmLDLkT8",
+        "sourceItemId": "6g9WeLGQfeMqqGTx",
+        "sourceItemName": "Inflict Poison",
+        "sourceItemImg": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "yibuBdUXdNI5LpRT": {
         "name": "Sapped",
@@ -310,7 +329,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\neffect.statuses.add(\"prone\");\nconst data = CONFIG.statusEffects.find(e => e.id === \"prone\")\nfor (const change of data.changes) {\n  effect.changes.push(change);\n}",
+            "preItemRoll": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\nDC20.tools.applyStatusToEffect(effect, \"prone\")",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -325,8 +344,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "yibuBdUXdNI5LpRT",
+        "sourceItemId": "6g9WeLGQfeMqqGTx",
+        "sourceItemName": "Inflict Poison",
+        "sourceItemImg": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "PdRt66DZ6CQOTgf8": {
         "name": "Mental Fog",
@@ -396,7 +434,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\neffect.statuses.add(\"stunned\");\nconst data = CONFIG.statusEffects.find(e => e.id === \"stunned\")\nfor (const change of data.changes) {\n  effect.changes.push(change);\n}",
+            "preItemRoll": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\nDC20.tools.applyStatusToEffect(effect, \"stunned\")",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -411,8 +449,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PdRt66DZ6CQOTgf8",
+        "sourceItemId": "6g9WeLGQfeMqqGTx",
+        "sourceItemName": "Inflict Poison",
+        "sourceItemImg": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "yJUgI9gEaAWwJ0Ny": {
         "name": "Fear Toxin",
@@ -482,7 +539,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\neffect.statuses.add(\"frightened\");\nconst data = CONFIG.statusEffects.find(e => e.id === \"frightened\")\nfor (const change of data.changes) {\n  effect.changes.push(change);\n}",
+            "preItemRoll": "const effect = item.getEffectByKey(\"inflictPoison\");\nif (!effect) return;\n\nDC20.tools.applyStatusToEffect(effect, \"frightened\")",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -497,8 +554,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "yJUgI9gEaAWwJ0Ny",
+        "sourceItemId": "6g9WeLGQfeMqqGTx",
+        "sourceItemName": "Inflict Poison",
+        "sourceItemImg": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -670,6 +746,9 @@
       "impaired": "Impaired",
       "slowed": "Slowed",
       "stunned": "Stunned"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -678,12 +757,10 @@
       "img": "icons/magic/acid/dissolve-vomit-green-brown.webp",
       "origin": "Item.q6vF6sZsd0MeHoTy",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "startRound": 28,
-        "startTurn": 1,
-        "seconds": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -697,7 +774,7 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "slowed",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
@@ -718,28 +795,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Inflict Poison\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Inflict Poison\", \"skill\": \"awa\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.moveCost",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Inflict Poison\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Inflict Poison\", \"skill\": \"awa\"",
-          "priority": null
-        },
-        {
-          "key": "system.moveCost",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>You are poisoned.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -751,11 +828,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782396851483,
+        "modifiedTime": 1782396851483
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": 28,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!6g9WeLGQfeMqqGTx.u0czfIPAhStXmxBO"
     }
   ],
@@ -765,11 +854,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767788657120,
-    "modifiedTime": 1777665233671,
+    "modifiedTime": 1782579683469,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

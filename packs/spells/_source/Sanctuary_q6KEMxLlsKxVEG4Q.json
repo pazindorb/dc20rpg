@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -207,8 +207,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "TcFkKUaa65XJymlE",
+        "sourceItemId": "q6KEMxLlsKxVEG4Q",
+        "sourceItemName": "Sanctuary",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-gold.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "zsm0KMphgxZb05tR": {
         "name": "Save Resistance",
@@ -217,12 +236,12 @@
         "description": "<p>The creature gains ADV on Saves.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -278,7 +297,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"sanctuary\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.mig\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.cha\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.int\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});",
+            "preItemRoll": "const effect = item.getEffectByKey(\"sanctuary\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.mig\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.agi\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.cha\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.int\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Sanctuary\"'\n});",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -293,8 +312,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "zsm0KMphgxZb05tR",
+        "sourceItemId": "q6KEMxLlsKxVEG4Q",
+        "sourceItemName": "Sanctuary",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "OfpOsriyGiq5sj6W": {
         "name": "Possession protection",
@@ -303,12 +343,12 @@
         "description": "<p>The target can’t be possessed. If it is already possessed, it can repeat its Save against the possession at the start of each of its turns.</p><p><em><strong>Beta Note:</strong> This Enhancement applies to ghosts, spirits, and other creatures of the sort.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -379,8 +419,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "OfpOsriyGiq5sj6W",
+        "sourceItemId": "q6KEMxLlsKxVEG4Q",
+        "sourceItemName": "Sanctuary",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "jDKGotQ6A5L6kF5Q": {
         "name": "Enforced Peace",
@@ -389,12 +450,12 @@
         "description": "<p>When a creature makes an Attack against the target, it makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The creature can’t perform the Attack (it still spends the resources used on the Attack). This Save doesn’t prevent the target from benefiting from this Spell for 1 Round.</p><p></p><p><em><strong>System Tip:</strong> Not automated.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -465,22 +526,43 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "jDKGotQ6A5L6kF5Q",
+        "sourceItemId": "q6KEMxLlsKxVEG4Q",
+        "sourceItemName": "Sanctuary",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "uNBTbjUfYKCZfKl7": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled. </p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
+        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -552,95 +634,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "AvgCLrVgmxWMN0V3": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "uNBTbjUfYKCZfKl7",
+        "sourceItemId": "q6KEMxLlsKxVEG4Q",
+        "sourceItemName": "Sanctuary",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -817,13 +833,10 @@
       "img": "icons/magic/holy/chalice-glowing-gold.webp",
       "origin": "Item.blQjuwzViRLU9DV5",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -843,7 +856,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "sanctuary",
         "macro": "",
@@ -858,46 +872,52 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sanctuary\"",
-          "priority": null
-        }
-      ],
       "description": "<p>Attacks against you are made with DisADV. You gain no benefit from this Spell for 1 Round if you make an Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -907,11 +927,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983696686,
+        "modifiedTime": 1781983696696
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!q6KEMxLlsKxVEG4Q.ihcDsAjp2tqqtQ7m"
     }
   ],
@@ -921,11 +953,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768122025262,
-    "modifiedTime": 1777637181833,
+    "modifiedTime": 1782632184510,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

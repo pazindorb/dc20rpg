@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -78,13 +78,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
           "custom": {},
-          "restPoints": null,
-          "ap": null
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "fromOriginal": true,
@@ -152,7 +152,17 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>When you make a Spell Check you can choose to give yourself ADV on it, but you also must roll on the @UUID[Compendium.dc20rpg.roll-tables.RollTable.HxkcpDT6pEOIfYUk]{Wild Magic Table}.</p><p>You can use this Feature once per Long Rest, and regain the ability to use it again when you roll for Initiative.</p>",
         "hide": false,
@@ -160,12 +170,18 @@
         "sourceItemId": "DE1d4He8G43KHXZ3",
         "sourceItemName": "Chaos Domain",
         "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
-        "active": false
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.attackFormula.checkType=[\"spell\"]||system.check.checkKey=[\"spe\"]",
+      "copyFor": "system.attack.checkType=[\"spell\"]||system.check.checkKey=[\"spe\"]",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -310,6 +326,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "attack": {
+      "checkType": "spell"
     }
   },
   "effects": [],
@@ -318,11 +337,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035541,
-    "modifiedTime": 1767126862048,
+    "modifiedTime": 1782145207875,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

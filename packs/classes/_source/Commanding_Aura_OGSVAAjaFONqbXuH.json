@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -152,7 +152,15 @@
             "preItemRoll": "",
             "postItemRoll": "actor.help.prepare()"
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>You take the Help Action to aid the target with an Attack.</p><p>You can also do so as a Reaction whenever a valid target makes an Attack.</p>",
         "hide": false,
@@ -160,7 +168,13 @@
         "sourceItemId": "OGSVAAjaFONqbXuH",
         "sourceItemName": "Commanding Aura",
         "sourceItemImg": "icons/sundries/flags/banner-standard-tattered-red.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "CrPIl5EcFpPp3lPX": {
         "name": "Rally",
@@ -241,7 +255,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>You grant creatures of your choice (including yourself) 1 Temp HP.</p>",
         "hide": false,
@@ -249,7 +271,13 @@
         "sourceItemId": "OGSVAAjaFONqbXuH",
         "sourceItemName": "Commanding Aura",
         "sourceItemImg": "icons/sundries/flags/banner-standard-tattered-red.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "WmoirQEvLEqtrDpk": {
         "name": "Reinforce",
@@ -319,15 +347,20 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "WmoirQEvLEqtrDpk"
+                "enhKey": "WmoirQEvLEqtrDpk",
+                "itemSavePath": "system.enhancements.WmoirQEvLEqtrDpk.modifications.addsEffect"
               }
             },
-            "_id": "B4nfmq4K4aoQdEpF",
+            "_id": "oK7Jk2gZruhaLE9D",
             "type": "base",
             "system": {
               "sustained": {
@@ -341,11 +374,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -356,52 +390,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Thanks to Commander next Attack made against you has <strong>DisAdv</strong>.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -411,13 +414,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1776853941652,
-              "modifiedTime": 1776853992343,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782412601463,
+              "modifiedTime": 1782412610108,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -439,7 +452,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>When a creature in your Aura is targeted by an Attack, you can impose DisADV on the Attack as a Reaction.</p>",
         "hide": false,
@@ -447,7 +468,13 @@
         "sourceItemId": "OGSVAAjaFONqbXuH",
         "sourceItemName": "Commanding Aura",
         "sourceItemImg": "icons/sundries/flags/banner-standard-tattered-red.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -601,7 +628,27 @@
     "requirements": {
       "level": 2
     },
-    "featureSourceItem": "commander"
+    "featureSourceItem": "commander",
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 5,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    }
   },
   "effects": [],
   "folder": "z84kLNKB0rbaKsP3",
@@ -631,11 +678,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034114,
-    "modifiedTime": 1776853992623,
+    "modifiedTime": 1782420985443,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

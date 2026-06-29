@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -216,8 +216,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "rvweXz0t3uuB7WND",
+        "sourceItemId": "9MC59WaHUGZo4GkM",
+        "sourceItemName": "Darkness",
+        "sourceItemImg": "icons/magic/unholy/orb-rays-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "WDHl9Kyk3CAikLuq": {
         "name": "Area",
@@ -302,8 +321,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "WDHl9Kyk3CAikLuq",
+        "sourceItemId": "9MC59WaHUGZo4GkM",
+        "sourceItemName": "Darkness",
+        "sourceItemImg": "icons/magic/unholy/orb-rays-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "WBlUPs3HaH87x2Uu": {
         "name": "Duration",
@@ -388,8 +426,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "WBlUPs3HaH87x2Uu",
+        "sourceItemId": "9MC59WaHUGZo4GkM",
+        "sourceItemName": "Darkness",
+        "sourceItemImg": "icons/magic/unholy/orb-rays-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "GCXj4JSs5yvtsIMo": {
         "name": "Light Eater",
@@ -474,8 +531,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "GCXj4JSs5yvtsIMo",
+        "sourceItemId": "9MC59WaHUGZo4GkM",
+        "sourceItemName": "Darkness",
+        "sourceItemImg": "icons/magic/unholy/orb-rays-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "vFGgFQibQpfp0Aqe": {
         "name": "Grasping Gloom",
@@ -553,7 +629,9 @@
               "combat": null,
               "seconds": null,
               "startRound": 1,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds"
             },
             "disabled": false,
             "flags": {
@@ -579,7 +657,7 @@
               },
               "effectKey": "",
               "macro": "// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"agi\", {against: event.against, statuses: [\"slowed\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  actor.toggleStatusEffect(\"slowed\", {active: true, extras: {forXRounds: 1}});\n}",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -590,24 +668,24 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Grasping Gloom\", \"actorId\": \"#SPEAKER_ID#\",\n\"against\": <#@saveDC.value.spell#>",
+                  "mode": 2,
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping Gloom\", \"actorId\": \"#SPEAKER_ID#\",\n\"against\": <#@saveDC.value.spell#>",
+                  "mode": 2,
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Grasping Gloom\", \"actorId\": \"#SPEAKER_ID#\",\n\"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Grasping Gloom\", \"actorId\": \"#SPEAKER_ID#\",\n\"against\": <#@saveDC.value.spell#>",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are inside the Sphere of Darkness. At the start of your turn you might get Slowed.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -641,8 +719,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "vFGgFQibQpfp0Aqe",
+        "sourceItemId": "9MC59WaHUGZo4GkM",
+        "sourceItemName": "Darkness",
+        "sourceItemImg": "icons/magic/unholy/orb-rays-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -820,6 +917,48 @@
     "spellTags": {
       "shadow": "Shadow",
       "slowed": "Slowed"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 4,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      },
+      "GIKM3GQK3dsrd2yV": {
+        "type": "aura",
+        "distance": 1,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": true,
+        "hideHighlight": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [],
@@ -829,11 +968,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768073812836,
-    "modifiedTime": 1777548448707,
+    "modifiedTime": 1782420988130,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

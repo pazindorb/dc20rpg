@@ -61,7 +61,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -227,8 +227,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "jH2ou3NVrsRPBBnF",
+        "sourceItemId": "s1Uu2u5KeBwWgDXm",
+        "sourceItemName": "Lightning Rod",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-blue-white.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "w63r2LkMw7NZ1sGy": {
         "name": "Arcing Current",
@@ -314,8 +333,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "w63r2LkMw7NZ1sGy",
+        "sourceItemId": "s1Uu2u5KeBwWgDXm",
+        "sourceItemName": "Lightning Rod",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-blue-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "dR17vjSNbQhIdKxV": {
         "name": "Tether",
@@ -401,8 +439,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "dR17vjSNbQhIdKxV",
+        "sourceItemId": "s1Uu2u5KeBwWgDXm",
+        "sourceItemName": "Lightning Rod",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-blue-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "DRFtBru6AFOBvcaz": {
         "name": "Damage",
@@ -488,8 +545,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "DRFtBru6AFOBvcaz",
+        "sourceItemId": "s1Uu2u5KeBwWgDXm",
+        "sourceItemName": "Lightning Rod",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-blue-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "0ByNZNQeK71FGrlp": {
         "name": "Free On Sustain",
@@ -575,8 +651,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "0ByNZNQeK71FGrlp",
+        "sourceItemId": "s1Uu2u5KeBwWgDXm",
+        "sourceItemName": "Lightning Rod",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-blue-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -745,6 +840,13 @@
     "spellTags": {
       "lightning": "Lightning",
       "tethered": "Tethered"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -753,13 +855,10 @@
       "img": "icons/magic/lightning/bolt-strike-blue-white.webp",
       "origin": "Item.Z9og8zCM82huLTR8",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": 22,
-        "startTurn": 0
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -779,7 +878,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "",
         "macro": "",
@@ -794,16 +894,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Lightning Rod - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Lightning Rod - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You are under the effect of Lightning Rod spell. You might be targeted by Shock.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -813,11 +913,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983698496,
+        "modifiedTime": 1781983698496
       },
+      "start": {
+        "combat": null,
+        "round": 22,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!s1Uu2u5KeBwWgDXm.giOhYQnjsOsLGLY6"
     }
   ],
@@ -827,11 +939,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777706366411,
-    "modifiedTime": 1777706366411,
+    "modifiedTime": 1781985650191,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

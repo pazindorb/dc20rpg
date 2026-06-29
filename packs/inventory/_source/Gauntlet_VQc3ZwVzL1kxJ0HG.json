@@ -31,7 +31,7 @@
     "properties": {
       "attunement": {
         "active": false,
-        "label": "dc20rpg.properties.attunement",
+        "label": "Attunement",
         "journalUuid": "",
         "for": [
           "melee",
@@ -42,7 +42,21 @@
           "heavy",
           "other"
         ],
-        "cost": 0
+        "cost": 0,
+        "type": [
+          "weapon",
+          "equipment",
+          "spellFocus",
+          "consumable"
+        ],
+        "subtype": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ]
       },
       "reinforced": {
         "active": false
@@ -66,25 +80,48 @@
       },
       "mounted": {
         "active": false,
-        "label": "dc20rpg.properties.mounted",
+        "label": "Mounted",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
         "for": [
           "hshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "equipment"
+        ],
+        "subtype": [
+          "hshield"
+        ]
       },
       "thrown": {
-        "active": false
+        "active": false,
+        "label": "Thrown",
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ],
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.pMPVir3MnB8E5fNK"
       },
       "toss": {
         "active": false,
-        "label": "dc20rpg.properties.toss",
+        "label": "Toss",
         "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6",
         "for": [
           "melee",
           "lshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon",
+          "equipment"
+        ],
+        "subtype": [
+          "melee",
+          "lshield"
+        ]
       }
     },
     "isReaction": false,
@@ -96,7 +133,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -164,7 +202,7 @@
       }
     },
     "armorBonus": 0,
-    "equipmentType": "clothing"
+    "equipmentType": "heavy"
   },
   "effects": [],
   "folder": "zfQ1f4wBWybh2VbK",
@@ -172,11 +210,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720120184902,
-    "modifiedTime": 1765979204672,
+    "modifiedTime": 1781983670047,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

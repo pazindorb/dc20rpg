@@ -46,7 +46,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -189,7 +189,7 @@
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": "const effect = item.getEffectByKey(\"sideStep\");\neffect.changes.push({\n  key: \"system.rollLevel.onYou.saves.mig\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});\neffect.changes.push({\n  key: \"system.rollLevel.onYou.saves.agi\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});\neffect.changes.push({\n  key: \"system.rollLevel.onYou.saves.int\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});\neffect.changes.push({\n  key: \"system.rollLevel.onYou.saves.cha\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});"
+            "postItemRoll": "const effect = item.getEffectByKey(\"sideStep\");\neffect.system.changes.push({\n  key: \"system.rollLevel.onYou.saves.mig\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});\neffect.system.changes.push({\n  key: \"system.rollLevel.onYou.saves.agi\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});\neffect.system.changes.push({\n  key: \"system.rollLevel.onYou.saves.int\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});\neffect.system.changes.push({\n  key: \"system.rollLevel.onYou.saves.cha\",\n  mode: 2,\n  priority: null,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Side Step\"'\n});"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -203,8 +203,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2pLTAsVPAzMhY1Eh",
+        "sourceItemId": "d2yCBdGueYSQ0nJS",
+        "sourceItemName": "Side Step",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "N46EPTjbTZod1KlB": {
         "name": "Disengage",
@@ -288,8 +307,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "N46EPTjbTZod1KlB",
+        "sourceItemId": "d2yCBdGueYSQ0nJS",
+        "sourceItemName": "Side Step",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "u5O4eDgPewDnbJzw": {
         "name": "Slip Away",
@@ -373,8 +411,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "u5O4eDgPewDnbJzw",
+        "sourceItemId": "d2yCBdGueYSQ0nJS",
+        "sourceItemName": "Side Step",
+        "sourceItemImg": "icons/skills/movement/feet-winged-boots-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -513,12 +570,10 @@
       "img": "icons/skills/movement/feet-winged-boots-brown.webp",
       "origin": "Item.sppYbwauGY8mKvFU",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 3,
-        "startTurn": 0
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -551,46 +606,52 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\", \"afterRoll\": \"delete\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You impose DisADV on the Attack against you. You can move 1 Space after the Attack, provided you stay within range of the Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -600,12 +661,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1766696771924
+        "modifiedTime": 1781983710896,
+        "createdTime": 1781983710896
       },
+      "start": {
+        "combat": null,
+        "round": 3,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!d2yCBdGueYSQ0nJS.CQE5UZWIrqKmVB2a"
     }
   ],
@@ -615,11 +687,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766062833613,
-    "modifiedTime": 1766069973256,
+    "modifiedTime": 1782633422005,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

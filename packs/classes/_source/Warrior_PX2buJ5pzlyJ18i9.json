@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -226,13 +226,10 @@
     {
       "origin": "Item.9ox7PIFG8Ql6WMwL",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Warrior",
@@ -243,28 +240,28 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.known.maneuvers.max",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.combatTraining.heavyShield",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.combatTraining.heavyArmor",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.known.maneuvers.max",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.combatTraining.heavyShield",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        },
-        {
-          "key": "system.combatTraining.heavyArmor",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
       "description": "<p>You gain the following benefits:</p><ul><li><p>You gain Heavy Armor and Heavy Shield Mastery.</p></li><li><p>You learn 1 Maneuver</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -288,7 +285,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -296,6 +293,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!PX2buJ5pzlyJ18i9.UmjFDNyrMRZQVl5T"
     }
   ],
@@ -304,11 +304,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035635,
-    "modifiedTime": 1767172375355,
+    "modifiedTime": 1781983664476,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "BKvNQBuohgR4kwsL": {
-        "command": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\nconst MYSTIC_RESISTANCE = \"plBR3UAA4K08IfqR\";\nconst FULL_PROTECTION = \"WcAQKfY8SFfAGdGE\";\n\nconst enhancements = item.enhancements.active;\nif (enhancements.get(MYSTIC_RESISTANCE)) {\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.psychic.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.umbral.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.changes.push(  {\n    key: \"system.damageReduction.damageTypes.radiant.resistance\",\n    mode: 5,\n    value: true\n  });\n}\nelse {\n  effect.changes.push({\n    key: \"system.damageReduction.mdr.active\",\n    mode: 5,\n    value: true\n  })\n}\n\nif (enhancements.get(FULL_PROTECTION)) {\n  effect.changes.push({\n    key: `system.statusResistances.charmed.resistance`,\n    mode: 2,\n    value: 1\n  });\n  effect.changes.push({\n    key: `system.statusResistances.taunted.resistance`,\n    mode: 2,\n    value: 1\n  });\n  effect.changes.push({\n    key: `system.statusResistances.intimidated.resistance`,\n    mode: 2,\n    value: 1\n  });\n}\nelse {\n  const options = {charmed: \"Charmed\", taunted: \"Taunted\", intimidated: \"Intimidated\"};\n  const selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", options);\n  if (selected) {\n    effect.changes.push({\n      key: `system.statusResistances.${selected}.resistance`,\n      mode: 2,\n      value: 1\n    });\n  }\n}",
+        "command": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\nconst MYSTIC_RESISTANCE = \"plBR3UAA4K08IfqR\";\nconst FULL_PROTECTION = \"WcAQKfY8SFfAGdGE\";\n\nconst enhancements = item.enhancements.active;\nif (enhancements.get(MYSTIC_RESISTANCE)) {\n  effect.system.changes.push(  {\n    key: \"system.damageReduction.damageTypes.psychic.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.system.changes.push(  {\n    key: \"system.damageReduction.damageTypes.umbral.resistance\",\n    mode: 5,\n    value: true\n  });\n  effect.system.changes.push(  {\n    key: \"system.damageReduction.damageTypes.radiant.resistance\",\n    mode: 5,\n    value: true\n  });\n}\nelse {\n  effect.system.changes.push({\n    key: \"system.damageReduction.mdr.active\",\n    mode: 5,\n    value: true\n  })\n}\n\nif (enhancements.get(FULL_PROTECTION)) {\n  effect.system.changes.push({\n    key: `system.statusResistances.charmed.resistance`,\n    mode: 2,\n    value: 1\n  });\n  effect.system.changes.push({\n    key: `system.statusResistances.taunted.resistance`,\n    mode: 2,\n    value: 1\n  });\n  effect.system.changes.push({\n    key: `system.statusResistances.intimidated.resistance`,\n    mode: 2,\n    value: 1\n  });\n}\nelse {\n  const options = {charmed: \"Charmed\", taunted: \"Taunted\", intimidated: \"Intimidated\"};\n  const selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", options);\n  if (selected) {\n    effect.system.changes.push({\n      key: `system.statusResistances.${selected}.resistance`,\n      mode: 2,\n      value: 1\n    });\n  }\n}",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Prepare Planar Protection effect",
@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -216,8 +216,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "oPbWQwUntxbIpek4",
+        "sourceItemId": "NH1xXget7ou1Suh4",
+        "sourceItemName": "Planar Protection",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "plBR3UAA4K08IfqR": {
         "name": "Mystic Resistance",
@@ -302,8 +321,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "plBR3UAA4K08IfqR",
+        "sourceItemId": "NH1xXget7ou1Suh4",
+        "sourceItemName": "Planar Protection",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "WcAQKfY8SFfAGdGE": {
         "name": "Full Protection",
@@ -388,8 +426,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "WcAQKfY8SFfAGdGE",
+        "sourceItemId": "NH1xXget7ou1Suh4",
+        "sourceItemName": "Planar Protection",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "zlzWwCpugc6N1Q8v": {
         "name": "Mental Barrier",
@@ -474,8 +531,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "zlzWwCpugc6N1Q8v",
+        "sourceItemId": "NH1xXget7ou1Suh4",
+        "sourceItemName": "Planar Protection",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "4Cl0zfVCnASJB3eT": {
         "name": "Manipulation Protection",
@@ -545,7 +621,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.int\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n});\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.cha\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n});",
+            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.int\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n});\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.saves.cha\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Planar Protection\"'\n});",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -560,8 +636,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "4Cl0zfVCnASJB3eT",
+        "sourceItemId": "NH1xXget7ou1Suh4",
+        "sourceItemName": "Planar Protection",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "fnqClD5BbVMzLKDz": {
         "name": "Major Protection",
@@ -632,7 +727,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.changes.push({\n  key: `system.statusResistances.doomed.resistance`,\n  mode: 2,\n  value: 1\n});\neffect.changes.push({\n  key: `system.statusResistances.frightened.resistance`,\n  mode: 2,\n  value: 1\n});\neffect.changes.push({\n  key: `system.statusResistances.terrified.resistance`,\n  mode: 2,\n  value: 1\n});",
+            "preItemRoll": "const effect = item.getEffectByKey(\"planarProtection\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: `system.statusResistances.doomed.resistance`,\n  mode: 2,\n  value: 1\n});\neffect.system.changes.push({\n  key: `system.statusResistances.frightened.resistance`,\n  mode: 2,\n  value: 1\n});\neffect.system.changes.push({\n  key: `system.statusResistances.terrified.resistance`,\n  mode: 2,\n  value: 1\n});",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -647,8 +742,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "fnqClD5BbVMzLKDz",
+        "sourceItemId": "NH1xXget7ou1Suh4",
+        "sourceItemName": "Planar Protection",
+        "sourceItemImg": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -818,6 +932,9 @@
       "embolden": "Embolden",
       "thoughts": "Thoughts",
       "ward": "Ward"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -826,12 +943,10 @@
       "img": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
       "origin": "Item.18MqD1EIy5LtZZga",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 63,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -866,9 +981,9 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": []
       },
-      "changes": [],
       "description": "<p>You are under the effect on Planar Protection.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -878,11 +993,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 63,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!NH1xXget7ou1Suh4.0Z0i3mAQghgoGFGz"
     }
   ],
@@ -892,11 +1019,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767969907879,
-    "modifiedTime": 1777470827336,
+    "modifiedTime": 1782581356546,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

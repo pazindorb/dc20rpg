@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -143,13 +144,10 @@
       "img": "icons/creatures/abilities/cougar-pounce-stalk-black.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.EvAEBMpXy5gMCEiN",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Prowler",
@@ -159,16 +157,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advantage on Stealth Checks while in Darkness\", \"confirmation\": true, \"skill\": \"ste\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advantage on Stealth Checks while in Darkness\", \"confirmation\": true, \"skill\": \"ste\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p><span>You have </span><span><strong>ADV</strong></span> on <span><strong>Stealth</strong></span> <span><strong>Checks</strong></span> while in <span><strong>Darkness.</strong></span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -187,7 +185,7 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.ancestries.Item.EvAEBMpXy5gMCEiN.ActiveEffect.nL4QXoa9HZgTkB4Q",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1734343757302,
@@ -195,6 +193,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!cBe4PeMiEAevgtz2.mQzuylyidhnht9DS"
     }
   ],
@@ -207,11 +208,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.akPRP5LjzlZ6uGyL",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1745412760117,
+    "modifiedTime": 1781983706115,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

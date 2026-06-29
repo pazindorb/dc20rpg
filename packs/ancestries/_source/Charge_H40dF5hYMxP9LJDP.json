@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -65,13 +66,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
+          "health": "",
+          "mana": "",
+          "stamina": "",
           "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
+          "grit": "",
+          "restPoints": "",
+          "ap": ""
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -134,7 +135,19 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "changeStaminaSpendLimit": null,
+          "areaDistance": "",
+          "areaWidth": "",
+          "specificFormulaKey": ""
         },
         "description": "<p>If you move at least 2 Spaces in a straight line before making a <strong>Melee</strong> <strong>Attack</strong>, the damage of the <strong>Attack</strong> increases by 1.</p>",
         "hide": false,
@@ -146,12 +159,18 @@
         "sourceItemId": "H40dF5hYMxP9LJDP",
         "sourceItemName": "Charge",
         "sourceItemImg": "icons/creatures/mammals/ox-bull-horned-glowing-orange.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.actionType=[\"attack\", \"dynamic\"]&&system.attackFormula.rangeType=[\"melee\"]"
+      "copyFor": "isAttack=[true]&&system.attack.rangeType=[\"melee\"]"
     },
     "save": {
       "type": "phy",
@@ -238,11 +257,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.WWCGEMvgnLdPB8BJ",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1761303731205,
+    "modifiedTime": 1782161488665,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

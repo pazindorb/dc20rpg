@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -145,12 +145,12 @@
         "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -215,13 +215,35 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
+            "melee": "",
+            "normal": "5",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "OBFg2RFRactJqdZR",
+        "sourceItemId": "QhVqJpmIZzj1UKY2",
+        "sourceItemName": "Blight Bomb",
+        "sourceItemImg": "icons/magic/acid/orb-bubble-smoke-drip.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "gVdEgdUPozgfKrnI": {
         "name": "Damage",
@@ -230,12 +252,12 @@
         "description": "The damage increases by 1.",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -305,8 +327,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "gVdEgdUPozgfKrnI",
+        "sourceItemId": "QhVqJpmIZzj1UKY2",
+        "sourceItemName": "Blight Bomb",
+        "sourceItemImg": "icons/magic/acid/orb-bubble-smoke-drip.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "6j8QusSR9A8KCt34": {
         "name": "Area",
@@ -315,12 +359,12 @@
         "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -390,8 +434,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "6j8QusSR9A8KCt34",
+        "sourceItemId": "QhVqJpmIZzj1UKY2",
+        "sourceItemName": "Blight Bomb",
+        "sourceItemImg": "icons/magic/acid/orb-bubble-smoke-drip.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "zcngk0mDQAf4KNW6": {
         "name": "Impair",
@@ -400,12 +466,12 @@
         "description": "<p>Each target makes a Might Save. </p><p><strong>Save Failure:</strong> The target become Impaired for 1 Round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -457,7 +523,8 @@
             "forOneMinute": false,
             "repeatedSave": false,
             "repeatedSaveKey": "mig",
-            "forXRounds": null
+            "forXRounds": null,
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -476,8 +543,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "zcngk0mDQAf4KNW6",
+        "sourceItemId": "QhVqJpmIZzj1UKY2",
+        "sourceItemName": "Blight Bomb",
+        "sourceItemImg": "icons/magic/acid/orb-bubble-smoke-drip.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "z7Q5QG9bOhWdeClF": {
         "name": "Deadly Poison",
@@ -486,12 +575,12 @@
         "description": "<p>Each target makes a Might Save. </p><p><strong>Save Failure:</strong> The target becomes Poisoned for 1 minute. While Poisoned in this way, the creature takes X Poison damage at the start of each of its turns. </p><p>A creature can make a Repeated Might Save at the end of each of its turns, ending the Poison on a success. This Poison can be removed by any effect that ends a Basic Poison.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -544,7 +633,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": {
             "name": "Deadly Poison",
@@ -557,15 +647,20 @@
               "seconds": null,
               "startRound": 12,
               "startTurn": 1,
-              "turns": null
+              "turns": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "z7Q5QG9bOhWdeClF"
+                "enhKey": "z7Q5QG9bOhWdeClF",
+                "itemSavePath": "system.enhancements.z7Q5QG9bOhWdeClF.modifications.addsEffect"
               }
             },
-            "_id": "8ju5nbNQapOekRvo",
+            "_id": "ZsJ8vUaKVYp6GeEx",
             "type": "base",
             "system": {
               "sustained": {
@@ -579,12 +674,13 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
-              "applyToTemplate": true,
+              "addToChat": true,
+              "applyToTemplate": false,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -594,24 +690,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Deadly Poison\", \"value\": #DAMAGE#, \"type\": \"poison\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Deadly Poison - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Deadly Poison\", \"value\": #DAMAGE#, \"type\": \"poison\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Deadly Poison - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You take X Poison damage at the start of each of your turns.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -621,16 +722,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777658444457,
-              "modifiedTime": 1777658444457,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782597166584,
+              "modifiedTime": 1782597166584,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 12,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "const change = enh.modifications.addsEffect.changes[0];\nenh.modifications.addsEffect.changes[0].value = change.value.replace(\"#DAMAGE#\", enh.number)",
+            "preItemRoll": "const change = enh.modifications.addsEffect.system.changes[0];\nenh.modifications.addsEffect.system.changes[0].value = change.value.replace(\"#DAMAGE#\", enh.number)",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -645,8 +756,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "z7Q5QG9bOhWdeClF",
+        "sourceItemId": "QhVqJpmIZzj1UKY2",
+        "sourceItemName": "Blight Bomb",
+        "sourceItemImg": "icons/magic/acid/orb-bubble-smoke-drip.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "6cXwSI1K0QWFIRUE": {
         "name": "Poison Cloud",
@@ -655,12 +788,12 @@
         "description": "<p><strong>(Sustained)</strong></p><p>The duration of the Spell becomes 1 minute. Poison gas fills the area for the duration. When a creature enters the area for the first time on its turn or starts its turn there, it makes a Might Save against your Save DC.</p><p><strong>Save Failure:</strong> The target takes X Poison damage.</p><p></p><p><em><strong>System Tip:</strong> Effect application from template is not automated yet. You need to keep track of it yourself.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -725,15 +858,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 20,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "6cXwSI1K0QWFIRUE"
+                "enhKey": "6cXwSI1K0QWFIRUE",
+                "itemSavePath": "system.enhancements.6cXwSI1K0QWFIRUE.modifications.addsEffect"
               }
             },
-            "_id": "zHgTFGEu2eSO6EEq",
+            "_id": "hGe1vhaOmnRzk0GB",
             "type": "base",
             "system": {
               "sustained": {
@@ -747,10 +885,11 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const token = actor.getActiveTokens()[0];\nif (!token) return;\n\nconst damage = effect.flags?.dc20rpg?.poisonCloud;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Poison Cloud\",\n  type: \"poison\"\n};\nconst target = game.dc20rpg.tools.tokenToTarget(token);\nconst calculated = game.dc20rpg.tools.calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});\ngame.dc20rpg.tools.applyDamage(actor, calculated.modified);",
+              "macro": "const damage = effect.flags?.dc20rpg?.poisonCloud;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Poison Cloud\",\n  type: \"poison\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -762,17 +901,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Poison Cloud\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Poison Cloud\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are inside of the Poison Cloud.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -782,16 +925,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777668299311,
-              "modifiedTime": 1777668299311,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782597989358,
+              "modifiedTime": 1782598089171,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 20,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {poisonCloud: enh.number};\nitem.system.duration.type = \"sustain\"",
+            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {poisonCloud: enh.number};",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -806,8 +959,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": true,
+          "duration": {
+            "value": 1,
+            "type": "sustain",
+            "timeUnit": "minutes"
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "6cXwSI1K0QWFIRUE",
+        "sourceItemId": "QhVqJpmIZzj1UKY2",
+        "sourceItemName": "Blight Bomb",
+        "sourceItemImg": "icons/magic/acid/orb-bubble-smoke-drip.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -976,6 +1151,31 @@
       "impaired": "Impaired",
       "poison": "Poison",
       "weakened": "Weakened"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -985,11 +1185,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767703292901,
-    "modifiedTime": 1777668364471,
+    "modifiedTime": 1782598090515,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

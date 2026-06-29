@@ -61,6 +61,7 @@ async function _updateActorItems(actor) {
 }
 
 async function _migrateResourceResetToRefresh(actor) {
+  if (!actor?.resources) return;
   for (const resource of actor.resources.iterate()) {
     const fullKey = resource.fullKey;
     const refresh = _fillRefreshDeppendigOnReset(resource.reset);

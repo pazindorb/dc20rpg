@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "s32syCHnjFdhfArJ",
+        "sourceItemId": "drR4gjRVSNLztXp3",
+        "sourceItemName": "Poison Bolt",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-tendril-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "IvEK6jyHpOFoL8Sz": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "IvEK6jyHpOFoL8Sz",
+        "sourceItemId": "drR4gjRVSNLztXp3",
+        "sourceItemName": "Poison Bolt",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-tendril-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "IH4k9SGdUFrasvy3": {
         "name": "Debilitating Poison",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "IH4k9SGdUFrasvy3",
+        "sourceItemId": "drR4gjRVSNLztXp3",
+        "sourceItemName": "Poison Bolt",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-tendril-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "1HqT6jM6fucd9BPs": {
         "name": "Deadly Poison",
@@ -473,15 +530,20 @@
               "seconds": null,
               "startRound": 52,
               "startTurn": 1,
-              "turns": null
+              "turns": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "1HqT6jM6fucd9BPs"
+                "enhKey": "1HqT6jM6fucd9BPs",
+                "itemSavePath": "system.enhancements.1HqT6jM6fucd9BPs.modifications.addsEffect"
               }
             },
-            "_id": "gAb3m9lyYYC0qUYo",
+            "_id": "K4VV81rXSoHkFCWU",
             "type": "base",
             "system": {
               "sustained": {
@@ -495,11 +557,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -510,24 +573,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Deadly Poison\", \"value\": 1, \"type\": \"poison\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Deadly Poison - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Deadly Poison\", \"value\": 1, \"type\": \"poison\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Deadly Poison - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"poisoned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You take X Poison damage at the start of each of your turns.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -537,16 +605,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767815814494,
-              "modifiedTime": 1767815814494,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782631565039,
+              "modifiedTime": 1782631565039,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 52,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "const change = enh.modifications.addsEffect.changes[0];\nchange.value = change.value.replace('\"value\": 1', `\"value\": ${1 + enh.number}`)",
+            "preItemRoll": "const change = enh.modifications.addsEffect.system.changes[0];\nchange.value = change.value.replace('\"value\": 1', `\"value\": ${1 + enh.number}`)",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -561,8 +639,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "1HqT6jM6fucd9BPs",
+        "sourceItemId": "drR4gjRVSNLztXp3",
+        "sourceItemName": "Poison Bolt",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-tendril-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -732,6 +829,10 @@
       "hindered": "Hindered",
       "impaired": "Impaired",
       "poison": "Poison"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -741,11 +842,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767813403247,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1782631577588,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

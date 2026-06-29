@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "1usZihKtOekOUThA",
+        "sourceItemId": "doRsxbPEORDhI8Pf",
+        "sourceItemName": "Death Bolt",
+        "sourceItemImg": "icons/magic/death/projectile-skull-fire-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "jdW0jdBUy2iT5KWv": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "jdW0jdBUy2iT5KWv",
+        "sourceItemId": "doRsxbPEORDhI8Pf",
+        "sourceItemName": "Death Bolt",
+        "sourceItemImg": "icons/magic/death/projectile-skull-fire-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "AkMcIBmBkVWCtkMj": {
         "name": "Doom",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "AkMcIBmBkVWCtkMj",
+        "sourceItemId": "doRsxbPEORDhI8Pf",
+        "sourceItemName": "Death Bolt",
+        "sourceItemImg": "icons/magic/death/projectile-skull-fire-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "JPph2ChgGag5qSk8": {
         "name": "Call of the Grave",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "JPph2ChgGag5qSk8",
+        "sourceItemId": "doRsxbPEORDhI8Pf",
+        "sourceItemName": "Death Bolt",
+        "sourceItemImg": "icons/magic/death/projectile-skull-fire-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "DgxPRDm2FdkeqbsX": {
         "name": "Wither",
@@ -558,15 +634,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 99,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "DgxPRDm2FdkeqbsX"
+                "enhKey": "DgxPRDm2FdkeqbsX",
+                "itemSavePath": "system.enhancements.DgxPRDm2FdkeqbsX.modifications.addsEffect"
               }
             },
-            "_id": "HR6bEDL8FOYvbZYd",
+            "_id": "nZylboXzAxYEKJ0y",
             "type": "base",
             "system": {
               "sustained": {
@@ -580,11 +661,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "wither",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -595,24 +677,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Wither\", \"value\": 1, \"type\": \"umbral\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Wither - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Wither\", \"value\": 1, \"type\": \"umbral\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Wither - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You take Umbral damage at the start of each of your turns.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -622,16 +709,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768077669038,
-              "modifiedTime": 1768077679243,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782631508429,
+              "modifiedTime": 1782631508429,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 99,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "enh.modifications.addsEffect.changes[0].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Wither\", \"value\": ${enh.number}, \"type\": \"umbral\", \"actorId\": \"#SPEAKER_ID#\"`",
+            "preItemRoll": "enh.modifications.addsEffect.system.changes[0].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Wither\", \"value\": ${enh.number}, \"type\": \"umbral\", \"actorId\": \"#SPEAKER_ID#\"`",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -646,8 +743,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "DgxPRDm2FdkeqbsX",
+        "sourceItemId": "doRsxbPEORDhI8Pf",
+        "sourceItemName": "Death Bolt",
+        "sourceItemImg": "icons/magic/death/projectile-skull-fire-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -816,6 +932,10 @@
       "curse": "Curse",
       "doomed": "Doomed",
       "umbral": "Umbral"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -825,11 +945,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768077775899,
-    "modifiedTime": 1768123068770,
+    "modifiedTime": 1782631527259,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

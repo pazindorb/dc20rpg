@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -192,8 +192,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "efD8Qn44nvThwX9N",
+        "sourceItemId": "WYXFwJSuv4eiAkdr",
+        "sourceItemName": "Slam",
+        "sourceItemImg": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -295,49 +314,7 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "conditionals": {
-      "0e9FhWUVIK9o9HqH": {
-        "name": "Extra Damage on Heavy",
-        "condition": "hit > 5",
-        "useFor": "system.itemKey=[\"buff_slam\"]",
-        "linkWithToggle": false,
-        "bonus": "1",
-        "flags": {
-          "ignorePdr": false,
-          "ignoreEdr": false,
-          "ignoreMdr": false,
-          "ignoreResistance": {},
-          "ignoreImmune": {},
-          "reduceAd": "",
-          "reducePd": ""
-        },
-        "effect": null,
-        "addsNewRollRequest": false,
-        "rollRequest": {
-          "category": "save",
-          "saveKey": "",
-          "contestedKey": "",
-          "dcCalculation": "spell",
-          "dc": 0,
-          "addMasteryToDC": true
-        },
-        "addsNewFormula": false,
-        "formula": {
-          "formula": "",
-          "type": "",
-          "label": "",
-          "category": "damage",
-          "fail": false,
-          "failFormula": "",
-          "dontModifyFailFormula": false,
-          "each5": false,
-          "each5Formula": "",
-          "dontMerge": false,
-          "overrideDefence": "",
-          "perTarget": false
-        }
-      }
-    },
+    "conditionals": {},
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -427,6 +404,52 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "targetModifiers": {
+      "0e9FhWUVIK9o9HqH": {
+        "name": "Extra Damage on Heavy",
+        "condition": "return (hit > 5)",
+        "useFor": "system.itemKey=[\"buff_slam\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreEdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "save",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "spell",
+          "dc": 0,
+          "addMasteryToDC": true
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "label": "",
+          "category": "damage",
+          "fail": false,
+          "failFormula": "",
+          "dontModifyFailFormula": false,
+          "each5": false,
+          "each5Formula": "",
+          "dontMerge": false,
+          "overrideDefence": "",
+          "perTarget": false
+        }
+      }
+    },
+    "attack": {
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -436,11 +459,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778447757479,
-    "modifiedTime": 1778451168290,
+    "modifiedTime": 1781985657499,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

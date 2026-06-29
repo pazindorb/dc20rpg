@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -171,7 +171,15 @@
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": null,
-          "specificFormulaKey": ""
+          "specificFormulaKey": "",
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span class=\"cf0\">The new</span><span class=\"cf1\"> </span><span class=\"cf0\">target takes an amount of damage equal to the Ki Points</span><span class=\"cf1\"> </span><span class=\"cf0\">spent. </span></p>",
         "hide": false,
@@ -179,7 +187,13 @@
         "sourceItemId": "96kFQIA7P0dh5Nys",
         "sourceItemName": "Deflect Attack",
         "sourceItemImg": "icons/weapons/ammunition/arrow-broadhead-glowing-orange.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "olQclKL0quIZVKVP": {
         "name": "Change Damage",
@@ -268,8 +282,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "olQclKL0quIZVKVP",
+        "sourceItemId": "96kFQIA7P0dh5Nys",
+        "sourceItemName": "Deflect Attack",
+        "sourceItemImg": "icons/weapons/ammunition/arrow-broadhead-glowing-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -425,6 +458,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "attack": {
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -433,11 +469,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034910,
-    "modifiedTime": 1767171381444,
+    "modifiedTime": 1781985628544,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

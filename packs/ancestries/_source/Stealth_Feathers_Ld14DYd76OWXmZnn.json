@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -144,13 +145,10 @@
       "img": "icons/creatures/birds/birds-flock-fly-yellow.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.Ld14DYd76OWXmZnn",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Stealth Feathers",
@@ -160,16 +158,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advantage on Stealth when Flying\", \"confirmation\": true, \"skill\": \"ste\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advantage on Stealth when Flying\", \"confirmation\": true, \"skill\": \"ste\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p><span>You have ADV on <strong>Stealth</strong> <strong>Checks</strong> while <strong>Flying</strong>.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -188,7 +186,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1734342928892,
@@ -196,6 +194,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Ld14DYd76OWXmZnn.3BkwtHt0xflkT6tU"
     }
   ],
@@ -208,11 +209,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.a1kAdov8k4JxA0wb",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1745412760093,
+    "modifiedTime": 1781983704712,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

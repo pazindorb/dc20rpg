@@ -46,7 +46,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -189,7 +189,7 @@
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": "const effect = item.getEffectByKey(\"endure\");\neffect.changes[0].value = `${1 + enh.number}`"
+            "postItemRoll": "const effect = item.getEffectByKey(\"endure\");\neffect.system.changes[0].value = `${1 + enh.number}`"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -203,8 +203,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "QQs5WGLxkrctJh1M",
+        "sourceItemId": "aB4biSh2sBY28vUZ",
+        "sourceItemName": "Endure",
+        "sourceItemImg": "icons/magic/control/silhouette-aura-energy.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "FnWug4KHX6meEOwN": {
         "name": "Steadfast",
@@ -274,7 +293,7 @@
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": "const effect = item.getEffectByKey(\"endure\");\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.bludgeoning.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.bludgeoning.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.piercing.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.piercing.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.slashing.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.slashing.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.corrosion.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.corrosion.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.cold.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.cold.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.fire.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.fire.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.lightning.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.lightning.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.poison.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.poison.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.psychic.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.psychic.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.radiant.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.radiant.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.umbral.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.changes.push({\n  key: \"system.damageReduction.damageTypes.umbral.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});"
+            "postItemRoll": "const effect = item.getEffectByKey(\"endure\");\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.bludgeoning.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.bludgeoning.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.piercing.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.piercing.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.slashing.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.slashing.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.corrosion.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.corrosion.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.cold.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.cold.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.fire.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.fire.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.lightning.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.lightning.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.poison.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.poison.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.psychic.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.psychic.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.radiant.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.radiant.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.umbral.vulnerable\",\n  mode: 5,\n  priority: null,\n  value: \"0\"\n});\neffect.system.changes.push({\n  key: \"system.damageReduction.damageTypes.umbral.vulnerability\",\n  mode: 5,\n  priority: null,\n  value: \"false\"\n});"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -288,8 +307,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "FnWug4KHX6meEOwN",
+        "sourceItemId": "aB4biSh2sBY28vUZ",
+        "sourceItemName": "Endure",
+        "sourceItemImg": "icons/magic/control/silhouette-aura-energy.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "EgJWQFcqpXaEPRnY": {
         "name": "Repel",
@@ -375,8 +413,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "EgJWQFcqpXaEPRnY",
+        "sourceItemId": "aB4biSh2sBY28vUZ",
+        "sourceItemName": "Endure",
+        "sourceItemImg": "icons/magic/control/silhouette-aura-energy.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -515,12 +572,10 @@
       "img": "icons/magic/control/silhouette-aura-energy.webp",
       "origin": "Item.EEcH16PW5ziUk1wG",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": 0
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -553,22 +608,22 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.flat",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Endure\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.flat",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Endure\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>The target takes 1 less damage from the Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -578,11 +633,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!aB4biSh2sBY28vUZ.XMSSfub4ecxun0KW"
     }
   ],
@@ -592,11 +659,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766068596181,
-    "modifiedTime": 1776954441181,
+    "modifiedTime": 1782633374597,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

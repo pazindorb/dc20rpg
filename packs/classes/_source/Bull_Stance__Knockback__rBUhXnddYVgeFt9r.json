@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -79,69 +79,63 @@
         "fail": false,
         "failFormula": "",
         "each5": false,
-        "each5Formula": ""
+        "each5Formula": "",
+        "overrideDefence": ""
       }
     },
     "enhancements": {
-      "VIEnBFyUiqIpAzfR": {
+      "CLzXrJHD2et2ORbo": {
         "name": "Bull Stance",
         "number": 0,
+        "defaultState": 0,
+        "repeatable": false,
+        "preventModification": false,
+        "description": "<p>When you Succeed on a Physical Check to push a target, it also takes 1 Bludgeoning damage.</p><p><em><strong>System Tip:</strong> Just apply this damage if you succeeded.</em></p>",
+        "hide": false,
+        "copyToSheetRoll": {},
         "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
+          "ap": "",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
+          "custom": {}
         },
+        "altCostMax": 0,
+        "altCost": 0,
         "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
+          "subtract": null,
+          "fromOriginal": false
         },
         "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
           "hasAdditionalFormula": false,
-          "additionalFormula": "1",
-          "ignoreDR": false,
-          "addsNewFormula": true,
-          "formula": {
-            "formula": "1",
-            "type": "bludgeoning",
-            "category": "damage",
-            "overrideDefence": "",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "perTarget": false
-          },
+          "additionalFormula": "",
+          "specificFormulaKey": "",
           "overrideDamageType": false,
           "damageType": "",
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
+          "addsNewFormula": true,
+          "formula": {
+            "category": "damage",
+            "formula": "1",
+            "type": "bludgeoning",
+            "overrideDefence": "",
+            "dontMerge": true
           },
+          "addsNewRollRequest": false,
+          "rollRequest": {},
           "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+          "againstStatus": {},
+          "addsEffect": null,
+          "actionChange": false,
+          "actionType": "",
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -154,25 +148,17 @@
             "normal": null,
             "max": null
           },
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
+          "areaWidth": "",
+          "areaDistance": "",
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 Bludgeoning</strong> damage whenever you push a target or knock them back</span></p>",
-        "hide": false,
-        "key": "VIEnBFyUiqIpAzfR",
-        "sourceItemId": "rBUhXnddYVgeFt9r",
-        "sourceItemName": "Bull Stance (Knockback)",
-        "sourceItemImg": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
-        "active": false
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          }
+        }
       }
     },
     "copyEnhancements": {
@@ -328,21 +314,45 @@
     {
       "origin": "Item.WvOSzsxyZT42SUnZ",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Bull Stance",
       "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
-      "_id": "X8EX7mSnG98qcI62",
+      "_id": "j20g8NWmLb1vJrN2",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "changes": [],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": false,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "chatMessageId": ""
+      },
       "description": "<ul><li><p><span class=\"cf0\">When you Succeed on a Physical Check to push a target, it also takes <strong>1</strong> Bludgeoning damage.</span></p></li><li><p><span class=\"cf0\">When you push a target, it’s pushed 1 additional Space. Additionally, you can choose to move in a straight line with the target an amount of Spaces equal to how far they’re pushed. This movement doesn’t provoke Opportunity Attacks or require spending your movement</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -350,17 +360,20 @@
       "sort": 0,
       "flags": {},
       "_stats": {
-        "compendiumSource": null,
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.rBUhXnddYVgeFt9r.ActiveEffect.X8EX7mSnG98qcI62",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": 1767170100377,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781987357150,
+        "modifiedTime": 1781987378027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_key": "!items.effects!rBUhXnddYVgeFt9r.X8EX7mSnG98qcI62"
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
+      "_key": "!items.effects!rBUhXnddYVgeFt9r.j20g8NWmLb1vJrN2"
     }
   ],
   "folder": "8PuTMRT8o1FtiBCV",
@@ -368,11 +381,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034210,
-    "modifiedTime": 1767170095823,
+    "modifiedTime": 1782159087251,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

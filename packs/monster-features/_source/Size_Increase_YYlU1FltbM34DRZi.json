@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -250,7 +250,7 @@
     "quickRoll": false,
     "macros": {
       "QxLGWAaX5lUEVyV8": {
-        "command": "const effect = item.effects.get(\"g2ipyqkKFqaMTfkH\");\nif (!effect) return;\n\nconst newSize = smaller(actor.system.size.size);\neffect.changes[0].value = newSize;\neffect.update({\n  changes: effect.changes,\n  transfer: true\n})\n\nfunction smaller(size) {\n  switch (size) {\n    case \"tiny\":                  return \"small\"\n    case \"small\":                 return \"medium\"\n    case \"medium\":                return \"large\"\n    case \"large\":                 return \"huge\"\n    case \"huge\":                  return \"huge\"\n    default:                      return size;\n  }\n}",
+        "command": "const effect = item.effects.get(\"g2ipyqkKFqaMTfkH\");\nif (!effect) return;\n\nconst newSize = smaller(actor.system.size.size);\neffect.system.changes[0].value = newSize;\neffect.update({\n  [\"system.changes\"]: effect.system.changes,\n  transfer: true\n})\n\nfunction smaller(size) {\n  switch (size) {\n    case \"tiny\":                  return \"small\"\n    case \"small\":                 return \"medium\"\n    case \"medium\":                return \"large\"\n    case \"large\":                 return \"huge\"\n    case \"huge\":                  return \"huge\"\n    default:                      return size;\n  }\n}",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Increase Size",
@@ -285,7 +285,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -293,11 +296,10 @@
       "img": "icons/skills/movement/arrows-up-trio-red.webp",
       "origin": "Item.Tetyb4GrgNxxOqMK",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "startRound": 38,
-        "startTurn": 1,
-        "seconds": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -332,16 +334,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.size.size",
+            "value": "large",
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.size.size",
-          "mode": 5,
-          "value": "large",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature’s size increases by 1 (maximum of Huge).</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -351,11 +353,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!YYlU1FltbM34DRZi.g2ipyqkKFqaMTfkH"
     }
   ],
@@ -369,11 +383,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777357596961,
-    "modifiedTime": 1777360386885,
+    "modifiedTime": 1782633767599,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

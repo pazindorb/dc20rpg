@@ -38,7 +38,7 @@
     "quickRoll": false,
     "macros": {
       "5TVzag9Frtch8xlG": {
-        "command": "const damageEnhancement = item.enhancements.active.get(\"Xxj2h1rTzpBkO5cs\");\nconst enduringEnhancement = item.enhancements.active.get(\"DQt8zesdtd3ExSiL\");\nconst elementalEnhancement = item.enhancements.active.get(\"t7HgqablCZfROnUu\");\n\n// Configure damage\nconst type = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes) || \"fire\";\nconst damage = 2 + (damageEnhancement?.number || 0);\nconst damageFormula = new DC20.Formula();\ndamageFormula.formula = `${damage}`;\ndamageFormula.type = type;\n\nconst updateData = {\n  [\"system.macros.5TVzag9Frtch8xlG.disabled\"]: true, // Disable roll macro\n  [\"system.enhancements.GZqLp7ULqqMMGGNf.hide\"]: true, // Range\n  [\"system.enhancements.Xxj2h1rTzpBkO5cs.hide\"]: true, // Damage\n  [\"system.enhancements.O1IhdNpTnSS9ypwj.hide\"]: true, // Effortless\n  [\"system.enhancements.t7HgqablCZfROnUu.hide\"]: true, // Physical Effect\n  [\"system.enhancements.DQt8zesdtd3ExSiL.hide\"]: true, // Enduring Elements\n  [\"system.enhancements.iCIlfHENQ52icA28.hide\"]: false, // Free Attack\n  [\"system.formulas.elementalWeapon\"]: damageFormula,\n  [\"system.costs.resources.mana\"]: null,\n  [\"system.actionType\"]: \"attack\",\n  [\"system.duration.type\"]: \"\",\n}\n\n// Configure Elemental Effect\nif (elementalEnhancement) {\n  let status = \"burning\";\n  switch (type) {\n      case \"fire\": status = \"burning\"; break;\n      case \"cold\": status = \"slowed\"; break;\n      case \"corrosion\": status = \"hindered\"; break;\n      case \"lightning\": status = \"stunned\"; break;\n      case \"poison\": status = \"poisoned\"; break;\n  }\n  updateData[\"system.enhancements.a3tu4XYsLB3hTZei.hide\"] = false;\n  updateData[\"system.enhancements.a3tu4XYsLB3hTZei.modifications.addsEffect.changes\"] = [{\n    key: `system.statusResistances.${status}.vulnerability`,\n    mode: 2,\n    value: 1\n  }]\n}\n\n// Configure Enduring Elements\nif (enduringEnhancement) {\n  const changes = item.system.enhancements[\"njoGIlojUFAa1sq1\"].modifications.addsEffect.changes;\n  changes[1].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Enduring Elements\", \"value\": ${enduringEnhancement.number}, \"type\": \"${type}\", \"actorId\": \"#SPEAKER_ID#\"`\n  updateData[\"system.enhancements.njoGIlojUFAa1sq1.modifications.addsEffect.changes\"] = changes\n  updateData[\"system.enhancements.njoGIlojUFAa1sq1.hide\"] = false;\n}\n\nitem.update(updateData)",
+        "command": "const damageEnhancement = item.enhancements.active.get(\"Xxj2h1rTzpBkO5cs\");\nconst enduringEnhancement = item.enhancements.active.get(\"DQt8zesdtd3ExSiL\");\nconst elementalEnhancement = item.enhancements.active.get(\"t7HgqablCZfROnUu\");\n\n// Configure damage\nconst type = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes) || \"fire\";\nconst damage = 2 + (damageEnhancement?.number || 0);\nconst damageFormula = new DC20.Formula();\ndamageFormula.formula = `${damage}`;\ndamageFormula.type = type;\n\nconst updateData = {\n  [\"system.macros.5TVzag9Frtch8xlG.disabled\"]: true, // Disable roll macro\n  [\"system.enhancements.GZqLp7ULqqMMGGNf.hide\"]: true, // Range\n  [\"system.enhancements.Xxj2h1rTzpBkO5cs.hide\"]: true, // Damage\n  [\"system.enhancements.O1IhdNpTnSS9ypwj.hide\"]: true, // Effortless\n  [\"system.enhancements.t7HgqablCZfROnUu.hide\"]: true, // Physical Effect\n  [\"system.enhancements.DQt8zesdtd3ExSiL.hide\"]: true, // Enduring Elements\n  [\"system.enhancements.iCIlfHENQ52icA28.hide\"]: false, // Free Attack\n  [\"system.formulas.elementalWeapon\"]: damageFormula,\n  [\"system.costs.resources.mana\"]: null,\n  [\"system.actionType\"]: \"attack\",\n  [\"system.duration.type\"]: \"\",\n}\n\n// Configure Elemental Effect\nif (elementalEnhancement) {\n  let status = \"burning\";\n  switch (type) {\n      case \"fire\": status = \"burning\"; break;\n      case \"cold\": status = \"slowed\"; break;\n      case \"corrosion\": status = \"hindered\"; break;\n      case \"lightning\": status = \"stunned\"; break;\n      case \"poison\": status = \"poisoned\"; break;\n  }\n  updateData[\"system.enhancements.a3tu4XYsLB3hTZei.hide\"] = false;\n  updateData[\"system.enhancements.a3tu4XYsLB3hTZei.modifications.addsEffect.system.changes\"] = [{\n    key: `system.statusResistances.${status}.vulnerability`,\n    mode: 2,\n    value: 1\n  }]\n}\n\n// Configure Enduring Elements\nif (enduringEnhancement) {\n  const changes = item.system.enhancements[\"njoGIlojUFAa1sq1\"].modifications.addsEffect.system.changes;\n  changes[1].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Enduring Elements\", \"value\": ${enduringEnhancement.number}, \"type\": \"${type}\", \"actorId\": \"#SPEAKER_ID#\"`\n  updateData[\"system.enhancements.njoGIlojUFAa1sq1.modifications.addsEffect.system.changes\"] = changes\n  updateData[\"system.enhancements.njoGIlojUFAa1sq1.hide\"] = false;\n}\n\nitem.update(updateData)",
         "trigger": "postItemRoll",
         "disabled": false,
         "name": "Configure Weapon Attack",
@@ -69,7 +69,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -225,8 +225,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "GZqLp7ULqqMMGGNf",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "Xxj2h1rTzpBkO5cs": {
         "name": "Damage",
@@ -312,8 +331,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Xxj2h1rTzpBkO5cs",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "O1IhdNpTnSS9ypwj": {
         "name": "Effortless",
@@ -399,8 +437,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "O1IhdNpTnSS9ypwj",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "t7HgqablCZfROnUu": {
         "name": "Elemental Effect",
@@ -486,8 +543,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "t7HgqablCZfROnUu",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "DQt8zesdtd3ExSiL": {
         "name": "Enduring Elements",
@@ -573,8 +649,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "DQt8zesdtd3ExSiL",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "iCIlfHENQ52icA28": {
         "name": "Free Attack",
@@ -660,8 +755,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "iCIlfHENQ52icA28",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "njoGIlojUFAa1sq1": {
         "name": "Enduring Elements",
@@ -741,7 +855,10 @@
               "seconds": null,
               "startRound": 37,
               "startTurn": 0,
-              "turns": null
+              "turns": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -763,11 +880,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -778,24 +896,24 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Enduring Elements - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "mode": 2,
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "value": "",
+                  "mode": 2,
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Enduring Elements - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You take X Elemental damage at the start of your turn.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -829,8 +947,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "njoGIlojUFAa1sq1",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "a3tu4XYsLB3hTZei": {
         "name": "Elemental Effect",
@@ -910,7 +1047,10 @@
               "seconds": null,
               "startRound": 37,
               "startTurn": 0,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -932,11 +1072,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -947,17 +1088,17 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.statusResistances.burning.vulnerability",
+                  "value": "1",
+                  "mode": 2,
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.statusResistances.burning.vulnerability",
-                "value": "1",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are Vulnerable for 1 Round</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -991,8 +1132,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "a3tu4XYsLB3hTZei",
+        "sourceItemId": "0NYwNWn5ycIlw3QO",
+        "sourceItemName": "Elemental Weapon",
+        "sourceItemImg": "icons/weapons/axes/axe-battle-elemental-lava.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -1175,11 +1335,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777292986586,
-    "modifiedTime": 1777992899729,
+    "modifiedTime": 1782420988104,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -250,7 +250,7 @@
     "quickRoll": false,
     "macros": {
       "SsEORnSAeJ33FgNO": {
-        "command": "const elementalTrait = actor.getItemByKey(\"elementalTrait\");\nif (!elementalTrait) return;\n\nconst effect = elementalTrait.effects.get(\"bwOgUaMeRa8UH14J\");\nif (!effect) return;\n\nconst changes = effect.changes;\nfor (let i = 0; i < changes.length; i++) {\n  changes[i].key = changes[i].key.replace(\".resistance\", \".immune\");\n}\neffect.update({changes: changes});",
+        "command": "const elementalTrait = actor.getItemByKey(\"elementalTrait\");\nif (!elementalTrait) return;\n\nconst effect = elementalTrait.effects.get(\"bwOgUaMeRa8UH14J\");\nif (!effect) return;\n\nconst changes = effect.system.changes;\nfor (let i = 0; i < changes.length; i++) {\n  changes[i].key = changes[i].key.replace(\".resistance\", \".immune\");\n}\neffect.update({[\"system.changes\"]: changes});",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Grant Immunity",
@@ -258,7 +258,7 @@
         "global": false
       },
       "eIjAcOPpOx3ilUKX": {
-        "command": "const elementalTrait = actor.getItemByKey(\"elementalTrait\");\nif (!elementalTrait) return;\n\nconst effect = elementalTrait.effects.get(\"bwOgUaMeRa8UH14J\");\nif (!effect) return;\n\nconst changes = effect.changes;\nfor (let i = 0; i < changes.length; i++) {\n  changes[i].key = changes[i].key.replace(\".immune\", \".resistance\");\n}\neffect.update({changes: changes});",
+        "command": "const elementalTrait = actor.getItemByKey(\"elementalTrait\");\nif (!elementalTrait) return;\n\nconst effect = elementalTrait.effects.get(\"bwOgUaMeRa8UH14J\");\nif (!effect) return;\n\nconst changes = effect.system.changes;\nfor (let i = 0; i < changes.length; i++) {\n  changes[i].key = changes[i].key.replace(\".immune\", \".resistance\");\n}\neffect.update({[\"system.changes\"]: changes});",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Immunity",
@@ -293,7 +293,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [],
   "folder": "eqhYedTEm5LLsILe",
@@ -306,11 +309,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777448911587,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1782633720808,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

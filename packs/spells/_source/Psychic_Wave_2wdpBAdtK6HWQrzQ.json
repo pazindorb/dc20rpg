@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -145,12 +145,12 @@
         "description": "The damage increases by 1.",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -221,8 +221,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "Jvi1k1Ix1UK5ovBo",
+        "sourceItemId": "2wdpBAdtK6HWQrzQ",
+        "sourceItemName": "Psychic Wave",
+        "sourceItemImg": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "JJ2b1ycD3obwW4dd": {
         "name": "Area",
@@ -231,12 +252,12 @@
         "description": "<p>The radius of the area increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -307,8 +328,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": ""
+        },
+        "key": "JJ2b1ycD3obwW4dd",
+        "sourceItemId": "2wdpBAdtK6HWQrzQ",
+        "sourceItemName": "Psychic Wave",
+        "sourceItemImg": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "2RY8tsLGVS4N1iXq": {
         "name": "Aura",
@@ -317,12 +359,12 @@
         "description": "<p>The area becomes an Aura instead.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -378,7 +420,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.target.areas.default.area = \"radius\"",
+            "preItemRoll": "item.system.areas.default.type = \"aura\"",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -393,8 +435,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "2RY8tsLGVS4N1iXq",
+        "sourceItemId": "2wdpBAdtK6HWQrzQ",
+        "sourceItemName": "Psychic Wave",
+        "sourceItemImg": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "z8S1XvjLmIlTfosI": {
         "name": "Discombobulate",
@@ -403,12 +466,12 @@
         "description": "<p>Each Target makes a Mental save. </p><p><strong>Save Failure:</strong> The target subtracts a d4 on every Check it makes for 1 round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -473,15 +536,20 @@
               "seconds": null,
               "startRound": 71,
               "startTurn": 0,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "z8S1XvjLmIlTfosI"
+                "enhKey": "z8S1XvjLmIlTfosI",
+                "itemSavePath": "system.enhancements.z8S1XvjLmIlTfosI.modifications.addsEffect"
               }
             },
-            "_id": "FxyPZcRafUYa5Rue",
+            "_id": "eO0g6VjNliBmlsmK",
             "type": "base",
             "system": {
               "sustained": {
@@ -495,11 +563,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -510,108 +579,77 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.mig",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.agi",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.int",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.cha",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.mar",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.spe",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.initiative",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "phase": "initial",
+                  "priority": 0
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mig",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.agi",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.int",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.cha",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.att",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mar",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.spe",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.initiative",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You substract a d4 on every Check you make.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -621,13 +659,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767995690516,
-              "modifiedTime": 1767995820907,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782413333144,
+              "modifiedTime": 1782413347585,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 71,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -645,8 +693,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "z8S1XvjLmIlTfosI",
+        "sourceItemId": "2wdpBAdtK6HWQrzQ",
+        "sourceItemName": "Psychic Wave",
+        "sourceItemImg": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "vme6XKA8r49OMcOw": {
         "name": "Knockback",
@@ -655,12 +724,12 @@
         "description": "<p>Each target makes a Might Save against your Save DC. </p><p><strong>Save Failure:</strong> The target is pushed 1 Space away from you. </p><p><strong>Failure (each 5):</strong> The target is pushed 1 additional Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -712,7 +781,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -731,8 +801,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "vme6XKA8r49OMcOw",
+        "sourceItemId": "2wdpBAdtK6HWQrzQ",
+        "sourceItemName": "Psychic Wave",
+        "sourceItemImg": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -901,6 +992,31 @@
       "enfeeble": "Enfeeble",
       "motion": "Motion",
       "psychic": "Psychic"
+    },
+    "areas": {
+      "default": {
+        "type": "arc",
+        "distance": 2,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -910,11 +1026,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767971120027,
-    "modifiedTime": 1777470963309,
+    "modifiedTime": 1782420988113,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

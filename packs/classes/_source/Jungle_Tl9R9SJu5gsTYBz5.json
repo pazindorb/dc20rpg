@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -226,13 +226,10 @@
     {
       "origin": "Item.40YSHkFT46k4NkJG",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Favored Terrain: Jungle",
@@ -243,22 +240,22 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.statusResistances.poisoned.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
         },
-        {
-          "key": "system.globalModifier.ignore.difficultTerrain",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "key": "system.statusResistances.poisoned.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.globalModifier.ignore.difficultTerrain",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
+      },
       "description": "<ul><li><p>You ignore Difficult Terrain and gain Poisoned and Diseased Resistance.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -285,7 +282,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -293,6 +290,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Tl9R9SJu5gsTYBz5.7GJqcas3X1G46a3a"
     }
   ],
@@ -301,11 +301,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035332,
-    "modifiedTime": 1767138422840,
+    "modifiedTime": 1781983665042,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

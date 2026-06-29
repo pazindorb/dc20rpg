@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "XjF0HDBEXZMZ1AYj",
+        "sourceItemId": "Q0VgHggaS9DbYDjM",
+        "sourceItemName": "Shatter Reality",
+        "sourceItemImg": "icons/magic/unholy/orb-stone-pink.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "1jzgUzJm3X2JZblk": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "1jzgUzJm3X2JZblk",
+        "sourceItemId": "Q0VgHggaS9DbYDjM",
+        "sourceItemName": "Shatter Reality",
+        "sourceItemImg": "icons/magic/unholy/orb-stone-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "hxD2fBEe5Cyj5YXQ": {
         "name": "Area",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "hxD2fBEe5Cyj5YXQ",
+        "sourceItemId": "Q0VgHggaS9DbYDjM",
+        "sourceItemName": "Shatter Reality",
+        "sourceItemImg": "icons/magic/unholy/orb-stone-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "J1VYgm36tmbT37rS": {
         "name": "Dazed",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "J1VYgm36tmbT37rS",
+        "sourceItemId": "Q0VgHggaS9DbYDjM",
+        "sourceItemName": "Shatter Reality",
+        "sourceItemImg": "icons/magic/unholy/orb-stone-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "MtVjEQvPGI7ASQLq": {
         "name": "Distorted Perception",
@@ -558,7 +634,9 @@
               "combat": null,
               "seconds": null,
               "startRound": 70,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds"
             },
             "disabled": false,
             "flags": {
@@ -584,7 +662,7 @@
               },
               "effectKey": "",
               "macro": "const roll = new Roll(\"1d4\", {});\nawait roll.evaluate();\nif (game.dice3d) await game.dice3d.showForRoll(roll, game.user, true, null, false);\n\nif (roll.total === 1) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"It sees your body twist - you are Immobilized.\"]);\n  actor.toggleStatusEffect(\"immobilized\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"cha\", against: event.against, id: \"immobilized\", forOneMinute: true}});\n}\nif (roll.total === 2) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"Your senses collapse inward - you are Blinded.\"]);\n  actor.toggleStatusEffect(\"blinded\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"cha\", against: event.against, id: \"blinded\", forOneMinute: true}});\n}\nif (roll.total === 3) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"Your mind fractures - you are Stunned and can’t take Reactions.\"]);\n  actor.toggleStatusEffect(\"stunned\", {active: true, extras: {repeatedSave: true, repeatedSaveKey: \"cha\", against: event.against, id: \"stunned\", forOneMinute: true}});\n}\nif (roll.total === 4) {\n  DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"You become confused - At the start of each of your turns, you must spend 1 AP to move up to your Speed in a random direction.\"]);\n  const data = {\n    name: \"Distorted Perception\",\n    img: \"icons/magic/control/fear-fright-white.webp\",\n    system: {\n      duration: {\n        useCounter: true,\n        onTimeEnd: \"delete\"\n      },\n      macro: `\n      DC20.dialog.SimplePopup.info(\"Distorted Perception\", [\"You must spend 1 AP to move up to your Speed in a random direction.\"]);\n      `\n    },\n    duration: {rounds: 5},\n    changes: [\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Distorted Perception\", \"actorId\": \"${event.actorId}\"`\n      },\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Distorted Perception\", \"checkKey\": \"cha\", \"against\": \"${event.against}\", \"onSuccess\": \"delete\", \"actorId\": \"${event.actorId}\"`\n      },\n    ]\n  }\n  await actor.applyEffect(data)\n}\neffect.delete();",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -595,17 +673,17 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "mode": 2,
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Distorted Perception\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Distorted Perception\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Distorted Perception Helper.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -639,8 +717,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "MtVjEQvPGI7ASQLq",
+        "sourceItemId": "Q0VgHggaS9DbYDjM",
+        "sourceItemName": "Shatter Reality",
+        "sourceItemImg": "icons/magic/unholy/orb-stone-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -810,6 +907,30 @@
       "dazed": "Dazed",
       "madness": "Madness",
       "psychic": "Psychic"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -819,11 +940,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767975141778,
-    "modifiedTime": 1777471068849,
+    "modifiedTime": 1782420988143,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "ranged",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -192,8 +192,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "SrLIjKjLOVx0UVz5",
+        "sourceItemId": "FNrrtXlhfyTjV1cq",
+        "sourceItemName": "Death Bolt (MP Effect)",
+        "sourceItemImg": "icons/magic/death/projectile-skull-fire-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -385,6 +404,11 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "checkType": "spell",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -394,11 +418,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778479967911,
-    "modifiedTime": 1778479967911,
+    "modifiedTime": 1781985656855,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -217,8 +217,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "40AMms1kk55sChbu",
+        "sourceItemId": "3ymPZdHGa1Nf2pi8",
+        "sourceItemName": "Mockery",
+        "sourceItemImg": "icons/magic/control/fear-fright-monster-purple-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "q1sfJ4AQOX7OD3B8": {
         "name": "Blinding Rage",
@@ -289,7 +308,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const mockery = item.getEffectByKey(\"mockery\");\nif (!mockery) return;\n\nmockery.statuses.add(\"blinded\", \"deafened\")\n\n// Add Deafened effect\nmockery.changes.push({\n  key: \"system.dynamicRollModifier.onYou.skills\", \n  mode: 2, \n  value: '\"label\": \"Deafened\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"'})\n\n// Add Blind effect\nconst blindKeys = [\n  \"system.dynamicRollModifier.onYou.martial.melee\",\n  \"system.dynamicRollModifier.onYou.martial.ranged\",\n  \"system.dynamicRollModifier.onYou.martial.area\",\n  \"system.dynamicRollModifier.onYou.spell.melee\",\n  \"system.dynamicRollModifier.onYou.spell.ranged\",\n  \"system.dynamicRollModifier.onYou.spell.area\",\n  \"system.dynamicRollModifier.againstYou.martial.melee\",\n  \"system.dynamicRollModifier.againstYou.martial.ranged\",\n  \"system.dynamicRollModifier.againstYou.martial.area\",\n  \"system.dynamicRollModifier.againstYou.spell.melee\",\n  \"system.dynamicRollModifier.againstYou.spell.ranged\",\n  \"system.dynamicRollModifier.againstYou.spell.area\",\n];\nconst blindValue = '\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded\", \"confirmation\": true';\n\nmockery.changes.push({\n  key: \"system.dynamicRollModifier.onYou.skills\", \n  mode: 2, \n  value: '\"label\": \"Blinded\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"'})\nfor (const key of blindKeys) {\n  mockery.changes.push({key: key, mode: 2, value: blindValue})\n}",
+            "preItemRoll": "const mockery = item.getEffectByKey(\"mockery\");\nif (!mockery) return;\n\nmockery.statuses.add(\"blinded\", \"deafened\")\n\n// Add Deafened effect\nmockery.changes.push({\n  key: \"system.dynamicRollModifier.onYou.skills\", \n  mode: 2, \n  value: '\"label\": \"Deafened\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"'})\n\n// Add Blind effect\nconst blindKeys = [\n  \"system.dynamicRollModifier.onYou.attack\",\n  \"system.dynamicRollModifier.againstYou.attack\",\n];\nconst blindValue = '\"value\": 1, \"type\": \"dis\", \"label\": \"Blinded\", \"confirmation\": true';\n\nmockery.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.skills\", \n  mode: 2, \n  value: '\"label\": \"Blinded\", \"confirmation\": true, \"autoFail\": true, \"skill\": \"awa\"'})\nfor (const key of blindKeys) {\n  mockery.system.changes.push({key: key, mode: 2, value: blindValue})\n}",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -304,8 +323,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "q1sfJ4AQOX7OD3B8",
+        "sourceItemId": "3ymPZdHGa1Nf2pi8",
+        "sourceItemName": "Mockery",
+        "sourceItemImg": "icons/magic/control/fear-fright-monster-purple-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -475,6 +513,14 @@
       "deafened": "Deafened",
       "emotions": "Emotions",
       "taunted": "Taunted"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "targetDefence": "area",
+      "closeQuarters": true
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -483,12 +529,10 @@
       "img": "icons/magic/control/fear-fright-monster-purple-blue.webp",
       "origin": "Compendium.dc20rpg.spells.Item.3ymPZdHGa1Nf2pi8",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -502,7 +546,7 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "taunted",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
@@ -523,52 +567,18 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Mockery\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You are Taunted by caster.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -580,13 +590,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1777015928233,
-        "modifiedTime": 1777016548237,
+        "modifiedTime": 1782396851357,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!3ymPZdHGa1Nf2pi8.5SAx3LPVAgn3W3Ga"
     }
   ],
@@ -596,11 +616,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767995909719,
-    "modifiedTime": 1777016613638,
+    "modifiedTime": 1782396082623,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -248,13 +248,10 @@
       "img": "icons/magic/sonic/explosion-shock-wave-teal.webp",
       "origin": "Compendium.dc20-players-handbook-beta.classes.Item.W7IMP9QKwZM5DmtB",
       "duration": {
-        "rounds": null,
-        "startTime": 0,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Magic Domain",
@@ -264,22 +261,22 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
         },
-        {
-          "key": "system.resources.mana.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "key": "system.known.spells.max",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.resources.mana.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>Your maximum MP increases by 1.</p><p>Choose a Spell Tag (such as Fire, Holy, or Undeath). You learn 1 Spell with the chosen Spell Tag, and when you learn a new Spell you can choose any Spell that also has the chosen Spell Tag.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -303,7 +300,7 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.SD66MCYZ0l6gSPZx.ActiveEffect.kXnrH38oKA9ye2Nr",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -311,6 +308,16 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!mfUKo7kcgbkbN80B.5zmqspRgXhWWstu8"
     }
   ],
@@ -319,11 +326,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.1",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034758,
-    "modifiedTime": 1769590549532,
+    "modifiedTime": 1781983667002,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

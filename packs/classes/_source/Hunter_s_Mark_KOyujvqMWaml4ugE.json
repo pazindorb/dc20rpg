@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -161,15 +161,7 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "WzJNfQVTpdDyjgU1": {
-        "name": "Get Help Dice",
-        "trigger": "onDemand",
-        "command": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\nDC20.dialog.SimplePopup.info(\"Help Dice Ready\", [`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]);",
-        "disabled": false,
-        "title": "Get Help Dice"
-      }
-    },
+    "macros": {},
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -231,11 +223,12 @@
       "subtract": false
     },
     "featureSourceItem": "hunter",
-    "conditionals": {
+    "conditionals": {},
+    "targetModifiers": {
       "fdr6ltYNl2z2Itk9": {
         "name": "Hunter's Mark",
-        "condition": "target.hasEffectWithKey(\"huntersMark\", false, true)",
-        "useFor": "system.attackFormula.checkType=[\"attack\"]",
+        "condition": "const actor = target?.actor;\nif (!actor) return false;\n\nconst applierHash = calcData?.applierHash;\nif (!applierHash) return false;\n\nfor (effect of actor.effects) {\n  const keyMatch = effect.system.effectKey === \"huntersMark\";\n  const correctAttacker = effect.flags.dc20rpg?.applierHash === applierHash;\n  const effectActive = !effect.disabled;\n  const allMatch = keyMatch && correctAttacker && effectActive;\n  if (allMatch) return true;\n}\n\nreturn false;",
+        "useFor": "isMartialAttack=[true]",
         "linkWithToggle": false,
         "bonus": "0",
         "flags": {
@@ -264,6 +257,111 @@
           "category": "damage",
           "dontMerge": false
         }
+      },
+      "wmX5fQ6WzfnmlPKt": {
+        "name": "Hunter's Mark - Help Dice",
+        "condition": "const critOrHeavy = calcData?.isCritSuccess || hit >= 5\nif (!critOrHeavy) return false;\n\nconst actor = target?.actor;\nif (!actor) return false;\n\nconst applierHash = calcData?.applierHash;\nif (!applierHash) return false;\n\nfor (effect of actor.effects) {\n  const keyMatch = effect.system.effectKey === \"huntersMark\";\n  const correctAttacker = effect.flags.dc20rpg?.applierHash === applierHash;\n  const allMatch = keyMatch && correctAttacker;\n  if (allMatch) return true;\n}\n\nreturn false;",
+        "useFor": "isMartialAttack=[true]",
+        "linkWithToggle": false,
+        "bonus": "",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreEdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": {
+          "name": "Hunter's Mark - Help Dice",
+          "img": "icons/skills/targeting/crosshair-arrowhead-blue.webp",
+          "origin": null,
+          "disabled": false,
+          "system": {
+            "addToChat": true,
+            "applyToTemplate": true,
+            "changes": [
+              {
+                "key": "system.dynamicRollModifier.againstYou.attack",
+                "type": "add",
+                "value": "\"label\": \"Hunter's Mark - Help Dice\", \"modifier\": \"+ 1d8\", \"afterRoll\": \"delete\"",
+                "phase": "initial",
+                "priority": 0,
+                "useCustom": false
+              },
+              {
+                "key": "system.events",
+                "type": "add",
+                "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Hunter's Mark - Help Dice\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                "phase": "initial",
+                "priority": 0,
+                "useCustom": false
+              }
+            ],
+            "sustained": {
+              "isSustained": false,
+              "actorUuid": "",
+              "itemId": ""
+            },
+            "statusId": "",
+            "condition": false,
+            "duration": {
+              "useCounter": false,
+              "resetWhenEnabled": false,
+              "onTimeEnd": "",
+              "expiryAction": ""
+            },
+            "effectKey": "",
+            "macro": "",
+            "applyToSelf": false,
+            "requireEquip": false,
+            "nonessential": false,
+            "refreshTarget": false,
+            "disableWhen": {
+              "path": "",
+              "mode": "",
+              "value": ""
+            },
+            "chatMessageId": ""
+          },
+          "transfer": false,
+          "flags": {
+            "dc20rpg": {
+              "itemSavePath": "system.targetModifiers.wmX5fQ6WzfnmlPKt.effect"
+            }
+          },
+          "duration": {
+            "value": 1,
+            "units": "rounds",
+            "expiry": "turnStart",
+            "expired": false
+          },
+          "_id": "XSOOu7AhbtLItXNl",
+          "type": "base",
+          "start": null,
+          "description": "",
+          "tint": "#ffffff",
+          "statuses": [],
+          "showIcon": 1,
+          "folder": null,
+          "sort": 0,
+          "_stats": {
+            "coreVersion": "14.364",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.10.6.0",
+            "createdTime": 1782335684682,
+            "modifiedTime": 1782335684682,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y",
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          }
+        },
+        "addsNewRollRequest": false,
+        "rollRequest": {},
+        "addsNewFormula": false,
+        "formula": {},
+        "addsAgainstStatus": false,
+        "againstStatus": {}
       }
     }
   },
@@ -271,13 +369,10 @@
     {
       "origin": "Item.fjVvRvP7aYAuip5F",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Hunter's Mark",
@@ -290,46 +385,43 @@
           "mode": "=="
         },
         "effectKey": "huntersMark",
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"attackType\": \"martial\", \"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.skills",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"sur\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.skills",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"awa\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Hunter's Mark\", \"postTrigger\": \"disable\", \"reenable\": \"actorWithIdStartsTurn\", \"triggerOnlyForId\": \"#SPEAKER_ID#\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ],
+        "applyToTemplate": false
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"postTrigger\": \"disable\", \"reenable\": \"actorWithIdStartsTurn\", \"triggerOnlyForId\": \"#SPEAKER_ID#\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"sur\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"awa\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are Hunter’s current quarry.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -355,14 +447,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": null,
-        "modifiedTime": 1768466302386,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983663893,
+        "modifiedTime": 1782148222782,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!KOyujvqMWaml4ugE.VoUCSXHBawdfwXjF"
     }
   ],
@@ -371,11 +466,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035308,
-    "modifiedTime": 1767131249143,
+    "modifiedTime": 1782335686632,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

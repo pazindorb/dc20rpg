@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -231,6 +231,9 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -239,13 +242,10 @@
       "img": "icons/magic/nature/lotus-glow-pink.webp",
       "origin": "Compendium.dc20rpg.classes.Item.uYcWwnEQ3lAJogeX",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null,
-        "turns": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -278,16 +278,16 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"healing\", \"trigger\": \"turnEnd\", \"label\": \"Wild Growth - Healing\", \"preTrigger\": \"skip\", \"value\": 1, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"healing\", \"trigger\": \"turnEnd\", \"label\": \"Wild Growth - Healing\", \"preTrigger\": \"skip\", \"value\": 1, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You regain 1 HP each time you end your turn within your Domain.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -297,13 +297,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
         "createdTime": 1767130295755,
         "modifiedTime": 1776858149577,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!uYcWwnEQ3lAJogeX.pCxhnpVXd3eLKveT"
     }
   ],
@@ -312,11 +322,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350036002,
-    "modifiedTime": 1776857864045,
+    "modifiedTime": 1781983667715,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

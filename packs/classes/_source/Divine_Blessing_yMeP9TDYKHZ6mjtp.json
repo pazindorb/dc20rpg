@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -78,13 +78,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
           "custom": {},
-          "restPoints": null,
-          "ap": null
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": false,
@@ -154,7 +154,17 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>The target takes <strong>3</strong> Divine damage, provided that the result of your Spell Check is equal to or higher than the target’s AD.</p><p>If the Spell doesn’t normally require a Check, then you must make a Spell Attack Check when you apply this blessing.</p>",
         "hide": false,
@@ -162,20 +172,26 @@
         "sourceItemId": "yMeP9TDYKHZ6mjtp",
         "sourceItemName": "Divine Blessing",
         "sourceItemImg": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YFyFtShlNDbZwuNc": {
         "name": "Blessing: Restoration",
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
           "custom": {},
-          "restPoints": null,
-          "ap": null
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": false,
@@ -245,7 +261,17 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>The target regains <strong>3 HP.</strong></p>",
         "hide": false,
@@ -253,20 +279,26 @@
         "sourceItemId": "yMeP9TDYKHZ6mjtp",
         "sourceItemName": "Divine Blessing",
         "sourceItemImg": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "sdAzEnTDSSMDZyRL": {
         "name": "Blessing: Guidance",
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
           "custom": {},
-          "restPoints": null,
-          "ap": null
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": false,
@@ -341,15 +373,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 1,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "sdAzEnTDSSMDZyRL"
+                "enhKey": "sdAzEnTDSSMDZyRL",
+                "itemSavePath": "system.enhancements.sdAzEnTDSSMDZyRL.modifications.addsEffect"
               }
             },
-            "_id": "BHyTSwiPiSOadxEw",
+            "_id": "zSoPl408LUn9QRXE",
             "type": "base",
             "system": {
               "sustained": {
@@ -363,11 +400,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -378,101 +416,69 @@
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
               "applyToTemplate": true,
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.mig",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.agi",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.cha",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.int",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.mar",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                },
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.checks.spe",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing - Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mig",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.agi",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.cha",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.int",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.att",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mar",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.spe",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Blessing: Guidance\", \"modifier\": \"+ 1d8\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>The target gains a <strong>d8 Help Die</strong> that they can add to 1 Check of their choice they make within the next minute. When they use this Help Die, the Check gains ADV.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -482,19 +488,39 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1776852830745,
-              "modifiedTime": 1776852830751,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782413201051,
+              "modifiedTime": 1782413262008,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 1,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>The target gains a <strong>d8 Help Die</strong> that they can add to 1 Check of their choice they make within the next minute. When they use this Help Die, the Check gains ADV.</p>",
         "hide": false,
@@ -502,7 +528,13 @@
         "sourceItemId": "yMeP9TDYKHZ6mjtp",
         "sourceItemName": "Divine Blessing",
         "sourceItemImg": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -600,39 +632,11 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "YQ9GBiJjO493T7vy": {
-        "name": "Change Divine Damage",
-        "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
-        "disabled": false,
-        "title": "Change Divine Damage"
-      },
-      "7SZ8z1aAyntvreeG": {
-        "name": "Add To Keyword",
-        "trigger": "onCreate",
-        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
-        "disabled": false,
-        "title": ""
-      },
-      "RlqPqSktzVgZPx7a": {
-        "name": "Reset Divine Blessing Buff",
-        "trigger": "enhancementReset",
-        "command": "if (!itemRollFinished) return;\nitem.update({[\"system.toggle.toggledOn\"]: false});",
-        "disabled": false,
-        "title": ""
-      },
       "MgXt850jpKWmCMoR": {
         "command": "if (newValue) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: newValue});\n}",
         "trigger": "onKeywordUpdate",
         "disabled": false,
         "name": "Update Divine Damage",
-        "title": ""
-      },
-      "NZwiq5Cf5ppqdtRx": {
-        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"divineDamage\", item._id)",
-        "trigger": "preDelete",
-        "disabled": false,
-        "name": "Remove From Keyword",
         "title": ""
       }
     },
@@ -657,20 +661,22 @@
       "ignoreMHP": false,
       "subtract": false
     },
-    "featureSourceItem": "cleric"
+    "featureSourceItem": "cleric",
+    "keyword": {
+      "key": "divine-damage",
+      "message": "Select Divine Damage",
+      "selectOptions": "{\n    \"corrosion\": \"Corrosion\",\n    \"cold\": \"Cold\",\n    \"fire\": \"Fire\",\n    \"lightning\": \"Lightning\",\n    \"poison\": \"Poison\",\n    \"psychic\": \"Psychic\",\n    \"radiant\": \"Radiant\",\n    \"umbral\": \"Umbral\"\n}"
+    }
   },
   "effects": [
     {
       "img": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
       "origin": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Active Blessing",
@@ -681,13 +687,15 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": true,
-          "onTimeEnd": "disable"
+          "onTimeEnd": "disable",
+          "expiryAction": "disable"
         },
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [],
+        "applyToTemplate": false
       },
-      "changes": [],
       "description": "<p>You have an active Blessing. <span>Once during the next minute, you can apply the blessing to a Spell you cast.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -711,14 +719,24 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU.ActiveEffect.NiTXVz86BA36KXFV",
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256770,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983668075,
+        "modifiedTime": 1782332220771,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!yMeP9TDYKHZ6mjtp.OgmnSZOGLjPfvvhh"
     }
   ],
@@ -748,11 +766,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034319,
-    "modifiedTime": 1776852910690,
+    "modifiedTime": 1782420985458,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

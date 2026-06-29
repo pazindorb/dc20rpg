@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "zT2zC8qM7eKg1OvM",
+        "sourceItemId": "BknepaODkOJvbC8t",
+        "sourceItemName": "Mass Heal",
+        "sourceItemImg": "icons/magic/life/cross-area-circle-green-white.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "HPzcbwALXmysROGS": {
         "name": "Area",
@@ -231,12 +250,12 @@
         "description": "<p>The diameter of the Sphere increases by 2 Spaces.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -307,8 +326,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "2",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "HPzcbwALXmysROGS",
+        "sourceItemId": "BknepaODkOJvbC8t",
+        "sourceItemName": "Mass Heal",
+        "sourceItemImg": "icons/magic/life/cross-area-circle-green-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "UC8zeoiR17QkCwct": {
         "name": "Increased Healing",
@@ -317,12 +358,12 @@
         "description": "<p>Each target regains +1 HP.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -393,8 +434,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "UC8zeoiR17QkCwct",
+        "sourceItemId": "BknepaODkOJvbC8t",
+        "sourceItemName": "Mass Heal",
+        "sourceItemImg": "icons/magic/life/cross-area-circle-green-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "rAqdmnqHr6zg9I6Z": {
         "name": "Protection",
@@ -403,12 +466,12 @@
         "description": "<p>The next Attack made against each target within 1 Round has DisADV.</p><p>You can use this Enhancement a maximum of two times. If you use this Enhancement twice, all Attacks made against each target within 1 Round have DisADV.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -474,15 +537,20 @@
               "seconds": null,
               "startRound": null,
               "startTurn": null,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "rAqdmnqHr6zg9I6Z"
+                "enhKey": "rAqdmnqHr6zg9I6Z",
+                "itemSavePath": "system.enhancements.rAqdmnqHr6zg9I6Z.modifications.addsEffect"
               }
             },
-            "_id": "6rImmAsxmh18wSjG",
+            "_id": "VAeEZ2rjVKLkXbLP",
             "type": "base",
             "system": {
               "sustained": {
@@ -496,11 +564,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -511,52 +580,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Attack against you has DisADV.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -566,16 +604,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777022476030,
-              "modifiedTime": 1777022476030,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782580442393,
+              "modifiedTime": 1782580442393,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "if (enh.number === 1) return;\n\nenh.modifications.addsEffect.changes[0].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[1].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[2].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[3].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[4].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'\nenh.modifications.addsEffect.changes[5].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'",
+            "preItemRoll": "if (enh.number === 1) return;\n\nenh.modifications.addsEffect.system.changes[0].value = '\"value\": 1, \"type\": \"dis\", \"label\": \"Protection\"'",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -590,8 +638,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "rAqdmnqHr6zg9I6Z",
+        "sourceItemId": "BknepaODkOJvbC8t",
+        "sourceItemName": "Mass Heal",
+        "sourceItemImg": "icons/magic/life/cross-area-circle-green-white.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -759,6 +829,30 @@
     "spellTags": {
       "healing": "Healing",
       "ward": "Ward"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 4,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [],
@@ -768,11 +862,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768046138600,
-    "modifiedTime": 1777022492811,
+    "modifiedTime": 1782580543003,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -46,7 +46,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -196,15 +196,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 3,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "XvwlajvtI9MJK9gd"
+                "enhKey": "XvwlajvtI9MJK9gd",
+                "itemSavePath": "system.enhancements.XvwlajvtI9MJK9gd.modifications.addsEffect"
               }
             },
-            "_id": "EinWxgTg3SAZFwSl",
+            "_id": "8aZPCn2LgDW70clL",
             "type": "base",
             "system": {
               "sustained": {
@@ -218,11 +223,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -231,59 +237,31 @@
               },
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
-              "requireEnhancement": ""
+              "requireEnhancement": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "type": "add",
+                  "value": "\"eventType\": \"basic\", \"trigger\": \"turnEnd\", \"label\": \"Alert\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                }
+              ],
+              "applyToSelf": false,
+              "applyToTemplate": true,
+              "requireEquip": false,
+              "refreshTarget": false,
+              "chatMessageId": ""
             },
-            "changes": [
-              {
-                "key": "system.rollLevel.againstYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Alert\", \"confirmation\": true, \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"basic\", \"trigger\": \"turnEnd\", \"label\": \"Alert\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>The Attacker’s next Attack this turn against the target has DisADV.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -293,13 +271,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1766069848759,
-              "modifiedTime": 1766069848759,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782035860376,
+              "modifiedTime": 1782035889305,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 3,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -317,8 +305,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "XvwlajvtI9MJK9gd",
+        "sourceItemId": "oHqCLOEjDqFUaEaB",
+        "sourceItemName": "Parry",
+        "sourceItemImg": "icons/skills/melee/swords-parry-block-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "t7xcb2VbLaytuDcX": {
         "name": "Disarm",
@@ -402,8 +409,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "t7xcb2VbLaytuDcX",
+        "sourceItemId": "oHqCLOEjDqFUaEaB",
+        "sourceItemName": "Parry",
+        "sourceItemImg": "icons/skills/melee/swords-parry-block-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -542,12 +568,10 @@
       "img": "icons/skills/melee/swords-parry-block-blue.webp",
       "origin": "Item.DBp1DdcJ6XmKJvF9",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 3,
-        "startTurn": 0
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -580,22 +604,24 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Parry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ],
+        "applyToTemplate": false,
+        "refreshTarget": true
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Parry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You grant the target a +5 bonus to its PD against this Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -605,11 +631,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782370314007,
+        "modifiedTime": 1782370314575
       },
+      "start": {
+        "combat": null,
+        "round": 3,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!oHqCLOEjDqFUaEaB.MYpv7WcSUAMnTkyl"
     }
   ],
@@ -619,11 +657,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766052349963,
-    "modifiedTime": 1766069973256,
+    "modifiedTime": 1782420986757,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

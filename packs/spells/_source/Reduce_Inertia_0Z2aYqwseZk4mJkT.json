@@ -52,7 +52,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -210,8 +210,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "qoBExpRzSjqm4wVM",
+        "sourceItemId": "0Z2aYqwseZk4mJkT",
+        "sourceItemName": "Reduce Inertia",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-small-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "xLeBLlJhVkpUAvMB": {
         "name": "Lightweight",
@@ -290,15 +309,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 29,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "xLeBLlJhVkpUAvMB"
+                "enhKey": "xLeBLlJhVkpUAvMB",
+                "itemSavePath": "system.enhancements.xLeBLlJhVkpUAvMB.modifications.addsEffect"
               }
             },
-            "_id": "FOIcewncQ9NuAQ0M",
+            "_id": "2xw22dLAchwjBVZW",
             "type": "base",
             "system": {
               "sustained": {
@@ -312,11 +336,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -327,24 +352,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.movement.ground.bonus",
+                  "value": 2,
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.jump.bonus",
+                  "value": 2,
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.movement.ground.bonus",
-                "mode": 2,
-                "value": "2",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.jump.bonus",
-                "mode": 2,
-                "value": "2",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain bonus Speed and Jump Distance.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -354,16 +384,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777190099732,
-              "modifiedTime": 1777190099732,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782395796108,
+              "modifiedTime": 1782395796108,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 29,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "enh.modifications.addsEffect.changes[0].value = 2 * enh.number;\nenh.modifications.addsEffect.changes[1].value = 2 * enh.number;",
+            "preItemRoll": "enh.modifications.addsEffect.system.changes[0].value = 2 * enh.number;\nenh.modifications.addsEffect.system.changes[1].value = 2 * enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -378,8 +418,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "xLeBLlJhVkpUAvMB",
+        "sourceItemId": "0Z2aYqwseZk4mJkT",
+        "sourceItemName": "Reduce Inertia",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-small-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "IWFEzA6tUKKocYxK": {
         "name": "Targets",
@@ -465,8 +524,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "IWFEzA6tUKKocYxK",
+        "sourceItemId": "0Z2aYqwseZk4mJkT",
+        "sourceItemName": "Reduce Inertia",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-small-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "59mwChils7oxNiV5": {
         "name": "Controlled Descent",
@@ -552,8 +630,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "59mwChils7oxNiV5",
+        "sourceItemId": "0Z2aYqwseZk4mJkT",
+        "sourceItemName": "Reduce Inertia",
+        "sourceItemImg": "icons/magic/fire/explosion-fireball-small-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -733,11 +830,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777190152404,
-    "modifiedTime": 1777190152404,
+    "modifiedTime": 1782420988107,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

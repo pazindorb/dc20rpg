@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -216,8 +216,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "iT9WUAgpbr9c41q3",
+        "sourceItemId": "zI3FZ02E3NPmJ17a",
+        "sourceItemName": "Spirit Link",
+        "sourceItemImg": "icons/magic/death/undead-ghosts-trio-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "9fPkictDTyYRQypZ": {
         "name": "Extended Link",
@@ -302,8 +321,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "9fPkictDTyYRQypZ",
+        "sourceItemId": "zI3FZ02E3NPmJ17a",
+        "sourceItemName": "Spirit Link",
+        "sourceItemImg": "icons/magic/death/undead-ghosts-trio-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "bxEgVmdL1MHy3ITi": {
         "name": "Lion’s Heart",
@@ -373,7 +411,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"spiritLink\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.statusResistances.charmed.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.taunted.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.intimidated.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.frightened.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.changes.push({\n  key: \"system.statusResistances.terrified.resistance\",\n  mode: 2,\n  value: \"1\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"spiritLink\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.statusResistances.charmed.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.system.changes.push({\n  key: \"system.statusResistances.taunted.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.system.changes.push({\n  key: \"system.statusResistances.intimidated.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.system.changes.push({\n  key: \"system.statusResistances.frightened.resistance\",\n  mode: 2,\n  value: \"1\"\n})\neffect.system.changes.push({\n  key: \"system.statusResistances.terrified.resistance\",\n  mode: 2,\n  value: \"1\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -388,8 +426,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "bxEgVmdL1MHy3ITi",
+        "sourceItemId": "zI3FZ02E3NPmJ17a",
+        "sourceItemName": "Spirit Link",
+        "sourceItemImg": "icons/magic/death/undead-ghosts-trio-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "BP2w0dmzjJJ5IAJx": {
         "name": "Transference",
@@ -474,8 +531,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "BP2w0dmzjJJ5IAJx",
+        "sourceItemId": "zI3FZ02E3NPmJ17a",
+        "sourceItemName": "Spirit Link",
+        "sourceItemImg": "icons/magic/death/undead-ghosts-trio-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "fHdbMsQYLOPtffHn": {
         "name": "Profane",
@@ -560,8 +636,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "fHdbMsQYLOPtffHn",
+        "sourceItemId": "zI3FZ02E3NPmJ17a",
+        "sourceItemName": "Spirit Link",
+        "sourceItemImg": "icons/magic/death/undead-ghosts-trio-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "mjHAXnKiB7YBDCxH": {
         "name": "Shared Mind",
@@ -647,8 +742,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "mjHAXnKiB7YBDCxH",
+        "sourceItemId": "zI3FZ02E3NPmJ17a",
+        "sourceItemName": "Spirit Link",
+        "sourceItemImg": "icons/magic/death/undead-ghosts-trio-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -819,6 +933,9 @@
       "spirit": "Spirit",
       "ward": "Ward",
       "communication": "Communication"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -827,12 +944,10 @@
       "img": "icons/magic/death/undead-ghosts-trio-blue.webp",
       "origin": "Item.0HUu5hngNyHtgQxu",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "startRound": 94,
-        "startTurn": 1,
-        "seconds": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -855,7 +970,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "spiritLink",
-        "macro": "let transference = effect.flags.dc20rpg?.transference;\nconst profane = effect.flags.dc20rpg?.profane;\nconst range = 10 + (effect.flags.dc20rpg?.extend || 0);\n\nif (event.trigger === \"instant\") {\n  const tokens = await DC20.dialog.TokenSelector.open(canvas.tokens.placeables, \"Select Actor you want to link with. Make sure he failed the save as well.\");\n  const linkedActor = tokens[0]?.actor;\n  if (!linkedActor) {\n    ui.notifications.error(\"Actor not found.\")\n    return;\n  }\n\n  if (transference) {\n    const confirmed = await DC20.dialog.SimplePopup.open(\"confirm\", {confirmLabel: actor.name, denyLabel: linkedActor.name, message: \"Which actor should be the target of Transference?\"});\n    transference = confirmed ? actor.id : linkedActor.id;\n  }\n\n  // Prepare second Spirit Link data\n  const linkData = effect.toObject(false);\n  const changes = [];\n  for (const change of linkData.changes) {\n    if (change.value.includes('\"trigger\": \"instant\"')) continue;\n    changes.push(change);\n  }\n  linkData.changes.pop();\n  linkData.changes = changes;\n  linkData.flags.dc20rpg.targetHash = actor.targetHash;\n  if (transference) linkData.flags.dc20rpg.transference = transference;\n  linkedActor.applyEffect(linkData);\n\n  // Update original Spirit Link\n  effect.gmUpdate({[\"flags.dc20rpg.targetHash\"]: linkedActor.targetHash});\n  if (transference) effect.gmUpdate({[\"flags.dc20rpg.transference\"]: transference});\n  return;\n}\n\n// Get Linked Actor\nconst targetHash = effect.flags.dc20rpg?.targetHash;\nconst linked = DC20.tools.getActorFromTargetHash(targetHash);\nif (!linked) {\n  ui.notifications.error(\"Linked Actor not found.\")\n  return;\n}\n// Check range\nconst actorToken = actor.getActiveTokens()[0]\nconst linkedToken = linked.getActiveTokens()[0]\nif (!actorToken || !linkedToken) return;\nif (!actorToken.isTokenInRange(linkedToken, range)) return;\n\nif (event.trigger === \"damageTaken\") {\n  extras.preventChange = true;\n  const amount = extras.amount;\n  const dmg = {value: 0, source: \"Spirit Link\"};\n\n  if (transference) {\n    dmg.value = amount;\n    if (transference === actor.id) game.dc20rpg.tools.applyDamage(actor, dmg, {skipEventCall: true, messageId: extras.messageId});\n    if (transference === linked.id) game.dc20rpg.tools.applyDamage(linked, dmg, {skipEventCall: true, messageId: extras.messageId});\n    return;\n  }\n\n  dmg.value = profane ? amount : Math.ceil(amount/2);\n  game.dc20rpg.tools.applyDamage(actor, dmg, {skipEventCall: true, messageId: extras.messageId});\n  game.dc20rpg.tools.applyDamage(linked, dmg, {skipEventCall: true, messageId: extras.messageId});\n}\n\nif (event.trigger === \"healingTaken\") {\n  extras.preventChange = true;\n  const amount = extras.amount;\n  const heal = {value: 0, type: \"heal\", source: \"Spirit Link\"};\n  \n  if (transference) {\n    heal.value = amount;\n    if (transference === actor.id) game.dc20rpg.tools.applyHealing(actor, heal, {skipEventCall: true, messageId: extras.messageId});\n    if (transference === linked.id) game.dc20rpg.tools.applyHealing(linked, heal, {skipEventCall: true, messageId: extras.messageId});\n    return;\n  }\n\n  heal.value = Math.ceil(amount/2);\n  game.dc20rpg.tools.applyHealing(actor, heal, {skipEventCall: true, messageId: extras.messageId});\n  game.dc20rpg.tools.applyHealing(linked, heal, {skipEventCall: true, messageId: extras.messageId});\n}",
+        "macro": "let transference = effect.flags.dc20rpg?.transference;\nconst profane = effect.flags.dc20rpg?.profane;\nconst range = 10 + (effect.flags.dc20rpg?.extend || 0);\n\nif (event.trigger === \"instant\") {\n  const tokens = await DC20.dialog.TokenSelector.open(canvas.tokens.placeables, \"Select Actor you want to link with. Make sure he failed the save as well.\");\n  const linkedActor = tokens[0]?.actor;\n  if (!linkedActor) {\n    ui.notifications.error(\"Actor not found.\")\n    return;\n  }\n\n  if (transference) {\n    const confirmed = await DC20.dialog.SimplePopup.open(\"confirm\", {confirmLabel: actor.name, denyLabel: linkedActor.name, message: \"Which actor should be the target of Transference?\"});\n    transference = confirmed ? actor.id : linkedActor.id;\n  }\n\n  // Prepare second Spirit Link data\n  const linkData = effect.toObject(false);\n  const changes = [];\n  for (const change of linkData.system.changes) {\n    if (change.value.includes('\"trigger\": \"instant\"')) continue;\n    changes.push(change);\n  }\n  linkData.system.changes.pop();\n  linkData.system.changes = changes;\n  linkData.flags.dc20rpg.targetHash = actor.targetHash;\n  if (transference) linkData.flags.dc20rpg.transference = transference;\n  linkedActor.applyEffect(linkData);\n\n  // Update original Spirit Link\n  effect.gmUpdate({[\"flags.dc20rpg.targetHash\"]: linkedActor.targetHash});\n  if (transference) effect.gmUpdate({[\"flags.dc20rpg.transference\"]: transference});\n  return;\n}\n\n// Get Linked Actor\nconst targetHash = effect.flags.dc20rpg?.targetHash;\nconst linked = DC20.tools.getActorFromTargetHash(targetHash);\nif (!linked) {\n  ui.notifications.error(\"Linked Actor not found.\")\n  return;\n}\n// Check range\nconst actorToken = actor.getActiveTokens()[0]\nconst linkedToken = linked.getActiveTokens()[0]\nif (!actorToken || !linkedToken) return;\nif (!actorToken.isTokenInRange(linkedToken, range)) return;\n\nif (event.trigger === \"damageTaken\") {\n  extras.preventChange = true;\n  const amount = extras.amount;\n  const dmg = {value: 0, source: \"Spirit Link\"};\n\n  if (transference) {\n    dmg.value = amount;\n    if (transference === actor.id) game.dc20rpg.tools.applyDamage(actor, dmg, {skipEventCall: true, messageId: extras.messageId});\n    if (transference === linked.id) game.dc20rpg.tools.applyDamage(linked, dmg, {skipEventCall: true, messageId: extras.messageId});\n    return;\n  }\n\n  dmg.value = profane ? amount : Math.ceil(amount/2);\n  game.dc20rpg.tools.applyDamage(actor, dmg, {skipEventCall: true, messageId: extras.messageId});\n  game.dc20rpg.tools.applyDamage(linked, dmg, {skipEventCall: true, messageId: extras.messageId});\n}\n\nif (event.trigger === \"healingTaken\") {\n  extras.preventChange = true;\n  const amount = extras.amount;\n  const heal = {value: 0, type: \"heal\", source: \"Spirit Link\"};\n  \n  if (transference) {\n    heal.value = amount;\n    if (transference === actor.id) game.dc20rpg.tools.applyHealing(actor, heal, {skipEventCall: true, messageId: extras.messageId});\n    if (transference === linked.id) game.dc20rpg.tools.applyHealing(linked, heal, {skipEventCall: true, messageId: extras.messageId});\n    return;\n  }\n\n  heal.value = Math.ceil(amount/2);\n  game.dc20rpg.tools.applyHealing(actor, heal, {skipEventCall: true, messageId: extras.messageId});\n  game.dc20rpg.tools.applyHealing(linked, heal, {skipEventCall: true, messageId: extras.messageId});\n}",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -867,28 +982,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Spirit Link - Damage Share\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"healingTaken\", \"label\": \"Spirit Link - Damage Share\", \"skipTempHpChangeOnly\": true, \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Spirit Link\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Spirit Link - Damage Share\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"healingTaken\", \"label\": \"Spirit Link - Damage Share\", \"skipTempHpChangeOnly\": true, \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Spirit Link\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>Your HP is linked with other creature.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -898,12 +1013,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1768552496085
+        "modifiedTime": 1782632665910,
+        "createdTime": 1782632665910
       },
+      "start": {
+        "combat": null,
+        "round": 94,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!zI3FZ02E3NPmJ17a.onqARKI6aPeUKMXm"
     }
   ],
@@ -913,11 +1039,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768063286188,
-    "modifiedTime": 1777535108669,
+    "modifiedTime": 1782632617299,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

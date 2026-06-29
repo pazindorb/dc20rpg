@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -226,34 +226,32 @@
     {
       "origin": "Item.40YSHkFT46k4NkJG",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Favored Terrain: Grassland",
       "img": "icons/environment/wilderness/arch-stone.webp",
       "_id": "7GJqcas3X1G46a3a",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.jump.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.movement.ground.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.jump.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.movement.ground.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<ul><li>Your Speed and Jump Distance increases by 1.</li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -263,7 +261,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
@@ -271,6 +269,9 @@
         "lastModifiedBy": null,
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!myRHx8fzNN6Vn0yv.7GJqcas3X1G46a3a"
     }
   ],
@@ -279,11 +280,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034682,
-    "modifiedTime": 1750934371138,
+    "modifiedTime": 1781983667043,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

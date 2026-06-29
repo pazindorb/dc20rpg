@@ -1,17 +1,18 @@
 {
-  "name": "Spend SP on AP Enhancements",
-  "type": "basicAction",
-  "img": "icons/skills/melee/unarmed-punch-fist-yellow-red.webp",
+  "name": "Skitter Away",
+  "type": "feature",
+  "img": "icons/magic/nature/wolf-paw-glow-green.webp",
   "system": {
     "itemKey": "",
-    "description": "<p><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\">Use this Enhancement if you want to spend 1 SP instead of 1 AP on Martial or Weapon Style Enhancement. </span></p>",
+    "description": "<p>When a creature moves within 2 Spaces of you, you can move up to half your Speed.</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
     "requirements": {
-      "level": 0,
-      "items": ""
+      "level": 1,
+      "items": "",
+      "unique": true
     },
     "rollMenu": {
       "free": false,
@@ -26,14 +27,18 @@
       "gritCost": 0,
       "autoCrit": false,
       "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
       "help": [],
       "ignoreMCP": false
     },
-    "hideFromCompendiumBrowser": true,
+    "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {},
     "usable": true,
-    "isReaction": false,
+    "isReaction": true,
     "help": {
       "ignoreMHP": false,
       "subtract": false,
@@ -42,11 +47,12 @@
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": false
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -60,12 +66,11 @@
         "conditionals": false
       },
       "ignoreCloseQuarters": false,
-      "formulaMod": "",
-      "customModifier": ""
+      "formulaMod": ""
     },
     "check": {
       "canCrit": false,
-      "checkKey": "att",
+      "checkKey": "mar",
       "multiCheck": {
         "active": false,
         "options": {}
@@ -85,7 +90,6 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "ap": null,
         "stamina": null,
         "mana": null,
@@ -120,97 +124,13 @@
     "againstStatuses": {},
     "rollRequests": {},
     "formulas": {},
-    "enhancements": {
-      "UXHJqPd2gpsBARBu": {
-        "name": "Spend SP on AP Enhancements",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\">Use this Enhancement if you want to spend 1 SP instead of 1 AP on Martial or Weapon Style Enhancement. You cannot use it on Maneuver Enhancements!</span></p>",
-        "hide": false,
-        "resources": {
-          "ap": -1,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        }
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
-      "copy": true,
-      "copyFor": "system.itemKey=[\"martialEnhancements\"]||system.category=[\"weaponStyles\"]",
+      "copy": false,
+      "copyFor": "",
       "linkWithToggle": false,
-      "hideFromRollMenu": false
+      "hideFromRollMenu": false,
+      "onlyMaintained": false
     },
     "range": {
       "melee": 1,
@@ -258,8 +178,7 @@
         "contestedKey": "",
         "dcCalculation": "",
         "dc": 0,
-        "addMasteryToDC": true,
-        "respectSizeRules": false
+        "addMasteryToDC": true
       },
       "addsNewFormula": false,
       "formula": {
@@ -272,7 +191,6 @@
     },
     "conditionals": {},
     "hasAdvancement": false,
-    "provideMartialExpansion": false,
     "advancements": {
       "default": {
         "name": "Advancement",
@@ -307,22 +225,61 @@
         ],
         "progressPath": false,
         "mustChoose": false,
+        "doNotAddToKnownLimit": false,
         "pointAmount": 1,
+        "talent": false,
         "allowToAddItems": false,
         "addItemsOptions": {
           "itemType": "",
           "preFilters": "",
-          "talentFilter": false,
-          "ancestryFilter": false,
           "helpText": "",
-          "itemLimit": null
+          "itemLimit": null,
+          "classSpellFilter": false
         },
         "macro": "",
         "items": {}
       }
     },
     "tip": "",
-    "category": "basic",
+    "featureType": "monster",
+    "featureOrigin": "",
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "useStandardTable": true,
+      "customMaxFormula": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
     "effectsConfig": {
       "linkWithToggle": false,
       "toggleItem": true,
@@ -332,24 +289,24 @@
     }
   },
   "effects": [],
-  "folder": "htwtGaieKJ4I9GOy",
+  "folder": "KuQkD3rbV3ymGUzD",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
-    "createdTime": 1765793752923,
-    "modifiedTime": 1769034306441,
+    "systemVersion": "0.10.6.0",
+    "createdTime": 1779274996981,
+    "modifiedTime": 1781983715313,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "myVD8OrciokDai2s",
+  "_id": "cDqucdMet8dYD0Ca",
   "sort": 0,
-  "_key": "!items!myVD8OrciokDai2s"
+  "_key": "!items!cDqucdMet8dYD0Ca"
 }

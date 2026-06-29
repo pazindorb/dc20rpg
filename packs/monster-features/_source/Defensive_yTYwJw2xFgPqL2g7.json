@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -250,7 +250,7 @@
     "quickRoll": false,
     "macros": {
       "LneRHJTBabyF1J9G": {
-        "command": "const effect = item.effects.get(\"RUZHHEft7gpHrXjp\");\nif (!effect) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Defense\", {precision: \"Precision Defense\", area: \"Area Defense\"});\n\nlet value = await DC20.dialog.SimplePopup.input(\"Defense Value\");\nvalue = parseInt(value);\nif (!value) return;\n\nconst changes = effect.changes;\nchanges[1].value = value;\nchanges[1].key = `system.defences.${selected}.normal`;\nchanges[0].key = `system.defences.${selected}.formulaKey`;\neffect.update({changes: changes})",
+        "command": "const effect = item.effects.get(\"RUZHHEft7gpHrXjp\");\nif (!effect) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Defense\", {precision: \"Precision Defense\", area: \"Area Defense\"});\n\nlet value = await DC20.dialog.SimplePopup.input(\"Defense Value\");\nvalue = parseInt(value);\nif (!value) return;\n\nconst changes = effect.system.changes;\nchanges[1].value = value;\nchanges[1].key = `system.defences.${selected}.normal`;\nchanges[0].key = `system.defences.${selected}.formulaKey`;\neffect.update({[\"system.changes\"]: changes})",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Prepare Effect",
@@ -285,7 +285,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -293,11 +296,10 @@
       "img": "icons/magic/defensive/shield-barrier-blue.webp",
       "origin": "Item.KWDTr0v1PkVw03lU",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -332,22 +334,26 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.defences.precision.formulaKey",
+            "type": "override",
+            "value": "flat",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "useCustom": true,
+            "key": "system.defences.precision.normal",
+            "type": "override",
+            "value": 14,
+            "phase": "initial",
+            "priority": null
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.formulaKey",
-          "mode": 5,
-          "value": "flat",
-          "priority": null
-        },
-        {
-          "key": "system.defences.precision.normal",
-          "mode": 5,
-          "value": "14",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature’s PD or AD (your choice) becomes equal to your Save DC.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -357,11 +363,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782710575508,
+        "modifiedTime": 1782710723362
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!yTYwJw2xFgPqL2g7.RUZHHEft7gpHrXjp"
     }
   ],
@@ -375,11 +393,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777326166021,
-    "modifiedTime": 1777360381720,
+    "modifiedTime": 1782633866199,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

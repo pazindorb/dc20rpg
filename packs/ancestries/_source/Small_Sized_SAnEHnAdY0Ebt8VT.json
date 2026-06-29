@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -143,28 +144,26 @@
     {
       "origin": "Item.HjKw4bAQvSWeuzbx",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Small Sized",
       "img": "icons/magic/control/silhouette-grow-shrink-tan.webp",
       "_id": "imvRTIXj1fDEvGZs",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.size.size",
-          "mode": 5,
-          "value": "small",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.size.size",
+            "value": "small",
+            "priority": null,
+            "type": "override"
+          }
+        ]
+      },
       "description": "<p>Your Size is considered Small.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -174,7 +173,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
@@ -182,6 +181,9 @@
         "lastModifiedBy": null,
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!SAnEHnAdY0Ebt8VT.imvRTIXj1fDEvGZs"
     }
   ],
@@ -194,11 +196,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.HjKw4bAQvSWeuzbx",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101162913,
-    "modifiedTime": 1745412760102,
+    "modifiedTime": 1781983705253,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

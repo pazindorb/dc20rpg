@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -168,11 +168,16 @@
     "quickRoll": false,
     "macros": {
       "ZawALHFbKN942cic": {
-        "name": "onItemToggle",
+        "name": "Prepare Overload Magic Effect",
         "trigger": "onItemToggle",
-        "command": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n  \n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.changes[1].value;\n  const newValue = value.replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`);\n  effect.changes[1].value = newValue;\n  effect.update({changes: effect.changes});\n}",
+        "command": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n\n  const attribute = item.system?.rollRequests?.w7ReGBBbWsOnfge9?.saveKey || \"mig\";\n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.system.changes[1].value;\n  const newValue = value\n                    .replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`)\n                    .replace(/(\"checkKey\"\\s*:\\s*\")(?:mig|agi|int|cha)(\")/g,`$1${attribute}$2`);\n  effect.system.changes[1].value = newValue;\n  effect.update({[\"system.changes\"]: effect.system.changes});\n}",
         "disabled": false,
         "title": ""
+      },
+      "0NZG2i9odmBZ1eb3": {
+        "name": "Select Save Attribute",
+        "trigger": "preItemRoll",
+        "command": "const attribute = await DC20.dialog.SimplePopup.select(\"Select Attribute Save\", {mig: \"Might Save\", agi: \"Agility Save\", int: \"Intelligence Save\", cha: \"Charisma Save\"});\nif (!attribute) return;\n\nitem.system.rollRequests.w7ReGBBbWsOnfge9.saveKey = attribute;\nitem.update({[\"system.rollRequests.w7ReGBBbWsOnfge9.saveKey\"]: attribute});"
       }
     },
     "againstEffect": {
@@ -195,13 +200,15 @@
         "untilFirstTimeTriggered": false,
         "repeatedSave": false,
         "repeatedSaveKey": "phy",
-        "forXRounds": null
+        "forXRounds": null,
+        "stacks": null,
+        "forOneMinute": false
       }
     },
     "rollRequests": {
       "w7ReGBBbWsOnfge9": {
         "category": "save",
-        "saveKey": "prime",
+        "saveKey": "mig",
         "contestedKey": "",
         "dcCalculation": "spell",
         "dc": 0,
@@ -259,13 +266,10 @@
     {
       "origin": "Item.2n43pcIET59V7xYB",
       "duration": {
-        "rounds": 5,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Overload Magic",
@@ -277,35 +281,43 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": true,
-          "onTimeEnd": "disable"
+          "onTimeEnd": "disable",
+          "expiryAction": "disable"
         },
         "disableWhen": {
           "mode": "=="
         },
         "effectKey": "overloadMagic",
-        "macro": "actor.toggleStatusEffect(\"exhaustion\", { active: true });\nui.notifications.info(\"Received stack of Exhaustion\");"
+        "macro": "actor.toggleStatusEffect(\"exhaustion\", { active: true });\nui.notifications.info(\"Received stack of Exhaustion\");",
+        "changes": [
+          {
+            "key": "system.attackMod.bonus.spell",
+            "type": "add",
+            "value": 5,
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Overload Magic\", \"checkKey\": \"mig\", \"against\": \"0\", \"statuses\": [\"exhaustion\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.checkMod.bonus.spell",
+            "type": "add",
+            "value": 5,
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ],
+        "applyToTemplate": false
       },
-      "changes": [
-        {
-          "key": "system.attackMod.bonus.spell",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Overload Magic\", \"checkKey\": \"prime\", \"against\": 0, \"statuses\": [\"exhaustion\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.checkMod.bonus.spell",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        }
-      ],
-      "description": "<ul><li>You gain +5 to all Spell Attacks and Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br /><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+      "description": "<ul><li><p>You gain +5 to all Spell Attacks and Spell Checks you make.</p></li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -331,14 +343,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": null,
-        "modifiedTime": 1767177422408,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983667881,
+        "modifiedTime": 1782037039080,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!wtG9TlgFCQDLYsaY.IE9L3PWryvMuI3IG"
     }
   ],
@@ -347,11 +362,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350033956,
-    "modifiedTime": 1776869118063,
+    "modifiedTime": 1782394977450,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

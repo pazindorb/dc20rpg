@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -154,8 +154,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Mx0diqSuDu3hCZiX",
+        "sourceItemId": "6lyJt4v82MlDVHWF",
+        "sourceItemName": "Pact Spell",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "cWSJmh6qkxI61VsQ": {
         "name": "Patron’s Favor",
@@ -238,8 +257,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "cWSJmh6qkxI61VsQ",
+        "sourceItemId": "6lyJt4v82MlDVHWF",
+        "sourceItemName": "Pact Spell",
+        "sourceItemImg": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
@@ -329,7 +367,7 @@
       "kUAVt5aTiQUVOins": {
         "name": "Change Pact Spell",
         "trigger": "onDemand",
-        "command": "const spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Spell\", spells);\nif (!selected) return;\n\nconst spell = actor.items.get(selected);\nif (!spell) return;\n\nconst oldSpell = actor.items.get(item.flags?.dc20rpg?.pactSpell);\nif (oldSpell) oldSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});\n\nconst oldSecondSpell = actor.items.get(item.flags?.dc20rpg?.pactSpellSecond);\nif (oldSecondSpell) oldSecondSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});\n\nspell.update({[\"flags.dc20rpg.pactItem\"]: true});\nitem.update({\n  [\"flags.dc20rpg.pactSpell\"]: selected,\n  [\"system.conditional.useFor\"]: `id=[\"${selected}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${selected}\"]`,\n});",
+        "command": "const spells = actor.getAllItemsWithType([\"spell\"], [], true);\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Spell\", spells);\nif (!selected) return;\n\nconst spell = actor.items.get(selected);\nif (!spell) return;\n\nconst oldSpell = actor.items.get(item.flags?.dc20rpg?.pactSpell);\nif (oldSpell) oldSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});\n\nconst oldSecondSpell = actor.items.get(item.flags?.dc20rpg?.pactSpellSecond);\nif (oldSecondSpell) oldSecondSpell.update({[\"flags.dc20rpg.-=pactItem\"]: null});\n\nspell.update({[\"flags.dc20rpg.pactItem\"]: true});\nitem.update({\n  [\"flags.dc20rpg.pactSpell\"]: selected,\n  [\"system.targetModifiers.csK0IUEZuFMIxzxY.useFor\"]: `id=[\"${selected}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `id=[\"${selected}\"]`,\n});",
         "disabled": false,
         "title": "Change Pact Spell"
       },
@@ -413,10 +451,11 @@
       "ignoreMHP": false,
       "subtract": false
     },
-    "conditionals": {
+    "conditionals": {},
+    "targetModifiers": {
       "csK0IUEZuFMIxzxY": {
         "name": "Death’s Toll",
-        "condition": "target.hasAnyCondition([\"bloodied\"])",
+        "condition": "return target?.actor?.hasStatus(\"bloodied\")",
         "useFor": "name=[\"SPELL NAME HERE\"]",
         "linkWithToggle": false,
         "bonus": "1",
@@ -455,11 +494,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1776928091795,
+    "modifiedTime": 1782375275281,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

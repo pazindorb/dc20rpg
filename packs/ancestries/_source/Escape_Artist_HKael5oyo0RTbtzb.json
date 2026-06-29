@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -147,13 +147,10 @@
     {
       "origin": "Item.HKael5oyo0RTbtzb",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Escape Artist",
@@ -164,22 +161,22 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.statusResistances.grappled.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
         },
-        {
-          "key": "system.statusResistances.restrained.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "key": "system.statusResistances.grappled.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.statusResistances.restrained.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>You have ADV on Checks and Saves to avoid or escape being <strong>Grappled </strong>or <strong>Restrained.</strong></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -203,7 +200,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -211,6 +208,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!HKael5oyo0RTbtzb.HeEWOSiHzmB8zwea"
     }
   ],
@@ -223,11 +223,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101005841,
-    "modifiedTime": 1745570065508,
+    "modifiedTime": 1781983704271,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

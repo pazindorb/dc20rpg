@@ -46,7 +46,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -216,8 +216,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "dzPxCgEH56Hg7qA9",
+        "sourceItemId": "mG9ZEyigy7vOhEWE",
+        "sourceItemName": "Resolve",
+        "sourceItemImg": "icons/magic/control/silhouette-hold-change-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "FO8zbeXoR5jpV7BJ": {
         "name": "Physical Resolve",
@@ -295,7 +314,10 @@
               "seconds": null,
               "turns": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -317,11 +339,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -330,24 +353,24 @@
               },
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
-              "requireEnhancement": ""
+              "requireEnhancement": "",
+              "changes": [
+                {
+                  "key": "system.rollLevel.onYou.saves.mig",
+                  "mode": 2,
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Physical Resolve\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.rollLevel.onYou.saves.agi",
+                  "mode": 2,
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Physical Resolve\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.rollLevel.onYou.saves.mig",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Physical Resolve\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.onYou.saves.agi",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Physical Resolve\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain ADV on Physical Saves for the duration.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -381,8 +404,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "FO8zbeXoR5jpV7BJ",
+        "sourceItemId": "mG9ZEyigy7vOhEWE",
+        "sourceItemName": "Resolve",
+        "sourceItemImg": "icons/magic/control/silhouette-hold-change-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "PmHim0I3fgxq7w9e": {
         "name": "Mental Resolve",
@@ -460,7 +502,10 @@
               "seconds": null,
               "startRound": null,
               "startTurn": null,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -482,11 +527,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -495,24 +541,24 @@
               },
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
-              "requireEnhancement": ""
+              "requireEnhancement": "",
+              "changes": [
+                {
+                  "key": "system.rollLevel.onYou.saves.cha",
+                  "mode": 2,
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mental Resolve\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.rollLevel.onYou.saves.int",
+                  "mode": 2,
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mental Resolve\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.rollLevel.onYou.saves.cha",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mental Resolve\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.onYou.saves.int",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mental Resolve\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain ADV on Mental Saves for the duration.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -546,8 +592,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PmHim0I3fgxq7w9e",
+        "sourceItemId": "mG9ZEyigy7vOhEWE",
+        "sourceItemName": "Resolve",
+        "sourceItemImg": "icons/magic/control/silhouette-hold-change-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -678,6 +743,9 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [],
@@ -687,11 +755,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766069405385,
-    "modifiedTime": 1776955496684,
+    "modifiedTime": 1782420986752,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

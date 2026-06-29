@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "Rr9jjXTEDi1i2H6P": {
-        "command": "const actorEffect = actor.getEffectByKey(\"familiarManaReduction\");\nif (actorEffect) actorEffect.delete();\n\nconst cost = item.use.collectUseCost();\nconst mana = cost.resources?.mana || 0;\nif (!mana) return;\n\nconst effect = item.getEffectByKey(\"familiarManaReduction\");\nif(!effect) return;\n\nconst data = effect.toObject();\ndata.changes[0].value = (mana * -1);\ngame.dc20rpg.effects.createEffectOn(data, actor);",
+        "command": "const actorEffect = actor.getEffectByKey(\"familiarManaReduction\");\nif (actorEffect) actorEffect.delete();\n\nconst cost = item.use.collectUseCost();\nconst mana = cost.resources?.mana || 0;\nif (!mana) return;\n\nconst effect = item.getEffectByKey(\"familiarManaReduction\");\nif(!effect) return;\n\nconst data = effect.toObject();\ndata.system.changes[0].value = (mana * -1);\nCONFIG.ActiveEffect.documentClass.gmCreate(data, {parent: actor, ignoreResponse: true});",
         "trigger": "postItemRoll",
         "disabled": false,
         "name": "Reduce Max Mana",
@@ -75,7 +75,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -231,8 +231,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "yF4OewgAvboRYINF",
+        "sourceItemId": "JERedYTZKuMN5TAB",
+        "sourceItemName": "Call Familiar",
+        "sourceItemImg": "icons/creatures/birds/corvid-call-sound-glowing.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -409,11 +428,10 @@
       "img": "icons/creatures/birds/corvid-call-sound-glowing.webp",
       "origin": "Item.GDNdelsWL6VEPQBY",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 17,
-        "startTurn": 0
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -438,7 +456,7 @@
         "effectKey": "familiarManaReduction",
         "macro": "",
         "addToChat": false,
-        "applyToTemplate": true,
+        "applyToTemplate": false,
         "nonessential": true,
         "disableWhen": {
           "path": "",
@@ -448,16 +466,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.resources.mana.bonus",
+            "value": 0,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.resources.mana.bonus",
-          "mode": 2,
-          "value": "0",
-          "priority": null
-        }
-      ],
       "description": "<p>Effect that reduces max mana when familiar is summoned.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -467,11 +485,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782580852427,
+        "modifiedTime": 1782580852427
       },
+      "start": {
+        "combat": null,
+        "round": 17,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!JERedYTZKuMN5TAB.0ZD0LdyevjoC3Nio"
     }
   ],
@@ -481,11 +511,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767633474780,
-    "modifiedTime": 1778568092439,
+    "modifiedTime": 1782580945498,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

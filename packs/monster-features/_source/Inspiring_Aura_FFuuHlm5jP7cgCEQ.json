@@ -52,7 +52,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -288,6 +288,27 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": "ally"
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 5,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": true,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": true,
+        "hideHighlight": true,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "ally",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
     }
   },
   "effects": [
@@ -296,12 +317,10 @@
       "img": "icons/magic/sonic/explosion-shock-sound-wave.webp",
       "origin": "Item.b1lkZV0KrGB2TkrE",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -336,16 +355,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.statusResistances.intimidated.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.statusResistances.intimidated.resistance",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>Other creatures of your choice within the Aura have ADV on Saves against Intimidated.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -355,11 +374,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!FFuuHlm5jP7cgCEQ.77L0NblX0YdtSZeO"
     }
   ],
@@ -369,11 +400,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778142177807,
-    "modifiedTime": 1778142177807,
+    "modifiedTime": 1781983712885,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -381,6 +412,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "FFuuHlm5jP7cgCEQ",
-  "sort": 0,
+  "sort": 200000,
   "_key": "!items!FFuuHlm5jP7cgCEQ"
 }
