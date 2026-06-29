@@ -79,11 +79,11 @@ export function prepareItemsForCharacter(context, actor) {
         containers.push(item);
         break;
       case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
-        _addItemToTable(item, inventory, "weapon"); 
+        _addItemToTable(item, inventory, item.type, "weapon"); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
         break;
       case 'feature': 
-        _addItemToTable(item, features, item.system.featureType); 
+        _addItemToTable(item, features, item.system.featureType, item.type); 
         if (isFavorite) _addItemToTable(item, favorites, "feature");
         break;
       case 'maneuver': 
@@ -91,7 +91,7 @@ export function prepareItemsForCharacter(context, actor) {
         if (isFavorite) _addItemToTable(item, favorites, "maneuver");
         break;
       case 'spell': 
-        _addItemToTable(item, known, item.system.spellType); 
+        _addItemToTable(item, known, item.system.spellType, item.type); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
       case 'infusion': 
@@ -305,12 +305,12 @@ export function prepareItemFormulas(item, actor) {
   else item.formulas = formulas;
 }
 
-function _addItemToTable(item, headers, fallback) {
+function _addItemToTable(item, headers, fallback1, fallback2) {
   const headerName = item.system.tableName;
 
   if (headerName && headers[headerName]) headers[headerName].items[item.id] = item;
-  else if (headers[fallback]) headers[fallback].items[item.id] = item;
-  else if (headers[item.type]) headers[item.type].items[item.id] = item;
+  else if (headers[fallback1]) headers[fallback1].items[item.id] = item;
+  else if (fallback2 && headers[fallback2]) headers[fallback2].items[item.id] = item;
 }
 
 function _filterItems(filter, items) {

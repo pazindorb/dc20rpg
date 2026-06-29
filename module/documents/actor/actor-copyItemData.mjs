@@ -413,7 +413,7 @@ function _getAllUntilIndex(table, index) {
 
 	let sum = 0;
 	for (let i = 0; i <= index; i++) {
-		sum += table[i];
+		sum += parseInt(table[i]);
 	}
 	return sum;
 }

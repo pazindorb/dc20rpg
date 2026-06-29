@@ -741,6 +741,12 @@ export class ActorAdvancement extends Dialog {
     const item = await fromUuid(itemUuid);
     if (!["feature", "maneuver", "spell", "infusion", "weapon", "equipment", "consumable", "spellFocus"].includes(item.type)) return;
 
+    // Do not allow to add the same item twice
+    if (advancement.items[item.id]) {
+      ui.notifications.warn("Item with this ID already exist on this Advancement");
+      return;
+    }
+
     // Can be countent towards known spell/maneuvers
     const canBeCounted = ["maneuver", "spell", "infusion"].includes(item.type);
 
