@@ -10,6 +10,7 @@ import { blueprintAdvancements, configureAdvancementDialog } from "../subsystems
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 import { openItemCreator } from "../dialogs/item-creator.mjs";
 import { SpellStore } from "../dialogs/spell-store.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -108,6 +109,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.blueprintAdvancement = () => blueprintAdvancements(this.item);
     initialized.actions.openItemCreator = this._onOpenItemCreator;
     initialized.actions.openSpellStore = () => SpellStore.open(this.item, {allowAddingSpells: true});
+    initialized.actions.addStandardProperty = this._onAddStandardProperty;
     return initialized;
   }
 
@@ -733,6 +735,18 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   async _onOpenItemCreator(event, target) {
     const itemData = await openItemCreator(this.item.type, {blueprint: this.item.toObject()});
     if (itemData) await this.item.update(itemData);
+  }
+
+  async _onAddStandardProperty() {
+    const selectOptions = {};
+    Object.entries(CONFIG.DC20RPG.PROPERTIES).forEach(([key, value]) => selectOptions[key] = game.i18n.localize(value.label))
+    const selected = await SimplePopup.select("Select Property you want to activate", selectOptions);
+    if (selected) {
+      await this.item.update({
+        [`system.properties.${selected}.active`]: selected,
+        [`system.properties.${selected}.forceDisplay`]: selected,
+      });
+    }
   }
 
   _onRemoveCustomProperty(key) {

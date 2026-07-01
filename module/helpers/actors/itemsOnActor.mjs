@@ -419,7 +419,8 @@ export async function editTrait(traitKey, actor) {
   if (!trait) return;
 
   const data = foundry.utils.deepClone(trait.itemData);
-  data.flags.dc20rpg.actorSavePath = `system.traits.${traitKey}.itemData`;
+  if (data.flags.dc20rpg) data.flags.dc20rpg.actorSavePath = `system.traits.${traitKey}.itemData`;
+  else data.flags.dc20rpg = {actorSavePath: `system.traits.${traitKey}.itemData`};
   const item = await DC20RpgItem.create(data, {parent: actor});
   item.sheet.render(true);
 } 
