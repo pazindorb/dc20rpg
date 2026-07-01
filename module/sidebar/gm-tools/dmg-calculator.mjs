@@ -124,9 +124,8 @@ export class DamageCalculator extends DC20Dialog {
       value: wrapper.damage,
       source: game.i18n.localize(`dc20rpg.dialog.dmgCalculator.${this.calculationType}`)
     };
-    DC20Target.quickApplyDamageFor(actor, damage);
     const actor = wrapper.token.actor;
-    applyDamage(actor, damage);
+    DC20Target.quickApplyDamageFor(actor, damage);
   }
 
   _onRefresh() {

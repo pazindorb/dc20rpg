@@ -67,8 +67,11 @@
     {{!-- Status Applier --}}
     {{#each statuses as |status index|}}
     {{#if status.display}}
-    <a><img src="{{status.img}}" data-target-hash="{{../targetHash}}" data-index="{{index}}" class="effect apply-status" {{#if status.targetSpecific}}style="border-color:#036603"{{/if}} 
-        data-tooltip="{{#if status.targetSpecific}}{{localize "dc20rpg.chat.targetSpecific"}}{{/if}}{{status.name}}{{localize "dc20rpg.chat.applyStatusTarget"}}"/></a>
+    <a style="position: relative; display: inline-block;">
+      <img src="{{status.img}}" data-target-hash="{{../targetHash}}" data-index="{{index}}" class="effect apply-status" {{#if status.targetSpecific}}style="border-color:#036603"{{/if}}
+          data-tooltip="{{#if status.targetSpecific}}{{localize "dc20rpg.chat.targetSpecific"}}{{/if}}{{status.name}}{{localize "dc20rpg.chat.applyStatusTarget"}}"/>
+      {{#ifCond status.stacks '>' 1}}<span style="position: absolute; top: 2px; right: 4px; min-width: 16px; padding: 1px 3px; border: 1px solid white; border-radius: 8px; background: var(--main-dark); color: white; font-size: 11px; line-height: 14px; text-align: center; pointer-events: none;">{{status.stacks}}</span>{{/ifCond}}
+    </a>
     {{/if}}
     {{/each}}
   </div>

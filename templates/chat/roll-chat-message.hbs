@@ -80,7 +80,8 @@
     {{!-- GM Menu --}}
     {{#if userIsGM}}
     <div class="gm-menu">
-      <a class="chat-button small share-formula fa-solid {{#if shareFormula}}fa-circle-half-stroke{{else}}fa-circle{{/if}}" data-tooltip="{{localize "dc20rpg.chat.shareFormula"}}{{#if shareFormula}} - Enabled{{else}} - Disabled{{/if}}"></a>
+      {{!-- TODO: Confusing - introduce in the future --}}
+      {{!-- <a class="chat-button small share-formula fa-solid {{#if shareFormula}}fa-circle-half-stroke{{else}}fa-circle{{/if}}" data-tooltip="{{localize "dc20rpg.chat.shareFormula"}}{{#if shareFormula}} - Enabled{{else}} - Disabled{{/if}}"></a> --}}
       <a class="chat-button apply-all fa-solid fa-gavel" data-tooltip="{{localize "dc20rpg.chat.applyAll"}}"></a>
       <a class="chat-button send-all-roll-requests fa-solid fa-dice" data-tooltip="{{localize "dc20rpg.chat.sendRollRequests"}}"></a>
       <a class="chat-button target-confirm {{#if targetsConfirmed}}confirmed{{/if}} fa-solid fa-circle-check" data-tooltip="{{localize "dc20rpg.chat.confirmTargets"}}"></a>
@@ -131,7 +132,10 @@
         {{!-- Status Applier --}}
         {{#each statuses as |status index|}}
         {{#if status.display}}
-        <a><img src="{{status.img}}" data-index="{{index}}" class="effect apply-status" data-tooltip="{{status.name}}{{localize "dc20rpg.chat.applyStatus"}}"/></a>
+        <a style="position: relative; display: inline-block;">
+          <img src="{{status.img}}" data-index="{{index}}" class="effect apply-status" data-tooltip="{{status.name}}{{localize "dc20rpg.chat.applyStatus"}}"/>
+          {{#ifCond status.stacks '>' 1}}<span style="position: absolute; top: 2px; right: 4px; min-width: 16px; padding: 1px 3px; border: 1px solid white; border-radius: 8px; background: var(--main-dark); color: white; font-size: 11px; line-height: 14px; text-align: center; pointer-events: none;">{{status.stacks}}</span>{{/ifCond}}
+        </a>
         {{/if}}
         {{/each}}
       </div>

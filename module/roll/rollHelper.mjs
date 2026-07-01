@@ -343,26 +343,25 @@ function _collectUseCost(actor, sheetData) {
   _refreshEnhancemetns(actor, sheetData);
   const enhancements = sheetData.enhancements;
   const rollMenu = actor.system.rollMenu;
-  const costs = foundry.utils.deepClone(sheetData.costs);
 
-  if (rollMenu.apCost) {
-    if (costs.resources.ap != null) costs.resources.ap += rollMenu.apCost;
-    else costs.resources.ap = rollMenu.apCost;
-  }
-  if (rollMenu.gritCost) {
-    if (costs.resources.grit != null) costs.resources.grit += rollMenu.gritCost;
-    else costs.resources.grit = rollMenu.gritCost;
+  const cost = {resources: {}, charges: {}, quantity: {}};
+  if (sheetData.costs.resources) {
+    for (let [key, value] of Object.entries(sheetData.costs.resources)) {
+      _addToResources(cost, key, value, actor);
+    }
   }
 
-  if (!enhancements) return costs;
+  _addToResources(cost, "ap", rollMenu.apCost, actor);
+  _addToResources(cost, "grit", rollMenu.gritCost, actor);
+  if (!enhancements) return cost;
 
   for (const [key, enh] of enhancements.entries()) {
     if (enh.active) {
       const item = actor.items.get(enh.sourceItemId);
-      _addEnhancementCost(item, actor, key, costs);
+      _addEnhancementCost(item, actor, key, cost);
     }
   }
-  return costs;
+  return cost;
 }
 
 async function _respectUseCost(actor, sheetData) {
@@ -457,7 +456,7 @@ function _addEnhancementCost(item, actor, enhKey, costs) {
 
   // Add to Resources
   for (let [key, value] of Object.entries(enhancement.resources)) {
-    _addToResources(costs, key, value, actor, enhancement);
+    _addToResources(costs, key, value, actor, enhancement.number, enhancement.altCost);
   }
   // Add to Charges
   if (enhancement.charges?.subtract && enhancement.charges.fromOriginal) {
@@ -468,17 +467,17 @@ function _addEnhancementCost(item, actor, enhKey, costs) {
   }
 }
 
-function _addToResources(cost, key, value, actor, enhancement) {
+function _addToResources(cost, key, value, actor, multiplier=1, altCost=0) {
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
-      _addToResources(cost, customKey, customRes.value, actor, enhancement);
+      _addToResources(cost, customKey, customRes.value, actor, multiplier, altCost);
     }
     return;
   }
 
   // Skip if actor doesn't have that resource at all
   if (actor && !actor.resources.hasResource(key)) return;
-  value = extractResourceCost(value, enhancement.number, enhancement.altCost);
+  value = extractResourceCost(value, multiplier, altCost);
   if (value == null) return;
   
   if (cost.resources[key]) cost.resources[key] += value;

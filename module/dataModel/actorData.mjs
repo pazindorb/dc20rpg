@@ -136,6 +136,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
         allow: new f.SchemaField({ 
           overheal: new f.BooleanField({required: true, initial: false}),
+          freeSustain: new f.BooleanField({required: true, initial: false}),
         }),
         prevent: new f.SchemaField({ 
           goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -162,6 +163,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       enhancements: new f.ObjectField({required: true}),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       sustain: new f.ObjectField({required: true, initial: {}}),
+      freeSustain: new f.BooleanField({required: true, initial: false}),
       journal: new f.StringField({required: true, initial: ""}),
       tokenHotbar: new f.SchemaField({
         sectionA: new f.ObjectField({required: true}),

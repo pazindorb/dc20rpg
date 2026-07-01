@@ -528,11 +528,23 @@ export class DC20RpgCombat extends Combat {
 
   async _sustainCheck(actor) {
     for (const [key, sustain] of Object.entries(actor.system.sustain)) {
-      const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
-      const confirmed = await SimplePopup.confirm(message, {actor: actor});
+
+      let confirmed = false;
+      // Free sustain
+      if (actor.system.globalModifier?.allow?.freeSustain) {
+        const message = `Do you want to sustain '${sustain.name}' for free?`;
+        confirmed = await SimplePopup.confirm(message, {actor: actor});
+        if (confirmed) confirmed = "free";
+      }
+
+      // Standard sustain
+      if (!confirmed) {
+        const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
+        confirmed = await SimplePopup.confirm(message, {actor: actor});
+      }
 
       if (confirmed) {
-        const subtracted = actor.resources.ap.checkAndSpend(1);
+        const subtracted = confirmed === "free" || actor.resources.ap.checkAndSpend(1);
         if (!subtracted) actor.dropSustain(key, "Not enough AP to sustain.");
       }
       else {

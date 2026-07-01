@@ -1,6 +1,7 @@
 export function getResourceDisplayData(key, amount, item, actor) {
   if (actor) {
     const resource = actor.resources[key];
+    if (!resource) return "";
     if (resource.isCustom) return _customResource(resource, amount);
     else return _basicResource(key, amount);
   }

@@ -29,7 +29,7 @@ export class DC20Target {
 
   static getActorFromTargetHash(targetHash) {
     const [actorId, tokenId] = targetHash.split("#");
-    if (tokenId) {
+    if (tokenId && tokenId != "null") {
       const token = canvas.tokens.documentCollection.get(tokenId);
       if (!token) return null;
       return token.actor;
@@ -452,8 +452,11 @@ export class DC20Target {
   }
 
   #flatReductionHalf(formula, label) {
+    // Should Reduce at least 1
     formula.source += ` - ${label} Reduction(Half)`;
-    formula.value = Math.ceil(formula.value/2);
+    const newValue = Math.ceil(formula.value/2);
+    if (newValue === formula.value) formula.value = formula.value - 1;
+    else formula.value = newValue;
     return formula;
   }
 
@@ -488,7 +491,7 @@ export class DC20Target {
 
   #damageModifications(formula, dr) {
     const type = formula.type;
-    if (type === "true" || type === "") return formula; // True dmg cannot be modified
+    if (!type || type === "true") return formula; // True dmg cannot be modified
   
     const ignore = this.targetFlags.ignore || {};
     const ignoreResitance = ignore.resistance && ignore.resistance.has(type);

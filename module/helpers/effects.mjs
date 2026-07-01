@@ -320,10 +320,10 @@ export function getEffectModifiableKeys() {
     ..._damageReduction(),
 
     // Flat Damage/healing Modification
-    "system.damageReduction.flat": "Flat Damage Reduction On You (Value)",
-    "system.damageReduction.flatHalf": "Flat Damage Reduction On You (Half)",
-    "system.healingReduction.flat": "Flat Healing Reduction On You (Value)",
-    "system.healingReduction.flatHalf": "Flat Healing Reduction On You (Half)",
+    "system.damageReduction.flat": "All Damage Reduction (Value)",
+    "system.damageReduction.flatHalf": "All Damage Reduction (Half)",
+    "system.healingReduction.flat": "All Healing Reduction (Value)",
+    "system.healingReduction.flatHalf": "All Healing Reduction (Half)",
 
     // Status resistances
     ..._statusResistances(),
@@ -435,6 +435,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.provide.halfCover": "Provide Half Cover",
     "system.globalModifier.provide.tqCover": "Provide 3/4 Cover",
     "system.globalModifier.allow.overheal": "Convert overheal you done to Temp HP",
+    "system.globalModifier.allow.freeSustain": "Allow for Free Sustain",
     "system.globalModifier.prevent.goUnderAP": "Prevent from going under X AP",
     "system.globalModifier.prevent.hpRegeneration": "Prevent any HP regeneration", 
     "system.globalModifier.prevent.criticalHit": "Prevent Critical Hit benefits against you", 
