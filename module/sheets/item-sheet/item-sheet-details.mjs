@@ -233,7 +233,7 @@ function _weaponStyle(item) {
 
 function _properties(item) {
   const content = [];
-  const properties =  item.system?.properties;
+  const properties =  item.properties;
   if (!properties) return content;
 
   Object.values(properties).forEach((property) => {
