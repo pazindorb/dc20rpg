@@ -431,7 +431,7 @@
       }
     }
     
-    .add-custom-resource, .add-legendary-resources {
+    .add-custom-resource {
       color: $secondary-lighter;
       margin-left: 4px;
     }
@@ -723,6 +723,7 @@
       margin-bottom: 3px;
 
       i {
+        width: 100%;
         color: $secondary-dark;
         border-left: 1px solid $primary-color;
         border-right: 1px solid $primary-color;
@@ -1450,20 +1451,19 @@
     }
 
     .char-name {
-      font-family: $dc20-font;
+      font-family: $font-header;
       flex-grow: 1;
-      margin: 5px 5px 0 5px;
       
       input {
-        border-radius: 5px;
+        border-radius: 0 0 5px 5px;
         color: white;
-        padding: 0px;
-        font-size: 16px;
+        padding: 4px 2px 2px 2px;
+        font-size: 22px;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         height: 100%;
         width: 100%;
-        padding: 3px 3px 0 3px;
         border: 2px solid $primary-darker;
+        border-top: 0;
         background-color: $primary-light;
         text-indent: 5px;
       }
@@ -1485,9 +1485,24 @@
   .sidetab-button {
     color: $primary-color;
     position: relative;
-    left: -25px;
+    left: -28px;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     top: 250px;
+  }
+
+  .slot-manager {
+    color: $primary-color;
+    position: relative;
+    left: -28px;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    top: 280px;
+
+    display: flex;
+    flex-direction: column;
+
+    a {
+      height: 30px;
+    }
   }
 
   .unique-items {

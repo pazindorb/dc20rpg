@@ -1,63 +1,44 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { DC20RpgItem } from "../../documents/item.mjs";
 import { applyAdvancements, createNewAdvancement, handleSpellList, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
-import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
 //================================================
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getItemFromActor(itemId, actor) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getItemFromActor' method is deprecated, and will be removed in the later system version. Use 'actor.items.get' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
   return actor.items.get(itemId);
 }
 
-/**
- * Returns item with specific itemKey from actor.
- */
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getItemFromActorByKey(itemKey, actor) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getItemFromActorByKey' method is deprecated, and will be removed in the later system version. Use 'actor.getItemByKey' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
   return actor.items.find(item => item.system.itemKey === itemKey)
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createItemOnActor(actor, itemData) {
-  if (!actor.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("addDocument", {
-      docType: "item",
-      docData: itemData, 
-      actorUuid: actor.uuid
-    });
-    return;
-  }
-  return await Item.create(itemData, { parent: actor });
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.createItemOnActor' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20RpgItem.gmCreate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const items = await DC20RpgItem.gmCreate(itemData, {parent: actor});
+  return items[0];
 }
 
+/** @deprecated since v0.9.8 until 0.10.5 */
 export async function updateItemOnActor(itemId, actor, updateData) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.updateItemOnActor' method is deprecated, and will be removed in the later system version. Use 'item.gmUpdate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
   const item = actor.items.get(itemId);
   if (!item) return;
   return await item.gmUpdate(updateData);
 }
 
+/** @deprecated since v0.9.8 until 0.10.0 */
 export async function deleteItemFromActor(itemId, actor, options={}) {
-  if (!actor.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("removeDocument", {
-      docType: "item",
-      docId: itemId, 
-      actorUuid: actor.uuid,
-      options: options
-    });
-    return;
-  }
-  const item = getItemFromActor(itemId, actor);
-  if (item) await item.delete(options);
-}
-
-export function editItemOnActor(itemId, actor) {
-  const item = getItemFromActor(itemId, actor);
-  item.sheet.render(true);
-}
-
-export async function duplicateItem(itemId, actor) {
-  const item = getItemFromActor(itemId, actor);
-  return await createItemOnActor(actor, item);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.deleteItemFromActor' method is deprecated, and will be removed in the later system version. Use 'item.gmDelete' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const item = actor.items.get(itemId);
+  if (!item) return;
+  return await item.gmDelete();
 }
 
 export async function splitItem(item) {
@@ -75,7 +56,7 @@ export async function splitItem(item) {
 
     const itemData = item.toObject();
     itemData.system.quantity = newStack;
-    await createItemOnActor(actor, itemData);
+    await DC20RpgItem.gmCreate(itemData, {parent: actor});
     await item.update({["system.quantity"]: oldStack});
   }
 }
@@ -130,7 +111,7 @@ async function _createNewCustomResourceFromItem(item, actor) {
     label: resource.name,
     img: item.img,
     maxFormula: maxFormula,
-    reset: resource.reset
+    refresh: resource.refresh
   }
   await actor.resources.createCustomResource(newResource, resourceKey);
 }
@@ -331,7 +312,7 @@ function _mergeItems(items) {
 //          Other Item Methods         =
 //======================================
 export async function changeLevel(up, itemId, actor) {
-  const item = getItemFromActor(itemId, actor);
+  const item = actor.items.get(itemId);
   if (!item) return;
   let currentLevel = item.system.level;
   const oldActorData = foundry.utils.deepClone(actor.system);
@@ -361,20 +342,24 @@ export async function rerunAdvancement(actor, classId) {
   await changeLevel("true", classId, actor);
 }
 
-export async function createScrollFromSpell(spell) {
-  if (spell.type !== "spell") return;
+export async function clearOverridenScalingValue(item, index) {
+  const hasPath = [false, true, false, true, false, true, false, true, false, false];
+  if (!hasPath[index]) return;
 
-  // Prepare Scroll data;
-  const scroll = spell.toObject();
-  scroll.name += " - Scroll";
-  scroll.type = 'consumable';
-  scroll.system.consumableType = "scroll";
-  scroll.system.enhancements = {};
-  scroll.system.costs.resources = { ap: 2 };
-
-  if (spell.actor) createItemOnActor(spell.actor, scroll);
-  else Item.create(scroll);
-  spell.sheet.close();
+  const maneuversKnown = item.system.scaling.maneuversKnown.values;
+  const bonusStamina = item.system.scaling.bonusStamina.values;
+  const spellsKnown = item.system.scaling.spellsKnown.values;
+  const bonusMana = item.system.scaling.bonusMana.values;
+  bonusStamina[index] = 0;
+  maneuversKnown[index] = 0;
+  bonusMana[index] = 0;
+  spellsKnown[index] = 0;
+  await item.update({
+    [`system.scaling.bonusStamina.values`]: bonusStamina,
+    [`system.scaling.maneuversKnown.values`]: maneuversKnown,
+    [`system.scaling.bonusMana.values`]: bonusMana,
+    [`system.scaling.spellsKnown.values`]: spellsKnown,
+  })
 }
 
 //======================================
@@ -429,12 +414,25 @@ export function createTrait(itemData, actor) {
   actor.update({[`system.traits.${generateKey()}`]: trait});
 }
 
+export async function editTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+
+  const data = foundry.utils.deepClone(trait.itemData);
+  if (data.flags.dc20rpg) data.flags.dc20rpg.actorSavePath = `system.traits.${traitKey}.itemData`;
+  else data.flags.dc20rpg = {actorSavePath: `system.traits.${traitKey}.itemData`};
+  const item = await DC20RpgItem.create(data, {parent: actor});
+  item.sheet.render(true);
+} 
+
 export async function deleteTrait(traitKey, actor) {
   const trait = actor.system?.traits[traitKey];
   if (!trait) return;
   
   for (let i = 0; i < trait.itemIds.length; i++) {
-    await deleteItemFromActor(trait.itemIds[i], actor);
+    const itemId = trait.itemIds[i];
+    const item = actor.items.get(itemId);
+    if (item) await item.delete();
   }
   await actor.update({[`system.traits.-=${traitKey}`]: null});
 }
@@ -460,13 +458,14 @@ export async function deactivateTrait(traitKey, actor) {
 
 async function _handleItemsFromTraits(trait, actor) {
   if (trait.active > trait.itemIds.length) {
-    const createdItem = await createItemOnActor(actor, trait.itemData);
+    const createdItem = await DC20RpgItem.create(trait.itemData, {parent: actor});
     trait.itemIds.push(createdItem.id);
   }
 
   if (trait.active < trait.itemIds.length) {
     const itemId = trait.itemIds.pop();
-    await deleteItemFromActor(itemId, actor);
+    const item = actor.items.get(itemId);
+    if (item) await item.delete();
   }
 }
 
@@ -501,19 +500,19 @@ export async function handleStackableItem(createdItem, actor, event, transfer, s
     }
 
     const newQuantity = itemExist.system.quantity + stacks;
-    await updateItemOnActor(itemExist.id, itemExist.actor, {["system.quantity"]: newQuantity});
+    await itemExist.gmUpdate({["system.quantity"]: newQuantity});
     transfer = true; // If this update is being made in the same actor we always want to use transfer options
   }
   else {
     const itemData = createdItem.toObject();
     itemData.system.quantity = stacks;
-    await createItemOnActor(actor, itemData);  
+    await DC20RpgItem.gmCreate(itemData, {parent: actor});  
   }
 
   // If transfer, remove original item or subtract charges
   const infiniteStock = createdItem.actor.system?.vendor?.infiniteStock;
   if (transfer && !infiniteStock) {
-    if (stacks === quantity) await deleteItemFromActor(createdItem.id, createdItem.actor, {transfer: true});
-    else await updateItemOnActor(createdItem.id, createdItem.actor, {["system.quantity"]: quantity - stacks});
+    if (stacks === quantity) await createdItem.gmDelete({transfer: true});
+    else await createdItem.gmUpdate({["system.quantity"]: quantity - stacks});
   }
 }

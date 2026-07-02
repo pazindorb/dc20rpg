@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -151,7 +151,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>When you produce an <strong>MP</strong> Effect that targets at least 1 creature, you can force 1 target of your choice to make a Might or Charisma Save (their choice).</p><p><strong>Failure:</strong> Until the end of their next turn, they shed a 1 Space Aura of Bright Light and are <strong>Hindered</strong> on their next Attack.</p>",
         "hide": false,
@@ -159,7 +167,13 @@
         "sourceItemId": "7DBXqg5iLu9wQQm0",
         "sourceItemName": "Light Domain",
         "sourceItemImg": "icons/magic/light/explosion-star-large-blue-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "oAZY6U6u2En53VZS": {
         "name": "Light Domain - Charisma Save",
@@ -240,7 +254,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>When you produce an <strong>MP</strong> Effect that targets at least 1 creature, you can force 1 target of your choice to make a Might or Charisma Save (their choice).</p><p><strong>Failure:</strong> Until the end of their next turn, they shed a 1 Space Aura of Bright Light and are <strong>Hindered</strong> on their next Attack.</p>",
         "hide": false,
@@ -248,7 +270,13 @@
         "sourceItemId": "7DBXqg5iLu9wQQm0",
         "sourceItemName": "Light Domain",
         "sourceItemImg": "icons/magic/light/explosion-star-large-blue-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -437,11 +465,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035737,
-    "modifiedTime": 1761303728803,
+    "modifiedTime": 1781985628469,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

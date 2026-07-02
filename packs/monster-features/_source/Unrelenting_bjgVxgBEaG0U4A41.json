@@ -52,7 +52,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -294,11 +294,10 @@
       "img": "icons/magic/death/hand-dirt-undead-zombie.webp",
       "origin": "Item.pyQooUmz12dDq3jn",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -333,16 +332,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Unrelenting\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Unrelenting\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>The only way you can be reduced below 1 HP is by a Heavy Hit or an Attack that deals Radiant damage.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -352,11 +351,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!bjgVxgBEaG0U4A41.0pEs79OaKnKJ6wJ3"
     }
   ],
@@ -366,11 +377,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778159287506,
-    "modifiedTime": 1778159287506,
+    "modifiedTime": 1781983715192,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -378,6 +389,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "bjgVxgBEaG0U4A41",
-  "sort": 0,
+  "sort": 700000,
   "_key": "!items!bjgVxgBEaG0U4A41"
 }

@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -223,8 +223,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "kKm07qV60BJUhdrc",
+        "sourceItemId": "zf9XnafiNpT6jJ1L",
+        "sourceItemName": "Regenerate",
+        "sourceItemImg": "icons/magic/life/heart-cross-strong-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "sq1MfYIpNr6JeYDG": {
         "name": "Increased Healing",
@@ -294,7 +313,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"regenerate\");\nif (!effect) return;\n\neffect.changes[0].value = `\"eventType\": \"healing\", \"trigger\": \"turnStart\", \"label\": \"Regenerate\", \"value\": ${2 + enh.number}, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"`",
+            "preItemRoll": "const effect = item.getEffectByKey(\"regenerate\");\nif (!effect) return;\n\neffect.system.changes[0].value = `\"eventType\": \"healing\", \"trigger\": \"turnStart\", \"label\": \"Regenerate\", \"value\": ${2 + enh.number}, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"`",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -309,8 +328,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "sq1MfYIpNr6JeYDG",
+        "sourceItemId": "zf9XnafiNpT6jJ1L",
+        "sourceItemName": "Regenerate",
+        "sourceItemImg": "icons/magic/life/heart-cross-strong-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "l1ELliTPxyijoW2C": {
         "name": "Repeat Save",
@@ -395,8 +433,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "l1ELliTPxyijoW2C",
+        "sourceItemId": "zf9XnafiNpT6jJ1L",
+        "sourceItemName": "Regenerate",
+        "sourceItemImg": "icons/magic/life/heart-cross-strong-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "bPEjOjHdUoJ2GTac": {
         "name": "Duration",
@@ -467,7 +524,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const regenerate = item.getEffectByKey(\"regenerate\");\nif (!regenerate) return;\n\nregenerate.duration.rounds = 1 + enh.number;",
+            "preItemRoll": "const regenerate = item.getEffectByKey(\"regenerate\");\nif (!regenerate) return;\n\nregenerate.duration.value = 1 + enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -482,8 +539,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "bPEjOjHdUoJ2GTac",
+        "sourceItemId": "zf9XnafiNpT6jJ1L",
+        "sourceItemName": "Regenerate",
+        "sourceItemImg": "icons/magic/life/heart-cross-strong-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -652,6 +728,9 @@
     "spellTags": {
       "cleansing": "Cleansing",
       "healing": "Healing"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -660,13 +739,10 @@
       "img": "icons/magic/life/heart-cross-strong-blue.webp",
       "origin": "Item.smG6bjqQQySwnltY",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "startRound": null,
-        "startTurn": null,
-        "seconds": null,
-        "turns": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -686,12 +762,13 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "regenerate",
         "macro": "",
         "addToChat": true,
-        "applyToTemplate": true,
+        "applyToTemplate": false,
         "nonessential": false,
         "disableWhen": {
           "path": "",
@@ -701,17 +778,19 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"healing\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Regenerate\", \"value\": 2, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"healing\", \"trigger\": \"turnStart\", \"label\": \"Regenerate\", \"value\": 2, \"type\": \"heal\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
-      "description": "<p>You regain HP at the start of your next turn.</p>",
+      "description": "<p>You regain HP at the start of caster turn.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -720,11 +799,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983701206,
+        "modifiedTime": 1782579074435
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!zf9XnafiNpT6jJ1L.7EF6FJ3pQjUOBx2V"
     }
   ],
@@ -734,11 +825,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777529430899,
-    "modifiedTime": 1777529430899,
+    "modifiedTime": 1782579154922,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -50,6 +50,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       }),
       statusResistances: new ConditionsFields(),
       customCondition: new f.StringField({initial: ""}),
+      additionalInfo: new f.StringField({initial: ""}),
       size: new SizeFields(),
       jump: new JumpFields(),
       movement: new MovementFields(),
@@ -66,6 +67,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       death: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
       saveDC: new f.SchemaField({
@@ -101,7 +103,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       combatTraining: new CombatTraining(),
       rollMenu: new RollMenu(false),
       globalFormulaModifiers: new GFModFields(),
-      globalModifier: new f.SchemaField({  
+      globalModifier: new f.SchemaField({ 
+        melee: new f.SchemaField({ 
+          threat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+        }),
         martial: new f.SchemaField({
           range: new f.SchemaField({
             melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -131,6 +136,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
         allow: new f.SchemaField({ 
           overheal: new f.BooleanField({required: true, initial: false}),
+          freeSustain: new f.BooleanField({required: true, initial: false}),
         }),
         prevent: new f.SchemaField({ 
           goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
@@ -150,12 +156,14 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
       }),
       events: new f.ArrayField(new f.StringField(), {required: true}),
-      conditionals: new f.ArrayField(new f.ObjectField(), {required: true}),
       keywords: new f.ObjectField({required: true}),
       rollLevel: new RollLevelFields(),  // TODO backward compatibilty remove as part of 0.10.5 update
       dynamicRollModifier: new DynamicRollModifierFields(),
+      targetModifiers: new f.ArrayField(new f.ObjectField(), {required: true}),
+      enhancements: new f.ObjectField({required: true}),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       sustain: new f.ObjectField({required: true, initial: {}}),
+      freeSustain: new f.BooleanField({required: true, initial: false}),
       journal: new f.StringField({required: true, initial: ""}),
       tokenHotbar: new f.SchemaField({
         sectionA: new f.ObjectField({required: true}),

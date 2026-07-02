@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -132,7 +132,8 @@
         "forOneMinute": false,
         "repeatedSave": false,
         "repeatedSaveKey": "phy",
-        "forXRounds": null
+        "forXRounds": null,
+        "stacks": null
       }
     },
     "rollRequests": {
@@ -154,12 +155,12 @@
         "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -224,187 +225,34 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
+            "melee": "",
+            "normal": "5",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "h3Z0zGJTn95rmRhB": {
-        "name": "Targets",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> Use Targets - AP Cost together with this enhancement.</em></p><p><em><strong>System Tip 2:</strong> Cost doubling isn't</em>  <em>automated.</em></p>",
-        "hide": false,
-        "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "ahuPEDAlxi1YxBpY": {
-        "name": "Targets - AP Costs",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use <strong>Targets</strong> enhancements together with this one.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+        "key": "x1NpJj4dU32n5SGS",
+        "sourceItemId": "90q1teCuhItnr1fk",
+        "sourceItemName": "Slow Time",
+        "sourceItemImg": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": null,
+        "altCost": 0
       },
       "nHMAuYH73nsb3xH5": {
         "name": "Dulled Reactions",
@@ -413,12 +261,12 @@
         "description": "<p>On a failed Save, the target is unable to take Reactions for the duration.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1/2",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -490,8 +338,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "nHMAuYH73nsb3xH5",
+        "sourceItemId": "90q1teCuhItnr1fk",
+        "sourceItemName": "Slow Time",
+        "sourceItemImg": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "kYmGmY0QoOMuEQg3": {
         "name": "Sluggish",
@@ -500,12 +369,12 @@
         "description": "<p>On a failed Save, the target is Impaired and Dazed for the duration.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -558,11 +427,12 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const slowTime = item.getEffectByKey(\"slowTime\");\nif (!slowTime) return;\n\nconst dazed = CONFIG.statusEffects.find(s => s.id === \"dazed\");\nfor (const change of dazed.changes) slowTime.changes.push(change);\nslowTime.statuses.add(\"dazed\");\n\nconst impaired = CONFIG.statusEffects.find(s => s.id === \"impaired\");\nfor (const change of impaired.changes) slowTime.changes.push(change);\nslowTime.statuses.add(\"impaired\");\n\nconst againstStatus = new DC20.AgainstStatus();\nagainstStatus.id = \"dazed\";\nagainstStatus.supressFromChatMessage = true;\nitem.system.againstStatuses[\"dazed\"] = againstStatus",
+            "preItemRoll": "const slowTime = item.getEffectByKey(\"slowTime\");\nif (!slowTime) return;\n\nDC20.tools.applyStatusToEffect(slowTime, \"dazed\");\nDC20.tools.applyStatusToEffect(slowTime, \"impaired\");\n\nconst againstStatus = new DC20.AgainstStatus();\nagainstStatus.id = \"dazed\";\nagainstStatus.supressFromChatMessage = true;\nitem.system.againstStatuses[\"dazed\"] = againstStatus;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -577,8 +447,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "kYmGmY0QoOMuEQg3",
+        "sourceItemId": "90q1teCuhItnr1fk",
+        "sourceItemName": "Slow Time",
+        "sourceItemImg": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "NWkHZFxj9Ncge8r1": {
         "name": "Stolen Time",
@@ -587,12 +478,12 @@
         "description": "<p>On a failed Save, for the duration, the target is Slowed and you gain half the target’s Speed.</p><p></p><p><em><strong>System Tip:</strong> Remember to apply \"Stolen Time\" effect to yourself.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -645,7 +536,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": {
             "name": "Stolen Time",
@@ -657,15 +549,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 27,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "NWkHZFxj9Ncge8r1"
+                "enhKey": "NWkHZFxj9Ncge8r1",
+                "itemSavePath": "system.enhancements.NWkHZFxj9Ncge8r1.modifications.addsEffect"
               }
             },
-            "_id": "btSvRAebdJqsLcB7",
+            "_id": "9EDCyPZLTtj21oJy",
             "type": "base",
             "system": {
               "sustained": {
@@ -679,11 +576,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const input = await DC20.dialog.SimplePopup.input(\"How much speed do you gain?\")\nif (!input) return;\n\nconst changes = effect.changes;\nchanges[0].value = input;\neffect.update({[\"changes\"]: changes})",
-              "addToChat": false,
+              "macro": "const input = await DC20.dialog.SimplePopup.input(\"How much speed do you gain?\")\nif (!input) return;\n\nconst changes = effect.system.changes;\nchanges[0].value = input;\neffect.update({[\"system.changes\"]: changes})",
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -694,24 +592,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.movement.ground.bonus",
+                  "value": "3",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Stolen Time\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.movement.ground.bonus",
-                "mode": 2,
-                "value": "3",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Stolen Time\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain half the target’s Speed.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -721,16 +624,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777185794355,
-              "modifiedTime": 1777185794355,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782580202704,
+              "modifiedTime": 1782580228999,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 27,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "const slowTime = item.getEffectByKey(\"slowTime\");\nif (!slowTime) return;\n\nconst slowed = CONFIG.statusEffects.find(s => s.id === \"slowed\");\nfor (const change of slowed.changes) slowTime.changes.push(change);\nslowTime.statuses.add(\"slowed\");",
+            "preItemRoll": "const slowTime = item.getEffectByKey(\"slowTime\");\nif (!slowTime) return;\n\nDC20.tools.applyStatusToEffect(slowTime, \"slowed\");",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -745,8 +658,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "NWkHZFxj9Ncge8r1",
+        "sourceItemId": "90q1teCuhItnr1fk",
+        "sourceItemName": "Slow Time",
+        "sourceItemImg": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "iIzB2WoKvCbSOXN9": {
         "name": "Stop Time",
@@ -755,12 +689,12 @@
         "description": "<p>The creature is Paralyzed.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 6,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "6/12",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -813,11 +747,12 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const slowTime = item.getEffectByKey(\"slowTime\");\nif (!slowTime) return;\n\nconst paralyzed = CONFIG.statusEffects.find(s => s.id === \"paralyzed\");\nfor (const change of paralyzed.changes) slowTime.changes.push(change);\nslowTime.statuses.add(\"paralyzed\");\n\nitem.system.duration.type = \"sustain\"",
+            "preItemRoll": "const slowTime = item.getEffectByKey(\"slowTime\");\nif (!slowTime) return;\n\nDC20.tools.applyStatusToEffect(slowTime, \"paralyzed\");\n\nitem.system.duration.type = \"sustain\"",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -832,7 +767,132 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "iIzB2WoKvCbSOXN9",
+        "sourceItemId": "90q1teCuhItnr1fk",
+        "sourceItemName": "Slow Time",
+        "sourceItemImg": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
+      },
+      "ficzyjsR0mYsTQ7m": {
+        "name": "Targets",
+        "number": 0,
+        "defaultState": 0,
+        "repeatable": true,
+        "preventModification": false,
+        "description": "<p>You can target X additional creatures within range. </p><p>When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
+        "hide": false,
+        "copyToSheetRoll": {},
+        "resources": {
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
+          "custom": {}
+        },
+        "altCostMax": 0,
+        "altCost": 0,
+        "charges": {
+          "subtract": null,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "overrideTargetDefence": false,
+          "targetDefenceType": "area",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "specificFormulaKey": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "label": "",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "dontModifyFailFormula": false,
+            "each5": false,
+            "each5Formula": "",
+            "dontMerge": false,
+            "overrideDefence": "",
+            "perTarget": false
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "stacks": 1,
+            "ignoreForDrm": false,
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "forXRounds": null,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "actionChange": false,
+          "actionType": "",
+          "macros": {
+            "preItemRoll": "",
+            "postItemRoll": ""
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "areaWidth": "",
+          "areaDistance": "",
+          "changeManaSpendLimit": 0,
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          }
         }
       }
     },
@@ -1003,6 +1063,9 @@
       "stunned": "Stunned",
       "paralyzed": "Paralyzed",
       "time": "Time"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -1011,13 +1074,10 @@
       "img": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
       "origin": "Item.X1rwrnpt5pXyUdCv",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "startRound": null,
-        "startTurn": null,
-        "seconds": null,
-        "turns": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -1031,7 +1091,7 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "hindered",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
@@ -1050,52 +1110,60 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.att",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.att",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You are Hindered.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -1107,12 +1175,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1777182648158
+        "modifiedTime": 1782396851502,
+        "createdTime": 1781983676519
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!90q1teCuhItnr1fk.82iXzqgW9pF5a0cB"
     }
   ],
@@ -1122,11 +1201,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767462156981,
-    "modifiedTime": 1777186283181,
+    "modifiedTime": 1782580230165,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

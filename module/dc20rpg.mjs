@@ -3,16 +3,15 @@ import { DC20RpgItem } from "./documents/item.mjs";
 import { DC20RpgCombatant } from "./documents/combatant.mjs";
 import { DC20RpgCombat } from "./documents/combat.mjs";
 import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
-import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
+import { DC20ItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
-import { DC20RPG, initDC20Config, prepareDC20tools } from "./helpers/config.mjs";
+import { DC20RPG, initDC20Config, prepareDC20Tools } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemHotbarDropMacro } from "./helpers/macros.mjs";
-import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
+import { registerDC20Statues } from "./statusEffects/status-config.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
-import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffect.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
@@ -21,22 +20,25 @@ import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { DC20CharacterData, DC20CompanionData, DC20NpcData, DC20StorageData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
-import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
+import { DC20RpgTokenDocument } from "./documents/token.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
-import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { DC20PrototypeTokenConfig, DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
-import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
-import { canvasItemDrop } from "./helpers/actors/tokens.mjs";
+import { canvasDrop } from "./helpers/actors/tokens.mjs";
 import DC20Hotbar from "./sidebar/hotbar.mjs";
 import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
+import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
+import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
+import { refreshActiveEffectRegistry } from "./helpers/effects.mjs";
+import { DC20TerrainData } from "./placeable-objects/terrrain-data.mjs";
+import { registerAreaDeleteControls } from "./subsystems/area/areaDeleteControls.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -47,9 +49,8 @@ Hooks.once('init', async function() {
   prepareColorPalette(); // Prepare Color Palette
   
   CONFIG.DC20RPG = DC20RPG;
-  CONFIG.DC20ConditionalHelpers = {};
   initDC20Config();
-  prepareDC20tools();
+  prepareDC20Tools();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";
@@ -57,6 +58,7 @@ Hooks.once('init', async function() {
     hideItems: new Set(),
     hideActors: new Set()
   }; 
+  game.dc20rpg.postRollEffectAction = new Map();
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;
@@ -72,11 +74,9 @@ Hooks.once('init', async function() {
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
   CONFIG.Token.movement.actions = DC20RpgToken.movementActions();
+  CONFIG.Token.movement.TerrainData = DC20TerrainData;
   CONFIG.Token.movement.defaultAction = "ground";
   CONFIG.Token.movement.defaultSpeed = 5;
-  CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
-  CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
-  CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;
   CONFIG.ui.hotbar = DC20Hotbar;
 
   // Register data models
@@ -84,6 +84,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.dataModels.npc = DC20NpcData;
   CONFIG.Actor.dataModels.companion = DC20CompanionData;
   CONFIG.Actor.dataModels.storage = DC20StorageData;
+  CONFIG.ActiveEffect.dataModels.base = DC20BaseActiveEffectData;
   CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.spellFocus = itemDM.DC20SpellFocusData;
@@ -102,8 +103,9 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.background = itemDM.DC20BackgroundData;
 
   // Register sheet application classes
+  foundry.documents.ActiveEffect.registry.refresh = refreshActiveEffectRegistry;
   foundry.documents.collections.Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
-  foundry.documents.collections.Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
+  foundry.documents.collections.Items.registerSheet("dc20rpg", DC20ItemSheet, { makeDefault: true });
   const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
   DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
@@ -127,8 +129,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.10.5.0", "0.10.5.1", new Set(["dc20-core-rulebook", "dc20-magic-pack", "dc20-player-options-pack"]));
-  // await testMigration("0.10.5.0", "0.10.5.1");
+  // await testMigration("0.10.5.1", "0.10.6.0", new Set(["dc20-core-rulebook", "dc20-magic-pack", "dc20-player-options-pack"]));
+  // await testMigration("0.10.5.1", "0.10.6.0");   
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -147,6 +149,7 @@ Hooks.once("ready", async function() {
   });
 
   registerSystemSockets();
+  registerAreaDeleteControls();
   registerUniqueSystemItems();
   overrideCoreKeybindActions();
 
@@ -191,4 +194,6 @@ Hooks.on("createScene", async (scene, options, userId) => {
     });
   }
 });
-Hooks.on("dropCanvasData", async (canvas, data, event) => canvasItemDrop(canvas, data, event));
+Hooks.on("dropCanvasData", (canvas, data, event) => {
+  return canvasDrop(canvas, data, event)
+});

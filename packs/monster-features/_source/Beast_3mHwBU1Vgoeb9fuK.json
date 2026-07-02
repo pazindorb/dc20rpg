@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -293,11 +293,10 @@
       "img": "icons/creatures/abilities/cougar-pounce-stalk-black.webp",
       "origin": "Item.cYn0I07zsDfBe319",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -332,28 +331,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Beast\", \"skill\": \"awa\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Beast\", \"skill\": \"ste\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Beast\", \"skill\": \"sur\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Beast\", \"skill\": \"awa\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Beast\", \"skill\": \"ste\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Beast\", \"skill\": \"sur\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>The creature has ADV on Awareness, Stealth, and Survival Checks, and gain an additional +2 bonus to Attacks while Flanking a creature.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -363,11 +362,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!3mHwBU1Vgoeb9fuK.CHrJT3vAZ6LwGz83"
     }
   ],
@@ -381,11 +392,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777369699273,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1781983712132,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

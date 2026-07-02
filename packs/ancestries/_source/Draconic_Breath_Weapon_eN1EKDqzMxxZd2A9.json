@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
   "system": {
-    "description": "<p>You gain a Breath Weapon that you can use by spending <strong>2 AP</strong> to exhale destructive power in an Area or Focused against a specific target.</p><p>You can use this ability once per <strong>Long</strong> <strong>Rest</strong>, and regain the ability to use it again when you roll for Initiative.</p><ul><li><p><strong>Area: </strong>Make a <strong>Spell</strong> <strong>Check</strong> against every target’s <strong>AD</strong> within a 3 Space Cone or 6 Space Line. <br><strong>Hit:</strong> The target takes 2 Draconic damage.</p></li><li><p><strong>Focused: </strong>Make a <strong>Spell</strong> <strong>Check</strong> against 1 target’s <strong>PD</strong> within 6 Spaces. <br><strong>Hit:</strong> The target takes 4 Draconic damage.</p></li></ul><p>Before you make your Spell Check, you can spend 1 or more SP, MP, or a combination of both to increase the damage.</p><p>When you do, the Area damage increases by 1 per <strong>SP</strong> spent and 2 per <strong>MP</strong> spent, and the Focused damage increases by 2 per <strong>SP</strong> spent and 4 per <strong>MP</strong> spent.</p>",
+    "description": "<p>You gain a Breath Weapon that you can use by spending 2 AP to exhale destructive power in an Area or Focused against a specific target.</p><p>You can use this ability once per <strong>Long Rest,</strong> and regain the ability to use it again when you roll for Initiative.</p><ul><li><p><strong>Area: </strong>Make a <strong>Spell Attack</strong> against every target’s AD within a 3 Space Cone or 6 Space Line.</p><ul><li><p><strong>Hit:</strong> The target takes 2 Draconic damage</p></li></ul></li><li><p><strong>Focused: </strong>Make a <strong>Spell Attack</strong> against 1 target’s PD within 6 Spaces.</p><ul><li><p><strong>Hit:</strong> The target takes 4 Draconic damage.</p></li></ul></li></ul><p>Before you make your <strong>Spell Attack</strong>, you can spend 1 or more SP, MP, or a combination of both to increase the damage. </p><p>When you do, the Area damage increases by 1 per 2 SP spent or 1 MP spent, and the Focused damage increases by 1 per SP spent and by 2 per MP spent.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -87,13 +87,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
+          "health": "",
+          "mana": "",
+          "stamina": "1",
           "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
+          "grit": "",
+          "restPoints": "",
+          "ap": ""
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -158,9 +158,20 @@
             "postItemRoll": ""
           },
           "changeStaminaSpendLimit": null,
-          "specificFormulaKey": ""
+          "specificFormulaKey": "",
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your </span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong></span>, you can spend <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 SP </strong></span>to increase the damage by 1.</p>",
+        "description": "<p>Before you make your <strong>Spell Attack</strong>, you can spend 1 or more SP, MP, or a combination of both to increase the damage.</p><p>When you do, the Area damage increases by 1 per 2 SP spent or 1 MP spent, and the Focused damage increases by 1 per SP spent and by 2 per MP spent.</p>",
         "charges": {
           "subtract": null,
           "fromOriginal": false
@@ -170,20 +181,26 @@
         "sourceItemId": "eN1EKDqzMxxZd2A9",
         "sourceItemName": "Draconic Breath Weapon",
         "sourceItemImg": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "maxdUGPkaTfPMixb": {
         "name": "Spend Mana",
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
+          "health": "",
+          "mana": "1",
+          "stamina": "",
           "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
+          "grit": "",
+          "restPoints": "",
+          "ap": ""
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -248,9 +265,20 @@
             "postItemRoll": ""
           },
           "changeStaminaSpendLimit": null,
-          "specificFormulaKey": ""
+          "specificFormulaKey": "",
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Before you make your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check</strong>, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 MP</strong> to increase it by 2.</span></p>",
+        "description": "<p>Before you make your <strong>Spell Attack</strong>, you can spend 1 or more SP, MP, or a combination of both to increase the damage.</p><p>When you do, the Area damage increases by 1 per 2 SP spent or 1 MP spent, and the Focused damage increases by 1 per SP spent and by 2 per MP spent.</p>",
         "charges": {
           "subtract": null,
           "fromOriginal": false
@@ -260,7 +288,13 @@
         "sourceItemId": "eN1EKDqzMxxZd2A9",
         "sourceItemName": "Draconic Breath Weapon",
         "sourceItemImg": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -339,50 +373,22 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "MRTOCvlHMGrVBYK0": {
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Draconic Origin damage type\", damageTypes);\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Change Draconic Origin",
-        "title": "Change Draconic Origin"
-      },
       "q8m7xuw3zkXPAj8C": {
-        "command": "if (newValue) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[newValue]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: newValue\n  }) \n}",
+        "command": "if (newValue) {\n  item.update({[\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: newValue}) \n}",
         "trigger": "onKeywordUpdate",
         "disabled": false,
         "name": "Update Breath Damage",
         "title": ""
       },
-      "BmnJwDEDUTewvu8t": {
-        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Draconic Origin damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
-        "trigger": "onCreate",
-        "disabled": false,
-        "name": "Add To Keyword",
-        "title": ""
-      },
-      "Cm3VKQJB6FmF5wHz": {
-        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"draconicOrigin\", item._id)",
-        "trigger": "preDelete",
-        "disabled": false,
-        "name": "Remove From Keyword",
-        "title": ""
-      },
       "YhaGyhP9XYaxOYRj": {
-        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Target Type\", {\"area\": \"Area\", \"focused\": \"Focused\"});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.resources.stamina\"]: \"1\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.resources.mana\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.target.areas.default.area\"]: \"\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.resources.stamina\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.resources.mana\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"1\",\n    [\"system.range.normal\"]: null,\n    [\"system.target.areas.default.area\"]: \"line\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n  });\n}",
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Target Type\", {\"area\": \"Area\", \"focused\": \"Focused\"});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attack.rangeType\"]: \"ranged\",\n    [\"system.attack.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.resources.stamina\"]: \"1\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.resources.mana\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.areas.default.type\"]: \"\",\n    [\"system.areas.GhNqAXiiuLqPnaEo.type\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attack.rangeType\"]: \"area\",\n    [\"system.attack.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.resources.stamina\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.resources.mana\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"1\",\n    [\"system.range.normal\"]: null,\n    [\"system.areas.default.type\"]: \"line\",\n    [\"system.areas.GhNqAXiiuLqPnaEo.type\"]: \"cone\",\n  });\n}",
         "trigger": "onRollPrompt",
         "disabled": false,
         "name": "Select Attack Type",
         "title": ""
       },
-      "R7wAXLh7S1Y1CVSd": {
-        "command": "item.update({\n  [\"system.attackFormula.targetDefence\"]: \"area\",\n  [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n  [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n  [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n  [\"system.range.normal\"]: 6,\n  [\"system.target.areas.default.area\"]: \"line\",\n  [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n})",
-        "trigger": "enhancementReset",
-        "disabled": false,
-        "name": "Reset Item",
-        "title": ""
-      },
       "3DPd7TvJ5ELSAKs4": {
-        "command": "item.update({\n  [\"system.attackFormula.targetDefence\"]: \"area\",\n  [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n  [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n  [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n  [\"system.range.normal\"]: 6,\n  [\"system.target.areas.default.area\"]: \"line\",\n  [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n})",
+        "command": "item.update({\n  [\"system.attack.rangeType\"]: \"area\",\n  [\"system.attack.targetDefence\"]: \"area\",\n  [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n  [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n  [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n  [\"system.range.normal\"]: 6,\n  [\"system.areas.default.type\"]: \"line\",\n  [\"system.areas.GhNqAXiiuLqPnaEo.type\"]: \"cone\",\n})",
         "trigger": "postChatMessageCreated",
         "disabled": false,
         "name": "Reset Item",
@@ -393,6 +399,57 @@
     "featureSourceItem": "dragonborn",
     "requirements": {
       "level": 0
+    },
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 6,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      },
+      "GhNqAXiiuLqPnaEo": {
+        "type": "cone",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "checkType": "spell",
+      "targetDefence": "area",
+      "closeQuarters": false
+    },
+    "keyword": {
+      "key": "draconic-origin",
+      "selectOptions": "{\n    \"corrosion\": \"Corrosion\",\n    \"cold\": \"Cold\",\n    \"fire\": \"Fire\",\n    \"lightning\": \"Lightning\",\n    \"poison\": \"Poison\",\n    \"psychic\": \"Psychic\",\n    \"radiant\": \"Radiant\",\n    \"umbral\": \"Umbral\"\n}",
+      "message": "Select Draconic Origin"
     }
   },
   "effects": [],
@@ -405,11 +462,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1777385744933,
+    "modifiedTime": 1782573954450,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

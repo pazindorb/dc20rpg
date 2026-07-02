@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "mIioiwNF2VNi3BfE",
+        "sourceItemId": "QIJKXFAk2211fCWV",
+        "sourceItemName": "Corrosive Bolt",
+        "sourceItemImg": "icons/magic/acid/projectile-faceted-glob.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "JwG3bgVZI5h1ZF8E": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "JwG3bgVZI5h1ZF8E",
+        "sourceItemId": "QIJKXFAk2211fCWV",
+        "sourceItemName": "Corrosive Bolt",
+        "sourceItemImg": "icons/magic/acid/projectile-faceted-glob.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "2caYXZ9KuSW8HJDc": {
         "name": "Dissolve",
@@ -387,15 +425,20 @@
               "seconds": null,
               "startRound": 18,
               "startTurn": 0,
-              "turns": null
+              "turns": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "2caYXZ9KuSW8HJDc"
+                "enhKey": "2caYXZ9KuSW8HJDc",
+                "itemSavePath": "system.enhancements.2caYXZ9KuSW8HJDc.modifications.addsEffect"
               }
             },
-            "_id": "PTb3hfhqv3N6UF5c",
+            "_id": "9i3opC6qpFnoVCzQ",
             "type": "base",
             "system": {
               "sustained": {
@@ -409,11 +452,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -424,45 +468,53 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.damageReduction.pdr.active",
+                  "value": "false",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.damageReduction.edr.active",
+                  "value": "false",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.damageReduction.pdr.skipEqCheck",
+                  "value": "true",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.damageReduction.edr.skipEqCheck",
+                  "value": "true",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Dissolve - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.damageReduction.pdr.active",
-                "value": "false",
-                "mode": 5,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.edr.active",
-                "value": "false",
-                "mode": 5,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.pdr.skipEqCheck",
-                "value": "true",
-                "mode": 5,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.edr.skipEqCheck",
-                "value": "true",
-                "mode": 5,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Dissolve - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You no longer benefit from PDR or EDR for the 1 minute.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -472,13 +524,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767713174268,
-              "modifiedTime": 1767713174268,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782594212103,
+              "modifiedTime": 1782594212103,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 18,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -496,8 +558,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2caYXZ9KuSW8HJDc",
+        "sourceItemId": "QIJKXFAk2211fCWV",
+        "sourceItemName": "Corrosive Bolt",
+        "sourceItemImg": "icons/magic/acid/projectile-faceted-glob.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "3u6fJDcBGgCPKfne": {
         "name": "Acid",
@@ -575,15 +656,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 18,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "3u6fJDcBGgCPKfne"
+                "enhKey": "3u6fJDcBGgCPKfne",
+                "itemSavePath": "system.enhancements.3u6fJDcBGgCPKfne.modifications.addsEffect"
               }
             },
-            "_id": "5Hafx9rfm60WbwBD",
+            "_id": "uquwJps3LvKf7aMR",
             "type": "base",
             "system": {
               "sustained": {
@@ -591,17 +677,18 @@
                 "actorUuid": "",
                 "itemId": ""
               },
-              "statusId": "hindered",
+              "statusId": "",
               "condition": false,
               "fromStatus": false,
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -612,94 +699,37 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "type": "add",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Acid - Repeated Agility Save\", \"checkKey\": \"agi\", \"against\": \"#SAVE_DC#\", \"statuses\": [\"hindered\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "type": "add",
+                  "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Acid\", \"value\": 1, \"type\": \"corrosion\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.att",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mar",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.spe",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Acid - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"checkRequest\", \"trigger\": \"manual\", \"label\": \"Acid - Trigger Removal\", \"preTrigger\": \"spendAP\", \"checkKey\": \"sur\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Acid\", \"value\": #REPLACE#, \"type\": \"corrosion\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are covered in acid for 1 minute. While covered in acid, you are Hindered and take X Corrosion damage at the start of each of their turns. A creature within 1 Space (including yourself) can spend 1 AP to make a Survival Check against caster's Save DC, removing the acid on a Success.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -711,16 +741,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767713352260,
-              "modifiedTime": 1767713352260,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782594506706,
+              "modifiedTime": 1782594547642,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 18,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "for (const change of enh.modifications.addsEffect.changes) {\n  if (change.value.includes(\"#REPLACE#\")) {\n    change.value = change.value.replace(\"#REPLACE#\", enh.number);\n  }\n}",
+            "preItemRoll": "enh.modifications.addsEffect.system.changes[2].value = `\"eventType\": \"damage\", \"trigger\": \"turnStart\", \"label\": \"Acid\", \"value\": ${enh.number}, \"type\": \"corrosion\", \"actorId\": \"#SPEAKER_ID#\"`",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -735,8 +775,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "3u6fJDcBGgCPKfne",
+        "sourceItemId": "QIJKXFAk2211fCWV",
+        "sourceItemName": "Corrosive Bolt",
+        "sourceItemImg": "icons/magic/acid/projectile-faceted-glob.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -905,6 +964,10 @@
       "corrosion": "Corrosion",
       "enfeeble": "Enfeeble",
       "hindered": "Hindered"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -914,11 +977,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767711302191,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1782594581509,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

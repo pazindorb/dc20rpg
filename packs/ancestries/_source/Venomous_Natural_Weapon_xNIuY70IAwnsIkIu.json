@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -68,13 +68,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
+          "health": "",
+          "mana": "",
+          "stamina": "",
           "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
+          "grit": "",
+          "restPoints": "",
+          "ap": ""
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -100,7 +100,9 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null,
+            "forXRounds": null
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -137,7 +139,18 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "changeStaminaSpendLimit": null,
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>When you Hit a creature with your <strong>Natural</strong> <strong>Weapon</strong>, they make a <strong>Physical</strong> <strong>Save</strong> against your Save DC.</p><p><strong>Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a]{Impaired} </strong>until the start of your next turn.</p>",
         "hide": false,
@@ -149,12 +162,18 @@
         "sourceItemId": "xNIuY70IAwnsIkIu",
         "sourceItemName": "Venomous Natural Weapon",
         "sourceItemImg": "icons/creatures/abilities/stinger-poison-scorpion-brown.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.itemKey=[\"naturalWeapon\"]"
+      "copyFor": "system.naturalWeapon=[true]"
     },
     "save": {
       "type": "phy",
@@ -249,7 +268,11 @@
         "untilYourNextTurnEnd": false,
         "untilTargetNextTurnStart": false,
         "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
+        "untilFirstTimeTriggered": false,
+        "stacks": null,
+        "forXRounds": null,
+        "forOneMinute": false,
+        "repeatedSave": false
       }
     },
     "itemKey": "venomousNaturalWeapon",
@@ -263,11 +286,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720112465204,
-    "modifiedTime": 1761303731932,
+    "modifiedTime": 1782124466274,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,8 +1,7 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { RestDialog } from "../../dialogs/rest.mjs";
-import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
-import { createLegenedaryResources } from "../../helpers/actors/resources.mjs";
-import { addFlatDamageReductionEffect, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
+import { activateTrait, changeLevel, createNewTable, deactivateTrait, deleteTrait, editTrait, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
+import { addFlatDamageReductionEffect } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown, toSelectOptions } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
@@ -10,7 +9,6 @@ import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
-import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
@@ -20,24 +18,25 @@ import { openItemCreator } from "../../dialogs/item-creator.mjs";
 import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
 import { ActionSelect } from "../../dialogs/action-select.mjs";
+import { DC20RpgItem } from "../../documents/item.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
-  html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find(".item-equip").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).equip());
-  html.find(".item-toggle").click(ev => getItemFromActor(datasetOf(ev).itemId, actor).toggle());
+  html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor.items.get(datasetOf(ev).itemId)));
+  html.find(".item-equip").click(ev => actor.items.get(datasetOf(ev).itemId).equip());
+  html.find(".item-toggle").click(ev => actor.items.get(datasetOf(ev).itemId).toggle());
   html.find('.rollable').click(ev => actor.roll(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
   html.find('.roll-item').click(ev => {
-    const item = getItemFromActor(datasetOf(ev).itemId, actor);
+    const item = actor.items.get(datasetOf(ev).itemId);
     if (item.type === "infusion") _onInfusionRoll(actor, item);
     else RollDialog.open(actor, item, {quickRoll: ev.shiftKey});
   });
-  html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
+  html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor.items.get(datasetOf(ev).itemId), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
-  html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor.items.get(datasetOf(ev).itemId)));
+  html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor.items.get(datasetOf(ev).itemId)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(async ev => {
     const item = actor.items.get(datasetOf(ev).itemId);
@@ -45,7 +44,7 @@ export function activateCommonLinsters(html, actor) {
     await changeNumericValue(valueOf(ev), "system.costs.charges.current", item, {upperLimit: max, lowerLimit: 0});
     actor.sheet.render();
   });
-  html.find('.recharge-item').click(ev => getItemFromActor(datasetOf(ev).itemId, actor).use.regainCharges());
+  html.find('.recharge-item').click(ev => actor.items.get(datasetOf(ev).itemId).use.regainCharges());
   html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
   html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) actor.help.prepare()});
   html.find('.help-dice').mousedown(async ev => {
@@ -60,14 +59,27 @@ export function activateCommonLinsters(html, actor) {
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
-  html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, actor));
-  html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, actor));
-  html.find('.item-copy').click(ev => duplicateItem(datasetOf(ev).itemId, actor));
-  html.find('.editable').mousedown(ev => {
-    if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
-    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html, actor.type);
+  html.find('.item-delete').click(ev => actor.items.get(datasetOf(ev).itemId)?.delete());
+  html.find('.item-edit').click(ev => {
+    const item = actor.items.get(datasetOf(ev).itemId);
+    item.sheet.render(true);
   });
-  html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
+  html.find('.item-copy').click(async ev => {
+    const item = actor.items.get(datasetOf(ev).itemId);
+    return await DC20RpgItem.gmCreate(item.toObject(), {parent: actor});
+  });
+  html.find('.editable').mousedown(ev => {
+    if (ev.which === 2) {
+      const item = actor.items.get(datasetOf(ev).itemId);
+      item.sheet.render(true);
+    };
+    if (ev.which === 3) itemContextMenu(actor.items.get(datasetOf(ev).itemId), ev, html, actor.type);
+  });
+  html.find('.trigger-keyword-update').click(ev => {
+    const keyword = actor.keywords.get(datasetOf(ev).keyword);
+    if (keyword) keyword.update(null, true);
+  })
+  html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(actor.items.get(datasetOf(ev).itemId), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
@@ -108,14 +120,25 @@ export function activateCommonLinsters(html, actor) {
   html.find(".edit-resource-img").click(ev => actor.resources[datasetOf(ev).key].changeIcon());
 
   // Active Effects
-  html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, actor));
-  html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, actor, datasetOf(ev).turnOn === "true"));
-  html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
-  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
-  html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
-  html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
+  html.find(".effect-create").click(ev => _onCreateNewEffect(datasetOf(ev).type, actor));
+  html.find(".effect-toggle").click(ev => {
+    const effect = actor.getEffectById(datasetOf(ev).effectId);
+    if (!effect) return;
+    if (datasetOf(ev).turnOn === "true") effect.enable();
+    else effect.disable();
+  });
+  html.find(".effect-edit").click(ev => _openEffectSheet(ev, actor));
+  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? _openEffectSheet(ev, actor) : ()=>{});
+  html.find(".effect-delete").click(ev => {
+    const effect = actor.getEffectById(datasetOf(ev).effectId);
+    if (effect) effect.delete();
+  });
+  html.find(".status-toggle").mousedown(ev => {
+    if (ev.which === 1) actor.toggleStatusEffect(datasetOf(ev).statusId, { active: true, extras: {} });
+    if (ev.which === 3) actor.toggleStatusEffect(datasetOf(ev).statusId, { active: false, extras: {} });
+  });
   html.find('.manual-event').click(ev => {
-    const effect = actor.effects.get(datasetOf(ev).effectId);
+    const effect = actor.getEffectById(datasetOf(ev).effectId);
     if (effect) effect.runManualEvent();
   });
   
@@ -135,15 +158,16 @@ export function activateCommonLinsters(html, actor) {
   html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
   html.find('.mix-ancestry').click(async ev => {
     const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
-    if (ancestryData) await createItemOnActor(actor, ancestryData);
+    if (ancestryData) await DC20RpgItem.create(ancestryData, {parent: actor});
   });
 
   // Tooltips
-  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
-  html.find('.enh-tooltip').hover(ev => enhTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
-  html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, actor), ev, html), ev => hideTooltip(ev, html));
+  html.find('.item-tooltip').hover(ev => itemTooltip(actor.items.get(datasetOf(ev).itemId), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
+  html.find('.enh-tooltip').hover(ev => enhTooltip(actor.items.get(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
+  html.find('.effect-tooltip').hover(ev => effectTooltip(actor.getEffectById(datasetOf(ev).effectId), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
+  html.find(".item-row").on("dragover", ev => hideTooltip(ev, html));
 }
 
 export function activateCharacterLinsters(html, actor) {
@@ -162,7 +186,7 @@ export function activateCharacterLinsters(html, actor) {
   html.find('.transfer').click(() => _onTransfer(actor));
   html.find('.open-item-creator').click(async ev => {
     const itemData = await openItemCreator(datasetOf(ev).itemType);
-    if (itemData) await createItemOnActor(actor, itemData);
+    if (itemData) await DC20RpgItem.create(itemData, {parent: actor});
   });
 
   // Attributes
@@ -175,8 +199,6 @@ export function activateCharacterLinsters(html, actor) {
 }
 
 export function activateNpcLinsters(html, actor) {
-  // Custom Resources
-  html.find(".add-legendary-resources").click(() => createLegenedaryResources(actor));
 }
 
 export function activateCompanionListeners(html, actor) {
@@ -188,6 +210,7 @@ export function activateCompanionListeners(html, actor) {
     if (ev.which === 3) deactivateTrait(datasetOf(ev).traitKey, actor);
   });
   html.find(".trait-delete").click(ev =>  deleteTrait(datasetOf(ev).traitKey, actor));
+  html.find(".trait-edit").click(ev => editTrait(datasetOf(ev).traitKey, actor));
   html.find(".trait-repeatable").click(ev => {
     const trait = getTrait(actor, datasetOf(ev).traitKey);
     actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
@@ -225,7 +248,7 @@ async function _onItemCreate(tab, actor) {
     type: itemType,
     name: `New ${getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes)}`
   }
-  createItemOnActor(actor, itemData);
+  DC20RpgItem.create(itemData, {parent: actor});
 }
 
 async function _onTransfer(actor) {
@@ -272,4 +295,21 @@ async function _onAddCompanionOwner(actor) {
   const selected = await DC20.dialog.SimplePopup.select("Select Owner", options);
   if (!selected) return;
   actor.update({["system.companionOwnerId"]: selected})
+}
+
+function _onCreateNewEffect(type, actor) {
+  const duration = type === "temporary" ? 1 : undefined
+  const data = {
+    name: `${actor.name} - New Effect`,
+    img: actor.img,
+    origin: actor.uuid,
+    "duration.rounds": duration,
+    disabled: false
+  }
+  ActiveEffect.create(data, {parent: actor});
+}
+
+function _openEffectSheet(ev, object) {
+  const effect = object.getEffectById(datasetOf(ev).effectId);
+  if (effect) effect.sheet.render(true);
 }

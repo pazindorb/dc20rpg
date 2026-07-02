@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -276,7 +276,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -284,11 +287,10 @@
       "img": "icons/creatures/magical/fae-fairy-winged-glowing-green.webp",
       "origin": "Item.HXxiMWNm6cc9GCw2",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -323,46 +325,46 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"skill\": \"inm\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"skill\": \"tri\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.mig",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.cha",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.int",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"skill\": \"inm\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"skill\": \"tri\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.mig",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.cha",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.int",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fey\", \"confirmation\": true",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature has ADV on Trickery and Intimidation Checks, and ADV on Saves against MP Effects.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -372,11 +374,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!0F470HJCt5IByt2N.nCEUcnmxPHgQjbvh"
     }
   ],
@@ -390,11 +404,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777451916996,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1781983711578,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

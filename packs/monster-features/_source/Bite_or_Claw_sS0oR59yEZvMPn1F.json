@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -192,8 +192,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Bz0iQe31sLLjHPEZ",
+        "sourceItemId": "sS0oR59yEZvMPn1F",
+        "sourceItemName": "Bite or Claw",
+        "sourceItemImg": "icons/creatures/claws/claw-talons-glowing-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "zYecpROYY7XB051B": {
         "name": "Grapple",
@@ -279,8 +298,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "zYecpROYY7XB051B",
+        "sourceItemId": "sS0oR59yEZvMPn1F",
+        "sourceItemName": "Bite or Claw",
+        "sourceItemImg": "icons/creatures/claws/claw-talons-glowing-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "j3c8SAKzbQoFSxk8": {
         "name": "Prone",
@@ -366,8 +404,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "j3c8SAKzbQoFSxk8",
+        "sourceItemId": "sS0oR59yEZvMPn1F",
+        "sourceItemName": "Bite or Claw",
+        "sourceItemImg": "icons/creatures/claws/claw-talons-glowing-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -469,49 +526,7 @@
     },
     "againstStatuses": {},
     "rollRequests": {},
-    "conditionals": {
-      "B7TCTDV9ukzPd4rg": {
-        "name": "Extra Damage on Heavy",
-        "condition": "hit > 5",
-        "useFor": "system.itemKey=[\"bear_bite_claw\"]",
-        "linkWithToggle": false,
-        "bonus": "1",
-        "flags": {
-          "ignorePdr": false,
-          "ignoreEdr": false,
-          "ignoreMdr": false,
-          "ignoreResistance": {},
-          "ignoreImmune": {},
-          "reduceAd": "",
-          "reducePd": ""
-        },
-        "effect": null,
-        "addsNewRollRequest": false,
-        "rollRequest": {
-          "category": "save",
-          "saveKey": "",
-          "contestedKey": "",
-          "dcCalculation": "spell",
-          "dc": 0,
-          "addMasteryToDC": true
-        },
-        "addsNewFormula": false,
-        "formula": {
-          "formula": "",
-          "type": "",
-          "label": "",
-          "category": "damage",
-          "fail": false,
-          "failFormula": "",
-          "dontModifyFailFormula": false,
-          "each5": false,
-          "each5Formula": "",
-          "dontMerge": false,
-          "overrideDefence": "",
-          "perTarget": false
-        }
-      }
-    },
+    "conditionals": {},
     "hasAdvancement": false,
     "advancements": {
       "default": {
@@ -601,6 +616,49 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "targetModifiers": {
+      "B7TCTDV9ukzPd4rg": {
+        "name": "Extra Damage on Heavy",
+        "condition": "return (hit > 5)",
+        "useFor": "system.itemKey=[\"bear_bite_claw\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreEdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {},
+          "reduceAd": "",
+          "reducePd": ""
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "save",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "spell",
+          "dc": 0,
+          "addMasteryToDC": true
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "label": "",
+          "category": "damage",
+          "fail": false,
+          "failFormula": "",
+          "dontModifyFailFormula": false,
+          "each5": false,
+          "each5Formula": "",
+          "dontMerge": false,
+          "overrideDefence": "",
+          "perTarget": false
+        }
+      }
     }
   },
   "effects": [],
@@ -610,11 +668,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778148881563,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781985658321,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

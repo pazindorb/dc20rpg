@@ -1,8 +1,5 @@
 import { getActivePlayers } from "../../helpers/users.mjs";
-import { RestDialog } from "../../dialogs/rest.mjs";
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { DC20Roll } from "../../roll/rollApi.mjs";
-import { RollDialog } from "../../roll/rollDialog.mjs";
 
 export class ActorRequestDialog extends DC20Dialog {
 
@@ -27,7 +24,7 @@ export class ActorRequestDialog extends DC20Dialog {
       this.rollOptions = {
         rollLevel: {adv: 0, dis: 0},
         rollDC: null,
-        rollMode: ""
+        messageMode: ""
       }
 
       const selectOptions = {};
@@ -97,11 +94,11 @@ export class ActorRequestDialog extends DC20Dialog {
     context.showRollModification = !(!!this.selectOptions.rest) && !context.showCloseButton;
     
     context.rollOptions = this.rollOptions;
-    context.rollModes = {
-      publicroll: "Public Roll",
-      gmroll: "GM Roll",
-      blindroll: "Blind Roll",
-      selfroll: "Self Roll"
+    context.messageModes = {
+      public: "Public Roll",
+      gm: "GM Roll",
+      blind: "Blind Roll",
+      self: "Self Roll"
     };
 
     let grid = "1fr";
@@ -143,7 +140,7 @@ export class ActorRequestDialog extends DC20Dialog {
       sendToActorOwners: true, 
       initialRollMenuValue: this._initialRollLevel()
     }
-    if (rOpt.rollMode) options.rollMode = rOpt.rollMode;
+    if (rOpt.messageMode) options.messageMode = rOpt.messageMode;
     if (rOpt.rollDC) options.against = rOpt.rollDC;
 
     for (const wrapper of Object.values(this.selectableActors)) {
@@ -169,7 +166,7 @@ export class ActorRequestDialog extends DC20Dialog {
 
   _initialRollLevel() {
     const rollLevel = this.rollOptions.rollLevel;
-    return {adv: rollLevel.adv, dis: rollLevel.dis};
+    return {adv: rollLevel.adv, dis: rollLevel.dis, modifier: ""};
   }
 
   async _onRest(key) {
@@ -178,25 +175,4 @@ export class ActorRequestDialog extends DC20Dialog {
     }
     this.close();
   }
-}
-
-export function createActorRequestDialog(requestType, selectOptions, request, onlyPC) {
-  const dialog = new ActorRequestDialog(requestType, selectOptions, request, onlyPC);
-  dialog.render(true);
-}
-
-export function rollRequest(selected, selectedActors) {
-  let rollDetails = DC20Roll.prepareCheckDetails(selected);
-  if (["agi", "mig", "cha", "int", "phy", "men"].includes(selected)) {
-    rollDetails = DC20Roll.prepareSaveDetails(selected);
-  }
-  Object.values(selectedActors).forEach(actor => {
-    if (actor.selected) RollDialog.open(actor.actor, rollDetails, {sendToActorOwners: true});
-  });
-}
-
-export function restRequest(selected, selectedActors) {
-  Object.values(selectedActors).forEach(actor => {
-    if (actor.selected) RestDialog.open(actor.actor, {preselected: selected, sendToActorOwners: true});
-  });
 }

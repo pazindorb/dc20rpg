@@ -1,22 +1,34 @@
-<form id="resource-dialog" class="dialog-v2">
-  <div class="row">
-    <span>{{localize "dc20rpg.dialog.resource.key"}}</span>
+<form id="resource-dialog" class="dialog-v13 dialog-content standard-form">
+  <div class="form-group">
+    <label>{{localize "dc20rpg.dialog.resource.key"}}</label>
     <input disabled class="input" type="text" value="{{resourceKey}}"/>
   </div>
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.dialog.resource.name"}}</span>
-    <input class="input" type="text" value="{{label}}" data-path="system.resources.custom.{{resourceKey}}.label"/>
+  <div class="form-group">
+    <label>{{localize "dc20rpg.dialog.resource.name"}}</label>
+    <input class="input" type="text" data-cType="string" value="{{resource.label}}" data-path="resource.label"/>
   </div>
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.dialog.resource.maxCharges"}}</span>
-    <input class="formula input" type="text" value="{{maxFormula}}" data-path="system.resources.custom.{{resourceKey}}.maxFormula"/>
+  <div class="form-group">
+    <label>{{localize "dc20rpg.dialog.resource.maxCharges"}}</label>
+    <input class="formula input" type="text" data-cType="string" value="{{resource.maxFormula}}" data-path="resource.maxFormula"/>
   </div>
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.dialog.resource.reset"}}</span>
-    <select class="selectable" data-path="system.resources.custom.{{resourceKey}}.reset">
-      {{selectOptions resetTypes selected=reset blank=""}}
-    </select>
+  <div class="multi-select-wrapper">
+    <div class="form-group margin-top-5 ">
+      <label>{{localize "dc20rpg.dialog.resource.refresh"}}</label>
+      <select class="multi-select" data-cType="multi-select" data-path="resource.refresh">
+        {{selectOptions resetTypes blank=""}}
+      </select>
+    </div>
+    <div class="selected-options">
+      {{#each resource.refresh as |option key|}}
+        {{#if option}}
+        <div class="option">
+          <span>{{option}}</span>
+          <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="resource.refresh" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.resource.resourceRefreshType"}}"></a>
+        </div>
+        {{/if}}
+      {{/each}}
+    </div>
   </div>
 
-  <button class="close save button margin-top-5">{{localize "dc20rpg.dialog.config.update"}}</button>
+  <button class="close save button margin-top-5" data-action="save">{{localize "dc20rpg.dialog.config.update"}}</button>
 </form>

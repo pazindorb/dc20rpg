@@ -2,11 +2,14 @@ import { characterCreationWizardDialog } from "../subsystems/character-progress/
 
 export function characterWizardButton(element) {
   const button = document.createElement('button');
-  button.innerHTML = '<i class="fa-solid fa-hat-wizard"></i> Open Character Creation Wizard'
+  button.innerHTML = '<i class="fa-solid fa-hat-wizard""></i> Open Character Creation Wizard'
   button.title = 'Open Character Creation Wizard';
   button.classList.add('character-creation-wizard');
+  button.style.gridColumnEnd = "span 2";
   button.addEventListener('click', () => characterCreationWizardDialog());
 
   const headerActions = element.querySelector('.header-actions');
   headerActions.appendChild(button);
+  headerActions.style.display = "grid";
+  headerActions.style.gridTemplateColumns = "1fr 1fr"
 }

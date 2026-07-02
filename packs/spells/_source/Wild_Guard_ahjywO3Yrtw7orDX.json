@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -207,8 +207,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "wBem7i5GgRuQBEkh",
+        "sourceItemId": "ahjywO3Yrtw7orDX",
+        "sourceItemName": "Wild Guard",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-hand.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "e86leiAUm9cfg46a": {
         "name": "Nature’s Intervention",
@@ -293,8 +312,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "e86leiAUm9cfg46a",
+        "sourceItemId": "ahjywO3Yrtw7orDX",
+        "sourceItemName": "Wild Guard",
+        "sourceItemImg": "icons/magic/nature/root-vine-entangled-hand.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -470,12 +508,10 @@
       "img": "icons/magic/nature/root-vine-entangled-hand.webp",
       "origin": "Item.DBp1DdcJ6XmKJvF9",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 100,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -510,22 +546,22 @@
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
         "applyToTemplate": true,
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Parry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Parry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You grant the target a +5 bonus to its PD against this Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -535,11 +571,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 100,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!ahjywO3Yrtw7orDX.8t8R1s16fthu8PVQ"
     }
   ],
@@ -549,11 +597,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768123981312,
-    "modifiedTime": 1768123981312,
+    "modifiedTime": 1781985644513,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

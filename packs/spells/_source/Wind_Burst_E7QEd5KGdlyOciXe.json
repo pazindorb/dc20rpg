@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "LYKTd9q5i80fFan9",
+        "sourceItemId": "E7QEd5KGdlyOciXe",
+        "sourceItemName": "Wind Burst",
+        "sourceItemImg": "icons/magic/air/wind-vortex-swirl-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "eQKETmaeKAou5wHU": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "eQKETmaeKAou5wHU",
+        "sourceItemId": "E7QEd5KGdlyOciXe",
+        "sourceItemName": "Wind Burst",
+        "sourceItemImg": "icons/magic/air/wind-vortex-swirl-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "rUzGeUXQDqToLcDY": {
         "name": "Area",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "rUzGeUXQDqToLcDY",
+        "sourceItemId": "E7QEd5KGdlyOciXe",
+        "sourceItemName": "Wind Burst",
+        "sourceItemImg": "icons/magic/air/wind-vortex-swirl-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "XnrQOsHXt9OvYIT2": {
         "name": "Bleeding",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "XnrQOsHXt9OvYIT2",
+        "sourceItemId": "E7QEd5KGdlyOciXe",
+        "sourceItemName": "Wind Burst",
+        "sourceItemImg": "icons/magic/air/wind-vortex-swirl-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "c6pAcmqyuiKefiV1": {
         "name": "Turbulent",
@@ -565,8 +641,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "c6pAcmqyuiKefiV1",
+        "sourceItemId": "E7QEd5KGdlyOciXe",
+        "sourceItemName": "Wind Burst",
+        "sourceItemImg": "icons/magic/air/wind-vortex-swirl-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -736,6 +831,30 @@
       "bleeding": "Bleeding",
       "motion": "Motion",
       "slashing": "Slashing"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -745,11 +864,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767949590169,
-    "modifiedTime": 1777673245857,
+    "modifiedTime": 1781985638359,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

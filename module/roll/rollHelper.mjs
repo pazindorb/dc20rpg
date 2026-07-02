@@ -1,14 +1,14 @@
 import { extractGFModValue } from "../dataModel/fields/actor/GFM.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
+import { chargeDisplayData, extractResourceCost, getResourceDisplayData } from "../helpers/resources.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { generateKey, getLabelFromKey } from "../helpers/utils.mjs";
 
 export function labelForItemRoll(item) {
   const actionType = item.system.actionType;
   if (actionType === "attack") {
-    const checkType = item.system.attackFormula.checkType;
-    if (checkType === "attack") return game.i18n.localize("dc20rpg.sheet.checkSave.martialAttack"); 
-    if (checkType === "spell") return game.i18n.localize("dc20rpg.sheet.checkSave.spellAttack"); 
+    const checkType = item.system.attack.checkType;
+    return game.i18n.localize(`dc20rpg.sheet.checkSave.${checkType}Attack`);
   }
   if (actionType === "check") {
     return getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
@@ -58,7 +58,8 @@ export async function evaluateCoreRoll(coreFormula, rollData, evalData={}) {
   roll.flatDice = roll.dice[0].total; // We will need that later
 
   // Mark Crit Success/Fail
-  const critThreshold = evalData.critThreshold || 20;
+  const critFailThreshold = evalData.rollConfig?.critFailThreshold || 1;
+  const critThreshold = evalData.rollConfig?.critThreshold || 20;
   const critPerDice = [];
   const failPerDice = []
   for (const term of roll.terms) {
@@ -66,7 +67,7 @@ export async function evaluateCoreRoll(coreFormula, rollData, evalData={}) {
 
     term.results.forEach(result => {
       critPerDice.push(result.result >= critThreshold);
-      failPerDice.push(result.result === 1);
+      failPerDice.push(result.result <= critFailThreshold);
     });
   }
   if (critPerDice.length === 0 && failPerDice.length === 0) return roll;
@@ -106,11 +107,11 @@ export async function evaluateFormulaRoll(item, rollData, evalData) {
     // We want to evaluate each5 and fail formulas in advance
     if (roll.modified.each5Formula) {
       const each5Roll = await evaluateFormula(roll.modified.each5Formula, rollData, true);
-      if (each5Roll) roll.modified.each5Roll = each5Roll;
+      if (each5Roll) roll.modified.each5Value = each5Roll.total;
     }
     if (roll.modified.failFormula) {
       const failRoll = await evaluateFormula(roll.modified.failFormula, rollData, true);
-      if (failRoll) roll.modified.failRoll = failRoll;
+      if (failRoll) roll.modified.failValue = failRoll.total;
     }
   }
   return prepared;
@@ -191,23 +192,19 @@ async function _prepareFormulas(formulas, item, evalData) {
       case "damage":
         const dmgType = damageOverride || formula.type;
         let damageTypeLabel = getLabelFromKey(dmgType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
-        roll.modified.label = "Damage - " + damageTypeLabel;
+        roll.modified.label = damageTypeLabel;
         roll.modified.type = dmgType;
-        roll.modified.typeLabel = damageTypeLabel;
-        roll.clear.label = "Damage - " + damageTypeLabel;
+        roll.clear.label = damageTypeLabel;
         roll.clear.type = dmgType;
-        roll.clear.typeLabel = damageTypeLabel;
         damageRolls.push(roll);
         break;
 
       case "healing":
         let healingTypeLabel = getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-        roll.modified.label = "Healing - " + healingTypeLabel;
+        roll.modified.label = healingTypeLabel;
         roll.modified.type = formula.type;
-        roll.modified.typeLabel = healingTypeLabel;
-        roll.clear.label = "Healing - " + healingTypeLabel;
+        roll.clear.label = healingTypeLabel;
         roll.clear.type = formula.type;
-        roll.clear.typeLabel = healingTypeLabel;
         healingRolls.push(roll);
         break;
 
@@ -244,25 +241,23 @@ async function _modifiedRollFormula(formula, key, item, evalData) {
   })
 
   // Global Formula Modifiers
-  let [globalMod, afterRoll] = [{value: "", source: ""}, []];
+  let globalMod = {value: "", source: ""};
   if (formula.category === "damage") {
-    [globalMod, afterRoll] = await extractGFModValue("damage.any", item.actor);
+    globalMod = await extractGFModValue("damage.any", item.actor);
 
     if (item.system.actionType === "attack") {
-      const rangeType = evalData.rollMenu.rangeType || item.system.attackFormula.rangeType;
-      const checkType = item.system.attackFormula.checkType;
-      const checkKey = checkType === "attack" ? "martial" : checkType; // TODO: Remove after we change it to martial
-      const [specificGlobalMod, specificAfterRoll] = await extractGFModValue(`damage.${checkKey}.${rangeType}`, item.actor);
+      const rangeType = evalData.rollMenu.rangeType || item.system.attack.rangeType;
+      const checkType = item.system.attack.checkType;
+      const specificGlobalMod = await extractGFModValue(`damage.${checkType}.${rangeType}`, item.actor);
       if (specificGlobalMod.value) {
         globalMod.value += globalMod.value ? ` + ${specificGlobalMod.value}` : specificGlobalMod.value;
         globalMod.source += globalMod.source ? ` + ${specificGlobalMod.source}` : specificGlobalMod.source;
-        afterRoll = [...afterRoll, ...specificAfterRoll];
       }
     }
   }
 
   if (formula.category === "healing") {
-    [globalMod, afterRoll] = await extractGFModValue("healing", item.actor);
+    globalMod = await extractGFModValue("healing", item.actor);
   }
   if (globalMod.value) {
     rollFormula += ` + (${globalMod.value})`;
@@ -271,8 +266,6 @@ async function _modifiedRollFormula(formula, key, item, evalData) {
   }
   if (failFormula !== null) formula.failFormula = failFormula;
 
-  // Add effects to modify after roll
-  afterRoll.forEach(element => evalData.afterRollEffects.push(element));
   return {
     rollFormula: rollFormula,
     modifierSources: modifierSources
@@ -287,4 +280,206 @@ function _enhanceRoll(roll, formula, key) {
   roll.dontMerge = formula.dontMerge;
   roll.overrideDefence = formula.overrideDefence;
   return roll;
+}
+
+//=======================================
+//        PREPARE SHEET ROLL DATA       =
+//=======================================
+export function sheetRollDataFrom(data={}, actor) {
+  const sheetData = foundry.utils.deepClone(data);
+
+  if (sheetData.checkKey.length > 4 && !["prime", "initiative", "deathSave"].includes(sheetData.checkKey)) {
+    const skill = actor.skillAndLanguage.skills[sheetData.checkKey];
+    const label = skill?.label ? `${skill?.label} Check` : "Check";
+    sheetData.label = label;
+    sheetData.rollTitle = label;
+  }
+
+  sheetData.costs = {resources: {}, charges: {},quantity: {}}
+  if (data.costs) {
+    sheetData.costs = {
+      ...sheetData.costs, 
+      ...data.costs
+    }
+  }
+
+  // Prepare enhancemenets
+  const copyHash = `${sheetData.checkKey}#${sheetData.type}`;
+  const enhancemetns = new Map();
+  for (const item of actor.items.values()) {
+    if (!item.enhancements) continue;
+
+    for (const [key, enhancement] of item.enhancements.maintained.entries()) {
+      if (enhancement?.copyToSheetRoll?.[copyHash]) {
+        enhancemetns.set(key, enhancement);
+      }
+      if (sheetData.type === "skillCheck" && enhancement?.copyToSheetRoll?.["all#skillCheck"]) {
+        enhancemetns.set(key, enhancement);
+      }
+      if (sheetData.type === "attributeCheck" && enhancement?.copyToSheetRoll?.["all#attributeCheck"]) {
+        enhancemetns.set(key, enhancement);
+      }
+      if (sheetData.type === "save" && enhancement?.copyToSheetRoll?.["all#save"]) {
+        enhancemetns.set(key, enhancement);
+      }
+    }
+  }
+  sheetData.enhancements = enhancemetns;
+
+  // Methods
+  sheetData.refreshEnhancemetns = () => _refreshEnhancemetns(actor, sheetData);
+  sheetData.collectUseCost = () => _collectUseCost(actor, sheetData);
+  sheetData.respectUseCost = async () => await _respectUseCost(actor, sheetData);
+  sheetData.useCostDisplayData = () => _useCostDisplayData(actor, sheetData);
+  sheetData.canSubtractCost = () => {
+    const cost = _collectUseCost(actor, sheetData);
+    return _canSubtractCost(cost, actor, true);
+  };
+  sheetData.clearEnhancements = async () => await _clearEnhancements(sheetData);
+  return sheetData;
+}
+
+function _collectUseCost(actor, sheetData) {
+  _refreshEnhancemetns(actor, sheetData);
+  const enhancements = sheetData.enhancements;
+  const rollMenu = actor.system.rollMenu;
+
+  const cost = {resources: {}, charges: {}, quantity: {}};
+  if (sheetData.costs.resources) {
+    for (let [key, value] of Object.entries(sheetData.costs.resources)) {
+      _addToResources(cost, key, value, actor);
+    }
+  }
+
+  _addToResources(cost, "ap", rollMenu.apCost, actor);
+  _addToResources(cost, "grit", rollMenu.gritCost, actor);
+  if (!enhancements) return cost;
+
+  for (const [key, enh] of enhancements.entries()) {
+    if (enh.active) {
+      const item = actor.items.get(enh.sourceItemId);
+      _addEnhancementCost(item, actor, key, cost);
+    }
+  }
+  return cost;
+}
+
+async function _respectUseCost(actor, sheetData) {
+  if (!actor) return false;
+  const cost = _collectUseCost(actor, sheetData);
+  if (!_canSubtractCost(cost, actor)) return false;
+
+  await _spendResources(cost, actor);
+  await _subtractCharges(cost, actor);
+  return true;
+}
+
+function _canSubtractCost(cost, actor, skipErrors=false) {
+  if (skipErrors) ui.notifications.skipErrors = true;
+  const result = _canSpendResources(cost, actor) && _canSubtractCharges(cost, actor);
+  if (skipErrors) delete ui.notifications.skipErrors;
+  return result;
+}
+
+function _canSpendResources(cost, actor) {
+  for (const [resourceKey, amount] of Object.entries(cost.resources)) {
+    if (!actor.resources[resourceKey].canSpend(amount)) return false;
+  }
+  return true;
+}
+
+function _canSubtractCharges(cost, actor) {
+  for (const [itemId, amount] of Object.entries(cost.charges)) {
+    const item = actor.items.get(itemId);
+    if (!item) {
+      ui.notifications.error(`Item with id '${itemId}' cannot be found on '${actor.name}'`);
+      return false;
+    }
+    if (!item.use.canRemoveCharge(amount)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+async function _spendResources(cost, actor) {
+  for (const [resourceKey, amount] of Object.entries(cost.resources)) {
+    await actor.resources[resourceKey].spend(amount);
+  }
+}
+
+async function _subtractCharges(cost, actor) {
+  for (const [itemId, amount] of Object.entries(cost.charges)) {
+    const item = actor.items.get(itemId);
+    await item.use.removeCharge(amount, true);
+  }
+}
+
+function _useCostDisplayData(actor, sheetData) {
+  const cost = _collectUseCost(actor, sheetData);
+  const displayData = {
+    resources: {},
+    charges: {},
+    quantity: {}
+  }
+
+  for (const [resourceKey, amount] of Object.entries(cost.resources)) {
+    displayData.resources[resourceKey] = getResourceDisplayData(resourceKey, amount, null, actor);
+  }
+  for (const [itemId, amount] of Object.entries(cost.charges)) {
+    const item = actor.items.get(itemId);
+    if(item) displayData.charges[itemId] = chargeDisplayData(false, amount, item.name);
+  }
+  return displayData;
+}
+
+function _refreshEnhancemetns(actor, sheetData) {
+  for (const [key, enh] of sheetData.enhancements.entries()) {
+    const item = actor.items.get(enh.sourceItemId);
+    const updated = item.enhancements.maintained.get(key);
+    sheetData.enhancements.set(key, updated)
+  }
+}
+
+async function _clearEnhancements(sheetData) {
+  for (const enh of sheetData.enhancements.values()) {
+    if (enh.active) await enh.clear()
+  }
+}
+
+function _addEnhancementCost(item, actor, enhKey, costs) {
+  const enhancement = item.enhancements.maintained.get(enhKey);
+  if (!enhancement) {
+    ui.notifications.error(`Enhancement with key '${enhKey}' not found on '${item.name}' item.`);
+    return;
+  }
+
+  // Add to Resources
+  for (let [key, value] of Object.entries(enhancement.resources)) {
+    _addToResources(costs, key, value, actor, enhancement.number, enhancement.altCost);
+  }
+  // Add to Charges
+  if (enhancement.charges?.subtract && enhancement.charges.fromOriginal) {
+    const itemId = enhancement.sourceItemId;
+    const value = enhancement.charges.subtract * enhancement.number;
+    if (costs.charges[itemId]) costs.charges[itemId] += value;
+    else costs.charges[itemId] = value;
+  }
+}
+
+function _addToResources(cost, key, value, actor, multiplier=1, altCost=0) {
+  if (key === "custom") {
+    for (const [customKey, customRes] of Object.entries(value)) {
+      _addToResources(cost, customKey, customRes.value, actor, multiplier, altCost);
+    }
+    return;
+  }
+
+  // Skip if actor doesn't have that resource at all
+  if (actor && !actor.resources.hasResource(key)) return;
+  value = extractResourceCost(value, multiplier, altCost);
+  if (value == null) return;
+  
+  if (cost.resources[key]) cost.resources[key] += value;
+  else cost.resources[key] = value;
 }

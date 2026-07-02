@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -81,12 +81,12 @@
         "description": "<p>The Attack deals +1 damage against 1 target of the Attack.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -158,8 +158,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "2gchZ5sEcz6alTvy",
+        "sourceItemId": "AACzd8w1ZIv27m74",
+        "sourceItemName": "Martial",
+        "sourceItemImg": "icons/skills/melee/weapons-crossed-swords-yellow-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "tAZan5Ik7j0Vv1Vj": {
         "name": "Range",
@@ -168,12 +189,12 @@
         "description": "<p>The Attack’s Range increase by 1 Space if it’s a Melee Attack, or by 5 Spaces if it’s a Ranged Attack. This Enhancement can only be performed once per Attack.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -240,13 +261,34 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": 1,
-            "normal": null,
-            "max": null
+            "melee": "1",
+            "normal": "",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "tAZan5Ik7j0Vv1Vj",
+        "sourceItemId": "AACzd8w1ZIv27m74",
+        "sourceItemName": "Martial",
+        "sourceItemImg": "icons/skills/melee/weapons-crossed-swords-yellow-teal.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "ad7LhdhDXBzkuYeY": {
         "name": "Daze",
@@ -255,12 +297,12 @@
         "description": "<p>A creature of your choice targeted by the Attack makes a Might Save against your Save DC.</p><p><strong>Save Failure:</strong> The target becomes Dazed until the end of their next turn.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -313,7 +355,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -332,13 +375,34 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "ad7LhdhDXBzkuYeY",
+        "sourceItemId": "AACzd8w1ZIv27m74",
+        "sourceItemName": "Martial",
+        "sourceItemImg": "icons/skills/melee/weapons-crossed-swords-yellow-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.attackFormula.checkType=[\"attack\"]&&system.actionType=[\"attack\"]&&system.combatTraining=[true]",
+      "copyFor": "isMartialAttack=[true]&&system.combatTraining=[true]",
       "linkWithToggle": false,
       "hideFromRollMenu": false,
       "onlyMaintained": false
@@ -547,7 +611,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [],
   "folder": "zUsEiyLTg4A9MvXu",
@@ -560,11 +627,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777359077741,
-    "modifiedTime": 1777360384344,
+    "modifiedTime": 1782163293356,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

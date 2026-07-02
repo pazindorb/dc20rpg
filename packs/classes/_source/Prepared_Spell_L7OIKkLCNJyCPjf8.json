@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -152,7 +152,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span class=\"cf0\">When you cast your Prepared Spell, you can increase your Mana Spend Limit by 1 for the casting.</span></p><p><span class=\"cf0\">You can use this Feature once per Long Rest, but you regain the ability to use it when you roll for Initiative.</span></p>",
         "hide": false,
@@ -160,7 +168,13 @@
         "sourceItemId": "L7OIKkLCNJyCPjf8",
         "sourceItemName": "Prepared Spell",
         "sourceItemImg": "icons/magic/control/orb-web-hold.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -337,11 +351,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035266,
-    "modifiedTime": 1776939413710,
+    "modifiedTime": 1781985629120,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

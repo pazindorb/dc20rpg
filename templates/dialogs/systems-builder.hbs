@@ -17,6 +17,12 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.confirmation"}}</span>
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
+    {{#if fields.confirmation.value}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.customMessage"}}</span>
+      <input class="input" data-path="fields.customMessage.value" value="{{fields.customMessage.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.afterRoll"}}</span>
       <select class="selectable" data-path="fields.afterRoll.value">
@@ -25,8 +31,12 @@
     </div>
   {{/ifCond}}
 
-  {{!-- Roll Level --}}
+  {{!-- Dynamic Roll Modifer --}}
   {{#ifCond type '===' "dynamicRollModifier"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.label"}}</span>
+      <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
+    </div>
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.type"}}</span>
       <select class="selectable" data-path="fields.type.value">
@@ -49,14 +59,24 @@
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.modifier"}}</span>
       <input class="input" data-path="fields.modifier.value" value="{{fields.modifier.value}}"/>
     </div>
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.label"}}</span>
-      <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
-    </div>
-    {{#if specificSkill}}
+    {{#if isSkill}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.skill"}}</span>
       <input class="input" data-path="fields.skill.value" value="{{fields.skill.value}}"/>
+    </div>
+    {{/if}}
+    {{#if isAttack}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.attackType"}}</span>
+      <select class="selectable" data-path="fields.attackType.value">
+        {{selectOptions fields.attackType.selectOptions selected=fields.attackType.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.rangeType"}}</span>
+      <select class="selectable" data-path="fields.rangeType.value">
+        {{selectOptions fields.rangeType.selectOptions selected=fields.rangeType.value}}
+      </select>
     </div>
     {{/if}}
     <div class="row margin-top-5">
@@ -66,9 +86,19 @@
       </select>
     </div>
     <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.runMacro"}}</span>
+      <a class="activable fa-2x {{#if fields.runMacro.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.runMacro.value"></a>
+    </div>
+    <div class="row margin-top-5 ignore-symetry">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.confirmation"}}</span>
       <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
     </div>
+    {{#if fields.confirmation.value}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.customMessage"}}</span>
+      <input class="input" data-path="fields.customMessage.value" value="{{fields.customMessage.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.dynamicRollModifier.afterRoll"}}</span>
       <select class="selectable" data-path="fields.afterRoll.value">
@@ -101,6 +131,16 @@
       <select class="selectable" data-path="fields.triggerOnlyForId.value">
         {{selectOptions fields.triggerOnlyForId.selectOptions selected=fields.triggerOnlyForId.value}}
       </select>
+    </div>
+    {{/ifCond}}
+    {{#ifCond fields.trigger.value '===' "instant"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.activeCombatantOnly"}}</span>
+      <a class="activable fa-2x {{#if fields.activeCombatantOnly.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.activeCombatantOnly.value"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.skipIfCaster"}}</span>
+      <a class="activable fa-2x {{#if fields.skipIfCaster.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.skipIfCaster.value"></a>
     </div>
     {{/ifCond}}
     {{!-- Resource Change Trigger --}}
@@ -226,6 +266,12 @@
         {{selectOptions fields.postTrigger.selectOptions selected=fields.postTrigger.value}}
       </select>
     </div>
+    {{#if fields.preTrigger.value}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.customMessage"}}</span>
+      <input class="input" data-path="fields.customMessage.value" value="{{fields.customMessage.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.reenable"}}</span>
       <select class="selectable" data-path="fields.reenable.value">

@@ -117,38 +117,88 @@
 		flex-wrap: wrap;
 		font-family: $font-default;
 		font-size: 12px;
+		flex-direction: column;
 
-		.detail {
-			width: fit-content;
-			margin-top: 3px;
-			margin-left: 3px;
-			padding: 3px;
-			border: 1px solid black;
-			border-radius: 5px;
-			display: flex;
-			justify-content: center;
-			background-color: $primary-light;
+	.info-box-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: start;
+		flex-wrap: wrap;
+		font-family: $font-default;
+		gap: 3px;
+		margin-top: 3px;
+	}
 
-			color: white;
-			text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	.info-box {
+		// Fixed
+		width: fit-content;
+		color: white;
+		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+		border: 1px solid black;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		// Modified by color
+		background-color: #917996;
+		box-shadow: 0 0 3px 1px #645068 inset;
+		// Modified by tier
+		border-radius: 3px;
+		padding: 4px 5px;
+		font-size: 16px;
+
+		&.journal-tooltip {
+			&:hover {
+				cursor: pointer;
+				box-shadow: 0 0 5px 2px #d9d8da inset;
+			}
+		}
+		
+		&.tier1 {
+			padding: 4px 5px;
+			font-size: 14px;
 		}
 
-		.box {
-			border: 1px solid black;
-			background-color: $primary-color;
+		&.tier2 {
+			padding: 3px 4px;
+			font-size: 13px;
 		}
 
-		.green-box {
-			background-color: $crit-background;
+		&.tier3 {
+			padding: 3px 4px;
+			font-size: 12px;
 		}
 
-		.red-box {
-			background-color: $fail-background;
+		&.green {
+			box-shadow: 0 0 3px 1px #1f551f inset;
+			background-color: #398639;
 		}
 
-		&.invisible {
-			display: none;
+		&.blue {
+			box-shadow: 0 0 3px 1px #1a2e63 inset;
+			background-color: #2a458d;
 		}
+
+		&.gold {
+			box-shadow: 0 0 3px 1px #5a4415 inset;
+			background-color: #9e722f;
+		}
+
+		&.red {
+			box-shadow: 0 0 3px 1px #530e0e inset;
+			background-color: #7a1d1d;
+		}
+
+		&.gray {
+			box-shadow: 0 0 3px 1px #3d3d3d inset;
+			background-color: #686868;
+		}
+
+		&.purple {
+			box-shadow: 0 0 3px 1px #45164b inset;
+			background-color: #692372;
+		}
+	}
 	}
 	
 	.tooltip-description {

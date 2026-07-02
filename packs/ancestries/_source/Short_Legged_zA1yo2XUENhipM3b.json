@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -144,28 +145,26 @@
     {
       "origin": "Item.GWep5cyKoRl9Z1wg",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Short Legged",
       "img": "icons/skills/movement/arrow-down-pink.webp",
       "_id": "RRYRENE2mjXJj6FN",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.movement.ground.bonus",
-          "mode": 2,
-          "value": "-1",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.movement.ground.bonus",
+            "value": -1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p><span>Your Speed decreases by 1 Space.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -175,7 +174,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
@@ -183,6 +182,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!zA1yo2XUENhipM3b.RRYRENE2mjXJj6FN"
     }
   ],
@@ -195,11 +197,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.GWep5cyKoRl9Z1wg",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101005841,
-    "modifiedTime": 1765960411974,
+    "modifiedTime": 1781983708315,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

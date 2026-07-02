@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "area",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -192,8 +192,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "nOUeXq4XKjx7y1qe",
+        "sourceItemId": "S4K5hLEBQxzCqdxm",
+        "sourceItemName": "Plasma Breath",
+        "sourceItemImg": "icons/magic/light/beams-rays-orange-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "PGw1YUkRPHRaxza6": {
         "name": "Concussive Breath",
@@ -279,8 +298,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PGw1YUkRPHRaxza6",
+        "sourceItemId": "S4K5hLEBQxzCqdxm",
+        "sourceItemName": "Plasma Breath",
+        "sourceItemImg": "icons/magic/light/beams-rays-orange-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -472,6 +510,31 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "areas": {
+      "default": {
+        "type": "cone",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "checkType": "spell",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -481,11 +544,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778149737333,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781985657280,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

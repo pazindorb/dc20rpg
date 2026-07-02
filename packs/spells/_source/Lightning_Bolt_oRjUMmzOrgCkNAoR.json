@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "jH2ou3NVrsRPBBnF",
+        "sourceItemId": "oRjUMmzOrgCkNAoR",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "ne5MB7dZm3ZS7amK": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "ne5MB7dZm3ZS7amK",
+        "sourceItemId": "oRjUMmzOrgCkNAoR",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "uh8oOgdRPE3WC99j": {
         "name": "Stun",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "uh8oOgdRPE3WC99j",
+        "sourceItemId": "oRjUMmzOrgCkNAoR",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "mNY4M6S4sDdxiCUV": {
         "name": "Chain",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "mNY4M6S4sDdxiCUV",
+        "sourceItemId": "oRjUMmzOrgCkNAoR",
+        "sourceItemName": "Lightning Bolt",
+        "sourceItemImg": "icons/magic/lightning/bolt-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -648,6 +724,10 @@
     "spellTags": {
       "lightning": "Lightning",
       "stunned": "Stunned"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -657,11 +737,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767791286995,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1781985648474,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

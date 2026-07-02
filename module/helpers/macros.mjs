@@ -40,7 +40,7 @@ export async function runTemporaryItemMacro(item, trigger, actor, additionalFiel
 
   // Global Macro
   if (preventGlobalCall) return;
-  for (const sourceItem of actor.items) {
+  for (const sourceItem of actor.items.values()) {
     await _runTemporaryItemMacro(sourceItem, trigger, actor, {...additionalFields, triggeringItem: item}, true);
   }
 }

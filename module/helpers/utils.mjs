@@ -33,6 +33,19 @@ export function getLabelFromKey(key, labels) {
   else return key;
 }
 
+export function isParsableJson(string) {
+  try {
+    JSON.parse(string);
+    return true;
+  } catch (ignored) {
+    return false;
+  }
+}
+
+export function isPath(string) {
+  return !isParsableJson(string) && string.includes(".");
+}
+
 /**
  * Returns value under given path for given object.
  * Example path: human.bodyParts.head.nose
@@ -145,64 +158,25 @@ export function mapToObject(map) {
   return object;
 }
 
-export function translateLabels(object) {
+export function translateLabels(object, visited = new WeakSet()) {
+  if (typeof object !== "object" || object === null) return;
+  if (visited.has(object)) return;
+  visited.add(object);
+
   for (const key in object) {
-    if (object.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
       const value = object[key];
-      
-      if (key === "label") object[key] = game.i18n.localize(object.label) ?? object.label;
-      if (typeof value === "object" && value !== null) translateLabels(value);
+
+      if (key === "label" && typeof value === "string") object[key] = game.i18n.localize(value) ?? value;
+      if (typeof value === "object" && value !== null) translateLabels(value, visited);
     }
   }
 }
 
-export function isPointInPolygon(x, y, polygon) {
-  let isInside = false;
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const xi = polygon[i].x, yi = polygon[i].y;
-    const xj = polygon[j].x, yj = polygon[j].y;
-
-    // Check if the point is on the edge or crosses
-    const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-    if (intersect) isInside = !isInside;
-  }
-  return isInside;
-}
-
-export function isPointInSquare(x, y, square) {
-  const minX = square.x1y1.x;
-  const maxX = square.x2y1.x;
-  const minY = square.x1y1.y;
-  const maxY = square.x1y2.y;
-
-  if (x < minX || x > maxX) return false;
-  if (y < minY || y > maxY) return false;
-  return true;
-}
-
-export function distanceBetweenPoints(x1, y1, x2, y2) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-export function getPointsOnLine(x1, y1, x2, y2, interval) {
-  const points = [];
-  
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const totalDistance = Math.sqrt(dx * dx + dy * dy);
-  
-  const unitVectorX = dx / totalDistance;
-  const unitVectorY = dy / totalDistance;
-
-  // Add points along the line at specified intervals
-  for (let d = 0; d <= totalDistance; d += interval) {
-      const newX = x1 + unitVectorX * d;
-      const newY = y1 + unitVectorY * d;
-      points.push({ x: newX, y: newY });
-  }
-  return points;
+export function getTokensInsideRegion(regionDocument) {
+  return canvas.tokens.placeables
+    .filter(token => token.document.testInsideRegion(regionDocument))
+    .map(token => token.document);
 }
 
 export function roundFloat(float) {
@@ -218,4 +192,40 @@ export function toSelectOptions(objectArray, key, label) {
   const options = {};
   objectArray.forEach(obj => options[obj[key]] = obj[label]);
   return options;
+}
+
+export function applyStatusToEffect(effect, statusId) {
+  const status = CONFIG.statusEffects.find(s => s.id === statusId);
+  if (Array.isArray(effect.statuses)) effect.statuses.push(statusId)
+  else effect.statuses.add(statusId)
+  status.system.changes.forEach(change => effect.system.changes.push(change));
+}
+
+export function toggleCheck(item, itemSpecificCondition) {
+  if (item.system.toggle?.toggleable && itemSpecificCondition) return item.system.toggle.toggledOn;
+  return true;
+}
+
+export function useCostFormat(cost) {
+  let text = "";
+
+  if (cost.ap > 0) text += `${cost.ap} AP, `;
+  if (cost.stamina > 0) text += `${cost.stamina} SP, `;
+  if (cost.mana > 0) text += `${cost.mana} MP, `;
+  if (cost.health > 0) text += `${cost.health} HP, `;
+  if (cost.grit > 0) text += `${cost.grit} GP, `;
+  if (cost.restPoints > 0) text += `${cost.restPoints} RP, `;
+
+  // Prepare Custom resource cost
+  if (cost.custom) {
+    for (const custom of Object.values(cost.custom)) {
+      if (custom.value > 0) text += `${custom.value} ${custom.label}, `
+    }
+  }
+
+  if (text) {
+    text = text.slice(0,-2);
+    text = ` (${text})`;
+  }
+  return text;
 }

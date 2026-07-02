@@ -1,7 +1,7 @@
-import { sendDescriptionToChat, sendRollsToChat } from "../chat/chat-message.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
-import { finishRoll, finishSheetRoll, prepareMessageDetails } from "../helpers/actors/rollsFromActor.mjs";
+import { finishRoll, finishSheetRoll } from "../helpers/actors/rollsFromActor.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import * as helper from "./rollHelper.mjs"
 
 export class DC20Roll {
@@ -12,14 +12,14 @@ export class DC20Roll {
   static prepareItemCoreRollDetails(item, options={}) {
     switch(item.system.actionType) {
       case "check": return this.prepareCheckDetails(item.checkKey, options);
-      case "attack": return this.prepareAttackDetails(item.system.attackFormula.checkType, options);
+      case "attack": return this.prepareAttackDetails(item.system.attack.checkType, options);
     }
     return {};
   }
 
   static prepareAttackDetails(key, options={}) {
-    if (key === "spell") return this.#prepareRollDetails(" + @attack.spell + @rollBonus", "att", "attackCheck", options);
-    return this.#prepareRollDetails(" + @attack.martial + @rollBonus", "att", "attackCheck", options);
+    if (key === "spell") return this.#prepareRollDetails(" + @attack.spell", "att", "attackCheck", options);
+    return this.#prepareRollDetails(" + @attack.martial", "att", "attackCheck", options);
   }
 
   static prepareCheckDetails(key, options={}) {
@@ -86,7 +86,8 @@ export class DC20Roll {
       const type = options.rollLevel > 0 ? "kh" : "kl";
       dice = `${value}d20${type}`;
     }
-    const formula = `${dice}${partial}`;
+    const modifier = options.flatModifier ? ` + ${options.flatModifier}` : partial;
+    const formula = `${dice}${modifier} + @rollBonus`;
 
     const ROLL_KEYS = rollType === "save" ? CONFIG.DC20RPG.ROLL_KEYS.saveTypes : CONFIG.DC20RPG.ROLL_KEYS.allChecks;
     ROLL_KEYS.language = "Language Check";
@@ -106,6 +107,7 @@ export class DC20Roll {
     });
     
     return {
+      modifier: modifier,
       roll: formula,
       label: label,
       rollTitle: rollTitle,
@@ -124,8 +126,9 @@ export class DC20Roll {
 
     // 0. Handle not usable items
     if (!item.system.usable) {
-      const messageDetails = prepareMessageDetails(item, actor, "", {});
-      sendDescriptionToChat(actor, messageDetails, item);
+      const chatMessageData = item.toChatMessageData();
+      options.item = item;
+      DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
       return null;
     }
 
@@ -153,8 +156,7 @@ export class DC20Roll {
     const rollData = await item.getRollData();
     const evalData = {
       rollMenu: rollMenu,
-      critThreshold: actionType === "attack" ? item.system.attackFormula.critThreshold : 20,
-      afterRollEffects: options.afterRollEffects || []
+      rollConfig: item.system.rollConfig
     }
 
     // 4. Pre Item Roll Events and macros
@@ -170,37 +172,50 @@ export class DC20Roll {
       formula: await helper.evaluateFormulaRoll(item, rollData, evalData)
     }
     if (actionType === "help") {
-      let ignoreMHP = item.system.help?.ignoreMHP;
+      const help = item.system.help || {};
+      let ignoreMHP = help.ignoreMHP;
       if (!ignoreMHP) ignoreMHP = rollMenu.ignoreMCP;
-      actor.help.prepare({ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, duration: item.system.help?.duration})
+      actor.help.prepare({ignoreMHP: ignoreMHP, subtract: help.subtract, duration: help.duration})
+    }
+    if (actionType === "move") {
+      const move = item.system.move || {};
+      await actor.moveAction({movePoints: move.movePoints, moveType: move.moveType, bonusMove: move.bonusMove})
     }
 
     // 6. Post Item Roll
     await item.callMacro("postItemRoll", {rolls: rolls});
     await helper.runEnhancementMacro(item, "postItemRoll", {rolls: rolls});
 
-    // 7. Send to chat - TODO - rework in the future (together with chat and target rework) - update "prepareMessageDetails" as well
-    if (!item.doNotSendToChat && !options.skipChatMessage) {
-      const messageDetails = prepareMessageDetails(item, actor, actionType, rolls);
-      if (!actionType) sendDescriptionToChat(actor, messageDetails, item);
+    // 7. Send to chat
+    if (!item.doNotSendToChat && !options.skipChatMessage && !item.system.skipChatMessage) {
+      const chatMessageData = item.toChatMessageData();
+      options.item = item;
+
+      if (!actionType) {
+        DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
+      }
       else if (actionType === "help") {
-        messageDetails.rollTitle += " - Help Action";
-        sendDescriptionToChat(actor, messageDetails, item);
+        chatMessageData.rollTitle += " - Help Action";
+        DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
+      }
+      else if (actionType === "move") {
+        chatMessageData.rollTitle += " - Move Action";
+        DC20ChatMessage.descriptionMessage(chatMessageData, actor, options);
       }
       else {
-        messageDetails.rollLevel = rollMenu.rollLevel;
-        sendRollsToChat(rolls, actor, messageDetails, true, item, options.rollMode);
+        chatMessageData.rollLevel = rollMenu.rollLevel;
+        DC20ChatMessage.rollMessage(rolls, chatMessageData, actor, options);
       }
     }
 
     // 8. Cleanup - TODO - rework this as well
-    finishRoll(actor, item, rollMenu, rolls.core, evalData.afterRollEffects);
+    finishRoll(actor, item, rollMenu, rolls.core);
     if (item.removeInfusionAfter) {
       item.infusions.active[item.removeInfusionAfter].remove();
       item.reset();
     }
     // Remove all items marked with "deleteAfter"
-    for (const itm of actor.items) {
+    for (const itm of actor.items.values()) {
       if (itm.deleteAfter) itm.delete();
     }
 
@@ -208,60 +223,40 @@ export class DC20Roll {
     return rolls.core;
   } 
 
-  static async rollFormula(coreFormula, details, actor, options={}) {
+  static async rollFormula(coreFormula, sheetRollData, actor, options={}) {
     const rollMenu = actor.system.rollMenu;
-    coreFormula.label = details.label;
-
-    // 0. Prepare cost
-    if (!details.costs) details.costs = {};
-    if (rollMenu.apCost) {
-      if (details.costs.ap != null) details.costs.ap += rollMenu.apCost;
-      else details.costs.ap = rollMenu.apCost;
-    }
-    if (rollMenu.gritCost) {
-      if (details.costs.grit != null) details.costs.grit += rollMenu.gritCost;
-      else details.costs.grit = rollMenu.gritCost;
-    }
+    coreFormula.label = sheetRollData.label;
 
     // 1. Subtract Cost
-    if (details.costs) {
-      for (const [key, value] of Object.entries(details.costs)) {
-        if (!actor.resources[key]) continue;
-        if (!actor.resources[key].canSpend(value)) return;
-      }
-      // Do spend resources
-      for (const [key, value] of Object.entries(details.costs)) {
-        if (!actor.resources[key]) continue;
-        actor.resources[key].spend(value);
-      }
-    }
+    const costsSubracted = rollMenu.free ? true : await sheetRollData.respectUseCost();
+    if (!costsSubracted) return;
 
     // 2. Pre Item Roll Events
-    if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(details.type)) await runEventsFor("rollCheck", actor);
-    if (["save"].includes(details.type)) await runEventsFor("rollSave", actor);
+    if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(sheetRollData.type)) await runEventsFor("rollCheck", actor);
+    if (["save"].includes(sheetRollData.type)) await runEventsFor("rollSave", actor);
 
     // 3. Evaluate Roll
-    const evalData = {rollMenu: rollMenu, afterRollEffects: options.afterRollEffects || []};
+    const evalData = {rollMenu: rollMenu};
     const roll = await helper.evaluateCoreRoll(coreFormula, actor.getRollData(), evalData);
     roll.source = coreFormula.source;
 
     // 4. Send chat message
     if (!options.skipChatMessage) {
-      const label = details.label || `${actor.name} : Roll Result`;
-      const rollTitle = details.rollTitle || label;
+      const label = sheetRollData.label || `${actor.name} : Roll Result`;
+      const rollTitle = sheetRollData.rollTitle || label;
       const messageDetails = {
         label: label,
         image: actor.img,
-        description: details.description,
-        against: details.against,
-        rollTitle: rollTitle,
-        rollLevel: rollMenu.rollLevel
+        description: sheetRollData.description,
+        against: sheetRollData.against,
+        name: rollTitle,
+        rollLevel: rollMenu.rollLevel,
       };
-      sendRollsToChat({core: roll}, actor, messageDetails, false, null, options.rollMode);
+      DC20ChatMessage.rollMessage({core: roll, formula: []}, messageDetails, actor, options);
     }
 
     // 5. Cleanup - TODO - rework this as well
-    finishSheetRoll(roll, actor, rollMenu, details, evalData.afterRollEffects)
+    finishSheetRoll(roll, actor, rollMenu, sheetRollData)
 
     return roll;
   }

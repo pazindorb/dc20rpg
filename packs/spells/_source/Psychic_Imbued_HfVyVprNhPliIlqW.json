@@ -11,7 +11,8 @@
     "choicePointCost": 1,
     "requirements": {
       "level": 0,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "rollMenu": {
       "free": false,
@@ -37,18 +38,10 @@
     "quickRoll": false,
     "macros": {
       "fBQkz0atjH1v9IOI": {
-        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"vZptaWAcBcvC99zt\"];\nconst dazing = enhancements[\"JajCyhVmmu04eh6z\"];\nconst silencing = enhancements[\"du7HE6qMGoqfH7wZ\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"psychic\";\n\nconst psychicImbued = new DC20.Enhancement();\npsychicImbued.name = \"Psychic Imbued\";\npsychicImbued.modifications.formula = dmgFormula;\npsychicImbued.modifications.addsNewFormula = true;\npsychicImbued.description = `You deal ${1 + damage.number} Psychic damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=vZptaWAcBcvC99zt\"]: null,\n  [\"-=9gB4mjjuvh86gFIr\"]: null,\n  [\"-=JajCyhVmmu04eh6z\"]: null,\n  [\"-=du7HE6qMGoqfH7wZ\"]: null,\n  psychicImbued: psychicImbued\n}\nif (dazing.number > 0) {\n  const blueprint = foundry.utils.deepClone(dazing);\n  blueprint.name = \"Psychic Imbued - Dazing Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.dazing = blueprint;\n}\nif (silencing.number > 0) {\n  const blueprint = foundry.utils.deepClone(silencing);\n  blueprint.name = \"Psychic Imbued - Silencing Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.silencing = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
-        "trigger": "postChatMessageCreated",
+        "command": "const effect = item.effects.get(\"GpHwdahKV6IKzoz4\");\nif (!effect) return;\neffect.flags.dc20rpg.enhancements = foundry.utils.deepClone(item.system.enhancements)\neffect.system.macro = `\nif (event.trigger === \"instant\") {\n  const enhancements = effect.flags.dc20rpg.enhancements;\n  const damageEnh = enhancements[\"vZptaWAcBcvC99zt\"];\n  const dazing = enhancements[\"JajCyhVmmu04eh6z\"];\n  const silencing = enhancements[\"du7HE6qMGoqfH7wZ\"];\n\n  const damage = 1 + damageEnh.number;\n  const dmgFormula = new DC20.Formula();\n  dmgFormula.formula = damage + \"\";\n  dmgFormula.type = \"psychic\";\n  const modifications = {\n    addsNewFormula: true,\n    formula: dmgFormula\n  }\n\n  let description = \"<p>You deal + \" + damage + \" Psychic Damage on Martial Attacks</p>\"\n  if (dazing.number > 0) {\n    description += dazing.description;\n    modifications.macros = {preItemRoll : dazing.modifications.macros.preItemRoll};\n  }\n\n  if (silencing.number > 0) {\n    description += silencing.description;\n    modifications.addsNewRollRequest = true;\n    modifications.rollRequest = silencing.modifications.rollRequest;\n    modifications.addsAgainstStatus = true;\n    modifications.againstStatus = silencing.modifications.againstStatus;\n  }\n\n  const enhancement = {\n    name: \"Psychic Strikes\",\n    img: effect.img,\n    description: description,\n    copyFor: \"isMartialAttack=[true]\",\n    modifications: modifications,\n    repeatable: false\n  }\n  actor.enhancements.add(enhancement, {key: \"psychicImbued\"})\n}\n\n\nif (event.trigger === \"effectRemoved\") {\n  actor.enhancements.delete(\"psychicImbued\");\n}\n`",
+        "trigger": "postItemRoll",
         "disabled": false,
-        "name": "Prepare Item after roll",
-        "title": "",
-        "global": false
-      },
-      "X5L4oCNsK45PWGUm": {
-        "command": "if (!off) return;\n\nconst oldEnhancements = item.flags.dc20rpg.enhancements;\nif (!oldEnhancements) return;\nfor (const enh of Object.values(oldEnhancements)) {\n  enh.number = 0;\n}\n\noldEnhancements[\"-=psychicImbued\"] = null;\noldEnhancements[\"-=dazing\"] = null;\noldEnhancements[\"-=silencing\"] = null;\nitem.update({\n  [\"flags.dc20rpg.-=enhancements\"]: null,\n  [\"system.copyEnhancements.copy\"]: false,\n  [\"system.enhancements\"]: oldEnhancements\n})",
-        "trigger": "onItemToggle",
-        "disabled": false,
-        "name": "Reset Item on toggle off",
+        "name": "Prepare Psychic Imbued Effect Macro",
         "title": "",
         "global": false
       }
@@ -61,25 +54,24 @@
       "duration": "round"
     },
     "toggle": {
-      "toggleable": true,
+      "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": true,
-      "offOnSustainDrop": true
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
-      "halfDmgOnMiss": false,
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
         "crit": false,
-        "conditionals": false
+        "targetModifiers": false
       },
       "ignoreCloseQuarters": false,
       "formulaMod": ""
@@ -91,22 +83,12 @@
         "active": false,
         "options": {}
       },
-      "contestedKey": "phy",
       "againstDC": true,
       "checkDC": 10,
-      "respectSizeRules": false,
-      "failEffect": ""
-    },
-    "save": {
-      "type": "phy",
-      "dc": 0,
-      "calculationKey": "spell",
-      "addMastery": false,
-      "failEffect": ""
+      "respectSizeRules": false
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "ap": 1,
         "stamina": null,
         "mana": 1,
@@ -126,17 +108,9 @@
         "reset": "",
         "showAsResource": false,
         "subtract": 1,
-        "deleteOnZero": false
+        "deleteOnZero": false,
+        "refresh": {}
       }
-    },
-    "againstEffect": {
-      "id": "",
-      "supressFromChatMessage": false,
-      "untilYourNextTurnStart": false,
-      "untilYourNextTurnEnd": false,
-      "untilTargetNextTurnStart": false,
-      "untilTargetNextTurnEnd": false,
-      "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
     "rollRequests": {},
@@ -149,12 +123,12 @@
         "description": "<p>Your Attacks affected by this Spell deal +1 Psychic damage.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2/4",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -225,8 +199,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "vZptaWAcBcvC99zt",
+        "sourceItemId": "HfVyVprNhPliIlqW",
+        "sourceItemName": "Psychic Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "9gB4mjjuvh86gFIr": {
         "name": "Effortless",
@@ -235,12 +230,12 @@
         "description": "<p>You no longer need to Sustain the Spell.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -311,8 +306,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "9gB4mjjuvh86gFIr",
+        "sourceItemId": "HfVyVprNhPliIlqW",
+        "sourceItemName": "Psychic Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "JajCyhVmmu04eh6z": {
         "name": "Dazing Strikes",
@@ -321,12 +337,12 @@
         "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes an Intelligence Save against your Save DC. </p><p><strong>Save Failure:</strong> The target is Dazed for 1 round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -357,7 +373,7 @@
             "overrideDefence": "",
             "perTarget": false
           },
-          "addsNewRollRequest": true,
+          "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
             "saveKey": "int",
@@ -366,7 +382,7 @@
             "dc": 0,
             "addMasteryToDC": true
           },
-          "addsAgainstStatus": true,
+          "addsAgainstStatus": false,
           "againstStatus": {
             "id": "dazed",
             "supressFromChatMessage": false,
@@ -378,11 +394,12 @@
             "forOneMinute": false,
             "forXRounds": 1,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "",
+            "preItemRoll": "const rollRequest = new DC20.RollRequest();\nrollRequest.category = \"save\";\nrollRequest.saveKey = \"int\";\nrollRequest.dcCalculation = \"spell\";\nrollRequest.dc = actor.system.saveDC.value.spell;\n\nconst status = new DC20.AgainstStatus();\nstatus.id = \"dazed\";\nstatus.forXRounds = 1;\n\nitem.system.rollRequests[\"dazingStrikes\"] = {...rollRequest};\nitem.system.againstStatuses[\"dazingStrikes\"] = {...status};",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -397,8 +414,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "JajCyhVmmu04eh6z",
+        "sourceItemId": "HfVyVprNhPliIlqW",
+        "sourceItemName": "Psychic Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "du7HE6qMGoqfH7wZ": {
         "name": "Silencing Strikes",
@@ -407,12 +445,12 @@
         "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Charisma Save against your Save DC. </p><p><strong>Failure:</strong> The target is Deafened and can’t speak for 1 round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -464,7 +502,8 @@
             "forOneMinute": false,
             "forXRounds": 1,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -483,8 +522,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "du7HE6qMGoqfH7wZ",
+        "sourceItemId": "HfVyVprNhPliIlqW",
+        "sourceItemName": "Psychic Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "XgPKu5erSkuIhKj3": {
         "name": "Range",
@@ -493,12 +553,12 @@
         "description": "<p>The range becomes 5 Spaces, allowing you to target other creatures with the Spell.</p><p></p><p><em><strong>System Tip:</strong> This is not automated.</em></p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -570,121 +630,43 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "key": "XgPKu5erSkuIhKj3",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+        "sourceItemId": "HfVyVprNhPliIlqW",
+        "sourceItemName": "Psychic Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
         "active": false,
-        "drmCheck": false
-      },
-      "mfNMMnufeXG78qOQ": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        },
-        "key": "mfNMMnufeXG78qOQ",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
-        "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "B1rCWNfzeJzNwMkd": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You target X additional creatures of your choice within 5 Spaces that you can see. When you choose this Enhancement, the cost of all other Enhancements (except Range and Effortless) is doubled. </p><p>The AP cost of this Enhancement can’t be paid for with MP (see Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "description": "<p>You target X additional creatures of your choice within 5 Spaces that you can see. When you choose this Enhancement, the cost of all other Enhancements (except Range and Effortless) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (see Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -756,21 +738,35 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "key": "B1rCWNfzeJzNwMkd",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+        "sourceItemId": "HfVyVprNhPliIlqW",
+        "sourceItemName": "Psychic Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
         "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "system.actionType=[\"attack\"]&&system.attackFormula.checkType=[\"attack\"]",
+      "copyFor": "isMartialAttack=[true]",
       "linkWithToggle": false,
-      "hideFromRollMenu": false,
       "onlyMaintained": true
     },
     "range": {
@@ -795,39 +791,6 @@
           "unit": "",
           "difficult": ""
         }
-      }
-    },
-    "conditional": {
-      "hasConditional": false,
-      "name": "",
-      "condition": "",
-      "useFor": "",
-      "linkWithToggle": false,
-      "bonus": "0",
-      "flags": {
-        "ignorePdr": false,
-        "ignoreEdr": false,
-        "ignoreMdr": false,
-        "ignoreResistance": {},
-        "ignoreImmune": {}
-      },
-      "effect": null,
-      "addsNewRollRequest": false,
-      "rollRequest": {
-        "category": "",
-        "saveKey": "",
-        "contestedKey": "",
-        "dcCalculation": "",
-        "dc": 0,
-        "addMasteryToDC": true
-      },
-      "addsNewFormula": false,
-      "formula": {
-        "formula": "",
-        "type": "",
-        "category": "damage",
-        "dontMerge": false,
-        "overrideDefence": ""
       }
     },
     "conditionals": {},
@@ -891,7 +854,6 @@
     "effectsConfig": {
       "linkWithToggle": false,
       "toggleItem": true,
-      "active": false,
       "addToChat": false,
       "addToTemplates": ""
     },
@@ -935,27 +897,150 @@
       "psychic": "Psychic",
       "strike": "Strike",
       "weapon": "Weapon"
+    },
+    "skipChatMessage": false,
+    "move": {
+      "movePoints": null,
+      "moveType": "",
+      "bonusMove": null
+    },
+    "attack": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "closeQuarters": false
+    },
+    "rollConfig": {
+      "flatModifier": "",
+      "rollBonus": 0,
+      "canCrit": true,
+      "canCritFail": true,
+      "critThreshold": 20,
+      "critFailThreshold": 1,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "targetModifiers": false
+      },
+      "respectSizeRules": false
+    },
+    "castTime": {
+      "value": null,
+      "timeUnit": ""
+    },
+    "areas": {},
+    "targetModifiers": {},
+    "keyword": {
+      "key": "",
+      "message": "",
+      "selectOptions": ""
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Psychic Imbued",
+      "img": "icons/magic/fire/dagger-rune-enchant-flame-teal-purple.webp",
+      "origin": "Item.DpjFfRc45bY6Xj1y",
+      "disabled": false,
+      "system": {
+        "addToChat": true,
+        "applyToTemplate": false,
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0
+          },
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"withEffectKey\": \"psychicImbued\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0
+          }
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": "delete"
+        },
+        "effectKey": "psychicImbued",
+        "macro": "",
+        "applyToSelf": true,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "chatMessageId": ""
+      },
+      "transfer": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "duration": {
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "_id": "GpHwdahKV6IKzoz4",
+      "type": "base",
+      "start": null,
+      "description": "<p>You are under the effect of Psychic Imbued spell.</p>",
+      "tint": "#ffffff",
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "_stats": {
+        "coreVersion": "14.363",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1782562670701,
+        "modifiedTime": 1782562670701,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!HfVyVprNhPliIlqW.GpHwdahKV6IKzoz4"
+    }
+  ],
   "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
-    "compendiumSource": null,
-    "duplicateSource": null,
-    "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
-    "createdTime": 1768215186663,
-    "modifiedTime": 1777583569506,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+    "systemVersion": "0.10.6.0",
+    "createdTime": 1782562670701,
+    "modifiedTime": 1782562670701,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "exportSource": null,
+    "compendiumSource": null,
+    "duplicateSource": null
   },
+  "_id": "HfVyVprNhPliIlqW",
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "HfVyVprNhPliIlqW",
-  "sort": 1300000,
+  "sort": 0,
   "_key": "!items!HfVyVprNhPliIlqW"
 }

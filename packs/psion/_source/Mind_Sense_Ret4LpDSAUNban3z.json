@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -167,7 +167,11 @@
               "combat": null,
               "turns": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
@@ -185,24 +189,53 @@
                   "useCounter": false,
                   "resetWhenEnabled": false,
                   "onTimeEnd": ""
-                }
+                },
+                "itemSavePath": "system.enhancements.Pqytb4466Q3KoBLq.modifications.addsEffect"
               }
             },
             "name": "Read Emotions",
-            "_id": "CdOBxrkBSFUE2xP7",
+            "_id": "V1ElA5Ip5Xr9XNz4",
             "type": "base",
             "system": {
-              "statusId": ""
+              "statusId": "",
+              "changes": [
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.againstYou.checks.cha",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Read Emotions\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+                  "phase": "initial",
+                  "priority": null
+                }
+              ],
+              "addToChat": true,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": "",
+                "expiryAction": ""
+              },
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "condition": false,
+              "effectKey": "",
+              "macro": "",
+              "applyToSelf": false,
+              "applyToTemplate": true,
+              "requireEquip": false,
+              "nonessential": false,
+              "refreshTarget": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "chatMessageId": ""
             },
-            "changes": [
-              {
-                "key": "system.rollLevel.againstYou.checks.cha",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Read Emotions\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null
-              }
-            ],
-            "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Caster knows your emotional state and have <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">ADV</strong> on <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Charisma</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Checks</strong> against you.</span></p>",
+            "description": "<p><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">Caster knows your emotional state and have </span><span style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">ADV</span></span><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\"> on </span><span style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">Charisma</span></span><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\"> </span><span style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">Checks</span></span><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\"> against you.</span></p>",
             "tint": "#ffffff",
             "transfer": true,
             "statuses": [],
@@ -210,13 +243,17 @@
             "_stats": {
               "compendiumSource": null,
               "duplicateSource": null,
-              "coreVersion": "12.331",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.9.0",
-              "createdTime": 1741817448843,
-              "modifiedTime": 1741817455995,
-              "lastModifiedBy": "k48Gov1FHY5sXFy7"
-            }
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782456955952,
+              "modifiedTime": 1782456969525,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y",
+              "exportSource": null
+            },
+            "start": null,
+            "showIcon": 1,
+            "folder": null
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -235,15 +272,29 @@
           },
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> contested by the target’s <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Charisma</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success:</strong> You know their emotional state and have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Charisma</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Checks</strong> against them.</span></p>",
+        "description": "<p>Make a Spell Check contested by the target’s Charisma Save.</p><p><strong>Success:</strong> You know their emotional state and have ADV on Charisma Checks against them.</p>",
         "hide": true,
         "key": "Pqytb4466Q3KoBLq",
         "sourceItemId": "Ret4LpDSAUNban3z",
         "sourceItemName": "Mind Sense",
         "sourceItemImg": "icons/magic/perception/third-eye-blue-red.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "wVk9KgqTRMUFwXmj": {
         "name": "Read Thoughts",
@@ -316,7 +367,11 @@
               "combat": null,
               "turns": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
@@ -334,42 +389,53 @@
                   "useCounter": false,
                   "resetWhenEnabled": false,
                   "onTimeEnd": ""
-                }
+                },
+                "itemSavePath": "system.enhancements.wVk9KgqTRMUFwXmj.modifications.addsEffect"
               }
             },
             "name": "Read Thoughts",
-            "_id": "WBLBeb0JvHIZG1jT",
+            "_id": "gfOPAAXaUvRduQ7e",
             "type": "base",
             "system": {
-              "statusId": ""
+              "statusId": "",
+              "changes": [
+                {
+                  "useCustom": false,
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
+                  "phase": "initial",
+                  "priority": null
+                }
+              ],
+              "addToChat": true,
+              "duration": {
+                "useCounter": false,
+                "resetWhenEnabled": false,
+                "onTimeEnd": "",
+                "expiryAction": ""
+              },
+              "sustained": {
+                "isSustained": false,
+                "actorUuid": "",
+                "itemId": ""
+              },
+              "condition": false,
+              "effectKey": "",
+              "macro": "",
+              "applyToSelf": false,
+              "applyToTemplate": true,
+              "requireEquip": false,
+              "nonessential": false,
+              "refreshTarget": false,
+              "disableWhen": {
+                "path": "",
+                "mode": "",
+                "value": ""
+              },
+              "chatMessageId": ""
             },
-            "changes": [
-              {
-                "key": "system.rollLevel.onYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
-                "priority": null
-              },
-              {
-                "key": "system.rollLevel.onYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
-                "priority": null
-              },
-              {
-                "key": "system.rollLevel.onYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
-                "priority": null
-              },
-              {
-                "key": "system.rollLevel.onYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
-                "priority": null
-              }
-            ],
-            "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Caster knows the surface level thoughts you're thinking of at the moment and you haves </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">DisADV</strong></span> on <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Attacks</strong></span> made against the caster.</p>",
+            "description": "<p><span style=\"font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">Caster knows the surface level thoughts you're thinking of at the moment and you haves </span><span style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">DisADV</span> on <span style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;font-family:'Trebuchet MS, Lucida Sans Unicode, Lucida Grande, Lucida Sans, Arial, sans-serif'\">Attacks</span> made against the caster.</p>",
             "tint": "#ffffff",
             "transfer": true,
             "statuses": [],
@@ -377,13 +443,17 @@
             "_stats": {
               "compendiumSource": null,
               "duplicateSource": null,
-              "coreVersion": "12.331",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.9.0",
-              "createdTime": 1741818503692,
-              "modifiedTime": 1741818515489,
-              "lastModifiedBy": "k48Gov1FHY5sXFy7"
-            }
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782457005715,
+              "modifiedTime": 1782457048632,
+              "lastModifiedBy": "dOcXwrUs2VunZl0y",
+              "exportSource": null
+            },
+            "start": null,
+            "showIcon": 1,
+            "folder": null
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -402,15 +472,29 @@
           },
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> contested by the target’s <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Intelligence</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success:</strong> You know the surface level thoughts they’re thinking of at the moment and the target has <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">DisADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Attacks</strong> made against you.</span></p>",
+        "description": "<p>Make a Spell Check contested by the target’s Intelligence Save. </p><p><strong>Success:</strong> You know the surface level thoughts they’re thinking of at the moment and the target has DisADV on Attacks made against you.</p>",
         "hide": true,
         "key": "wVk9KgqTRMUFwXmj",
         "sourceItemId": "Ret4LpDSAUNban3z",
         "sourceItemName": "Mind Sense",
         "sourceItemImg": "icons/magic/perception/third-eye-blue-red.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -615,11 +699,11 @@
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
     },
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778066757964,
-    "modifiedTime": 1778066757964,
+    "modifiedTime": 1782457051470,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Ret4LpDSAUNban3z",

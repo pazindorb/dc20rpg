@@ -1,0 +1,21 @@
+<form id="area-placer" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  {{#each areas as |area index|}}
+  <div class="area">
+    {{#unless area.placing}}
+      <a class="area-side-button fa-solid fa-minus margin-right-2" data-key="{{key}}" data-action="subtract" data-index="{{index}}"></a>
+      {{#if area.hasWidth}}
+        <a class="area-side-button fa-solid fa-arrow-down-left-and-arrow-up-right-to-center margin-right-2" data-key="{{key}}" data-action="subtractWidth" data-index="{{index}}"></a>
+      {{/if}}
+      {{/unless}}
+      <a class="area-button {{#if area.placing}}placing{{/if}}" data-action="place" data-index="{{index}}">
+        {{area.label}}
+      </a>
+      {{#unless area.placing}}
+      {{#if area.hasWidth}}
+        <a class="area-side-button fa-solid fa-arrow-up-right-and-arrow-down-left-from-center margin-left-2" data-key="{{key}}" data-action="addWidth" data-index="{{index}}"></a>
+      {{/if}}
+      <a class="area-side-button fa-solid fa-plus margin-left-2" data-key="{{key}}" data-action="add" data-index="{{index}}"></a>
+    {{/unless}}
+  </div>
+  {{/each}}
+</form>

@@ -53,7 +53,3 @@ export function addToMultiSelect(object, path, key, value) {
   if (!key) return;
   object.update({[`${path}.${key}`]: value});
 }
-
-export function removeMultiSelect(object, path, key) {
-  object.update({[`${path}.-=${key}`]: null});
-}

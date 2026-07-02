@@ -30,7 +30,7 @@ export function makeCalculations(actor) {
 	_areaDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
-	_basicConditionals(actor);
+	_basicTargetModifiers(actor);
 }
 
 function _skillModifiers(actor) {
@@ -172,7 +172,8 @@ function _maxGrit(actor) {
 }
 
 function _maxRestPoints(actor) {
-	actor.system.resources.restPoints.max =  actor.system.resources.health.max;
+	const restPoints = actor.system.resources.restPoints;
+	restPoints.max = evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
 }
 
 function _skillPoints(actor) {
@@ -369,13 +370,18 @@ function _damageReduction(actor) {
 function _deathsDoor(actor) {
 	const death = actor.system.death;
 	const currentHp = actor.system.resources.health.current;
-	const prime = actor.system.details.prime;
-	const combatMastery = actor.system.details.combatMastery;
 
-	const treshold = -prime - combatMastery - death.bonus;
-	death.treshold = treshold < 0 ? treshold : 0;
-	if (currentHp <= 0) death.active = true;
-	else death.active = false;
+	// Calculate Treshold
+	if (death.formula) {
+		const treshold = evaluateDicelessFormula(death.formula, actor.getRollData()).total;
+		death.treshold = treshold < 0 ? treshold : 0;
+	}
+	else {
+		death.treshold = 0;
+	}
+
+	// Check if Death's Door is active
+	death.active = currentHp <= 0;
 }
 
 function _spendLimits(actor) {
@@ -390,10 +396,10 @@ function _spendLimits(actor) {
 	ssl.value = combatMastery + ssl.bonus;
 }
 
-function _basicConditionals(actor) {
+function _basicTargetModifiers(actor) {
 	// Impact property
-	actor.system.conditionals.push({
-		condition: `hit >= 5`, 
+	actor.system.targetModifiers.push({
+		condition: `return hit != null && hit >= 5;`, 
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
 		name: "Impact",
@@ -420,9 +426,9 @@ function _basicConditionals(actor) {
 	});
 
 	// Impactful Unarmed Strikes
-	if (actor.system.details.armor.heavyEquipped) {
-		actor.system.conditionals.push({
-			condition: `hit >= 5`, 
+	if (actor.system.details.armor.impactfulUnarmedStries) {
+		actor.system.targetModifiers.push({
+		condition: `return hit != null && hit >= 5;`,  
 			bonus: '1', 
 			useFor: `system.itemKey=["unarmedStrike"]`, 
 			name: "Impactful Unarmed Strikes",

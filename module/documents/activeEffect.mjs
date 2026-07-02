@@ -1,87 +1,13 @@
-import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 import { runTemporaryMacro } from "../helpers/macros.mjs";
-import { emitEventToGM } from "../helpers/sockets.mjs";
+import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
  */
 export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect {
-
-  /** @override */
-  static defineSchema() {
-    const fields = foundry.data.fields;
-    
-    return this.mergeSchema(super.defineSchema(), {
-      changes: new fields.ArrayField(new fields.SchemaField({
-        key: new fields.StringField({required: true}),
-        value: new fields.StringField({required: true}),
-        mode: new fields.NumberField({required: true, nullable: false, integer: true, initial: CONST.ACTIVE_EFFECT_MODES.ADD}),
-        priority: new fields.NumberField(),
-        useCustom: new fields.BooleanField({required: true, initial: false})
-      })),
-      system: new fields.SchemaField({
-        sustained: new fields.SchemaField({
-          isSustained: new fields.BooleanField({required: true, initial: false}),
-          actorUuid: new fields.StringField({required: true}),
-          itemId: new fields.StringField({required: true}),
-        }),
-        statusId: new fields.StringField({required: true}),
-        condition: new fields.BooleanField({required: true, initial: false}),
-        fromStatus: new fields.BooleanField({required: true, initial: false}),
-        duration: new fields.SchemaField({
-          useCounter: new fields.BooleanField({required: true, initial: false}),
-          resetWhenEnabled: new fields.BooleanField({required: true, initial: false}),
-          onTimeEnd: new fields.StringField({required: true})
-        }),
-        effectKey: new fields.StringField({required: true}),
-        macro: new fields.StringField({required: true}),
-        addToChat: new fields.BooleanField({required: true, initial: false}),
-        applyToTemplate: new fields.BooleanField({required: true, initial: true}),
-        nonessential: new fields.BooleanField({required: true, initial: false}),
-        disableWhen: new fields.SchemaField({
-          path: new fields.StringField({required: true}),
-          mode: new fields.StringField({required: true}),
-          value: new fields.StringField({required: true})
-        }),
-        enableStatusOnCreation: new fields.ArrayField(new fields.StringField()),
-        disableStatusOnRemoval: new fields.ArrayField(new fields.StringField()),
-        requireEnhancement: new fields.StringField({required: true}),
-        chatMessageId: new fields.StringField({required: true, initial: ""})
-      })
-    })
-  }
-
-  static mergeSchema(a, b) {
-    Object.assign(a, b);
-    return a;
-  }
-
-  // We want to modify schema with our fields so we cannot use base document here
-  /** @override */
-  static get schema() {
-    if ( this._schema ) return this._schema;
-    const fields = foundry.data.fields;
-    if ( !this.hasOwnProperty("_schema") ) {
-      const schema = new fields.SchemaField(Object.freeze(this.defineSchema()));
-      Object.defineProperty(this, "_schema", {value: schema, writable: false});
-    }
-    return this._schema;
-  }
-
-  get roundsLeft() {
-    const useCounter = this.system.duration?.useCounter;
-    const activeCombat = game.combats.active;
-    if (useCounter && activeCombat) {
-      const duration = this.duration;
-      const beforeTurn = duration.startTurn > activeCombat.lastActiveTurn ? 1 : 0;
-      const roundsLeft = duration.rounds + duration.startRound + beforeTurn - activeCombat.round;
-      return roundsLeft;
-    }
-    else {
-      return null;
-    }
-  }
 
   get isLinkedToItem() {
     if (!this.transfer) return false;
@@ -91,7 +17,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (!effectConfig) return false;
 
     if (item.system.toggle?.toggleable) return effectConfig.linkWithToggle;
-    else return effectConfig.mustEquip;
+    else return this.system.requireEquip;
   }
 
   get stateChangeLocked() {
@@ -104,19 +30,19 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     const toggleable = item.system.toggle?.toggleable;
     if (toggleable && effectConfig.linkWithToggle && !effectConfig.toggleItem) return true;
     if (toggleable && effectConfig.linkWithToggle && effectConfig.toggleItem) return false;
-    return effectConfig.mustEquip
+    return this.system.requireEquip;
   }
 
   get isCondition() {
-    return this.system.fromStatus && this.system.condition;
+    return this.system.condition;
   }
 
-  get fromStatus() {
-    return this.system.fromStatus;
+  get isStatus() {
+    return !!this.system.statusId;
   }
 
   get hasManualEvent() {
-    for (const change of this.changes) {
+    for (const change of this.system.changes) {
       if (change.key === "system.events") {
         if (change.value.includes('"trigger": "manual"') || change.value.includes('"reenable": "turnStart"')) return true;
       } 
@@ -124,6 +50,75 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     return false;
   }
 
+  //======================================
+  //=           STATIC HELPERS           =
+  //======================================
+  static enhanceEffectData(effectData, options={}) {
+    const actor = options.actor;
+    if (!actor) return;
+
+    this.#replaceKeywords(effectData, actor);
+    this.#injectFormula(effectData, actor);
+    delete effectData.start; 
+    if (options.sustain) {
+      this.#linkWithSustain(effectData, actor, options.itemId);
+    }
+  }
+
+  static #replaceKeywords(effect, actor) {
+    const saveDC = actor.system.saveDC.value;
+    const against = Math.max(saveDC.spell, saveDC.martial);
+    for (let i = 0; i < effect.system.changes.length; i++) {
+      let changeValue = effect.system.changes[i].value;
+      if (typeof changeValue === "string" && changeValue.includes("#SPEAKER_ID#")) {
+        changeValue = changeValue.replaceAll("#SPEAKER_ID#", actor.id);
+      }
+      if (typeof changeValue === "string" && changeValue.includes("#SAVE_DC#")) {
+        changeValue = changeValue.replaceAll("#SAVE_DC#", against);
+      }
+      effect.system.changes[i].value = changeValue;
+    }
+  }
+
+  static #linkWithSustain(effect, actor, itemId) {
+    effect.system.sustained = {
+      itemId: itemId,
+      actorUuid: actor.uuid,
+      isSustained: true
+    }
+  }
+
+  static #injectFormula(effect, actor) {
+    const rollData = actor.getRollData();
+
+    for (const change of effect.system.changes) {
+      const value = change.value;
+      
+      // formulas start with "<#" and end with "#>"
+      if (typeof value === "string" && value.includes("<#") && value.includes("#>")) {
+        // We want to calculate that formula and repleace it with value calculated
+        const formulaRegex = /<#(.*?)#>/g;
+        const formulasFound = value.match(formulaRegex);
+
+        formulasFound.forEach(formula => {
+          const formulaString = formula.slice(2,-2); // We need to remove <# and #>
+          const calculated = evaluateDicelessFormula(formulaString, rollData);
+          change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
+        })
+      }
+    }
+  }
+
+  //======================================
+  //=            PREPARE DATA            =
+  //======================================
+  prepareDerivedData() {
+    super.prepareDerivedData();
+  }
+
+  //======================================
+  //=              METHODS               =
+  //======================================
   async disable({ignoreStateChangeLock}={}) {
     if (this.disabled) return;
     if (this.isLinkedToItem) {
@@ -131,12 +126,8 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
       }
-      else {
-        const parentItem = this.getSourceItem();
-        await parentItem.toggle({forceOff: true});
-      }
     }
-    await this.update({disabled: true});
+    await this.gmUpdate({disabled: true});
     const actor = this.getOwningActor();
     if (actor) {
       await runEventsFor("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectDisabled: this});
@@ -151,20 +142,15 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
         ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
       }
-      else {
-        const parentItem = this.getSourceItem();
-        await parentItem.toggle({forceOn: true});
-      }
     }
 
     const updateData = {disabled: false};
     // Check If we should use round counter
     const duration = this.system.duration;
-    if (duration?.useCounter && duration?.resetWhenEnabled && !dontUpdateTimer) {
-      const initial =  this.constructor.getInitialDuration();
-      updateData.duration = initial.duration;
+    if (duration?.resetWhenEnabled && !dontUpdateTimer) {
+      updateData.start = this.constructor.getEffectStart();
     }
-    await this.update(updateData);
+    await this.gmUpdate(updateData);
     const actor = this.getOwningActor();
     if (actor) {
       await runEventsFor("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {effectEnabled: this}); 
@@ -173,12 +159,12 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   /**@override */
-  apply(actor, change) {
-    this._injectEffectIdToChange(change);
-    super.apply(actor, change);
+  static applyChange(targetDoc, change, options) {
+    this.#injectEffectIdToChange(change);
+    super.applyChange(targetDoc, change, options);
   }
 
-  _injectEffectIdToChange(change) {
+  static #injectEffectIdToChange(change) {
     const effect = change.effect;
     if (!effect) return;
 
@@ -186,12 +172,6 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (change.key.includes("system.events") || change.key.includes("system.dynamicRollModifier") || change.key.includes("system.globalFormulaModifiers")) {
       change.value = `"effectId": "${effect.id}", ` + change.value;
     }
-  }
-
-  /**@override */
-  static async fromStatusEffect(statusId, options={}) {
-    const effect = await super.fromStatusEffect(statusId, options);
-    return effect;
   }
 
   /**
@@ -225,26 +205,28 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   //======================================
   //=           CRUD OPERATIONS          =
   //======================================
-  /**
-   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
-   * No object will be returned by this method.
-   */
-  async gmUpdate(updateData={}, operation={}) {
-    if (!this.canUserModify(game.user, "update")) {
-      emitEventToGM("updateDocument", {
-        docUuid: this.uuid,
-        updateData: updateData,
-        operation: operation
-      });
+  static async gmCreate(data={}, operation={}) {
+    return await gmCreate(data, operation, this);
+  }
+
+  async gmUpdate(data={}, operation={}) {
+    return await gmUpdate(data, operation, this);
+  }
+
+  async gmDelete(operation={}) {
+    return await gmDelete(operation, this);
+  }
+
+  toObject(source=true) {
+    const data = super.toObject(source);
+    for (const field in data.duration) {
+      if (data.duration[field] === Infinity) data.duration[field] = null;
     }
-    else {
-      await this.update(updateData, operation);
-    }
+    return data;
   }
 
   // If we are removing a status from effect we need to run check 
   async _preUpdate(changed, options, user) {
-    this._runStatusChangeCheck(changed);
     super._preUpdate(changed, options, user);
   }
 
@@ -253,8 +235,8 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       if (this.preventCreation) return false;
+      this.updateSource({start: {...this.constructor.getEffectStart(), ...data.start}});
     }
-    this._runStatusChangeCheck(data);
     super._preCreate(data, options, user);
   }
 
@@ -270,12 +252,13 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
     if (userId === game.user.id) {
-      // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
-      this.update(this.constructor.getInitialDuration());
       if (this.parent.documentName === "Actor") {
         runInstantEvents(this, this.parent);
       }
       this._shouldAddToSustainList(data.system.sustained);
+    }
+    if (data.system.refreshTarget) {
+      DC20ChatMessage.refreshTarget(this.getOwningActor().targetHash);
     }
   }
 
@@ -285,74 +268,11 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     if (actor) actor.addEffectToSustain(sustained.itemId, this.uuid);
   }
 
-  _runStatusChangeCheck(updateData) {
-    const newStatusId = updateData.system?.statusId;
-    const oldStatusId = this.system?.statusId;
-    if (newStatusId === undefined) return;
-    if (newStatusId === oldStatusId) return;
-
-    // remove old changes
-    if(oldStatusId) {
-      const oldStatus = CONFIG.statusEffects.find(e => e.id === oldStatusId);
-      if (oldStatus) {
-        const oldChanges = updateData.changes || [];
-        const newChanges = [];
-        oldChanges.forEach(change => {
-          if (!this.isChangeFromStatus(change, oldStatus)) newChanges.push(change);
-        });
-        updateData.changes = newChanges;
-      }
-    }
-    // add new changes
-    const newStatus = CONFIG.statusEffects.find(e => e.id === newStatusId)
-    if (!updateData.changes) updateData.changes = [];
-    if (newStatus) updateData.changes = updateData.changes.concat(newStatus.changes);
-  }
-
-  _statusDif(current, updated) {
-    return {
-      toAdd: new Set(updated).difference(current),
-      toRemove: current.difference(new Set(updated))
-    }
-  }
-
-  isChangeFromStatus(change, status) {
-    let hasChange = false;
-    status.changes.forEach(statusChange => {
-      if (statusChange.key === change.key && 
-          statusChange.value === change.value && 
-          statusChange.mode === change.mode) {
-            hasChange = true;
-          }
-    });
-    return hasChange;
-  }
-
-  async respectRoundCounter() {
-    const durationFlag = this.system.duration; 
-    if (!durationFlag) return;
-    if (!durationFlag.useCounter) return;
-    if (this.roundsLeft === null) return;
-    if (this.roundsLeft > 0) return;
-
-    const onTimeEnd = durationFlag.onTimeEnd;
-    if (!onTimeEnd) return;
-
-    if (onTimeEnd === "disable") await this.disable();
-    if (onTimeEnd === "delete") {
-      sendEffectRemovedMessage(this.parent, this);
-      await this.delete();
-    }
-    if (onTimeEnd === "runMacro") {
-      await this.runMacro({timer: true});
-    }
-  }
-
-  async runMacro(additionalFields) { // TODO: Rename to 'callmacro'
+  async runMacro(additionalFields) {
     const command = this.system.macro;
     if (!command) return;
     const actor = this.getOwningActor();
     if (!actor) return;
-    await runTemporaryMacro(command, this, {actor: actor, effect: this, ...additionalFields});
+    return await runTemporaryMacro(command, this, {actor: actor, effect: this, ...additionalFields});
   }
 }

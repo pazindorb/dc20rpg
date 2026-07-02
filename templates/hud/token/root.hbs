@@ -1,28 +1,48 @@
+{{!-- Column Left --}}
 <div class="col left" {{#if nonActor}}style="visibility: hidden"{{/if}}>
-	<div class="attribute elevation" data-tooltip="HUD.Elevation">
-		<i class="fas fa-angle-up"></i>
+	<div class="attribute elevation" data-tooltip aria-label="{{localize "HUD.Elevation"}}">
+		<i class="caret fa-solid fa-angle-up" inert></i>
 		<input type="text" name="elevation" value="{{elevation}}" {{disabled (or locked (and isGamePaused (not isGM)))}}>
 	</div>
 
-	<button type="button" class="control-icon" data-action="sort" data-direction="up" data-tooltip="HUD.ToFront">
-		<img src="{{icons.up}}">
+	{{#if canChangeLevel}}
+	<button type="button" class="control-icon" data-action="togglePalette" data-palette="levels"
+				aria-label="{{ localize "HUD.ChangeLevel" }}" data-tooltip>
+		<i class="fa-solid fa-layer-group" inert></i>
+	</button>
+	<div class="palette palette-list" data-palette="levels">
+		{{#each levels as |level|}}
+		<a class="palette-list-entry {{level.cssClass}}" data-action="level" data-level-id="{{level.id}}"><span>{{level.name}}</span></a>
+		{{/each}}
+	</div>
+	{{/if}}
+
+	<button type="button" class="control-icon" data-action="sort" data-tooltip aria-label="{{localize "HUD.ToFrontOrBack"}}">
+		<i class="fa-solid fa-bring-forward" inert></i>
 	</button>
 
-	<button type="button" class="control-icon" data-action="sort" data-direction="down" data-tooltip="HUD.ToBack">
-		<img src="{{icons.down}}">
+	{{!-- Transformation --}}
+	{{#if isTransformed}}
+	<button type="button" class="control-icon" data-action="transformation" data-tooltip aria-label="{{localize "HUD.Transformation"}}">
+		<i class="fa-solid fa-transporter-1" inert></i>
 	</button>
+	{{/if}}
 
-	<button type="button" class="control-icon {{targetClass}}" data-action="target" data-tooltip="HUD.ToggleTargetState">
-		<i class="fa-solid fa-bullseye" inert></i>
+	{{#if isGM}}
+	<button type="button" class="control-icon {{lockedClass}}" data-action="locked"
+		data-tooltip aria-label="{{localize (ifThen lockedClass "HUD.Unlock" "HUD.Lock")}}">
+		<i class="fa-solid {{ifThen lockedClass "fa-lock" "fa-lock-open"}}" inert></i>
 	</button>
+	{{/if}}
 
 	{{#if canConfigure}}
-	<button type="button" class="control-icon" data-action="config" data-tooltip="HUD.OpenConfig">
+	<button type="button" class="control-icon" data-action="config" data-tooltip aria-label="{{localize "HUD.OpenConfig"}}">
 		<i class="fa-solid fa-gear" inert></i>
 	</button>
 	{{/if}}
 </div>
 
+{{!-- Column Middle --}}
 <div class="col middle" {{#if nonActor}}style="visibility: hidden"{{/if}}>
 	<div class="attribute bar2">
 		{{#if displayBar2}}
@@ -47,58 +67,68 @@
 	</div>
 </div>
 
+{{!-- Column Right --}}
 <div class="col right" {{#if nonActor}}style="visibility: hidden"{{/if}}>
 	{{#if isGM}}
-	<button type="button" class="control-icon {{visibilityClass}}" data-action="visibility" data-tooltip="HUD.ToggleVis">
-		<img src="{{icons.visibility}}">
+	<button type="button" class="control-icon {{visibilityClass}}" data-action="visibility"
+		data-tooltip aria-label="{{localize (ifThen visibilityClass "HUD.Show" "HUD.Hide")}}">
+		<i class="fa-solid {{ifThen hidden "fa-eye-slash" "fa-eye"}}" inert></i>
 	</button>
 	{{/if}}
 
-	<button type="button" class="control-icon" data-action="togglePalette" data-palette="auras"
-		data-tooltip="HUD.ActiveAuras">
-		<img src="{{icons.template}}">
+	<button type="button" class="control-icon" data-action="togglePalette" data-palette="regions"
+		data-tooltip aria-label="HUD.AttachedRegions">
+		<img src="icons/svg/explosion.svg">
 	</button>
-	<div class="palette active-auras grid" data-palette="auras">
-		{{#each linkedTemplates as |template|}}
-		<img class="aura-control" data-action="aura" data-aura-id="{{template.id}}" data-tooltip="{{template.name}} - Remove" src="{{template.img}}"/>
+	<div class="palette active-auras grid" data-palette="regions">
+		{{#each attachedRegions as |region|}}
+		<img class="aura-control" data-action="region" data-region-uuid="{{region.uuid}}" data-tooltip aria-label="{{region.name}} - {{localize "HUD.DeleteRegion"}}" src="{{region.img}}"/>
 		{{/each}}
 	</div>
 
 	<button type="button" class="control-icon" data-action="togglePalette" data-palette="effects"
-		data-tooltip="HUD.AssignStatusEffects">
+		data-tooltip aria-label="{{localize "HUD.AssignStatusEffects"}}">
 		<img src="{{icons.effects}}">
 	</button>
 	<div class="palette status-effects" data-palette="effects">
 		{{#each statusEffects as |status|}}
-			<div class="status-wrapper" data-title="{{status.tooltip}}">
+			{{#unless status.hide}}
+			<div class="status-wrapper"> 
         {{!-- Stackable conditions --}}
-        {{#if status.stackable}}{{#ifCond status.stack '>' 0}}
+        {{#if status.stack}}
         <div class="status-stack">
           <div class="letter-circle-icon">
             <span>{{status.stack}}</span>
           </div>
         </div>
-        {{/ifCond}}{{/if}}
+        {{/if}}
 
         {{!-- Non-stackable conditions --}}
-        {{#unless status.stackable}}{{#if status.fromOther}}
+        {{#if status.locked}}
         <div class="status-stack">
           <div class="letter-circle-icon">
             <i class="fa-sm fa-solid fa-lock"></i>
           </div>
         </div>
-        {{/if}}{{/unless}}
-				<img class="effect-control {{status.cssClass}}" data-action="effect" src="{{status.src}}" {{#if
-					status.title}}data-tooltip="{{status.title}}" {{/if}} data-status-id="{{status.id}}" />
+        {{/if}}
+				<img class="effect-control {{status.cssClass}}" data-action="effect" src="{{status.src}}" 
+					{{#if status.title}}data-tooltip="{{status.title}}" {{/if}} data-status-id="{{status.id}}" />
 			</div>
+			{{/unless}}
 		{{/each}}
 	</div>
 
 	<div class="movement-wrapper">
-		<button type="button" class="control-icon" data-action="togglePalette" data-palette="movementActions"
-			data-tooltip="HUD.SelectMovementAction">
-			<i class="{{movementActionsIcon}}" inert></i>
-		</button>
+    <button type="button" class="control-icon" data-action="togglePalette" data-palette="movementActions"
+					data-tooltip aria-label="{{ localize "HUD.SelectMovementAction" }}">
+			{{#with movementActionsConfig}}
+			{{#if img}}
+			<img src="{{ img }}" alt="{{ localize "HUD.SelectMovementAction" }}">
+			{{else}}
+			<i class="{{ icon }}" inert></i>
+			{{/if}}
+			{{/with}}
+    </button>
 		<div class="move-points-wrapper hidden">
 			<input class="move-points" name="movePoints" type="text" value="{{movePoints}}" data-tooltip="{{localize "HUD.FreeMove"}}">
 			<button type="button" class="move-icon control-icon" data-action="move" data-tooltip="{{localize "HUD.MoveAction"}}">
@@ -106,17 +136,30 @@
 			</button>
 		</div>
 	</div>
-	<div class="palette movement-actions" data-palette="movementActions">
-		{{#each movementActions as |action|}}
-		<a class="movement-action-control {{action.cssClass}}" data-action="movementAction" data-movement-action="{{action.id}}">
-			<span>{{#if action.icon}}<i class="{{action.icon}} fa-fw" inert></i>{{/if}} {{action.label}}</span>
-		</a>
-		{{/each}}
-	</div>
+    <div class="palette palette-list" data-palette="movementActions">
+			{{#each movementActions as |action|}}
+			<a class="palette-list-entry {{action.cssClass}}" data-action="movementAction" data-movement-action="{{action.id}}">
+				<span>
+					{{#if action.img}}
+					<img src="{{ action.img }}" alt="{{ action.label }}">
+					{{else}}
+					<i class="{{ action.icon }} fa-fw" inert></i>
+					{{/if}}
+					{{action.label}}
+				</span>
+			</a>
+			{{/each}}
+    </div>
+
+	<button type="button" class="control-icon {{targetClass}}" data-action="target"
+		data-tooltip aria-label="{{localize (ifThen targetClass "HUD.Untarget" "HUD.Target")}}">
+		<i class="fa-solid fa-bullseye" inert></i>
+	</button>
 
 	{{#if canToggleCombat}}
-	<button type="button" class="control-icon {{combatClass}}" data-action="combat" data-tooltip="HUD.ToggleCombatState">
-		<img src="{{icons.combat}}">
+	<button type="button" class="control-icon {{combatClass}}" data-action="combat"
+		data-tooltip aria-label="{{localize (ifThen combatClass "HUD.ExitCombat" "HUD.EnterCombat")}}">
+		<i class="fa-solid fa-swords" inert></i>
 	</button>
 	{{/if}}
 </div>

@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -207,8 +207,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "AUT7cWNglObtCYTt",
+        "sourceItemId": "XbBsztriR1u0Oi6K",
+        "sourceItemName": "Divine Protection",
+        "sourceItemImg": "icons/magic/holy/barrier-shield-winged-cross.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "qqXvsEl9QxnLsSPD": {
         "name": "Resistance",
@@ -286,7 +305,9 @@
               "combat": null,
               "seconds": null,
               "startRound": 73,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds"
             },
             "disabled": false,
             "flags": {
@@ -312,7 +333,7 @@
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -323,24 +344,24 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.damageReduction.flatHalf",
+                  "mode": 5,
+                  "value": "true",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "mode": 2,
+                  "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Resistance\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.damageReduction.flatHalf",
-                "mode": 5,
-                "value": "true",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Resistance\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain Resistancne (Half) to the damage you take from triggering attack.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -374,8 +395,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "qqXvsEl9QxnLsSPD",
+        "sourceItemId": "XbBsztriR1u0Oi6K",
+        "sourceItemName": "Divine Protection",
+        "sourceItemImg": "icons/magic/holy/barrier-shield-winged-cross.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "eS4sKlc0EhQlNO2H": {
         "name": "Forbearance",
@@ -460,8 +500,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "eS4sKlc0EhQlNO2H",
+        "sourceItemId": "XbBsztriR1u0Oi6K",
+        "sourceItemName": "Divine Protection",
+        "sourceItemImg": "icons/magic/holy/barrier-shield-winged-cross.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -638,11 +697,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768041715823,
-    "modifiedTime": 1768063286243,
+    "modifiedTime": 1782420988164,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

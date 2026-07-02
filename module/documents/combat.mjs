@@ -1,13 +1,14 @@
-import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
-import { createEffectOn } from "../helpers/effects.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import DC20RpgActiveEffect from "./activeEffect.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -165,7 +166,7 @@ export class DC20RpgCombat extends Combat {
         numberOfPCs++;
         successPCs += this._checkInvidualOutcomes(combatant);
       }
-      this._refreshOnCombatStart(actor);
+      actor.refresh.on("combatStart");
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
     });
@@ -194,7 +195,7 @@ export class DC20RpgCombat extends Combat {
       clearHeldAction(combatant.actor);
       combatant.actor.help.clear();
       combatant.actor.help.clear(null, "combat");
-      this._refreshOnCombatEnd(actor);
+      actor.refresh.on("combatEnd");
       runEventsFor("combatEnd", actor);
       reenableEventsOn("combatEnd", actor);
     });
@@ -317,17 +318,17 @@ export class DC20RpgCombat extends Combat {
     for (const combatant of combatants) {
       const actor = combatant.actor;
       if (!actor) continue;
+      const transformedActorId = combatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
 
     // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
-      
-      await this._respectRoundCounterForEffects();
+
       this._deathsDoorCheck(actor);
       this._sustainCheck(actor);
-      this._refreshOnRoundStart(actor);
+      await actor.refresh.on("roundStart");
       runEventsFor("turnStart", actor);
       reenableEventsOn("turnStart", actor);
-      this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
+      this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id, transformedActorId));
       actor.help.clear();
       clearHeldAction(actor);
       await super._onStartTurn(combatant, context);
@@ -344,17 +345,18 @@ export class DC20RpgCombat extends Combat {
   async _onEndTurn(combatant, context, sharedInitiative) {
     const actor = combatant.actor;
     if (!actor) return;
+    const transformedActorId = combatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
 
     // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
     if (!sharedInitiative && companionShare(actor, "initiative")) return;
 
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
-    this._refreshOnRoundEnd(actor);
+    await actor.refresh.on("roundEnd");
     runEventsFor("turnEnd", actor);
     runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
-    this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id));
-    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id), currentRound);
+    this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id, transformedActorId));
+    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id, transformedActorId), currentRound);
     await actor.mcp.clear();
     clearMovePoints(actor);
     await super._onEndTurn(combatant, context);
@@ -364,16 +366,6 @@ export class DC20RpgCombat extends Combat {
       const companion = this.combatants.get(companionId);
       if(companion) this._onEndTurn(companion, context, true);
     });
-  }
-
-  async _respectRoundCounterForEffects() {
-    for (const combatant of this.combatants) {
-      const actor = combatant.actor;
-      if (!actor) continue;
-      for (const effect of actor.temporaryEffects) {
-        await effect.respectRoundCounter()
-      }
-    }
   }
 
   async _runEventsForAllCombatants(trigger, filters, currentRound) {
@@ -386,51 +378,6 @@ export class DC20RpgCombat extends Combat {
     });
   }
 
-  async _refreshOnRoundStart(actor) {
-    await this._refreshResources(actor, ["roundStart"]);
-    await this._refreshItems(actor, ["roundStart"]);
-  }
-
-  // TODO: REMOVE "round" in the future - replaced by "roundEnd"
-  async _refreshOnRoundEnd(actor) {
-    await this._refreshResources(actor, ["round", "roundEnd"]);
-    await this._refreshItems(actor, ["round", "roundEnd"]);
-  }
-
-  async _refreshOnCombatEnd(actor) {
-    await this._refreshResources(actor, ["round", "roundEnd", "roundStart", "combat"]);
-    await this._refreshItems(actor, ["round", "roundEnd", "roundStart", "combat"]);
-  }
-
-  // TODO: REMOVE "combat" in the future - replaced by "combatStart"
-  async _refreshOnCombatStart(actor) {
-    await this._refreshResources(actor, ["combat", "combatStart"]);
-    await this._refreshItems(actor, ["combat", "combatStart"]);
-  }
-
-  async _refreshResources(actor, resetTypes) {
-    if (!actor) return;
-    for (const resource of actor.resources.iterate()) {
-      if (resetTypes.includes(resource.reset)) {
-        await resource.regain("max");
-      }
-    }
-  }
-
-  async _refreshItems(actor, resetTypes) {
-    if (!actor) return;
-
-    for (const item of actor.items) {
-      if (!item.system.usable) continue;
-      if (!item.use.hasCharges) continue;
-      
-      const charges = item.system.costs.charges;
-      if (resetTypes.includes(charges.reset)) {
-        await item.use.regainCharges();
-      }
-    }
-  }
-
   // =================================
   // ==            OTHER            ==
   // =================================
@@ -441,29 +388,29 @@ export class DC20RpgCombat extends Combat {
 
     // Crit Success
     if (combatant.flags.dc20rpg?.initativeOutcome?.crit) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Initiative Critical Success",
         image: actor.img,
         description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
-      });
-      createEffectOn(this._getInitiativeCritEffectData(actor), actor);
+      }, actor);
+      DC20RpgActiveEffect.gmCreate(this._getInitiativeCritEffectData(actor), {parent: actor, ignoreResponse: true});
     }
     // Crit Fail
     if (combatant.flags.dc20rpg?.initativeOutcome?.fail) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Initiative Critical Fail",
         image: actor.img,
         description: "The first Attack made against you during the first Round of Combat has ADV.",
-      });
-      createEffectOn(this._getInitiativeCritFailEffectData(actor), actor);
+      }, actor);
+      DC20RpgActiveEffect.gmCreate(this._getInitiativeCritFailEffectData(actor), {parent: actor, ignoreResponse: true});
     }
     // Success
     if (combatant.initiative >= initiativeDC) {
-      sendDescriptionToChat(actor, {
+      DC20ChatMessage.descriptionMessage({
         rollTitle: "Initiative Success",
         image: actor.img,
         description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
-      });
+      }, actor);
       actor.help.prepare({diceValue: 6, duration: "combat"})
       return true;
     }
@@ -472,14 +419,13 @@ export class DC20RpgCombat extends Combat {
 
   _getInitiativeCritEffectData(actor) {
     const checkKeys = [
-      "martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",
-      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.mar", "checks.spe",
+      "attack", "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.mar", "checks.spe",
       "saves.mig", "saves.agi", "saves.cha", "saves.int"
     ]
     const change = (checkPath) => {
       return {
         key: `system.dynamicRollModifier.onYou.${checkPath}`,
-        mode: 2,
+        type: "add",
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Initiative Critical Success", "confirmation": true, "afterRoll": "delete"'
       }
@@ -496,36 +442,26 @@ export class DC20RpgCombat extends Combat {
       origin: actor.uuid,
       duration: {
         rounds: 1,
-        startRound: 1,
-        startTurn: 0,
+        expiry: "turnStart",
       },
       system: {
+        changes: changes,
         duration: {
-          useCounter: true,
-          onTimeEnd: "delete"
+          expiryAction: "delete"
         }
       },
       description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
       disabled: false,
-      changes: changes
     }
   }
 
   _getInitiativeCritFailEffectData(actor) {
-    const checkKeys = ["martial.melee", "martial.ranged", "martial.area", "spell.melee", "spell.ranged", "spell.area",]
-    const change = (checkPath) => {
-      return {
-        key: `system.dynamicRollModifier.againstYou.${checkPath}`,
-        mode: 2,
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
-      }
-    };
-
-    const changes = []
-    for (const key of checkKeys) {
-      changes.push(change(key));
-    }
+    const changes = [{
+      key: `system.dynamicRollModifier.againstYou.attack`,
+      type: "add",
+      priority: undefined,
+      value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
+    }];
 
     return {
       name: "Initiative Critical Fail",
@@ -533,24 +469,22 @@ export class DC20RpgCombat extends Combat {
       origin: actor.uuid,
       duration: {
         rounds: 1,
-        startRound: 1,
-        startTurn: 0,
+        expiry: "turnStart",
       },
       system: {
+        changes: changes,
         duration: {
-          useCounter: true,
-          onTimeEnd: "delete"
+          expiryAction: "delete"
         }
       },
       description: "The first Attack made against you during the first Round of Combat has ADV.",
       disabled: false,
-      changes: changes
     }
   }
 
   async _deathsDoorCheck(actor) {
     // Check if actor is on death's door
-    const notDead = !actor.hasStatus("dead");
+    const notDead = !actor.statuses.has("dead");
     const deathsDoor = actor.system.death;
     const exhaustion = actor.exhaustion;
     const saveFormula = `d20 - ${exhaustion}`;
@@ -567,15 +501,11 @@ export class DC20RpgCombat extends Combat {
 
       // Critical Success: You are restored to 1 HP
       if (roll.crit) {
-        const health = actor.system.resources.health;
-        actor.update({["system.resources.health.current"]: 1});
-        sendHealthChangeMessage(actor, Math.abs(health.current) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
+        actor.update({["system.resources.health.current"]: 1}, {hpChangeSource: game.i18n.localize('dc20rpg.death.crit')});
       }
       // Success (5): You regain 1 HP.
       else if (roll._total >= 15) {
-        const health = actor.system.resources.health;
-        actor.update({["system.resources.health.current"]: (health.current + 1)});
-        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.success'), "healing");
+        DC20Target.quickApplyHealingFor(actor, {source: "Death Save Success (over 5) - You regain 1 HP", value: 1, type: "heal"});
       }
       // Success: No change.
 
@@ -598,11 +528,23 @@ export class DC20RpgCombat extends Combat {
 
   async _sustainCheck(actor) {
     for (const [key, sustain] of Object.entries(actor.system.sustain)) {
-      const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
-      const confirmed = await SimplePopup.confirm(message, {actor: actor});
+
+      let confirmed = false;
+      // Free sustain
+      if (actor.system.globalModifier?.allow?.freeSustain) {
+        const message = `Do you want to sustain '${sustain.name}' for free?`;
+        confirmed = await SimplePopup.confirm(message, {actor: actor});
+        if (confirmed) confirmed = "free";
+      }
+
+      // Standard sustain
+      if (!confirmed) {
+        const message = `Do you want to spend 1 AP to sustain '${sustain.name}'?`;
+        confirmed = await SimplePopup.confirm(message, {actor: actor});
+      }
 
       if (confirmed) {
-        const subtracted = actor.resources.ap.checkAndSpend(1);
+        const subtracted = confirmed === "free" || actor.resources.ap.checkAndSpend(1);
         if (!subtracted) actor.dropSustain(key, "Not enough AP to sustain.");
       }
       else {

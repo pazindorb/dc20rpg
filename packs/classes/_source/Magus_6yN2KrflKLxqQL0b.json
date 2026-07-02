@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -226,34 +226,32 @@
     {
       "origin": "Item.9ox7PIFG8Ql6WMwL",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Magus",
       "img": "icons/magic/fire/flame-burning-fist-strike.webp",
       "_id": "UmjFDNyrMRZQVl5T",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.resources.mana.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.known.spells.max",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.resources.mana.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>You gain the following benefits:</p><ul><li><p>Your Maximum MP increases by 1.</p></li><li><p>You learn 1 additional Spell.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -263,7 +261,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
@@ -271,6 +269,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!6yN2KrflKLxqQL0b.UmjFDNyrMRZQVl5T"
     }
   ],
@@ -279,11 +280,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034198,
-    "modifiedTime": 1767172359531,
+    "modifiedTime": 1781983657686,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

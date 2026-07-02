@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -309,6 +309,29 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 2,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -317,12 +340,10 @@
       "img": "icons/creatures/eyes/humanoid-single-blue.webp",
       "origin": "Item.wZJaEcVMk3mPViPJ",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -336,7 +357,7 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "incapacitated",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
@@ -357,33 +378,33 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.globalModifier.prevent.goUnderAP",
+            "value": 99,
+            "priority": null,
+            "type": "upgrade"
+          },
+          {
+            "key": "system.movement.ground.bonus",
+            "value": -100,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Slumber - Repeated Save\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"incapacitated\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Slumber\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.globalModifier.prevent.goUnderAP",
-          "value": "99",
-          "mode": 4,
-          "priority": null
-        },
-        {
-          "key": "system.movement.ground.bonus",
-          "value": "-100",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Slumber - Repeated Save\", \"checkKey\": \"int\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"incapacitated\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Slumber\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2
-        }
-      ],
       "description": "<p>You are Incapacitated</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -395,11 +416,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782396852691,
+        "modifiedTime": 1782396852691
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!dwh9NGMytej2omUG.qRUf1PorRF0QglxB"
     }
   ],
@@ -409,11 +442,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778152312744,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781983715431,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

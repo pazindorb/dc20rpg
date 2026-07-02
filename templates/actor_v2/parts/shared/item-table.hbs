@@ -18,7 +18,7 @@
       {{/ifCond}}
 
       {{#ifCond this '===' "action"}}
-      <div class="column action" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
+      <div class="column action" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-light fa-dice-d20"></i></div>
       {{/ifCond}}
 
       {{#ifCond this '===' "cost"}}
@@ -64,7 +64,7 @@
           <div class="item-img-wrapper">
             <a class="original"><img src="{{item.img}}"/></a>
             <a class="hovered">
-              <i class="hover-icon fa-solid fa-dice-d20 fa-2x"></i>
+              <i class="hover-icon fa-light fa-dice-d20 fa-2x"></i>
             </a> 
           </div>
           <div class="item-name" data-item-id="{{item._id}}">{{item.name}}</div>
@@ -99,13 +99,13 @@
         {{#ifCond this '===' "charges"}}
         <div class="column charges" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.charges'}}">
           {{#ifCond item.system.costs.charges.max '!==' null}}
-          <input class="current-charges update-charges" type="text" value="{{item.system.costs.charges.current}}" data-dtype="Number" data-item-id="{{item._id}}" {{#ifCond item.system.costs.charges.reset "===" "charges"}}style="width:23px"{{/ifCond}}/>
+          <input class="current-charges update-charges" type="text" value="{{item.system.costs.charges.current}}" data-dtype="Number" data-item-id="{{item._id}}" {{#if item.system.costs.charges.refresh.charges}}style="width:23px"{{/if}}/>
           <span class="separator">/</span>
           <span class="max-charges">{{item.system.costs.charges.max}}</span>
             {{!-- Recharge button --}}
-            {{#ifCond system.costs.charges.reset "===" "charges"}}
+            {{#if item.system.costs.charges.refresh.charges}}
             <a class="recharge-item fa-solid fa-bolt" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{item._id}}" style="margin-left:2px;margin-top:-2px;"></a>
-            {{/ifCond}}
+            {{/if}}
           {{/ifCond}}
         </div>
         {{/ifCond}}

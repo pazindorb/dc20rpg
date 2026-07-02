@@ -1,13 +1,13 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { createItemOnActor } from "../../helpers/actors/itemsOnActor.mjs";
-import { itemMeetsUseConditions } from "../../helpers/conditionals.mjs";
-import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
+import { SpellStore } from "../../dialogs/spell-store.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../../helpers/macros.mjs";
+import { chargeDisplayData, extractResourceCost, getResourceDisplayData } from "../../helpers/resources.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
-import { generateKey } from "../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, toggleCheck, useCostFormat } from "../../helpers/utils.mjs";
+import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
 import { DC20RpgItem } from "../item.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
+import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item-creators.mjs";
 
 export function enrichWithHelpers(item) {
   enrichRollMenuObject(item);
@@ -26,6 +26,18 @@ export function enrichWithHelpers(item) {
   if (item.system.infusions) {
     _enrichItemInfusions(item);
   }
+  if (item.system.target) {
+    _enrichAreaObject(item);
+  }
+  if (item.system.duration) {
+    _enrichDurationObject(item);
+  }
+  if (item.system.spellstore) {
+    _enrichSpellstoreObject(item);
+  }
+
+  item.collectRootedEffects = () => collectRootedEffects(item);
+  item.toChatMessageData = () => convertToChatMessageData(item);
 }
 
 //==================================//==================================
@@ -187,12 +199,12 @@ function _collectUseCost(item, clean=false) {
   for (const enhancement of item.activeEnhancements.values()) {
     // Collect resources
     for (let [key, value] of Object.entries(enhancement.resources)) {
-      _addToResources(cost, key, value, actor, enhancement.number);
+      _addToResources(cost, key, value, actor, enhancement.number, enhancement.altCost);
     }
     // Collect charges
     if (enhancement.charges?.subtract) {
       if (enhancement.charges.fromOriginal) {
-        _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
+        if (!enhancement.sourceActorId) _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
       }
       else {
         _collectCharges(cost, item.id, enhancement.charges.subtract * enhancement.number);
@@ -208,24 +220,21 @@ function _collectUseCost(item, clean=false) {
   return cost;
 }
 
-function _addToResources(cost, key, value, actor, multiplier=1) {
+function _addToResources(cost, key, value, actor, multiplier=1, altCost=0) {
   if (key === "custom") {
     for (const [customKey, customRes] of Object.entries(value)) {
-      _addToResources(cost, customKey, customRes.value, actor, multiplier);
+      _addToResources(cost, customKey, customRes.value, actor, multiplier, altCost);
     }
     return;
   }
 
   // Skip if actor doesn't have that resource at all
   if (actor && !actor.resources.hasResource(key)) return;
+  value = extractResourceCost(value, multiplier, altCost);
   if (value == null) return;
   
-  if (cost.resources[key]) {
-    cost.resources[key] += (value * multiplier);
-  }
-  else {
-    cost.resources[key] = (value * multiplier);
-  }
+  if (cost.resources[key]) cost.resources[key] += value;
+  else cost.resources[key] = value;
 }
 
 function _collectCharges(cost, itemId, value) {
@@ -391,89 +400,18 @@ function _useCostDisplayData(item, clean) {
   }
 
   for (const [resourceKey, amount] of Object.entries(cost.resources)) {
-    displayData.resources[resourceKey] = _getResourceDisplayData(resourceKey, amount, item, actor);
+    displayData.resources[resourceKey] = getResourceDisplayData(resourceKey, amount, item, actor);
   }
   for (const [itemId, amount] of Object.entries(cost.charges)) {
     if (itemId === item.id) {
-      displayData.charges[itemId] = _charge(true, amount, item.name);
+      displayData.charges[itemId] = chargeDisplayData(true, amount, item.name);
     }
     else if (actor) {
       const itm = actor.items.get(itemId);
-      displayData.charges[itemId] = _charge(false, amount, itm.name);
+      displayData.charges[itemId] = chargeDisplayData(false, amount, itm.name);
     }
   }
   return displayData;
-}
-
-function _getResourceDisplayData(key, amount, item, actor) {
-  if (actor) {
-    const resource = actor.resources[key];
-    if (resource.isCustom) return _customResource(resource, amount);
-    else return _basicResource(key, amount);
-  }
-  else {
-    const resources = {...item.system.costs.resources};
-    // TODO: backward compatibility - remove after 10.0
-    if (key === "ap" && resources.ap == null) {
-      resources.ap = resources.actionPoint;
-    } 
-    if (resources.custom[key] != null) return _customResource(resources.custom[key], amount);
-    else if (resources[key] != null) return _basicResource(key, amount);
-  }
-}
-
-function _customResource(resource, amount) {
-  return {
-    img: resource.img,
-    label: resource.label,
-    amount: amount,
-    short: resource.label,
-    custom: true
-  }
-}
-
-function _basicResource(key, amount) {
-  return {
-    icon: _icon(key),
-    label: game.i18n.localize(`dc20rpg.resources.${key}`),
-    amount: amount,
-    short: _short(key),
-    custom: false
-  }
-}
-
-function _charge(self, amount, itemName) {
-  const icon = self ? _icon("charge-self") : _icon("charge-other");
-  return {
-    self: self,
-    icon: icon,
-    amount: amount,
-    itemName: itemName
-  };
-}
-
-function _short(key) {
-  switch(key) {
-    case "ap": return "AP";
-    case "stamina": return "SP";
-    case "mana": return "MP";
-    case "grit": return "GP";
-    case "restPoints": return "RP";
-    case "health": return "HP";
-  }
-}
-
-function _icon(key) {
-  switch(key) {
-    case "ap": return "ap fa-dice-d6 cost-icon";
-    case "stamina": return "sp fa-hand-fist cost-icon";
-    case "mana": return "mp fa-star cost-icon";
-    case "grit": return "grit fa-clover cost-icon";
-    case "restPoints": return "restPoints fa-campground cost-icon";
-    case "health": return "hp fa-heart cost-icon";
-    case "charge-self": return "fa-bolt cost-icon";
-    case "charge-other": return "fa-right-from-bracket cost-icon";
-  }
 }
 
 //==================================
@@ -489,15 +427,15 @@ function _enhancementCostDisplayData(item, enhKey) {
   }
 
   for (const [resourceKey, amount] of Object.entries(cost.resources)) {
-    displayData.resources[resourceKey] = _getResourceDisplayData(resourceKey, amount, item, actor);
+    displayData.resources[resourceKey] = getResourceDisplayData(resourceKey, amount, item, actor);
   }
   for (const [itemId, amount] of Object.entries(cost.charges)) {
     if (itemId === item.id) {
-      displayData.charges[itemId] = _charge(true, amount, item.name);
+      displayData.charges[itemId] = chargeDisplayData(true, amount, item.name);
     }
     else if (actor) {
       const itm = actor.items.get(itemId);
-      displayData.charges[itemId] = _charge(false, amount, itm.name);
+      displayData.charges[itemId] = chargeDisplayData(false, amount, itm.name);
     }
   }
   return displayData;
@@ -512,19 +450,19 @@ function _collectEnhancementCost(item, enhKey) {
   const actor = item.actor;
   const enhancement = item.allEnhancements.get(enhKey);
   if (!enhancement) {
-    ui.notifications.error(`Enhancement with key '${amount}' not found on '${item.name}' item.`);
+    ui.notifications.error(`Enhancement with key '${enhKey}' not found on '${item.name}' item.`);
     return cost;
   }
 
   for (let [key, value] of Object.entries(enhancement.resources)) {
-    _addToResources(cost, key, value, actor);
+    _addToResources(cost, key, value, actor, 1, enhancement.altCost);
   }
   if (enhancement.charges?.subtract) {
     if (enhancement.charges.fromOriginal) {
-      _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract * enhancement.number);
+      if (!enhancement.sourceActorId) _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract);
     }
     else {
-      _collectCharges(cost, item.id, enhancement.charges.subtract * enhancement.number);
+      _collectChharges(cost, item.id, enhancement.charges.subtract);
     }
   }
   return cost;
@@ -534,11 +472,55 @@ function _collectEnhancementCost(item, enhKey) {
 //                              PROPERTIES                             =
 //==================================//==================================
 function _enrichPropertiesObject(item) {
+  item.properties = foundry.utils.deepClone(item.system.properties);
+  Object.entries(item.system.customProperties).forEach(([key, original]) => {
+    const property = foundry.utils.deepClone(original);
+    property.custom = true;
+    property.remove = async () => await _removeCustomProperty(item, key);
+    item.properties[key] = property;
+  })
+
+  Object.entries(item.properties).forEach(([key, property]) => {
+    let correctSubtype = true;
+    if (property.subtype && ["weapon", "equipment"].includes(item.type)) {
+      const subtype = item.system.weaponType || item.system.equipmentType;
+      correctSubtype = property.subtype.includes(subtype);
+    }
+    const correctType = property?.type?.includes(item.type);
+    property.display = property.forceDisplay || (correctType && correctSubtype);
+    
+    property.toggle = async () => property.custom 
+                    ? await item.update({[`system.customProperties.${key}.active`]: !property.active})
+                    : await item.update({[`system.properties.${key}.active`]: !property.active});
+
+    property.updatePath = property.custom ? `system.customProperties.${key}` : `system.properties.${key}`;
+  });
+  item.addCustomProperty = async (data, key) => await _addCustomProperty(item, data, key);
+
   _enhanceReload(item);
   _enhanceMultiFaceted(item);
   _enhanceAmmo(item);
   _enhanceWeaponStyle(item);
   _enrichDeftProperty(item);
+}
+
+//==================================
+//        CUSTOM PROPERTIES        =
+//==================================
+async function _addCustomProperty(item, data, key) {
+  data.active = false;
+  data.type = [item.type];
+
+  let subtype = null;
+  if (item.type === "weapon") subtype = ["melee", "ranged"];
+  if (item.type === "equipment") subtype = ["light", "heavy", "lshield", "hshield"];
+  if (subtype) data.subtype = subtype;
+  
+  await item.update({[`system.customProperties.${key}`]: data});
+}
+
+async function _removeCustomProperty(item, key) {
+  await item.update({[`system.customProperties.-=${key}`]: null});
 }
 
 //==================================
@@ -670,13 +652,14 @@ function _enrichDeftProperty(item) {
   macro.name = "Deft Property";
   macro.trigger = "onDRMCheck";
   macro.command = `
-if (!actor.hasStatus("prone")) return;
+if (!actor.statuses.has("prone")) return;
+if (!item.isAttack) return;
 
 const rollMenu = item.system.rollMenu;
-const attackFormula = item.system.attackFormula;
-const rangeType = rollMenu.rangeType || attackFormula.rangeType;
+const attack = item.system.attack;
+const rangeType = rollMenu.rangeType || attack.rangeType;
 
-if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (counter prone status)", targetHash: actor.targetHash});
+if (rangeType === "ranged") results.push({type: "adv", value: 1, label: "Deft Property (Counter Prone status)", targetHash: actor.targetHash});
   `;
   item.system.macros["deft"] = macro;
 }
@@ -706,21 +689,27 @@ function _enrichEnhancementObject(item) {
   for (const [key, enhancement] of entries) {
     enhancement.key = key;
     enhancement.sourceItemId = item.id;
-    enhancement.sourceItemName = item.name;
-    enhancement.sourceItemImg = item.img;
+    enhancement.sourceName = item.name;
+    enhancement.sourceImg = item.img;
     enhancement.active = enhancement.number > 0
     enhancement.drmCheck = _shouldRunDRMCheck(enhancement);
 
     enhancement.toggleUp = async () => await _enhancementToggle(enhancement, true, item);
     enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, item);
-    enhancement.clear = async () => await item.update({[`system.enhancements.${key}.number`]: 0});
+    enhancement.clear = async () => {
+      const defaultState = enhancement.defaultState || 0;
+      await item.update({
+        [`system.enhancements.${key}.number`]: defaultState,
+        [`system.enhancements.${key}.altCost`]: 0
+      })
+    };
     enhancement.delete = async () => await item.update({[`system.enhancements.-=${key}`]: null});
-    
+
     enhancements.maintained.set(key, enhancement);
   }
 
-  Object.defineProperty(enhancements, "all", {get: () => _allEnhancements(item, enhancements)});
-  Object.defineProperty(enhancements, "active", {get: () => _activeEnhancements(item, enhancements)});
+  Object.defineProperty(enhancements, "all", {get: () => _allEnhancements(item)});
+  Object.defineProperty(enhancements, "active", {get: () => _activeEnhancements(item)});
   enhancements.add = async (enhancementData, enhancementKey) => await Enhancement.create(enhancementData, {parent: item, key: enhancementKey});
 
   item.enhancements = enhancements;
@@ -731,46 +720,56 @@ async function _enhancementToggle(enhancement, up, item) {
   else await item.update({[`system.enhancements.${enhancement.key}.number`]: Math.max(enhancement.number - 1, 0)});
 }
 
-function _allEnhancements(item) {
+function _allEnhancements(item, collected=new Set(), iteration=0) {
   let enhancements = foundry.utils.deepClone(item.enhancements.maintained);
   const parent = item.actor;
   if (!parent) return enhancements;
 
+  // We need to deal with case where items call each other in a infinite loop. 
+  // If enhancements from the item were collected already then we don't want to collect from it again as it might lead to infinite loop
+  if (collected.has(item.id)) return enhancements;
+  // Failsafe mechanism: We expect 5th level of recurrency to be deep enough to collect all the coppied enhancements
+  if (iteration > 5) return enhancements;
 
   //========== FROM USED WEAPON ==========//
   const usesWeapon = item.system.usesWeapon;
   if (usesWeapon?.weaponAttack) {
     const weapon = parent.items.get(usesWeapon.weaponId);
     if (weapon) {
-      enhancements = new Map([...enhancements, ...weapon.enhancements.all]);
+      enhancements = new Map([...enhancements, ..._allEnhancements(weapon, collected, iteration + 1)]);
     }
   }
 
   //========== COPIED ENHANNCEMENTS ==========//
-  // We need to deal with case where items call each other in a infinite loop
-  // We expect 10 to be deep enough to collect all the coppied enhancements
-  let firstCall = false;
-  if (DC20RpgItem.enhLoopCounter === 0) firstCall = true;
-  if (DC20RpgItem.enhLoopCounter > 10) return enhancements;
-  DC20RpgItem.enhLoopCounter++;
-  
-  for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
-    if (itemWithCopyEnh.itemId === item.id) continue;
-    if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, item)) {
-      const itm = parent.items.get(itemWithCopyEnh.itemId);
-      if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
-      if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
-      const copyConfig = itm.system.copyEnhancements;
-      if (copyConfig?.copy && toggleCheck(itm, copyConfig?.linkWithToggle)) {
-        if (copyConfig?.onlyMaintained) enhancements = new Map([...enhancements, ...itm.enhancements.maintained]);
-        else enhancements = new Map([...enhancements, ...itm.enhancements.all]);
+  const copyableEnhancements = parent.copyableEnhancements || [];
+  for (const copyable of copyableEnhancements) {
+    if (copyable.itemId === item.id) continue;
+    if (_itemMeetsUseConditions(copyable.copyFor, item)) {
+
+      // Collect enhancements from other items
+      if (copyable.source === "item") {
+        const itm = parent.items.get(copyable.itemId);
+        if (itm == null) continue;
+        if (item.id === itm.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
+        if (item.type === "infusion") continue; // We don't want to copy enhancemetns from infusions
+        const copyConfig = itm.system.copyEnhancements;
+        if (copyConfig?.copy && toggleCheck(itm, copyConfig?.linkWithToggle)) {
+          if (copyConfig?.onlyMaintained) enhancements = new Map([...enhancements, ...itm.enhancements.maintained]);
+          else enhancements = new Map([...enhancements, ..._allEnhancements(itm, collected, iteration + 1)]);
+        }
+      }
+
+      // Collect enhancements from actor
+      if (copyable.source === "actor") {
+        const enhancement = parent.system.enhancements[copyable.enhKey];
+        if (enhancement) {
+          enhancements.set(copyable.enhKey, _enrichActorEnhancement(parent, enhancement, copyable.enhKey, item));
+        }
       }
     }
   }
 
-  if (firstCall) DC20RpgItem.enhLoopCounter = 0;
-
-
+  collected.add(item.id);
   return enhancements;
 }
 
@@ -784,7 +783,29 @@ function _activeEnhancements(item) {
 
 function _shouldRunDRMCheck(enhancement) {
   const mod = enhancement.modifications
-  return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula;
+  return mod.rollLevelChange || mod.addsRange || mod.modifiesCoreFormula || mod.actionChange;
+}
+
+function _enrichActorEnhancement(actor, enh, enhKey, item) {
+  const enhancement = foundry.utils.deepClone(enh)
+  enhancement.key = enhKey;
+  enhancement.sourceActorId = actor.id;
+  enhancement.sourceItemId = item.id;
+  enhancement.sourceName = actor.name;
+  enhancement.sourceImg = enhancement.img || "icons/skills/movement/arrows-up-trio-red.webp";
+  enhancement.active = enhancement.number > 0
+  enhancement.drmCheck = _shouldRunDRMCheck(enhancement);
+
+  enhancement.toggleUp = async () => await _enhancementToggle(enhancement, true, actor);
+  enhancement.toggleDown = async () => await _enhancementToggle(enhancement, false, actor);
+  enhancement.clear = async () => {
+    const defaultState = enhancement.defaultState || 0;
+    await actor.update({
+      [`system.enhancements.${enhancement.key}.number`]: defaultState,
+      [`system.enhancements.${enhancement.key}.altCost`]: 0
+    })
+  };
+  return enhancement;
 }
 
 //==================================//==================================
@@ -794,12 +815,18 @@ function _enrichUseWeaponObject(item) {
   const owner = item.actor;
   if (!owner) return;
   const weapon = owner.items.get(item.system.usesWeapon.weaponId);
-  if (!weapon) return;
+  
+  if (!weapon) {
+    delete item.multiFaceted;
+    delete item.ammo;
+    delete item.reloadable;
+    return;
+  }
   
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
   item.system.combatTraining = weapon.system.combatTraining;
-  item.system.attackFormula.rollBonus = weapon.system.attackFormula.rollBonus;
+  _mergeRollConfigData(weapon.system.rollConfig, item.system.rollConfig);
 
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
@@ -808,6 +835,12 @@ function _enrichUseWeaponObject(item) {
   item.ammo = weapon.ammo || undefined;
   item.reloadable = weapon.reloadable || undefined;
   item.multiFaceted = weapon.multiFaceted || undefined; 
+}
+
+function _mergeRollConfigData(weapon, item) {
+  if (item.rollBonus < weapon.rollBonus) item.rollBonus = weapon.rollBonus;
+  if (item.critThreshold > weapon.critThreshold) item.critThreshold = weapon.critThreshold;
+  if (item.critFailThreshold > weapon.critFailThreshold) item.critFailThreshold = weapon.critFailThreshold;
 }
 
 //==================================//==================================
@@ -861,7 +894,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   if (infuser && item.system.quantity > 1) {
     const itemData = item.toObject();
     itemData.system.quantity -= 1; 
-    await createItemOnActor(infuser, itemData);
+    await DC20RpgItem.gmCreate(itemData, {parent: infuser});
     await item.update({["system.quantity"]: 1});
   }
 
@@ -885,8 +918,15 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
   }
 
   // Prepare infusion data
-  const cost =  infuserUuid ? Math.max(infusion.power - infusion.costReduction - item.system.infusionCostReduction, 0) : null;
+  let cost = null;
+  if (infuserUuid) {
+    // Step 1: Calculate Cost (Minimum of 1)
+    cost = Math.max(infusion.power, 1);
+    // Step 2: Reduce that cost if item reduces it (ex. Arcane Armor) (Minimum of 0)
+    cost = Math.max(cost  - infusion.costReduction - item.system.infusionCostReduction, 0);
+  }
   const data = {
+    img: infusionItem.img,
     name: infusionItem.name,
     infusionKey: infusion.infusionKey,
     power: infusion.power,
@@ -896,7 +936,7 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
       effects: [],
       enhancements: [],
       macros: [],
-      conditionals: [],
+      targetModifiers: [],
       formulas: [],
       rollRequests: [],
       againstStatuses: [],
@@ -908,12 +948,12 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     ...macroInfusionStore
   }
 
-  // We want to clone the some of the infusion data to make sure our macro changes are not refreshed
+  // We want to clone some of the infusion data to make sure our macro changes are not refreshed
   const cloneToArray = (object => Object.values(foundry.utils.deepClone(object)));
   const enhancements = cloneToArray(infusionItem.system.enhancements);
   const copyEnhancements = foundry.utils.deepClone(infusionItem.system.copyEnhancements);
   const macros = cloneToArray(infusionItem.system.macros);
-  const conditionals = cloneToArray(infusionItem.system.conditionals);
+  const targetModifiers = cloneToArray(infusionItem.system.targetModifiers);
   const formulas = cloneToArray(infusionItem.system.formulas);
   const againstStatuses = cloneToArray(infusionItem.system.againstStatuses);
   const rollRequests = cloneToArray(infusionItem.system.rollRequests);
@@ -960,8 +1000,9 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
     formula += data.tags.charges.maxFormula;
     updateData.system.costs.charges.maxChargesFormula = formula;
 
-    if (!chargesItem.reset) {
-      updateData.system.costs.charges.reset = charges.reset;
+    // Todo: better handle charger refreshment - for now it both applying refresh and removing works like shit
+    if (Object.values(chargesItem.refresh).length === 0) {
+      updateData.system.costs.charges.refresh = charges.refresh;
     }
   }
 
@@ -1002,10 +1043,10 @@ async function _applyInfusion(infusionItem, item, infuserUuid) {
       data.modifications.macros.push(key);
     }
   }
-  if (infusion.copy.conditionals) {
-    for (const conditional of conditionals) {
-      const key = await Conditional.create(conditional, {parent: item});
-      data.modifications.conditionals.push(key);
+  if (infusion.copy.targetModifiers) {
+    for (const modifier of targetModifiers) {
+      const key = await TargetModifier.create(modifier, {parent: item});
+      data.modifications.targetModifiers.push(key);
     }
   }
   if (infusion.copy.formulas) {
@@ -1087,8 +1128,8 @@ async function _removeInfusion(infusion, item) {
   for (const key of infusion.modifications.macros) {
     await item.update({[`system.macros.-=${key}`]: null});
   }
-  for (const key of infusion.modifications.conditionals) {
-    await item.update({[`system.conditionals.-=${key}`]: null});
+  for (const key of (infusion.modifications.targetModifiers || [])) { // Workaround after conditional migration
+    await item.update({[`system.targetModifiers.-=${key}`]: null});
   }
   for (const key of infusion.modifications.formulas) {
     await item.update({[`system.formulas.-=${key}`]: null});
@@ -1152,7 +1193,8 @@ async function _clearTags(infusion, item) {
 
     if (!allInfusions.hasCharges) {
       updateData.system.costs.charges.deleteOnZero = false;
-      updateData.system.costs.charges.reset = "";
+      // Todo: better handle charger refreshment - for now it both applying refresh and removing works like shit
+      updateData.system.costs.charges.refresh = {}; 
     }
   }
 
@@ -1294,4 +1336,349 @@ async function _applyInfuserPenalties(infusion, actor) {
 async function _clearInfuserPenalties(infusion, actor) {
   const infusionManaPentalty = actor.system.resources.mana.infusions;
   await actor.gmUpdate({["system.resources.mana.infusions"]: infusionManaPentalty - infusion.cost});
+}
+
+//==================================//==================================
+//                                 AREA                                =
+//==================================//==================================
+function _enrichAreaObject(item) {
+  item.addArea = async (key) => {
+    foundry.utils.logCompatibilityWarning("The 'item.addArea ' method is deprecated, and will be removed in the later system version. Use 'item.createArea' instead.", { since: " 0.10.6", until: "0.11.0", once: true });
+    await item.createArea({}, key)
+  }
+}
+
+function _enrichDurationObject(item) {
+  let duration = item.system.duration;
+  for (const enh of item.enhancements.active.values()) {
+    const mod = enh.modifications;
+    if (mod.changeDuration) {
+      if (mod.duration.type) duration.type = mod.duration.type;
+      if (mod.duration.value) duration.value = mod.duration.value;
+      if (mod.duration.timeUnit) duration.timeUnit = mod.duration.timeUnit;
+    }
+  }
+  item.duration = duration;
+  item.sustainable = duration.type === "sustain";
+}
+
+function _enrichSpellstoreObject(item) {
+  const spellstore = {};
+  
+  spellstore.openSpellStore = (options) => SpellStore.open(item, options);
+  spellstore.getSpellData = (key) => item.system.spellstore[key];
+  spellstore.storeSpell = async (spell, options) => await _storeSpell(spell, item, options);
+  spellstore.castSpell = async (key, options) => await _castSpell(key, item, options);
+  spellstore.removeSpell = async (key) => await item.gmUpdate({[`system.spellstore.-=${key}`]: null});
+  spellstore.clearAll = async () => {
+    const updateData = {};
+    Object.keys(item.system.spellstore).forEach(key => updateData[`system.spellstore.-=${key}`] = null);
+    await item.gmUpdate(updateData);
+  };
+
+  item.spellstore = spellstore;
+}
+
+async function _castSpell(key, item, options={}) {
+  const actor = item.actor;
+  if (!actor) return;
+  const spellData = item.spellstore.getSpellData(key);
+  if (!spellData) return;
+  const result = await DC20RpgItem.gmCreate(spellData, {parent: actor});
+  if (!result) return;
+  const spell = result[0];
+  if (!spell) return;
+
+  const roll = await spell.roll();
+  spell.gmDelete({ignoreResponse: true});
+  if (roll && options.removeAfterCast || spellData.flags.dc20rpg?.spellstore?.removeAfterCast) {
+    item.spellstore.removeSpell(key);
+  }
+  return roll;
+}
+
+async function _storeSpell(spell, item, options={}) {
+  if (spell.type !== "spell") {
+    ui.notifications.warn("You can store only spells");
+    return null;
+  }
+
+  if (options.precast) await _handleSpellPrecast(spell);
+  const spellData = spell.toObject(false);
+  _prepareEnhancements(spellData, options);
+  _overrideResources(spellData, options);
+  _overideModifierAndSaveDC(spellData, options);
+
+  // Add special flag to the stored spell - some features might want to use it
+  if (options.flags) spellData.flags.dc20rpg.spellstore = options.flags;
+  const key = options.key || generateKey();
+
+  if (options.requireConfirm) return async () => await confirmStoring(spellData, spell, item, key);
+  else await confirmStoring(spellData, spell, item, key);
+}
+
+async function confirmStoring(spellData, spell, item, key) {
+  await item.gmUpdate({[`system.spellstore.${key}`]: spellData});
+  spell.reset();
+}
+
+async function _handleSpellPrecast(spell) {
+  const enhancements = Object.values(spell.system.enhancements); // Maybe all enhancemetns?
+  const inputs = [];
+  for (const enhancement of enhancements) {
+    if (enhancement.repeatable) {
+      inputs.push({
+        label: `${enhancement.name} ${useCostFormat(enhancement.resources)}`,
+        type: "input",
+        preselected: "0"
+      })
+    }
+    else {
+      inputs.push({
+        label: `${enhancement.name} ${useCostFormat(enhancement.resources)}`,
+        type: "checkbox"
+      })
+    }
+  }
+  const answers = await SimplePopup.open("input", {message: "Configure Spell Enhancements", inputs: inputs});
+  if (!answers) return;
+  for (let i = 0; i < enhancements.length; i++) {
+    const answer = parseInt(answers[i]);
+    enhancements[i].active = answer > 0;
+    enhancements[i].number = answer;
+  }
+}
+
+function _prepareEnhancements(spell, options) {
+  for (const enhancement of Object.values(spell.system.enhancements)) {
+    enhancement.preventModification = options.preventModification;
+  }
+}
+
+function _overrideResources(spell, options) {
+  const costs = options.overrideCost;
+  if (costs) {
+    spell.system.costs = costs;
+  }
+  if (options.skipEnhancementCost) {
+    for (const enhancement of Object.values(spell.system.enhancements)) {
+      enhancement.resources = {ap: null, grit: null, health: null, mana: null, restPoints: null, stamina: null, custom: {}};
+    }
+  }
+}
+
+function _overideModifierAndSaveDC(spell, options) {
+  if (options.flatDC != null) {
+    // Override roll request
+    for (const request of Object.values(spell.system.rollRequests)) {
+      request.dcCalculation = "flat";
+      request.dc = options.flatDC;
+    }
+
+    // Override enhancement roll request
+    for (const enhancement of Object.values(spell.system.enhancements)) {
+      enhancement.modifications.rollRequest.dcCalculation = "flat";
+      enhancement.modifications.rollRequest.dc = options.flatDC;
+    }
+
+    // Override target modifier roll request
+    for (const modifier of Object.values(spell.system.targetModifiers)) {
+      modifier.rollRequest.dcCalculation = "flat";
+      modifier.rollRequest.dc = options.flatDC;
+    }
+
+  }
+  if (options.flatModifier != null) {
+    spell.system.rollConfig.flatModifier = `${options.flatModifier}`;
+  }
+}
+
+//==================================//==================================
+//                        ITEM TO CHAT MESSAGE                         =
+//==================================//==================================
+function convertToChatMessageData(item) {
+  const actor = item.actor;
+  const targetModifiers = actor.system.targetModifiers.filter(modifier => _itemMeetsUseConditions(modifier.useFor, item))
+  
+  const identified = item.identified
+  const name = identified ? item.name : "Unidentified Item";
+  const description = identified ? item.system.description : "<b>Unidentified</b>";
+  const htmlDetails = identified ? itemDetailsToHtml(item) : "";
+
+  const [rollRequests, statuses, effects, overrideTargetDefence, areas] = _collectFromItemAndEnhancements(item);
+  const actionType = item.system.actionType;
+  const CHAT_DATA = {
+    itemId: item.id,
+    image: item.img,
+    description: description,
+    details: htmlDetails,
+    rollTitle: name,
+    name: name,
+    actionType: actionType,
+    areas: areas,
+    statuses: statuses,
+    effects: effects,
+    rollRequests: rollRequests,
+    targetModifiers: targetModifiers,
+    sustain: actor.shouldSustain(item),
+    rollConfig: item.system.rollConfig || {}
+  }
+
+  // Attack Action Data
+  if (actionType === "attack") {
+    const attack = item.system.attack;
+    CHAT_DATA.targetDefence = overrideTargetDefence || attack.targetDefence;
+  }
+
+  // Check Action Data
+  if (actionType === "check") {
+    const check = item.system.check;
+    CHAT_DATA.checkDC = check.againstDC ? check.checkDC : null;
+  }
+
+  return CHAT_DATA;
+}
+
+function _collectFromItemAndEnhancements(item) {
+  let overrideTargetDefence = "";
+
+  const saves = {};
+  const contests = {};
+  if (item.system.rollRequests) {
+    for (const request of Object.values(item.system.rollRequests)) {
+      _requestPerCategory(request, saves, contests);
+    }
+  }
+  const effects = item.effects.filter(effect => effect.system.addToChat || effect.system.applyToTemplate).map(effect => effect.toObject(false));
+  const statuses = item.system.againstStatuses ? Object.values(item.system.againstStatuses) : [];
+  const areas = foundry.utils.deepClone(item.system.areas);
+  const areaKeys = Object.keys(areas);
+
+  // COLLECT FROM ENHANCEMENTS
+  item.enhancements.active.values().forEach(enh => {
+    if (enh.modifications.addsAgainstStatus && enh.modifications.againstStatus?.id) {
+      statuses.push(enh.modifications.againstStatus)
+    }
+
+    const addsEffect = enh.modifications.addsEffect;
+    if (addsEffect && (addsEffect.system.addToChat || addsEffect.system.applyToTemplate)) {
+      effects.push(enh.modifications.addsEffect);
+    }
+
+    if (enh.modifications.addsNewRollRequest) {
+      _requestPerCategory(enh.modifications.rollRequest, saves, contests);
+    }
+
+    if (enh.modifications.overrideTargetDefence && enh.modifications.targetDefenceType) {
+      overrideTargetDefence = enh.modifications.targetDefenceType;
+    }
+
+    if (enh.modifications.overrideAreaType) {
+      for (const key of areaKeys) {
+        areas[key].type = enh.modifications.overrideAreaType;
+      }
+    }
+
+    if (enh.modifications.areaDistance) {
+      for (const key of areaKeys) {
+        if (areas[key].distance) areas[key].distance += (enh.modifications.areaDistance * enh.number);
+      }
+    }
+    if (enh.modifications.areaWidth) {
+      for (const key of areaKeys) {
+        if (areas[key].width) areas[key].width += (enh.modifications.areaWidth * enh.number);
+      }
+    }
+  });
+
+  return [{saves: saves, contests: contests}, statuses, effects, overrideTargetDefence, areas];
+}
+
+function _requestPerCategory(request, saves, contests) {
+  if (request.category === "save") {
+    const requestKey = `save#${request.dc}#${request.saveKey}`;
+    saves[requestKey] = request;
+    saves[requestKey].label = CONFIG.DC20RPG.ROLL_KEYS.saveTypes[request.saveKey];
+  }
+  if (request.category === "contest") {
+    const requestKey = `contest#${request.contestedKey}`;
+    contests[requestKey] = request;
+    contests[requestKey].label = CONFIG.DC20RPG.ROLL_KEYS.contests[request.contestedKey];
+  }
+}
+
+function _itemMeetsUseConditions(useCondition, item) {
+  if (!useCondition) return false;
+  if (useCondition === "true") return true;
+  const OR = useCondition.split('||');
+  for (const orConditions of OR) {
+    const AND = orConditions.split('&&');
+    if(_checkAND(AND, item)) return true;
+  }
+  return false;
+}
+
+function _checkAND(combinations, item) {
+  for (const combination of combinations) {
+    const pathValue = combination.trim().split('=')
+    const value = getValueFromPath(item, pathValue[0]);
+    if (value === undefined || value === "") return false;
+    try {
+      const expectedValues = eval(pathValue[1]);
+
+      let conditionMet = false;
+      if (Array.isArray(value)) conditionMet = value.some(v=> expectedValues.includes(v));
+      else conditionMet = expectedValues.includes(value);
+      
+      if (!conditionMet) return false;
+    } catch (e) {
+      return false;
+    }
+  };
+  return true;
+}
+
+//==================================//==================================
+//                  HELPER TO HANDLE ROOTED EFFECTS                    =
+//==================================//==================================
+function collectRootedEffects(item) {
+  const rootedEffects = [];
+  // From enhancements
+  if (item.system.enhancements) {
+    for (const [key, enhancement] of Object.entries(item.system.enhancements)) {
+      const path = `system.enhancements.${key}.modifications.addsEffect`;
+      const effect = enhancement.modifications.addsEffect;
+      if (effect) {
+        effect.update = async (updateData) => await _updateRootedEffect(path, updateData, item);
+        rootedEffects.push(effect);
+      }
+    }
+  }
+  // From targetModifiers
+  if (item.system.targetModifiers) {
+    for (const [key, modifier] of Object.entries(item.system.targetModifiers)) {
+      const path = `system.targetModifiers.${key}.effect`;
+      const effect = modifier.effect;
+      if (effect) {
+        effect.update = async (updateData) => await _updateRootedEffect(path, updateData, item);
+        rootedEffects.push(effect);
+      }
+    }
+  }
+  // From areas
+  if (item.system.areas) {
+    for (const [key, area] of Object.entries(item.system.areas)) {
+      const path = `system.areas.${key}.effect`;
+      const effect = area.effect;
+      if (effect) {
+        effect.update = async (updateData) => await _updateRootedEffect(path, updateData, item);
+        rootedEffects.push(effect);
+      }
+    }
+  }
+  return rootedEffects;
+}
+
+async function _updateRootedEffect(path, updateData, item) {
+  await item.update({[path]: updateData});
 }

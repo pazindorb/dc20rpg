@@ -24,7 +24,7 @@
     "isReaction": true,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -163,7 +163,7 @@
     "quickRoll": false,
     "macros": {
       "CHAMh72IRrGhSsQe": {
-        "command": "const naturesTorrent = item.getEffectByKey(\"naturesTorrent\");\nif (!naturesTorrent) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Triggering Damage\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\nif (!selected) return;\n\nnaturesTorrent.changes[2].key = `system.damageReduction.damageTypes.${selected}.vulnerable`;",
+        "command": "const naturesTorrent = item.getEffectByKey(\"naturesTorrent\");\nif (!naturesTorrent) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Triggering Damage\", CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\nif (!selected) return;\n\nnaturesTorrent.system.changes[2].key = `system.damageReduction.damageTypes.${selected}.vulnerable`;",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Select Element",
@@ -234,20 +234,37 @@
     "requirements": {
       "level": 2
     },
-    "featureSourceItem": "druid"
+    "featureSourceItem": "druid",
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 1.5,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    }
   },
   "effects": [
     {
       "img": "icons/magic/nature/tree-spirit-black.webp",
       "origin": "Item.ypUqRLngYwtwxljM",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Nature’s Torrent",
@@ -259,28 +276,28 @@
           "mode": "=="
         },
         "addToChat": true,
-        "effectKey": "naturesTorrent"
+        "effectKey": "naturesTorrent",
+        "changes": [
+          {
+            "key": "system.statusResistances.movement.vulnerability",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.statusResistances.prone.vulnerability",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.damageReduction.damageTypes.fire.vulnerable",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.statusResistances.movement.vulnerability",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.statusResistances.prone.vulnerability",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.fire.vulnerable",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>You have <span><strong>DisADV</strong> on Checks and Saves to resist being moved or knocked <strong>Prone</strong>.</span></p><p>You have Vulnerability (1) against the triggering damage type.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -304,7 +321,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
         "createdTime": null,
@@ -312,6 +329,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!wfzVwZezXHkvO0OC.Janpo8Q7K1Pd6xJP"
     }
   ],
@@ -320,11 +340,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035127,
-    "modifiedTime": 1776857110813,
+    "modifiedTime": 1782391800875,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

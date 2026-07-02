@@ -2,14 +2,12 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { makeMoveAction, triggerHeldAction } from "../helpers/actors/actions.mjs";
-import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { addFlatDamageReductionEffect, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../helpers/effects.mjs";
+import { addFlatDamageReductionEffect } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
-import { changeActivableProperty, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { isStackable } from "../statusEffects/statusUtils.mjs";
 import { openTokenHotbarConfig } from "./token-hotbar-config.mjs";
 
 export default class DC20Hotbar extends foundry.applications.ui.Hotbar { 
@@ -280,9 +278,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
   }
 
 
+  // TODO UPDATE FILTERS BORDER MARKERS ETC
   _borderColor(item) {
     const actionType = item.system?.actionType;
-    const attackCheckType = item.system?.attackFormula?.checkType;
+    const attackCheckType = item.system?.attack?.checkType;
     const checkType = item.system?.check?.checkKey;
 
     let color = "";
@@ -296,13 +295,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   _markers(item) {
     const actionType = item.system?.actionType;
-    const attackCheckType = item.system?.attackFormula?.checkType;
+    const attackCheckType = item.system?.attack?.checkType;
     const checkType = item.system?.check?.checkKey;
 
     let actionIcon = "";
-    if (actionType === "attack" && attackCheckType === "attack") actionIcon = "fa-sword";
+    if (actionType === "attack" && attackCheckType === "martial") actionIcon = "fa-sword";
     else if (actionType === "attack" && attackCheckType === "spell") actionIcon = "fa-hat-wizard";
-    else if (actionType === "check" && checkType === "att") actionIcon = "fa-sword";
     else if (actionType === "check" && checkType === "spe") actionIcon = "fa-hat-wizard";
     else if (actionType === "check") actionIcon = "fa-books";
     
@@ -332,11 +330,11 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (filter === "none") return;
 
     const actionType = item.system?.actionType;
-    const attackCheckType = item.system?.attackFormula?.checkType;
+    const attackCheckType = item.system?.attack?.checkType;
     const checkType = item.system?.check?.checkKey;
     const reaction = item.system?.isReaction;
 
-    const attackFilter = (actionType === "attack" && attackCheckType === "attack") || (actionType === "check" && checkType === "att");
+    const attackFilter = (actionType === "attack" && attackCheckType === "attack") || (actionType === "check" && checkType === "mar");
     const spellFilter = (actionType === "attack" && attackCheckType === "spell") || (actionType === "check" && checkType === "spe");
     const skillFilter = (actionType === "check" && (checkType !== "spe" && checkType !== "att"))
 
@@ -416,12 +414,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     for(const effect of actor.allEffects) {
-      if (effect.isTemporary) {
+      if (effect.isTemporary || effect.showIcon === CONST.ACTIVE_EFFECT_SHOW_ICON.ALWAYS) {
         const enriched = await TextEditor.enrichHTML(effect.description, {secrets:true, autoLink:true});
         const descriptionColumn = enriched ? `<hr/>${enriched}` : "";
         
-        const timeLeft = effect.roundsLeft ? `<p><i class="fa-solid fa-stopwatch margin-right-5"></i> ${effect.roundsLeft} Rounds Left</p>` : "";
-        const suspended = effect.suspended ? `<p><i class="fa-solid fa-power-off margin-right-5"></i> Suspended by: ${effect.suspendedBy} </p>` : "";
+        const timeLeft = effect.duration.label !== "None" ? `<p><i class="fa-solid fa-stopwatch margin-right-5"></i> Expire in: ${effect.duration.label}</p>` : "";
+        const suspended = effect.suspended ? `<p><i class="fa-solid fa-power-off margin-right-5"></i> ${effect.suspended} </p>` : "";
         const statuses = await this._prepareInnerStatuses(effect.statuses, effect.name);
 
         let middleColumn = `${timeLeft} ${suspended} ${statuses}`;
@@ -437,7 +435,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
         const item = effect.getSourceItem();
         if (item) {
           // Equippable
-          if (item.system.effectsConfig?.mustEquip) effect.equippable = true; 
+          if (effect.system.requireEquip) effect.equippable = true; 
 
           // Toggleable
           if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) effect.itemId = item.id; 
@@ -462,7 +460,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const effect = {...effectDoc};
       effect._id = effectDoc._id;
       const statusId = effect.system.statusId;
-      if (statusId && isStackable(statusId)) {
+      if (statusId && this.#isStackable(statusId)) {
         const alreadyPushed = mergedEffects.find(e => e.system.statusId === statusId);
         if (alreadyPushed) {
           alreadyPushed._id = effect._id;
@@ -478,6 +476,12 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       }
     }
     return mergedEffects;
+  }
+
+  #isStackable(statusId) {
+    const status = CONFIG.statusEffects.find(e => e.id === statusId);
+    if (status) return status.stackable;
+    else return false;
   }
 
   async _prepareInnerStatuses(statuses, effectName) {
@@ -620,7 +624,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     const subtracted = this.actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
 
-    await makeMoveAction(this.actor);
+    this.actor.moveAction();
     this.render();
   }
 
@@ -764,16 +768,17 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         if (dataset.itemId) {
-          const item = getItemFromActor(dataset.itemId, owner);
+          const item = owner.items.get(dataset.itemId);
           if (item) item.toggle();
         }
         else {
+          const effect = owner.getEffectById(dataset.effectId);
           if (event.shiftKey) {
-            const effect = getEffectFrom(dataset.effectId, owner);
             effect.runManualEvent();
           }
           else {
-            toggleEffectOn(dataset.effectId, owner, dataset.turnOn === "true");
+            if (dataset.turnOn === "true") effect.enable();
+            else effect.disable()
           }
         }
       }
@@ -789,7 +794,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     if (event.target.classList.contains("effect-img")) {
       const dataset = event.target.dataset;
       const owner = getActorFromIds(this.actorId, this.tokenId);
-      if (owner) editEffectOn(dataset.effectId, owner);
+      if (owner) {
+        const effect = owner.getEffectById(dataset.effectId);
+        if (effect) effect.sheet.render(true);
+      }
     }
   }
 
@@ -799,7 +807,10 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
       const owner = getActorFromIds(this.actorId, this.tokenId);
       if (owner) {
         const confirmed = await SimplePopup.confirm("Do you want to remove that Effect?");
-        if (confirmed) deleteEffectFrom(dataset.effectId, owner);
+        if (confirmed) {
+        const effect = owner.getEffectById(dataset.effectId);
+        if (effect) effect.gmDelete();
+        }
       }
     }
     if (event.target.classList.contains('help-dice') || event.target.parentElement.classList.contains('help-dice')) {

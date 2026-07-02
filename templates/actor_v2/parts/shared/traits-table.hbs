@@ -54,7 +54,10 @@
         <i class="fas fa-repeat"></i>
       </a>
       {{#if @root.editMode}}
-      <a class="trait-delete margin-left-5" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.delete'}}">
+      <a class="trait-edit" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.edit'}}">
+        <i class="fas fa-edit"></i>
+      </a>
+      <a class="trait-delete" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.delete'}}">
         <i class="fas fa-trash"></i>
       </a>
       {{/if}}

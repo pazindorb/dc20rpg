@@ -1,0 +1,19 @@
+<form id="spell-store-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.spellStore.header"}}</h4>
+  {{#if allowAddingSpells}}
+  <div class="message"><label>{{localize "dc20rpg.dialog.spellStore.drop"}}</label></div>
+  {{/if}}
+
+  <div class="select-wrapper">
+    <fieldset class="scrollable">
+      {{#each spellstore as |spell key|}}
+      <div class="button-wrapper">
+        <button class="img-option" data-action="castSpell" data-spell-key="{{key}}" data-hover="tooltip" data-tooltip-type="item">
+          <img src="{{spell.img}}"/><span>{{spell.name}}</span>
+        </button>
+        <a class="fa-solid fa-2x fa-trash margin-left-5" data-action="removeSpell" data-spell-key="{{key}}" data-tooltip="{{localize "dc20rpg.dialog.spellStore.removeSpell"}}" data-item-id="{{itemId}}"></a>
+      </div>
+      {{/each}}
+    </fieldset>
+  </div>
+</form>

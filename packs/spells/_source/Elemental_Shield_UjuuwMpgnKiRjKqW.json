@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -230,8 +230,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "L2IbY6sH5lC9ZAlB",
+        "sourceItemId": "UjuuwMpgnKiRjKqW",
+        "sourceItemName": "Elemental Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "s3e7dZxQhN4utSrE": {
         "name": "Durability",
@@ -316,8 +335,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "s3e7dZxQhN4utSrE",
+        "sourceItemId": "UjuuwMpgnKiRjKqW",
+        "sourceItemName": "Elemental Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "cC8tppS5XFlBvqiG": {
         "name": "Resistance",
@@ -388,7 +426,7 @@
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": "const effect = item.getEffectByKey(\"elementalShield\");\nif (!effect) return;\n\nconst dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\neffect.changes.push({\n  key: `system.damageReduction.damageTypes.${dmgType}.resistance`,\n  mode: 5,\n  value: \"true\"\n});"
+            "postItemRoll": "const effect = item.getEffectByKey(\"elementalShield\");\nif (!effect) return;\n\nconst dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\neffect.system.changes.push({\n  key: `system.damageReduction.damageTypes.${dmgType}.resistance`,\n  mode: 5,\n  value: \"true\"\n});"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -402,8 +440,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "cC8tppS5XFlBvqiG",
+        "sourceItemId": "UjuuwMpgnKiRjKqW",
+        "sourceItemName": "Elemental Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "2xgHsPOVR9RwBFkK": {
         "name": "Immunity",
@@ -474,7 +531,7 @@
           "addsEffect": null,
           "macros": {
             "preItemRoll": "",
-            "postItemRoll": "const effect = item.getEffectByKey(\"elementalShield\");\nif (!effect) return;\n\nconst dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\neffect.changes.push({\n  key: `system.damageReduction.damageTypes.${dmgType}.immune`,\n  mode: 5,\n  value: \"true\"\n});"
+            "postItemRoll": "const effect = item.getEffectByKey(\"elementalShield\");\nif (!effect) return;\n\nconst dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\neffect.system.changes.push({\n  key: `system.damageReduction.damageTypes.${dmgType}.immune`,\n  mode: 5,\n  value: \"true\"\n});"
           },
           "rollLevelChange": false,
           "rollLevel": {
@@ -488,8 +545,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2xgHsPOVR9RwBFkK",
+        "sourceItemId": "UjuuwMpgnKiRjKqW",
+        "sourceItemName": "Elemental Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -657,6 +733,9 @@
     "spellTags": {
       "embolden": "Embolden",
       "ward": "Ward"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -665,12 +744,10 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
       "origin": "Item.mCrLlMNRHshQc0Nb",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -695,7 +772,7 @@
         "effectKey": "elementalShield",
         "macro": "const dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst trigger = await DC20.dialog.SimplePopup.confirm(\"Is enemy in range to trigger Elemental Shield's Retaliation?\", {actor: actor});\nif (!trigger) return;\n\n// Apply damage\nconst input = await DC20.dialog.SimplePopup.input(\"How much damage should he take?\", {actor: actor});\nconst dmgValue = parseInt(input);\nif (dmgValue) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Elemental Shield - Retaliation\",\n    type: dmgType\n  }\n  const calculationTarget = {\n    system: {damageReduction: target.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(target, dmg.modified, {fromEvent: true});\n}\n\n// Should remove?\nconst doNotRemove = await DC20.dialog.SimplePopup.confirm(\"Any Temporary HP left?\", {actor: actor});\nif (!doNotRemove) effect.delete();",
         "addToChat": true,
-        "applyToTemplate": true,
+        "applyToTemplate": false,
         "nonessential": false,
         "disableWhen": {
           "path": "",
@@ -705,16 +782,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Elemental Shield - Retaliation\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 5,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Elemental Shield - Retaliation\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You gain Temp HP. Until you have at least 1 Temp HP left you gain benefit of <strong>Retaliation</strong>.</p><p></p><p><strong>Retaliation:</strong> If a creature within 1 Space Hits you with an Attack while you have this Temp HP, the creature takes 1 damage of the chosen type for each Temp HP that was consumed by the Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -724,11 +801,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782371531323,
+        "modifiedTime": 1782371531323
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!UjuuwMpgnKiRjKqW.wJulr1iYcWq6yv5d"
     }
   ],
@@ -738,11 +827,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767715952339,
-    "modifiedTime": 1767948790451,
+    "modifiedTime": 1782630573448,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

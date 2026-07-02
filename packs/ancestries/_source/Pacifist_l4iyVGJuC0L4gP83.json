@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -148,13 +148,10 @@
     {
       "origin": "Item.l4iyVGJuC0L4gP83",
       "duration": {
-        "rounds": 2,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 2,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Pacifist",
@@ -166,122 +163,145 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": true,
-          "onTimeEnd": "disable"
+          "onTimeEnd": "disable",
+          "expiryAction": "disable"
         },
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.mig",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.agi",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.int",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.cha",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.att",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.mar",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.spe",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.mig",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.cha",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.int",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Pacifist\", \"reenable\": \"combatStart\", \"alwaysActive\": true, \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mig",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.agi",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.int",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.cha",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.att",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mar",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.spe",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.mig",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.cha",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.int",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Pacifist\", \"modifier\": \"- 1\"",
-          "priority": null
-        }
-      ],
       "description": "<p><span>You suffer a -1 penalty to all Checks &amp; Saves made during the first round of Combat.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -305,14 +325,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1766693247608,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983706918,
+        "modifiedTime": 1781983706922,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!l4iyVGJuC0L4gP83.zP57AYDqM08ZoHu4"
     }
   ],
@@ -325,11 +348,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.InLzaEixPNhv1ac1",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720098982783,
-    "modifiedTime": 1766693674663,
+    "modifiedTime": 1781983706903,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

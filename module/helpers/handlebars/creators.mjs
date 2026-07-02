@@ -1,5 +1,5 @@
-import { itemDetailsToHtml } from "../items/itemDetails.mjs";
-import { getLabelFromKey } from "../utils.mjs";
+import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
+import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 
 export function registerHandlebarsCreators() {
@@ -12,6 +12,8 @@ export function registerHandlebarsCreators() {
     }
     return dataBindings;
   });
+
+  Handlebars.registerHelper('array', (...args) => args.slice(0, -1));
   
   Handlebars.registerHelper('small-button', (listener, icon, title, data) => {
     title = title ? `title="${title}"` : "";
@@ -215,9 +217,9 @@ export function registerHandlebarsCreators() {
     if (!actionType) return '';
 
     let content = '';
-    const attackCheck = item.system.attackFormula.checkType;
-    const attackRange = item.system.attackFormula.rangeType;
-    const rollMod = item.system.attackFormula.rollModifier;
+    const attackCheck = item.system.attack.checkType;
+    const attackRange = item.system.attack.rangeType;
+    const rollMod = item.system.rollConfig.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
     const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
@@ -248,15 +250,6 @@ export function registerHandlebarsCreators() {
     let content = "";
     if (!slots) return content;
 
-    const sectionIcon = options.hash.sectionIcon;
-    if (sectionIcon) {
-      const section = `
-      <div class="section-icon">
-        <i class="${sectionIcon} fa-lg"></i>
-      </div>`
-      content += section;
-    }
-
     for (const [key, slot] of Object.entries(slots)) {
       const img = slot.itemId ?
         `<img class="full" src="${slot.itemImg}" data-tooltip="${game.i18n.localize(slot.slotName)}: ${slot.itemName}"/>` :
@@ -278,13 +271,14 @@ export function registerHandlebarsCreators() {
 
     if (!content) return content;
     return `
-      <div class="slot-section ${sectionIcon ? "slot-bar" : ""}">
+      <div class="slot-section">
         ${content}
       </div>
     `;
   })
 
   Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => costPrinter(cost, resources, charges, quantity, showMinorAction));
+  Handlebars.registerHelper('scaling-value-printer', (system, paths, labels, secondPage) => _scalingValuePrinter(system, paths, labels, secondPage));
 
   Handlebars.registerHelper('item-config', (item, options) => {
     if (!item) return '';
@@ -321,6 +315,12 @@ export function registerHandlebarsCreators() {
           component +=  `<a class="run-on-demand-macro fas fa-code" data-tooltip="${onDemandTitle}" data-item-id="${item._id}"></a>`;
         }
       }
+    }
+
+    // Trigger keyword update
+    const keyword = item.system.keyword?.key
+    if (keyword && item.actor.keywords.has(keyword) && item.actor.keywords.get(keyword).updateItems[item.id]) {
+      component +=  `<a class="trigger-keyword-update fas fa-at" data-tooltip="${item.system.keyword.message}" data-keyword="${keyword}"></a>`;
     }
 
     // Add/Remove Favorities
@@ -431,7 +431,7 @@ export function registerHandlebarsCreators() {
     if (item.unidefined) return '';
     const system = item.system;
     switch (system.actionType) {
-      case "attack": return _attack(system.attackFormula);
+      case "attack": return _attack(system.attack);
       case "check": return _check(system.check);
       default: return '';
     }
@@ -499,6 +499,10 @@ export function registerHandlebarsCreators() {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.overrideTargetDefence')}<br><b>${getLabelFromKey(mods.targetDefenceType, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}</b>`;
       component += _descriptionIcon(description, "fa-share");
     }
+    if (mods.actionChange) {
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.actionChange')} <b>${getLabelFromKey(mods.actionType, CONFIG.DC20RPG.DROPDOWN_DATA.actionTypes)}</b>`
+      component += _descriptionIcon(description, "fa-dice-d6", "style='margin-top: -3px;'");
+    }
     if (mods.overrideDamageType) {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
       component += _descriptionIcon(description, "fa-fire");
@@ -558,11 +562,11 @@ function _formulas(formulas, icon, types) {
   return _descriptionIcon(`<p>${description}</p>`, icon);
 }
 
-function _descriptionIcon(description, icon) {
+function _descriptionIcon(description, icon, iconStyle="") {
   return `
   <div class="description-icon" title="">
     <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
-      <i class="fa-solid ${icon}"></i>
+      <i class="fa-solid ${icon}" ${iconStyle}></i>
     </div>
   </div>
   `
@@ -588,7 +592,7 @@ export function costPrinter(cost, resources=false, charges=false, quantity=false
       
       const weight = isMinor ? "fa-light" : "fa-solid";
       const icon = resource.custom ? `<img src=${resource.img} class="cost-img">` : `<i class="${resource.icon} ${weight}"></i>`;
-      component += _toCost(key, icon, resource.amount, resource.label);
+      component += _toCost(key, icon, resource.amount, resource.label, resource.custom);
     }
   }
 
@@ -613,16 +617,37 @@ export function costPrinter(cost, resources=false, charges=false, quantity=false
   return component ? `<ul class="cost-printer">${component}</ul>` : "";
 }
 
-function _toCost(key, icon, amount, title) {
+function _scalingValuePrinter(system, paths, labels, secondPage=false) {
+  // Prepare Header
+  const header = ["<th>Level</th>"];
+  labels.forEach(label => header.push(`<th>${label}</th>`));
+
+  // Prepare Rows
+  const rows = [];
+  for (let i = 0; i < 20; i++) {
+    let row = `<td>${i+1}</td>`;
+    paths.forEach(path => {
+      const values = getValueFromPath(system, path);
+      row += `<td data-tooltip="Level: ${i+1}"><input value=${values[i]} name="system.${path}.${i}"/></td>`
+    });
+
+    // workaround for validation errors
+    const shouldHide = secondPage ? i <= 9 : i > 9;
+    rows.push(`<tr ${shouldHide ? 'style="display: none;"' : ""}>${row}</tr>`);
+  }
+  return `<table><theader>${header.join("")}</theader><tbody>${rows.join("")}</tbody></table>`;
+}
+
+function _toCost(key, icon, amount, title, custom) {
   const symbol = amount < 0 ? "<b class='symbol'>+</b>" : "";
-  const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b>${Math.abs(amount)}</b>`;
+  const number = Math.abs(amount) === 1 || Math.abs(amount) === 0 ? "" : `<b ${custom ? 'style="color:black;"' : ""}>${Math.abs(amount)}</b>`;
   return `<li class="cost ${key}" data-tooltip="${title}">${number}${icon}${symbol}</li>`;
 }
 
 function _attackIcon(attackCheck, attackRange) {
-  if (attackCheck === "attack" && attackRange === "melee") return 'fa-sword';
-  if (attackCheck === "attack" && attackRange === "ranged") return 'fa-bow-arrow';
-  if (attackCheck === "attack" && attackRange === "area") return 'fa-bullseye';
+  if (attackCheck === "martial" && attackRange === "melee") return 'fa-sword';
+  if (attackCheck === "martial" && attackRange === "ranged") return 'fa-bow-arrow';
+  if (attackCheck === "martial" && attackRange === "area") return 'fa-bullseye';
   if (attackCheck === "spell" && attackRange === "melee") return 'fa-hand-sparkles';
   if (attackCheck === "spell" && attackRange === "ranged") return 'fa-wand-magic-sparkles';
   if (attackCheck === "spell" && attackRange === "area") return 'fa-meteor';

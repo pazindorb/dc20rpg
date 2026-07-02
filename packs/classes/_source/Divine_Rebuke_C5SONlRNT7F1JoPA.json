@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -185,27 +185,6 @@
       "untilFirstTimeTriggered": false
     },
     "macros": {
-      "jNAVNszB7BcLpLrO": {
-        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
-        "trigger": "onCreate",
-        "disabled": false,
-        "name": "Add To Keyword",
-        "title": ""
-      },
-      "p0gNXdHl2bjVBb0P": {
-        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"divineDamage\", item._id)",
-        "trigger": "preDelete",
-        "disabled": false,
-        "name": "Remove From Keyword",
-        "title": ""
-      },
-      "BXIP1axD8MJwfRj8": {
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Divine damage type\", damageTypes);\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
-        "trigger": "onDemand",
-        "disabled": false,
-        "name": "Change Divine Damage",
-        "title": "Change Divine Damage"
-      },
       "AjVzgNF2HhdaoOAv": {
         "command": "if (newValue) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: newValue});\n}",
         "trigger": "onKeywordUpdate",
@@ -236,7 +215,8 @@
         "untilFirstTimeTriggered": false,
         "repeatedSave": false,
         "repeatedSaveKey": "men",
-        "forOneMinute": true
+        "forOneMinute": true,
+        "stacks": null
       }
     },
     "itemKey": "divineRebuke",
@@ -291,6 +271,38 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 5,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "checkType": "spell",
+      "targetDefence": "area",
+      "closeQuarters": true
+    },
+    "keyword": {
+      "key": "divine-damage",
+      "message": "Select Divine Damage",
+      "selectOptions": "{\n    \"corrosion\": \"Corrosion\",\n    \"cold\": \"Cold\",\n    \"fire\": \"Fire\",\n    \"lightning\": \"Lightning\",\n    \"poison\": \"Poison\",\n    \"psychic\": \"Psychic\",\n    \"radiant\": \"Radiant\",\n    \"umbral\": \"Umbral\"\n}"
     }
   },
   "effects": [
@@ -298,118 +310,123 @@
       "img": "icons/creatures/magical/construct-golem-stone-blue.webp",
       "origin": "Compendium.dc20-players-handbook-beta.classes.Item.5rFxI2IR9v1nXAp4",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Divine Rebuke",
       "_id": "G2EmtHiMpfcJhZnU",
       "type": "base",
       "system": {
-        "statusId": "intimidated",
+        "statusId": "",
         "disableWhen": {
           "mode": "=="
         },
         "effectKey": "divineRebuke",
-        "addToChat": true
+        "addToChat": true,
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.mig",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.agi",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.int",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.cha",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.att",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.spe",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.mar",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Divine Rebuke\", \"postTrigger\": \"delete\", \"minimum\": 1, \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Divine Rebuke\", \"checkKey\": \"men\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"intimidated\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mig",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.agi",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.int",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.cha",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.att",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.spe",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.mar",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong> for 1 minute or until you take damage.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -437,14 +454,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "createdTime": null,
-        "modifiedTime": 1768033642359,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983662910,
+        "modifiedTime": 1782396850453,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "showIcon": 2,
+      "start": null,
+      "folder": null,
       "_key": "!items.effects!C5SONlRNT7F1JoPA.G2EmtHiMpfcJhZnU"
     }
   ],
@@ -453,11 +473,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034037,
-    "modifiedTime": 1776851970994,
+    "modifiedTime": 1782332625588,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

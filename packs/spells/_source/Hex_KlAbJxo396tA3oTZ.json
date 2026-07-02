@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "o7QQpTDTdjrDM3IP": {
-        "command": "const effect = item.getEffectByKey(\"hex\");\nif (!effect) return;\n\nconst EXPANDED = \"xA5WgSNCDW5qZuAU\";\nconst BREAK_RESISTANCE = \"QuSGYPyc7Eu4Veim\";\nconst IMPROVED = \"j96AmO1RKb1DZE2i\";\n\nconst enhancements = item.enhancements.active;\n\nlet value = 1;\nlet options = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nlet dmgTypes = [];\nif (enhancements.get(EXPANDED)) {\n  options = {\n    physical: \"Physical\",\n    elemental: \"Elemental\",\n    mystical: \"Mystical\"\n  }\n}\nif (enhancements.get(IMPROVED)) {\n  value += enhancements.get(IMPROVED).number;\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", options);\nif (!selected) return;\n\nswitch(selected) {\n  case \"physical\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes);\n    break;\n  case \"elemental\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\n    break;\n  case \"mystical\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes);\n    break;\n  default:\n    dmgTypes = [selected];\n}\n\n// Add Vulnerability to the effect\nfor (const dmgType of dmgTypes) {\n  effect.changes.push({\n    key: `system.damageReduction.damageTypes.${dmgType}.vulnerable`,\n    mode: 2,\n    value: value\n  })\n}\n\n// Add Resistance removal to the effect\nif (enhancements.get(BREAK_RESISTANCE)) {\n  for (const dmgType of dmgTypes) {\n    effect.changes.push({\n      key: `system.damageReduction.damageTypes.${dmgType}.resistance`,\n      mode: 5,\n      value: false\n    })\n    effect.changes.push({\n      key: `system.damageReduction.damageTypes.${dmgType}.resist`,\n      mode: 5,\n      value: 0\n    })\n  }\n}",
+        "command": "const effect = item.getEffectByKey(\"hex\");\nif (!effect) return;\n\nconst EXPANDED = \"xA5WgSNCDW5qZuAU\";\nconst BREAK_RESISTANCE = \"QuSGYPyc7Eu4Veim\";\nconst IMPROVED = \"j96AmO1RKb1DZE2i\";\n\nconst enhancements = item.enhancements.active;\n\nlet value = 1;\nlet options = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\nlet dmgTypes = [];\nif (enhancements.get(EXPANDED)) {\n  options = {\n    physical: \"Physical\",\n    elemental: \"Elemental\",\n    mystical: \"Mystical\"\n  }\n}\nif (enhancements.get(IMPROVED)) {\n  value += enhancements.get(IMPROVED).number;\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", options);\nif (!selected) return;\n\nswitch(selected) {\n  case \"physical\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes);\n    break;\n  case \"elemental\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);\n    break;\n  case \"mystical\":\n    dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes);\n    break;\n  default:\n    dmgTypes = [selected];\n}\n\n// Add Vulnerability to the effect\nfor (const dmgType of dmgTypes) {\n  effect.system.changes.push({\n    key: `system.damageReduction.damageTypes.${dmgType}.vulnerable`,\n    mode: 2,\n    value: value\n  })\n}\n\n// Add Resistance removal to the effect\nif (enhancements.get(BREAK_RESISTANCE)) {\n  for (const dmgType of dmgTypes) {\n    effect.system.changes.push({\n      key: `system.damageReduction.damageTypes.${dmgType}.resistance`,\n      mode: 5,\n      value: false\n    })\n    effect.system.changes.push({\n      key: `system.damageReduction.damageTypes.${dmgType}.resist`,\n      mode: 5,\n      value: 0\n    })\n  }\n}",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Prepare Hex effect",
@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -141,7 +141,8 @@
         "forOneMinute": false,
         "forXRounds": null,
         "repeatedSave": false,
-        "repeatedSaveKey": "phy"
+        "repeatedSaveKey": "phy",
+        "stacks": null
       }
     },
     "rollRequests": {
@@ -239,8 +240,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "WVRaFSyAy4YF3C9B",
+        "sourceItemId": "KlAbJxo396tA3oTZ",
+        "sourceItemName": "Hex",
+        "sourceItemImg": "icons/magic/control/buff-flight-wings-runes-red.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "xA5WgSNCDW5qZuAU": {
         "name": "Expanded",
@@ -249,12 +269,12 @@
         "description": "<p>The target becomes Vulnerable to a category of damage (Physical, Elemental or Mystical) of your choice instead of 1 damage type.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -325,8 +345,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "xA5WgSNCDW5qZuAU",
+        "sourceItemId": "KlAbJxo396tA3oTZ",
+        "sourceItemName": "Hex",
+        "sourceItemImg": "icons/magic/control/buff-flight-wings-runes-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "QuSGYPyc7Eu4Veim": {
         "name": "Break Resistance",
@@ -335,12 +376,12 @@
         "description": "<p>The target doesn’t benefit from Resistance to the damage types they are Vulnerable to due to the Curse for the duration.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -411,8 +452,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "QuSGYPyc7Eu4Veim",
+        "sourceItemId": "KlAbJxo396tA3oTZ",
+        "sourceItemName": "Hex",
+        "sourceItemImg": "icons/magic/control/buff-flight-wings-runes-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "j96AmO1RKb1DZE2i": {
         "name": "Improved Vulnerability",
@@ -421,12 +483,12 @@
         "description": "<p>The Vulnerability increases by 1.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2/4",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -497,22 +559,43 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "j96AmO1RKb1DZE2i",
+        "sourceItemId": "KlAbJxo396tA3oTZ",
+        "sourceItemName": "Hex",
+        "sourceItemImg": "icons/magic/control/buff-flight-wings-runes-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "0a4VhAoiwZ9Vdj5o": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> Use Targets - AP Cost enhancement together with this one.</em></p>",
+        "description": "<p>You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -584,95 +667,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "sdzmqhO8ot3TBm9I": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement together with Targets</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "0a4VhAoiwZ9Vdj5o",
+        "sourceItemId": "KlAbJxo396tA3oTZ",
+        "sourceItemName": "Hex",
+        "sourceItemImg": "icons/magic/control/buff-flight-wings-runes-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -840,6 +857,9 @@
     "spellTags": {
       "curse": "Curse",
       "enfeeble": "Enfeeble"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -848,13 +868,10 @@
       "img": "icons/magic/control/buff-flight-wings-runes-red.webp",
       "origin": "Item.ZMyU8IaAHNScR9Bi",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -874,7 +891,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "hex",
         "macro": "",
@@ -889,16 +907,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You are cursed by Hex. You gain Vulnerability to some damage types.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -908,11 +926,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983680699,
+        "modifiedTime": 1781983680699
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!KlAbJxo396tA3oTZ.yj8Ioa9bpX7WGjI8"
     }
   ],
@@ -922,11 +952,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767964170806,
-    "modifiedTime": 1777470013570,
+    "modifiedTime": 1782581022790,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

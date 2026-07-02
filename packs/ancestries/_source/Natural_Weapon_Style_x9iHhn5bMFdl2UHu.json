@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -137,19 +138,19 @@
       "AHf8Dv5BdkCIqqJb": {
         "name": "Select Natural Weapon Passive ",
         "trigger": "onCreate",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon])\nif (!weapons) return;\n\nfor (const weapon of weapons) {\n  const weaponStyle = await DC20.dialog.SimplePopup.select(`Select Natural Weapon Style for '${weapon.name}'`, CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\n  if (!weaponStyle) continue;\n  weapon.update({[\"system.weaponStyle\"]: weaponStyle});\n}",
         "disabled": false,
         "title": ""
       },
       "1N3CzZhu9xSex1Zy": {
         "name": "Change Natural Weapon Passive",
         "trigger": "onDemand",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
+        "command": "item.callMacroWithKey(\"AHf8Dv5BdkCIqqJb\")",
         "disabled": false,
         "title": "Change Natural Weapon Passive"
       },
       "5OaWxjNLGI4Laxtf": {
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: \"\"});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon])\nif (!weapons) return;\n\nfor (const weapon of weapons) {\n  weapon.update({[\"system.weaponStyle\"]: \"\"});\n}",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Weapon Style",
@@ -169,11 +170,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720112470033,
-    "modifiedTime": 1777357985882,
+    "modifiedTime": 1782125940648,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

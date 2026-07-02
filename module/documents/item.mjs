@@ -1,13 +1,11 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
-import { getTokenForActor } from "../helpers/actors/tokens.mjs";
-import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { createTemporaryMacro, runTemporaryItemMacro, runTemporaryMacro } from "../helpers/macros.mjs";
-import { emitEventToGM } from "../helpers/sockets.mjs";
+import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
-import { makeCalculations } from "./item/item-calculations.mjs";
-import { AgainstStatus, Conditional, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
+import { Area } from "../subsystems/area/area.mjs";
+import { makeCalculations, shouldOverrideActionType } from "./item/item-calculations.mjs";
+import { AgainstStatus, TargetModifier, Enhancement, Formula, ItemMacro, RollRequest } from "./item/item-creators.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { enrichWithHelpers } from "./item/item-helpers.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -17,10 +15,25 @@ import { prepareRollData } from "./item/item-rollData.mjs";
  * @extends {Item}
  */
 export class DC20RpgItem extends Item {
-  static enhLoopCounter = 0;
 
   get itemKey() {
     return this.system.itemKey;
+  }
+
+  get isAttack() {
+    return this.system.actionType === "attack";
+  }
+
+  get isMartialAttack() {
+    return this.isAttack && this.system.attack.checkType === "martial";
+  }
+
+  get isSpellAttack() {
+    return this.isAttack && this.system.attack.checkType === "spell";
+  }
+
+  get isCheck() {
+    return this.system.actionType === "check";
   }
 
   get checkKey() {
@@ -48,12 +61,21 @@ export class DC20RpgItem extends Item {
     return this.enhancements.active;
   }
 
+  get toggleable() {
+    return !!this.system.toggle?.toggleable
+  }
+
   get toggledOn() {
-    return this.system.toggle?.toggleable && this.system.toggle?.toggledOn;
+    return this.toggleable && this.system.toggle?.toggledOn;
   }
 
   get equipped() {
     return !!this.system?.statuses?.equipped;
+  }
+
+  get identified() {
+    if (!!!this.system.statuses) return true;
+    else return this.system.statuses.identified;
   }
 
   /**
@@ -74,6 +96,7 @@ export class DC20RpgItem extends Item {
     makeCalculations(this);
     translateLabels(this);
     enrichWithHelpers(this);
+    shouldOverrideActionType(this);
     this.prepared = true; // Mark item as prepared
   }
 
@@ -89,9 +112,13 @@ export class DC20RpgItem extends Item {
   async roll(options={}) {
     return await RollDialog.open(this.actor, this, options);
   }
+  
+  getEffectById(id) {
+    return this.effects.get(id);
+  }
 
-  getEffectWithName(effectName) {
-    return this.effects.getName(effectName);
+  getEffectByName(name) {
+    return this.effects.getName(name);
   }
 
   getEffectByKey(effectKey) {
@@ -101,33 +128,16 @@ export class DC20RpgItem extends Item {
   //======================================
   //=           CRUD OPERATIONS          =
   //======================================
-  /**
-   * Run update opperation on Document. If user doesn't have permissions to do so he will send a request to the active GM.
-   * No object will be returned by this method.
-   */
-  async gmUpdate(updateData={}, operation={}) {
-    if (!this.canUserModify(game.user, "update")) {
-      emitEventToGM("updateDocument", {
-        docUuid: this.uuid,
-        updateData: updateData,
-        operation: operation
-      });
-    }
-    else {
-      await this.update(updateData, operation);
-    }
+  static async gmCreate(data={}, operation={}) {
+    return await gmCreate(data, operation, this);
   }
 
-  /** @override */
-  async update(data={}, operation={}) {
-    try {
-      await super.update(data, operation);
-    } catch (error) {
-      if (error.message.includes("does not exist!")) {
-        ui.notifications.clear()
-      }
-      else throw error;
-    }
+  async gmUpdate(data={}, operation={}) {
+    return await gmUpdate(data, operation, this);
+  }
+
+  async gmDelete(operation={}) {
+    return await gmDelete(operation, this);
   }
 
   async _onCreate(data, options, userId) {
@@ -135,6 +145,11 @@ export class DC20RpgItem extends Item {
     if (userId === game.user.id && this.actor) {
       await runTemporaryItemMacro(this, "onCreate", this.actor);
       await addItemToActorInterceptor(this, this.actor);
+
+      // Handle adding keywords
+      if (this.system.keyword?.key && !options.fromAdvancement) {
+        await this.actor.keywords.add(this.system.keyword, this);
+      }
     }
     return onCreateReturn;
   }
@@ -156,6 +171,12 @@ export class DC20RpgItem extends Item {
     if (this.actor) {
       await runTemporaryItemMacro(this, "preDelete", this.actor);
       await removeItemFromActorInterceptor(this, this.actor);
+
+      // Handle removing keywords
+      if (this.system.keyword?.key) {
+        const keyword = this.actor.keywords.get(this.system.keyword.key);
+        if (keyword) await keyword.removeItem(this.id);
+      }
     }
     return await super._preDelete(options, user);
   }
@@ -166,6 +187,19 @@ export class DC20RpgItem extends Item {
       dragData.actorType = this.actor.type;
     }
     return dragData;
+  }
+
+  //=========================
+  //          AREA          =
+  //=========================
+  async createArea(area={}, areaKey) {
+    return await Area.create(area, {parent: this, key: areaKey});
+  }
+  async removeArea(key) {
+    await this.update({[`system.areas.-=${key}`]: null});
+  }
+  getAreaObjectExample() {
+    return new Area();
   }
 
   //=========================
@@ -221,16 +255,16 @@ export class DC20RpgItem extends Item {
   }
 
   //============================
-  //        CONDITIONALS       =
+  //      TARGET MODIFIERS     =
   //============================
-  async createNewConditional(conditional={}, conditionalKey) {
-    return await Conditional.create(conditional, {parent: this, key: conditionalKey});
+  async createNewTargetModifier(targetModifier={}, targetModifierKey) {
+    return await TargetModifier.create(targetModifier, {parent: this, key: targetModifierKey});
   }
-  async removeConditional(key) {
-    await this.update({[`system.conditionals.-=${key}`]: null});
+  async removeTargetModifier(key) {
+    await this.update({[`system.targetModifiers.-=${key}`]: null});
   }
-  getConditionalObjectExample() {
-    return new Conditional();
+  getTargetModifierObjectExample() {
+    return new TargetModifier();
   }
 
   //==========================
@@ -249,7 +283,7 @@ export class DC20RpgItem extends Item {
   editItemMacro(key) {
     const command = this.system.macros[key]?.command;
     if (!command === undefined) return;
-    const macro = createTemporaryMacro(command, this, {item: this, key: key});
+    const macro = createTemporaryMacro(command, this, {itemUuid: this.uuid, updatePath: `system.macros.${key}.command`});
     macro.canUserExecute = (user) => false;
     macro.sheet.render(true);
   }
@@ -280,7 +314,7 @@ export class DC20RpgItem extends Item {
   }
 
   async updateShortInfo(text) {
-    return await this.update({["system.shortInfo"]: text});
+    return await this.gmUpdate({["system.shortInfo"]: text});
   }
 
   //==========================
@@ -292,47 +326,30 @@ export class DC20RpgItem extends Item {
     let newState = !this.system.toggle.toggledOn;
     if (options.forceOn) newState = true;
     else if (options.forceOff) newState = false;
+
     await runTemporaryItemMacro(this, "onItemToggle", this.actor, {on: newState, off: !newState, equipping: false});
-    await this.update({["system.toggle.toggledOn"]: newState});
-    this.#createLinkedAura(newState);
+    await this.gmUpdate({["system.toggle.toggledOn"]: newState});
+
+    // Handle crating linked areas - przenieść to, chyba do tokena 
+    if (newState) this.#handleAreaPlacement();
+    else this.#handleAreaRemoval();
   }
 
-  #createLinkedAura(newState) {
+  async #handleAreaPlacement() {
     if (!this.actor) return;
-    const token = getTokenForActor(this.actor);
+    const token = this.actor.getActiveTokens()[0];
+    if (token) await token.toggleableAreaCheck(this);
+  }
+
+  async #handleAreaRemoval() {
+    if (!this.actor) return;
+    const token = this.actor.getActiveTokens()[0];
     if (!token) return;
 
-    if (newState) {
-      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(this.system?.target?.areas);
-      for (const template of Object.values(templates)) {
-        if (this.#getLinkedTemplate(token)) continue;
-        if (template.passiveAura || (template.linkWithToggle && this.toggledOn)) {
-          const applyEffects = getMesuredTemplateEffects(this, [], this.actor);
-          const itemData = {
-            itemId: this.id, 
-            actorId: this.actor.id, 
-            tokenId: token.id, 
-            applyEffects: applyEffects, 
-            itemImg: this.img, 
-            itemName: this.name
-          };
-          DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
-        }
-      }
-    }
-    else {
-      const template = this.#getLinkedTemplate(token);
-      if (template) template.delete();
-    }
-  }
-
-  #getLinkedTemplate(token) {
-    const linkedTemplates = token.document.flags?.dc20rpg?.linkedTemplates || [];
-    for (const templateId of linkedTemplates) {
-      const template = canvas.templates.documentCollection.get(templateId);
-      if (template?.flags?.dc20rpg?.itemData?.itemId === this.id) return template
-    }
-    return null;
+    const regions = token.document.regions
+            .filter(region => region.attachment?.token?.id === token.id)
+            .filter(region => region.flags.dc20rpg.toggledBy === this.id);
+    for (const region of regions) await region.delete();
   }
 
   async equip(options={forceEquip: false, forceUneqip: false}) {
@@ -345,7 +362,7 @@ export class DC20RpgItem extends Item {
     // If linked with slot use actor method instead
     const slotLink = options.slot || this.system.statuses.slotLink;
     const slotLinkProvided = slotLink?.category && slotLink?.key;
-    const hasEquipmentSlots = !!this.actor?.system?.equipmentSlot;
+    const hasEquipmentSlots = !!this.actor?.system?.equipmentSlots;
 
     // If slot link was not provided we want to identify where this item could go
     if (hasEquipmentSlots && slotLink?.predefined && !slotLinkProvided) {

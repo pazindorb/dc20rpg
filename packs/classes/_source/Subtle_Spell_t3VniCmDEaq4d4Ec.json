@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -148,7 +148,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>You can cast the Spell without requiring any Somatic and Verbal Components.</p>",
         "charges": {
@@ -160,7 +168,13 @@
         "sourceItemId": "t3VniCmDEaq4d4Ec",
         "sourceItemName": "Subtle Spell",
         "sourceItemImg": "icons/magic/control/buff-luck-fortune-gold.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -318,11 +332,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034454,
-    "modifiedTime": 1767175994674,
+    "modifiedTime": 1781985630821,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

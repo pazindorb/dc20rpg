@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -142,7 +142,15 @@
             "normal": null,
             "max": null
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>Once per Combat, you can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.97f79c465003e1ae]{Shove} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.bCnsRYxBZATmyx9R.JournalEntryPage.af2e660940da1ff2]{Grapple} </strong>Action as a Minor Action.</p>",
         "hide": false,
@@ -150,7 +158,13 @@
         "sourceItemId": "3FeRe1rwENb7Vf3h",
         "sourceItemName": "Brute",
         "sourceItemImg": "icons/creatures/abilities/mouth-teeth-sharp.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -242,11 +256,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1761303730925,
+    "modifiedTime": 1781985652516,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

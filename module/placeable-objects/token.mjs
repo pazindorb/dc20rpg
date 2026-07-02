@@ -1,10 +1,10 @@
 import { TokenSelector } from "../dialogs/token-selector.mjs";
-import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
-import { deleteToken, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
-import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
+import { DC20RpgItem } from "../documents/item.mjs";
+import { DC20RpgTokenDocument } from "../documents/token.mjs";
 import { getTokensForUser } from "../helpers/users.mjs";
-import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
-import DC20RpgMeasuredTemplate from "./measuredTemplate.mjs";
+import { getTokensInsideRegion } from "../helpers/utils.mjs";
+import { Area } from "../subsystems/area/area.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
@@ -25,7 +25,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       glide: {
@@ -36,7 +35,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       flying: {
@@ -47,7 +45,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       swimming: {
@@ -58,7 +55,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       burrow: {
@@ -69,7 +65,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       climbing: {
@@ -80,7 +75,6 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
         measure: true,
         walls: "move",
         visualize: true,
-        deriveTerrainDifficulty: null,
         getCostFunction: DC20RpgToken.tokenCostFunction
       },
       displace: {
@@ -99,109 +93,50 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     }
   }
 
-  get isFlanked() {
-    if (this.actor.system.globalModifier.ignore.flanking) return;
-    if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
-    const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
-    const coreDisposition = [this.document.disposition];
-    if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (neutralDispositionIdentity === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+  async getTokensInRange(range=1) {
+    const scaner = new Area();
+    scaner.distance = range;
+    scaner.type = "aura";
+    scaner.hideHighlight = true;
+    scaner.blockByWalls = false;
+    const region = await scaner.place({token: this, targetMode: true});
+    const tokens = getTokensInsideRegion(region);
+    region.delete();
+    return tokens.map(token => token.object);
+  }
 
-    const neighbours = this.neighbours;
-    for (let [key, token] of neighbours) {
-      // Prone/Incapacitated tokens cannot flank
-      if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) neighbours.delete(key);
-      if (token.actor.system.globalModifier.prevent?.flanking) neighbours.delete(key); // Some creatures cannot flank, ex. Familiar
-      if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
-    }
-    if (neighbours.size <= 1) return false;
+  async isTokenInRange(tokenToCheck, range) {
+    const tokens = await this.getTokensInRange(range);
+    return !!tokens.find(token => token.id === tokenToCheck.id);
+  }
 
-    for (const [id, neighbour] of neighbours) {
-      // To check if token is flankig we need to see if at least one neighbour of
-      // the core token is not also a neighbour of supposedly flanking token
-      const coreNeighbours = new Map(neighbours);
-      coreNeighbours.delete(id); // We want to skip ourself
+  async isTokenFlanked(byToken) {
+    const enemyDispositions = DC20RpgTokenDocument.getEnemyTokenDispositionsFor(this.document.disposition);
+    const tokens = (await this.getTokensInRange(1))
+                  .filter(token => enemyDispositions.includes(token.document.disposition))
+                  .filter(token => !token.actor.hasAnyStatus(["incapacitated", "dead", "prone"]))
+    if (tokens.length < 2) return false;
 
-      const tokenNeighbours = neighbour.neighbours;
-      let mathingNeighbours = 0;
-      for (let [key, token] of tokenNeighbours) {
-        if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) continue; // Prone/Incapacitated tokens cannot help with flanking
-        if (key === this.id) continue; // We want to skip core token
-        if (coreDisposition.includes(token.document.disposition)) continue; // Tokens of the same disposition shouldn't flank themself - most likely allies
-        if (coreNeighbours.has(key)) mathingNeighbours++;
+    // If specific token provided
+    if (byToken) {
+      if (!tokens.find(token => token.id === byToken.id)) return false;
+      for (const token of tokens) {
+        const isNeighbour = await byToken.isTokenInRange(token, 1);
+        if (!isNeighbour) return true;
       }
-      if (mathingNeighbours !== coreNeighbours.size) {
-        return true;
+      return false;
+    }
+
+    // If any flankers needed
+    for (let i = 0; i < tokens.length - 1; i++) {
+      const tokenA = tokens[i];
+      for (let j = i + 1; j < tokens.length; j++) {
+        const tokenB = tokens[j];
+        const isNeighbour = await tokenA.isTokenInRange(tokenB, 1);
+        if (!isNeighbour) return true;
       }
     }
     return false;
-  }
-
-  get enemyNeighbours() {
-    const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
-    const coreDisposition = [this.document.disposition];
-    if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (neutralDispositionIdentity === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
-
-    const neighbours = this.neighbours;
-    for (let [key, token] of neighbours) {
-      if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
-    }
-    return neighbours;
-  }
-
-  get neighbours() {
-    const tokens = canvas.tokens.placeables;
-    const neighbours = new Map();
-    if (canvas.grid.isGridless) {
-      const rangeArea = getRangeAreaAroundGridlessToken(this, 0.5);
-      for (const token of tokens) {
-        const pointsToContain = getGridlessTokenPoints(token);
-        let isNeighbour = false;
-        for (const point of pointsToContain) {
-          if (isPointInSquare(point.x, point.y, rangeArea)) isNeighbour = true;
-        }
-        if (isNeighbour) neighbours.set(token.id, token);
-      }
-    }
-    else {
-      const neighbouringSpaces = this.getNeighbouringSpaces();
-      for (const token of tokens) {
-        const tokenSpaces = token.getOccupiedGridSpacesMap();
-        let isNeighbour = false;
-        tokenSpaces.keys().forEach(key => {
-          if(neighbouringSpaces.has(key)) isNeighbour = true;
-        })
-        if (isNeighbour) neighbours.set(token.id, token);
-      }
-    }
-    return neighbours;
-  }
-
-  get adjustedHitArea() {
-    const hitArea = this.hitArea;
-    let points = [];
-    // Hex grid
-    if (hitArea.type === 0) points = hitArea.points;
-    // Square grid
-    if (hitArea.type === 1) {
-      points = [
-        0, 0,
-        hitArea.width, 0,
-        0, hitArea.height,
-        hitArea.width, hitArea.height
-      ]
-    }
-
-    const area = [];
-    for(let i = 0; i < points.length; i += 2) {
-      const p = {
-        x: this.x + points[i],
-        y: this.y + points[i+1]
-      }
-      area.push(p)
-    }
-    return area;
   }
 
   async _onClickLeft2(event) {
@@ -217,10 +152,10 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
           if (itemData.system.properties?.cumbersome?.active) {
             if (!actor.resources.ap.checkAndSpend(1)) return;
           }
-          await createItemOnActor(actor, this.document.flags.dc20rpg.itemData);
+          await DC20RpgItem.gmCreate(itemData, {parent: actor});
         }
       }
-      await deleteToken(this.id);
+      await this.gmDelete();
     }
     else await super._onClickLeft2(event);
   }
@@ -240,7 +175,9 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     return this.actor?.testUserPermission(user, "LIMITED");
   }
 
-
+  //=================================
+  //=        DRAWING METHODS        =
+  //=================================
   /** @override */
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async _drawEffects() {
@@ -253,30 +190,41 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     this.effects.overlay = null;
 
     // Categorize effects
-    const activeEffects = this.actor?.temporaryEffects || [];
-    const overlayEffect = activeEffects.findLast(e => e.img && e.getFlag("core", "overlay"));
+    //====== MODIFIED ======
+    const SHOW_ICON = CONST.ACTIVE_EFFECT_SHOW_ICON;
+    const activeEffects = this.actor?.allEffects
+            .filter(effect => !effect.disabled)
+            .filter(effect => (effect.showIcon === SHOW_ICON.ALWAYS) || ((effect.showIcon === SHOW_ICON.CONDITIONAL) && effect.isTemporary)) ?? [];
+    const overlayEffect = activeEffects.findLast(e => e.flags.core?.overlay);
+    //====== MODIFIED ======
 
+    //====== INJECTED ====== 
     // Flatten the same active effect images
-    const flattenedImages = [];
-    const uniqueImages = [];
+    const flattenedImages = new Map();
     activeEffects.forEach(effect => {
-      if (uniqueImages.indexOf(effect.img) === -1) {
-        flattenedImages.push(effect);
-        uniqueImages.push(effect.img);
+      if (flattenedImages.has(effect.img)) {
+        const eff = flattenedImages.get(effect.img);
+        eff.numberOfImages += 1;
+        flattenedImages.set(effect.img, eff);
+      }
+      else {
+        effect.numberOfImages = 1;
+        flattenedImages.set(effect.img, effect);
       }
     });
+    //====== INJECTED ====== 
 
     // Draw effects
     const promises = [];
-    for (let i = 0; i < flattenedImages.length; i++) {
-      const effect = flattenedImages[i];
-    // for ( const [i, effect] of activeEffects.entries() ) {
+    let index = 0;
+    // for ( const [i, effect] of activeEffects.entries() ) { //NOTE: Replaced this line with the one bellow
+    for (const effect of flattenedImages.values()) {
       if ( !effect.img ) continue;
       const promise = effect === overlayEffect
         ? this._drawOverlay(effect.img, effect.tint)
-        : this._drawEffect(effect.img, effect.tint);
+        : this._drawEffectStack(effect);
       promises.push(promise.then(e => {
-        if ( e ) e.zIndex = i;
+        if ( e ) e.zIndex = index++;
       }));
     }
     await Promise.allSettled(promises);
@@ -286,13 +234,44 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     this.renderFlags.set({refreshEffects: true});
   }
 
+  async _drawEffectStack(effect) {
+    const e = await this._drawEffect(effect.img, effect.tint);
+    if ( !e || (effect.numberOfImages <= 1) ) return e;
+
+    const width = e.texture?.width ?? e.width;
+    const height = e.texture?.height ?? e.height;
+    const textureSize = Math.min(width, height);
+    const badge = e.addChild(new PIXI.Container());
+    badge.position.set(width / 2, height / 2);
+
+    badge.addChild(new PIXI.Graphics()
+      .beginFill(0x000000, 0.65)
+      .lineStyle(Math.max(2, textureSize * 0.04), 0xffffff, 0.9)
+      .endFill());
+
+    const label = badge.addChild(new PIXI.Text(String(effect.numberOfImages), {
+      fontFamily: CONFIG.canvasTextStyle.fontFamily,
+      fontSize: Math.max(24, textureSize * 0.75),
+      fontWeight: "bold",
+      fill: 0xcc0a0a,
+      stroke: 0x000000,
+      strokeThickness: Math.max(2, textureSize * 0.04)
+    }));
+    label.anchor.set(0.5);
+    return e;
+  }
+
+  _applyRenderFlags(flags) {
+    if (flags.refreshEffects) flags.refreshBars = true;
+    super._applyRenderFlags(flags);
+  }
+
   async _draw(options) {
     await super._draw(options);
 
     // Add apDisplay bellow bars
     const bars = this.bars;
-    bars.apDisplay = bars.addChild(new PIXI.Container());
-    bars.apDisplay.width = this.document.getSize().width;
+    bars.apDisplay ||= bars.addChild(new PIXI.Graphics());
   }
 
   /** @override */
@@ -353,257 +332,81 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     this.bars.apDisplay.addChild(icon);
   }
 
-  getNeighbouringSpaces() {
-    const occupiedSpaces = this.getOccupiedGridSpacesMap();
-    const adjacents = new Map();
-    for (const space of occupiedSpaces.values()) {
-      this.#adjacentSpacesFor(space).forEach(adjSpace => {
-        const key = `i#${adjSpace.i}_j#${adjSpace.j}`; 
-        if (!adjacents.has(key) && !occupiedSpaces.has(key)) {
-          adjacents.set(key, adjSpace);
-        }
-      });
-    }
-    return adjacents;
-  }
-
-  #adjacentSpacesFor(space) {
-    const grid = canvas.grid;
-    if (grid.isSquare) return grid.getAdjacentOffsets(space);
-    if (grid.isHexagonal) {
-      if (grid.columns) {
-        let d = 1;
-        const spaceEven = (space.i % 2 === 0);
-        if (grid.even) d = spaceEven ? 1 : -1;
-        else d = spaceEven ? -1 : 1;
-        return [
-          {i: space.i, j: space.j + 1},
-          {i: space.i, j: space.j - 1},
-          {i: space.i + 1, j: space.j},
-          {i: space.i - 1, j: space.j},
-          {i: space.i + 1, j: space.j + d},
-          {i: space.i - 1, j: space.j + d},
-        ]
-      }
-      else {
-        let d = 1;
-        const spaceEven = (space.j % 2 === 0);
-        if (grid.even) d = spaceEven ? 1 : -1;
-        else d = spaceEven ? -1 : 1;
-        return [
-          {i: space.i + 1, j: space.j},
-          {i: space.i - 1, j: space.j},
-          {i: space.i, j: space.j + 1},
-          {i: space.i, j: space.j - 1},
-          {i: space.i + d, j: space.j + 1},
-          {i: space.i + d, j: space.j - 1},
-        ]
-      }
-    }
-    return [];
-  }
-
-  getOccupiedGridSpacesMap() {
-    return new Map(this.getOccupiedGridSpaces().map(occupied => [`i#${occupied[0]}_j#${occupied[1]}`, {i: occupied[0], j: occupied[1]}]));
-  }
-
-  getOccupiedGridSpaces() {
-    // Gridless - no spaces to occupy
-    if (canvas.grid.isGridless) return [];
-
-    // Square
-    if (canvas.grid.isSquare) {
-      const tokenWidth = this.document.width;   // Width in spaces
-      const tokenHeight = this.document.height; // Height in spaces
-      const range = canvas.grid.getOffsetRange(this);
-      const startX = range[1];
-      const startY = range[0];
-
-      // We need to move the layout to the starting position of the token
-      const occupiedSpaces = [];
-      for (let i = 0; i < tokenWidth; i++) {
-        for (let j = 0; j < tokenHeight; j++) {
-          const x = startX + i;
-          const y = startY + j;
-          occupiedSpaces.push([x, y]);
-        }
-      }
-      return occupiedSpaces;
-    }
-    // Hex
-    else if (canvas.grid.isHexagonal) {
-      // For Hex we want to collect more spaces and then check which
-      // belong to token hitArea, we do that because hex tokens have
-      // more irregular shapes
-     
-      const startCordX = this.document.x; // X cord of token
-      const startCordY = this.document.y; // Y cord of token
-
-      // We convert hit area to polygon so we will be able to check which spaces belong to it
-      const points = this.hitArea?.points;
-      if (!points) return []; // There can be a moment during the initialization that hitArea is not yet prepared
-      const polygon = [];
-      const borderPoints = new Map();
-      const rowOriented = canvas.grid.type === CONST.GRID_TYPES.HEXEVENR || canvas.grid.type === CONST.GRID_TYPES.HEXODDR;
-      for (let i = 0; i < points.length; i=i+2) {
-        const x = startCordX + points[i];
-        const y = startCordY + points[i+1];
-        polygon.push({x: x, y: y});
-
-        // We also want to collect center points from nereby hexes
-        const center = canvas.grid.getCenterPoint({x: x, y: y});
-        this.#prepareBorderPoints(center, borderPoints, rowOriented);
-      }
-      const layout = this.#prepareHexLayout(borderPoints, rowOriented);
-
-      // We check if center points belong to 
-      const occupiedSpaces = [];
-      for (let i = 0; i < layout.length; i++) {
-        const centerX = layout[i].x;
-        const centerY = layout[i].y;
-
-        const topLeft = canvas.grid.getTopLeftPoint(layout[i])
-        const [y, x] = canvas.grid.getOffsetRange(topLeft);
-        if (isPointInPolygon(centerX, centerY, polygon)) {
-          occupiedSpaces.push([x, y]);
-        }
-      }
-      return occupiedSpaces;
-    }
-    // Unsupported grid type
-    else {
-      ui.notifications.error("Unsupported grid type");
-      return [];
-    }
-  }
-
-  #prepareBorderPoints(center, borderPoints, rowOriented) {
-    const mainCord = rowOriented ? "x" : "y";
-    const otherCord = rowOriented ? "y" : "x";
-
-    const key = Math.floor(center[otherCord]); // Get rid of rounding issues
-    const borderPoint = borderPoints.get(key);
-    if (borderPoint) {
-      const first = borderPoint.first > center[mainCord] ? center[mainCord] : borderPoint.first;
-      const last = borderPoint.last < center[mainCord] ?  center[mainCord] : borderPoint.last;
-      borderPoints.set(key, {
-        first: first,
-        last: last,
-        otherPoint: center[otherCord]
-      })
-    }
-    else {
-      borderPoints.set(key, {
-        first: center[mainCord],
-        last: center[mainCord],
-        otherPoint: center[otherCord]
-      })
-    }
-  }
-
-  #prepareHexLayout(borderPoints, rowOriented) {
-    const sizeKey = rowOriented ? "sizeX" : "sizeY";
-    const mainCord = rowOriented ? "x" : "y";
-    const otherCord = rowOriented ? "y" : "x";
-
-    const layout = [];
-    const gridSize = canvas.grid[sizeKey];
-    borderPoints.forEach(point => {
-      const otherPoint = point.otherPoint;
-      const first = point.first;
-      const last = point.last;
-
-      let nextCenter = first; // We start with first center point
-      while(last - nextCenter > gridSize/4) {
-        layout.push({[mainCord]: nextCenter, [otherCord]: otherPoint});
-        nextCenter += gridSize;
-      }
-      layout.push({[mainCord]: last, [otherCord]: otherPoint});
-    })
-    return layout;
-  }
-
-  isTokenInRange(tokenToCheck, range) {
-    if (canvas.grid.isGridless) return this._isTokenInRangeGridless(tokenToCheck, range);
-    return this._isTokenInRangeGrid(tokenToCheck, range);
-  }
-
-  _isTokenInRangeGridless(tokenToCheck, range) {
-    const rangeArea = getRangeAreaAroundGridlessToken(this, range);
-    const pointsToContain = getGridlessTokenPoints(tokenToCheck);
-    for (const point of pointsToContain) {
-      if (isPointInSquare(point.x, point.y, rangeArea)) return true;
-    }
-    return false;
-  }
-
-  _isTokenInRangeGrid(tokenToCheck, range) {
-    const fromArea = this.adjustedHitArea;
-    const toArea = tokenToCheck.adjustedHitArea;
-
-    let shortestDistance = 999;
-    for (let from of fromArea) {
-      for (let to of toArea) {
-        const distance = Math.round(canvas.grid.measurePath([from, to]).distance); 
-        if (shortestDistance > distance) shortestDistance = distance;
-      }
-    }
-    return shortestDistance < range;
-  }
-
-  /** @override */
-  _getMovementCostFunction(options={}) {
-    if (!this.document.actor) return 1;
-    options.ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.document.actor.system.globalModifier.ignore.difficultTerrain;
-    const calculateTerrainCost = CONFIG.Token.movement.TerrainData.getMovementCostFunction(this.document, options);
-    const calculateTemplateCost = DC20RpgMeasuredTemplate.getMovementCostFunction(this.document, options);
-
-    const actionCostFunctions = {};
-    return (from, to, distance, segment) => {
-      const terrainCost = calculateTerrainCost(from, to, distance, segment);
-      const templateCost = calculateTemplateCost(from, to, distance, segment);
-      const finalCost = terrainCost + templateCost;
-
-      const calculateActionCost = actionCostFunctions[segment.action]
-        ??= segment.actionConfig.getCostFunction(this.document, options);
-      return calculateActionCost(finalCost, from, to, distance, segment);
-    };
-  }
-
   /** @override */
   _onCreate(data, options, userId) {
     if (userId === game.user.id && this.actor) {
-      this._passiveAuraCheck();
+      this.#passiveAreaCheck();
     }
     super._onCreate(data, options, userId);
   }
 
-  async _passiveAuraCheck() {
-    for (const item of this.actor.items) {
-      const templates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(item.system?.target?.areas);
-      for (const template of Object.values(templates)) {
-        if (template.passiveAura || (template.linkWithToggle && item.toggledOn)) {
-          // If aura already exist we don't want to create it for the second time
-          for (const token of this.actor.getActiveTokens()) {
-            const linkedTemplates = token.document.flags.dc20rpg?.linkedTemplates || [];
-            for (const templateId of linkedTemplates) {
-              const template = canvas.templates.documentCollection.get(templateId);
-              if (template?.flags?.dc20rpg?.itemData?.itemId === item.id) return;
-            }
-          }
+  //=================================
+  //=         TOKEN REGIONS         =
+  //=================================
+  async toggleableAreaCheck(item) {
+      if (!item.system.areas) return;
+      const areas = Object.values(item.system.areas).filter(area => this.#isToggled(area, true));
+      if (areas.length === 0) return;
 
-          const applyEffects = getMesuredTemplateEffects(item, [], this.actor);
-          const itemData = {
-            itemId: item.id, 
-            actorId: this.actor.id, 
-            tokenId: this.id, 
-            applyEffects: applyEffects, 
-            itemImg: item.img, 
-            itemName: item.name
-          };
-          await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => {}, itemData);
-        }
+      const [areaData, effects] = this.#prepareAreaDataAndCollectEffects(item);
+      const area = Area.enrich(areas[0], {areaData: areaData, effects: effects, actor: this.actor});
+      if (area) await area.place({token: this, flags: {toggledBy: item.id}});
+  }
+
+  async #passiveAreaCheck() {
+    for (const item of this.actor.items) {
+      if (!item.system.areas) continue;
+      const areas = Object.values(item.system.areas).filter(area => this.#isPassiveArea(area)|| this.#isToggled(area, item.toggledOn));
+      if (areas.length === 0) continue;
+
+      const [areaData, effects] = this.#prepareAreaDataAndCollectEffects(item);
+      const area = Area.enrich(areas[0], {areaData: areaData, effects: effects, actor: this.actor});
+      if (!area) continue;
+
+      const options = {token: this};
+      if (this.#isToggled(area, item.toggledOn)) {
+        options.flags = {toggledBy: item.id};
       }
+      await area.place(options);
     }
+  }
+
+  #isPassiveArea(area) {
+    return area.alwaysActive && area.selfOnly && area.attachToToken;
+  }
+
+  #isToggled(area, toggledOn) {
+    return toggledOn && area.linkWithToggle && area.selfOnly && area.attachToToken;
+  }
+
+  #prepareAreaDataAndCollectEffects(item) {
+    const areaData = {
+      actorId: this.actor.id, 
+      actorUuid: this.actor.uuid,
+      tokenId: this.id,
+      itemId: item.id, 
+      itemImg: item.img,
+      itemName: item.name
+    };
+    const effects = item.effects
+                      .filter(effect => effect.system.applyToTemplate)
+                      .map(effect => {
+                        const effectData = effect.toObject();
+                        DC20RpgActiveEffect.enhanceEffectData(effectData, {actor: this.actor});
+                        effectData.flags.dc20rpg.templateCallTime = Date.now();
+                        return effectData;
+                      });
+    return [areaData, effects]
+  }
+
+  //======================================
+  //=           CRUD OPERATIONS          =
+  //======================================
+  async gmUpdate(data={}, operation={}) {
+    return this.document.gmUpdate(data, operation);
+  }
+
+  async gmDelete(operation={}) {
+    return this.document.gmDelete(operation);
   }
 }

@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "4DhXaUSisFggrQX5",
+        "sourceItemId": "ZhWbEKqR3j0mNKcb",
+        "sourceItemName": "Spike Surge",
+        "sourceItemImg": "icons/magic/nature/root-vines-grow-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "x7fCsCwBMp4F1zmW": {
         "name": "Area",
@@ -231,12 +250,12 @@
         "description": "<p>The Area’s radius increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -307,8 +326,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "x7fCsCwBMp4F1zmW",
+        "sourceItemId": "ZhWbEKqR3j0mNKcb",
+        "sourceItemName": "Spike Surge",
+        "sourceItemImg": "icons/magic/nature/root-vines-grow-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "wiDubuYIcKDVa4EH": {
         "name": "Aura",
@@ -317,12 +358,12 @@
         "description": "<p>The Area becomes an Aura instead.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -378,7 +419,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.target.areas.default.area = \"radius\"",
+            "preItemRoll": "",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -393,8 +434,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": "aura"
+        },
+        "key": "wiDubuYIcKDVa4EH",
+        "sourceItemId": "ZhWbEKqR3j0mNKcb",
+        "sourceItemName": "Spike Surge",
+        "sourceItemImg": "icons/magic/nature/root-vines-grow-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "GntxV1N4F38KXDk5": {
         "name": "Impair",
@@ -403,12 +466,12 @@
         "description": "<p>Each target makes an Agility Save.</p><p><strong>Save Failure:</strong> The target is Impaired for 1 Round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -460,7 +523,8 @@
             "forOneMinute": false,
             "forXRounds": 1,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -479,8 +543,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "GntxV1N4F38KXDk5",
+        "sourceItemId": "ZhWbEKqR3j0mNKcb",
+        "sourceItemName": "Spike Surge",
+        "sourceItemImg": "icons/magic/nature/root-vines-grow-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "gzhkuD3R2sohBEEN": {
         "name": "Spikey Terrain",
@@ -489,12 +575,12 @@
         "description": "<p>The area becomes Spikey Terrain for 1 Round. Creatures take X Piercing damage when they enter a Space within the area.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -558,15 +644,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 22,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "gzhkuD3R2sohBEEN"
+                "enhKey": "gzhkuD3R2sohBEEN",
+                "itemSavePath": "system.enhancements.gzhkuD3R2sohBEEN.modifications.addsEffect"
               }
             },
-            "_id": "IJJqhYb3udWJgPWX",
+            "_id": "VacFIqvJEbcZmbhL",
             "type": "base",
             "system": {
               "sustained": {
@@ -580,11 +671,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -595,24 +687,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"damage\", \"trigger\": \"instant\", \"label\": \"Spikey Terrain\", \"preTrigger\": \"skip\", \"value\": #REPLACE#, \"type\": \"piercing\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"damage\", \"trigger\": \"move\", \"label\": \"Spikey Terrain\", \"preTrigger\": \"skip\", \"value\": #REPLACE#, \"type\": \"piercing\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"damage\", \"trigger\": \"instant\", \"label\": \"Spikey Terrain\", \"preTrigger\": \"skip\", \"value\": #REPLACE#, \"type\": \"piercing\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"damage\", \"trigger\": \"move\", \"label\": \"Spikey Terrain\", \"preTrigger\": \"skip\", \"value\": #REPLACE#, \"type\": \"piercing\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Creatures take X Piercing damage when they enter a Space within the area.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -622,16 +719,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777702357238,
-              "modifiedTime": 1777702373610,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782572322431,
+              "modifiedTime": 1782572322431,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 22,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "const changes = enh.modifications.addsEffect.changes;\nchanges[0].value = changes[0].value.replace('\"value\": #REPLACE#', `\"value\": ${enh.number}`)\nchanges[1].value = changes[1].value.replace('\"value\": #REPLACE#', `\"value\": ${enh.number}`)",
+            "preItemRoll": "const changes = enh.modifications.addsEffect.system.changes;\nchanges[0].value = changes[0].value.replace('\"value\": #REPLACE#', `\"value\": ${enh.number}`)\nchanges[1].value = changes[1].value.replace('\"value\": #REPLACE#', `\"value\": ${enh.number}`)",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -646,8 +753,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "gzhkuD3R2sohBEEN",
+        "sourceItemId": "ZhWbEKqR3j0mNKcb",
+        "sourceItemName": "Spike Surge",
+        "sourceItemImg": "icons/magic/nature/root-vines-grow-brown.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -817,6 +946,31 @@
       "impaired": "Impaired",
       "piercing": "Piercing",
       "plants": "Plants"
+    },
+    "areas": {
+      "default": {
+        "type": "arc",
+        "distance": 2,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -826,11 +980,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767817971035,
-    "modifiedTime": 1777702383811,
+    "modifiedTime": 1782572325099,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

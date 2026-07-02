@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -152,7 +152,15 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>Once per turn when you make a<span style=\"color:rgba(212, 76, 71, 1);fill:rgba(212, 76, 71, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\"> </span><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"2\" class=\"notion-enable-hover\">Check, </span>you can spend <span style=\"font-weight:600\" data-token-index=\"4\" class=\"notion-enable-hover\"><strong>1 HP</strong></span> to gain ADV on the Check.</p>",
         "hide": false,
@@ -160,7 +168,13 @@
         "sourceItemId": "M8IpIOm7Te0527Cr",
         "sourceItemName": "Hasty Bargain",
         "sourceItemImg": "icons/magic/unholy/hand-fire-skeleton-pink.webp",
-        "active": false
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
@@ -318,11 +332,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034477,
-    "modifiedTime": 1776894626199,
+    "modifiedTime": 1781983664127,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

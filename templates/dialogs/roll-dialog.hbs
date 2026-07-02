@@ -1,7 +1,9 @@
 <form id="roll-prompt" class="dialog-v13 dialog-content standard-form {{cssClass}} scrollable">
 
   <div class="header">
-    <div class="name-wrapper" {{#if item}}data-hover="tooltip" data-tooltip-type="item" data-item-id="{{item._id}}"{{/if}}>
+    <div class="name-wrapper" 
+    {{#if item}}data-hover="tooltip" data-tooltip-type="item" data-item-id="{{item._id}}"{{/if}} 
+    {{#if header.description}}data-hover="tooltip" data-tooltip-type="custom" data-header="{{header.name}}" data-img="{{header.img}}" data-description="{{header.description}}" {{/if}}>
       <img src="{{header.img}}"/>
       <span>{{header.name}}</span>
     </div>
@@ -58,25 +60,8 @@
   </fieldset>
   {{/if}}
 
-  {{!-- Measured Templates --}}
-  {{#if hasTemplates}}
-  <fieldset class="measurement-templates">
-    <legend>{{localize "dc20rpg.dialog.rollDialog.templates"}}</legend>
-
-    {{#each measurementTemplates as |template key|}}
-    <div class="template">
-      {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-minus margin-right-2" data-key="{{key}}" data-action="changeSpace" data-direction="down"></a>
-      {{/unless}}
-      <a class="template-button {{#if template.selected}}selected{{/if}}" data-action="template" data-key="{{key}}">
-        {{template.label}}
-      </a>
-      {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-plus margin-left-2" data-key="{{key}}" data-action="changeSpace" data-direction="up"></a>
-      {{/unless}}
-    </div>
-    {{/each}}
-  </fieldset>
+  {{#if hasAreas}}
+  <button data-action="placeAreas" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.placeAreaHint'}}"><i class="fa-light fa-bullseye fa-lg margin-right-5"></i> {{localize "dc20rpg.dialog.rollDialog.placeArea"}}</button>
   {{/if}}
 
   {{!-- Enhancements & Modifications --}}
@@ -130,23 +115,42 @@
     {{#each enhancements as |enhancement key|}}
       {{#unless enhancement.hide}}
       <div class="enh-row">
-        <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceItemName}}">
-          <img class="img" src="{{enhancement.sourceItemImg}}"/>
+        <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceName}}">
+          <img class="img" src="{{enhancement.sourceImg}}"/>
           <div class="name margin-left-5">{{enhancement.name}}</div>
         </div> 
         <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
           {{{enhancement-mods enhancement}}}
         </div>
+        {{#ifCond enhancement.altCostMax '>' 0}}
+        <div class="column usage costs alt-cost" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+          <a data-cType="toggle" data-max="{{enhancement.altCostMax}}" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-actor-id="{{enhancement.sourceActorId}}" data-path="system.enhancements.{{key}}.altCost" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.altCost'}}">
+            {{enhancement.altCost}}
+          </a>
+          {{{cost-printer enhancement.useCost true true false false}}}
+        </div>
+        {{else}}
         <div class="column usage costs" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
           {{{cost-printer enhancement.useCost true true false false}}}
         </div>
+        {{/ifCond}}
         <div class="column enh-number">
           {{#ifCond @root.rollsHeldAction '||' enhancement.preventModification}}
-          <i>{{enhancement.number}}</i>
+            {{#if enhancement.repeatable}}
+            <i>{{enhancement.number}}</i>
+            {{else}}
+            <i class="{{#ifCond enhancement.number '===' 0}}fa-regular fa-square{{else}}fa-solid fa-square-check{{/ifCond}}"></i>
+            {{/if}}
           {{else}}
-          <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
-            {{enhancement.number}}
-          </a>
+            {{#if enhancement.repeatable}}
+            <a data-cType="toggle" data-max="9" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-actor-id="{{enhancement.sourceActorId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+              {{enhancement.number}}
+            </a>
+            {{else}}
+            <a data-cType="toggle" data-max="1" data-min="0" data-item-id="{{enhancement.sourceItemId}}" data-actor-id="{{enhancement.sourceActorId}}" data-path="system.enhancements.{{key}}.number" data-run-drm-check="{{enhancement.drmCheck}}">
+              <i class="{{#ifCond enhancement.number '===' 0}}fa-regular fa-square{{else}}fa-solid fa-square-check{{/ifCond}}"></i>
+            </a>
+            {{/if}}
           {{/ifCond}}
         </div>
       </div>
@@ -199,7 +203,7 @@
       <div class="row select-row margin-top-10">
         <label>{{localize "dc20rpg.dialog.rollDialog.rollMode"}}</label>
         <select data-cType="roll-mode">
-          {{selectOptions rollModes selected=rollMode}}
+          {{selectOptions messageModes selected=messageMode}}
         </select>
       </div>
     </div>
@@ -263,7 +267,7 @@
   </fieldset>
 
   {{!-- Cost --}}
-  {{#if item}}
+  {{#if expectedCost}}
   <fieldset class="expected-cost {{#unless canSubtractCost}}to-expensive{{/unless}}">
     <legend>{{localize "dc20rpg.dialog.rollDialog.cost"}}</legend>
     {{#ifCond expectedCost.resources.mana '||' expectedCost.resources.stamina}}
@@ -301,9 +305,7 @@
       <a class="toggle fa-solid fa-2x fa-registered margin-right-10" style="color:#a80a0a; text-shadow:white" data-action="reloadWeapon" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.needToReload'}}"></a>
       {{/unless}}{{/if}}
 
-      {{#if hasModifications}}
       <a class="toggle fa-2x {{#if rollMenu.free}}fa-solid{{else}}fa-light{{/if}} fa-piggy-bank" data-cType="activable" data-path="system.rollMenu.free" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.free'}}"></a>
-      {{/if}}
     </div>
   </fieldset>
   {{/if}}

@@ -1,0 +1,28 @@
+#dc20-area-delete-controls {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+
+  .dc20-area-delete-control {
+    position: fixed;
+    width: 22px;
+    height: 22px;
+    min-height: 22px;
+    padding: 0;
+    transform: translate(-50%, -50%);
+    border: 1px solid $primary-dark;
+    border-radius: 4px;
+    background: rgb(25 25 25 / 85%);
+    color: $secondary-lighter;
+    font-size: 11px;
+    line-height: 1;
+    pointer-events: auto;
+
+    &:hover {
+      box-shadow: 0 0 5px 1px $secondary-lighter;
+      color: $secondary-color;
+      cursor: pointer;
+    }
+  }
+}

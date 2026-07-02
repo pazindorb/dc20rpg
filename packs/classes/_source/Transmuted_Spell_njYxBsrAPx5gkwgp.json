@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -153,7 +153,15 @@
             "preItemRoll": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes};\ndelete damageTypes[\"true\"]; \n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select damage type\", damageTypes);\nif (selected) item.damageOverride = selected;",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span class=\"cf0\">When you cast a Spell that deals damage, you can change its damage type to any other damage type of your choice (except True damage).</span></p>",
         "hide": false,
@@ -161,7 +169,13 @@
         "sourceItemId": "njYxBsrAPx5gkwgp",
         "sourceItemName": "Transmuted Spell",
         "sourceItemImg": "icons/magic/fire/barrier-wall-flame-ring-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -319,11 +333,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034418,
-    "modifiedTime": 1767176132613,
+    "modifiedTime": 1781985630663,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

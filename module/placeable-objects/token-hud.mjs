@@ -1,4 +1,3 @@
-import { makeMoveAction } from "../helpers/actors/actions.mjs";
 import { toggleStatusOn } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
@@ -17,23 +16,26 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     initialized.actions.ap = this._onApAction;
     initialized.actions.move = this._onMoveAction;
     initialized.actions.effect = {handler: this._onEffect, buttons: [0, 2]};
-    initialized.actions.aura = this._onAuraAction;
+    initialized.actions.region = this._onRemoveRegionAction;
+    initialized.actions.transformation = this._onTransformation;
     return initialized;
   }
 
   /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    this.oldDisplay = this.document.displayBars;
-    this.document.displayBars = 40;
-    context.statusEffects = this._prepareStatusEffects(context.statusEffects);
-    context.linkedTemplates = this._prepareLinkedTemplates();
-    context.movePoints = this.actor?.system?.movePoints || 0;
-
     if (!this.actor) {
       context.nonActor = true;
       context.canConfigure = true;
+      return context;
     }
+
+    this.oldDisplay = this.document.displayBars;
+    this.document.displayBars = 40;
+    this.#prepareStatusEffects(context.statusEffects);
+    context.attachedRegions = this.#prepareAttachedRegions();
+    context.movePoints = this.actor?.system?.movePoints || 0;
+    context.isTransformed = !!this.document.flags?.dc20rpg?.transformationHistory;
     return context;
   }
 
@@ -61,8 +63,7 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     const subtracted = actor.resources.ap.checkAndSpend(1);
     if (!subtracted) return;
 
-    const selectedMovement = this.document.movementAction;
-    makeMoveAction(actor, {moveType: selectedMovement});
+    actor.moveAction({moveType: "token"});
   }
 
   async _onEffect(event, target) {
@@ -73,26 +74,25 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     await toggleStatusOn(statusId, actor, event.which);
   }
 
-  async _onAuraAction(event, target) {
-    const auraId = target.dataset.auraId;
-    const template = canvas.templates.documentCollection.get(auraId);
-    if (template) {
-      const linkedIds = this.document.flags.dc20rpg?.linkedTemplates || [];
-      const updatedLinkedIds = linkedIds.filter(linkedId => linkedId !== auraId);
-      await template.delete();
-      await this.document.update({["flags.dc20rpg.linkedTemplates"]: updatedLinkedIds});
-    }
+  async _onRemoveRegionAction(event, target) {
+    const uuid = target.dataset.regionUuid;
+    const region = await fromUuid(uuid);
+    if (region) region.delete();
+  }
+
+  async _onTransformation(event, target) {
+    this.document.revertTransformation();
   }
 
   async _onSubmit(event, form, formData) {
     if ((event.type === "change") && event.target.name === "movePoints") {
-      return this._onMovePointsSubmit(event);
+      return this.#onMovePointsSubmit(event);
     }
 
     return super._onSubmit(event, form, formData);
   }
 
-  _onMovePointsSubmit(event) {
+  #onMovePointsSubmit(event) {
     const newValue = event.target.value;
     const actor = this.actor;
     if (!actor) return;
@@ -122,33 +122,23 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     }
   }
 
-  _prepareStatusEffects(statusEffects) {
-    const actorStatuses = this.actor?.statuses || [];
-    actorStatuses.forEach(status => {
-      const statEff = statusEffects[status.id];
-      if (!statEff.stack) statEff.stack = status.stack;
-      else statEff.stack += status.stack;
+  #prepareStatusEffects(statusContext) {
+    statusContext.bloodied.hide = true;
+    statusContext.wellBloodied.hide = true;
+    statusContext.fullyStunned.hide = true;
+    statusContext.deathsDoor.hide = true;
 
-      statEff.stackable = CONFIG.statusEffects.find(e => e.id === status.id)?.stackable;
-      if (statEff.stack > 0) {
-        // This means that status comes from some other effect
-        if (!statEff.isActive) {
-          statEff.isActive = true;
-          statEff.fromOther = true;
-        }
-        statEff.isActive = true;
-        statEff.cssClass = "active";
-      } 
-    })
+    this.actor.statuses.forEach(data => {
+      const status = statusContext[data.id];
 
-    // Filter out hidden statuses (We dont want to show them in the UI)
-    return Object.fromEntries(
-      Object.entries(statusEffects).filter(([key, status]) => {
-        const original = CONFIG.statusEffects.find(e => e.id === status.id);
-        if (original?.system?.hide) return false;
-        return true;
-      })
-    );
+      if (data.stack > 0) {
+        status.isActive = true;
+        status.cssClass = "active";
+
+        if (data.stackable) status.stack = data.stack;
+        else status.locked = data.effects[0].isLocked || !data.effects[0].isStatusEffect;
+      }
+    });
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
@@ -201,37 +191,31 @@ export class DC20RpgTokenHUD extends foundry.applications.hud.TokenHUD {
     return choices;
   }
 
-  _prepareLinkedTemplates() {
-    const linkedIds = this.document.flags.dc20rpg?.linkedTemplates;
-    if (!linkedIds) return [];
+  #prepareAttachedRegions() {
+    const regions = this.document.regions.filter(region => region.attachment?.token?.id === this.object.id)
+    if (!regions) return [];
 
-    const linkedTemplates = [];
-    for (const templateId of linkedIds) {
-      const template = canvas.templates.documentCollection.get(templateId);
-      if (!template) continue;
-
-      const itemData = template.flags?.dc20rpg?.itemData || {};
-      linkedTemplates.push({
-        id: templateId,
-        img: itemData.itemImg || "icons/svg/explosion.svg",
-        name: itemData.itemName || "Unknown Source",
-      })
-    }
-    return linkedTemplates;
+    return regions.map(region => {
+      const img = region.flags?.dc20rpg?.img;
+      return {
+        name: region.name,
+        uuid: region.uuid,
+        img: img || "icons/svg/explosion.svg",
+      }
+    });
   }
 
   async _onRender(context, options) {
     await super._onRender(context, options);
-
-    const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
-    if (!movePointsWrapper) return;
-    // We want to show move points wrapper at the start
-    movePointsWrapper.classList.remove("hidden");
+    this.#showHideMovePoints();
   }
 
   togglePalette(palette, active) {
     super.togglePalette(palette, active);
-    // We want to show or hide move points wrapper
+    this.#showHideMovePoints();
+  }
+
+  #showHideMovePoints() {
     const movePointsWrapper = this.element.querySelector(".move-points-wrapper");
     if (!movePointsWrapper) return;
     if (this.activePalette) movePointsWrapper.classList.add("hidden");

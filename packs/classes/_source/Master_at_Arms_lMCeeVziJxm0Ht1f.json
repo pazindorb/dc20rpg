@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -153,7 +153,15 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>Once per Round when you perform a Maneuver, you can reduce its SP cost by 1.</p>",
         "hide": false,
@@ -161,7 +169,13 @@
         "sourceItemId": "lMCeeVziJxm0Ht1f",
         "sourceItemName": "Master-at-Arms",
         "sourceItemImg": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -197,7 +211,10 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1
+        "subtract": 1,
+        "refresh": {
+          "roundEnd": "Turn End"
+        }
       },
       "otherItem": {
         "itemId": "",
@@ -318,13 +335,10 @@
     {
       "origin": "Item.m93omhwkloggInnL",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Maneuver Master",
@@ -335,16 +349,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.known.maneuvers.max",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.known.maneuvers.max",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You learn 1 Maneuver of your choice.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -368,7 +382,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -376,6 +390,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!lMCeeVziJxm0Ht1f.3jRjMeQu9SfRg9KS"
     }
   ],
@@ -384,11 +401,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035605,
-    "modifiedTime": 1767118932685,
+    "modifiedTime": 1781985630418,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -1,9 +1,11 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { companionShare } from "../../helpers/actors/companion.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
-import { generateKey, getValueFromPath } from "../../helpers/utils.mjs";
+import { generateKey, getValueFromPath, isParsableJson, isPath } from "../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../settings/skillConfig.mjs";
+import { Enhancement } from "../item/item-creators.mjs";
 
 export function enrichWithHelpers(actor) {
   enrichRollMenuObject(actor);
@@ -11,10 +13,13 @@ export function enrichWithHelpers(actor) {
   _enrichResourcesObject(actor);
   _enrichAttributesObject(actor);
   _enrichSkillsObject(actor);
+  _enrichKeywordObject(actor);
   if (actor.system.equipmentSlots) {
     _enrichEquipmentSlots(actor);
   }
+  _enrichEnhancementsObject(actor);
   _enrichSpecialActions(actor);
+  _enrichRefreshResourcesAndItems(actor);
 }
 
 //==================================//==================================
@@ -89,10 +94,11 @@ async function _regainResource(amount, resource, actor) {
 
   if (!resource.isCustom) actor = actor.companionShareFor(resource.key); // Key or full key? not important for now as we can only share health
   
-  const current = resource.value;
+  const valuePath = resource.key === "health" ? "current" : "value"; // For health we need to regain current hp as value is combination of both current + temporary
+  const current = resource[valuePath];
   const max = resource.max;
   const newAmount = Math.min(current + amount, max);
-  await actor.update({[`system.resources.${resource.fullKey}.value`] : newAmount});
+  await actor.update({[`system.resources.${resource.fullKey}.${valuePath}`] : newAmount});
 }
 
 async function _fromRegenerationFormula(resource, actor) {
@@ -160,7 +166,7 @@ async function _createCustomResource(data={}, key, actor) {
     value: 0,
     maxFormula: null,
     max: 0,
-    reset: "",
+    refresh: {},
     ...data
   }
   await actor.update({[`system.resources.custom.${resourceKey}`] : newResource});
@@ -471,17 +477,17 @@ function _defaultNamePerCategory(category) {
 
 function _defaultIconPerCategory(category) {
   switch (category) {
-    case "weapon":    return "icons/weapons/swords/sword-simple-white.webp";
-    case "head":      return "icons/equipment/head/helm-barbute-white.webp";
-    case "neck":      return "icons/equipment/neck/choker-simple-bone-fangs.webp";
+    case "weapon":    return "icons/skills/melee/unarmed-punch-fist.webp";
+    case "head":      return "icons/equipment/head/cap-steel.webp";
+    case "neck":      return "icons/equipment/neck/amulet-simple-rough-teal.webp";
     case "mantle":    return "icons/equipment/back/mantle-collared-white.webp";
-    case "body":      return "icons/equipment/chest/breastplate-leather-brown-belted.webp";
-    case "waist":     return "icons/equipment/waist/belt-buckle-horned.webp";
-    case "hand":      return "icons/magic/perception/hand-eye-black.webp";
-    case "ring":      return "icons/equipment/finger/ring-faceted-white.webp";
-    case "feet":      return "icons/equipment/feet/boots-galosh-white.webp";
-    case "trinket":   return "icons/tools/instruments/horn-white-gray.webp";
-    default:          return "icons/weapons/bows/shortbow-white.webp";
+    case "body":      return "icons/equipment/chest/breastplate-layered-leather-brown-silver.webp";
+    case "waist":     return "icons/equipment/waist/belt-bukle-square-leather.webp";
+    case "hand":      return "icons/equipment/hand/glove-studded-leather-yellow.webp";
+    case "ring":      return "icons/equipment/finger/ring-faceted-grey.webp";
+    case "feet":      return "icons/equipment/feet/boots-collared-green.webp";
+    case "trinket":   return "icons/containers/bags/sack-worn-brown.webp";
+    default:          return "icons/skills/melee/unarmed-punch-fist.webp";
   }
 }
 
@@ -504,6 +510,7 @@ function _enrichSlot(actor, slot) {
 }
 
 async function _equipSlot(item, slot, actor) {
+  if (!item.system.inventory) return;
   if (slot.isEquipped) await _unequipSlot(slot, actor);
   if (item.equipped) await item.equip({forceUneqip: true});
 
@@ -603,6 +610,78 @@ function _mcpValue(checkKey, actor) {
 }
 
 //==================================//==================================
+//                            KEYWORD SYSTEM                           =
+//==================================//==================================
+function _enrichKeywordObject(actor) {
+  actor.keywords = {
+    add: async (data, item) => await _createKeyword(data, item, actor),
+    has: (keyword) => actor.keywords.entries.has(keyword),
+    get: (keyword) => actor.keywords.entries.get(keyword),
+    entries: new Map()
+  }
+
+  for (const original of Object.values(actor.system.keywords)) {
+    const keyword = foundry.utils.deepClone(original);
+    const key = keyword.key;
+    keyword.delete = async () => await actor.update({[`system.keywords.-=${key}`]: null});
+    keyword.update = async (value=null, forceUpdate=false) => await _updateKeyword(keyword, value, forceUpdate, actor)
+    keyword.addItem = async (item) => await actor.update({[`system.keywords.${key}.updateItems.${item.id}`]: item.name});
+    keyword.removeItem = async (itemId) => await _removeItemFromKeyword(itemId, keyword, actor);
+    actor.keywords.entries.set(key, keyword);
+  }
+}
+
+async function _createKeyword(data, item, actor) {
+  if (actor.keywords.has(data.key)) {
+    let keyword = actor.keywords.get(data.key);
+    if (item) {
+      await keyword.addItem(item);
+      keyword = actor.keywords.get(data.key); // Refresh list
+      await keyword.update(keyword.value);
+    }
+  }
+  else {
+    data.updateItems = {};
+    if (item) data.updateItems[item.id] = item.name;
+    await actor.update({[`system.keywords.${data.key}`]: data});
+    const keyword = actor.keywords.get(data.key);
+    await keyword.update(keyword.value);
+  }
+}
+
+async function _updateKeyword(keyword, value, forceUpdate, actor) {
+  if (value == null) {
+    if (forceUpdate || keyword.value == null) {
+      let options = null;
+      if (isParsableJson(keyword.selectOptions)) options = JSON.parse(keyword.selectOptions);
+      if (isPath(keyword.selectOptions)) options = getValueFromPath(window, keyword.selectOptions);
+      value = keyword.selectOptions && options ? await SimplePopup.select(keyword.message, options) : await SimplePopup.input(keyword.message);
+    }
+    else {
+      value = keyword.value;
+    }
+  }
+  if (value == null) return;
+
+  for (const itemId of Object.keys(keyword.updateItems)) {
+    const item = actor.items.get(itemId);
+    if (item) await item.callMacro("onKeywordUpdate", {keyword: keyword, newValue: value})
+  }
+  await actor.update({[`system.keywords.${keyword.key}.value`]: value});
+}
+
+async function _removeItemFromKeyword(itemId, keyword, actor) {
+  // Delete keyword if that is the last key
+  if (Object.keys(keyword.updateItems).length === 1 && keyword.updateItems[itemId]) {
+    await keyword.delete()
+  } 
+  // In other case only remove the item
+  else {
+    await actor.update({[`system.keywords.${keyword.key}.updateItems.-=${itemId}`]: null});
+  }
+}
+
+//==================================//==================================
 //                           SPECIAL ACTIONS                           =
 //==================================//==================================
 export function _enrichSpecialActions(actor) {
@@ -685,3 +764,90 @@ function _helpDiceTooltip(help) {
 //===================================
 //            HELD ACTION           =
 //===================================
+
+
+
+//==================================//==================================
+//                       REFRESH RESOURCES/ITEMS                       =
+//==================================//==================================
+function _enrichRefreshResourcesAndItems(actor) {
+  actor.refresh = {
+    on: async (refreshType, options) => await _refreshOn(refreshType, actor, options)
+  }
+}
+
+async function _refreshOn(refreshType, actor, options={}) {
+  await _refreshResources(refreshType, actor, options.restHistory);
+
+  const items = actor.items.filter(item => item.system.usable);
+  for (const item of items) {
+    await _refreshItem(refreshType, item);
+  }
+}
+
+async function _refreshResources(refreshType, actor, restHistory) {
+  for (const resource of actor.resources.iterate()) {
+    if (!resource.refresh[refreshType]) continue;
+
+    let regainType = refreshType === "halfOnShort" ? "half" : "max";
+    if (resource.key === "restPoints" && regainType === "max") {
+      regainType = "formula";
+    }
+
+    const oldValue = resource.value;
+    await resource.regain(regainType);
+
+    if (restHistory) {
+      const newValue = this.actor.resources[resource.key].value;
+      restHistory.resources[resource.key] = newValue - oldValue;
+    }
+  }
+}
+
+async function _refreshItem(refreshType, item) {
+  if (!item.system.usable) return;
+
+  // Reset charges
+  if (item.use.hasCharges) {
+    const refreshOn = item.system.costs.charges?.refresh || {};
+    if (refreshOn[refreshType]) {
+      const half = refreshType === "halfOnShort";
+      await item.use.regainCharges(half);
+    }
+  };
+
+  // Reset Magic Property use
+  if (item.infusions) {
+    for (const infusion of Object.values(item.infusions.active)) {
+      const uses = infusion.tags.uses || {};
+      if (uses.active && uses.refresh[refreshType]) {
+        await infusion.regain();
+      }
+    }
+  }
+}
+
+//==================================//==================================
+//                      ACTOR SOURCED ENHANCEMENTS                     =
+//==================================//==================================
+function _enrichEnhancementsObject(actor) {
+  actor.enhancements = {
+    add: async (data, options) => await _addActorEnhancement(data, options, actor),
+    delete: async (key) => await actor.update({[`system.enhancements.-=${key}`]: null})
+  };
+}
+
+async function _addActorEnhancement(data={}, options={}, actor) {
+  if (!data.copyFor) {
+    ui.notifications.error("Cannot create actor enhancement without 'copyFor' field present.");
+    return;
+  }
+  if (data.copyToSheetRoll) {
+    ui.notifications.warn("Cannot create actor enhancement cannot use 'copyToSheetRoll' field. Field was removed.");
+    delete data.copyToSheetRoll;
+  }
+
+  const enhancement = foundry.utils.mergeObject(new Enhancement(), data);
+  const key = options.key ? options.key : generateKey();
+  await actor.update({[`system.enhancements.${key}`]: {...enhancement}});
+}

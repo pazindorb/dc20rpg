@@ -31,7 +31,7 @@
     "properties": {
       "attunement": {
         "active": false,
-        "label": "dc20rpg.properties.attunement",
+        "label": "Attunement",
         "journalUuid": "",
         "for": [
           "melee",
@@ -42,7 +42,21 @@
           "heavy",
           "other"
         ],
-        "cost": 0
+        "cost": 0,
+        "type": [
+          "weapon",
+          "equipment",
+          "spellFocus",
+          "consumable"
+        ],
+        "subtype": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ]
       }
     },
     "effectsConfig": {
@@ -52,7 +66,7 @@
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -150,7 +164,10 @@
     "consumableType": "kit",
     "consume": false,
     "deleteOnZero": false,
-    "showAsResource": false
+    "showAsResource": false,
+    "rollConfig": {
+      "canCrit": false
+    }
   },
   "effects": [],
   "sort": 0,
@@ -162,11 +179,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1719920387771,
-    "modifiedTime": 1765901591837,
+    "modifiedTime": 1781983671765,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

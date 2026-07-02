@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -226,13 +226,10 @@
     {
       "origin": "Item.40YSHkFT46k4NkJG",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Favored Terrain: Subterranean",
@@ -243,34 +240,34 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.senses.darkvision.orOption.range",
+            "value": 10,
+            "priority": null,
+            "type": "upgrade"
+          },
+          {
+            "key": "system.senses.darkvision.orOption.bonus",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.senses.tremorsense.orOption.range",
+            "value": 3,
+            "priority": null,
+            "type": "upgrade"
+          },
+          {
+            "key": "system.senses.tremorsense.orOption.bonus",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.senses.darkvision.orOption.range",
-          "mode": 4,
-          "value": "10",
-          "priority": null
-        },
-        {
-          "key": "system.senses.darkvision.orOption.bonus",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        },
-        {
-          "key": "system.senses.tremorsense.orOption.range",
-          "mode": 4,
-          "value": "3",
-          "priority": null
-        },
-        {
-          "key": "system.senses.tremorsense.orOption.bonus",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        }
-      ],
       "description": "<ul><li><span>You gain Darkvision 10 Spaces. If you already have Darkvision, its range is increased by 5 Spaces.</span></li><li><span>You also gain a Tremorsense of 3 Spaces. If you already have a Tremorsense, it increases by 2 Spaces.</span></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -294,7 +291,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -302,6 +299,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!35IlJSlIJvtnQbWD.7GJqcas3X1G46a3a"
     }
   ],
@@ -310,11 +310,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.6.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034246,
-    "modifiedTime": 1750934369879,
+    "modifiedTime": 1781983657196,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

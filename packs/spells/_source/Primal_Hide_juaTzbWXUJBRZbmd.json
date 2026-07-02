@@ -51,7 +51,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -208,8 +208,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "oXVOLFAvCF0ffzbR",
+        "sourceItemId": "juaTzbWXUJBRZbmd",
+        "sourceItemName": "Primal Hide",
+        "sourceItemImg": "icons/magic/defensive/armor-stone-skin.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "hkVLbc4s39f27c3t": {
         "name": "Duration",
@@ -294,8 +313,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "hkVLbc4s39f27c3t",
+        "sourceItemId": "juaTzbWXUJBRZbmd",
+        "sourceItemName": "Primal Hide",
+        "sourceItemImg": "icons/magic/defensive/armor-stone-skin.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "h5i8KLM6QIItSVcC": {
         "name": "Armored",
@@ -365,7 +403,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"primalHide\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.defences.precision.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"primalHide\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.defences.precision.bonuses.always\",\n  mode: 2,\n  value: \"1\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -380,8 +418,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "h5i8KLM6QIItSVcC",
+        "sourceItemId": "juaTzbWXUJBRZbmd",
+        "sourceItemName": "Primal Hide",
+        "sourceItemImg": "icons/magic/defensive/armor-stone-skin.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "9SJckX0VDBBetuPe": {
         "name": "Heavily Protected",
@@ -451,7 +508,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"primalHide\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.damageReduction.edr.active\",\n  mode: 5,\n  value: \"true\"\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"primalHide\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.damageReduction.edr.active\",\n  mode: 5,\n  value: \"true\"\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -466,8 +523,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "9SJckX0VDBBetuPe",
+        "sourceItemId": "juaTzbWXUJBRZbmd",
+        "sourceItemName": "Primal Hide",
+        "sourceItemImg": "icons/magic/defensive/armor-stone-skin.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -644,12 +720,10 @@
       "img": "icons/magic/defensive/armor-stone-skin.webp",
       "origin": "Item.Z9R8IUHfaU7KLeli",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 102,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -684,16 +758,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        }
-      ],
       "description": "<p>Your skin is hardened - PD increased.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -703,11 +777,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 102,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!juaTzbWXUJBRZbmd.Jw7nHpyNr7zLnDgL"
     }
   ],
@@ -717,11 +803,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768248639800,
-    "modifiedTime": 1777584025364,
+    "modifiedTime": 1782631785646,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -729,6 +815,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "juaTzbWXUJBRZbmd",
-  "sort": 300000,
+  "sort": 1200000,
   "_key": "!items!juaTzbWXUJBRZbmd"
 }

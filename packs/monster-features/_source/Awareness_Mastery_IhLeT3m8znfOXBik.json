@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -250,7 +250,7 @@
     "quickRoll": false,
     "macros": {
       "dZn9i2x9xjvekf2T": {
-        "command": "const effect = item.effects.get(\"B9makPpsS0V24gmY\");\nif (!effect) return;\n\nlet value = await DC20.dialog.SimplePopup.input(\"Combat Mastery Value\");\nif (!value) return;\n\nconst changes = effect.changes;\nchanges[0].value = value;\neffect.update({changes: changes})",
+        "command": "const effect = item.effects.get(\"B9makPpsS0V24gmY\");\nif (!effect) return;\n\nlet value = await DC20.dialog.SimplePopup.input(\"Combat Mastery Value\");\nif (!value) return;\n\nconst changes = effect.system.changes;\nchanges[0].value = value;\neffect.update({[\"system.changes\"]: changes})",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Prepare Effect",
@@ -285,7 +285,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -293,11 +296,10 @@
       "img": "icons/creatures/eyes/lizard-single-slit-blue.webp",
       "origin": "Item.BlRe3ojDedVbp7XK",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -332,16 +334,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.skills.awa.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.skills.awa.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature adds your Combat Mastery to its Awareness Checks.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -351,11 +353,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!IhLeT3m8znfOXBik.B9makPpsS0V24gmY"
     }
   ],
@@ -369,11 +383,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777357868504,
-    "modifiedTime": 1777360379652,
+    "modifiedTime": 1782633631391,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

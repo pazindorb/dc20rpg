@@ -42,7 +42,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -249,10 +249,37 @@
       "items": "",
       "unique": true
     },
-    "conditionals": {
+    "conditionals": {},
+    "featureSourceItem": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "shortInfo": "",
+    "tip": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "targetModifiers": {
       "coZXcwf2OgYC3YDn": {
         "name": "Tag Team",
-        "condition": "target.hasAnyCondition([\"grappled\", \"prone\"])",
+        "condition": "return target?.actor?.hasStatus(\"prone\") || target?.actor?.hasStatus(\"grappled\")",
         "useFor": "true",
         "linkWithToggle": false,
         "bonus": "1",
@@ -285,33 +312,7 @@
           "overrideDefence": ""
         }
       }
-    },
-    "featureSourceItem": "",
-    "staminaFeature": false,
-    "flavorFeature": false,
-    "shortInfo": "",
-    "tip": "",
-    "rollMenu": {
-      "free": false,
-      "rangeType": "",
-      "versatile": false,
-      "flanks": false,
-      "halfCover": false,
-      "tqCover": false,
-      "dis": 0,
-      "adv": 0,
-      "apCost": 0,
-      "gritCost": 0,
-      "autoCrit": false,
-      "autoFail": false,
-      "coreFormula": {
-        "modifier": "",
-        "source": ""
-      },
-      "help": [],
-      "ignoreMCP": false
-    },
-    "usable": true
+    }
   },
   "effects": [],
   "folder": "PeiJmhbBQOeTEcb1",
@@ -326,11 +327,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778448405121,
-    "modifiedTime": 1778451178765,
+    "modifiedTime": 1782375419315,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -239,8 +239,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "edpaY06uWsW2Jd3f",
+        "sourceItemId": "8E9AZXG0J8MWHrMZ",
+        "sourceItemName": "Living Bomb",
+        "sourceItemImg": "icons/magic/fire/orb-vortex.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "FZ0yX3KImB34W8RF": {
         "name": "Stronger Bomb",
@@ -325,8 +344,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "FZ0yX3KImB34W8RF",
+        "sourceItemId": "8E9AZXG0J8MWHrMZ",
+        "sourceItemName": "Living Bomb",
+        "sourceItemImg": "icons/magic/fire/orb-vortex.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "J0W56c6bnIQUk5m1": {
         "name": "Larger Area",
@@ -411,8 +449,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "J0W56c6bnIQUk5m1",
+        "sourceItemId": "8E9AZXG0J8MWHrMZ",
+        "sourceItemName": "Living Bomb",
+        "sourceItemImg": "icons/magic/fire/orb-vortex.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "0sLbFbj4tOMMGQcV": {
         "name": "Increased Burning",
@@ -482,7 +539,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"livingBomb\");\nif (!effect) return;\neffect.changes[0].value = effect.changes[0].value.replace('\"value\": 1', `\"value\": ${1 + enh.number}`)",
+            "preItemRoll": "const effect = item.getEffectByKey(\"livingBomb\");\nif (!effect) return;\neffect.system.changes[0].value = effect.system.changes[0].value.replace('\"value\": 1', `\"value\": ${1 + enh.number}`)",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -497,8 +554,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "0sLbFbj4tOMMGQcV",
+        "sourceItemId": "8E9AZXG0J8MWHrMZ",
+        "sourceItemName": "Living Bomb",
+        "sourceItemImg": "icons/magic/fire/orb-vortex.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -667,6 +743,9 @@
       "burning": "Burning",
       "fire": "Fire",
       "trap": "Trap"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -675,13 +754,10 @@
       "img": "icons/magic/fire/orb-vortex.webp",
       "origin": "Item.W2YfqHmatye0FFY3",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "startRound": null,
-        "startTurn": null,
-        "seconds": null,
-        "turns": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -695,7 +771,7 @@
           "actorUuid": "",
           "itemId": ""
         },
-        "statusId": "burning",
+        "statusId": "",
         "condition": false,
         "fromStatus": false,
         "duration": {
@@ -716,22 +792,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"damage\", \"label\": \"Burning\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"fire\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Living Bomb - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"burning\"], \"onSuccess\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"damage\", \"label\": \"Burning\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"fire\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Living Bomb - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"burning\"], \"onSuccess\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are under the effect of Living Bomb. You are Burning. When the Burning from this Spell ends, the fire magic detonates.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -743,11 +819,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782396851495,
+        "modifiedTime": 1782396851495
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!8E9AZXG0J8MWHrMZ.UaSzpvNceZ4vRMMA"
     }
   ],
@@ -757,11 +845,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767798309205,
-    "modifiedTime": 1777669218004,
+    "modifiedTime": 1782579925589,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

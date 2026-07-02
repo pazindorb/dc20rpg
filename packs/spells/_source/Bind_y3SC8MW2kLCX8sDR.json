@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -229,8 +229,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "nGmikMSrB8CxQfc8",
+        "sourceItemId": "y3SC8MW2kLCX8sDR",
+        "sourceItemName": "Bind",
+        "sourceItemImg": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "UFyzNup2BRIA8Lpu": {
         "name": "Restrain",
@@ -299,7 +318,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"bind\");\nif (!effect) return;\n\neffect.statuses.add(\"restrained\");\neffect.statuses.add(\"grappled\");\neffect.changes.forEach(change => {\n  if (change.key === \"system.events\" && change.value.includes('\"statuses\": [\"immobilized\"]')) {\n    change.value = change.value.replace('\"statuses\": [\"immobilized\"]', '\"statuses\": [\"immobilized\", \"restrained\"]');\n  }\n})\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.martial.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})\n\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.melee\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.ranged\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.onYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.spell.area\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"bind\");\nif (!effect) return;\n\neffect.statuses.add(\"restrained\");\neffect.statuses.add(\"grappled\");\neffect.system.changes.forEach(change => {\n  if (change.key === \"system.events\" && change.value.includes('\"statuses\": [\"immobilized\"]')) {\n    change.value = change.value.replace('\"statuses\": [\"immobilized\"]', '\"statuses\": [\"immobilized\", \"restrained\"]');\n  }\n})\n\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.onYou.attack\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Bind)\"'\n})\neffect.system.changes.push({\n  key: \"system.dynamicRollModifier.againstYou.attack\",\n  mode: 2,\n  value: '\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained (Bind)\"'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -314,8 +333,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "UFyzNup2BRIA8Lpu",
+        "sourceItemId": "y3SC8MW2kLCX8sDR",
+        "sourceItemName": "Bind",
+        "sourceItemImg": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "FhVwy6NnSbAORt0a": {
         "name": "Constrict",
@@ -399,8 +437,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "FhVwy6NnSbAORt0a",
+        "sourceItemId": "y3SC8MW2kLCX8sDR",
+        "sourceItemName": "Bind",
+        "sourceItemImg": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -569,6 +626,9 @@
       "immobilized": "Immobilized",
       "restrained": "Restrained",
       "true": "True"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -577,13 +637,10 @@
       "img": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
       "origin": "Item.wL9I2EKIuDxT2smf",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "startRound": 0,
-        "startTurn": 0,
-        "seconds": null,
-        "turns": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -603,7 +660,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "bind",
         "macro": "",
@@ -617,28 +675,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Immobilized (Bind)\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.movement.ground.bonus",
+            "value": -100,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"manual\", \"label\": \"Bind\", \"preTrigger\": \"spendAP\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Immobilized (Bind)\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.movement.ground.bonus",
-          "value": "-100",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"manual\", \"label\": \"Bind\", \"preTrigger\": \"spendAP\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"immobilized\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are under the effect of Bind.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -650,12 +708,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1777236147545
+        "modifiedTime": 1781983700639,
+        "createdTime": 1781983700639
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": 0,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!y3SC8MW2kLCX8sDR.zmxdN1KL6u5SQTKF"
     }
   ],
@@ -665,11 +734,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767523838285,
-    "modifiedTime": 1777379433185,
+    "modifiedTime": 1782632578996,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

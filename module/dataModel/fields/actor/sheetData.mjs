@@ -25,7 +25,7 @@ function defaultFields() {
       emptyConditions: new f.BooleanField({required: true, initial: false}),
       onelinerModeDMR: new f.BooleanField({required: true, initial: true}),
       onelinerModeCI: new f.BooleanField({required: true, initial: true}),
-      slots: new f.BooleanField({required: true, initial: true}),
+      slots: new f.BooleanField({required: true, initial: false}),
       inactiveEffects: new f.BooleanField({required: true, initial: true}),
       nonessentialEffects: new f.BooleanField({required: true, initial: false}),
     }),

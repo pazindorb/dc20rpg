@@ -1,70 +1,61 @@
-import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 
-/**
- * Dialog window for different actor configurations.
- */
-export class ResourceConfigDialog extends Dialog {
+class ResourceConfigDialog extends DC20Dialog {
 
-  constructor(actor, resourceKey, dialogData = {}, options = {}) {
-    super(dialogData, options);
+  constructor(actor, resourceKey, options = {}) {
+    super(options);
     this.actor = actor;
     this.key = resourceKey;
-  }
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dc20rpg", "dialog"]
-    });
+    this.resource = actor.system.resources.custom[resourceKey];
+    // We do not want to commit any bonuses
+    if (this.resource.bonus) delete this.resource.bonus; 
   }
 
   /** @override */
-  get template() {
-    return "systems/dc20rpg/templates/dialogs/resource-config-dialog.hbs";
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
+      template: "systems/dc20rpg/templates/dialogs/resource-config-dialog.hbs",
+    }
+  };
+
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Configure Resource";
+    initialized.window.icon = "fa-solid fa-gears";
+    initialized.position.width = 520;
+    initialized.actions.save = this._onSave;
+    return initialized;
   }
 
-  getData() {
-    const resourceKey = this.key;
-    const resource = this.actor.system.resources.custom[resourceKey];
-    const resetTypes = CONFIG.DC20RPG.DROPDOWN_DATA.resetTypes;
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.resourceKey = this.key;
+    context.resource = this.resource;
+    context.resetTypes = CONFIG.DC20RPG.DROPDOWN_DATA.resetTypes;
+    return context;
+  }
 
-    return {
-      ...resource,
-      resetTypes,
-      resourceKey
+  async _onRemoveOption(path, value, dataset) {
+    super._onRemoveOption(path, value, dataset);
+    this.resource.refresh[`-=${dataset.key}`] = null; 
+  }
+
+  async _onMultiSelectChange(path, value, duplicates, dataset, target) {
+    super._onMultiSelectChange(path, value, duplicates, dataset, target);
+    if (this.resource.refresh.hasOwnProperty(`-=${value}`)) {
+      delete this.resource.refresh[`-=${value}`];
     }
   }
 
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find(".save").click((ev) => this._onSave(ev));
-    html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
-    html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
-    html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
-  }
-
-  _onSave(event) {
+  _onSave(event, target) {
     event.preventDefault();
     const updatePath = `system.resources.custom.${this.key}`;
-    const updateData = getValueFromPath(this.actor, updatePath);
-    if (updateData.bonus) delete updateData.bonus; // We do not want to commit any bonuses
-    this.actor.update({ [updatePath] : updateData });
+    this.actor.update({ [updatePath] : this.resource });
     this.close();
-  }
-
-  _onValueChange(path, value) {
-    setValueForPath(this.actor, path, value);
-    this.render(true);
-  }
-
-  _onNumericValueChange(path, value) {
-    const numericValue = parseInt(value);
-    setValueForPath(this.actor, path, numericValue);
-    this.render(true);
   }
 }
 
 export function resourceConfigDialog(actor, resourceKey) {
-  new ResourceConfigDialog(actor, resourceKey, {title: "Configure Resource"}).render(true);
+  new ResourceConfigDialog(actor, resourceKey).render(true);
 }

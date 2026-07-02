@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -143,13 +144,10 @@
     {
       "origin": "Item.wItXjxd7td7pqqRW",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Minor Tremorsense",
@@ -160,16 +158,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.senses.tremorsense.range",
+            "value": 3,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.senses.tremorsense.range",
-          "mode": 2,
-          "value": "3",
-          "priority": null
-        }
-      ],
       "description": "<p><span>You have Tremorsense 3 Spaces.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -187,7 +185,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -195,6 +193,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!wItXjxd7td7pqqRW.Ed4PBtU88TAXCEbz"
     }
   ],
@@ -207,11 +208,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.EP5IvLUbNkJPuVH6",
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720099511338,
-    "modifiedTime": 1778488629269,
+    "modifiedTime": 1781983707956,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

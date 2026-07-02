@@ -24,7 +24,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -144,28 +145,26 @@
     {
       "origin": "Item.ShHXIB5BPUq6WGfe",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Attribute Decrease",
       "img": "icons/skills/toxins/poison-bottle-open-blood-red.webp",
       "_id": "6CmbWJxHqiOpukzX",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.attributePoints.bonus",
-          "mode": 2,
-          "value": "-1",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.attributePoints.bonus",
+            "value": -1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>Choose an Attribute. You decrease the chosen Attribute by 1 (to a minimum of -2).</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -175,7 +174,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
@@ -183,6 +182,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!ShHXIB5BPUq6WGfe.6CmbWJxHqiOpukzX"
     }
   ],
@@ -195,11 +197,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.YjVhVucislfGFG8N",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101168854,
-    "modifiedTime": 1745412760103,
+    "modifiedTime": 1781983705282,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

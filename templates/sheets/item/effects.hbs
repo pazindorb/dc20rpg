@@ -1,0 +1,89 @@
+<section class="item-sheet-section tab effects standard-form {{tabs.effects.cssClass}}" data-group="sheet" data-tab="effects">
+<div class="scrollable">
+
+  {{#if system.toggle.toggleable}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.effects.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.effectClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="effectClosed"></a>
+  </div>
+  {{#unless sheetFlags.effectClosed}}
+  <div class="content-wrapper">
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</label>
+        <input type="checkbox" name="system.effectsConfig.linkWithToggle" {{checked system.effectsConfig.linkWithToggle}}/>
+        <p class="hint">{{localize "dc20rpg.item.sheet.effects.linkWithToggleTitle"}}</p>
+      </div>
+      {{#if system.effectsConfig.linkWithToggle}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.effects.toggleItem"}}</label>
+        <input type="checkbox" name="system.effectsConfig.toggleItem" {{checked system.effectsConfig.toggleItem}}/>
+        <p class="hint">{{localize "dc20rpg.item.sheet.effects.toggleItemTitle"}}</p>
+      </div>
+      {{/if}}
+  </div>
+  {{/unless}}
+  {{/if}}
+
+  <div class="form-group margin-top-10">
+    <button data-action="createSubdoc" data-type="effect" data-effect-type="temporary"><i class="fa-solid fa-hourglass-half fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.effects.temporary"}}</button>
+    <button data-action="createSubdoc" data-type="effect" data-effect-type="passive"><i class="fa-solid fa-infinity fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.effects.passive"}}</button>
+  </div>
+
+  {{!-- Temporary Effects --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.effects.temporaryEffects"}}</label>
+    <a class="fa-solid {{#if sheetFlags.temporaryClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="temporaryClosed"></a>
+  </div>
+  {{#unless sheetFlags.temporaryClosed}}
+  {{#each effects.temporary.effects}}
+  <div class="effect-wrapper" data-middle-click="editEffect" data-effect-id="{{id}}" data-hover="tooltip" data-tooltip-type="effect">
+    <img src="{{img}}" class="draggable" data-effect-id="{{id}}"/>
+    <input disabled value="{{name}}" class="draggable" data-effect-id="{{id}}"/>
+    
+    <div class="menu-wrapper">
+      <a class="fa-copy {{#if transfer}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="transfer" data-tooltip="{{localize "dc20rpg.effect.sheet.transfer"}}"></a>
+      {{#if @root.system.inventory}}
+      <a class="fa-shield {{#if system.requireEquip}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.requireEquip" data-tooltip="{{localize "dc20rpg.effect.sheet.mustEquip"}}"></a>
+      {{/if}}
+      <a class="fa-user {{#if system.applyToSelf}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.applyToSelf" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToSelf"}}"></a>
+      <a class="fa-message {{#if system.addToChat}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
+      <a class="fa-arrows-rotate {{#if system.refreshTarget}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.refreshTarget" data-tooltip="{{localize "dc20rpg.effect.sheet.refreshTarget"}}"></a>
+      <a class="fa-bullseye {{#if system.applyToTemplate}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.applyToTemplate" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToTemplate"}}"></a>
+
+      <a class="fa-pen-to-square fa-solid margin-right-5" data-action="editEffect" data-effect-id="{{id}}" data-tooltip="{{localize "DC20RPG.EffectEdit"}}"></a>
+      <a class="fa-trash fa-solid margin-right-5" data-action="removeSubdoc" data-type="effect" data-effect-id="{{id}}" data-tooltip="{{localize "DC20RPG.EffectDelete"}}"></a>
+    </div>
+  </div>
+  {{/each}}
+  {{/unless}}
+
+  {{!-- Passive Effects --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.effects.passiveEffects"}}</label>
+    <a class="fa-solid {{#if sheetFlags.passiveClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="passiveClosed"></a>
+  </div>
+  {{#unless sheetFlags.passiveClosed}}
+  {{#each effects.passive.effects}}
+  <div class="effect-wrapper" data-middle-click="editEffect" data-effect-id="{{id}}" data-hover="tooltip" data-tooltip-type="effect">
+    <img src="{{img}}" class="draggable" data-effect-id="{{id}}"/>
+    <input disabled value="{{name}}" class="draggable" data-effect-id="{{id}}"/>
+    
+    <div class="menu-wrapper">
+      <a class="fa-copy {{#if transfer}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="transfer" data-tooltip="{{localize "dc20rpg.effect.sheet.transfer"}}"></a>
+      {{#if @root.system.inventory}}
+      <a class="fa-shield {{#if system.requireEquip}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.requireEquip" data-tooltip="{{localize "dc20rpg.effect.sheet.mustEquip"}}"></a>
+      {{/if}}
+      <a class="fa-user {{#if system.applyToSelf}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.applyToSelf" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToSelf"}}"></a>
+      <a class="fa-message {{#if system.addToChat}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
+      <a class="fa-arrows-rotate {{#if system.refreshTarget}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.refreshTarget" data-tooltip="{{localize "dc20rpg.effect.sheet.refreshTarget"}}"></a>
+      <a class="fa-bullseye {{#if system.applyToTemplate}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" data-action="updateEffect" data-effect-id="{{id}}" data-path="system.applyToTemplate" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToTemplate"}}"></a>
+  
+      <a class="fa-pen-to-square fa-solid margin-right-5" data-action="editEffect" data-effect-id="{{id}}" data-tooltip="{{localize "DC20RPG.EffectEdit"}}"></a>
+      <a class="fa-trash fa-solid margin-right-5" data-action="removeSubdoc" data-type="effect" data-effect-id="{{id}}" data-tooltip="{{localize "DC20RPG.EffectDelete"}}"></a>
+    </div>
+  </div>
+  {{/each}}
+  {{/unless}}
+
+</div>
+</section>

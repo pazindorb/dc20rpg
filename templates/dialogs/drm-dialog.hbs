@@ -1,4 +1,12 @@
 <form id="drm-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  {{#unless result}}
+  <fieldset class="result-wrapper">
+    <div class="result-row">
+      <i class="fa-solid fa-lg fa-square-x"></i><span>No roll modifications</span>
+    </div>
+  </fieldset> 
+  {{/unless}}
+  
   {{#each result}} 
   {{#if values}}
   <fieldset class="result-wrapper">

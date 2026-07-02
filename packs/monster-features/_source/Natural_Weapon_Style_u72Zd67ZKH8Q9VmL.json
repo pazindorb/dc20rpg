@@ -50,7 +50,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -184,12 +184,12 @@
       "AHf8Dv5BdkCIqqJb": {
         "name": "Select Natural Weapon Passive ",
         "trigger": "onCreate",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Natural Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: weaponStyle});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon])\nif (!weapons) return;\n\nfor (const weapon of weapons) {\n  const weaponStyle = await DC20.dialog.SimplePopup.select(`Select Natural Weapon Style for '${weapon.name}'`, CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\n  if (!weaponStyle) continue;\n  weapon.update({[\"system.weaponStyle\"]: weaponStyle});\n}",
         "disabled": false,
         "title": ""
       },
       "5OaWxjNLGI4Laxtf": {
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (!naturalWeapon) return;\n\nnaturalWeapon.update({[\"system.weaponStyle\"]: \"\"});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon])\nif (!weapons) return;\n\nfor (const weapon of weapons) {\n  weapon.update({[\"system.weaponStyle\"]: \"\"});\n}",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Weapon Style",
@@ -312,11 +312,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777358551304,
-    "modifiedTime": 1777360384989,
+    "modifiedTime": 1782144473988,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

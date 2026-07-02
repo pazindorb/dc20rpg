@@ -21,7 +21,8 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         rechargeFormula: new f.StringField({required: true, nullable: false, initial: ""}),
         rechargeDice: new f.StringField({required: true, nullable: false, initial: ""}),
         requiredTotalMinimum: new f.NumberField(initNull),
-        reset: new f.StringField({required: true, nullable: false, initial: ""}),
+        reset: new f.StringField({required: true, nullable: false, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
+        refresh: new f.ObjectField({required: true, initial: {}}),
         showAsResource: new f.BooleanField({required: true, initial: false}),
         subtract: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         deleteOnZero: new f.BooleanField({required: true, initial: false}),

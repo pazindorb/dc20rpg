@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "iw9TEosJBCIYFVbg",
+        "sourceItemId": "9gSo0X9GaKuW4Wvi",
+        "sourceItemName": "Lightning Storm",
+        "sourceItemImg": "icons/magic/lightning/bolt-forked-large-blue-yellow.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "UocvOONG3oep4qpA": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "UocvOONG3oep4qpA",
+        "sourceItemId": "9gSo0X9GaKuW4Wvi",
+        "sourceItemName": "Lightning Storm",
+        "sourceItemImg": "icons/magic/lightning/bolt-forked-large-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "oTx4kDInPxQTjUhu": {
         "name": "Area",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "oTx4kDInPxQTjUhu",
+        "sourceItemId": "9gSo0X9GaKuW4Wvi",
+        "sourceItemName": "Lightning Storm",
+        "sourceItemImg": "icons/magic/lightning/bolt-forked-large-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "x2Bui1bVpJuP80h3": {
         "name": "Shock",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "x2Bui1bVpJuP80h3",
+        "sourceItemId": "9gSo0X9GaKuW4Wvi",
+        "sourceItemName": "Lightning Storm",
+        "sourceItemImg": "icons/magic/lightning/bolt-forked-large-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "L08ffVHHJlwkno7p": {
         "name": "Thunder",
@@ -565,8 +641,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "L08ffVHHJlwkno7p",
+        "sourceItemId": "9gSo0X9GaKuW4Wvi",
+        "sourceItemName": "Lightning Storm",
+        "sourceItemImg": "icons/magic/lightning/bolt-forked-large-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "2IGznNKg2hI5mhVo": {
         "name": "Storm Cloud",
@@ -645,15 +740,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 20,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "2IGznNKg2hI5mhVo"
+                "enhKey": "2IGznNKg2hI5mhVo",
+                "itemSavePath": "system.enhancements.2IGznNKg2hI5mhVo.modifications.addsEffect"
               }
             },
-            "_id": "zrEYw0d5l9XGI9Dd",
+            "_id": "cgHwU1dXyPe3Zpbr",
             "type": "base",
             "system": {
               "sustained": {
@@ -667,11 +767,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const token = actor.getActiveTokens()[0];\nif (!token) return;\n\nconst damage = effect.flags?.dc20rpg?.stormCloud;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Storm Cloud\",\n  type: \"lightning\"\n};\nconst target = game.dc20rpg.tools.tokenToTarget(token);\nconst calculated = game.dc20rpg.tools.calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});\ngame.dc20rpg.tools.applyDamage(actor, calculated.modified);",
-              "addToChat": false,
+              "macro": "const damage = effect.flags?.dc20rpg?.stormCloud;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Storm Cloud\",\n  type: \"lightning\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -682,17 +783,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Storm Cloud\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Storm Cloud\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are inside of the Storm Cloud.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -702,13 +807,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777668416951,
-              "modifiedTime": 1777668418486,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782598405397,
+              "modifiedTime": 1782598482443,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 20,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {stormCloud: enh.number};\nitem.system.duration.type = \"sustain\"",
@@ -726,8 +841,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2IGznNKg2hI5mhVo",
+        "sourceItemId": "9gSo0X9GaKuW4Wvi",
+        "sourceItemName": "Lightning Storm",
+        "sourceItemImg": "icons/magic/lightning/bolt-forked-large-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -896,6 +1030,30 @@
       "deafened": "Deafened",
       "lightning": "Lightning",
       "sound": "Sound"
+    },
+    "areas": {
+      "default": {
+        "type": "cylinder",
+        "distance": 2,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -905,11 +1063,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767793761349,
-    "modifiedTime": 1777668452789,
+    "modifiedTime": 1782598487996,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

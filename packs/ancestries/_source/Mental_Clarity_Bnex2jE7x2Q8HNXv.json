@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -147,13 +147,10 @@
     {
       "origin": "Item.Bnex2jE7x2Q8HNXv",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Mental Clarity",
@@ -164,22 +161,22 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.statusResistances.dazed.resistance",
-          "mode": 2,
-          "value": "1",
-          "priority": null
         },
-        {
-          "key": "system.statusResistances.stunned.resistance",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "key": "system.statusResistances.dazed.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.statusResistances.stunned.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>You have ADV on Saves against being <strong>Dazed </strong>or <strong>Stunned</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -206,7 +203,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -214,6 +211,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Bnex2jE7x2Q8HNXv.CfrBNQ2z6mUiOnPu"
     }
   ],
@@ -226,11 +226,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.dOgWIiHrHLxdGogO",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720101005841,
-    "modifiedTime": 1745570065286,
+    "modifiedTime": 1781983703534,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

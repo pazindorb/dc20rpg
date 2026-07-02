@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -140,7 +141,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeManaSpendLimit": 0
+          "changeManaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>You throw creatures 1 Space farther than normal, and objects (including Weapons) 5 Spaces farther than normal.</p>",
         "hide": false,
@@ -148,7 +157,13 @@
         "sourceItemId": "cIf3ulZCGxB1ZSso",
         "sourceItemName": "Mighty Hurl",
         "sourceItemImg": "icons/magic/lightning/fist-unarmed-strike-blue-green.webp",
-        "active": false
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
@@ -239,11 +254,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1761303731593,
+    "modifiedTime": 1781983706160,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

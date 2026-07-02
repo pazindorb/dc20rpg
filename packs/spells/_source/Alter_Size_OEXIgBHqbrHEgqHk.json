@@ -51,7 +51,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -217,8 +217,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "zzmEo1kkBTW8cv47",
+        "sourceItemId": "OEXIgBHqbrHEgqHk",
+        "sourceItemName": "Alter Size",
+        "sourceItemImg": "icons/magic/control/silhouette-grow-shrink-tan.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "UMs8qgo7CXp92kOK": {
         "name": "Duration",
@@ -303,8 +322,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "UMs8qgo7CXp92kOK",
+        "sourceItemId": "OEXIgBHqbrHEgqHk",
+        "sourceItemName": "Alter Size",
+        "sourceItemImg": "icons/magic/control/silhouette-grow-shrink-tan.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "7CQBf1wJyZd74ANG": {
         "name": "Greater Alteration",
@@ -389,8 +427,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "7CQBf1wJyZd74ANG",
+        "sourceItemId": "OEXIgBHqbrHEgqHk",
+        "sourceItemName": "Alter Size",
+        "sourceItemImg": "icons/magic/control/silhouette-grow-shrink-tan.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -560,6 +617,9 @@
       "embolden": "Embolden",
       "enfeeble": "Enfeeble",
       "metamorphosis": "Metamorphosis"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -568,13 +628,10 @@
       "img": "icons/skills/movement/arrows-up-trio-red.webp",
       "origin": "Item.EJTBIrx0miqKg0Vx",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -594,7 +651,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "alterSizeLarger",
         "macro": "const steps = 1 + (effect.flags.dc20rpg?.step || 0);\nconst actorSize = actor.system.size.size;\nconst nextSize = _nextSize(actorSize, steps);\nconst spaces = _sizeCategoryToSpaces(nextSize);\n\nconst changes = [\n  {\n    key: \"system.size.size\",\n    mode: 5,\n    value: nextSize\n  },\n  {\n    key: \"system.size.spaceOccupation\",\n    mode: 5,\n    value: spaces\n  },\n];\neffect.update({changes: changes});\n\nfunction _nextSize(current, steps) {\n  const sizes = [\"tiny\", \"small\", \"medium\", \"large\", \"huge\", \"gargantuan\", \"colossal\", \"titanic\"];\n  const index = sizes.indexOf(current);\n  const newSize = sizes[index + steps];\n  if (newSize) return newSize;\n  return \"titanic\";\n}\n\nfunction _sizeCategoryToSpaces(category) {\n  switch(category) {\n    case \"tiny\":                  return 0.5;\n    case \"large\":                 return 2;\n    case \"huge\":                  return 3;\n    case \"gargantuan\":            return 4;\n    case \"colossal\":              return 5;\n    case \"titanic\":               return 7;\n  }\n  return 1; // small, medium\n}",
@@ -609,16 +667,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Alter Size - Larger\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Alter Size - Larger\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You are larger.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -628,11 +686,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983681763,
+        "modifiedTime": 1781983681763
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!OEXIgBHqbrHEgqHk.A65Vtp4dcTLio67j"
     },
     {
@@ -640,13 +710,10 @@
       "img": "icons/skills/movement/arrow-down-pink.webp",
       "origin": "Item.EJTBIrx0miqKg0Vx",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": 102,
-        "startTurn": 1
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -666,7 +733,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "alterSizeSmaller",
         "macro": "const steps = 1 + (effect.flags.dc20rpg?.step || 0);\nconst actorSize = actor.system.size.size;\nconst nextSize = _nextSize(actorSize, steps);\nconst spaces = _sizeCategoryToSpaces(nextSize);\n\nconst changes = [\n  {\n    key: \"system.size.size\",\n    mode: 5,\n    value: nextSize\n  },\n  {\n    key: \"system.size.spaceOccupation\",\n    mode: 5,\n    value: spaces\n  },\n];\neffect.update({changes: changes});\n\nfunction _nextSize(current, steps) {\n  const sizes = [\"tiny\", \"small\", \"medium\", \"large\", \"huge\", \"gargantuan\", \"colossal\", \"titanic\"];\n  const index = sizes.indexOf(current);\n  const newSize = sizes[index - steps];\n  if (newSize) return newSize;\n  return \"tiny\";\n}\n\nfunction _sizeCategoryToSpaces(category) {\n  switch(category) {\n    case \"tiny\":                  return 0.5;\n    case \"large\":                 return 2;\n    case \"huge\":                  return 3;\n    case \"gargantuan\":            return 4;\n    case \"colossal\":              return 5;\n    case \"titanic\":               return 7;\n  }\n  return 1; // small, medium\n}",
@@ -681,16 +749,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Alter Size - Smaller\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Alter Size - Smaller\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are smaller.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -700,11 +768,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983681768,
+        "modifiedTime": 1781983681768
       },
+      "start": {
+        "combat": null,
+        "round": 102,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!OEXIgBHqbrHEgqHk.4N0rKTadxg8SfxWz"
     }
   ],
@@ -714,11 +794,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768219773455,
-    "modifiedTime": 1777583748990,
+    "modifiedTime": 1782562669349,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -726,6 +806,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "OEXIgBHqbrHEgqHk",
-  "sort": 700000,
+  "sort": 1600000,
   "_key": "!items!OEXIgBHqbrHEgqHk"
 }

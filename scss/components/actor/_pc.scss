@@ -3,6 +3,10 @@
     color: $pc-main !important;
   }
 
+  .slot-manager {
+    color: $pc-main !important;
+  }
+
   .unique-item:not(.empty) { 
     background-color: $pc-unique-item-color !important;
   }
@@ -107,6 +111,114 @@
       }
     }
   }
+
+  .slot-selector {
+    padding: 10px 0;
+
+    .characer-img {
+      margin: 0 5px;
+      box-shadow: 0 0 10px 5px $pc-main-dark;
+      border-radius: 5px;
+
+      img {
+        object-position: 50% 0;
+        object-fit: cover;
+        height: 333px;
+        width: 100%;
+        border: 2px solid $pc-main-dark;
+        border-radius: 5px;
+      }
+    }
+
+    .slot-wrapper {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      height: 0px;
+    }
+
+    .weapon-slots {
+      width: 100%;
+      align-content: center;
+      justify-content: center;
+
+      .slot-section {
+        margin-top: 320px;
+      }
+    }
+
+    .left-slots {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      flex: 3;
+    }
+
+    .right-slots {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      align-items: flex-end !important;
+
+      .slot-section {
+        justify-content: end;
+        flex-direction: column;
+
+        .delete-slot {
+          left: -13px;
+          top: 13px;
+        }
+      }
+    }
+
+    .slot-section {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+
+      .slot {
+        margin: 1px;
+    
+        img {
+          width: 45px;
+          height: 45px;
+          border-radius: 4px;
+
+          &.empty {
+            border: 2px solid #c9c9c9;
+            filter: grayscale(1);
+          }
+
+          &:not(.empty) {
+            border: 2px solid #51a100;
+            box-shadow: 0 0 5px 0px #51a100;
+          }
+        }
+      }
+
+      .delete-slot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        left: 10px;
+        top: -10px;
+
+        color: var(--dark-red);
+        height: 0px;
+        width: 0px;
+        z-index: 1;
+
+        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0 0 5px 3px $primary-light inset;
+        }
+      }
+    }
+  }
 }
 
 .pc-header {
@@ -124,7 +236,7 @@
       }
     }
     
-    .add-custom-resource, .add-legendary-resources {
+    .add-custom-resource {
       color: $pc-secondary-light;
       margin-left: 4px;
     }
@@ -802,102 +914,5 @@
         border-color: $pc-main !important;
       }
     }
-  }
-
-  .inventory-tab {
-
-    .second-row {
-      display: grid;
-      grid-template-columns: 1fr;
-
-      &.slot-open { 
-        grid-template-columns: 1fr 2fr;
-      }
-    }
-
-    .slot-selector {
-
-      .characer-img {
-        margin-left: 35px;
-
-        img {
-          object-position: 50% 0;
-          object-fit: cover;
-          height: 333px;
-          width: 100%;
-          border: 2px solid $pc-main-dark;
-        }
-      }
-
-      .slot-wrapper {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        height: 0px;
-
-        .slot-section {
-          display: flex;
-          justify-content: start;
-          align-items: center;
-          margin-bottom: 3px;
-
-          .section-icon {
-            width: 35px;
-            height: 45px;
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            
-            color: $pc-secondary-light;
-            border-right: 1px solid $pc-main-dark;
-            background-color: $pc-main-dark;
-            border-radius: 10px 0 0 10px;
-          }
-
-          .slot {
-       
-            img {
-              width: 45px;
-              height: 45px;
-              border: 2px solid $pc-main-dark;
-              border-radius: 0;
-              border-right: 0;
-
-              &.empty {
-                filter: opacity(0.9);
-              }
-            }
-
-            &:last-child {
-              border-right: 2px solid $pc-main-dark;
-              border-radius: 0 5px 5px 0;
-            }
-          }
-
-          .delete-slot {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            left: 10px;
-            top: -10px;
-
-            color: var(--dark-red);
-            height: 0px;
-            width: 0px;
-            z-index: 1;
-
-            text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-
-            &:hover {
-              cursor: pointer;
-              box-shadow: 0 0 5px 3px $primary-light inset;
-            }
-          }
-        }
-      }
-    }
-
-
   }
 }

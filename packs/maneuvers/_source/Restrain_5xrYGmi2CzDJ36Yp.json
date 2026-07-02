@@ -46,7 +46,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -228,8 +228,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "hBYvXbN8MkuIAxwe",
+        "sourceItemId": "5xrYGmi2CzDJ36Yp",
+        "sourceItemName": "Restrain",
+        "sourceItemImg": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "kt1DVP250cGNGsFW": {
         "name": "Chokehold",
@@ -313,8 +332,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "kt1DVP250cGNGsFW",
+        "sourceItemId": "5xrYGmi2CzDJ36Yp",
+        "sourceItemName": "Restrain",
+        "sourceItemImg": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -445,6 +483,10 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "rollConfig": {
+      "canCrit": false,
+      "respectSizeRules": true
     }
   },
   "effects": [],
@@ -454,11 +496,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766074892103,
-    "modifiedTime": 1776955918415,
+    "modifiedTime": 1781985655542,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

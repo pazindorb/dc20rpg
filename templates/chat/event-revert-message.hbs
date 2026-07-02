@@ -1,19 +1,16 @@
 <div class="chat_v2">
   <div class="info-section">
-    <div class="header {{#if source}}desc-expand-row{{/if}} {{messageType}}">
+    <div class="header {{#if source}}desc-expand-row{{/if}} {{eventType}}">
       <div class="name-wrapper">
         <img src="{{image}}"/>
         <div class="name revert-name">  
-          {{#ifCond messageType "===" 'damage'}}
+          {{#ifCond eventType "===" 'damage'}}
           {{repleaceLocalize "dc20rpg.chat.damage" amount}}
           {{/ifCond}}
-          {{#ifCond messageType "===" 'temporary'}}
-          {{repleaceLocalize "dc20rpg.chat.temporary" amount}}
-          {{/ifCond}}
-          {{#ifCond messageType "===" 'healing'}}
+          {{#ifCond eventType "===" 'healing'}}
           {{repleaceLocalize "dc20rpg.chat.heal" amount}}
           {{/ifCond}}
-          {{#ifCond messageType '===' 'effectRemoval'}}
+          {{#ifCond eventType '===' 'effectRemoval'}}
           {{repleaceLocalize "dc20rpg.chat.effectRemoval" effect.name}}
           {{/ifCond}}
         </div>

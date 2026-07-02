@@ -1,10 +1,10 @@
-import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { clearSpellList, createNewAdvancement, handleSpellList, removeItemsFromActor, removeMulticlassInfoFromActor } from "./advancements.mjs";
-import { clearOverridenScalingValue, overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
-import { generateKey, getValueFromPath, toSelectOptions } from "../../../helpers/utils.mjs";
+import { generateKey, toSelectOptions } from "../../../helpers/utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 import { runTemporaryMacro } from "../../../helpers/macros.mjs";
+import { DC20RpgItem } from "../../../documents/item.mjs";
+import { clearOverridenScalingValue } from "../../../helpers/actors/itemsOnActor.mjs";
 
 export function canApplyAdvancement(advancement) {
   if (advancement.mustChoose && advancement.pointsLeft !== 0) {
@@ -22,11 +22,15 @@ export async function applyAdvancement(advancement, actor, talentType) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
-  const [extraAdvancements, tips] = await _addItemsToActor(selectedItems, actor, advancement);
+  const [extraAdvancements, keywords, tips] = await _addItemsToActor(selectedItems, actor, advancement);
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement, actor);
   if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
+  for (const key of keywords) {
+    const keyword = actor.keywords.get(key);
+    if (keyword) await keyword.update();
+  }
   if (advancement.talent) await _fillMulticlassInfo(advancement, actor, extraAdvancements, talentType);
   return [extraAdvancements.values(), tips];
 }
@@ -114,32 +118,67 @@ async function _applyPathProgression(advancement, extraAdvancements, actor) {
         expansion.parentItem = advancement.parentItem;
         extraAdvancements.set(expansion.key, expansion);
       }
-      overrideScalingValue(parentItem, index, "martial"); 
+      await _overrideScalingValue(parentItem, index, "martial"); 
       break;
 
     case "spellcaster":
       const classData = actor.system.details.class;
       if (!classData.hasSpellList) await _selectSpellList(parentItem, advancement);
-      overrideScalingValue(parentItem, index, "spellcaster"); 
+      await _overrideScalingValue(parentItem, index, "spellcaster"); 
       break;
+  }
+}
+
+async function _overrideScalingValue(item, index, mastery) {
+  if (mastery === "martial") {
+    const maneuversKnown = item.system.scaling.maneuversKnown.values;
+    const bonusStamina = item.system.scaling.bonusStamina.values;
+    bonusStamina[index] = 1;
+    maneuversKnown[index] = 1;
+    await item.update({
+      [`system.scaling.bonusStamina.values`]: bonusStamina,
+      [`system.scaling.maneuversKnown.values`]: maneuversKnown,
+    });
+  }
+  if (mastery === "spellcaster") {
+    const spellsKnown = item.system.scaling.spellsKnown.values;
+    const bonusMana = item.system.scaling.bonusMana.values;
+    bonusMana[index] = 3;
+    spellsKnown[index] = 1;
+    await item.update({
+      [`system.scaling.bonusMana.values`]: bonusMana,
+      [`system.scaling.spellsKnown.values`]: spellsKnown,
+    });
   }
 }
 
 async function _addItemsToActor(items, actor, advancement) {
   const extraAdvancements = new Map();
   const tips = [];
+  const keywords = new Set();
   const parentItem = advancement.parentItem;
 
   for (const [key, record] of Object.entries(items)) {
     const item = await fromUuid(record.uuid);
-    const created = await createItemOnActor(actor, item);
+    const createdArr = await DC20RpgItem.gmCreate(item, {parent: actor, fromAdvancement: true});
+    const created = createdArr[0];
 
+    // Add tip to advancement
     if (created.system.tip) {
       tips.push({
         name: created.name,
         img: created.img,
         tip: created.system.tip
       })
+    }
+
+    // Check if should register keyword
+    if (created.system.keyword.key) {
+      const key = created.system.keyword.key;
+      if (!actor.keywords.has(key)) await actor.keywords.add(created.system.keyword);
+      const keyword = actor.keywords.get(key);
+      await keyword.addItem(created);
+      keywords.add(key);
     }
 
     // Check if has extra advancements
@@ -156,7 +195,7 @@ async function _addItemsToActor(items, actor, advancement) {
     record.createdItemId = created._id;
     advancement.items[key] = record;
   }
-  return [extraAdvancements, tips];
+  return [extraAdvancements, keywords, tips];
 }
 
 async function _markAdvancementAsApplied(advancement, actor) {
@@ -500,7 +539,7 @@ export async function collectSubclassesForClass(classKey) {
 }
 
 export async function revertAdvancement(actor, advancement, collection) {
-  if (advancement.progressPath) clearOverridenScalingValue(advancement.parentItem, advancement.level - 1);
+  if (advancement.progressPath) await clearOverridenScalingValue(advancement.parentItem, advancement.level - 1);
   if (advancement.providesSpellList) await clearSpellList(advancement.parentItem, advancement);
   await removeItemsFromActor(actor, advancement.items);
   await removeMulticlassInfoFromActor(actor, advancement.key);

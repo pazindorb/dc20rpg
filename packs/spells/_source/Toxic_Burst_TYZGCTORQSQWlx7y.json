@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,22 +221,41 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "YPmQv7A4GIwLWZCZ",
+        "sourceItemId": "TYZGCTORQSQWlx7y",
+        "sourceItemName": "Toxic Burst",
+        "sourceItemImg": "icons/magic/death/skull-poison-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "iovPveh9F41qbCwe": {
-        "name": "area",
+        "name": "Area",
         "number": 0,
         "preventModification": false,
         "description": "<p>The radius of the Aura increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -307,8 +326,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "iovPveh9F41qbCwe",
+        "sourceItemId": "TYZGCTORQSQWlx7y",
+        "sourceItemName": "Toxic Burst",
+        "sourceItemImg": "icons/magic/death/skull-poison-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "lFJwhgF2lqGlqTqo": {
         "name": "Disease",
@@ -317,12 +358,12 @@
         "description": "<p>Each target makes a Repeated Might Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Diseased for 1 minute. Creatures Diseased by this Spell have their current and maximum HP reduced by X at the start of each of their turns.</p><p>The creature’s maximum HP returns to normal after taking a rest. This Disease can be removed by any effect that ends a Basic Disease.</p><p><em><strong>Beta Note:</strong> A creature with a Medicine Kit can attempt to remove a Basic Disease from a creature within 1 Space (including themselves) by spending 1 AP and 1 charge from the Medicine Kit and make a Medicine Check against the effect’s Save DC, removing the Disease on a success.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -374,7 +415,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": {
             "name": "Disease",
@@ -387,15 +429,20 @@
               "seconds": null,
               "startRound": 1,
               "startTurn": 1,
-              "turns": null
+              "turns": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "lFJwhgF2lqGlqTqo"
+                "enhKey": "lFJwhgF2lqGlqTqo",
+                "itemSavePath": "system.enhancements.lFJwhgF2lqGlqTqo.modifications.addsEffect"
               }
             },
-            "_id": "XKBmG7tMg8Xwiq9o",
+            "_id": "UEusLW78jU8qH3Ci",
             "type": "base",
             "system": {
               "sustained": {
@@ -409,11 +456,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
-              "macro": "const reductionValue = effect.flags.dc20rpg?.reductionValue;\nif (!reductionValue) return;\n\nactor.resources.health.spend(reductionValue);\nconst disease = actor.getEffectByKey(\"toxicAuraDisease\");\nif (disease) {\n  const changes = disease.changes;\n  changes[0].value -= reductionValue;\n  disease.update({changes: changes});\n}\nelse {\n  const data = {\n    name: \"Disease - Toxic Aura\",\n    description: \"Your Max HP is reduced.\",\n    img: \"icons/magic/acid/dissolve-arm-flesh.webp\",\n    system: {\n      effectKey: \"toxicAuraDisease\"\n    },\n    changes: [\n      {\n        key: \"system.resources.health.bonus\",\n        mode: 2,\n        value: (reductionValue * -1)\n      },\n      {\n        key: \"system.events\",\n        mode: 2,\n        value: `\"eventType\": \"basic\", \"trigger\": \"rest\", \"label\": \"Disease - Toxic Aura\", \"postTrigger\": \"delete\", \"restType\": \"long\", \"actorId\": \"${event.actorId}\"`\n      }\n    ],\n  }\n  game.dc20rpg.effects.createEffectOn(data, actor);\n}",
-              "addToChat": false,
+              "macro": "const reductionValue = effect.flags.dc20rpg?.reductionValue;\nif (!reductionValue) return;\n\nactor.resources.health.spend(reductionValue);\nconst disease = actor.getEffectByKey(\"toxicAuraDisease\");\nif (disease) {\n  const changes = disease.system.changes;\n  changes[0].value -= reductionValue;\n  disease.update({[\"system.changes\"]: changes});\n}\nelse {\n  const data = {\n    name: \"Disease - Toxic Aura\",\n    description: \"Your Max HP is reduced.\",\n    img: \"icons/magic/acid/dissolve-arm-flesh.webp\",\n    system: {\n      effectKey: \"toxicAuraDisease\",\n      changes: [\n        {\n          key: \"system.resources.health.bonus\",\n          mode: 2,\n          value: (reductionValue * -1)\n        },\n        {\n          key: \"system.events\",\n          mode: 2,\n          value: `\"eventType\": \"basic\", \"trigger\": \"rest\", \"label\": \"Disease - Toxic Aura\", \"postTrigger\": \"delete\", \"restType\": \"long\", \"actorId\": \"${event.actorId}\"`\n        }\n      ],\n    },\n  }\n  CONFIG.ActiveEffect.documentClass.gmCreate(data, {parent: actor, ignoreResponse: true});\n}",
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -424,24 +472,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Disease\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Disease\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"diseased\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Disease\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Disease\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"diseased\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Creatures Diseased by this effect have their current and maximum HP reduced by X at the start of each of their turns.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -451,13 +504,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768593390898,
-              "modifiedTime": 1768593390903,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782598988638,
+              "modifiedTime": 1782599056546,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 1,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg.reductionValue = enh.number;",
@@ -475,8 +538,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "lFJwhgF2lqGlqTqo",
+        "sourceItemId": "TYZGCTORQSQWlx7y",
+        "sourceItemName": "Toxic Burst",
+        "sourceItemImg": "icons/magic/death/skull-poison-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "DyspYGug9H1JOn7s": {
         "name": "Spreading Plague",
@@ -485,12 +570,12 @@
         "description": "<p><em>Requires Disease.</em></p><p>Creatures Diseased by this Spell also emit a 1 Space Aura of diseased air. When a creature enters the area for the first time on its turn or starts its turn there, it makes a Repeated Might Save against your Save DC.</p><p><strong>Save Failure:</strong> The target also becomes Diseased by this spell for 1 minute. You are immune to the effects of Spreading Plague.</p><p></p><p><em><strong>System TIp:</strong> This enhancement is not automated. Just simply roll Toxic Aura again for free roll the save and apply this effect.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -542,7 +627,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -561,8 +647,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "DyspYGug9H1JOn7s",
+        "sourceItemId": "TYZGCTORQSQWlx7y",
+        "sourceItemName": "Toxic Burst",
+        "sourceItemImg": "icons/magic/death/skull-poison-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -731,6 +839,31 @@
       "ailment": "Ailment",
       "enfeeble": "Enfeeble",
       "poison": "Poison"
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 1,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -740,11 +873,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767898136751,
-    "modifiedTime": 1777016674479,
+    "modifiedTime": 1782599062424,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

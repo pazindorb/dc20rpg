@@ -30,7 +30,7 @@
       {{#ifCond system.storageType '===' "randomLootTable"}}
       <div class="row margin-top-10">
         <div class="left-part-row">
-          <i class="fa-solid fa-dice-d20"></i>
+          <i class="fa-light fa-dice-d20"></i>
           <span>{{localize 'dc20rpg.sheet.storage.rollDice'}}</span>
         </div>
         <input type="number" name="system.randomLoot.rollDice" value="{{system.randomLoot.rollDice}}" data-dtype="Number" style="width: 30%;"/>
@@ -142,7 +142,7 @@
           {{/ifCond}}
           {{!-- Loot Weight --}}
           {{#ifCond @root.system.storageType '===' "randomLootTable"}} {{#if @root.isGM}}
-          <div class="column"><i class="fa-solid fa-dice-d20" title="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}"></i></div>
+          <div class="column"><i class="fa-light fa-dice-d20" title="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}"></i></div>
           {{/if}}{{/ifCond}}
           {{!-- Quantity --}}
           <div class="column"><i class="fa-solid fa-boxes-stacked" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"></i></div>

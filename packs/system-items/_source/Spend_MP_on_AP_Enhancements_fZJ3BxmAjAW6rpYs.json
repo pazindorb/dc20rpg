@@ -46,7 +46,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -125,7 +125,7 @@
         "name": "Spend MP on AP Enhancements",
         "number": 0,
         "preventModification": false,
-        "description": "<p><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\">You can spend 1 MP to add 2 AP worth of AP Enhancements to a Spell. You can do this multiple times per Spell.</span></p>",
+        "description": "<p><span style=\"isolation: auto; color: rgb(44, 44, 43)\" data-token-index=\"0\" class=\"notion-enable-hover\">You can spend <strong>1 MP</strong> to add 2 <strong>AP</strong> worth of AP Enhancements to a Spell. </span></p><p><span style=\"isolation: auto; color: rgb(44, 44, 43)\" data-token-index=\"0\" class=\"notion-enable-hover\">You can do this multiple times per Spell.</span></p>",
         "hide": false,
         "resources": {
           "ap": -2,
@@ -202,8 +202,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        }
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "vprOl4a2bVE14Qps",
+        "sourceItemId": "fZJ3BxmAjAW6rpYs",
+        "sourceItemName": "Spend MP on AP Enhancements",
+        "sourceItemImg": "icons/magic/air/wind-vortex-swirl-blue-purple.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -338,11 +357,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1765793751779,
-    "modifiedTime": 1766934932622,
+    "modifiedTime": 1781986078480,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

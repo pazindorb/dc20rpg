@@ -26,10 +26,10 @@ export class ItemCreatorDialog extends DC20Dialog {
       return;
     }
 
-    const createData = {
-      name: blueprint?.name || "Blueprint",
-      img: blueprint?.img || this._blueprintImg(itemType),
-      type: itemType,
+    const createData = blueprint ? blueprint : {
+      name: "Blueprint",
+      img: this._blueprintImg(itemType),
+      type: itemType
     }
 
     const item = new Item(createData);
@@ -58,7 +58,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     initialized.window.title = "Item Creator";
     initialized.window.icon = "fa-solid fa-hammer-crash";
     initialized.position.width = 520;
-    initialized.actions.createItem = this._onCreateItemAction;
+    initialized.actions.createItem = this._onCreateItem;
     return initialized;
   }
   // ====================== INIT ======================
@@ -67,7 +67,7 @@ export class ItemCreatorDialog extends DC20Dialog {
   async _prepareContext(options) {
     this._updateWithProperties();
     const dropdownData = CONFIG.DC20RPG.DROPDOWN_DATA;
-    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "spellFocus";
+    const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType;
     const itemSubTypes = this.itemSubTypes;
 
     const context = await super._prepareContext(options);
@@ -98,9 +98,14 @@ export class ItemCreatorDialog extends DC20Dialog {
     let cost = 0;
     const properties = {};
     Object.entries(this.blueprint.system.properties).forEach(([key, prop]) => {
-      if (prop.for.includes(subType)) {
-        properties[key] = prop;
+      let isProperty = false;
+      if (prop.type.includes(this.itemType)) {
+        if (!subType) isProperty = true; 
+        else if (prop.subtype.includes(subType)) isProperty = true;
+      }
 
+      if (isProperty) {
+        properties[key] = prop;
         const multipier = prop.valueCostMultiplier ? prop.value : 1;
         if (prop.active) cost += prop.cost * multipier;
       }
@@ -194,11 +199,15 @@ export class ItemCreatorDialog extends DC20Dialog {
     });
   }
 
-  async _onCreateItemAction(event) {
+  async _onCreateItem(event) {
     event.preventDefault();
 
     // Prepare item before creation
     const subType = this.blueprint.system.weaponType || this.blueprint.system.equipmentType || "spellFocus";
+    if (["melee", "ranged"].includes(subType)) {
+      this.blueprint.system.attack.rangeType = subType;
+      this.blueprint.system.attack.closeQuarters = subType === "ranged"; // Set Close Quarters
+    }
     if (["melee", "ranged", "lshield", "hshield"].includes(subType)) {
       this.blueprint.system.costs.resources.ap = 1;
       this.blueprint.system.statuses.slotLink.predefined = "weapon";

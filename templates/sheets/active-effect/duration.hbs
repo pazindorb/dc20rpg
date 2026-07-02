@@ -1,39 +1,56 @@
 <section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-  <fieldset>
-    {{formGroup fields.duration.fields.seconds value=source.duration.seconds rootId=rootId}}
-    {{formGroup fields.duration.fields.startTime value=source.duration.startTime rootId=rootId}}
+  {{#if start}}
+  <fieldset class="start-data">
+    <legend>{{localize "EFFECT.START.Header"}}</legend>
+    <div class="form-group">
+      <span class="label">{{localize "EFFECT.FIELDS.start.time.label"}}</span>
+      <div class="form-fields">{{start.time}}</div>
+    </div>
+    {{#if start.combat}}
+    <div class="form-group">
+      <span class="label">{{localize "DOCUMENT.Combat"}}</span>
+      <div class="form-fields">
+        {{localize "EFFECT.START.Combat" round=start.round turn=start.turn}}
+      </div>
+    </div>
+    {{#if start.combatant}}
+    <div class="form-group">
+      <span class="label">{{localize "DOCUMENT.Combatant"}}</span>
+      <div class="form-fields">
+        {{localize "EFFECT.START.Combatant" combatant=start.combatantName initiative=start.combatantInitiative}}
+      </div>
+    </div>
+    {{/if}}
+    {{/if}}
   </fieldset>
-
+  {{/if}}
   <fieldset>
-    <div class="form-group">
-      <label for="{{rootId}}-duration.useCounter">{{localize "dc20rpg.effect.sheet.useCounter"}}</label>
-      {{formGroup fields.system.fields.duration.fields.useCounter name="system.duration.useCounter" value=source.system.duration.useCounter rootId=rootId}} 
-    </div>
-    <div class="form-group">
-      <label>{{localize "EFFECT.DurationTurns"}}</label>
+    <legend>{{localize "EFFECT.DURATION.Header"}}</legend>
+    <div class="form-group slim duration" data-duration>
+      <label class="flexrow" for="{{rootId}}-duration.value">
+        <span>{{localize "EFFECT.DURATION.Label"}}</span>
+        <span class="warning" hidden><i class="fa-duotone fa-triangle-exclamation"></i></span>
+      </label>
       <div class="form-fields">
-        <label for="{{rootId}}-duration.rounds">{{localize "EFFECT.FIELDS.duration.rounds.label"}}</label>
-        {{formInput fields.duration.fields.rounds value=source.duration.rounds id=(concat rootId "-duration.rounds") disabled=disableRoundCounter}}
-        <label for="{{rootId}}-duration.turns">{{localize "EFFECT.FIELDS.duration.turns.label"}}</label>
-        {{formInput fields.duration.fields.turns value=source.duration.turns id=(concat rootId "-duration.turns") disabled=disableRoundCounter}}
+        {{formInput fields.duration.fields.value value=source.duration.value id=(concat rootId "-duration.value")
+        aria=(object label=(localize "EFFECT.FIELDS.duration.value.label"))}}
+        {{formInput fields.duration.fields.units value=source.duration.units id=(concat rootId "-duration.units")
+        options=durationUnits aria=(object label=(localize "EFFECT.FIELDS.duration.units.label"))}}
+      </div>
+    </div>
+    {{formGroup fields.duration.fields.expiry choices=expiryEvents value=source.duration.expiry rootId=rootId}}
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.effect.sheet.expiryAction"}}</label>
+      <div class="form-fields">
+        <select name="system.duration.expiryAction">
+          {{selectOptions @root.expiryActions selected=system.duration.expiryAction blank=""}}
+        </select>
       </div>
     </div>
     <div class="form-group">
-      <label>{{localize "EFFECT.StartTurns"}}</label>
-      <div class="form-fields">
-        <label for="{{rootId}}-duration.startRound">{{localize "EFFECT.FIELDS.duration.startRound.label"}}</label>
-        {{formInput fields.duration.fields.startRound value=source.duration.startRound id=(concat rootId "-duration.startRound")}}
-        <label for="{{rootId}}-duration.startTurn">{{localize "EFFECT.FIELDS.duration.startTurn.label"}}</label>
-        {{formInput fields.duration.fields.startTurn value=source.duration.startTurn id=(concat rootId "-duration.startTurn")}}
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="{{rootId}}-duration.resetWhenEnabled">{{localize "dc20rpg.effect.sheet.resetWhenEnabled"}}</label>
-      {{formGroup fields.system.fields.duration.fields.resetWhenEnabled name="system.duration.resetWhenEnabled" value=source.system.duration.resetWhenEnabled rootId=rootId}} 
-    </div>
-    <div class="form-group">
-      <label for="{{rootId}}-duration.onTimeEnd">{{localize "dc20rpg.effect.sheet.onTimeEnd"}}</label>
-      {{formInput fields.system.fields.duration.fields.onTimeEnd name="system.duration.onTimeEnd" value=source.system.duration.onTimeEnd choices=onTimeEndOptions}}
+      <label>{{localize "dc20rpg.effect.sheet.resetWhenEnabled"}}</label>
+      <input type="checkbox" name="system.duration.resetWhenEnabled" {{checked system.duration.resetWhenEnabled}}/>
     </div>
   </fieldset>
 </section>

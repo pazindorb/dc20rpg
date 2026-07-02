@@ -61,7 +61,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -232,14 +232,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "key": "k89Nu7qrdZjaiEHV",
-        "sourceItemId": "xxSvU3ljNQm9jtqF",
+        "sourceItemId": "VbK7YOCwB3FNK4bm",
         "sourceItemName": "Reaction Points",
-        "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
+        "sourceItemImg": "icons/magic/unholy/orb-glowing-yellow-purple.webp",
         "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
@@ -391,7 +404,10 @@
         0,
         0,
         0
-      ]
+      ],
+      "refresh": {
+        "roundEnd": "Turn End"
+      }
     },
     "usesWeapon": {
       "weaponAttack": false,
@@ -412,11 +428,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778503209698,
-    "modifiedTime": 1778503209698,
+    "modifiedTime": 1781983714439,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

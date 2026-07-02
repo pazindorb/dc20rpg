@@ -6,8 +6,8 @@ import { createItemBrowser } from "../../../dialogs/compendium-browser/item-brow
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, removeAdvancement, revertAdvancement, shouldLearnNewSpellsOrManeuvers } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
-import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { collectAdvancementsFromItem } from "./advancements.mjs";
+import { DC20RpgItem } from "../../../documents/item.mjs";
 
 
 /**
@@ -615,8 +615,8 @@ export class ActorAdvancement extends Dialog {
     await game.settings.set("dc20rpg", "suppressAdvancements", true);
     
     const subclass = await fromUuid(subclassUuid);
-    const createdSubclass = await createItemOnActor(this.actor, subclass.toObject());
-    const fromItem = collectAdvancementsFromItem(3, createdSubclass);
+    const createdSubclass = await DC20RpgItem.gmCreate(subclass.toObject(), {parent: this.actor});
+    const fromItem = collectAdvancementsFromItem(3, createdSubclass[0]);
     this.advancements.push(...fromItem);
 
     this.applyingAdvancement = false;
@@ -740,6 +740,12 @@ export class ActorAdvancement extends Dialog {
 
     const item = await fromUuid(itemUuid);
     if (!["feature", "maneuver", "spell", "infusion", "weapon", "equipment", "consumable", "spellFocus"].includes(item.type)) return;
+
+    // Do not allow to add the same item twice
+    if (advancement.items[item.id]) {
+      ui.notifications.warn("Item with this ID already exist on this Advancement");
+      return;
+    }
 
     // Can be countent towards known spell/maneuvers
     const canBeCounted = ["maneuver", "spell", "infusion"].includes(item.type);

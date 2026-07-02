@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -231,28 +231,26 @@
     {
       "origin": "Item.XbecftrxnyewSu8M",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Innate Power",
       "img": "icons/magic/unholy/hands-cloud-light-pink.webp",
       "_id": "R2Wz0BMQNqWI5Mna",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.resources.mana.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.resources.mana.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<ul><li><p>Your Maximum <strong>MP</strong> increases by 1.</p></li><li><p><strong>Once per Long Rest</strong>, you can use a <strong>1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -262,7 +260,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
@@ -270,6 +268,9 @@
         "lastModifiedBy": null,
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!j4Z4Vz4kJInBy7hj.R2Wz0BMQNqWI5Mna"
     }
   ],
@@ -278,11 +279,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035060,
-    "modifiedTime": 1776868744652,
+    "modifiedTime": 1781983666458,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

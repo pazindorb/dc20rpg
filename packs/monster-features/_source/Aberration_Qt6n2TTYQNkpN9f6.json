@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -284,11 +284,10 @@
       "img": "icons/creatures/unholy/demon-winged-cyclops-drooling.webp",
       "origin": "Item.cYn0I07zsDfBe319",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -323,22 +322,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.psychic.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.int",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Aberation\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.psychic.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.int",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Aberation\"",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature has Psychic Resistance (Half), Telepathy 10 Spaces, and ADV on Intelligence Saves.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -348,11 +347,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Qt6n2TTYQNkpN9f6.CHrJT3vAZ6LwGz83"
     }
   ],
@@ -366,11 +377,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777360285711,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1781983713778,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

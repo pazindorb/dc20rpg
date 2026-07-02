@@ -1,48 +1,31 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20RpgActor } from "../../documents/actor.mjs";
-import { emitEventToGM } from "../sockets.mjs";
-import { isPointInPolygon } from "../utils.mjs";
-import { deleteItemFromActor } from "./itemsOnActor.mjs";
+import { DC20RpgTokenDocument } from "../../documents/token.mjs";
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createToken(tokenData) {
-  if (!game.user.can("TOKEN_CREATE")) {
-    emitEventToGM("addDocument", {
-      docType: "token",
-      docData: tokenData
-    });
-    return;
-  }
-  return await canvas.scene.createEmbeddedDocuments("Token", [tokenData]);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.createToken' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20RpgTokenDocument.gmCreate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return await DC20RpgTokenDocument.gmCreate(tokenData, {parent: canvas.scene});
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function deleteToken(tokenId) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.deleteToken' method is deprecated, and will be removed in the later system version. Use 'token.gmDelete' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
   const token = canvas.tokens.get(tokenId);
   if (!token) return;
-
-  if (!game.user.can("TOKEN_DELETE")) {
-    emitEventToGM("removeDocument", {
-      docType: "token",
-      docId: tokenId, 
-    });
-    return;
-  }
-  await token.document.delete();
+  await token.gmDelete();
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getTokenForActor(actor) {
-  if (actor.isToken) return actor.token.object;
-  else {
-    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
-    return tokens[0];
-  }
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getTokenForActor' method is deprecated, and will be removed in the later system version. Use 'actor.getActiveTokens' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return actor.getActiveTokens()[0];
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getAllTokensForActor(actor) {
-  if (actor.isToken) return [actor.token.object];
-  else {
-    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
-    return tokens;
-  }
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.tools.getAllTokensForActor' method is deprecated, and will be removed in the later system version. Use 'actor.getActiveTokens' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return actor.getActiveTokens();
 }
 
 /**
@@ -52,133 +35,6 @@ export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
 
-export function getTokensInsideMeasurementTemplate(template, dispositions=[]) {
-  if (!template) return {};
-  const tokens = canvas.tokens.placeables;
-  if (!tokens) return {};
-  
-  const tokensInTemplate = {};
-  for (const token of tokens) {
-    if (_isTokenInsideTemplate(token, template)) {
-      if (dispositions.length > 0) {
-        if (dispositions.includes(token.document.disposition)) {
-          tokensInTemplate[token.id] = token;
-        }
-      }
-      else {
-        tokensInTemplate[token.id] = token;
-      }
-    }
-  }
-  return tokensInTemplate;
-}
-
-function _isTokenInsideTemplate(token, template) {
-  // Gridless Mode
-  if (canvas.grid.isGridless) {
-    const shape = template._getGridHighlightShape();
-    const points = getGridlessTokenPoints(token);
-
-    // Circle
-    if (shape.type === 2) {
-      const startX = template.document.x;
-      const startY = template.document.y;
-      const radius = shape.radius;
-
-      for (let i = 0; i < points.length; i++) {
-        const x = points[i].x;
-        const y = points[i].y;
-        const distanceSquared = (x - startX) ** 2 + (y - startY) ** 2;
-        if (distanceSquared <= radius ** 2) return true;
-      }
-      return false;
-    }
-    // Ray
-    if (shape.type === 0) {
-      const shapePoints = shape.points;
-      const startX = template.document.x;
-      const startY = template.document.y;
-
-      // Collect points related to starting position
-      const polygon = [];
-      for (let i = 0; i < shapePoints.length; i=i+2) {
-        const x = startX + shapePoints[i];
-        const y = startY + shapePoints[i+1];
-        polygon.push({x: x, y: y});
-      }
-
-      for (let i = 0; i < points.length; i++) {
-        const x = points[i].x;
-        const y = points[i].y;
-        if (isPointInPolygon(x, y, polygon)) return true;
-      }
-      return false;
-    }
-  }
-  // Grid Mode
-  else {
-    const highlightedSpaces = template.highlightedSpaces;
-    const tokenSpaces = token.getOccupiedGridSpaces();
-    // If at least one token space equal highlighted one we have a match 
-    // Should we change it to some % of all token occupied spaces?
-    for (let i = 0; i < highlightedSpaces.length; i++) {
-      for (let j = 0; j < tokenSpaces.length; j++) {
-        const horizontal = highlightedSpaces[i][0] === tokenSpaces[j][0];
-        const vertical = highlightedSpaces[i][1] === tokenSpaces[j][1];
-        if (horizontal && vertical) return true;
-      }
-    }
-    return false;
-  }
-}
-
-export function getGridlessTokenPoints(token) {
-  // We want to collect some points inside a token so we can 
-  // check later if any of those fit our measurement template
-  const startX = token.x;
-  const startY = token.y;
-  const endX = startX + token.w;
-  const endY = startY + token.h;
-
-  // We assume quarter of the grid size should be enough to match most our cases
-  const step = canvas.grid.size/4;
-  const tokenPoints = [];
-  for (let x = startX; x < endX; x=x+step) {
-    for (let y = startY; y < endY; y=y+step) {
-      tokenPoints.push({x: x, y: y});
-    }
-  }
-  return tokenPoints;
-}
-
-export function getGridlessTokenCorners(token) {
-  const height = token.document.getSize().height;
-  const width = token.document.getSize().width;
-
-  return {
-    x1y1: {x: token.x, y: token.y},
-    x2y1: {x: token.x + width, y: token.y},
-    x1y2: {x: token.x, y: token.y + height},
-    x2y2: {x: token.x + width, y: token.y + height},
-  }
-}
-
-export function getRangeAreaAroundGridlessToken(token, distance) {
-  const rangeArea = getGridlessTokenCorners(token);
-  const sizeX = canvas.grid.sizeX;
-  const sizeY = canvas.grid.sizeY;
-
-  rangeArea.x1y1.x -= distance * sizeX + (0.1 * sizeX);
-  rangeArea.x1y1.y -= distance * sizeY + (0.1 * sizeY);
-  rangeArea.x1y2.x -= distance * sizeX + (0.1 * sizeX);
-  rangeArea.x1y2.y += distance * sizeY + (0.1 * sizeY);
-  rangeArea.x2y1.x += distance * sizeX + (0.1 * sizeX);
-  rangeArea.x2y1.y -= distance * sizeY + (0.1 * sizeY);
-  rangeArea.x2y2.x += distance * sizeX + (0.1 * sizeX);
-  rangeArea.x2y2.y += distance * sizeY + (0.1 * sizeY);
-  
-  return rangeArea;
-}
 
 export function getActorFromIds(actorId, tokenId) {
   let actor = game.actors.tokens[tokenId];        // Try to find unlinked actors first
@@ -289,16 +145,41 @@ export function preConfigurePrototype(actor) {
   actor.update(updateData);
 }
 
-export async function canvasItemDrop(canvas, data, event) {
-  if (data.type !== "Item") return;
+export function canvasDrop(canvas, data, event) {
+  if (data.type === "Item") {
+    _canvasItemDrop(canvas, data, event);
+    return false;
+  }
+  if (data.type === "Actor") {
+    _canvasActorDrop(canvas, data, event);
+    return false;
+  }
+}
+
+async function _canvasItemDrop(canvas, data, event) {
+  const item = await fromUuid(data.uuid);
+  if (!item) return;
+
+  // Not only inventory items are droppable
+  if (!item.system.inventory) return;
 
   const confirmed = await SimplePopup.confirm("Do you want to drop that item?");
   if (!confirmed) return;
 
-  const item = await fromUuid(data.uuid);
-  if (!item) return;
+  // Change item token size
+  let size = {};
+  switch (game.settings.get("dc20rpg","dropCanvasItemSize")) {
+    case "tiny":
+      size = {width: 0.40, height: 0.40};
+      break;
+
+    case "small":
+      size = {width: 0.65, height: 0.65};
+      break;
+  }
+
   const itemData = item.toObject();
-  deleteItemFromActor(item.id, item.actor);
+  item.gmDelete({transfer: true});
 
   const tempActor = new DC20RpgActor({
     type: "storage",
@@ -317,8 +198,17 @@ export async function canvasItemDrop(canvas, data, event) {
     texture: {src: itemData.img},
     disposition: -2,
     displayName: 0,
-    width: 0.65,
-    height: 0.65,
+    ...size
   });
-  await createToken(tokenData.toObject());
+  await DC20RpgTokenDocument.gmCreate(tokenData.toObject(), {parent: canvas.scene});
+}
+
+async function _canvasActorDrop(canvas, data, event) {
+  const token = canvas.tokens.placeables.find(token => token.bounds.contains(data.x, data.y));
+  if (token && token.actor) {
+    const actor = await fromUuid(data.uuid);  
+    const confirmed = await SimplePopup.confirm(`Do you want to transform '${token.actor.name}' into '${actor.name}'`); // TODO: Change it to fully configurable window? Ask about transfering effects/conditons + templates? (only temporary ones?) - if false we need to remove those from actor data
+    if (confirmed) return token.document.transformation(actor);
+  }
+  return canvas.tokens._onDropActorData(event, data);
 }

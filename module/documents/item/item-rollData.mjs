@@ -1,7 +1,7 @@
 export function prepareRollData(item, data) {
   let rollData = {
     ...data,
-    rollBonus: data.attackFormula?.rollBonus
+    rollBonus: data.rollConfig?.rollBonus
   }
 
   // If present, add the actor's roll data.

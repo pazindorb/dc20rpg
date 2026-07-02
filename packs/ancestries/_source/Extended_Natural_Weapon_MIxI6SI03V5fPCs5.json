@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -136,16 +137,16 @@
     "choicePointCost": 2,
     "macros": {
       "pezYwwhMpzEMp5B7": {
-        "name": "onCreate",
+        "name": "Add Property",
         "trigger": "onCreate",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: true});\n}",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon]);\nfor (const weapon of weapons) weapon.update({[\"system.properties.reach.active\"]: true});",
         "disabled": false,
         "title": ""
       },
       "AyLPGVliXaJ1xRQA": {
-        "name": "preDelete",
+        "name": "Remove Property",
         "trigger": "preDelete",
-        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: false});\n}",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"], [i => i.system.naturalWeapon]);\nfor (const weapon of weapons) weapon.update({[\"system.properties.reach.active\"]: false});",
         "disabled": false,
         "title": ""
       }
@@ -161,11 +162,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720112473023,
-    "modifiedTime": 1768433112443,
+    "modifiedTime": 1782125709066,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

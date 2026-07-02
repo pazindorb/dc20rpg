@@ -72,7 +72,21 @@
           "heavy",
           "other"
         ],
-        "cost": 0
+        "cost": 0,
+        "type": [
+          "weapon",
+          "equipment",
+          "spellFocus",
+          "consumable"
+        ],
+        "subtype": [
+          "melee",
+          "ranged",
+          "lshield",
+          "hshield",
+          "light",
+          "heavy"
+        ]
       },
       "ammo": {
         "active": false,
@@ -82,7 +96,13 @@
           "ranged"
         ],
         "cost": 0,
-        "ammoId": ""
+        "ammoId": "",
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "ranged"
+        ]
       },
       "concealable": {
         "active": false,
@@ -91,7 +111,13 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "guard": {
         "active": false,
@@ -100,7 +126,13 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "heavy": {
         "active": false,
@@ -110,7 +142,14 @@
           "melee",
           "ranged"
         ],
-        "cost": 2
+        "cost": 2,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee",
+          "ranged"
+        ]
       },
       "impact": {
         "active": false,
@@ -119,7 +158,14 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee",
+          "ranged"
+        ]
       },
       "longRanged": {
         "active": false,
@@ -128,7 +174,13 @@
         "for": [
           "ranged"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "ranged"
+        ]
       },
       "multiFaceted": {
         "active": false,
@@ -147,7 +199,14 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee",
+          "ranged"
+        ]
       },
       "reach": {
         "active": false,
@@ -157,7 +216,13 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "reload": {
         "active": false,
@@ -168,7 +233,13 @@
           "ranged"
         ],
         "cost": -1,
-        "loaded": true
+        "loaded": true,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "ranged"
+        ]
       },
       "silent": {
         "active": false,
@@ -177,7 +248,13 @@
         "for": [
           "ranged"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "ranged"
+        ]
       },
       "toss": {
         "active": true,
@@ -187,7 +264,15 @@
           "melee",
           "lshield"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon",
+          "equipment"
+        ],
+        "subtype": [
+          "melee",
+          "lshield"
+        ]
       },
       "thrown": {
         "active": false,
@@ -196,7 +281,13 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "twoHanded": {
         "active": false,
@@ -206,7 +297,14 @@
           "melee",
           "ranged"
         ],
-        "cost": -1
+        "cost": -1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee",
+          "ranged"
+        ]
       },
       "unwieldy": {
         "active": false,
@@ -215,7 +313,13 @@
         "for": [
           "melee"
         ],
-        "cost": -1
+        "cost": -1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "versatile": {
         "active": false,
@@ -224,7 +328,13 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "returning": {
         "active": true,
@@ -233,13 +343,35 @@
         "for": [
           "melee"
         ],
-        "cost": 1
+        "cost": 1,
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "melee"
+        ]
       },
       "cumbersome": {
-        "label": "Cumbersome"
+        "label": "Cumbersome",
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "ranged"
+        ],
+        "cost": -1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.s5koKAxjBv26tHHV"
       },
       "deft": {
-        "label": "Deft"
+        "label": "Deft",
+        "type": [
+          "weapon"
+        ],
+        "subtype": [
+          "ranged"
+        ],
+        "cost": 1,
+        "journalUuid": "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.oiJStOGltgWyJiUL"
       }
     },
     "isReaction": false,
@@ -252,7 +384,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -346,7 +478,7 @@
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
-        "subtract": 1,
+        "subtract": 0,
         "deleteOnZero": false
       }
     },
@@ -473,11 +605,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1765972826382,
-    "modifiedTime": 1765972826397,
+    "modifiedTime": 1781983669450,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

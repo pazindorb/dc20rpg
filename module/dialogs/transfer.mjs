@@ -1,4 +1,4 @@
-import { createItemOnActor, deleteItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { DC20RpgItem } from "../documents/item.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 export class TransferDialog extends DC20Dialog {
@@ -99,8 +99,8 @@ export class TransferDialog extends DC20Dialog {
   async _transferItems(from, to) {
     const items = from.transfer.items;
     for (const item of Object.values(items)) {
-      await deleteItemFromActor(item.id, from, {transfer: true});
-      await createItemOnActor(to, item.toObject());
+      await item.gmDelete({transfer: true});
+      await DC20RpgItem.gmCreate(item.toObject(), {parent: to});
     }
   }
 
@@ -247,9 +247,24 @@ async function _moveCurrency(from, to, currency, exchangeToGold) {
     currency = _exchangeToGold(currency);
   }
 
-  fromWallet.cp -= currency.cp;
-  fromWallet.sp -= currency.sp;
-  fromWallet.gp -= currency.gp;
+  if (fromWallet.cp - currency.cp < 0) {
+    fromWallet.cp = fromWallet.cp + 10 - currency.cp;
+    currency.sp += 1;
+  }
+  else fromWallet.cp -= currency.cp;
+
+  if (fromWallet.sp - currency.sp < 0) {
+    fromWallet.sp = fromWallet.sp + 10 - currency.sp;
+    currency.gp += 1;
+  }
+  else fromWallet.sp -= currency.sp;
+
+  if (fromWallet.gp - currency.gp < 0) {
+    ffromWallet.gp = romWallet.gp + 10 - currency.gp;
+    currency.pp += 1;
+  }
+  else fromWallet.gp -= currency.gp;
+
   fromWallet.pp -= currency.pp;
   toWallet.cp += currency.cp;
   toWallet.sp += currency.sp;

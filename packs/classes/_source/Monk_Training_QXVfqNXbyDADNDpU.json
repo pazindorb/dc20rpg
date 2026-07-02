@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -170,7 +170,7 @@
     "quickRoll": false,
     "macros": {
       "yUGns5UAgTkWacnl": {
-        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\n\nconst weaponStyle = await DC20.dialog.SimplePopup.select(\"Select Unarmed Strike Weapon Style\", CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\nif (!weaponStyle) return;\n\nunarmedStrike.update({\n  [\"system.weaponStyle\"]: weaponStyle,\n  [\"system.formulas.weaponDamage.formula\"]: \"2\"\n});",
+        "command": "const unarmedStrikes = actor.getAllItemsWithType([\"weapon\"], [i => i.system.unarmedStrike])\nfor (const strike of unarmedStrikes) {\n  const weaponStyle = await DC20.dialog.SimplePopup.select(`Select Weapon Style for '${strike.name}'`, CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles);\n  const updateData = {};\n  if (weaponStyle) updateData[\"system.weaponStyle\"] = weaponStyle;\n  if (strike.system?.formulas?.weaponDamage) updateData[\"system.formulas.weaponDamage.formula\"] = \"2\";\n  if (!strike.system.naturalWeapon) {\n    updateData[\"system.naturalWeapon\"] = true;\n    updateData[\"flags.dc20rpg.addedNaturalWeapon\"] = true;\n  }\n  strike.update(updateData);\n}",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Add Iron Palm to Unarmed Strike",
@@ -178,7 +178,7 @@
         "global": false
       },
       "NLsw4JOssO2ObCWd": {
-        "command": "const unarmedStrike = game.dc20rpg.tools.getItemFromActorByKey(\"unarmedStrike\", actor);\nif (!unarmedStrike) return;\n\nunarmedStrike.update({\n  [\"system.weaponStyle\"]: \"\",\n  [\"system.formulas.weaponDamage.formula\"]: \"0\"\n});",
+        "command": "const unarmedStrikes = actor.getAllItemsWithType([\"weapon\"], [i => i.system.unarmedStrike])\nfor (const strike of unarmedStrikes) {\n  const updateData = {};\n  updateData[\"system.weaponStyle\"] = \"\";\n  if (strike.system?.formulas?.weaponDamage) updateData[\"system.formulas.weaponDamage.formula\"] = \"0\";\n  if (strike.flags?.dc20rpg?.addedNaturalWeapon) {\n    updateData[\"system.naturalWeapon\"] = false;\n    updateData[\"flags.dc20rpg.-=addedNaturalWeapon\"] = null;\n  }\n  strike.update(updateData);\n}",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Iron Palm from Unarmed Strike",
@@ -212,13 +212,10 @@
     {
       "origin": "Item.Cvlcs6l8C9R7XddU",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Monk Training",
@@ -231,34 +228,35 @@
           "path": "",
           "mode": "",
           "value": ""
-        }
+        },
+        "changes": [
+          {
+            "key": "system.movement.ground.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.jump.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.jump.key",
+            "value": "prime",
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.defences.precision.bonuses.noArmor",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          }
+        ],
+        "applyToTemplate": false
       },
-      "changes": [
-        {
-          "key": "system.movement.ground.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.jump.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.jump.key",
-          "mode": 5,
-          "value": "prime",
-          "priority": null
-        },
-        {
-          "key": "system.defences.precision.bonuses.noArmor",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        }
-      ],
       "description": "<ul><li><p><strong>Patient Defense: </strong>While you aren't wearing Armor you gain <strong>+2 PD</strong>. </p></li></ul><ul><li><p><strong>Step of the Wind:</strong> You gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -285,14 +283,17 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.Cvlcs6l8C9R7XddU.ActiveEffect.uf2iNfUEHraYoOhS",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1744980204150,
-        "modifiedTime": 1767168996220,
+        "modifiedTime": 1782125768731,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!QXVfqNXbyDADNDpU.rOcCiD71ZOlxYJ7K"
     }
   ],
@@ -301,11 +302,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034306,
-    "modifiedTime": 1767169243211,
+    "modifiedTime": 1782126827324,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

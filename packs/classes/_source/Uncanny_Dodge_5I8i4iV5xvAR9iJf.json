@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -233,13 +233,10 @@
       "img": "icons/magic/air/wind-swirl-red-orange.webp",
       "origin": "Compendium.dc20rpg.classes.Item.ouRS4Gpr0EW0qRFg",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Uncanny Dodge",
@@ -249,46 +246,52 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.againstYou.spell.area",
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Uncanny Dodge\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>When a creature makes an <strong>Attack</strong> against you, you can impose DisADV on the Attack.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -307,14 +310,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1766696771324,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781983657433,
+        "modifiedTime": 1781983657433,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!5I8i4iV5xvAR9iJf.7oHIkMdHEFND1zMn"
     }
   ],
@@ -323,11 +329,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035651,
-    "modifiedTime": 1776444955125,
+    "modifiedTime": 1781983657415,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

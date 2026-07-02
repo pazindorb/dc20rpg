@@ -46,7 +46,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -203,8 +203,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2z3XO25fGSr8CoZJ",
+        "sourceItemId": "0cGaZaHkWeyGhp1j",
+        "sourceItemName": "Brace",
+        "sourceItemImg": "icons/skills/melee/shield-block-fire-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "C6q2mSzcpDSYS4w7": {
         "name": "Grapple",
@@ -289,8 +308,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "C6q2mSzcpDSYS4w7",
+        "sourceItemId": "0cGaZaHkWeyGhp1j",
+        "sourceItemName": "Brace",
+        "sourceItemImg": "icons/skills/melee/shield-block-fire-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -429,12 +467,10 @@
       "img": "icons/skills/melee/shield-block-fire-orange.webp",
       "origin": "Item.DBp1DdcJ6XmKJvF9",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 94,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -468,23 +504,24 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "applyToTemplate": true,
-        "chatMessageId": ""
+        "applyToTemplate": false,
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Brace\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ],
+        "refreshTarget": true
       },
-      "changes": [
-        {
-          "key": "system.defences.area.bonuses.always",
-          "value": "5",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Brace\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You grant the target a +5 bonus to its AD against this Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -494,13 +531,23 @@
         "compendiumSource": "Compendium.dc20rpg.maneuvers.Item.oHqCLOEjDqFUaEaB.ActiveEffect.MYpv7WcSUAMnTkyl",
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1768065052878,
-        "modifiedTime": 1768065142486,
+        "modifiedTime": 1782370319055,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
+      "start": {
+        "combat": null,
+        "round": 94,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!0cGaZaHkWeyGhp1j.3N7acM91dXiq1luc"
     }
   ],
@@ -510,11 +557,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766057262879,
-    "modifiedTime": 1768041285200,
+    "modifiedTime": 1781985655453,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

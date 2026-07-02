@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -163,7 +163,15 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>When you produce an <strong>MP</strong> Effect that restores <strong>HP</strong> to at least 1 creature, you can restore <strong>1 HP</strong> to 1 creature of your choice within 1 Space of you (including yourself).</p>",
         "hide": false,
@@ -171,7 +179,13 @@
         "sourceItemId": "iIsIecGFn4eP7t3F",
         "sourceItemName": "Life Domain",
         "sourceItemImg": "icons/magic/life/ankh-shadow-green.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -329,11 +343,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034883,
-    "modifiedTime": 1768430512616,
+    "modifiedTime": 1781985630168,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

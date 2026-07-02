@@ -91,7 +91,8 @@ export class SimplePopup extends DC20Dialog {
     }
 
     // Send to other users
-    if (options.users) {
+    const sendingToMyself = this.isSendingToHimself(options.users);
+    if (options.users && options.users.length > 0 && !sendingToMyself) {
       const signature = generateKey();
       const payload = {
         popupType: popupType,
@@ -111,6 +112,12 @@ export class SimplePopup extends DC20Dialog {
     else {
       return await SimplePopup.create(popupType, data, options);
     }
+  }
+
+  static isSendingToHimself(users) {
+    if (!users || users.length === 0) return false;
+    if (users.length > 1) return false;
+    return users[0] === game.user.id;
   }
 
   static async create(popupType, data={}, options={}) {

@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -208,8 +208,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "J5QPJon1JhKKiz8R",
+        "sourceItemId": "rE6JnxMVshhOC2CV",
+        "sourceItemName": "Blessing of Zephyr",
+        "sourceItemImg": "icons/magic/air/wind-swirl-purple-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "2PTjLSKlynEOW1HA": {
         "name": "Duration",
@@ -293,22 +312,41 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2PTjLSKlynEOW1HA",
+        "sourceItemId": "rE6JnxMVshhOC2CV",
+        "sourceItemName": "Blessing of Zephyr",
+        "sourceItemImg": "icons/magic/air/wind-swirl-purple-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "ytknUUIfVpdv1HfZ": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can target X additional creatures within range. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> Remember to toggle Targets - AP Cost as well.</em></p>",
+        "description": "<p>You can target X additional creatures within range. The AP cost of this Enhancement can’t be paid for with MP (See Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -380,95 +418,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "dvSJOJXgDNi5eGkG": {
-        "name": "Targets - Ap Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement together with Targets</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "ytknUUIfVpdv1HfZ",
+        "sourceItemId": "rE6JnxMVshhOC2CV",
+        "sourceItemName": "Blessing of Zephyr",
+        "sourceItemImg": "icons/magic/air/wind-swirl-purple-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "pfrxcvtbISMP2hqq": {
         "name": "Zephyr Walk",
@@ -539,7 +511,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const blessingOfZephyr = item.getEffectByKey(\"blessingOfZephyr\");\nif (!blessingOfZephyr) return;\n\nblessingOfZephyr.changes.push({\n  key: \"system.globalModifier.ignore.difficultTerrain\",\n  mode: 5,\n  value: true\n})",
+            "preItemRoll": "const blessingOfZephyr = item.getEffectByKey(\"blessingOfZephyr\");\nif (!blessingOfZephyr) return;\n\nblessingOfZephyr.system.changes.push({\n  key: \"system.globalModifier.ignore.difficultTerrain\",\n  mode: 5,\n  value: true\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -554,8 +526,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "pfrxcvtbISMP2hqq",
+        "sourceItemId": "rE6JnxMVshhOC2CV",
+        "sourceItemName": "Blessing of Zephyr",
+        "sourceItemImg": "icons/magic/air/wind-swirl-purple-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "BHsVTrIkGgK65EI7": {
         "name": "Greater Blessing",
@@ -626,7 +617,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const blessingOfZephyr = item.getEffectByKey(\"blessingOfZephyr\");\nif (!blessingOfZephyr) return;\n\nblessingOfZephyr.changes.push({\n  key: \"system.jump.bonus\",\n  mode: 2,\n  value: (2 * enh.number)\n})\nblessingOfZephyr.changes.push({\n  key: \"system.movement.ground.bonus\",\n  mode: 2,\n  value: (2 * enh.number)\n})",
+            "preItemRoll": "const blessingOfZephyr = item.getEffectByKey(\"blessingOfZephyr\");\nif (!blessingOfZephyr) return;\n\nblessingOfZephyr.system.changes.push({\n  key: \"system.jump.bonus\",\n  mode: 2,\n  value: (2 * enh.number)\n})\nblessingOfZephyr.system.changes.push({\n  key: \"system.movement.ground.bonus\",\n  mode: 2,\n  value: (2 * enh.number)\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -641,8 +632,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "BHsVTrIkGgK65EI7",
+        "sourceItemId": "rE6JnxMVshhOC2CV",
+        "sourceItemName": "Blessing of Zephyr",
+        "sourceItemImg": "icons/magic/air/wind-swirl-purple-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -811,6 +821,9 @@
     "spellTags": {
       "embolden": "Embolden",
       "motion": "Motion"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -819,12 +832,10 @@
       "img": "icons/magic/air/wind-swirl-purple-blue.webp",
       "origin": "Item.B5l8Bs7LDm8CzOLD",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -859,28 +870,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.movement.climbing.fullSpeed",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.jump.key",
+            "value": "flat",
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.jump.value",
+            "value": "<:@movement.ground.value:>",
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.movement.climbing.fullSpeed",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.jump.key",
-          "mode": 5,
-          "value": "flat",
-          "priority": null
-        },
-        {
-          "key": "system.jump.value",
-          "mode": 5,
-          "value": "<:@movement.ground.value:>",
-          "priority": null
-        }
-      ],
       "description": "<p><span class=\"cf0\">You grant a creature with range a Climb Speed and Jump Distance equal to their Speed for the duration.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -890,11 +901,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!rE6JnxMVshhOC2CV.ET2mCwUYMaC5AqUi"
     }
   ],
@@ -904,11 +927,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777040796888,
-    "modifiedTime": 1777040796888,
+    "modifiedTime": 1782632327904,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

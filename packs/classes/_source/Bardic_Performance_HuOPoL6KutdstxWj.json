@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -155,7 +155,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p>",
         "hide": false,
@@ -163,7 +171,13 @@
         "sourceItemId": "HuOPoL6KutdstxWj",
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "GL3MZ5TT0EA8vcbf": {
         "name": "Battle Ballad",
@@ -236,15 +250,20 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "GL3MZ5TT0EA8vcbf"
+                "enhKey": "GL3MZ5TT0EA8vcbf",
+                "itemSavePath": "system.enhancements.GL3MZ5TT0EA8vcbf.modifications.addsEffect"
               }
             },
-            "_id": "Jx6dTRJ5R4k72qiN",
+            "_id": "mKYbsarYaeoE01Pt",
             "type": "base",
             "system": {
               "sustained": {
@@ -258,11 +277,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -273,59 +293,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "type": "add",
+                  "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"label\": \"Battle Ballad\", \"reenable\": \"turnStart\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"reenable\": \"turnStart\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Battle Ballad\", \"modifier\": \"+ 1d4\", \"afterRoll\": \"disable\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>The chosen creatures gain a d4 bonus to the first Attack Check they make on each of their turns.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -335,13 +325,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1776847082165,
-              "modifiedTime": 1776847082165,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782638474517,
+              "modifiedTime": 1782638513089,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -361,7 +361,15 @@
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">Once on each of their turns, the chosen creatures deal <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">+1 damage</strong> against 1 target of their choice on an Attack they make.</span></p>",
         "hide": false,
@@ -369,7 +377,13 @@
         "sourceItemId": "HuOPoL6KutdstxWj",
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "v0YjX5gvDi9OPeLq": {
         "name": "Fast Tempo",
@@ -442,15 +456,20 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "v0YjX5gvDi9OPeLq"
+                "enhKey": "v0YjX5gvDi9OPeLq",
+                "itemSavePath": "system.enhancements.v0YjX5gvDi9OPeLq.modifications.addsEffect"
               }
             },
-            "_id": "esbNh1VWchXKLMfw",
+            "_id": "x0JOh9EDyZ6KJRlA",
             "type": "base",
             "system": {
               "sustained": {
@@ -464,11 +483,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -479,17 +499,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.movement.ground.bonus",
+                  "value": 1,
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.movement.ground.bonus",
-                "mode": 2,
-                "value": "1",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain +1 Speed.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -499,13 +523,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768467243988,
-              "modifiedTime": 1768467278757,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782412512069,
+              "modifiedTime": 1782412512069,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -525,7 +559,15 @@
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures gain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">+1 Speed</strong>.</span></p>",
         "hide": false,
@@ -533,7 +575,13 @@
         "sourceItemId": "HuOPoL6KutdstxWj",
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YmRa89r1AW92xlms": {
         "name": "Inspiring",
@@ -606,15 +654,20 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "YmRa89r1AW92xlms"
+                "enhKey": "YmRa89r1AW92xlms",
+                "itemSavePath": "system.enhancements.YmRa89r1AW92xlms.modifications.addsEffect"
               }
             },
-            "_id": "WKWzVRoF7mtNwAx8",
+            "_id": "XIlcadnn3oYvkmfZ",
             "type": "base",
             "system": {
               "sustained": {
@@ -628,11 +681,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -643,17 +697,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\":\"healing\", \n\"trigger\":\"turnStart\", \n\"value\":\"1\",\n\"type\": \"temporary\",\n\"label\": \"Inspiring\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\":\"healing\", \n\"trigger\":\"turnStart\", \n\"value\":\"1\",\n\"type\": \"temporary\",\n\"label\": \"Inspiring\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain 1 Temp HP at the start of each of your turn.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -663,13 +721,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768467310223,
-              "modifiedTime": 1768467325408,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782412164560,
+              "modifiedTime": 1782412164560,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -689,7 +757,15 @@
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p><span style=\"font-family: Signika, sans-serif\">The chosen creatures gain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 Temp HP</strong> at the start of each of their turns</span></p>",
         "hide": false,
@@ -697,7 +773,13 @@
         "sourceItemId": "HuOPoL6KutdstxWj",
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "Ouwdlwkqsy5xFbj7": {
         "name": "Emotional",
@@ -770,15 +852,20 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "Ouwdlwkqsy5xFbj7"
+                "enhKey": "Ouwdlwkqsy5xFbj7",
+                "itemSavePath": "system.enhancements.Ouwdlwkqsy5xFbj7.modifications.addsEffect"
               }
             },
-            "_id": "Twp143IQS8f2aOY0",
+            "_id": "6Mxfzqa6CzyBDJPS",
             "type": "base",
             "system": {
               "sustained": {
@@ -792,11 +879,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -807,17 +895,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.statusResistances.charmed.resistance",
+                  "value": 1,
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.statusResistances.charmed.resistance",
-                "mode": 2,
-                "value": "1",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You have ADV on Saves to resist and end X Condition. If you are affected by the Condition at the start of your turn, you can immediately attempt to end the Condition by repeating its Save.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -827,16 +919,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1776848367880,
-              "modifiedTime": 1776848367880,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782412631773,
+              "modifiedTime": 1782412631773,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "const selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", {\n  charmed: \"Charmed\",\n  intimidated: \"Intimidated\",\n  frightened: \"Frightened\",\n  taunted: \"Taunted\"\n});\nif (!selected) return;\n\nenh.modifications.addsEffect.changes[0].key = `system.statusResistances.${selected}.resistance`;",
+            "preItemRoll": "const selected = await DC20.dialog.SimplePopup.select(\"Select Condition\", {\n  charmed: \"Charmed\",\n  intimidated: \"Intimidated\",\n  frightened: \"Frightened\",\n  taunted: \"Taunted\"\n});\nif (!selected) return;\n\nenh.modifications.addsEffect.system.changes[0].key = `system.statusResistances.${selected}.resistance`;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -853,7 +955,15 @@
           "changeManaSpendLimit": null,
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>Choose 1 of the following Conditions: Charmed, Frightened, Intimidated, or Taunted.</p><p>The chosen creatures have Resistance against the chosen Condition. If a target is effected by the chosen Condition at the start of its turn, it can immediately attempt to end the Condition on itself by Repeating its Save.</p>",
         "hide": false,
@@ -861,7 +971,13 @@
         "sourceItemId": "HuOPoL6KutdstxWj",
         "sourceItemName": "Bardic Performance",
         "sourceItemImg": "icons/skills/trades/music-singing-voice-blue.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -1017,6 +1133,27 @@
     "featureSourceItem": "bard",
     "requirements": {
       "level": 2
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 10,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": true,
+        "hideHighlight": true,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "ally",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
     }
   },
   "effects": [],
@@ -1025,11 +1162,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035250,
-    "modifiedTime": 1776848373317,
+    "modifiedTime": 1782638514793,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

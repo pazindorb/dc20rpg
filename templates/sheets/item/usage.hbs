@@ -1,0 +1,103 @@
+<section class="item-sheet-section tab usage standard-form {{tabs.usage.cssClass}}" data-group="sheet" data-tab="usage">
+<div class="scrollable">
+
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.usage.resources"}}</label>
+  </div>
+  <div class="content-wrapper">
+    <div class="grid grid-5col resource-wrapper">
+      {{!-- Basic Resources --}}
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.ap"}}">
+        <div class="wrapper ap"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
+        <input type="text" name="system.costs.resources.ap" value="{{system.costs.resources.ap}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.stamina"}}">
+        <div class="wrapper stamina"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
+        <input type="text" name="system.costs.resources.stamina" value="{{system.costs.resources.stamina}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.mana"}}">
+        <div class="wrapper mana"><i class="fa-lg fa-solid fa-star"></i></div>
+        <input type="text" name="system.costs.resources.mana" value="{{system.costs.resources.mana}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.health"}}">
+        <div class="wrapper health"><i class="fa-lg fa-solid fa-heart"></i></div>
+        <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.grit"}}">
+        <div class="wrapper grit"><i class="fa-lg fa-solid fa-clover"></i></div>
+        <input type="text" name="system.costs.resources.grit" value="{{system.costs.resources.grit}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.restPoints"}}">
+        <div class="wrapper rest-points"><i class="fa-lg fa-solid fa-campground"></i></div>
+        <input type="text" name="system.costs.resources.restPoints" value="{{system.costs.resources.restPoints}}" placeholder="-" data-dtype="Number">
+      </div>
+      
+      {{!-- Custom Resources --}}
+      {{#each system.costs.resources.custom as |cost key|}}
+      <div class="form-group" data-tooltip="{{cost.label}}">
+        <img class="resource-img" src="{{cost.img}}"/>
+        <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
+        <a style="color:#af0a0a; margin-left:-5px; max-width: 20px;" class="fa-solid fa-trash" data-action="removeSubdoc" data-type="resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"></a>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="sub-header margin-top-20">
+    <label>{{localize "dc20rpg.item.sheet.usage.charges"}}</label>
+  </div>
+  <div class="content-wrapper">
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.usage.maxCharges"}}</label>
+      <input type="text" name="system.costs.charges.maxChargesFormula" value="{{system.costs.charges.maxChargesFormula}}" placeholder="-">
+    </div>
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.usage.subtract"}}</label>
+      <input type="text" name="system.costs.charges.subtract" value="{{system.costs.charges.subtract}}" placeholder="-">
+    </div>
+    <div class="multi-select-wrapper">
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.usage.reset"}}</label>
+        <select class="multi-select" data-cType="multi-select" data-path="system.costs.charges.refresh">
+          {{selectOptions @root.config.DROPDOWN_DATA.chargesResets blank=""}}
+        </select>
+      </div>
+      <div class="selected-options">
+        {{#each system.costs.charges.refresh as |option key|}}
+          <div class="option">
+            <span>{{option}}</span>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.costs.charges.refresh" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.resource.resourceRefreshType"}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.usage.rechargeDice"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.item.sheet.usage.rollDice"}}</label>
+        <input type="text" name="system.costs.charges.rechargeDice" value="{{system.costs.charges.rechargeDice}}">
+        <label>{{localize "dc20rpg.item.sheet.usage.minimalValue"}}</label>
+        <input type="text" name="system.costs.charges.requiredTotalMinimum" value="{{system.costs.charges.requiredTotalMinimum}}" data-dtype="Number">
+      </div>
+      <p class="hint">{{localize "dc20rpg.item.sheet.usage.rechargeDiceTitle"}}</p>
+    </div>
+    <div class="form-group">
+      <label style="flex: 2;">{{localize "dc20rpg.item.sheet.usage.customFormula"}}</label>
+      <div class="form-fields">
+        {{#if system.costs.charges.overriden}}
+        <input type="text" name="system.costs.charges.rechargeFormula" value="{{system.costs.charges.rechargeFormula}}">
+        {{/if}}
+        <input type="checkbox" name="system.costs.charges.overriden" {{checked system.costs.charges.overriden}}/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.usage.deleteOnZero"}}</label>
+      <input type="checkbox" name="system.costs.charges.deleteOnZero" {{checked system.costs.charges.deleteOnZero}}/>
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.usage.showAsResource"}}</label>
+      <input type="checkbox" name="system.costs.charges.showAsResource" {{checked system.costs.charges.showAsResource}}/>
+    </div>
+  </div>
+</div>
+</section>

@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -148,13 +149,10 @@
     {
       "origin": "Item.d3h86FkJnKf7Xr9v",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Spellcasting Expansion",
@@ -165,22 +163,22 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.combatTraining.spellFocuses",
-          "mode": 5,
-          "value": "true",
-          "priority": null
         },
-        {
-          "key": "system.known.spells.max",
-          "mode": 2,
-          "value": "3",
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "key": "system.combatTraining.spellFocuses",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          },
+          {
+            "key": "system.known.spells.max",
+            "value": 3,
+            "priority": null,
+            "type": "add"
+          }
+        ]
+      },
       "description": "<p>You gain the following benefits:</p><ul><li><p>You gain Combat Training with Spell Focuses.</p></li><li><p>You add 1 Spell Source or 3 Spell Schools of your choice to your Spell List.</p></li><li><p>You learn 3 Spells from your Spell List.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -207,7 +205,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -215,6 +213,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!fOqPQ1dW5vPtrjxz.NUFJ435N7Ekerblg"
     }
   ],
@@ -227,11 +228,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.d3h86FkJnKf7Xr9v",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.1",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1719850606087,
-    "modifiedTime": 1769590066350,
+    "modifiedTime": 1781983701312,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

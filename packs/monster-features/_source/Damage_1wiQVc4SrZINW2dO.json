@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -276,7 +276,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -284,11 +287,10 @@
       "img": "icons/magic/unholy/hand-claw-fire-blue.webp",
       "origin": "Item.bwoF5WEm6dV0xNyL",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -323,46 +325,46 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.globalFormulaModifiers.damage.martial.melee",
+            "value": "\"value\": \"1\", \"source\": \"Damage\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.globalFormulaModifiers.damage.martial.ranged",
+            "value": "\"value\": \"1\", \"source\": \"Damage\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.globalFormulaModifiers.damage.martial.area",
+            "value": "\"value\": \"1\", \"source\": \"Damage\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.globalFormulaModifiers.damage.spell.melee",
+            "value": "\"value\": \"1\", \"source\": \"Damage\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.globalFormulaModifiers.damage.spell.ranged",
+            "value": "\"value\": \"1\", \"source\": \"Damage\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.globalFormulaModifiers.damage.spell.area",
+            "value": "\"value\": \"1\", \"source\": \"Damage\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.globalFormulaModifiers.damage.martial.melee",
-          "mode": 2,
-          "value": "\"value\": \"1\", \"source\": \"Damage\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.damage.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": \"1\", \"source\": \"Damage\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.damage.martial.area",
-          "mode": 2,
-          "value": "\"value\": \"1\", \"source\": \"Damage\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.damage.spell.melee",
-          "mode": 2,
-          "value": "\"value\": \"1\", \"source\": \"Damage\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.damage.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": \"1\", \"source\": \"Damage\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.damage.spell.area",
-          "mode": 2,
-          "value": "\"value\": \"1\", \"source\": \"Damage\"",
-          "priority": null
-        }
-      ],
       "description": "<p>The creature’s Attacks deal +1 damage.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -372,11 +374,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!1wiQVc4SrZINW2dO.sILob836e8upQVAx"
     }
   ],
@@ -390,11 +404,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777325193657,
-    "modifiedTime": 1777360381065,
+    "modifiedTime": 1781983711935,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

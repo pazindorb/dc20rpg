@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -250,7 +250,7 @@
     "quickRoll": false,
     "macros": {
       "LneRHJTBabyF1J9G": {
-        "command": "const effect = item.effects.get(\"LQzSsnC7BWDRz9e7\");\nif (!effect) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Attribute\", CONFIG.DC20RPG.TRANSLATION_LABELS.attributes);\n\nlet value = await DC20.dialog.SimplePopup.input(\"Attribute Value\");\nvalue = parseInt(value);\nif (!value) return;\n\nconst changes = effect.changes;\nchanges[0].value = value;\nchanges[0].key = `system.attributes.${selected}.current`;\neffect.update({changes: changes})",
+        "command": "const effect = item.effects.get(\"LQzSsnC7BWDRz9e7\");\nif (!effect) return;\n\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Attribute\", CONFIG.DC20RPG.TRANSLATION_LABELS.attributes);\n\nlet value = await DC20.dialog.SimplePopup.input(\"Attribute Value\");\nvalue = parseInt(value);\nif (!value) return;\n\nconst changes = effect.system.changes;\nchanges[0].value = value;\nchanges[0].key = `system.attributes.${selected}.current`;\neffect.update({[\"system.changes\"]: changes})",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Prepare Effect",
@@ -285,7 +285,10 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
@@ -293,11 +296,10 @@
       "img": "icons/skills/movement/arrow-upward-yellow.webp",
       "origin": "Compendium.dc20rpg.monster-features.Item.yANQix9V7I4FhwoI",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "startRound": 38,
-        "startTurn": 1,
-        "seconds": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -332,16 +334,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.attributes.mig.current",
+            "value": 3,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.attributes.mig.current",
-          "mode": 5,
-          "value": "3",
-          "priority": null
-        }
-      ],
       "description": "<p>Your attribute is equal your prime</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -351,13 +353,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
         "createdTime": 1777324268533,
         "modifiedTime": 1777325486195,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!yANQix9V7I4FhwoI.LQzSsnC7BWDRz9e7"
     }
   ],
@@ -371,11 +383,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777324189419,
-    "modifiedTime": 1777360378654,
+    "modifiedTime": 1782633843417,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "8NcU4uzd4isHbjkD",
+        "sourceItemId": "nbyxnLHGqIhC4neA",
+        "sourceItemName": "Corrosive Cascade",
+        "sourceItemImg": "icons/magic/acid/projectile-needles-salvo-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "4nkBfK7hdWTxXbC8": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "4nkBfK7hdWTxXbC8",
+        "sourceItemId": "nbyxnLHGqIhC4neA",
+        "sourceItemName": "Corrosive Cascade",
+        "sourceItemImg": "icons/magic/acid/projectile-needles-salvo-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "06KmjSfY86KDGtkI": {
         "name": "Area",
@@ -317,12 +355,12 @@
         "description": "<p>The diameter of the Cylinder increases by 1 Space and the Height by 3 Spaces.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -393,8 +431,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "06KmjSfY86KDGtkI",
+        "sourceItemId": "nbyxnLHGqIhC4neA",
+        "sourceItemName": "Corrosive Cascade",
+        "sourceItemImg": "icons/magic/acid/projectile-needles-salvo-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YNdKLlIw99QV1gQf": {
         "name": "Dissolve",
@@ -403,12 +463,12 @@
         "description": "<p>Each target makes a Repeated Agility Save. </p><p><strong>Save Failure:</strong> The target no longer benefits from PDR or EDR for 1 minute.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -473,7 +533,10 @@
               "seconds": null,
               "startRound": 17,
               "startTurn": 0,
-              "turns": null
+              "turns": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -495,12 +558,13 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
-              "applyToTemplate": true,
+              "addToChat": true,
+              "applyToTemplate": false,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -510,45 +574,45 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.damageReduction.pdr.active",
+                  "mode": 5,
+                  "value": "false",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.damageReduction.edr.active",
+                  "mode": 5,
+                  "value": "false",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.damageReduction.pdr.skipEqCheck",
+                  "mode": 5,
+                  "value": "true",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.damageReduction.edr.skipEqCheck",
+                  "mode": 5,
+                  "value": "true",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.events",
+                  "mode": 2,
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Dissolve - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.damageReduction.pdr.active",
-                "mode": 5,
-                "value": "false",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.edr.active",
-                "mode": 5,
-                "value": "false",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.pdr.skipEqCheck",
-                "mode": 5,
-                "value": "true",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.damageReduction.edr.skipEqCheck",
-                "mode": 5,
-                "value": "true",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Dissolve - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You no longer benefit from PDR or EDR for the 1 minute.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -582,8 +646,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "YNdKLlIw99QV1gQf",
+        "sourceItemId": "nbyxnLHGqIhC4neA",
+        "sourceItemName": "Corrosive Cascade",
+        "sourceItemImg": "icons/magic/acid/projectile-needles-salvo-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "OMlybygA6qEu0Co7": {
         "name": "Pitted Terrain",
@@ -592,12 +678,12 @@
         "description": "<p>Surfaces in the area become Difficult Terrain until the surfaces are repaired.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -653,7 +739,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.target.areas.default.difficult = \"all\";",
+            "preItemRoll": "item.system.areas.default.difficultTerrain = \"all\";",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -668,8 +754,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "OMlybygA6qEu0Co7",
+        "sourceItemId": "nbyxnLHGqIhC4neA",
+        "sourceItemName": "Corrosive Cascade",
+        "sourceItemImg": "icons/magic/acid/projectile-needles-salvo-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "IvLesxzzq81U0Gh8": {
         "name": "Acid Rain",
@@ -678,12 +786,12 @@
         "description": "<p><strong>(Sustained)</strong></p><p>The duration of the spell becomes 1 minute. Acid rain falls in the area for the duration. When a creature enters the area for the first time on its turn or starts its turn there, it makes an Agility Save against your Save DC.</p><p><strong>Save Failure:</strong> The target takes X Corrosion damage.</p><p></p><p><em><strong>System Tip:</strong> Effect application from template is not automated yet. You need to keep track of it yourself.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -748,15 +856,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 20,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "IvLesxzzq81U0Gh8"
+                "enhKey": "IvLesxzzq81U0Gh8",
+                "itemSavePath": "system.enhancements.IvLesxzzq81U0Gh8.modifications.addsEffect"
               }
             },
-            "_id": "8p1ry0Y7KpvE29xy",
+            "_id": "J2Y9D62I11R8znFb",
             "type": "base",
             "system": {
               "sustained": {
@@ -770,10 +883,11 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const token = actor.getActiveTokens()[0];\nif (!token) return;\n\nconst damage = effect.flags?.dc20rpg?.acidRain;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Acid Rain\",\n  type: \"corrosion\"\n};\nconst target = game.dc20rpg.tools.tokenToTarget(token);\nconst calculated = game.dc20rpg.tools.calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});\ngame.dc20rpg.tools.applyDamage(actor, calculated.modified);",
+              "macro": "const damage = effect.flags?.dc20rpg?.acidRain;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Acid Rain\",\n  type: \"corrosion\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -785,17 +899,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Acid Rain\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Acid Rain\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are inside of the Acid Rain.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -805,16 +923,26 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777668372330,
-              "modifiedTime": 1777668372335,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782598519744,
+              "modifiedTime": 1782598551643,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 20,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
-            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {acidRain: enh.number};\nitem.system.duration.type = \"sustain\"",
+            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {acidRain: enh.number};\nitem.system.areas.default.applyEffectsFor = \"all\";\nitem.system.duration.type = \"sustain\";",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -829,8 +957,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "IvLesxzzq81U0Gh8",
+        "sourceItemId": "nbyxnLHGqIhC4neA",
+        "sourceItemName": "Corrosive Cascade",
+        "sourceItemImg": "icons/magic/acid/projectile-needles-salvo-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -998,6 +1148,31 @@
     "spellTags": {
       "corrosion": "Corrosion",
       "enfeeble": "Enfeeble"
+    },
+    "areas": {
+      "default": {
+        "type": "cylinder",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -1007,11 +1182,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767712754397,
-    "modifiedTime": 1777668376532,
+    "modifiedTime": 1782931314560,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

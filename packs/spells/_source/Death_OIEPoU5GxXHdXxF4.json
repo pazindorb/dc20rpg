@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "DfVaVCsNOAgJnsp1": {
-        "command": "let stacks = await DC20.dialog.SimplePopup.input(\"How many stacks should be added?\");\nstacks = parseInt(stacks);\nif (!stacks) return;\n\nfor (const token of game.user.targets) {\n  const actor = token.actor;\n  if (!actor) continue;\n  const effect = actor.getEffectByKey(\"death\");\n  if (!effect) return;\n\n  const changes = effect.changes;\n  changes[0].value = parseInt(changes[0].value) - stacks;\n  changes[1].value = parseInt(changes[1].value) + stacks;\n  await effect.update({changes: changes});\n  let message = `Added ${stacks} stacks of Doomed to ${actor.name}.`\n  if (actor.resources.health.max <= 0) {\n    message += \" Max HP reduced to 0 - Target is dead.\"\n    actor.toggleStatusEffect(\"dead\", { active: true });\n  }\n  DC20.dialog.SimplePopup.info(\"Doomed Increased\", [message]); \n}",
+        "command": "let stacks = await DC20.dialog.SimplePopup.input(\"How many stacks should be added?\");\nstacks = parseInt(stacks);\nif (!stacks) return;\n\nfor (const token of game.user.targets) {\n  const actor = token.actor;\n  if (!actor) continue;\n  const effect = actor.getEffectByKey(\"death\");\n  if (!effect) return;\n\n  const changes = effect.system.changes;\n  changes[0].value = parseInt(changes[0].value) - stacks;\n  changes[1].value = parseInt(changes[1].value) + stacks;\n  await effect.update({[\"system.changes\"]: changes});\n  let message = `Added ${stacks} stacks of Doomed to ${actor.name}.`\n  if (actor.resources.health.max <= 0) {\n    message += \" Max HP reduced to 0 - Target is dead.\"\n    actor.toggleStatusEffect(\"dead\", { active: true });\n  }\n  DC20.dialog.SimplePopup.info(\"Doomed Increased\", [message]); \n}",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Increase Doomed Stacks",
@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -239,8 +239,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2edzBVCFgETJ4Fp7",
+        "sourceItemId": "OIEPoU5GxXHdXxF4",
+        "sourceItemName": "Death",
+        "sourceItemImg": "icons/magic/death/skeleton-glow-yellow-black.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "1ghruixaJvHXZYoy": {
         "name": "Increased Doomed",
@@ -310,7 +329,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"death\");\nif (!effect) return;\n\neffect.changes[0].value = -2 - enh.number;\neffect.changes[1].value = 2 + enh.number;",
+            "preItemRoll": "const effect = item.getEffectByKey(\"death\");\nif (!effect) return;\n\neffect.system.changes[0].value = -2 - enh.number;\neffect.system.changes[1].value = 2 + enh.number;",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -325,8 +344,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "1ghruixaJvHXZYoy",
+        "sourceItemId": "OIEPoU5GxXHdXxF4",
+        "sourceItemName": "Death",
+        "sourceItemImg": "icons/magic/death/skeleton-glow-yellow-black.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "Mi4Ed6zIDJxmIwbJ": {
         "name": "Exhaustion",
@@ -411,8 +449,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Mi4Ed6zIDJxmIwbJ",
+        "sourceItemId": "OIEPoU5GxXHdXxF4",
+        "sourceItemName": "Death",
+        "sourceItemImg": "icons/magic/death/skeleton-glow-yellow-black.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -582,6 +639,9 @@
       "death": "Death",
       "doomed": "Doomed",
       "exhaustion": "Exhaustion"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -590,13 +650,10 @@
       "img": "icons/magic/death/skeleton-glow-yellow-black.webp",
       "origin": "Item.N6x3CGpcnU61GQpu",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -616,7 +673,8 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "death",
         "macro": "if (effect.flags.dc20rpg?.exhaustion) {\n  actor.toggleStatusEffect(\"exhaustion\", { active: true });\n}",
@@ -631,28 +689,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.resources.health.bonus",
+            "value": -2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.healingReduction.flat",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Death - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"doomed\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.resources.health.bonus",
-          "value": "-2",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.healingReduction.flat",
-          "value": "2",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Death - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"doomed\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You gain stacks of Doomed. You die if amount of stacks is higher than your max HP.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -664,11 +722,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983681899,
+        "modifiedTime": 1781983681899
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!OIEPoU5GxXHdXxF4.RBzRuxfxhp4617f7"
     }
   ],
@@ -678,11 +748,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768077047399,
-    "modifiedTime": 1768575682457,
+    "modifiedTime": 1782581447216,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

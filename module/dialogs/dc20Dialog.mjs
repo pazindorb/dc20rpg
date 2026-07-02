@@ -63,7 +63,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
       case "numeric": await this._onChangeNumeric(path, value, false, dataset); break;
       case "numeric-nullable": await this._onChangeNumeric(path, value, true, dataset); break;
       case "boolean" : await this._onChangeBoolean(path, dataset); break;
-      case "multi-select": await this._onMultiSelectChange(path, value, duplicates === "allow", dataset); break;
+      case "multi-select": await this._onMultiSelectChange(path, value, duplicates === "allow", dataset, target); break;
     }
   }
 
@@ -169,21 +169,46 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     this.render();
   }
 
-  async _onMultiSelectChange(path, value, duplicates, dataset) {
+  async _onMultiSelectChange(path, value, duplicates, dataset, target) {
     if (!value) return;
-    const array = this._getValue(path);
-    if (!duplicates && array.indexOf(value) !== -1) return;
-    array.push(value);
-    await this._update(path, array);
+
+    const source = this._getValue(path);
+    // Array
+    if (Array.isArray(source)) {
+      if (!duplicates && source.indexOf(value) !== -1) return;
+      source.push(value);
+    }
+    // Object
+    else {
+      const index = target.options.selectedIndex;
+      const label = target.options[index].text;
+      source[value] = label;
+    }
+    await this._update(path, source);
     this.render();
   }
 
   async _onRemoveOption(path, value, dataset) {
-    const array = this._getValue(path);
-    const index = array.indexOf(value);
-    if (index === -1) return;
-    array.splice(index, 1);
-    await this._update(path, array);
+    const source = this._getValue(path);
+
+    // Array
+    if (Array.isArray(source)) {
+      const index = source.indexOf(value);
+      if (index === -1) return;
+      source.splice(index, 1);
+      await this._update(path, source);
+    }
+    // Object
+    else {
+      if (this.updateObject) {
+        await this.updateObject.update({[`${path}.-=${dataset.key}`]: null});
+      }
+      else {
+        delete source[dataset.key];
+      }
+    }
+
+    
     this.render();
   }
 

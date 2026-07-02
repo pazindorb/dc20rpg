@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -209,8 +209,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "0R2z8ULEsInTprva",
+        "sourceItemId": "uigGY18sSQRNKtHf",
+        "sourceItemName": "Blessing of Water",
+        "sourceItemImg": "icons/magic/water/elemental-water.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "Y8CDs7EHMGj1kiXU": {
         "name": "Duration",
@@ -296,22 +315,41 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Y8CDs7EHMGj1kiXU",
+        "sourceItemId": "uigGY18sSQRNKtHf",
+        "sourceItemName": "Blessing of Water",
+        "sourceItemImg": "icons/magic/water/elemental-water.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "4GGN3w0G8yFFJpEo": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You can target 2 additional creatures within range per X MP.</p><p><em><strong>System Tip:</strong> Remember to use Targets - AP Cost enhancement as well.</em></p>",
+        "description": "<p>You can target 2 additional creatures within range per X MP.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -383,95 +421,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "Zw3vOi7hKkCdttjn": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement together with Targets.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "4GGN3w0G8yFFJpEo",
+        "sourceItemId": "uigGY18sSQRNKtHf",
+        "sourceItemName": "Blessing of Water",
+        "sourceItemImg": "icons/magic/water/elemental-water.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YfMQunRHSvuxn3SL": {
         "name": "Water Walk",
@@ -480,12 +452,12 @@
         "description": "<p>The target can walk on water as if it were solid ground and can stop doing so anytime during their turn. It can use either their Speed or Swim Speed for this movement.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -557,8 +529,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "YfMQunRHSvuxn3SL",
+        "sourceItemId": "uigGY18sSQRNKtHf",
+        "sourceItemName": "Blessing of Water",
+        "sourceItemImg": "icons/magic/water/elemental-water.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "JaV0ZintmJGXKVCz": {
         "name": "Greater Blessing",
@@ -567,12 +560,12 @@
         "description": "<p>At the start of each of the target’s turns they gain movement equal to their speed that can only be used on swimming.</p><p></p><p><em><strong>System Tip:</strong> Not automated.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -644,8 +637,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "JaV0ZintmJGXKVCz",
+        "sourceItemId": "uigGY18sSQRNKtHf",
+        "sourceItemName": "Blessing of Water",
+        "sourceItemImg": "icons/magic/water/elemental-water.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -816,6 +830,9 @@
       "metamorphosis": "Metamorphosis",
       "motion": "Motion",
       "water": "Water"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -824,12 +841,10 @@
       "img": "icons/magic/water/elemental-water.webp",
       "origin": "Item.1lGjZzmQYqkYbsiN",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 102,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -852,7 +867,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "blessingOfWater",
-        "macro": "const message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst total = message.system.chatFormattedRolls.core._total;\nlet base = 2;\nif (total >= 15) {\n  base = 3;\n  base += Math.floor((total - 15)/5);\n} \nconst bonus = effect.flags.dc20rpg?.bonusRange || 0;\nconst value = base + bonus;\n\neffect.changes[1].value = value;\neffect.update({changes: effect.changes});",
+        "macro": "const message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst total = message.system.chatFormattedRolls.core._total;\nlet base = 2;\nif (total >= 15) {\n  base = 3;\n  base += Math.floor((total - 15)/5);\n} \nconst bonus = effect.flags.dc20rpg?.bonusRange || 0;\nconst value = base + bonus;\n\neffect.system.changes[1].value = value;\neffect.update({[\"system.changes\"]: effect.system.changes});",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -864,22 +879,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.senses.tremorsense.range",
+            "value": 5,
+            "priority": null,
+            "type": "upgrade"
+          },
+          {
+            "key": "system.movement.swimming.fullSpeed",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.senses.tremorsense.range",
-          "value": "5",
-          "mode": 4,
-          "priority": null
-        },
-        {
-          "key": "system.movement.swimming.fullSpeed",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
       "description": "<p>You are imbued with water magic.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -889,11 +904,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782632526605,
+        "modifiedTime": 1782632526605
       },
+      "start": {
+        "combat": null,
+        "round": 102,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!uigGY18sSQRNKtHf.OHJPrHXmGq8dJj06"
     }
   ],
@@ -903,11 +930,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777635428584,
-    "modifiedTime": 1777635428584,
+    "modifiedTime": 1782568184300,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -915,6 +942,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "uigGY18sSQRNKtHf",
-  "sort": 0,
+  "sort": 900000,
   "_key": "!items!uigGY18sSQRNKtHf"
 }

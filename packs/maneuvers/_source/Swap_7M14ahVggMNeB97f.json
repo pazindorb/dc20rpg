@@ -46,7 +46,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -196,15 +196,20 @@
               "combat": null,
               "seconds": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "nyGNDDcDbxy00YSK"
+                "enhKey": "nyGNDDcDbxy00YSK",
+                "itemSavePath": "system.enhancements.nyGNDDcDbxy00YSK.modifications.addsEffect"
               }
             },
-            "_id": "rEgfHimKmRP5SX7s",
+            "_id": "T4P3LYcelyzkqixW",
             "type": "base",
             "system": {
               "sustained": {
@@ -218,11 +223,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -231,52 +237,23 @@
               },
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
-              "requireEnhancement": ""
+              "requireEnhancement": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                }
+              ],
+              "applyToSelf": false,
+              "applyToTemplate": true,
+              "requireEquip": false,
+              "refreshTarget": false,
+              "chatMessageId": ""
             },
-            "changes": [
-              {
-                "key": "system.rollLevel.againstYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.rollLevel.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Swap - Reaction\", \"afterRoll\": \"delete\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Next attack against you is made with DisADV.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -286,13 +263,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1766069730926,
-              "modifiedTime": 1766069750522,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782422744981,
+              "modifiedTime": 1782422755006,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -310,8 +297,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "nyGNDDcDbxy00YSK",
+        "sourceItemId": "7M14ahVggMNeB97f",
+        "sourceItemName": "Swap",
+        "sourceItemImg": "icons/skills/social/diplomacy-handshake.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "cKXQF4KJEm8qBPRJ": {
         "name": "Escape",
@@ -395,8 +401,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "cKXQF4KJEm8qBPRJ",
+        "sourceItemId": "7M14ahVggMNeB97f",
+        "sourceItemName": "Swap",
+        "sourceItemImg": "icons/skills/social/diplomacy-handshake.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "iG4ouFj1NHyruUjV": {
         "name": "Seamless Swap",
@@ -480,8 +505,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "iG4ouFj1NHyruUjV",
+        "sourceItemId": "7M14ahVggMNeB97f",
+        "sourceItemName": "Swap",
+        "sourceItemImg": "icons/skills/social/diplomacy-handshake.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -621,11 +665,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766069973240,
-    "modifiedTime": 1766069973256,
+    "modifiedTime": 1782422756393,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -3,9 +3,12 @@ import { generateKey } from "../../helpers/utils.mjs";
 export class Enhancement {
   name = "New Enhancement";
   number = 0;
+  defaultState = 0;
+  repeatable = true;
   preventModification = false;
   description = "";
   hide = false;
+  copyToSheetRoll = {};
   resources = {
     ap: null,
     health: null,
@@ -14,6 +17,8 @@ export class Enhancement {
     grit: null,
     restPoints: null,
   };
+  altCostMax = 0;
+  altCost = 0;
   charges = {
     subtract: null,
     fromOriginal: false
@@ -29,12 +34,14 @@ export class Enhancement {
     overrideDamageType: false,
     damageType: "",
     addsNewFormula: false,
-    formula: new Formula(),
+    formula: {...new Formula()},
     addsNewRollRequest: false,
-    rollRequest: new RollRequest(),
+    rollRequest: {...new RollRequest()},
     addsAgainstStatus: false,
-    againstStatus: new AgainstStatus(),
+    againstStatus: {...new AgainstStatus()},
     addsEffect: null,
+    actionChange: false,
+    actionType: "",
     macros: {
       preItemRoll: "",
       postItemRoll: ""
@@ -50,8 +57,18 @@ export class Enhancement {
       normal: null,
       max: null
     },
+    areaWidth: null,
+    areaDistance: null,
+    overrideAreaType: null,
     changeManaSpendLimit: 0,
-    changeStaminaSpendLimit: 0
+    changeStaminaSpendLimit: 0,
+    changeDuration: false,
+    duration: {
+      value: null,
+      type: "",
+      timeUnit: ""
+    },
+
   };
 
 
@@ -75,7 +92,7 @@ export class Enhancement {
 
     const enhancement = foundry.utils.mergeObject(new Enhancement(item), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.enhancements.${key}`]: enhancement});
+    await item.update({[`system.enhancements.${key}`]: {...enhancement}});
     return key;
   }
 } 
@@ -103,13 +120,13 @@ export class Formula {
 
     const formula = foundry.utils.mergeObject(new Formula(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.formulas.${key}`]: formula});
+    await item.update({[`system.formulas.${key}`]: {...formula}});
     return key;
   }
 }
 
-export class Conditional {
-  name = "New Conditional";
+export class TargetModifier {
+  name = "New Target Modifier";
   condition = ""; 
   useFor = "";
   linkWithToggle = false;
@@ -119,16 +136,16 @@ export class Conditional {
     ignoreEdr: false,
     ignoreMdr: false,
     ignoreResistance: {},
-    ignoreImmune: {},
-    reduceAd: "",
-    reducePd: ""
+    ignoreImmune: {}
   };
   effect = null;
   addsNewRollRequest = false;
-  rollRequest = new RollRequest();
+  rollRequest = {...new RollRequest()};
   addsNewFormula = false;
-  formula = new Formula();
-
+  formula = {...new Formula()};
+  addsAgainstStatus = false;
+  againstStatus = {...new AgainstStatus()};
+  
   static async create(data={}, options={}) {
     const item = options.parent;
     if (!item) {
@@ -136,9 +153,9 @@ export class Conditional {
       return;
     }
 
-    const conditional = foundry.utils.mergeObject(new Conditional(), data);
+    const targetModifier = foundry.utils.mergeObject(new TargetModifier(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.conditionals.${key}`]: conditional});
+    await item.update({[`system.targetModifiers.${key}`]: {...targetModifier}});
     return key;
   }
 }
@@ -160,7 +177,7 @@ export class ItemMacro {
 
     const macro = foundry.utils.mergeObject(new ItemMacro(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.macros.${key}`]: macro});
+    await item.update({[`system.macros.${key}`]: {...macro}});
     return key;
   }
 }
@@ -182,13 +199,15 @@ export class RollRequest {
 
     const rollRequest = foundry.utils.mergeObject(new RollRequest(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.rollRequests.${key}`]: rollRequest});
+    await item.update({[`system.rollRequests.${key}`]: {...rollRequest}});
     return key;
   }
 }
 
 export class AgainstStatus {
   id = "";
+  stacks = 1;
+  ignoreForDrm = false;
   supressFromChatMessage = false;
   untilYourNextTurnStart = false;
   untilYourNextTurnEnd = false;
@@ -209,7 +228,7 @@ export class AgainstStatus {
 
     const againstStatus = foundry.utils.mergeObject(new AgainstStatus(), data);
     const key = options.key ? options.key : generateKey();
-    await item.update({[`system.againstStatuses.${key}`]: againstStatus});
+    await item.update({[`system.againstStatuses.${key}`]: {...againstStatus}});
     return key;
   }
 }

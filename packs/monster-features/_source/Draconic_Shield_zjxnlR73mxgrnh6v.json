@@ -52,7 +52,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -294,12 +294,10 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
       "origin": "Item.yA2SiMdMyyCVLtmR",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -322,7 +320,7 @@
           "onTimeEnd": "delete"
         },
         "effectKey": "",
-        "macro": "if (!actor.hasStatus(\"wellBloodied\")) return;\n\neffect.update({\n  [\"changes\"]: [ effect.changes[0],  effect.changes[1]],\n  [\"system.duration.useCounter\"]: true\n})",
+        "macro": "if (!actor.hasStatus(\"wellBloodied\")) return;\n\neffect.update({\n  [\"system.changes\"]: [ effect.system.changes[0],  effect.system.changes[1] ],\n  [\"system.duration.useCounter\"]: true\n})",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -334,34 +332,34 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Draconic Shield\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Draconic Shield\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        },
-        {
-          "key": "system.defences.area.bonuses.always",
-          "mode": 2,
-          "value": "5",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Draconic Shield\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Draconic Shield\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>When a Bloodied creature within 10 Spaces is Attacked, they gain a +5 bonus to their PD and AD against this Attack. If they are Well-Bloodied, the bonus lasts for 1 Round. This effect can’t stack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -371,11 +369,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1782633929083,
+        "modifiedTime": 1782633929083
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!zjxnlR73mxgrnh6v.F7hDip7uAgulWxsj"
     }
   ],
@@ -385,11 +395,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778150506719,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781983717474,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

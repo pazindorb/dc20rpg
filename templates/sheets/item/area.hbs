@@ -1,0 +1,202 @@
+<section class="item-sheet-section tab area standard-form {{tabs.area.cssClass}}" data-group="sheet" data-tab="area">
+<div class="scrollable">
+
+  <div class="item-specific-config">
+
+    {{!-- Target --}}
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.target.target"}}</label>
+      <div class="form-fields">
+        <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.targetNo"}}">
+        <select name="system.target.type">
+          {{selectOptions @root.config.DROPDOWN_DATA.invidualTargets selected=system.target.type blank=""}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Range --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.target.range"}}</label>
+      <div class="form-fields">
+        <i style="max-width: 15px;" class="fa-solid fa-bow-arrow"></i>
+        <input style="max-width: 45px;" type="text" name="system.range.normal" value="{{system.range.normal}}" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.normal"}}">
+        <i style="max-width: 15px;" class="fa-solid fa-bullseye-arrow"></i>
+        <input style="max-width: 45px;" type="text" name="system.range.max" value="{{system.range.max}}" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.max"}}">
+        <i style="max-width: 15px;" class="fa-solid fa-sword"></i>
+        <input style="max-width: 45px;" type="text" name="system.range.melee" value="{{system.range.melee}}" placeholder="1" data-tooltip="{{localize "dc20rpg.item.sheet.target.meleeRange"}}">
+        <input type="text" name="system.range.unit" value="{{system.range.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" data-tooltip="{{localize "dc20rpg.item.sheet.target.unit"}}">
+      </div>
+    </div>
+
+    {{!-- Cast Time --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.target.castTime"}}</label>
+      <div class="form-fields">
+        <input type="text" name="system.castTime.value" value="{{system.castTime.value}}" data-dtype="Number" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.castTime"}}">
+        <select name="system.castTime.timeUnit" data-tooltip="{{localize "dc20rpg.item.sheet.target.timeUnit"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=system.castTime.timeUnit blank=""}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Duration --}}
+    <div class="form-group margin-top-10">
+      <label>{{localize "dc20rpg.item.sheet.target.duration"}}</label>
+      <div class="form-fields">
+        <select name="system.duration.type" data-tooltip="{{localize "dc20rpg.item.sheet.target.durationType"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.durations selected=system.duration.type blank=""}}
+        </select>
+        <input style="max-width: 45px;" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.duration"}}">
+        <select name="system.duration.timeUnit" data-tooltip="{{localize "dc20rpg.item.sheet.target.timeUnit"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=system.duration.timeUnit blank=""}}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Areas --}}
+  <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="area"><i class="fa-solid fa-bullseye fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.area.addArea"}}</button>
+
+  {{#each system.areas as |area key|}}
+  <div class="sub-header margin-top-10">
+    {{#if area.type}}
+    <label>{{localize (concat "dc20rpg.area." area.type)}}</label>
+    {{else}}
+    <label>{{localize "dc20rpg.item.sheet.area.typeFallback"}}</label>
+    {{/if}}
+    
+    <div class="button-wrapper">
+      <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.area.remove"}}" data-action="removeSubdoc" data-type="area" data-key="{{key}}"></a>
+      <a class="fa-solid {{#if (lookup @root.sheetFlags key)}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="{{key}}"></a>
+    </div>
+  </div>
+  {{#unless (lookup @root.sheetFlags key)}}
+  <div class="content-wrapper">
+    
+    {{!-- Type --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.type"}}</label>
+      <select name="system.areas.{{key}}.type">
+        {{selectOptions @root.config.DROPDOWN_DATA.areaTypes selected=area.type blank=""}}
+      </select>
+    </div>
+    
+    {{!-- Area --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.area"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.item.sheet.area.distance"}}</label>
+        <input type="text" name="system.areas.{{key}}.distance" value="{{area.distance}}" placeholder="-" data-dtype="Number">
+        {{#if (arrayIncludes area.type arrayString="ring line wall")}}
+        <label>{{localize "dc20rpg.item.sheet.area.width"}}</label>
+        <input type="text" name="system.areas.{{key}}.width" value="{{area.width}}" placeholder="-" data-dtype="Number">
+        {{/if}}
+        <input type="text" name="system.areas.{{key}}.unit" value="{{area.unit}}" placeholder="Spaces">
+      </div>
+    </div>
+    
+    {{!-- Difficult Terrain --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.difficultTerrain"}}</label>
+      <select name="system.areas.{{key}}.difficultTerrain">
+        {{selectOptions @root.config.DROPDOWN_DATA.difficultTerrainActivationTypes selected=area.difficultTerrain blank=""}}
+      </select>
+    </div>
+
+    {{!-- Apply effects For --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.applyEffectsFor"}}</label>
+      <select name="system.areas.{{key}}.applyEffectsFor">
+        {{selectOptions @root.config.DROPDOWN_DATA.applyEffectActivationTypes selected=area.applyEffectsFor blank=""}}
+      </select>
+    </div>
+
+    {{#if area.applyEffectsFor}}
+    {{!-- Prevent Effect Removal --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.preventEffectRemoval"}}</label>
+      <input type="checkbox" name="system.areas.{{key}}.preventEffectRemoval" {{checked area.preventEffectRemoval}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.area.preventEffectRemovalHint"}}</p>
+    </div>
+    {{/if}}
+
+    {{!-- Hide Highligh --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.hideHighlight"}}</label>
+      <input type="checkbox" name="system.areas.{{key}}.hideHighlight" {{checked area.hideHighlight}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.area.hideHighlightHint"}}</p>
+    </div>
+
+    {{!-- Attach to Token --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.attachToToken"}}</label>
+      <input type="checkbox" name="system.areas.{{key}}.attachToToken" {{checked area.attachToToken}}/>
+    </div>
+
+    {{#if area.attachToToken}}
+      {{!-- Self Only --}}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.area.selfOnly"}}</label>
+        <input type="checkbox" name="system.areas.{{key}}.selfOnly" {{checked area.selfOnly}}/>
+        <p class="hint">{{localize "dc20rpg.item.sheet.area.selfOnlyTip"}}</p>
+      </div>
+
+      
+      {{#if area.selfOnly}}
+        {{!-- Always Active --}}
+        <div class="form-group">
+          <label>{{localize "dc20rpg.item.sheet.area.alwaysActive"}}</label>
+          <input type="checkbox" name="system.areas.{{key}}.alwaysActive" {{checked area.alwaysActive}}/>
+          <p class="hint">{{localize "dc20rpg.item.sheet.area.alwaysActiveTip"}}</p>
+        </div>
+
+        {{!-- Link with Toggle --}}
+        {{#if @root.system.toggle.toggleable}}
+        <div class="form-group">
+          <label>{{localize "dc20rpg.item.sheet.area.linkWithToggle"}}</label>
+          <input type="checkbox" name="system.areas.{{key}}.linkWithToggle" {{checked area.linkWithToggle}}/>
+          <p class="hint">{{localize "dc20rpg.item.sheet.area.linkWithToggleTip"}}</p>
+        </div>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.blockByWalls"}}</label>
+      <input type="checkbox" name="system.areas.{{key}}.blockByWalls" {{checked area.blockByWalls}}/>
+    </div>
+
+    {{!-- Adds Effect --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.addEffect"}}</label>
+      <div class="right-part-row">
+        {{#if area.effect}} 
+        <img src="{{area.effect.img}}" data-action="editRootedEffect" data-type="area" data-key="{{key}}" class="edit-rooted-effect" data-tooltip="{{localize "dc20rpg.sheet.effects.edit"}}"/>
+        <a class="fa-lg fa-square-minus fa-solid" data-action="removeRootedEffect" data-type="area" data-key="{{key}}" style="margin-right: 4px"></a>
+        {{else}}
+        <a class="fa-lg fa-square-plus fa-solid" data-action="addRootedEffect" data-type="area" data-key="{{key}}" style="margin-right: 4px"></a>
+        {{/if}}
+      </div>
+    </div>
+
+    {{!-- Area macro --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.preCreation"}}</label>
+      <div class="right-part-row">
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless area.preCreation}}empty{{/unless}}" data-action="editRootedMacro" data-type="area" data-key="{{key}}" data-macro-key="preCreation"></a>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.area.postCreation"}}</label>
+      <div class="right-part-row">
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless area.postCreation}}empty{{/unless}}" data-action="editRootedMacro" data-type="area" data-key="{{key}}" data-macro-key="postCreation"></a>
+      </div>
+    </div>
+
+  </div>
+  {{/unless}}
+  {{/each}}
+
+</div>
+</section>

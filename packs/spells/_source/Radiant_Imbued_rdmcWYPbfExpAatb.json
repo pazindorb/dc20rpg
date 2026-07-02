@@ -11,7 +11,8 @@
     "choicePointCost": 1,
     "requirements": {
       "level": 0,
-      "items": ""
+      "items": "",
+      "unique": true
     },
     "rollMenu": {
       "free": false,
@@ -37,18 +38,10 @@
     "quickRoll": false,
     "macros": {
       "NAW3UGqsTQuVHlOD": {
-        "command": "const enhancements = item.system.enhancements;\nconst damage = enhancements[\"M3kqvvdUP8iOx4PG\"];\nconst illuminating = enhancements[\"YbloHZiXtY6KLTaD\"];\nconst guiding = enhancements[\"DGBpMC90MFNKfzP2\"];\n\nconst dmgFormula = new DC20.Formula();\ndmgFormula.formula = `${1 + damage.number}`;\ndmgFormula.type = \"radiant\";\n\nconst radiantImbued = new DC20.Enhancement();\nradiantImbued.name = \"Radiant Imbued\";\nradiantImbued.modifications.formula = dmgFormula;\nradiantImbued.modifications.addsNewFormula = true;\nradiantImbued.description = `You deal ${1 + damage.number} Radiant damage on Martial Attacks`;\n\nconst newEnhancements = {\n  [\"-=M3kqvvdUP8iOx4PG\"]: null,\n  [\"-=DTrQ4xeKIgCAiWNE\"]: null,\n  [\"-=YbloHZiXtY6KLTaD\"]: null,\n  [\"-=DGBpMC90MFNKfzP2\"]: null,\n  radiantImbued: radiantImbued\n}\nif (illuminating.number > 0) {\n  const blueprint = foundry.utils.deepClone(illuminating);\n  blueprint.name = \"Radiant Imbued - Illuminating Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.illuminating = blueprint;\n}\nif (guiding.number > 0) {\n  const blueprint = foundry.utils.deepClone(guiding);\n  blueprint.name = \"Radiant Imbued - Guiding Strikes\";\n  blueprint.resources.mana = null;\n  blueprint.number = 0;\n  newEnhancements.guiding = blueprint;\n}\n\nitem.update({\n  [\"flags.dc20rpg.enhancements\"]: enhancements,\n  [\"system.copyEnhancements.copy\"]: true,\n  [\"system.enhancements\"]: newEnhancements\n})",
-        "trigger": "postChatMessageCreated",
+        "command": "const effect = item.effects.get(\"AM4osJFrYy5BcWFp\");\nif (!effect) return;\neffect.flags.dc20rpg.enhancements = foundry.utils.deepClone(item.system.enhancements)\neffect.system.macro = `\nif (event.trigger === \"instant\") {\n  const enhancements = effect.flags.dc20rpg.enhancements;\n  const damageEnh = enhancements[\"M3kqvvdUP8iOx4PG\"];\n  const illuminating = enhancements[\"YbloHZiXtY6KLTaD\"];\n  const guiding = enhancements[\"DGBpMC90MFNKfzP2\"];\n\n  const damage = 1 + damageEnh.number;\n  const dmgFormula = new DC20.Formula();\n  dmgFormula.formula = damage + \"\";\n  dmgFormula.type = \"radiant\";\n  const modifications = {\n    addsNewFormula: true,\n    formula: dmgFormula\n  }\n\n  let description = \"<p>You deal + \" + damage + \" Radiant Damage on Martial Attacks</p>\"\n  if (illuminating.number > 0) {\n    description += illuminating.description;\n    modifications.addsNewRollRequest = true;\n    modifications.rollRequest = illuminating.modifications.rollRequest;\n  }\n\n  if (guiding.number > 0) {\n    description += guiding.description;\n    modifications.addsNewRollRequest = true;\n    modifications.rollRequest = guiding.modifications.rollRequest;\n    modifications.addsEffect = guiding.modifications.addsEffect;\n  }\n\n  const enhancement = {\n    name: \"Radiant Strikes\",\n    img: effect.img,\n    description: description,\n    copyFor: \"isMartialAttack=[true]\",\n    modifications: modifications,\n    repeatable: false\n  }\n  actor.enhancements.add(enhancement, {key: \"radiantImbued\"})\n}\n\n\nif (event.trigger === \"effectRemoved\") {\n  actor.enhancements.delete(\"radiantImbued\");\n}\n`",
+        "trigger": "postItemRoll",
         "disabled": false,
-        "name": "Prepare Item after roll",
-        "title": "",
-        "global": false
-      },
-      "e6IkO37w32WuITI6": {
-        "command": "if (!off) return;\n\nconst oldEnhancements = item.flags.dc20rpg.enhancements;\nif (!oldEnhancements) return;\nfor (const enh of Object.values(oldEnhancements)) {\n  enh.number = 0;\n}\n\noldEnhancements[\"-=radiantImbued\"] = null;\noldEnhancements[\"-=illuminating\"] = null;\noldEnhancements[\"-=guiding\"] = null;\nitem.update({\n  [\"flags.dc20rpg.-=enhancements\"]: null,\n  [\"system.copyEnhancements.copy\"]: false,\n  [\"system.enhancements\"]: oldEnhancements\n})",
-        "trigger": "onItemToggle",
-        "disabled": false,
-        "name": "Reset Item on toggle off",
+        "name": "Prepare Radiant Imbued Effect Macro",
         "title": "",
         "global": false
       }
@@ -61,25 +54,24 @@
       "duration": "round"
     },
     "toggle": {
-      "toggleable": true,
+      "toggleable": false,
       "toggledOn": false,
-      "toggleOnRoll": true,
-      "offOnSustainDrop": true
+      "toggleOnRoll": false,
+      "offOnSustainDrop": false
     },
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
-      "halfDmgOnMiss": false,
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
         "crit": false,
-        "conditionals": false
+        "targetModifiers": false
       },
       "ignoreCloseQuarters": false,
       "formulaMod": ""
@@ -91,22 +83,12 @@
         "active": false,
         "options": {}
       },
-      "contestedKey": "phy",
       "againstDC": true,
       "checkDC": 10,
-      "respectSizeRules": false,
-      "failEffect": ""
-    },
-    "save": {
-      "type": "phy",
-      "dc": 0,
-      "calculationKey": "spell",
-      "addMastery": false,
-      "failEffect": ""
+      "respectSizeRules": false
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
         "ap": 1,
         "stamina": null,
         "mana": 1,
@@ -126,17 +108,9 @@
         "reset": "",
         "showAsResource": false,
         "subtract": 1,
-        "deleteOnZero": false
+        "deleteOnZero": false,
+        "refresh": {}
       }
-    },
-    "againstEffect": {
-      "id": "",
-      "supressFromChatMessage": false,
-      "untilYourNextTurnStart": false,
-      "untilYourNextTurnEnd": false,
-      "untilTargetNextTurnStart": false,
-      "untilTargetNextTurnEnd": false,
-      "untilFirstTimeTriggered": false
     },
     "againstStatuses": {},
     "rollRequests": {},
@@ -149,12 +123,12 @@
         "description": "<p>Your Attacks affected by this Spell deal +1 Radiant damage.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2/4",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -225,8 +199,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "M3kqvvdUP8iOx4PG",
+        "sourceItemId": "rdmcWYPbfExpAatb",
+        "sourceItemName": "Radiant Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "DTrQ4xeKIgCAiWNE": {
         "name": "Effortless",
@@ -235,12 +230,12 @@
         "description": "",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -311,8 +306,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "DTrQ4xeKIgCAiWNE",
+        "sourceItemId": "rdmcWYPbfExpAatb",
+        "sourceItemName": "Radiant Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YbloHZiXtY6KLTaD": {
         "name": "Illuminating Strikes",
@@ -321,12 +337,12 @@
         "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. </p><p><strong>Save Failure:</strong> The target sheds Dim Light in a 1 Space Aura and can’t benefit from 1/2 Cover or being Invisible.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1/2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -397,8 +413,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "YbloHZiXtY6KLTaD",
+        "sourceItemId": "rdmcWYPbfExpAatb",
+        "sourceItemName": "Radiant Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "DGBpMC90MFNKfzP2": {
         "name": "Guiding Strikes",
@@ -407,12 +444,12 @@
         "description": "<p>Once per round, 1 target of an Attack affected by this Spell makes a Physical Save against your Save DC. </p><p><strong>Save Failure:</strong> Attacks made against the target add a d4 to the Check for 1 round.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2/4",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -468,7 +505,7 @@
           },
           "addsEffect": {
             "name": "Guiding Strikes",
-            "img": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+            "img": "icons/magic/light/orb-container-orange.webp",
             "origin": null,
             "duration": {
               "rounds": 1,
@@ -477,15 +514,20 @@
               "seconds": null,
               "startRound": 101,
               "startTurn": 1,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "DGBpMC90MFNKfzP2"
+                "enhKey": "DGBpMC90MFNKfzP2",
+                "itemSavePath": "system.enhancements.DGBpMC90MFNKfzP2.modifications.addsEffect"
               }
             },
-            "_id": "mY9ONOqwAUbMqnPk",
+            "_id": "TEgZTuQORsNebPxY",
             "type": "base",
             "system": {
               "sustained": {
@@ -499,12 +541,13 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
-              "applyToTemplate": true,
+              "addToChat": true,
+              "applyToTemplate": false,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -514,52 +557,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
+                  "phase": "initial",
+                  "priority": 0,
+                  "useCustom": false
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"value\": 0, \"label\": \"Guiding Strikes\", \"modifier\": \"+ 1d4\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Attack rolls made against you have a d4 bonus.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -569,13 +581,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768215864917,
-              "modifiedTime": 1768215885582,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782564255890,
+              "modifiedTime": 1782564264055,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 101,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -593,8 +615,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "DGBpMC90MFNKfzP2",
+        "sourceItemId": "rdmcWYPbfExpAatb",
+        "sourceItemName": "Radiant Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 1,
+        "altCost": 0,
+        "drmCheck": false
       },
       "XgPKu5erSkuIhKj3": {
         "name": "Range",
@@ -603,12 +646,12 @@
         "description": "<p>The range becomes 5 Spaces, allowing you to target other creatures with the Spell.</p><p></p><p><em><strong>System Tip:</strong> This is not automated.</em></p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -680,121 +723,43 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "key": "XgPKu5erSkuIhKj3",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+        "sourceItemId": "rdmcWYPbfExpAatb",
+        "sourceItemName": "Radiant Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
         "active": false,
-        "drmCheck": false
-      },
-      "mfNMMnufeXG78qOQ": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        },
-        "key": "mfNMMnufeXG78qOQ",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
-        "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "B1rCWNfzeJzNwMkd": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You target X additional creatures of your choice within 5 Spaces that you can see. When you choose this Enhancement, the cost of all other Enhancements (except Range and Effortless) is doubled. </p><p>The AP cost of this Enhancement can’t be paid for with MP (see Mana Points on AP Enhancements).</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "description": "<p>You target X additional creatures of your choice within 5 Spaces that you can see. When you choose this Enhancement, the cost of all other Enhancements (except Range and Effortless) is doubled.</p><p>The AP cost of this Enhancement can’t be paid for with MP (see Mana Points on AP Enhancements).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -866,21 +831,35 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "key": "B1rCWNfzeJzNwMkd",
-        "sourceItemId": "Tz4WylZbg5HoAhYm",
-        "sourceItemName": "Acid Imbued",
-        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-green.webp",
+        "sourceItemId": "rdmcWYPbfExpAatb",
+        "sourceItemName": "Radiant Imbued",
+        "sourceItemImg": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
         "active": false,
-        "drmCheck": false
+        "drmCheck": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       }
     },
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "system.actionType=[\"attack\"]&&system.attackFormula.checkType=[\"attack\"]",
+      "copyFor": "isMartialAttack=[true]",
       "linkWithToggle": false,
-      "hideFromRollMenu": false,
       "onlyMaintained": true
     },
     "range": {
@@ -905,39 +884,6 @@
           "unit": "",
           "difficult": ""
         }
-      }
-    },
-    "conditional": {
-      "hasConditional": false,
-      "name": "",
-      "condition": "",
-      "useFor": "",
-      "linkWithToggle": false,
-      "bonus": "0",
-      "flags": {
-        "ignorePdr": false,
-        "ignoreEdr": false,
-        "ignoreMdr": false,
-        "ignoreResistance": {},
-        "ignoreImmune": {}
-      },
-      "effect": null,
-      "addsNewRollRequest": false,
-      "rollRequest": {
-        "category": "",
-        "saveKey": "",
-        "contestedKey": "",
-        "dcCalculation": "",
-        "dc": 0,
-        "addMasteryToDC": true
-      },
-      "addsNewFormula": false,
-      "formula": {
-        "formula": "",
-        "type": "",
-        "category": "damage",
-        "dontMerge": false,
-        "overrideDefence": ""
       }
     },
     "conditionals": {},
@@ -1001,7 +947,6 @@
     "effectsConfig": {
       "linkWithToggle": false,
       "toggleItem": true,
-      "active": false,
       "addToChat": false,
       "addToTemplates": ""
     },
@@ -1044,27 +989,150 @@
       "radiant": "Radiant",
       "strike": "Strike",
       "weapon": "Weapon"
+    },
+    "skipChatMessage": false,
+    "move": {
+      "movePoints": null,
+      "moveType": "",
+      "bonusMove": null
+    },
+    "attack": {
+      "rangeType": "melee",
+      "checkType": "spell",
+      "targetDefence": "precision",
+      "closeQuarters": false
+    },
+    "rollConfig": {
+      "flatModifier": "",
+      "rollBonus": 0,
+      "canCrit": true,
+      "canCritFail": true,
+      "critThreshold": 20,
+      "critFailThreshold": 1,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "targetModifiers": false
+      },
+      "respectSizeRules": false
+    },
+    "castTime": {
+      "value": null,
+      "timeUnit": ""
+    },
+    "areas": {},
+    "targetModifiers": {},
+    "keyword": {
+      "key": "",
+      "message": "",
+      "selectOptions": ""
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Radiant Imbued",
+      "img": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue-yellow.webp",
+      "origin": "Item.DpjFfRc45bY6Xj1y",
+      "disabled": false,
+      "system": {
+        "addToChat": true,
+        "applyToTemplate": false,
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0
+          },
+          {
+            "useCustom": false,
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"withEffectKey\": \"radiantImbued\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 0
+          }
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": "delete"
+        },
+        "effectKey": "radiantImbued",
+        "macro": "",
+        "applyToSelf": true,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "chatMessageId": ""
+      },
+      "transfer": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "duration": {
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "_id": "AM4osJFrYy5BcWFp",
+      "type": "base",
+      "start": null,
+      "description": "<p>You are under the effect of Radiant Imbued spell.</p>",
+      "tint": "#ffffff",
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "_stats": {
+        "coreVersion": "14.363",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1782564285626,
+        "modifiedTime": 1782564285626,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!rdmcWYPbfExpAatb.AM4osJFrYy5BcWFp"
+    }
+  ],
   "folder": "95Xyqk3Qy7lOK92w",
   "flags": {},
   "_stats": {
-    "compendiumSource": null,
-    "duplicateSource": null,
-    "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
-    "createdTime": 1768215926358,
-    "modifiedTime": 1777583560690,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+    "systemVersion": "0.10.6.0",
+    "createdTime": 1782564285626,
+    "modifiedTime": 1782564322655,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "exportSource": null,
+    "compendiumSource": null,
+    "duplicateSource": null
   },
+  "_id": "rdmcWYPbfExpAatb",
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_id": "rdmcWYPbfExpAatb",
-  "sort": 1200000,
+  "sort": 50000,
   "_key": "!items!rdmcWYPbfExpAatb"
 }

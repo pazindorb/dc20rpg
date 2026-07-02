@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -283,13 +283,10 @@
       "img": "icons/commodities/currency/coins-wheat-stack-copper.webp",
       "origin": "Item.p010XBuMjkdAdqJv",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Jack of one Trade",
@@ -322,16 +319,16 @@
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
         "applyToTemplate": true,
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.skillPoints.trade.bonus",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.skillPoints.trade.bonus",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>You gain 1 Trade Point.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -356,11 +353,16 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!ZGkjwL1BSGjDQYye.9tRoBTaqZ4woQoS3"
     }
   ],
@@ -370,11 +372,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778522708024,
-    "modifiedTime": 1778522708024,
+    "modifiedTime": 1781983701288,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -147,7 +147,15 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p class=\"pf0\"><span class=\"cf0\">You can reduce the <strong>AP</strong> cost of a Spell by 1 (minimum of 1 AP).</span></p>",
         "charges": {
@@ -159,7 +167,13 @@
         "sourceItemId": "mYxgP17VmH6OmsGl",
         "sourceItemName": "Quickened Spell",
         "sourceItemImg": "icons/magic/time/hourglass-brown-orange.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -318,11 +332,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350035427,
-    "modifiedTime": 1767175982622,
+    "modifiedTime": 1781985630532,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

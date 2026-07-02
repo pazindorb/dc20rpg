@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -138,10 +139,11 @@
     "requirements": {
       "level": 0
     },
-    "conditionals": {
+    "conditionals": {},
+    "targetModifiers": {
       "lyOGIQe3cQ4sPDnZ": {
         "name": "Brutal Strikes",
-        "condition": "hit >= 10",
+        "condition": "return (hit >= 10)",
         "useFor": "system.weaponType=[\"melee\"]",
         "linkWithToggle": false,
         "bonus": "1",
@@ -182,11 +184,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.dNf7K72pn7ZiTgGr",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1745525618191,
+    "modifiedTime": 1781983705889,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

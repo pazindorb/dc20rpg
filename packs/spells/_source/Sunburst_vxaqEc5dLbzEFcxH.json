@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "9Z9dbBM6cUNiUSgZ",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "7NTszcp95lBOwTcf": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "7NTszcp95lBOwTcf",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "XhYcDzXtvqun8IgF": {
         "name": "Area",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "XhYcDzXtvqun8IgF",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "YoUtz6pfIWtbfF1N": {
         "name": "Expose",
@@ -479,8 +536,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "YoUtz6pfIWtbfF1N",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "WsD3PqRA7c2dCThn": {
         "name": "Blinding",
@@ -565,8 +641,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "WsD3PqRA7c2dCThn",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "A27rnREHapooRNTf": {
         "name": "Radiant Beam",
@@ -645,15 +740,20 @@
               "combat": null,
               "seconds": null,
               "startRound": 6,
-              "startTurn": 0
+              "startTurn": 0,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "A27rnREHapooRNTf"
+                "enhKey": "A27rnREHapooRNTf",
+                "itemSavePath": "system.enhancements.A27rnREHapooRNTf.modifications.addsEffect"
               }
             },
-            "_id": "WIsyzJmBGUBc2yDD",
+            "_id": "r7pNUSRyOHBoCGsg",
             "type": "base",
             "system": {
               "sustained": {
@@ -667,11 +767,12 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const value = effect.flags?.dc20rpg?.damage || 1;\n\nlet dmg = {\n  value: value,\n  source: \"Radiant Beam\",\n  type: \"radiant\"\n};\nconst token = actor.getActiveTokens()[0];\nif (!token) return;\n\nconst target = game.dc20rpg.tools.tokenToTarget(token);\nconst damage = game.dc20rpg.tools.calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\ngame.dc20rpg.tools.applyDamage(actor, damage.modified);",
-              "addToChat": false,
+              "macro": "const value = effect.flags?.dc20rpg?.damage || 1;\n\nlet dmg = {\n  value: value,\n  source: \"Radiant Beam\",\n  type: \"radiant\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -682,24 +783,29 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Radiant Beam\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\",\n\"activeCombatantOnly\": true",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                },
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Radiant Beam\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\",\n\"activeCombatantOnly\": true",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"instant\", \"label\": \"Radiant Beam\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\",\n\"activeCombatantOnly\": true",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "mode": 2,
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Radiant Beam\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\",\n\"activeCombatantOnly\": true",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You are under inside of Radiant Beam zone.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -709,13 +815,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777534792119,
-              "modifiedTime": 1777534796903,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782598576009,
+              "modifiedTime": 1782598594102,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 6,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "item.system.duration.type = \"sustain\";\nenh.modifications.addsEffect.flags.dc20rpg.damage = enh.number;",
@@ -733,8 +849,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "A27rnREHapooRNTf",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "BxOOS8p2YbvS3TfU": {
         "name": "Moving Beam",
@@ -820,8 +955,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "BxOOS8p2YbvS3TfU",
+        "sourceItemId": "vxaqEc5dLbzEFcxH",
+        "sourceItemName": "Sunburst",
+        "sourceItemImg": "icons/magic/light/beam-rays-red-large.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -991,6 +1145,30 @@
       "exposed": "Exposed",
       "light": "Light",
       "radiant": "Radiant"
+    },
+    "areas": {
+      "default": {
+        "type": "cylinder",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -1000,11 +1178,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768063845941,
-    "modifiedTime": 1777534797908,
+    "modifiedTime": 1782598595709,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

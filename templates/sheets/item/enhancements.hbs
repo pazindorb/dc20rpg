@@ -1,0 +1,360 @@
+<section class="item-sheet-section tab enhancements standard-form {{tabs.enhancements.cssClass}}" data-group="sheet" data-tab="enhancements">
+<div class="scrollable">
+
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.enh.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.enhancementClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="enhancementClosed"></a>
+  </div>
+  {{#unless sheetFlags.enhancementClosed}}
+  <div class="content-wrapper">
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.config.copyEnhancements"}}</label>
+      <input type="checkbox" name="system.copyEnhancements.copy" {{checked system.copyEnhancements.copy}}/>
+    </div>
+    {{#if system.copyEnhancements.copy}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.config.copyFor"}}</label>
+      <input type="text" name="system.copyEnhancements.copyFor" value="{{system.copyEnhancements.copyFor}}">
+    </div>
+    {{#if @root.system.toggle.toggleable}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</label>
+      <input type="checkbox" name="system.copyEnhancements.linkWithToggle" {{checked system.copyEnhancements.linkWithToggle}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.enh.linkWithToggleTitle"}}</p>
+    </div>
+    {{/if}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.onlyMaintained"}}</label>
+      <input type="checkbox" name="system.copyEnhancements.onlyMaintained" {{checked system.copyEnhancements.onlyMaintained}}/>
+      <p class="hint">{{localize "dc20rpg.item.sheet.enh.onlyMaintainedTitle"}}</p>
+    </div>
+    {{/if}}
+  </div>
+  {{/unless}}
+
+  <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="enhancement"><i class="fa-solid fa-layer-plus fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}</button>
+
+  {{#each enhancements as |enhancement key|}}
+  <div class="sub-header margin-top-10">
+    <label>{{enhancement.name}}</label>
+    <div class="button-wrapper">
+      <a class="margin-right-5 fa-solid {{#if enhancement.hide}}fa-eye-slash{{else}}fa-eye{{/if}}" data-cType="activable" data-path="system.enhancements.{{key}}.hide" data-tooltip="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
+      <a class="margin-right-5 fa-solid fa-pen-to-square" data-tooltip="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-action="enhancementDescrption" data-path="system.enhancements.{{key}}.description"></a>
+      <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.enh.remove"}}" data-action="removeSubdoc" data-type="enhancement" data-key="{{key}}"></a>
+      <a class="fa-solid {{#if (lookup @root.sheetFlags key)}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="{{key}}"></a>
+    </div>
+  </div>
+  {{#unless (lookup @root.sheetFlags key)}}
+  <div class="content-wrapper">
+    {{!-- Name --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.name"}}</label>
+      <input type="text" name="system.enhancements.{{key}}.name" value="{{enhancement.name}}" placeholder="-">
+    </div>
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.repeatable"}}</label>
+      <input type="checkbox" name="system.enhancements.{{key}}.repeatable" {{checked enhancement.repeatable}}/>
+    </div>
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.enh.defaultState"}}</label>
+      <input type="text" name="system.enhancements.{{key}}.defaultState" value="{{enhancement.defaultState}}" placeholder="-" data-dtype="Number">
+    </div>
+    <hr/>
+    
+    {{!-- Resources --}}
+    <div class="grid grid-5col resource-wrapper">
+      {{!-- Basic Resources --}}
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.ap"}}">
+        <div class="wrapper ap"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
+        <input type="text" name="system.enhancements.{{key}}.resources.ap" value="{{enhancement.resources.ap}}" placeholder="-">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.stamina"}}">
+        <div class="wrapper stamina"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
+        <input type="text" name="system.enhancements.{{key}}.resources.stamina" value="{{enhancement.resources.stamina}}" placeholder="-">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.mana"}}">
+        <div class="wrapper mana"><i class="fa-lg fa-solid fa-star"></i></div>
+        <input type="text" name="system.enhancements.{{key}}.resources.mana" value="{{enhancement.resources.mana}}" placeholder="-">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.health"}}">
+        <div class="wrapper health"><i class="fa-lg fa-solid fa-heart"></i></div>
+        <input type="text" name="system.enhancements.{{key}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.grit"}}">
+        <div class="wrapper grit"><i class="fa-lg fa-solid fa-clover"></i></div>
+        <input type="text" name="system.enhancements.{{key}}.resources.grit" value="{{enhancement.resources.grit}}" placeholder="-">
+      </div>
+      <div class="form-group" data-tooltip="{{localize "dc20rpg.item.sheet.usage.restPoints"}}">
+        <div class="wrapper rest-points"><i class="fa-lg fa-solid fa-campground"></i></div>
+        <input type="text" name="system.enhancements.{{key}}.resources.restPoints" value="{{enhancement.resources.restPoints}}" placeholder="-">
+      </div>
+      
+      {{!-- Custom Resources --}}
+      {{#each system.costs.resources.custom as |cost key|}}
+      <div class="form-group" data-tooltip="{{cost.label}}">
+        <img class="resource-img" src="{{cost.img}}"/>
+        <input type="text" name="system.enhancements.{{key}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-">
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- Alternative Resources --}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.enh.altCostMax"}}</label>
+      <input type="text" name="system.enhancements.{{key}}.altCostMax" value="{{enhancement.altCostMax}}" placeholder="0" data-dtype="Number">
+      <p class="hint">{{localize "dc20rpg.item.sheet.enh.altCostMaxTitle"}}</p>
+    </div>
+
+    {{!-- Charge --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.additionalConsumed"}}</label>
+      <div class="form-fields">
+        <input style="max-width:50px;" type="text" data-dtype="Number" name="system.enhancements.{{key}}.charges.subtract" value="{{enhancement.charges.subtract}}" placeholder="-">
+        <label data-tooltip="{{localize "dc20rpg.item.sheet.enh.fromOriginalTitle"}}">{{localize "dc20rpg.item.sheet.enh.fromOriginal"}}</label>
+        <input type="checkbox" name="system.enhancements.{{key}}.charges.fromOriginal" {{checked enhancement.charges.fromOriginal}} data-tooltip="{{localize "dc20rpg.item.sheet.enh.fromOriginalTitle"}}"/>
+      </div>
+    </div>
+    <hr/>
+
+    {{!-- Spend Limit --}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.enh.modifySpendLimit"}}</label>
+      <div class="form-fields">
+        <label>{{localize "dc20rpg.resources.stamina"}}</label>
+        <input type="text" data-dtype="Number" name="system.enhancements.{{key}}.modifications.changeStaminaSpendLimit" value="{{enhancement.modifications.changeStaminaSpendLimit}}" placeholder="-">
+        <label>{{localize "dc20rpg.resources.mana"}}</label>
+        <input type="text" data-dtype="Number" name="system.enhancements.{{key}}.modifications.changeManaSpendLimit" value="{{enhancement.modifications.changeManaSpendLimit}}" placeholder="-">
+      </div>
+    </div>
+
+    {{!-- Copy to specific sheet roll --}}
+    <div class="multi-select-wrapper">
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.enh.copyToSheetRoll"}}</label>
+        <div class="form-fields">
+          <select class="multi-select" data-cType="multi-select" data-path="system.enhancements.{{key}}.copyToSheetRoll">
+            {{selectOptions @root.config.ROLL_KEYS.rollKeys blank=""}}
+          </select>
+        </div>
+      </div>
+      <div class="selected-options">
+        {{#each enhancement.copyToSheetRoll as |option key|}}
+          <div class="option">
+            <label>{{labelFromKey option @root.config.ROLL_KEYS.rollKeys}}</label>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.enhancements.{{../key}}.copyToSheetRoll" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <hr/>
+
+    {{!-- Range --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsRange"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.addsRange}}
+        <i style="max-width: 15px;" class="fa-solid fa-bow-arrow"></i>
+        <input style="max-width: 45px;" type="text" name="system.enhancements.{{key}}.modifications.bonusRange.normal" value="{{enhancement.modifications.bonusRange.normal}}" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.normal"}}">
+        <i style="max-width: 15px;" class="fa-solid fa-bullseye-arrow"></i>
+        <input style="max-width: 45px;" type="text" name="system.enhancements.{{key}}.modifications.bonusRange.max" value="{{enhancement.modifications.bonusRange.max}}" placeholder="-" data-tooltip="{{localize "dc20rpg.item.sheet.target.max"}}">
+        <i style="max-width: 15px;" class="fa-solid fa-sword"></i>
+        <input style="max-width: 45px;" type="text" name="system.enhancements.{{key}}.modifications.bonusRange.melee" value="{{enhancement.modifications.bonusRange.melee}}" placeholder="1" data-tooltip="{{localize "dc20rpg.item.sheet.target.meleeRange"}}">
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.addsRange" {{checked enhancement.modifications.addsRange}}/>
+      </div>
+    </div>
+
+    {{!-- Area Size --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.modifyArea"}}</label>
+      <div class="form-fields">
+        <span>{{localize "dc20rpg.item.sheet.enh.distance"}}</span>
+        <input type="text" name="system.enhancements.{{key}}.modifications.areaDistance" value="{{enhancement.modifications.areaDistance}}" placeholder="-">
+        <span>{{localize "dc20rpg.item.sheet.enh.width"}}</span>
+        <input type="text" name="system.enhancements.{{key}}.modifications.areaWidth" value="{{enhancement.modifications.areaWidth}}" placeholder="-">
+      </div>
+    </div>
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.overrideAreaType"}}</label>
+      <select name="system.enhancements.{{key}}.modifications.overrideAreaType">
+        {{selectOptions @root.config.DROPDOWN_DATA.areaTypes selected=enhancement.modifications.overrideAreaType blank=""}}
+      </select>
+    </div>
+
+    {{!-- Duration --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.changeDuration"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.changeDuration}}
+        <select name="system.enhancements.{{key}}.modifications.duration.type">
+          {{selectOptions @root.config.DROPDOWN_DATA.durations selected=enhancement.modifications.duration.type blank=""}}
+        </select>
+        <input type="text" name="system.enhancements.{{key}}.modifications.duration.value" value="{{enhancement.modifications.duration.value}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.duration"}}">
+        <select name="system.enhancements.{{key}}.modifications.duration.timeUnit">
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=enhancement.modifications.duration.timeUnit blank=""}}
+        </select>
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.changeDuration" {{checked enhancement.modifications.changeDuration}}/>
+      </div>
+    </div>
+    <hr/>
+
+    {{!-- Change Action --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.changeAction"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.actionChange}}
+        <select name="system.enhancements.{{key}}.modifications.actionType">
+          {{selectOptions @root.config.DROPDOWN_DATA.actionTypes selected=enhancement.modifications.actionType blank=""}}
+        </select>
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.actionChange" {{checked enhancement.modifications.actionChange}}/>
+      </div> 
+    </div>
+
+    {{!-- Change Roll Level --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.rollLevelChange"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.rollLevelChange}}
+        <input style="max-width:50px;" type="text" data-dtype="Number" name="system.enhancements.{{key}}.modifications.rollLevel.value" value="{{enhancement.modifications.rollLevel.value}}" placeholder="-">
+        <select name="system.enhancements.{{key}}.modifications.rollLevel.type">
+          {{selectOptions @root.config.SYSTEM_CONSTANTS.rollLevelChange selected=enhancement.modifications.rollLevel.type}}
+        </select>
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.rollLevelChange" {{checked enhancement.modifications.rollLevelChange}}/>
+      </div>
+    </div>
+
+    {{!-- Modifies Target Defence Type --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.overrideTargetDefence"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.overrideTargetDefence}}
+        <select name="system.enhancements.{{key}}.modifications.targetDefenceType">
+          {{selectOptions @root.config.DROPDOWN_DATA.defences selected=enhancement.modifications.targetDefenceType blank=""}}
+        </select>
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.overrideTargetDefence" {{checked enhancement.modifications.overrideTargetDefence}}/>
+      </div>
+    </div>
+
+    {{!-- Overrides Damage Type --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.overrideDamageType"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.overrideDamageType}}
+        <select name="system.enhancements.{{key}}.modifications.damageType">
+          {{selectOptions @root.config.DROPDOWN_DATA.damageTypes selected=enhancement.modifications.damageType blank=""}}
+        </select>
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.overrideDamageType" {{checked enhancement.modifications.overrideDamageType}}/>
+      </div>
+    </div>
+    <hr/>
+
+    {{!-- Modifies Core Formula --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.modifiesCoreFormula"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.modifiesCoreFormula}}
+        <input type="text" name="system.enhancements.{{key}}.modifications.coreFormulaModification" value="{{enhancement.modifications.coreFormulaModification}}" placeholder="-">
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.modifiesCoreFormula" {{checked enhancement.modifications.modifiesCoreFormula}}/>
+      </div>
+      <p class="hint">{{localize "dc20rpg.item.sheet.enh.modifiesCoreFormulaHint"}}</p>
+    </div>
+
+    {{!-- Modifies Formula --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</label>
+      <div class="form-fields">
+        {{#if enhancement.modifications.hasAdditionalFormula}}
+          <input type="text" name="system.enhancements.{{key}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" placeholder="-">
+          <i style="max-width: 15px;" class="fa-solid fa-key" data-tooltip="{{localize "dc20rpg.item.sheet.enh.specificFormulaKey"}}"></i>
+          <input type="text" name="system.enhancements.{{key}}.modifications.specificFormulaKey" value="{{enhancement.modifications.specificFormulaKey}}" data-tooltip="{{localize "dc20rpg.item.sheet.enh.specificFormulaKey"}}" placeholder="All">
+        {{/if}}
+        <input type="checkbox" name="system.enhancements.{{key}}.modifications.hasAdditionalFormula" {{checked enhancement.modifications.hasAdditionalFormula}}/>
+      </div>
+      <p class="hint">{{localize "dc20rpg.item.sheet.enh.modifiesFormulaHint"}}</p>
+    </div>
+    <hr/>
+    
+    {{!-- Adds Formula --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsNewFormula"}}</label>
+      <input type="checkbox" name="system.enhancements.{{key}}.modifications.addsNewFormula" {{checked enhancement.modifications.addsNewFormula}}/>
+    </div>
+    {{#if enhancement.modifications.addsNewFormula}}
+      {{> "systems/dc20rpg/templates/sheets/item/partials/formula.hbs" 
+        path=(concat "system.enhancements." key ".modifications.formula")
+        formula=enhancement.modifications.formula 
+        categories=@root.config.DROPDOWN_DATA.allFormulaCategories
+      }}
+    {{/if}}    
+    <hr/>
+
+    {{!-- Adds Roll Request --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsNewRollRequest"}}</label>
+      <input type="checkbox" name="system.enhancements.{{key}}.modifications.addsNewRollRequest" {{checked enhancement.modifications.addsNewRollRequest}}/>
+    </div>
+    {{#if enhancement.modifications.addsNewRollRequest}}
+      {{> "systems/dc20rpg/templates/sheets/item/partials/rollRequest.hbs" 
+        path=(concat "system.enhancements." key ".modifications.rollRequest")
+        request=enhancement.modifications.rollRequest
+      }}
+    {{/if}}   
+    <hr/> 
+
+    {{!-- Adds Against Status --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsAgainstStatus"}}</label>
+      <input type="checkbox" name="system.enhancements.{{key}}.modifications.addsAgainstStatus" {{checked enhancement.modifications.addsAgainstStatus}}/>
+    </div>
+    {{#if enhancement.modifications.addsAgainstStatus}}
+      {{> "systems/dc20rpg/templates/sheets/item/partials/againstStatus.hbs" 
+        path=(concat "system.enhancements." key ".modifications.againstStatus")
+        status=enhancement.modifications.againstStatus
+      }}
+    {{/if}}   
+    <hr/>
+
+    {{!-- Adds Effect --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.addsEffect"}}</label>
+      <div class="right-part-row">
+        {{#if enhancement.modifications.addsEffect}} 
+        <img src="{{enhancement.modifications.addsEffect.img}}" data-action="editRootedEffect" data-type="enhancement" data-key="{{key}}" class="edit-rooted-effect" data-tooltip="{{localize "dc20rpg.sheet.effects.edit"}}"/>
+        
+        <a class="fa-user {{#if enhancement.modifications.addsEffect.system.applyToSelf}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.applyToSelf" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToSelf"}}"></a>
+        <a class="fa-message {{#if enhancement.modifications.addsEffect.system.addToChat}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.addToChat" data-tooltip="{{localize "dc20rpg.effect.sheet.addToChat"}}"></a>
+        <a class="fa-arrows-rotate {{#if enhancement.modifications.addsEffect.system.refreshTarget}}fa-solid checked{{else}}fa-regular{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.refreshTarget" data-tooltip="{{localize "dc20rpg.effect.sheet.refreshTarget"}}"></a>
+        <a class="fa-bullseye {{#if enhancement.modifications.addsEffect.system.applyToTemplate}}fa-solid checked{{else}}fa-light{{/if}} margin-right-5" 
+            data-cType="activable" data-path="system.enhancements.{{key}}.modifications.addsEffect.system.applyToTemplate" data-tooltip="{{localize "dc20rpg.effect.sheet.applyToTemplate"}}"></a>
+        <a class="fa-lg fa-square-minus fa-solid" data-action="removeRootedEffect" data-type="enhancement" data-key="{{key}}" style="margin-right: 4px"></a>
+        {{else}}
+        <a class="fa-lg fa-square-plus fa-solid" data-action="addRootedEffect" data-type="enhancement" data-key="{{key}}" style="margin-right: 4px"></a>
+        {{/if}}
+      </div>
+    </div>
+    <hr/>
+
+    {{!-- Enhancement macro --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.item.sheet.enh.macro"}}</label>
+      <div class="right-part-row">
+        <a class="fa-pen-to-square fa-solid fa-lg {{#unless enhancement.modifications.macros.preItemRoll}}empty{{/unless}}" data-action="editRootedMacro" data-macro-key="preItemRoll" data-type="enhancement" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.enh.preItemRoll"}}"></a>
+        <a class="fa-pen-to-square fa-solid fa-lg margin-left-5 {{#unless enhancement.modifications.macros.postItemRoll}}empty{{/unless}}" data-action="editRootedMacro" data-type="enhancement" data-macro-key="postItemRoll" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.enh.postItemRoll"}}"></a>
+      </div>
+    </div>
+
+  </div>
+  {{/unless}}
+  {{/each}}
+
+</div>
+</section>

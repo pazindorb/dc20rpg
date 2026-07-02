@@ -52,7 +52,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -294,12 +294,10 @@
       "img": "icons/equipment/shoulder/pauldron-ridged-copper-green.webp",
       "origin": "Item.cMMA9TaWVCaFVPO2",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": true,
       "flags": {
@@ -334,40 +332,40 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.movement.ground.bonus",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": -2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": -2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectApplied\", \"label\": \"Lost Bulk\", \"alwaysActive\": true, \"withStatus\": \"bloodied\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"label\": \"Lost Bulk\", \"alwaysActive\": true, \"withStatus\": \"bloodied\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.movement.ground.bonus",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        },
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
-          "value": "-2",
-          "priority": null
-        },
-        {
-          "key": "system.defences.area.bonuses.always",
-          "mode": 2,
-          "value": "-2",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"effectApplied\", \"label\": \"Lost Bulk\", \"alwaysActive\": true, \"withStatus\": \"bloodied\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"effectRemoved\", \"label\": \"Lost Bulk\", \"alwaysActive\": true, \"withStatus\": \"bloodied\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>While you’re Bloodied, your Speed is increased by 2 and your PD and AD are reduced by 2.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -377,11 +375,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!BkRe5pmvlVfwFOtG.VF0CGadSPJvnONZe"
     }
   ],
@@ -391,11 +401,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778095349103,
-    "modifiedTime": 1778139638152,
+    "modifiedTime": 1781983712610,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -403,6 +413,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "BkRe5pmvlVfwFOtG",
-  "sort": 300000,
+  "sort": 1000000,
   "_key": "!items!BkRe5pmvlVfwFOtG"
 }

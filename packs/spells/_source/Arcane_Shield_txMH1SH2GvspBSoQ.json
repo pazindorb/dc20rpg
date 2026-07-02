@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -207,8 +207,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "lTrfIcuyhSqV31DT",
+        "sourceItemId": "txMH1SH2GvspBSoQ",
+        "sourceItemName": "Arcane Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "7ls6NqfxInRDp2lS": {
         "name": "Arcane Absorption",
@@ -293,8 +312,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "7ls6NqfxInRDp2lS",
+        "sourceItemId": "txMH1SH2GvspBSoQ",
+        "sourceItemName": "Arcane Shield",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -469,12 +507,10 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
       "origin": "Item.DBp1DdcJ6XmKJvF9",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 94,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -509,22 +545,22 @@
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
         "applyToTemplate": true,
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": 5,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Arcane Shield\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.defences.area.bonuses.always",
-          "value": "5",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Arcane Shield\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You grant the target a +5 bonus to its AD against this Attack.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -534,11 +570,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 94,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!txMH1SH2GvspBSoQ.dVv2nkwnyan5834t"
     }
   ],
@@ -548,11 +596,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768065287705,
-    "modifiedTime": 1777547059896,
+    "modifiedTime": 1781985650524,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

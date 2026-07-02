@@ -50,7 +50,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -245,8 +245,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "J2ZbrBLTKikxYIhE",
+        "sourceItemId": "BwQTg1sbge61N9Fd",
+        "sourceItemName": "Maelstrom",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "mDHygDBtUpYEuGLx": {
         "name": "Area",
@@ -331,8 +350,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "mDHygDBtUpYEuGLx",
+        "sourceItemId": "BwQTg1sbge61N9Fd",
+        "sourceItemName": "Maelstrom",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "JqnrUFGClSTQq2A2": {
         "name": "Increased Pull",
@@ -417,8 +455,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "JqnrUFGClSTQq2A2",
+        "sourceItemId": "BwQTg1sbge61N9Fd",
+        "sourceItemName": "Maelstrom",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "p9NGQ2TiaR9vJ2dT": {
         "name": "Drowning",
@@ -503,8 +560,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "p9NGQ2TiaR9vJ2dT",
+        "sourceItemId": "BwQTg1sbge61N9Fd",
+        "sourceItemName": "Maelstrom",
+        "sourceItemImg": "icons/magic/water/vortex-water-whirlpool.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -673,6 +749,29 @@
       "motion": "Motion",
       "slowed": "Slowed",
       "water": "Water"
+    },
+    "areas": {
+      "default": {
+        "type": "cylinder",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -681,12 +780,10 @@
       "img": "icons/magic/water/vortex-water-whirlpool.webp",
       "origin": "Item.UHqOzcLxwV3besfr",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -721,22 +818,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maelstrom\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maelstrom\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Maelstrom\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Maelstrom\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You are Suffocating.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -746,12 +843,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1768593654683
+        "modifiedTime": 1768593654683,
+        "createdTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!BwQTg1sbge61N9Fd.DVlewfKBp4rEj95Z"
     }
   ],
@@ -761,11 +869,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767811421904,
-    "modifiedTime": 1777669418055,
+    "modifiedTime": 1781985637605,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

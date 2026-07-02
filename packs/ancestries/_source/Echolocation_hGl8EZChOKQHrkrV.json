@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": 1,
@@ -140,6 +141,25 @@
     "featureSourceItem": "beastborn",
     "requirements": {
       "level": 0
+    },
+    "areas": {
+      "default": {
+        "type": "aura",
+        "distance": 10,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
     }
   },
   "effects": [
@@ -147,13 +167,10 @@
       "img": "icons/creatures/mammals/bat-movement-flying-purple.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.hGl8EZChOKQHrkrV",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Echolocation",
@@ -163,16 +180,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.senses.blindsight.range",
+            "value": 10,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.senses.blindsight.range",
-          "mode": 5,
-          "value": "10",
-          "priority": null
-        }
-      ],
       "description": "<p>You have a <span>Blindsight </span>of 10 Spaces.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -190,7 +207,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1730241205595,
@@ -198,6 +215,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!hGl8EZChOKQHrkrV.ubfeuesJxP0uPCCn"
     }
   ],
@@ -210,11 +230,11 @@
   "_stats": {
     "compendiumSource": "Compendium.dc20rpg.ancestries.Item.3YH1b9nvHlw31AgA",
     "duplicateSource": "Item.Nq6SwMiPwpXKa7kh",
-    "coreVersion": "13.347",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1760521817546,
+    "modifiedTime": 1781983706783,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

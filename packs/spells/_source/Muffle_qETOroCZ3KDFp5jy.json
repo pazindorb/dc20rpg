@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -207,8 +207,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "R66kn4ngoVc6pkTu",
+        "sourceItemId": "qETOroCZ3KDFp5jy",
+        "sourceItemName": "Muffle",
+        "sourceItemImg": "icons/magic/unholy/orb-swirling-teal.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "I1KigSXxbR9Z901M": {
         "name": "Area",
@@ -217,12 +236,12 @@
         "description": "<p>The diameter of the Sphere increases by 1 Spaces.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -293,8 +312,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "I1KigSXxbR9Z901M",
+        "sourceItemId": "qETOroCZ3KDFp5jy",
+        "sourceItemName": "Muffle",
+        "sourceItemImg": "icons/magic/unholy/orb-swirling-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "1jVuYxbhON8nQn3d": {
         "name": "Silence",
@@ -303,12 +344,12 @@
         "description": "<p>The area becomes silent, no sound can be heard or produced in it. All creatures in the area are Deafened and Verbal Components can’t be performed in it.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -364,7 +405,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.statuses.add(\"deafened\");\nconst deafened = CONFIG.statusEffects.find(e => e.id === \"deafened\");\nfor (const change of deafened.changes) {\n  effect.changes.push(change)\n}",
+            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\nDC20.tools.applyStatusToEffect(effect, \"deafened\")",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -379,8 +420,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "1jVuYxbhON8nQn3d",
+        "sourceItemId": "qETOroCZ3KDFp5jy",
+        "sourceItemName": "Muffle",
+        "sourceItemImg": "icons/magic/unholy/orb-swirling-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "gY8kOQcdS3kSv4lV": {
         "name": "Disorient",
@@ -389,12 +452,12 @@
         "description": "<p><em>Requires Silence.</em></p><p>When a creature enters the area for the first time on its turn or starts its turn there, they make a Repeated Intelligence Save against your Save DC.</p><p><strong>Save Failure:</strong> The target is Disoriented until it leaves the area.</p><p><em><strong>System Tip:</strong> Once target leaves the area you need to remove Disoriented effect manually.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 2,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "2",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -450,7 +513,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Disorient\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"actorId\": \"#SPEAKER_ID#\"'\n})\neffect.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Disorient\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"actorId\": \"#SPEAKER_ID#\"'\n})",
+            "preItemRoll": "const effect = item.getEffectByKey(\"muffle\");\nif (!effect) return;\n\neffect.system.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Disorient\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"actorId\": \"#SPEAKER_ID#\"'\n})\neffect.system.changes.push({\n  key: \"system.events\",\n  mode: 2,\n  value: '\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Disorient\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"disoriented\"], \"actorId\": \"#SPEAKER_ID#\"'\n})",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -465,8 +528,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "gY8kOQcdS3kSv4lV",
+        "sourceItemId": "qETOroCZ3KDFp5jy",
+        "sourceItemName": "Muffle",
+        "sourceItemImg": "icons/magic/unholy/orb-swirling-teal.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -636,6 +721,27 @@
       "deafened": "Deafened",
       "disoriented": "Disoriented",
       "sound": "Sound"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 2,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
     }
   },
   "effects": [
@@ -644,12 +750,10 @@
       "img": "icons/magic/unholy/orb-swirling-teal.webp",
       "origin": "Item.3mg1NCPeKMSzBk9I",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 100,
-        "startTurn": 1
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -684,9 +788,9 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": []
       },
-      "changes": [],
       "description": "<p>You are inside of area created by Muffle spell. No sound can escape the area.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -696,12 +800,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1768594221292
+        "modifiedTime": 1768594221292,
+        "createdTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 100,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!qETOroCZ3KDFp5jy.Dmygl8K8Ya3v65o0"
     }
   ],
@@ -711,11 +826,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768087780758,
-    "modifiedTime": 1777548797083,
+    "modifiedTime": 1782632277776,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

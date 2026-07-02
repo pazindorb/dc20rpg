@@ -1,23 +1,28 @@
 import { companionShare } from "../../helpers/actors/companion.mjs";
-import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
+import { toggleCheck } from "../../helpers/utils.mjs";
 
 /**
  * Copies some data from actor's items to make it easier to access it later.
  */
 export function prepareDataFromItems(actor) {
-	const weapon = [];
 	const equipment = [];
-	const spellFocus = [];
 	const customResources = []; 
-	const conditionals = [];
-	const itemsWithEnhancementsToCopy = [];
+	const targetModifiers = [];
+	const actorEnhancements = foundry.utils.deepClone(actor.system.enhancements);
+	const copyableEnhancements = [];
+	const properties = [];
 	let staminaFeature = false;
 
 	actor.items.forEach(item => {
-		// Inventory
-		if (item.type === 'weapon') weapon.push(item);
-		if (item.type === 'equipment') equipment.push(item);
-		if (item.type === "spellFocus") spellFocus.push(item);
+		if (item.type === 'equipment' && item.equipped) equipment.push(item);
+
+		// Properties
+		if (item.system.properties && item.equipped) {
+			if (item.type === 'spellFocus') {
+				if (item.system.combatTraining) properties.push(item); // For spell focus you need combat training
+			}
+			else properties.push(item);
+		}
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
@@ -25,23 +30,32 @@ export function prepareDataFromItems(actor) {
 		// Mark Stamina Feature
 		if (item.system.staminaFeature) staminaFeature = true;
 
-		// Conditionals
-		const conds = item.system.conditionals;
-		if (conds && Object.keys(conds).length > 0) conditionals.push(item);
+		// Target Modifiers
+		const tm = item.system.targetModifiers;
+		if (tm && Object.keys(tm).length > 0) targetModifiers.push(item);
 
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
-		if (item.system.copyEnhancements?.copy) itemsWithEnhancementsToCopy.push({
+		if (item.system.copyEnhancements?.copy) copyableEnhancements.push({
 			itemId: item.id,
-			copyFor: item.system.copyEnhancements.copyFor
+			copyFor: item.system.copyEnhancements.copyFor,
+			source: "item"
 		});
 	});
 
-	_weapon(weapon, actor);
-	_spellFocus(spellFocus, actor);
+	// Add actor sourced enhancements 
+	for (const [key, enh] of Object.entries(actorEnhancements)) {
+		copyableEnhancements.push({
+			source: "actor",
+			copyFor: enh.copyFor,
+			enhKey: key,
+		})
+	}
+
 	_equipment(equipment, actor);
+	_properties(properties, actor);
 	_customResources(customResources, actor);
-	_conditionals(conditionals, actor);
-	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
+	_targetModifiers(targetModifiers, actor);
+	actor.copyableEnhancements = copyableEnhancements;
 	actor.system.details.staminaFeature = staminaFeature;
 }
 
@@ -59,6 +73,7 @@ export function prepareEquippedItemsFlags(actor) {
 		armorEquipped: false,
 		heavyEquipped: false,
 		shieldEquipped: false,
+		impactfulUnarmedStries: false,
 		shieldBonus: {
 			ad: 0,
 			pd: 0
@@ -83,7 +98,9 @@ export function prepareEquippedItemsFlags(actor) {
 				if (properties.pdIncrease.active) {
 					equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
 				}
-				
+			}
+			if (item.system.impactfulUnarmedStries) {
+				equippedFlags.impactfulUnarmedStries = true;
 			}
 		}
 	});
@@ -91,7 +108,8 @@ export function prepareEquippedItemsFlags(actor) {
 		armorEquipped: equippedFlags.armorEquipped,
 		heavyEquipped: equippedFlags.heavyEquipped,
 		shieldEquipped: equippedFlags.shieldEquipped,
-		shieldBonus: equippedFlags.shieldBonus
+		shieldBonus: equippedFlags.shieldBonus,
+		impactfulUnarmedStries: equippedFlags.impactfulUnarmedStries,
 	}
 }
 
@@ -175,12 +193,9 @@ function _class(actor) {
 
 function _ancestry(actor) {
 	const details = actor.system.details;
-	const movement = actor.system.movement;
 
 	const ancestry = actor.items.get(details.ancestry.id);
 	if (!ancestry) return;
-
-	if (!movement.ground.useCustom) movement.ground.value = ancestry.system.movement.speed;
 }
 
 function _subclass(actor) {
@@ -190,171 +205,69 @@ function _subclass(actor) {
 	if (!subclass) return;
 }
 
-function _weapon(items, actor) {
-	let bonusPD = 0;
-	items.forEach(item => {
-		if (item.system.properties.guard.active && item.system.statuses.equipped) bonusPD++;
-	});
-	actor.system.defences.precision.bonuses.always += bonusPD;
-} 
+function _properties(items, actor) {
+	const activeProperties = new Map();
 
-function _spellFocus(items, actor) {
-	const data = {
-		channeling: 0,
-		vicious: 0,
-		powerful: 0,
-		protective: 0,
-		ignoreCloseQuarters: false,
-		longRanged: false,
-		reach: false,
-		warded: false,
-	}
-	
-	// Collect item data
-	items.forEach(item => {
-		if (!item.system.combatTraining) return;
+	// Collect active properties
+	for (const item of items) {
 		const properties = item.system.properties;
-		if (!item.system.statuses.equipped) return;
-		
-		if (properties.channeling.active) data.channeling++;
-		if (properties.vicious.active) data.vicious++;
-		if (properties.powerful.active) data.powerful++;
-		if (properties.protective.active) data.protective++;
+		for (const [key, property] of Object.entries(properties)) {
+			if (!property.active) continue;
 
-		if (properties.closeQuarters.active) data.ignoreCloseQuarters = true;
-		if (properties.longRangedSF.active) data.longRanged = true;
-		if (properties.reachSF.active) data.reach = true;
-		if (properties.warded.active) data.warded = true;
-	})
+			if (activeProperties.has(key)) {
+				const arr = activeProperties.get(key);
+				arr.push({property: property, item: item});
+				activeProperties.set(key, arr)
+			}
+			else {
+				activeProperties.set(key, [{property: property, item: item}]);
+			}
+		}
+	}
 
-	// Implement item data
-	if (data.channeling) {
-		actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${data.channeling}", "label": "Channeling Property"`);
-	}
-	if (data.vicious) {
-		actor.system.dynamicRollModifier.onYou.spell.melee.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
-		actor.system.dynamicRollModifier.onYou.spell.ranged.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
-		actor.system.dynamicRollModifier.onYou.spell.area.push(`"modifier": "+ ${data.vicious}", "label": "Vicious Property"`);
-	}
-	if (data.powerful) {
-		actor.system.globalFormulaModifiers.damage.spell.melee.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
-		actor.system.globalFormulaModifiers.damage.spell.ranged.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
-		actor.system.globalFormulaModifiers.damage.spell.area.push(`"value": "+ ${data.powerful}", "source": "Powerful Property"`);
-	}
-	if (data.protective) {
-		actor.system.defences.area.bonuses.always += data.protective;
-	}
-	if (data.ignoreCloseQuarters) {
-		actor.system.globalModifier.spell.ignore.closeQuarters = true;
-	}
-	if (data.longRanged) {
-		actor.system.globalModifier.spell.range.normal += 5
-	}
-	if (data.reach) {
-		actor.system.globalModifier.spell.range.melee += 1
-	}
-	if (data.warded && !actor.system.damageReduction.mdr.skipEqCheck) {
-		actor.system.damageReduction.mdr.active = true;
+	// Run methods for active properties
+	for (const [key, array] of activeProperties) {
+		const applyProperty = CONFIG.DC20RPG.PROPERTIES[key].applyProperty;
+		if (applyProperty) applyProperty(actor, array);
 	}
 }
 
 function _equipment(items, actor) {
-	const data = {
-		adBonus: 0,
-		pdBonus: 0,
-		shieldBonus: {
-			adBonus: 0,
-			pdBonus: 0,
-			shieldsWielded: 0
-		},
-		pdr: false,
-		edr: false,
-		speedPenalty: 0,
-		agiCheckDis: 0,
-		lackArmorTraining: false,
-		lackShieldTraining: false,
-	}
-	items.forEach(item => _armorData(item, data));
-	_implementEquipmentData(actor, data);
-}
+	let lackShieldTraining = false;
+	let lackArmorTraining = false;
+	let shieldWielded = 0;
 
-function _armorData(item, data) {
-	if (!item.system.statuses.equipped) return data;
-
-	const properties = item.system.properties;
-	const equipmentType = item.system.equipmentType;
-
-	if (properties.pdr.active) data.pdr = true;
-	if (properties.edr.active) data.edr = true;
-	if (properties.bulky.active) data.speedPenalty++;
-	if (properties.rigid.active) data.agiCheckDis++;
-
-	if (["light", "heavy"].includes(equipmentType)) {
-		if (!item.system.combatTraining) data.lackArmorTraining = true;
-	}
-	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
-		if (properties.pdIncrease.active) data.shieldBonus.pdBonus = properties.pdIncrease.value;
-		if (properties.adIncrease.active) data.shieldBonus.adBonus = properties.adIncrease.value;
-		data.shieldBonus.shieldsWielded++;
-
-		if (!item.system.combatTraining) data.lackShieldTraining = true;
-	}
-	else {
-		if (properties.pdIncrease.active) data.pdBonus += properties.pdIncrease.value;
-		if (properties.adIncrease.active) data.adBonus += properties.adIncrease.value;
-	}
-	return data;
-}
-
-function _implementEquipmentData(actor, collectedData) {
-	const pd = actor.system.defences.precision;
-	const ad = actor.system.defences.area;
-
-	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
-	for (let i = 0; i < collectedData.agiCheckDis; i++) {
-		actor.system.dynamicRollModifier.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
+	// Collect Equipment Data
+	for (const item of items) {
+		const type = item.system.equipmentType;
+		const combatTraining = item.system.combatTraining;
+		if (["light", "heavy"].includes(type)) { 
+			if (!combatTraining) lackArmorTraining = true;
+		}
+		if (["lshield", "hshield"].includes(type)) { 
+			if (!combatTraining) lackShieldTraining = true;
+			shieldWielded++;
+		}
 	}
 
 	// Lack Shield Training
-	if (collectedData.lackShieldTraining) {
-		actor.system.dynamicRollModifier.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.dynamicRollModifier.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.dynamicRollModifier.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.dynamicRollModifier.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.dynamicRollModifier.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.dynamicRollModifier.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
-		actor.system.dynamicRollModifier.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+	if (lackShieldTraining) {
+		actor.system.dynamicRollModifier.onYou.attack.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.dynamicRollModifier.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 	}
 
 	// Lack Armor Training
-	if (collectedData.lackArmorTraining) {
-		actor.system.dynamicRollModifier.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.dynamicRollModifier.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.dynamicRollModifier.onYou.martial.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.dynamicRollModifier.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.dynamicRollModifier.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.dynamicRollModifier.onYou.spell.area.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
-		actor.system.dynamicRollModifier.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+	if (lackArmorTraining) {
+		actor.system.dynamicRollModifier.onYou.attack.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 		actor.system.dynamicRollModifier.onYou.checks.mar.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
-	// Armor bonus
-	pd.bonuses.always += collectedData.pdBonus + collectedData.shieldBonus.pdBonus;
-	ad.bonuses.always += collectedData.adBonus + collectedData.shieldBonus.adBonus;
-
 	// Wielding Two Shields makes player ignore flanking
-	if (collectedData.shieldBonus.shieldsWielded >= 2) {
+	if (shieldWielded >= 2) {
 		actor.system.globalModifier.ignore.flanking = true;
 	}
-
-	// PDR and EDR
-	const pdr = actor.system.damageReduction.pdr;
-	const edr = actor.system.damageReduction.edr;
-	if (collectedData.pdr && !pdr.skipEqCheck) pdr.active = true;
-	if (collectedData.edr && !edr.skipEqCheck) edr.active = true;
 }
 
 function _customResources(items, actor) {
@@ -367,12 +280,14 @@ function _customResources(items, actor) {
 	});
 }
 
-function _conditionals(items, actor) {
+function _targetModifiers(items, actor) {
 	for (const item of items) {
-		if (item.type === "infusion") continue; // We want to skip conditionals from infusons
-		for (const cond of Object.values(item.system.conditionals)) {
-			if (toggleCheck(item, cond.linkWithToggle)) {
-				actor.system.conditionals.push(cond);
+		if (item.type === "infusion") continue; // We want to skip target modifier from infusons
+		for (const original of Object.values(item.system.targetModifiers)) {
+			const tm = foundry.utils.deepClone(original);
+			if (toggleCheck(item, tm.linkWithToggle)) {
+				tm.useFor = tm.useFor.replaceAll("#THIS#", `_id=["${item.id}"]`)
+				actor.system.targetModifiers.push(tm);
 			}
 		}
 	}
@@ -498,7 +413,7 @@ function _getAllUntilIndex(table, index) {
 
 	let sum = 0;
 	for (let i = 0; i <= index; i++) {
-		sum += table[i];
+		sum += parseInt(table[i]);
 	}
 	return sum;
 }

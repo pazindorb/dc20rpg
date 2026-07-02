@@ -42,7 +42,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -251,10 +251,36 @@
       "unique": true
     },
     "featureSourceItem": "rogue",
-    "conditionals": {
+    "conditionals": {},
+    "shortInfo": "",
+    "rollMenu": {
+      "free": false,
+      "rangeType": "",
+      "versatile": false,
+      "flanks": false,
+      "halfCover": false,
+      "tqCover": false,
+      "dis": 0,
+      "adv": 0,
+      "apCost": 0,
+      "gritCost": 0,
+      "autoCrit": false,
+      "autoFail": false,
+      "coreFormula": {
+        "modifier": "",
+        "source": ""
+      },
+      "help": [],
+      "ignoreMCP": false
+    },
+    "usable": true,
+    "tip": "",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "targetModifiers": {
       "WJR25zK69YpTHw2g": {
         "name": "Cheap Shot",
-        "condition": "target.isFlanked || target.hasAnyCondition([], true) || target.hasAnyCondition([\"prone\"]) || target.hasAnyCondition([], true)",
+        "condition": "const actor = target?.actor;\nif (!actor) return false;\n\n// Has any condition\nfor (const status of actor.statuses.values()) {\n  if (status.condition) return true;\n}\n\n// Is Prone\nif (actor.hasStatus(\"prone\")) return true;\n\n// Is Flanked - Optimize number of async calls\nif (target.isFlanked !== undefined) return target.isFlanked;\nconst token = actor.getActiveTokens()[0];\nif (!token) return false;\nconst isFlanked = await token.isTokenFlanked();\ntarget.isFlanked = isFlanked;\nreturn isFlanked;",
         "useFor": "true",
         "linkWithToggle": false,
         "bonus": "1",
@@ -285,32 +311,7 @@
           "dontMerge": false
         }
       }
-    },
-    "shortInfo": "",
-    "rollMenu": {
-      "free": false,
-      "rangeType": "",
-      "versatile": false,
-      "flanks": false,
-      "halfCover": false,
-      "tqCover": false,
-      "dis": 0,
-      "adv": 0,
-      "apCost": 0,
-      "gritCost": 0,
-      "autoCrit": false,
-      "autoFail": false,
-      "coreFormula": {
-        "modifier": "",
-        "source": ""
-      },
-      "help": [],
-      "ignoreMCP": false
-    },
-    "usable": true,
-    "tip": "",
-    "staminaFeature": false,
-    "flavorFeature": false
+    }
   },
   "effects": [],
   "folder": "L3KCe8uibHAF5FOD",
@@ -319,11 +320,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778148598429,
-    "modifiedTime": 1778148598429,
+    "modifiedTime": 1782120907650,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -331,6 +332,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "eDSuaUZ5UU9jy9Se",
-  "sort": 0,
+  "sort": 800000,
   "_key": "!items!eDSuaUZ5UU9jy9Se"
 }

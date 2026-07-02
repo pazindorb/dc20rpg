@@ -31,7 +31,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee"
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -226,28 +226,26 @@
     {
       "origin": "Item.40YSHkFT46k4NkJG",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Favored Terrain: Coast",
       "img": "icons/environment/wilderness/cave-entrance-island.webp",
       "_id": "7GJqcas3X1G46a3a",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "system.movement.swimming.fullSpeed",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "system.movement.swimming.fullSpeed",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
+      },
       "description": "<ul><li><p>You gain a Swim Speed equal to your Speed.</p></li><li><p>Your Weapon Attacks no longer have DisADV as a result of being underwater. </p></li><li><p>You can hold your breath twice as long as normal. </p></li><li><p>You have ADV on <strong>Awareness</strong> <strong>Checks</strong> while underwater.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -257,7 +255,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
@@ -265,6 +263,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!W5MfgTRiV93l3JK4.7GJqcas3X1G46a3a"
     }
   ],
@@ -273,11 +274,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350033998,
-    "modifiedTime": 1767138240832,
+    "modifiedTime": 1781983665209,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

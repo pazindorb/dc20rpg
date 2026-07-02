@@ -24,7 +24,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -72,101 +72,10 @@
       "respectSizeRules": false
     },
     "formulas": {},
-    "enhancements": {
-      "kVnuhJeSLezDmjTm": {
-        "name": "Mongoose Stance",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null,
-          "specificFormulaKey": ""
-        },
-        "description": "<p><span class=\"cf0\">Your <strong>Melee Martial Attacks</strong> deal +1 damage while you’re Flanked.</span></p>",
-        "hide": false,
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "key": "kVnuhJeSLezDmjTm",
-        "sourceItemId": "UtB9E7iPXF7Nv70I",
-        "sourceItemName": "Mongoose Stance (Multi)",
-        "sourceItemImg": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
-        "active": false
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
-      "copy": true,
-      "copyFor": "system.attackFormula.rangeType=[\"melee\"]&&system.attackFormula.checkType=[\"attack\"]",
+      "copy": false,
+      "copyFor": "",
       "linkWithToggle": false,
       "hideFromRollMenu": false
     },
@@ -317,39 +226,54 @@
     {
       "origin": "Item.WvOSzsxyZT42SUnZ",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "name": "Mongoose Stance",
-      "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
-      "_id": "X8EX7mSnG98qcI62",
+      "img": "icons/creatures/claws/claw-bear-paw-swipe-red.webp",
+      "_id": "6buMl0toTcxJMH13",
       "type": "base",
       "system": {
         "statusId": "",
         "disableWhen": {
-          "mode": "=="
-        }
-      },
-      "changes": [
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Mongoose Stance\", \"preTrigger\": \"disable\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
+          "mode": "==",
+          "path": "",
+          "value": ""
         },
-        {
-          "key": "system.globalFormulaModifiers.damage.martial.melee",
-          "mode": 2,
-          "value": "\"value\": \"+ 1\", \"source\": \"Mongoose Stance\", \"confirmation\": true",
-          "priority": null
-        }
-      ],
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.globalFormulaModifiers.damage.martial.melee",
+            "type": "add",
+            "value": "\"value\": \"+ 1\", \"source\": \"Mongoose Stance\", \"confirmation\": true, \"customMessage\": \"Are you Flanked?\"",
+            "phase": "initial",
+            "priority": 0
+          }
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToTemplate": false,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "chatMessageId": ""
+      },
       "description": "<ul><li><p><span class=\"cf0\">Your <strong>Melee Martial Attacks</strong> deal +1 damage while you’re Flanked.</span></p></li><li><p><span class=\"cf0\">When you make a Melee Martial Attack, you choose</span><span class=\"cf1\"> </span><span class=\"cf0\">a second target within your Melee Range. You make a</span><span class=\"cf1\"> </span><span class=\"cf0\">single Attack Check against both targets.</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
@@ -366,17 +290,20 @@
         }
       },
       "_stats": {
-        "compendiumSource": null,
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.UtB9E7iPXF7Nv70I.ActiveEffect.X8EX7mSnG98qcI62",
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1767170517644,
+        "systemVersion": "0.10.6.0",
+        "createdTime": 1781987447983,
+        "modifiedTime": 1782150077849,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_key": "!items.effects!UtB9E7iPXF7Nv70I.X8EX7mSnG98qcI62"
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
+      "_key": "!items.effects!UtB9E7iPXF7Nv70I.6buMl0toTcxJMH13"
     }
   ],
   "folder": "8PuTMRT8o1FtiBCV",
@@ -384,11 +311,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1739350034547,
-    "modifiedTime": 1767170637210,
+    "modifiedTime": 1782150100817,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -221,8 +221,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "OSGh3t6Vjbh3X61G",
+        "sourceItemId": "mabNQBWXSzwvC1MV",
+        "sourceItemName": "Eruption",
+        "sourceItemImg": "icons/magic/earth/explosion-lava-stone-red.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "S8wlg700imNmtuzg": {
         "name": "Damage",
@@ -307,8 +326,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "S8wlg700imNmtuzg",
+        "sourceItemId": "mabNQBWXSzwvC1MV",
+        "sourceItemName": "Eruption",
+        "sourceItemImg": "icons/magic/earth/explosion-lava-stone-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "mzX3XMrYQhXwBDwk": {
         "name": "Area",
@@ -317,12 +355,12 @@
         "description": "<p>The diameter of the Sphere increases by 1 Space.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -393,8 +431,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "1",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "mzX3XMrYQhXwBDwk",
+        "sourceItemId": "mabNQBWXSzwvC1MV",
+        "sourceItemName": "Eruption",
+        "sourceItemImg": "icons/magic/earth/explosion-lava-stone-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "gHzCyKufJuBrALiP": {
         "name": "Erupted",
@@ -403,12 +463,12 @@
         "description": "<p>Each target makes a Physical Save. </p><p><strong>Save Failure:</strong> The target is pushed upward X Spaces.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -460,7 +520,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -479,8 +540,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "gHzCyKufJuBrALiP",
+        "sourceItemId": "mabNQBWXSzwvC1MV",
+        "sourceItemName": "Eruption",
+        "sourceItemImg": "icons/magic/earth/explosion-lava-stone-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "htWRFb2YsAgsPb6t": {
         "name": "Fractured",
@@ -489,12 +572,12 @@
         "description": "<p>Surfaces in the Area becomes Difficult Terrain. A creature can spend 1 AP to clear 1 Space of this Difficult Terrain, returning the Space to normal.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -550,7 +633,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "item.system.target.areas.default.difficult = \"all\";",
+            "preItemRoll": "item.system.areas.default.difficultTerrain = \"all\";",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -565,8 +648,30 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
+        },
+        "key": "htWRFb2YsAgsPb6t",
+        "sourceItemId": "mabNQBWXSzwvC1MV",
+        "sourceItemName": "Eruption",
+        "sourceItemImg": "icons/magic/earth/explosion-lava-stone-red.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -735,6 +840,31 @@
       "bludgeoning": "Bludgeoning",
       "motion": "Motion",
       "earth": "Earth"
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": "",
+        "hideHighlight": false
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -744,11 +874,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767738805030,
-    "modifiedTime": 1777659983025,
+    "modifiedTime": 1782572383310,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

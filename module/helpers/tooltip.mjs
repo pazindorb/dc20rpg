@@ -1,5 +1,5 @@
 import { recognizeAndAddLinks } from "./textEnrichments.mjs";
-import { itemDetailsToHtml } from "./items/itemDetails.mjs";
+import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles, getLabelFromKey } from "./utils.mjs";
 import { costPrinter } from "./handlebars/creators.mjs";
@@ -36,17 +36,21 @@ export function tooltipListeners(event, type, isEntering, data, html, options) {
     }
     const dataset = data.dataset;
     const item = data.item;
+    const effect = data.effect;
 
     switch (type) {
       case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html, options); break;
       case "item": itemTooltip(item, event, html, options); break;
+      case "effect": effectTooltip(effect, event, html, options); break;
       case "enhancement": enhTooltip(item, dataset.enhKey, event, html, options); break;
+      case "custom": textTooltip(dataset.description, dataset.header, dataset.img, event, html, options); break;
     }
 }
 
 export function effectTooltip(effect, event, html, options={}) {
   if (!effect) return _showTooltip(html, event, "-", "Effect not found", "");
-  const header = _itemHeader(effect);
+  
+  const header = _effectHeader(effect);
   const description = `<div class='description'> ${_enhanceDescription(effect.description)} </div>`;
   _showTooltip(html, event, header, description, null, options);
 }
@@ -297,13 +301,20 @@ function _itemDetails(item) {
   else return null;
 }
 
+function _effectHeader(effect) {
+  return `
+    <img class="image" src="${effect.img}"/>
+    <input disabled value="${effect.name}" data-tooltip="${effect.name}"/>
+  `
+}
+
 function _itemAction(item) {
   let content = "";
 
   // ACTION
   let action = "";
   if (item.system.actionType === "attack") {
-    const attack = item.system.attackFormula;
+    const attack = item.system.attack;
     action = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)} vs ${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`
   }
   if (item.system.actionType === "check") {

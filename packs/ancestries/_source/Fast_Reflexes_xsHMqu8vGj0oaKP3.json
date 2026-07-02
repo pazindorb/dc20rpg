@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -145,13 +146,10 @@
       "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.xsHMqu8vGj0oaKP3",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Fast Reflexes - Initiative",
@@ -161,16 +159,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.initiative",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.initiative",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You gain <strong>ADV</strong> on <strong>Initiative</strong> <strong>Checks</strong> and on the first <strong>Attack</strong> <strong>Check</strong> you make in <strong>Combat</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -194,7 +192,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": 1737845975890,
@@ -202,19 +200,19 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!xsHMqu8vGj0oaKP3.c9MDhgBVMpqsRf8s"
     },
     {
       "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.xsHMqu8vGj0oaKP3",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": true,
       "name": "Fast Reflexes - First Attack",
@@ -224,52 +222,52 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"label\": \"Fast Reflexes\", \"reenable\": \"combatStart\", \"alwaysActive\": true, \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You gain <strong>ADV</strong> on <strong>Initiative</strong> <strong>Checks</strong> and on the first <strong>Attack</strong> <strong>Check</strong> you make in <strong>Combat</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -293,14 +291,17 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1737846069087,
-        "modifiedTime": 1766696771800,
+        "modifiedTime": 1781983708265,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!xsHMqu8vGj0oaKP3.bK1PvDP0qutzLPwe"
     }
   ],
@@ -313,11 +314,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.X8caTHh2OHvbGDmW",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1765897567600,
+    "modifiedTime": 1781983708252,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

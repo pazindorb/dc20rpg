@@ -1,0 +1,172 @@
+<section class="item-sheet-section tab csabConfig standard-form {{tabs.csabConfig.cssClass}}" data-group="sheet" data-tab="csabConfig">
+<div class="scrollable">
+
+  {{!-- Item Key --}}
+  <div class="form-group margin-top-5">
+    <label>{{localize "dc20rpg.item.sheet.uniqueItemKey"}}</label>
+    <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
+    <p class="hint">{{localize "dc20rpg.item.sheet.uniqueItemKeyTitle"}}</p>
+  </div>
+
+  {{!-- Class Specific --}}
+  {{#ifCond type '===' "class"}}
+  {{!-- Has Spell List --}}
+  <div class="form-group margin-top-5">
+    <label>{{localize "dc20rpg.item.sheet.class.hasSpellList"}}</label>
+    <input type="checkbox" name="system.hasSpellList" {{checked system.hasSpellList}}/>
+  </div>
+
+  {{!-- Class Category --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.class.category"}}</label>
+  </div>
+  <div class="content-wrapper">
+    <div class="properties">
+      <div class="grid grid-2col grid-gap-5 margin-top-3">
+        <a class="activable-box {{#if system.martial}}active{{/if}}" data-cType="activable" data-path="system.martial"> 
+          {{localize "dc20rpg.item.sheet.class.martial"}}
+        </a>
+        <a class="activable-box {{#if system.spellcaster}}active{{/if}}" data-cType="activable" data-path="system.spellcaster">
+          {{localize "dc20rpg.item.sheet.class.spellcaster"}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Combat Training --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.class.combatTraining"}}</label>
+  </div>
+  <div class="content-wrapper">
+    <div class="properties">
+      <div class="grid grid-3col grid-gap-5 margin-top-3">
+        {{#each system.combatTraining as |mastery key|}}
+        <a class="activable-box {{#if mastery}} active {{/if}}" data-cType="activable" data-path="system.combatTraining.{{key}}">
+          {{labelFromKey key @root.config.TRANSLATION_LABELS.combatTraining}}
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  {{!-- Starting Equipment --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.startingEquipment.title"}}</label>
+    <div class="button-wrapper">
+      <a class="fa-solid fa-square-plus fa-lg margin-right-5" data-action="createSubdoc" data-type="startingEquipment" data-tooltip="{{localize "dc20rpg.item.sheet.startingEquipment.add"}}"></a>
+      <a class="fa-solid {{#if sheetFlags.startingEqClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="startingEqClosed"></a>
+    </div>
+  </div>
+  {{#unless sheetFlags.startingEqClosed}}
+  <div class="content-wrapper starting-equipment">
+    {{#each system.startingEquipment as |equipment key|}}
+    <div class="form-group">
+      <input type="text" name="system.startingEquipment.{{key}}.label" value="{{equipment.label}}"/>
+      <div class="right-part-row">
+        <div class="letter-circle-icon clickable" data-tooltip="{{localize "dc20rpg.item.sheet.startingEquipment.weapon"}}">
+          <a class="fa-lg fa-sword fa-solid {{#if equipment.weapon}}active{{/if}}" data-cType="activable" data-path="system.startingEquipment.{{key}}.weapon" ></a>
+        </div>
+        <div class="letter-circle-icon clickable" data-tooltip="{{localize "dc20rpg.item.sheet.startingEquipment.spellFocus"}}">
+          <a class="fa-lg fa-book-sparkles fa-solid {{#if equipment.spellFocus}}active{{/if}}" data-cType="activable" data-path="system.startingEquipment.{{key}}.spellFocus" ></a>
+        </div>
+        <div class="letter-circle-icon clickable" data-tooltip="{{localize "dc20rpg.item.sheet.startingEquipment.shield"}}">
+          <a class="fa-lg fa-shield fa-solid {{#if equipment.shield}}active{{/if}}" data-cType="activable" data-path="system.startingEquipment.{{key}}.shield" ></a>
+        </div>
+        <div class="letter-circle-icon clickable" data-tooltip="{{localize "dc20rpg.item.sheet.startingEquipment.armor"}}">
+          <a class="fa-lg fa-helmet-battle fa-solid {{#if equipment.armor}}active{{/if}}" data-cType="activable" data-path="system.startingEquipment.{{key}}.armor" ></a>
+        </div>
+        <a class="margin-left-20 fa-solid fa-square-minus fa-lg" data-action="removeSubdoc" data-type="startingEquipment" data-tooltip="{{localize "dc20rpg.item.sheet.startingEquipment.remove"}}" data-key="{{key}}"></a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/unless}}
+  
+  {{#if system.hasSpellList}}
+  {{!-- Spell Sources --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.class.spellSources"}}</label>
+    <input type="text" data-dType="Number" style="width: 50px" name="system.filters.canChoose.spellSource" value="{{system.filters.canChoose.spellSource}}" title="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/>
+  </div>
+  <div class="content-wrapper">
+    <div class="properties">
+      <div class="grid grid-3col grid-gap-5 margin-top-3">
+        {{#each system.filters.spellSource as |source key|}}
+        <a class="activable-box {{#if source}} active {{/if}}" data-cType="activable" data-path="system.filters.spellSource.{{key}}">
+          {{localize (concat "dc20rpg.spellSource." key '')}}
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  {{!-- Spell Schools --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.item.sheet.class.spellSchools"}}</label>
+    <input type="text" data-dType="Number" style="width: 50px" name="system.filters.canChoose.spellSchool" value="{{system.filters.canChoose.spellSchool}}" data-tooltip="{{localize "dc20rpg.item.sheet.class.canChoose"}}"/>
+  </div>
+  <div class="content-wrapper">
+    <div class="properties">
+      <div class="grid grid-4col grid-gap-5 margin-top-3">
+        {{#each system.filters.spellSchool as |school key|}}
+        <a class="activable-box {{#if school}} active {{/if}}" data-cType="activable" data-path="system.filters.spellSchool.{{key}}">
+          {{localize (concat "dc20rpg.spellSchool." key '')}}
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  {{!-- Spell Tags --}}
+  <div class="multi-select-wrapper margin-top-10">
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.item.sheet.spell.spellTags"}}</label>
+      <div class="form-fields">
+        <select class="multi-select" data-cType="multi-select" data-path="system.filters.spellTags">
+          {{selectOptions @root.config.DROPDOWN_DATA.spellTags blank=""}}
+        </select>
+      </div>
+    </div>
+    <div class="selected-options" style="margin: 5px;">
+      {{#each system.filters.spellTags as |option key|}}
+        <div class="option">
+          <label>{{option}}</label>
+          <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.filters.spellTags" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.item.sheet.spell.removeSpellTag"}}"></a>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
+  {{/ifCond}}
+
+
+  {{!-- Subclass Specific --}}
+  {{#ifCond type '===' "subclass"}}
+  <div class="form-group margin-top-5">
+    <label>{{localize "dc20rpg.item.sheet.subclass.forClass"}}</label>
+    <select data-cType="select-class-id" data-path="system.forClass.classSpecialId">
+      {{selectOptions @root.config.UNIQUE_ITEM_IDS.class selected=system.forClass.classSpecialId blank=""}}
+    </select>
+  </div>
+  {{/ifCond}}
+
+
+  {{!-- Background Specific --}}
+  {{#ifCond type '===' "background"}}
+  <div class="form-group margin-top-5">
+    <label>{{localize "dc20rpg.item.sheet.background.skillPoints"}}</label>
+    <input type="text" name="system.skillPoints" value="{{system.skillPoints}}" data-dtype="Number" placeholder="0">
+  </div>
+  <div class="form-group margin-top-5">
+    <label>{{localize "dc20rpg.item.sheet.background.tradePoints"}}</label>
+    <input type="text" name="system.tradePoints" value="{{system.tradePoints}}" data-dtype="Number" placeholder="0">
+  </div>
+  <div class="form-group margin-top-5">
+    <label>{{localize "dc20rpg.item.sheet.background.langPoints"}}</label>
+    <input type="text" name="system.langPoints" value="{{system.langPoints}}" data-dtype="Number" placeholder="0">
+  </div>
+  {{/ifCond}}
+
+</div>
+</section>

@@ -1,32 +1,46 @@
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
+import { DC20Roll } from "../../roll/rollApi.mjs";
+
+export function shouldOverrideActionType(item) {
+  for (const enhancement of item.enhancements.active.values()) {
+    if (enhancement.modifications.actionChange) {
+      item.system.actionType = enhancement.modifications.actionType;
+    }
+  }
+}
 
 export function makeCalculations(item) {
-  if (item.system.attackFormula) _calculateRollModifier(item);
+  if (item.system.rollConfig) _calculateRollModifier(item);
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
-  if (item.system.conditional) _calculateSaveDCForConditionals(item);
+  if (item.system.targetModifiers) _calculateSaveDCForTargetModifiers(item);
   if (item.system.infusions) _calculateMagicPower(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
+  _checkIdentified(item);
   _combatTraining(item);
 }
 
-function _calculateRollModifier(item) {
-  const attackFormula = item.system.attackFormula;
-  if (!attackFormula.checkType) {
-    attackFormula.rollModifier = 0;
-    return;
+function _checkIdentified(item) {
+  if (!item.identified) {
+    item.name = game.i18n.localize("dc20rpg.item.sheet.unidentified");
+    item.system.description = game.i18n.localize("dc20rpg.item.sheet.unidentified");
   }
-  
-  const attackKey = attackFormula.checkType === "attack" ? "martial" : attackFormula.checkType;
-  let formulaModifier = ` + @attack.${attackKey}`;
+}
 
-  if (attackFormula.rollBonus) formulaModifier +=  " + @rollBonus";
-  attackFormula.formulaMod = formulaModifier;
+function _calculateRollModifier(item) {
+  let formulaModifier = "";
+  if (item.isAttack) {
+    const details = DC20Roll.prepareAttackDetails(item.system.attack.checkType);
+    formulaModifier = details.modifier;
+  }
+  if (item.isCheck) {
+    const details = DC20Roll.prepareCheckDetails(item.system.check.checkKey);
+    formulaModifier = details.modifier;
+  }
 
-  // Calculate roll modifier for formula
   const rollData = item.getRollData();
-  attackFormula.rollModifier = attackFormula.formulaMod ? evaluateDicelessFormula(attackFormula.formulaMod, rollData, true).total : 0;
+  item.system.rollConfig.rollModifier = formulaModifier ? evaluateDicelessFormula(formulaModifier, rollData, true).total : 0;
 }
 
 function _calculateSaveDC(item) {
@@ -55,17 +69,16 @@ function _calculateSaveDCForEnhancements(item) {
   }
 }
 
-function _calculateSaveDCForConditionals(item) {
+function _calculateSaveDCForTargetModifiers(item) {
   if (!item.actor) return;
+  const targetModifiers = item.system.targetModifiers;
+  if (!targetModifiers) return;
 
-  const conditionals = item.system.conditionals;
-  if (!conditionals) return;
-
-  for (const cond of Object.values(conditionals)) {
-    if (cond.addsNewRollRequest) {
-      const save = cond.rollRequest;
+  for (const tm of Object.values(targetModifiers)) {
+    if (tm.addsNewRollRequest) {
+      const save = tm.rollRequest;
       if (save.category === "save" && save.dcCalculation !== "flat") {
-        cond.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
+        tm.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
       }
     }
   }
@@ -77,14 +90,9 @@ function _getSaveDCFromActor(request, actor) {
     case "martial":
       return saveDC.value.martial;
     case "spell":
-      return saveDC.value.spell; 
+      return saveDC.value.spell;
     default:
-      let dc = 10;
-      const key = request.dcCalculation;
-      if (!key) return 0;
-      dc += actor.system.attributes[key].value;
-      if (request.addMastery) dc += actor.system.details.combatMastery;
-      return dc;
+      return 0;
   }
 }
 

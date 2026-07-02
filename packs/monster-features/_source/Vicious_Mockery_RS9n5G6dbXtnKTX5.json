@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "ranged",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -186,7 +186,10 @@
               "seconds": null,
               "startRound": null,
               "startTurn": null,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -208,11 +211,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -223,108 +227,96 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\", \"attackType\": \"martial\", \"rangeType\": \"melee\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\", \"attackType\": \"martial\", \"rangeType\": \"ranged\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\", \"attackType\": \"martial\", \"rangeType\": \"area\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\", \"attackType\": \"spell\", \"rangeType\": \"melee\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\", \"attackType\": \"spell\", \"rangeType\": \"ranged\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\", \"attackType\": \"spell\", \"rangeType\": \"area\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.mig",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.agi",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.cha",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.int",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.prime",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.mar",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.spe",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                },
+                {
+                  "key": "system.dynamicRollModifier.onYou.checks.att",
+                  "mode": 2,
+                  "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mig",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.agi",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.cha",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.int",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.prime",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.mar",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.spe",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.checks.att",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Discombobulate\", \"modifier\": \"- 1d4\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You need to subtract a d4 on every Check you make for 1 round.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -358,8 +350,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "ekeDlgBAmQPw2OiP",
+        "sourceItemId": "RS9n5G6dbXtnKTX5",
+        "sourceItemName": "Vicious Mockery",
+        "sourceItemImg": "icons/creatures/magical/spirit-poison-smoke-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -574,6 +585,12 @@
     "usesWeapon": {
       "weaponAttack": false,
       "weaponId": ""
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "checkType": "spell",
+      "targetDefence": "area",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -583,11 +600,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778151892680,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1782420987043,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

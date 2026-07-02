@@ -52,7 +52,7 @@
     },
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -294,12 +294,10 @@
       "img": "icons/creatures/mammals/wolf-shadow-black.webp",
       "origin": "Item.yUSDDoBUDZLuXHvU",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -334,16 +332,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.skills",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Keen Senses\", \"confirmation\": true, \"skill\": \"awa\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.skills",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Keen Senses\", \"confirmation\": true, \"skill\": \"awa\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You have ADV on Awareness Checks made to hear or smell.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -353,11 +351,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.5.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!P54gd0HuebaGSNRA.E9XwZ6F8yJXfIud3"
     }
   ],
@@ -367,11 +377,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778156445402,
-    "modifiedTime": 1778156445402,
+    "modifiedTime": 1781983713578,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -379,6 +389,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "P54gd0HuebaGSNRA",
-  "sort": 0,
+  "sort": 500000,
   "_key": "!items!P54gd0HuebaGSNRA"
 }

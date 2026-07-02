@@ -50,7 +50,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -207,8 +207,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "MishXwbH3q0a99eY",
+        "sourceItemId": "0MrxHSb0BGzuSNci",
+        "sourceItemName": "Wall of Water",
+        "sourceItemImg": "icons/magic/water/wave-water-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "szMxIom77Ia0xVyE": {
         "name": "Length",
@@ -293,8 +312,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "szMxIom77Ia0xVyE",
+        "sourceItemId": "0MrxHSb0BGzuSNci",
+        "sourceItemName": "Wall of Water",
+        "sourceItemImg": "icons/magic/water/wave-water-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "PFVUVcbKkRxddDWe": {
         "name": "Height",
@@ -379,8 +417,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PFVUVcbKkRxddDWe",
+        "sourceItemId": "0MrxHSb0BGzuSNci",
+        "sourceItemName": "Wall of Water",
+        "sourceItemImg": "icons/magic/water/wave-water-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "AzgU2UsFJRilyEPf": {
         "name": "Prone",
@@ -465,8 +522,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "AzgU2UsFJRilyEPf",
+        "sourceItemId": "0MrxHSb0BGzuSNci",
+        "sourceItemName": "Wall of Water",
+        "sourceItemImg": "icons/magic/water/wave-water-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "c1ZB4wWvFIohOlxQ": {
         "name": "Tidal Force",
@@ -552,8 +628,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "c1ZB4wWvFIohOlxQ",
+        "sourceItemId": "0MrxHSb0BGzuSNci",
+        "sourceItemName": "Wall of Water",
+        "sourceItemImg": "icons/magic/water/wave-water-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -722,6 +817,26 @@
       "motion": "Motion",
       "slowed": "Slowed",
       "water": "Water"
+    },
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 5,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "all",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
     }
   },
   "effects": [
@@ -730,12 +845,10 @@
       "img": "icons/magic/water/wave-water-blue.webp",
       "origin": "Item.IqJsEibaxjaDIG9l",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "startRound": 60,
-        "startTurn": 0,
-        "seconds": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -770,46 +883,52 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wall of Water\", \"confirmation\": true",
-          "priority": null
-        }
-      ],
       "description": "<p>You are inside of Wall of Water. You are Slowed when moving through the area.</p><p>Attacks that deal Physical or Elemental damage have DisADV if made against targets within the area or on the other side of the Wall.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -819,11 +938,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "systemVersion": "0.10.6.0",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1781983672574,
+        "modifiedTime": 1781983672574
       },
+      "start": {
+        "combat": null,
+        "round": 60,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!0MrxHSb0BGzuSNci.O8AHN544nyWPttjG"
     }
   ],
@@ -833,11 +964,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767948261046,
-    "modifiedTime": 1777702912316,
+    "modifiedTime": 1781985633936,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -68,7 +68,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -248,8 +248,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "iaR6MIlEACvPwsoF",
+        "sourceItemId": "DDzdanO4K3tLp4jL",
+        "sourceItemName": "Chaos Bolt",
+        "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "MxQzJaIQndRvJxZV": {
         "name": "Damage",
@@ -334,8 +353,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "MxQzJaIQndRvJxZV",
+        "sourceItemId": "DDzdanO4K3tLp4jL",
+        "sourceItemName": "Chaos Bolt",
+        "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "AEYtYkTZ6iYEgvQV": {
         "name": "Unstable Surge",
@@ -420,8 +458,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "AEYtYkTZ6iYEgvQV",
+        "sourceItemId": "DDzdanO4K3tLp4jL",
+        "sourceItemName": "Chaos Bolt",
+        "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "M9OPJ2gqoZzohBuh": {
         "name": "Radiant Effect",
@@ -500,7 +557,10 @@
               "seconds": null,
               "startRound": 102,
               "startTurn": 1,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -522,11 +582,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -537,52 +598,40 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\", \"attackType\": \"martial\", \"rangeType\": \"melee\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\", \"attackType\": \"martial\", \"rangeType\": \"ranged\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\", \"attackType\": \"martial\", \"rangeType\": \"area\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\", \"attackType\": \"spell\", \"rangeType\": \"melee\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\", \"attackType\": \"spell\", \"rangeType\": \"ranged\""
+                },
+                {
+                  "key": "system.dynamicRollModifier.againstYou.attack",
+                  "type": "add",
+                  "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\", \"attackType\": \"spell\", \"rangeType\": \"area\""
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\"",
-                "priority": null,
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "mode": 2,
-                "value": "\"value\": 0, \"label\": \"Radiant Effect\", \"modifier\": \"+ 1d4\"",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>Attacks made against you receive + d4 bonus for 1 round.</p>",
             "tint": "#ffffff",
             "transfer": false,
@@ -616,8 +665,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "M9OPJ2gqoZzohBuh",
+        "sourceItemId": "DDzdanO4K3tLp4jL",
+        "sourceItemName": "Chaos Bolt",
+        "sourceItemImg": "icons/magic/unholy/orb-smoking-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -785,6 +853,10 @@
     },
     "spellTags": {
       "chaos": "Chaos"
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
     }
   },
   "effects": [],
@@ -794,11 +866,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768241250452,
-    "modifiedTime": 1768415916940,
+    "modifiedTime": 1782562669349,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
@@ -806,6 +878,6 @@
     "dOcXwrUs2VunZl0y": 3
   },
   "_id": "DDzdanO4K3tLp4jL",
-  "sort": 800000,
+  "sort": 1700000,
   "_key": "!items!DDzdanO4K3tLp4jL"
 }

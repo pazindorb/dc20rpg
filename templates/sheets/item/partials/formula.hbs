@@ -1,0 +1,78 @@
+{{!-- Category --}}
+<div class="form-group">
+  <div class="left-part-row">
+    <label>{{localize "dc20rpg.item.sheet.formulas.category"}}</label>
+    {{#if removeKey}} {{#ifCond removeKey '!==' "weaponDamage"}}
+    <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.formula.remove"}}" data-action="removeSubdoc" data-type="formula" data-key="{{removeKey}}"></a>
+    {{/ifCond}} {{/if}}
+  </div>
+  <select name="{{path}}.category" {{#ifCond removeKey '===' "weaponDamage"}}disabled{{/ifCond}}>
+    {{selectOptions categories selected=formula.category blank=""}}
+  </select>
+</div>
+
+
+{{#if formula.category}}
+
+  {{!-- Formula --}}
+  <div class="form-group">
+    <div class="left-part-row">
+      <label>{{localize "dc20rpg.item.sheet.formulas.formula"}}</label>
+      {{#ifCond formula.category "===" "other"}}
+      <a class="margin-right-3 fa-solid {{#if formula.perTarget}}fa-user{{else}}fa-user-slash{{/if}}" data-cType="activable" data-path="{{path}}.perTarget" 
+            data-tooltip="{{#if formula.perTarget}}[Enabled]{{else}}[Disabled]{{/if}} {{localize "dc20rpg.item.sheet.formulas.perTarget"}}"></a>
+      {{else}}
+      <a class="margin-right-3 fa-solid {{#if formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="{{path}}.dontMerge" data-cType="activable"
+            {{#if formula.dontMerge}}data-tooltip="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}data-tooltip="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
+      {{/ifCond}}
+    </div>
+    <div class="form-fields">
+      <input type="text" name="{{path}}.formula" value="{{formula.formula}}">
+      {{#ifCond formula.category "===" "damage"}}
+      <select class="margin-left-3" name="{{path}}.type" data-tooltip="{{varLocalize "dc20rpg.item.sheet.formulas." formula.category "type"}}">
+        {{selectOptions @root.config.DROPDOWN_DATA.damageTypes selected=formula.type blank=""}}
+      </select>
+      {{/ifCond}}
+      {{#ifCond formula.category "===" "healing"}}
+      <select class="margin-left-3" name="{{path}}.type" data-tooltip="{{varLocalize "dc20rpg.item.sheet.formulas." formula.category "type"}}">
+        {{selectOptions @root.config.DROPDOWN_DATA.healingTypes selected=formula.type blank=""}}
+      </select>
+      {{/ifCond}}
+    </div>
+  </div>
+
+  {{!-- Extra Formulas --}}
+  <div class="form-group">
+    <label>{{localize "dc20rpg.item.sheet.formulas.extraFormulas"}}</label>
+    <div class="form-fields">
+      <a class="fa-lg fa-square-5 {{#if formula.each5}}fa-solid checked{{else}}fa-regular{{/if}}" style="max-width: 15px;" data-cType="activable" data-path="{{path}}.each5" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}"></a> 
+      {{#if formula.each5}}
+      <input type="text" name="{{path}}.each5Formula" value="{{formula.each5Formula}}" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.each5"}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
+      {{/if}}
+      <a class="fa-lg fa-square-f {{#if formula.fail}}fa-solid checked{{else}}fa-regular{{/if}}" style="max-width: 15px;" data-cType="activable" data-path="{{path}}.fail" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.addFail"}}"></a>
+      {{#if formula.fail}}
+      <input type="text" name="{{path}}.failFormula" value="{{formula.each5Formula}}" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.each5"}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
+      <input type="checkbox" name="{{path}}.dontModifyFailFormula" {{checked formula.dontModifyFailFormula}} data-tooltip="{{localize "dc20rpg.item.sheet.formulas.dontModifyFailFormula"}}"/>
+      {{/if}}
+    </div>
+  </div>
+
+  {{!-- Override Target Defence --}}
+  {{#ifCond formula.category "===" "damage"}}
+  <div class="form-group symetric">
+    <label>{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}</label>
+    <select name="{{path}}.overrideDefence">
+      {{selectOptions @root.config.DROPDOWN_DATA.defences selected=formula.overrideDefence blank=""}}
+    </select>
+  </div>
+  {{/ifCond}}
+
+  {{!-- Other Formula Label --}}
+  {{#ifCond formula.category "===" "other"}}
+  <div class="form-group symetric">
+    <label>{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</label>
+    <input type="text" name="{{path}}.label" value="{{formula.label}}">
+  </div>
+  {{/ifCond}}
+
+{{/if}}

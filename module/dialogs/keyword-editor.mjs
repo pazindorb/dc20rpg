@@ -1,72 +1,87 @@
-import { removeKeyword } from "../helpers/actors/keywords.mjs";
 import { activateDefaultListeners, datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 
-class KeywordEditor extends Dialog {
+// TODO - fix and move to appv2
+class KeywordEditor extends DC20Dialog {
 
-  constructor(actor, dialogData = {}, options = {}) {
-    super(dialogData, options);
+  constructor(actor, options) {
+    super(options);
     this.actor = actor;
-    this.updateData = this._perpareUpdateData();
-  }
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dc20rpg", "dialog"],
-      height: 500,
-      width: 400
-    });
+    this.newKeyword = {
+      key: "",
+      message: "",
+      selectOptions: "",
+      updateItems: {}
+    }
+    this.newItem = "";
+    this.keywords = foundry.utils.deepClone(this.actor.system.keywords);
   }
 
   /** @override */
-  get template() {
-    return `systems/dc20rpg/templates/dialogs/keyword-editor-dialog.hbs`;
-  }
-
-  getData() {
-    return {
-      keywords: this.updateData,
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
+      template: "systems/dc20rpg/templates/dialogs/keyword-editor-dialog.hbs",
     }
-  }
+  };
 
-  activateListeners(html) {
-    super.activateListeners(html);
-    activateDefaultListeners(this, html);
-    html.find(".add-keyword").change(ev => this._onKeyword(valueOf(ev), true));
-    html.find(".remove-keyword").click(ev => this._onKeyword(datasetOf(ev).keyword, false));
-    html.find(".add-item-id").change(ev => this._onItemId(valueOf(ev), datasetOf(ev).keyword, true))
-    html.find(".remove-item-id").click(ev => this._onItemId(datasetOf(ev).itemId, this._extractKeyword(ev), false))
-    html.find(".save").click((ev) => this._onSave(ev));
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "Keyword Editor";
+    initialized.window.icon = "fa-solid fa-at";
+    initialized.position.width = 560;
+    initialized.actions.addKeyword = this._onAddKeyword;
+    initialized.actions.removeKeyword = this._onRemoveKeyword;
+    initialized.actions.addItem = this._onAddItem;
+    initialized.actions.removeItem = this._onRemoveItem;
+    initialized.actions.save = this._onSave;
+    return initialized;
   }
+  // ====================== INIT ======================
 
-  _perpareUpdateData() {
-    const keywords = foundry.utils.deepClone(this.actor.system.keywords);
-    return keywords;
+  // ==================== CONTEXT =====================
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.keywords = this.keywords;
+    context.newKeyword = this.newKeyword;
+    context.newItem = this.newItem;
+    return context;
   }
+  // ==================== CONTEXT =====================
 
-  _onKeyword(keyword, add) {
-    if (add) {
-      this.updateData[keyword] = {
-        value: "",
-        updateItems: []
-      }
-    }
-    else {
-      delete this.updateData[keyword];
-    }
+  // ==================== ACTIONS =====================
+
+  // ==================== ACTIONS =====================
+  /** @override */
+  async _onChangeString(path, value, dataset) {
+    if (path === "add-item") this._onAddItem(dataset.keyword, value);
+    else await super._onChangeString(path, value, dataset);
+  }
+  
+  _onAddKeyword(event, target) {
+    event.preventDefault();
+    this.keywords[this.newKeyword.key] = this.newKeyword;
+    this.newKeyword = {key: "", message: "", selectOptions: "", updateItems: {}}
     this.render();
   }
 
-  _onItemId(itemId, keyword, add) {
-    this.updateData[keyword].updateItems.push(itemId);
-    const updateItems = this.updateData[keyword]?.updateItems;
-    if (!updateItems) return;
+  _onRemoveKeyword(event, target) {
+    const keyword = target.dataset.keyword;
+    delete this.keywords[keyword];
+    this.render();
+  }
 
-    const asSet = new Set(updateItems);
-    if (add) asSet.add(itemId);
-    else asSet.delete(itemId);
+  _onAddItem(keyword, value) {
+    let item = this.actor.items.get(value);
+    if (!item) item = this.actor.items.getName(value);
+    if (item) this.keywords[keyword].updateItems[item.id] = item.name;
+    this.render();
+  }
 
-    this.updateData[keyword].updateItems = Array.from(asSet);
+  _onRemoveItem(event, target) {
+    const d = target.dataset;
+    delete this.keywords[d.keyword].updateItems[d.itemId];
     this.render();
   }
 
@@ -74,32 +89,41 @@ class KeywordEditor extends Dialog {
     ev.preventDefault();
     this.close();
 
-    const currentKeywords = this.actor.system.keywords;
-    const newKeywords = this.updateData;
-    const removedKeywords = Object.keys(currentKeywords).filter(keyword => newKeywords[keyword] === undefined);
+    const current = this.actor.system.keywords;
+    const currentKeywords = new Set(Object.keys(this.actor.system.keywords));
+    const newKeywords = new Set(Object.keys(this.keywords));
 
-    for (const [key, newKeyword] of Object.entries(newKeywords)) {
-      // Update Keyword
-      await this.actor.update({[`system.keywords.${key}`]: newKeyword});
-      
-      // Call update on items linked to keyword
-      for (const itemId of newKeyword.updateItems) {
-        const item = this.actor.items.get(itemId)
-        if (item) runTemporaryItemMacro(item, "onKeywordUpdate", this.actor, {keyword: key, newValue: newKeyword.value});
+    const toRemove = currentKeywords.difference(newKeywords);
+    const toAdd = newKeywords.difference(currentKeywords);
+    const toUpdate = currentKeywords.intersection(newKeywords);
+
+    toRemove.forEach(key => this.actor.update({[`system.keywords.-=${key}`]: null}))
+    toAdd.forEach(key => this.actor.update({[`system.keywords.${key}`]: this.keywords[key]}))
+    toUpdate.forEach(key => {
+      const currentItems = new Set(Object.keys(current[key].updateItems));
+      const newItems = new Set(Object.keys(this.keywords[key].updateItems));
+      const toAdd = newItems.difference(currentItems);
+      const toRemove = currentItems.difference(newItems);
+      const newKeyword = this.keywords[key];
+      const updateData = {
+        [`system.keywords.${key}.message`]: newKeyword.message,
+        [`system.keywords.${key}.selectOptions`]: newKeyword.selectOptions,
       }
-    }
-
-    // Remove deleted keywords
-    for (const removed of removedKeywords) {
-      await removeKeyword(this.actor, removed);
-    }
-  }
-
-  _extractKeyword(ev) {
-    return ev.currentTarget.parentElement?.parentElement?.dataset?.keyword || "";
+      toAdd.forEach(itemId => {
+        updateData[`system.keywords.${key}.updateItems.${itemId}`] = newKeyword.updateItems[itemId]
+        const item = this.actor.items.get(itemId);
+        if (item) item.update({[`system.keyword.key`]: key});
+      });
+      toRemove.forEach(itemId => {
+        updateData[`system.keywords.${key}.updateItems.-=${itemId}`] = null
+        const item = this.actor.items.get(itemId);
+        if (item) item.update({[`system.keyword.key`]: ""});
+      });
+      this.actor.update(updateData); 
+    });
   }
 }
 
 export function keywordEditor(actor) {
-  new KeywordEditor(actor, {title: `Keywords Editor: ${actor.name}`}).render(true);
+  new KeywordEditor(actor).render(true);
 }

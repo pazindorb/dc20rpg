@@ -50,7 +50,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -230,8 +230,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "2U6tid4P0lmOHY7U",
+        "sourceItemId": "X0zdlAdOOoEBAfw9",
+        "sourceItemName": "Lightning Torrent",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-creature-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "BQSb9GkXVh0Tn6ME": {
         "name": "Area",
@@ -316,8 +335,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "BQSb9GkXVh0Tn6ME",
+        "sourceItemId": "X0zdlAdOOoEBAfw9",
+        "sourceItemName": "Lightning Torrent",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-creature-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "cA8MG22utgZJp3vf": {
         "name": "Chain Shock",
@@ -402,8 +440,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "cA8MG22utgZJp3vf",
+        "sourceItemId": "X0zdlAdOOoEBAfw9",
+        "sourceItemName": "Lightning Torrent",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-creature-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "SrB5xAZChB5A9GSB": {
         "name": "Dazed",
@@ -488,8 +545,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "SrB5xAZChB5A9GSB",
+        "sourceItemId": "X0zdlAdOOoEBAfw9",
+        "sourceItemName": "Lightning Torrent",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-creature-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "DtigoWK3VqnLtPwn": {
         "name": "Remote",
@@ -574,8 +650,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "DtigoWK3VqnLtPwn",
+        "sourceItemId": "X0zdlAdOOoEBAfw9",
+        "sourceItemName": "Lightning Torrent",
+        "sourceItemImg": "icons/magic/lightning/bolt-strike-creature-pink.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -743,6 +838,30 @@
     "spellTags": {
       "dazed": "Dazed",
       "lightning": "Lightning"
+    },
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 5,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": true,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -752,11 +871,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767794303319,
-    "modifiedTime": 1777668685169,
+    "modifiedTime": 1781985643504,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

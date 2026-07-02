@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "Xw63KTRMLdajHFHg": {
-        "command": "const effect = item.getEffectByKey(\"bane\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\n\n// Greater Bane Active \nconst greaterBane = enhancements.get(\"2V0UDp6caiOiYgJj\");\nif (greaterBane) {\n  effect.flags.dc20rpg = {greaterBane: greaterBane.number};\n}\n\n// Full Bane Active - nothing more to do here\nif (enhancements.get(\"6I4hf5EzKEwUw3Ki\")) return;\n\n// Select Curse\nlet curse = await DC20.dialog.SimplePopup.select(\"Select Curse\", {attacks: \"Attacks\", saves: \"Saves\"});\n\nconst newChanges = [];\nfor (const change of effect.changes) {\n  if (change.key.includes(\"events\")) newChanges.push(change);\n  if (change.key.includes(\".saves.\") && curse === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".deathSave\") && curse === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".martial.\") && curse === \"attacks\") newChanges.push(change);\n  if (change.key.includes(\".spell.\") && curse === \"attacks\") newChanges.push(change);\n}\neffect.changes = newChanges;",
+        "command": "const effect = item.getEffectByKey(\"bane\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\n\n// Greater Bane Active \nconst greaterBane = enhancements.get(\"2V0UDp6caiOiYgJj\");\nif (greaterBane) {\n  effect.flags.dc20rpg = {greaterBane: greaterBane.number};\n}\n\n// Full Bane Active - nothing more to do here\nif (enhancements.get(\"6I4hf5EzKEwUw3Ki\")) return;\n\n// Select Curse\nlet curse = await DC20.dialog.SimplePopup.select(\"Select Curse\", {attacks: \"Attacks\", saves: \"Saves\"});\n\nconst newChanges = [];\nfor (const change of effect.system.changes) {\n  if (change.key.includes(\"events\")) newChanges.push(change);\n  if (change.key.includes(\".saves.\") && curse === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".deathSave\") && curse === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".martial.\") && curse === \"attacks\") newChanges.push(change);\n  if (change.key.includes(\".spell.\") && curse === \"attacks\") newChanges.push(change);\n}\neffect.system.changes = newChanges;",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Handle Bane",
@@ -59,7 +59,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -141,7 +141,8 @@
         "forOneMinute": false,
         "forXRounds": null,
         "repeatedSave": false,
-        "repeatedSaveKey": "phy"
+        "repeatedSaveKey": "phy",
+        "stacks": null
       }
     },
     "rollRequests": {
@@ -239,108 +240,41 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
-      },
-      "e6WquFQtvrTJoHMG": {
-        "name": "Targets - AP Cost",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>Use this enhancement in tandem with <strong>Targets</strong> enhancement.</p>",
-        "hide": false,
-        "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
             "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
+            "timeUnit": ""
           },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "M1deEeom0FKSIJis",
+        "sourceItemId": "Y2ZpTKXqekHtEaKd",
+        "sourceItemName": "Bane",
+        "sourceItemImg": "icons/magic/death/skull-horned-worn-fire-blue.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "ItfOltEyEh5myx4G": {
         "name": "Targets",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You increase the number of targets by X.</p><p></p><p><em><strong>System Tip:</strong> X is equal to the amount of mana you spend. Remember to use <strong>Targets - AP Cost</strong> enhancement as well.</em></p>",
+        "description": "<p>You increase the number of targets by X.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1!",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -411,8 +345,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "ItfOltEyEh5myx4G",
+        "sourceItemId": "Y2ZpTKXqekHtEaKd",
+        "sourceItemName": "Bane",
+        "sourceItemImg": "icons/magic/death/skull-horned-worn-fire-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "6I4hf5EzKEwUw3Ki": {
         "name": "Full Bane",
@@ -421,12 +376,12 @@
         "description": "<p>The target suffers from both Curses. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -497,8 +452,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "6I4hf5EzKEwUw3Ki",
+        "sourceItemId": "Y2ZpTKXqekHtEaKd",
+        "sourceItemName": "Bane",
+        "sourceItemImg": "icons/magic/death/skull-horned-worn-fire-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "2V0UDp6caiOiYgJj": {
         "name": "Greater Bane",
@@ -507,12 +483,12 @@
         "description": "<p>The size of the die increases by 1 step (d6→d8→d10→d12).</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": 1,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "1",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -583,8 +559,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "2V0UDp6caiOiYgJj",
+        "sourceItemId": "Y2ZpTKXqekHtEaKd",
+        "sourceItemName": "Bane",
+        "sourceItemImg": "icons/magic/death/skull-horned-worn-fire-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -752,6 +749,9 @@
     "spellTags": {
       "curse": "Curse",
       "enfeeble": "Enfeeble"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [
@@ -760,13 +760,10 @@
       "img": "icons/magic/death/skull-horned-worn-fire-blue.webp",
       "origin": "Item.VV9RPCo0DJxi0kV3",
       "duration": {
-        "rounds": 5,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 5,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -786,10 +783,11 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "bane",
-        "macro": "const greaterBane = effect.flags.dc20rpg?.greaterBane || 0;\nconst dice = Math.min(6 + (2 * greaterBane), 12);\nconst changes = effect.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({changes: changes});",
+        "macro": "const greaterBane = effect.flags.dc20rpg?.greaterBane || 0;\nconst dice = Math.min(6 + (2 * greaterBane), 12);\nconst changes = effect.system.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({[\"effect.system\"]: changes});",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -801,94 +799,100 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
+            "phase": "initial",
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.checks.att",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.mig",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.cha",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.int",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.deathSave",
+            "type": "add",
+            "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.melee",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.ranged",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.martial.area",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.melee",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.ranged",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.spell.area",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.checks.att",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.mig",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.agi",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.cha",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.saves.int",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.dynamicRollModifier.onYou.deathSave",
-          "mode": 2,
-          "value": "\"value\": 0, \"label\": \"Bane\", \"modifier\": \"- 1#DICE#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Bane\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Bane - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>You are under the effect of Bane.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -898,12 +902,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
+        "systemVersion": "0.10.6.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1777548054559
+        "modifiedTime": 1782631098791,
+        "createdTime": 1781983687924
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Y2ZpTKXqekHtEaKd.LwRRA2z8w9yFpMKg"
     }
   ],
@@ -913,11 +928,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1768066976590,
-    "modifiedTime": 1777554407057,
+    "modifiedTime": 1782631046487,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

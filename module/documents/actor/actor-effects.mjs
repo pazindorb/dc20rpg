@@ -1,9 +1,85 @@
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { getValueFromPath, parseFromString } from "../../helpers/utils.mjs";
 
+export function prepareStatuses(actor) {
+  for (const effect of actor.allEffects) {
+    effect.suspended = false;
+    if (effect.disabled) continue;
+    
+    for (const statusId of effect.statuses) {
+      const isStatusEffect = !!effect.system.statusId;
+      const isLocked = effect.system.statusId !== statusId;
+
+      if (actor.statuses.has(statusId)) {
+        const status = actor.statuses.get(statusId);
+        status.effects.push({name: effect.name, id: effect.id, isStatusEffect: isStatusEffect, isLocked: isLocked});
+        if (status.stackable) status.stack += 1;
+        else {
+          effect.disabled = true;
+          effect.suspended = `Effect suspended by: '${status.effects[0].name}'`
+        }
+      }
+      else {
+        const status = CONFIG.statusEffects.find(s => s.id === statusId);
+        if (!status) {
+          ui.notifications.error(`Status with id '${statusId}' not found in the system conifg.`);
+          continue;
+        }
+        actor.statuses.set(statusId, {
+          id: statusId,
+          name: status.name,
+          img: status.img,
+          description: status.description,
+          stackable: status.stackable,
+          condition: status.system.condition,
+          stack: 1,
+          effects: [{name: effect.name, id: effect.id, isStatusEffect: isStatusEffect, isLocked: isLocked}]
+        })
+      }
+    }
+  }
+}
+
+export function runSpecialStatusChecks(actor) {
+  fullyStunnedCheck(actor);
+  exhaustionCheck(actor);
+  dazedCheck(actor);
+}
+
+function fullyStunnedCheck(actor) {
+  const stunned = actor.statuses.get("stunned");
+  const fullyStunned = actor.statuses.get("fullyStunned");
+  if (!stunned) return;
+
+  // Add Fully Stunned
+  if (!fullyStunned && stunned.stack >= 4) {
+    actor.toggleStatusEffect("fullyStunned", { active: true });
+  }
+  // Remove Fully Stunned
+  if (fullyStunned && stunned.stack < 4) {
+    actor.toggleStatusEffect("fullyStunned", { active: false });
+  }
+}
+
+function exhaustionCheck(actor) {
+  if (actor.exhaustion >= 6) {
+    if (actor.statuses.has("dead")) return;
+    actor.toggleStatusEffect("dead", { active: true });
+  }
+}
+
+function dazedCheck(actor) {
+  if (actor.statuses.has("dazed")) {
+    const sustained = actor.system.sustain;
+    for (const sustainKey of Object.keys(sustained)) {
+      actor.dropSustain(sustainKey, "You can't Sustain an effect while Dazed.");
+    }
+  }
+}
+
 export function enhanceEffects(actor) {
-  for (const effect of actor.allApplicableEffects()) {
-    for (const change of effect.changes) {
+  for (const effect of actor.allEffects) {
+    for (const change of effect.system.changes) {
       const value = change.value;
       
       // formulas start with "<:" and end with ":>"
@@ -22,8 +98,8 @@ export function enhanceEffects(actor) {
   }
 }
 
-export function modifyActiveEffects(effects, actor) {
-  for ( const effect of effects ) {
+export function modifyActiveEffects(actor) {
+  for (const effect of actor.allEffects) {
     const item = effect.getSourceItem();
     if (item && actor.isOwner) {
       _checkToggleableEffects(effect, item);
@@ -43,7 +119,7 @@ function _checkToggleableEffects(effect, item) {
 
 function _checkEquippedAndAttunedEffects(effect, item) {
   if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) return; // Toggle overrides equiped
-  if (!item.system.effectsConfig?.mustEquip) return;
+  if (!effect.system.requireEquip) return;
 
   const statuses = item.system.statuses;
   if (!statuses) return;
@@ -60,6 +136,7 @@ function _checkEffectCondition(effect, actor) {
   const disableWhen = effect.system?.disableWhen;
   if (disableWhen) {
     const value = getValueFromPath(actor, disableWhen.path);
+    if (!value) return;
     const expectedValue = parseFromString(disableWhen.value);
     const has = (value, expected) => {
       if (value.has) return value.has(expected);
@@ -78,43 +155,4 @@ function _checkEffectCondition(effect, actor) {
       case "hasNot": effect.disabled = has(value, expectedValue) === false; break;
     }
   }
-}
-
-export function suspendDuplicatedConditions(actor) {
-  const effects = actor.appliedEffects.sort((a, b) => {
-    if (!a.statuses) a.statuses = [];
-    if (!b.statuses) b.statuses = [];
-    return b.statuses.size - a.statuses.size;
-  });
-
-  const uniqueEffectsApplied = new Map();
-  effects.forEach(effect => {
-    const statusId = effect.system.statusId;
-    if (uniqueEffectsApplied.has(statusId)) {
-      // We need to check which effect has more changes, we want to have the one with most amount of changes active
-      const oldEffect = uniqueEffectsApplied.get(statusId);
-      if (effect.changes.length <= oldEffect.changes.length) {
-        effect.disabled = true;
-        effect.suspended = true;
-        effect.suspendedBy = oldEffect.name;
-      }
-      else {
-        effect.disabled = false;
-        effect.suspended = false;
-        oldEffect.disabled = true;
-        oldEffect.suspended = true;
-        oldEffect.suspendedBy = effect.name;
-        uniqueEffectsApplied.set(statusId, effect);
-      }
-    }
-    else {
-      effect.suspended = false;
-      effect.statuses.forEach(statusId => {
-        const status = CONFIG.statusEffects.find(e => e.id === statusId);
-        if (status && !status.stackable) {
-          uniqueEffectsApplied.set(statusId, effect);
-        }
-      })
-    }
-  });
 }

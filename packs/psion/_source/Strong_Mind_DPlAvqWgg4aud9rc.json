@@ -49,7 +49,7 @@
       "critThreshold": 20,
       "formulaMod": "",
       "halfDmgOnMiss": false,
-      "rangeType": "melee",
+      "rangeType": "",
       "skipBonusDamage": {
         "heavy": false,
         "brutal": false,
@@ -283,13 +283,10 @@
       "img": "icons/magic/control/debuff-chains-ropes-net-purple-blue.webp",
       "origin": "Item.xWBDjd1Wi9497HI5",
       "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -339,22 +336,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.flat",
+            "value": "<:max(@int, @cha):>",
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Psionic Grit\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.flat",
-          "mode": 2,
-          "value": "<:max(@int, @cha):>",
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Psionic Grit\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-          "priority": null
-        }
-      ],
       "description": "<p>Once per Combat, when you take damage, you can reduce the damage taken by an amount equal to your <strong>Intelligence</strong> or <strong>Charisma</strong> (your choice).</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -364,11 +361,16 @@
         "compendiumSource": "Compendium.dc20rpg.psyborn-and-psion.Item.mOWjf1lWenfsrwA2.ActiveEffect.JsBHCaYizjIA6ROO",
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!DPlAvqWgg4aud9rc.A5ecvkluI3GdTTAH"
     }
   ],
@@ -384,11 +386,11 @@
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
     },
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778066784610,
-    "modifiedTime": 1778066784610,
+    "modifiedTime": 1781983717905,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "DPlAvqWgg4aud9rc",

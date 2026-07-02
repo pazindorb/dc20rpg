@@ -30,7 +30,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -177,7 +177,15 @@
             "postItemRoll": ""
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>You can spend <strong>SP</strong> on <strong>AP</strong> Enhancements</p>",
         "hide": false,
@@ -189,7 +197,13 @@
         "sourceItemId": "3oUR71T3QWMmLC0L",
         "sourceItemName": "Psionic Mind",
         "sourceItemImg": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "60sqcqNtYvXypTV9": {
         "name": "Daze",
@@ -271,7 +285,15 @@
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>Mental Save.</p><p><strong>Failure:</strong> The target becomes Dazed on the next Mental Check it makes before the end of your next turn.</p>",
         "hide": false,
@@ -279,7 +301,13 @@
         "sourceItemId": "3oUR71T3QWMmLC0L",
         "sourceItemName": "Psionic Mind",
         "sourceItemImg": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "9JBlzeV4IK64Dzof": {
         "name": "Psionic",
@@ -361,7 +389,15 @@
           "overrideTargetDefence": false,
           "targetDefenceType": "area",
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
         },
         "description": "<p>The Spell doesn’t require Verbal or Somatic Components.</p>",
         "hide": false,
@@ -369,7 +405,13 @@
         "sourceItemId": "3oUR71T3QWMmLC0L",
         "sourceItemName": "Psionic Mind",
         "sourceItemImg": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -559,7 +601,10 @@
       "ignoreMCP": false
     },
     "usable": true,
-    "tip": ""
+    "tip": "",
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [],
   "folder": "U28B7vZReoPwEjxs",
@@ -574,11 +619,11 @@
       "systemId": "dc20rpg",
       "systemVersion": "0.9.0"
     },
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778066757964,
-    "modifiedTime": 1778066757964,
+    "modifiedTime": 1781985658710,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "3oUR71T3QWMmLC0L",

@@ -59,7 +59,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -202,7 +202,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const absorbElements = item.getEffectByKey(\"absorbElements\");\nif (!absorbElements) return;\n\nabsorbElements.changes[0].value = -3 + (enh.number * -2);",
+            "preItemRoll": "const absorbElements = item.getEffectByKey(\"absorbElements\");\nif (!absorbElements) return;\n\nabsorbElements.system.changes[0].value = -3 + (enh.number * -2);",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -217,8 +217,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "hSUjmgRoGltTr5XB",
+        "sourceItemId": "1wsvzB2a4HLPF1pw",
+        "sourceItemName": "Absorb Elements",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "Sp0UaNLQCNrlyU1J": {
         "name": "Enduring Resistance",
@@ -298,7 +317,10 @@
               "seconds": null,
               "startRound": null,
               "startTurn": null,
-              "turns": null
+              "turns": null,
+              "value": 1,
+              "units": "rounds",
+              "expiry": "turnStart"
             },
             "disabled": false,
             "flags": {
@@ -320,11 +342,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -335,17 +358,17 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.damageReduction.damageTypes.fire.resistance",
+                  "mode": 5,
+                  "value": "true",
+                  "priority": null,
+                  "useCustom": false
+                }
+              ]
             },
-            "changes": [
-              {
-                "key": "system.damageReduction.damageTypes.fire.resistance",
-                "mode": 5,
-                "value": "true",
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>You gain Resistance (Half) to the damage type you reduced for 1 Round.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -364,7 +387,7 @@
             }
           },
           "macros": {
-            "preItemRoll": "const trigger = item.flags?.dc20rpg?.trigger || \"fire\";\nenh.modifications.addsEffect.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resistance`",
+            "preItemRoll": "const trigger = item.flags?.dc20rpg?.trigger || \"fire\";\nenh.modifications.addsEffect.system.changes[0].key = `system.damageReduction.damageTypes.${trigger}.resistance`",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -379,8 +402,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Sp0UaNLQCNrlyU1J",
+        "sourceItemId": "1wsvzB2a4HLPF1pw",
+        "sourceItemName": "Absorb Elements",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "zEgtsm8iwjFaCuRD": {
         "name": "Backlash",
@@ -466,8 +508,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "zEgtsm8iwjFaCuRD",
+        "sourceItemId": "1wsvzB2a4HLPF1pw",
+        "sourceItemName": "Absorb Elements",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "SMTGrmex7PO9Q4P4": {
         "name": "Lingering Retaliation",
@@ -547,15 +608,20 @@
               "seconds": null,
               "turns": null,
               "startRound": null,
-              "startTurn": null
+              "startTurn": null,
+              "value": 5,
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "SMTGrmex7PO9Q4P4"
+                "enhKey": "SMTGrmex7PO9Q4P4",
+                "itemSavePath": "system.enhancements.SMTGrmex7PO9Q4P4.modifications.addsEffect"
               }
             },
-            "_id": "9ZIhmuR9bLDQfkcl",
+            "_id": "a0FJWJlUjzRmd8kQ",
             "type": "base",
             "system": {
               "sustained": {
@@ -569,11 +635,12 @@
               "duration": {
                 "useCounter": true,
                 "resetWhenEnabled": false,
-                "onTimeEnd": "delete"
+                "onTimeEnd": "delete",
+                "expiryAction": "delete"
               },
               "effectKey": "lingeringRetaliation",
               "macro": "const damage = 0;\nconst type = \"fire\";\n\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst isMelee = await DC20.dialog.SimplePopup.confirm(\"Is that a Melee Attack?\");\nif (!isMelee) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Lingering Retaliation\",\n  type: type\n}\nconst calculationTarget = {\n  system: {damageReduction: target.system.damageReduction}\n}\ndmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\ngame.dc20rpg.tools.applyDamage(target, dmg.modified, {fromEvent: true});",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -584,17 +651,21 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": [
+                {
+                  "key": "system.events",
+                  "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Lingering Retaliation\", \"actorId\": \"#SPEAKER_ID#\"",
+                  "priority": null,
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
+                }
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
-            "changes": [
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"macro\", \"trigger\": \"damageTaken\", \"label\": \"Lingering Retaliation\", \"actorId\": \"#SPEAKER_ID#\"",
-                "mode": 2,
-                "priority": null,
-                "useCustom": false
-              }
-            ],
             "description": "<p>When a creature Hits you with a Melee Attack, it takes X damage of of the damage type your reduced.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -604,13 +675,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.351",
+              "coreVersion": "14.364",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.2",
-              "createdTime": 1777021887485,
-              "modifiedTime": 1777021895347,
+              "systemVersion": "0.10.6.0",
+              "createdTime": 1782395903660,
+              "modifiedTime": 1782395903660,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": null,
+              "time": 0,
+              "turn": null,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "const trigger = item.flags?.dc20rpg?.trigger || \"fire\";\n\nconst macro = enh.modifications.addsEffect.system.macro;\nenh.modifications.addsEffect.system.macro = macro\n  .replace(\"const damage = 0\", `const damage = ${enh.number}`)\n  .replace('const type = \"fire\"', `const type = \"${trigger}\"`);",
@@ -628,8 +709,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "SMTGrmex7PO9Q4P4",
+        "sourceItemId": "1wsvzB2a4HLPF1pw",
+        "sourceItemName": "Absorb Elements",
+        "sourceItemImg": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -805,13 +905,10 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-diamond-purple-orange.webp",
       "origin": "Item.lh7ZlFzZpJwuA9xp",
       "duration": {
-        "rounds": 0,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "turns": 1,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "turns",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -831,12 +928,13 @@
         "duration": {
           "useCounter": true,
           "resetWhenEnabled": false,
-          "onTimeEnd": "delete"
+          "onTimeEnd": "delete",
+          "expiryAction": "delete"
         },
         "effectKey": "absorbElements",
         "macro": "",
         "addToChat": true,
-        "applyToTemplate": true,
+        "applyToTemplate": false,
         "nonessential": false,
         "disableWhen": {
           "path": "",
@@ -846,22 +944,22 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.flat",
+            "value": -3,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.events",
+            "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Absorb Elements\", \"actorId\": \"#SPEAKER_ID#\"",
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.flat",
-          "value": "-3",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.events",
-          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Absorb Elements\", \"actorId\": \"#SPEAKER_ID#\"",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p>You reduce the damage taken.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -871,13 +969,23 @@
         "compendiumSource": "Compendium.dc20rpg.spells.Item.1wsvzB2a4HLPF1pw.ActiveEffect.LMEZmTULn1MT1Whh",
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1768560085298,
-        "modifiedTime": 1777020442240,
+        "modifiedTime": 1782371143973,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!1wsvzB2a4HLPF1pw.YoarmrrQUKGooV28"
     }
   ],
@@ -887,11 +995,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767649133243,
-    "modifiedTime": 1777021896476,
+    "modifiedTime": 1782420988111,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

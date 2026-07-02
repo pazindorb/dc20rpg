@@ -19,7 +19,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -70,13 +70,13 @@
         "number": 0,
         "resources": {
           "actionPoint": null,
-          "health": null,
-          "mana": -1,
-          "stamina": null,
+          "health": "",
+          "mana": "-1",
+          "stamina": "",
           "custom": {},
-          "grit": null,
-          "restPoints": null,
-          "ap": null
+          "grit": "",
+          "restPoints": "",
+          "ap": ""
         },
         "charges": {
           "consume": true,
@@ -146,7 +146,17 @@
             "preItemRoll": "",
             "postItemRoll": ""
           },
-          "changeStaminaSpendLimit": null
+          "changeStaminaSpendLimit": null,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
         },
         "description": "<p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p>",
         "hide": false,
@@ -154,7 +164,13 @@
         "sourceItemId": "NKuUuUyr0TkwO37A",
         "sourceItemName": "Celestial Magic",
         "sourceItemImg": "icons/magic/light/explosion-glow-spiral-yellow.webp",
-        "active": false
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -275,11 +291,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.5.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720098982783,
-    "modifiedTime": 1778490181802,
+    "modifiedTime": 1782377078649,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

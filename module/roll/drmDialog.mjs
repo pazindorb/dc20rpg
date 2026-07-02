@@ -1,6 +1,6 @@
 import { DC20Dialog } from "../dialogs/dc20Dialog.mjs";
-import { getActorFromTargetHash } from "../helpers/targets.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 
 export class DRMDialog extends DC20Dialog {
 
@@ -36,14 +36,28 @@ export class DRMDialog extends DC20Dialog {
     }
     for (const [statusId, values] of statuses) {
       const statusName = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses);
-      resultPerTarget.push({label: `From ${statusName}`, values: this._toDisplayFormat(values)})
+      resultPerTarget.push({label: `From Status: ${statusName}`, values: this._toDisplayFormat(values)})
     }
     for (const [hash, values] of targets) {
-      const actor = getActorFromTargetHash(hash); 
-      resultPerTarget.push({label: `From ${actor.name}`, values: this._toDisplayFormat(values)})
+      const actor = DC20Target.getActorFromTargetHash(hash); 
+      resultPerTarget.push({label: `From Token: ${actor.name}`, values: this._toDisplayFormat(values)})
     }
 
+    if (this.#isEmpty(resultPerTarget)) {
+      return [{
+        label: "",
+        values: [{icon: "fa-square-xmark", text: "No changes found"}]
+      }]
+    }
     return resultPerTarget;
+  }
+
+  #isEmpty(resultPerTarget) {
+    let isEmpty = true;
+    resultPerTarget.forEach(r => {
+      if(r.values.length !== 0) isEmpty = false;
+    })
+    return isEmpty;
   }
 
   _toDisplayFormat(array) {

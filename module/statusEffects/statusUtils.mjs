@@ -1,11 +1,5 @@
 import { companionShare } from "../helpers/actors/companion.mjs";
 
-export function isStackable(statusId) {
-  const status = CONFIG.statusEffects.find(e => e.id === statusId);
-  if (status) return status.stackable;
-  else return false;
-}
-
 export async function addStatusWithIdToActor(actor, id, extras) {
   actor.toggleStatusEffect(id, { active: true, extras: extras });
 }
@@ -19,23 +13,21 @@ export function toggleStatusOn(statusId, owner, addOrRemove) {
   if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
 }
 
+/** @deprecated */
 export function hasStatusWithId(actor, statusId) {
-  for ( const status of actor.statuses) {
-    if (status.id === statusId) return true;
-  }
-  return false;
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.statuses.hasStatusWithId' method is deprecated, and will be removed in the later system version. Use 'actor.statuses.has' instead.", { since: " 0.10.5", until: "0.11.0", once: true });
+  return actor.statuses.has(statusId);
 }
 
+/** @deprecated since v0.10.5 until 0.11.0 */
 export function getStatusWithId(actor, statusId) {
-  for ( const status of actor.statuses) {
-    if (status.id === statusId) return status;
-  }
-  return null;
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.statuses.getStatusWithId' method is deprecated, and will be removed in the later system version. Use 'actor.statuses.get' instead.", { since: " 0.10.5", until: "0.11.0", once: true });
+  return actor.statuses.get(statusId);
 }
 
 export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
-  const changes = effect.changes;
+  const changes = effect.system.changes;
 
   if (extras.mergeDescription) {
     effect.description += extras.mergeDescription;
@@ -72,16 +64,18 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   }
 
   if (extras.forOneMinute) {
-    effect.duration.rounds = 5;
-    effect.system.duration.useCounter = true;
-    effect.system.duration.onTimeEnd = "delete";
+    effect.duration.value = 5;
+    effect.duration.units = "rounds";
+    effect.duration.expiry = "turnStart";
+    effect.system.duration.expiryAction = "delete";
   }
   else if (extras.forXRounds) {
-    effect.duration.rounds = extras.forXRounds;
-    effect.system.duration.useCounter = true;
-    effect.system.duration.onTimeEnd = "delete";
+    effect.duration.value = extras.forXRounds;
+    effect.duration.units = "rounds";
+    effect.duration.expiry = "turnStart";
+    effect.system.duration.expiryAction = "delete";
   }
-  effect.changes = changes;
+  effect.system.changes = changes;
   return effect;
 }
 
@@ -113,7 +107,7 @@ function _newEvent(trigger, label, actorId) {
   if (actorId) change = `"actorId": "${actorId}",` + change;
   return {
     key: "system.events",
-    mode: 2,
+    type: "add",
     priority: null,
     value: change
   }
@@ -131,7 +125,7 @@ function _repeatedSave(label, checkKey, against, statusId) {
   `;
   return {
     key: "system.events",
-    mode: 2,
+    type: "add",
     priority: null,
     value: change
   }
@@ -140,41 +134,6 @@ function _repeatedSave(label, checkKey, against, statusId) {
 function _enhnanceDynamicRollModifier(change) {
   if (change.key.includes("system.dynamicRollModifier.")) {
     change.value = '"afterRoll": "delete", ' + change.value;
-  }
-}
-
-export function fullyStunnedCheck(actor) {
-  if (!actor.hasStatus("stunned")) return;
-  const stunned = actor.statuses.find(status => status.id === "stunned");
-  if (!stunned) return;
-
-  // Add Fully Stunned condition
-  if (stunned.stack >= 4) {
-    if (actor.hasStatus("fullyStunned")) return;
-    actor.toggleStatusEffect("fullyStunned", { active: true });
-  } 
-  
-  // Remove Fully Stunned condition
-  if (stunned.stack < 4) {
-    if (!actor.hasStatus("fullyStunned")) return;
-    actor.toggleStatusEffect("fullyStunned", { active: false });
-  }
-}
-
-export function exhaustionCheck(actor) {
-  // Add Dead condition
-  if (actor.exhaustion >= 6) {
-    if (actor.hasStatus("dead")) return;
-    actor.toggleStatusEffect("dead", { active: true });
-  }
-}
-
-export function dazedCheck(actor) {
-  if (actor.hasStatus("dazed")) {
-    const sustained = actor.system.sustain;
-    for (const sustainKey of Object.keys(sustained)) {
-      actor.dropSustain(sustainKey, "You can't Sustain an effect while Dazed.");
-    }
   }
 }
 
@@ -189,7 +148,7 @@ export function healthThresholdsCheck(currentHP, actor) {
 }
 
 function _checkStatus(statusId, currentHP, treshold, actor) {
-  if (actor.hasStatus(statusId)) {
+  if (actor.statuses.has(statusId)) {
     if (currentHP > treshold) removeStatusWithIdFromActor(actor, statusId); 
   }
   else {

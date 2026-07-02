@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -248,7 +248,7 @@
     "quickRoll": false,
     "macros": {
       "ytuxkgBu2yDud3eW": {
-        "command": "const dmgTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes,\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", dmgTypes);\nif (!selected) return;\n\nconst effect = item.getEffectByKey(\"resistance\");\nif (!effect) return;\neffect.changes[0].key = `system.damageReduction.damageTypes.${selected}.resistance`;\neffect.update({changes: effect.changes});",
+        "command": "const dmgTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes,\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Damage Type\", dmgTypes);\nif (!selected) return;\n\nconst effect = item.getEffectByKey(\"resistance\");\nif (!effect) return;\neffect.system.changes[0].key = `system.damageReduction.damageTypes.${selected}.resistance`;\neffect.update({[\"system.changes\"]: effect.system.changes});",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Select Resistance",
@@ -282,20 +282,20 @@
     "tip": "",
     "featureSourceItem": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "attack": {
+      "targetDefence": "physical"
+    }
   },
   "effects": [
     {
       "img": "icons/magic/defensive/shield-barrier-blue.webp",
       "origin": "Item.kKnbYGiXMMVFTPBl",
       "duration": {
-        "rounds": null,
-        "startTime": 0,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": 17,
-        "startTurn": 0
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Resistance",
@@ -328,16 +328,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.fire.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.fire.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
       "description": "<p>It gains Resistance (Half) to a damage type of your choice.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -356,11 +356,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.0",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 17,
+        "time": 0,
+        "turn": 0,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!GsoNlh1qsToo8Xnp.PSuA1LxP0d27xfAw"
     }
   ],
@@ -374,11 +386,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1767631585500,
-    "modifiedTime": 1767631585500,
+    "modifiedTime": 1782633602301,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

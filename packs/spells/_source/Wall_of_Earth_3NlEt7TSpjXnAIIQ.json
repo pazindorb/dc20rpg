@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -219,8 +219,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "bUyMEScgZHrMhRzc",
+        "sourceItemId": "3NlEt7TSpjXnAIIQ",
+        "sourceItemName": "Wall of Earth",
+        "sourceItemImg": "icons/magic/earth/barrier-stone-explosion-spiked.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "lxDE1Au2jBMUCjdC": {
         "name": "Range",
@@ -306,8 +325,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "lxDE1Au2jBMUCjdC",
+        "sourceItemId": "3NlEt7TSpjXnAIIQ",
+        "sourceItemName": "Wall of Earth",
+        "sourceItemImg": "icons/magic/earth/barrier-stone-explosion-spiked.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "O8meEhzSSgZEwgdc": {
         "name": "Size",
@@ -393,8 +431,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "O8meEhzSSgZEwgdc",
+        "sourceItemId": "3NlEt7TSpjXnAIIQ",
+        "sourceItemName": "Wall of Earth",
+        "sourceItemImg": "icons/magic/earth/barrier-stone-explosion-spiked.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "dv0zlu3JVqv38B3r": {
         "name": "Density",
@@ -480,8 +537,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "dv0zlu3JVqv38B3r",
+        "sourceItemId": "3NlEt7TSpjXnAIIQ",
+        "sourceItemName": "Wall of Earth",
+        "sourceItemImg": "icons/magic/earth/barrier-stone-explosion-spiked.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "bawT11gpcuTfhqio": {
         "name": "Additional Walls",
@@ -567,8 +643,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "bawT11gpcuTfhqio",
+        "sourceItemId": "3NlEt7TSpjXnAIIQ",
+        "sourceItemName": "Wall of Earth",
+        "sourceItemImg": "icons/magic/earth/barrier-stone-explosion-spiked.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -738,6 +833,29 @@
       "earth": "Earth",
       "motion": "Motion",
       "summoning": "Summoning"
+    },
+    "areas": {
+      "default": {
+        "type": "zone",
+        "distance": 5,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "all",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [],
@@ -747,11 +865,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777703083433,
-    "modifiedTime": 1777706953854,
+    "modifiedTime": 1781985634855,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -1,12 +1,72 @@
-import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
-import { getActorFromIds } from "./actors/tokens.mjs";
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
+import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
-import { emitEventToGM } from "./sockets.mjs";
 
-export function prepareActiveEffectsAndStatuses(owner, context) {
+/** @override */
+//NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates. This method modifies ActiveEffectRegistry.refresh method. 
+export async function refreshActiveEffectRegistry(event, context) {
+  // Setup per-parent groupings for batched modifications and callbacks
+  /** @type {Map<Actor, ActiveEffect[]>} */
+  const refreshed = new Map();
+  /** @type {Map<Actor|Item, ActiveEffect[]>} */
+  const expired = new Map();
+
+  for ( const effect of this ) {
+    if ( context?.actors && !context.actors.has(effect.actor) ) continue;
+
+    // These events never entail a change in remaining duration
+    // Combat start and end also don't but can lead to a duration getting reframed as time-based or combat-based
+    if ( !["roundEnd", "turnEnd"].includes(event) ) {
+      const oldRemaining = effect.duration.secondsRemaining ?? effect.duration.remaining;
+      const oldUnits = effect.duration.units;
+      const updated = effect.updateDuration(context);
+      const newRemaining = updated.secondsRemaining ?? updated.remaining;
+      const remainingChanged = oldRemaining !== newRemaining;
+      const unitsChanged = oldUnits !== updated.units;
+      if ( remainingChanged || unitsChanged || (newRemaining <= 0) || (newRemaining === Infinity) ) {
+        if ( !refreshed.has(effect.actor) ) refreshed.set(effect.actor, []);
+        refreshed.get(effect.actor).push(effect);
+      }
+    }
+    const durationReached = (effect.duration.remaining <= 0) || !Number.isFinite(effect.duration.remaining);
+    if ( durationReached && effect.isExpiryEvent(event, context) ) {
+      this.delete(effect);
+      if ( !expired.has(effect.parent) ) expired.set(effect.parent, []);
+      expired.get(effect.parent).push(effect);
+    }
+  }
+
+  // Notify actors of updated durations
+  for ( const [actor, effects] of refreshed.entries() ) {
+    actor.onUpdateEffectDurations(effects, event, context);
+  }
+
+  // Perform the configured action for expired effects
+  if ( game.users.activeGM?.isSelf ) {
+    for (const [actor, effects] of expired.entries()) {
+      for (const effect of effects) {
+        switch (effect.system.duration.expiryAction) {
+          case "disable": 
+            await effect.disable(); 
+            break;
+
+          case "delete": 
+            DC20ChatMessage.effectRemovalMessage(actor, effect);
+            await effect.gmDelete({ignoreResponse: true});
+            break;
+
+          case "runMacro":
+            await effect.runMacro({timer: true});
+            break;
+        }
+      }
+    }
+  }
+}
+
+export function prepareActiveEffects(owner, context) {
   const hideNonessentialEffects = !owner.system.sheetData.show.nonessentialEffects;
-  // Prepare all statuses 
-  const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 
   // Define effect header categories
   const effects = {
@@ -30,25 +90,22 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
 
   // Iterate over active effects, classifying them into categories
   for ( const effect of owner.allEffects ) {
-    if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
-    if (!effect.fromStatus) {
-      effect.originName = effect.parent.name;
-      effect.timeLeft = effect.roundsLeft;
-      effect.canChangeState = effect.stateChangeLocked;
-      effect.manualTrigger = effect.hasManualEvent;
-      if (effect.system.nonessential && hideNonessentialEffects) continue;
-      if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
-      else if (effect.disabled) effects.inactive.effects.push(effect);
-      else if (effect.isTemporary) effects.temporary.effects.push(effect);
-      else effects.passive.effects.push(effect);
-    }
+    if (effect.system.statusId) continue; // Skip effect that is just a status
+    effect.originName = effect.parent.name;
+    effect.timeLeft = effect.duration.label !== "None" ? effect.duration.label : "";
+    effect.canChangeState = effect.stateChangeLocked;
+    effect.manualTrigger = effect.hasManualEvent;
+    if (effect.system.nonessential && hideNonessentialEffects) continue;
+    if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
+    else if (effect.disabled) effects.inactive.effects.push(effect);
+    else if (effect.isTemporary) effects.temporary.effects.push(effect);
+    else effects.passive.effects.push(effect);
   }
 
   context.effects = effects;
-  context.statuses = statuses;
 }
 
-export function prepareActiveEffects(owner, context) {
+export function prepareActiveEffectsForItem(owner, context) {
   const effects = {
     temporary: {
       type: "temporary",
@@ -67,217 +124,172 @@ export function prepareActiveEffects(owner, context) {
   context.effects = effects;
 }
 
-function _connectEffectAndStatus(effect, statuses) {
-  statuses
-      .filter(status => effect.statuses.has(status.id) && !effect.disabled)
-      .map(status => {
+export function prepareStatusContext(owner, context) {
+  const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
+  context.statuses = statuses.map(status => {
+    const actorStatus = owner.statuses.get(status.id);
+    if (!actorStatus) return status;
+
+    status.active = true;
+    if (status.stackable && actorStatus.stack > 0) {
+      status.stack = actorStatus.stack;
+    }
+
+    const lockedBy = [];
+    const fromEffect = [];
+    actorStatus.effects.forEach(effect => {
+      if (effect.isStatusEffect) {
         status.effectId = effect.id;
-        
-        // Collect stacks for conditions
-        if (!status.stack) status.stack = 1;
-        else if (status.stackable) status.stack += 1; 
+        if (effect.isLocked) lockedBy.push(effect.name);
+      }
+      else {
+        if (!status.stackable) lockedBy.push(effect.name);
+        else fromEffect.push(effect.name);
+      }
+    });
 
-        // If status comes from other active effects we want to give info about it with tooltip
-        if ((effect.statuses.size > 1 && effect.name !== status.name) || !effect.fromStatus) {
-          if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
-          else status.tooltip += ` and ${effect.name}`
-          status.fromOther = true
-        }
-
-        return status;
-      });
+    status.source = "";
+    if (lockedBy.length > 0) {
+      status.source = `Status locked by: ${lockedBy.join(", ")}`;
+      status.locked = true;
+    }
+    if (fromEffect.length > 0) {
+      status.source = `Extra stacks from: ${fromEffect.join(", ")}`;
+    }
+    return status;
+  });
 }
-
 
 //==================================================
 //    Manipulating Effects On Other Objects        =  
 //==================================================
-export async function createNewEffectOn(type, owner, flags) {
-  const duration = type === "temporary" ? 1 : undefined
-  const inactive = type === "inactive";
-  const created = await owner.createEmbeddedDocuments("ActiveEffect", [{
-    label: "New Effect",
-    name: "New Effect",
-    img: "icons/svg/aura.svg",
-    origin: owner.uuid,
-    "duration.rounds": duration,
-    disabled: inactive,
-    flags: {dc20rpg: flags}
-  }]);
-  return created[0];
-}
-
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createEffectOn(effectData, owner) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("addDocument", {
-      docType: "effect",
-      docData: effectData, 
-      actorUuid: owner.uuid
-    });
-    return;
-  }
-  if (!effectData.origin) effectData.origin = owner.uuid;
-  const created = await owner.createEmbeddedDocuments("ActiveEffect", [effectData]);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.createEffectOn' method is deprecated, and will be removed in the later system version. Use 'DC20.DC20RpgActiveEffect.gmCreate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const created = await DC20RpgActiveEffect.gmCreate(effectData, {parent: owner});
   return created[0];
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function editEffectOn(effectId, owner) {
-  const effect = getEffectFrom(effectId, owner);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.editEffectOn' method is deprecated, and will be removed in the later system version. Use 'effect.sheet.render(true)' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId);
   if (effect) effect.sheet.render(true);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function updateEffectOn(effectId, owner, updateData) {
-  const effect = owner.effects.get(effectId);
-  if (!effect) return;
-  return effect.gmUpdate(updateData);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.updateEffectOn' method is deprecated, and will be removed in the later system version. Use 'object.gmUpdate' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId);
+  if (effect) return effect.gmUpdate(updateData);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function deleteEffectFrom(effectId, owner) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("removeDocument", {
-      docType: "effect",
-      docId: effectId, 
-      actorUuid: owner.uuid
-    });
-    return;
-  }
-  const effect = getEffectFrom(effectId, owner);
-  if (effect) await effect.delete();
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.deleteEffectFrom' method is deprecated, and will be removed in the later system version. Use 'object.gmDelete' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId);
+  if (effect) await effect.gmDelete();
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function toggleEffectOn(effectId, owner, turnOn) {
-  if (!owner.testUserPermission(game.user, "OWNER")) {
-    emitEventToGM("toggleEffectOn", {
-      turnOn: turnOn,
-      effectId: effectId, 
-      ownerUuid: owner.uuid
-    });
-    return;
-  }
-
-  const options = turnOn ? {disabled: true} : {active: true};
-  const effect = getEffectFrom(effectId, owner, options);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.toggleEffectOn' method is deprecated, and will be removed in the later system version. Use 'object.enable/object.disable' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const effect = owner.getEffectById(effectId, owner);
   if (effect) {
     if (turnOn) await effect.enable();
     else await effect.disable();
   }
 }
 
-export function getEffectFrom(effectId, owner, options={}) {
-  if (options.active) return owner.allEffects.find(effect => effect._id === effectId && effect.disabled === false);
-  if (options.disabled) return owner.allEffects.find(effect => effect._id === effectId && effect.disabled === true);
-  return owner.allEffects.find(effect => effect._id === effectId);
+/** @deprecated since v0.10.0 until 0.10.5 */
+export function getEffectFrom(effectId, owner) {
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectFrom' method is deprecated, and will be removed in the later system version. Use 'object.getEffectById' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectById(effectId);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getEffectByName(effectName, owner) {
-  return owner.getEffectWithName(effectName);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectByName' method is deprecated, and will be removed in the later system version. Use 'object.getEffectByName' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectByName(effectName);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getEffectById(effectId, owner) {
-  return owner.allEffects.find(effect => effect._id === effectId);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectById' method is deprecated, and will be removed in the later system version. Use 'object.getEffectById' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectById(effectId);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export function getEffectByKey(effectKey, owner) {
-  if (!effectKey) return;
-  return owner.allEffects.find(effect => effect.system.effectKey === effectKey);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.getEffectByKey' method is deprecated, and will be removed in the later system version. Use 'object.getEffectByKey' instead.", { since: " 0.10.0", until: "0.10.5", once: true });
+  return owner.getEffectByKey(effectKey);
 }
 
+/** @deprecated since v0.10.0 until 0.10.5 */
 export async function createOrDeleteEffect(effectData, owner) {
-  const alreadyExist = getEffectByName(effectData.name, owner);
-  if (alreadyExist) return await deleteEffectFrom(alreadyExist.id, owner);
-  else return await createEffectOn(effectData, owner);
+  foundry.utils.logCompatibilityWarning("The 'game.dc20rpg.effect.createOrDeleteEffect' method is deprecated, and will be removed in the later system version.", { since: " 0.10.0", until: "0.10.5", once: true });
+  const alreadyExist = owner.getEffectByname(effectData.name);
+  if (alreadyExist) {
+    alreadyExist.gmDelete();
+  }
+  else {
+    const created = await DC20RpgActiveEffect.gmCreate(effectData, {parent: owner});
+    return created[0];
+  }
 }
 
-export async function handleAfterRollEffectModification(toRemove) {
-  const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
-  if (actor) {
-    const effect = getEffectFrom(toRemove.effectId, actor);
+export async function runPostRollEffectActions() {
+  for (const toRemove of game.dc20rpg.postRollEffectAction.values()) {
+    const actor = DC20Target.getActorFromTargetHash(toRemove.targetHash);
+    if (!actor) continue;
+    const effect = actor.getEffectById(toRemove.effectId);
+    if (!effect) continue;
+
     const afterRoll = toRemove.afterRoll;
-    if (effect) {
-      if (afterRoll === "delete") {
-        sendEffectRemovedMessage(actor, effect);
-        await deleteEffectFrom(toRemove.effectId, actor);
-      }
-      if (afterRoll === "disable") await toggleEffectOn(toRemove.effectId, actor, false);
+    if (afterRoll === "delete") {
+      DC20ChatMessage.effectRemovalMessage(actor, effect);
+      await effect.gmDelete();
+    }
+    if (afterRoll === "disable") {
+      await effect.disable();
     }
   }
+  game.dc20rpg.postRollEffectAction = new Map(); // Reset
 }
 
 export async function addFlatDamageReductionEffect(actor) {
   const damageReduction = {
     name: "Grit - Damage Reduction",
-    img: "icons/svg/mage-shield.svg",
+    img: "systems/dc20rpg/images/sheet/header/grit.svg",
     description: "<p>You are spending Grit to reduce incoming damage</p>",
-    duration: {rounds: 1},
+    duration: {
+      rounds: 1,
+      expiry: "turnStart",
+    },
     system: {
       duration: {
-        useCounter: true,
-        onTimeEnd: "delete"
-      }
+        expiryAction: "delete"
+      },
+      changes: [
+        {
+          key: "system.damageReduction.flat",
+          type: "add",
+          value:"1"
+        },
+        {
+          key: "system.events",
+          type: "add",
+          value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+        },
+        {
+          key: "system.events",
+          type: "add",
+          value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
+        }
+      ]
     },
-    changes: [
-      {
-        key: "system.damageReduction.flat",
-        mode: 2,
-        value:"1"
-      },
-      {
-        key: "system.events",
-        mode: 2,
-        value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
-      },
-      {
-        key: "system.events",
-        mode: 2,
-        value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
-      }
-    ]
   }
-  await createEffectOn(damageReduction, actor);
-}
-
-//===========================================================
-export function injectFormula(effect, effectOwner) {
-  if (!effectOwner) return;
-  const rollData = effectOwner.getRollData();
-
-  for (const change of effect.changes) {
-    const value = change.value;
-    
-    // formulas start with "<#" and end with "#>"
-    if (typeof value === "string" && value.includes("<#") && value.includes("#>")) {
-      // We want to calculate that formula and repleace it with value calculated
-      const formulaRegex = /<#(.*?)#>/g;
-      const formulasFound = value.match(formulaRegex);
-
-      formulasFound.forEach(formula => {
-        const formulaString = formula.slice(2,-2); // We need to remove <# and #>
-        const calculated = evaluateDicelessFormula(formulaString, rollData);
-        change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
-      })
-    }
-  }
-}
-
-export function getMesuredTemplateEffects(item, applicableEffects=[], actor) {
-  if (!item) return {applyFor: "", effects: []};
-  if (item.effects.size === 0 && applicableEffects.length === 0) return {applyFor: "", effects: []};
-  if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
-
-  let effects = applicableEffects.length > 0 ? applicableEffects : item.effects.toObject();
-  effects = effects.filter(effect => effect.system.applyToTemplate);
-  if (actor) {
-    for (const effect of effects) {
-      if (!effect.flags.dc20rpg) effect.flags.dc20rpg = {};
-      effect.flags.dc20rpg.templateCallTime = Date.now();
-      injectFormula(effect, actor);
-    }
-  }
-
-  return {
-    applyFor: item.system.effectsConfig.addToTemplates,
-    effects: effects
-  }
+  await DC20RpgActiveEffect.gmCreate(damageReduction, {parent: actor});
 }
 
 //===========================================================
@@ -308,10 +320,10 @@ export function getEffectModifiableKeys() {
     ..._damageReduction(),
 
     // Flat Damage/healing Modification
-    "system.damageReduction.flat": "Flat Damage Reduction On You (Value)",
-    "system.damageReduction.flatHalf": "Flat Damage Reduction On You (Half)",
-    "system.healingReduction.flat": "Flat Healing Reduction On You (Value)",
-    "system.healingReduction.flatHalf": "Flat Healing Reduction On You (Half)",
+    "system.damageReduction.flat": "All Damage Reduction (Value)",
+    "system.damageReduction.flatHalf": "All Damage Reduction (Half)",
+    "system.healingReduction.flat": "All Healing Reduction (Value)",
+    "system.healingReduction.flatHalf": "All Healing Reduction (Half)",
 
     // Status resistances
     ..._statusResistances(),
@@ -328,13 +340,15 @@ export function getEffectModifiableKeys() {
     "system.resources.grit.bonus": "Grit: Max Value Bonus",
     "system.resources.grit.maxFormula" : "Grit: Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points: Max Value Bonus",
+    "system.resources.restPoints.maxFormula" : "Rest Points: Calculation Formula",
     "system.resources.restPoints.regenerationFormula" : "Rest Points: Regeneration Formula",
     
     // Help Dice
     "system.help.maxDice": "Help Dice: Max Dice",
 
     // Death
-    "system.death.bonus": "Death's Door Threshold Bonus",
+    "system.death.bonus": "Death's Door: Threshold Bonus",
+    "system.death.formula": "Death's Door: Calculation Formula",
 
     // Movement
     "system.moveCost": "Cost of moving 1 Space",
@@ -421,11 +435,13 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.provide.halfCover": "Provide Half Cover",
     "system.globalModifier.provide.tqCover": "Provide 3/4 Cover",
     "system.globalModifier.allow.overheal": "Convert overheal you done to Temp HP",
+    "system.globalModifier.allow.freeSustain": "Allow for Free Sustain",
     "system.globalModifier.prevent.goUnderAP": "Prevent from going under X AP",
     "system.globalModifier.prevent.hpRegeneration": "Prevent any HP regeneration", 
     "system.globalModifier.prevent.criticalHit": "Prevent Critical Hit benefits against you", 
     "system.globalModifier.prevent.flanking": "This creature cannot flank",
     
+    "system.globalModifier.melee.threat": "Melee Range Threat",
     "system.globalModifier.martial.range.melee": "Martial Melee Range (bonus)",
     "system.globalModifier.martial.range.normal": "Martial Normal Range (bonus)",
     "system.globalModifier.martial.range.max": "Martial Max Range (bonus)",
@@ -440,22 +456,15 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.damage.spell.ranged": "GFM: Ranged Spell Damage",
     "system.globalFormulaModifiers.damage.spell.area": "GFM: Area Spell Damage",
     "system.globalFormulaModifiers.damage.any": "GFM: Any Damage",
-    "system.globalFormulaModifiers.healing": "GFM: Healing",
+    "system.globalFormulaModifiers.healing": "GFM: Any Healing",
 
     // Dynamic Roll Modifier
-    "system.dynamicRollModifier.onYou.martial.melee": "DRM: Melee Martial Attack",
-    "system.dynamicRollModifier.onYou.martial.ranged": "DRM: Ranged Martial Attack",
-    "system.dynamicRollModifier.onYou.martial.area": "DRM: Area Martial Attack",
-    "system.dynamicRollModifier.onYou.spell.melee": "DRM: Melee Spell Attack",
-    "system.dynamicRollModifier.onYou.spell.ranged": "DRM: Ranged Spell Attack",
-    "system.dynamicRollModifier.onYou.spell.area": "DRM: Area Spell Attack",
-
+    "system.dynamicRollModifier.onYou.attack": "DRM: Attack Check",
     "system.dynamicRollModifier.onYou.checks.mig": "DRM: Might Check",
     "system.dynamicRollModifier.onYou.checks.agi": "DRM: Agility Check",
     "system.dynamicRollModifier.onYou.checks.cha": "DRM: Charisma Check",
     "system.dynamicRollModifier.onYou.checks.int": "DRM: Intelligence Check",
     "system.dynamicRollModifier.onYou.checks.prime": "DRM: Prime Check",
-    "system.dynamicRollModifier.onYou.checks.att": "DRM: Attack Check",
     "system.dynamicRollModifier.onYou.checks.mar": "DRM: Martial Check",
     "system.dynamicRollModifier.onYou.checks.spe": "DRM: Spell Check",
     "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
@@ -467,24 +476,15 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.saves.int": "DRM: Intelligence Save",
     "system.dynamicRollModifier.onYou.deathSave": "DRM: Death Save",
 
-    "system.dynamicRollModifier.againstYou.martial.melee": "DRM (Against): Melee Martial Attack ",
-    "system.dynamicRollModifier.againstYou.martial.ranged": "DRM (Against): Ranged Martial Attack",
-    "system.dynamicRollModifier.againstYou.martial.area": "DRM (Against): Area Martial Attack",
-    "system.dynamicRollModifier.againstYou.spell.melee": "DRM (Against): Melee Spell Attack",
-    "system.dynamicRollModifier.againstYou.spell.ranged": "DRM (Against): Ranged Spell Attack",
-    "system.dynamicRollModifier.againstYou.spell.area": "DRM (Against): Area Spell Attack",
-
+    "system.dynamicRollModifier.againstYou.attack": "DRM (Against): Attack Check",
     "system.dynamicRollModifier.againstYou.checks.mig": "DRM (Against): Might Check",
     "system.dynamicRollModifier.againstYou.checks.agi": "DRM (Against): Agility Check",
     "system.dynamicRollModifier.againstYou.checks.cha": "DRM (Against): Charisma Check",
     "system.dynamicRollModifier.againstYou.checks.int": "DRM (Against): Intelligence Check",
     "system.dynamicRollModifier.againstYou.checks.prime": "DRM (Against): Prime Check",
-    "system.dynamicRollModifier.againstYou.checks.att": "DRM (Against): Attack Check",
     "system.dynamicRollModifier.againstYou.checks.mar": "DRM (Against): Martial Check",
     "system.dynamicRollModifier.againstYou.checks.spe": "DRM (Against): Spell Check",
-
     "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",
-    "system.dynamicRollModifier.againstYou.trades": "DRM (Against): Trade Check",
 
     "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Save",
     "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Save",

@@ -11,7 +11,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -250,7 +250,7 @@
     "quickRoll": false,
     "macros": {
       "Ozs4tLVR2xXu5MSe": {
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Draconic damage type\", damageTypes);\n\nif (!selected) return;\n\nconst breathWeapon = actor.getItemByKey(\"breathWeapon\");\nif(breathWeapon) breathWeapon.update({[\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected})\n\nconst effect = item.effects.get(\"y2bjGo7P35GN0Ka5\");\nif (effect) {\n  const changes = effect.changes;\n  let suffix = changes[0].key.includes(\".immune\") ? \"immune\" : \"resistance\";\n  changes[0].key = `system.damageReduction.damageTypes.${selected}.${suffix}`;\n  effect.update({changes: changes})\n}",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Draconic damage type\", damageTypes);\n\nif (!selected) return;\n\nconst breathWeapon = actor.getItemByKey(\"breathWeapon\");\nif(breathWeapon) breathWeapon.update({[\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected})\n\nconst effect = item.effects.get(\"y2bjGo7P35GN0Ka5\");\nif (effect) {\n  const changes = effect.system.changes;\n  let suffix = changes[0].key.includes(\".immune\") ? \"immune\" : \"resistance\";\n  changes[0].key = `system.damageReduction.damageTypes.${selected}.${suffix}`;\n  effect.update({[\"system.changes\"]: changes})\n}",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Change Damage Type",
@@ -293,11 +293,10 @@
       "img": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
       "origin": "Item.cYn0I07zsDfBe319",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": 38,
-        "startTurn": 1
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -332,16 +331,16 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.damageReduction.damageTypes.radiant.resistance",
+            "value": true,
+            "priority": null,
+            "type": "override"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.damageReduction.damageTypes.radiant.resistance",
-          "value": "true",
-          "mode": 5,
-          "priority": null
-        }
-      ],
       "description": "<p>The creature has Resistance (Half) to a damage type of your choice (except True damage), and the Dragonborn’s Breath Weapon Ancestry Trait of the chosen damage type.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -351,11 +350,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "start": {
+        "combat": null,
+        "round": 38,
+        "time": 0,
+        "turn": 1,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!3Kl5J3QsOV1m9nhT.y2bjGo7P35GN0Ka5"
     }
   ],
@@ -369,11 +380,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777392776153,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1782633511783,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

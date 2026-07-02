@@ -1,39 +1,52 @@
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
+import { DC20RpgTokenDocument } from "../documents/token.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { getLabelFromKey, getValueFromPath } from "../helpers/utils.mjs";
 import { DC20Roll } from "./rollApi.mjs";
 
 export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modifier: ""}) {
-  const afterRoll = [];
   let results = [];
+  const rollConfig = item.system.rollConfig;
   const rollMenu = item.system.rollMenu;
   const attacker = actor.getActiveTokens()[0];
 
   if (item.system.actionType === "attack") {
-    const attackFormula = item.system.attackFormula;
-    const rangeType = rollMenu.rangeType || attackFormula.rangeType; // We want to update it if roll menu modified it
-    const checkType = attackFormula.checkType === "attack" ? "martial" : "spell"; // TODO: Remove after we change it to martial
+    const attack = item.system.attack;
+    const rangeType = rollMenu.rangeType || attack.rangeType; // We want to update it if roll menu modified it
+    const validationData = {actorAskingForCheck: actor, rangeType: rangeType, attackType: attack.checkType};
 
     // DRM on you
-    const attackPath = `system.dynamicRollModifier.onYou.${checkType}.${rangeType}`;
-    const attackResult = await _getDRMValueForPath(attackPath, actor, {actorAskingForCheck: actor}, afterRoll);
+    const attackPath = "system.dynamicRollModifier.onYou.attack";
+    const attackResult = await _getDRMValueForPath(attackPath, actor, validationData);
 
     // Versatile
     const versatileResult = rollMenu.versatile ? [{modifier: "+ 2", label: "Versatile - holds weapon in 2 hands", targetHash: actor.targetHash}] : [];
     
     // Close Quarters
-    const skipCloseQuarters = rangeType !== "ranged" || attackFormula.ignoreCloseQuarters || actor.system.globalModifier[checkType].ignore.closeQuarters;
-    const closeQuartersResult = skipCloseQuarters ? [] : _closeQuartersCheck(attacker);
+    let closeQuartersResult = [];
+    const actorIgnoreCloseQuarters = actor.system.globalModifier[attack.checkType].ignore.closeQuarters;
+    if (!actorIgnoreCloseQuarters) {
+      let considerCloseQuarters = attack.closeQuarters;
+      // Special case where we ignore attack config and configure it based on rangeType
+      if (rollMenu.rangeType !== attack.rangeType) {
+        considerCloseQuarters = rollMenu.rangeType === "ranged";
+      }
+      if (considerCloseQuarters) {
+        closeQuartersResult = await _closeQuartersCheck(attacker);
+      }
+    }
+
     results = [...results, ...attackResult, ...versatileResult, ...closeQuartersResult];
 
     // Target Checks
-    const attackTargetPath = `system.dynamicRollModifier.againstYou.${checkType}.${rangeType}`;
+    const attackTargetPath = "system.dynamicRollModifier.againstYou.attack";
+    const tokensInAttackRange = await _collectTokensInAttackRange(attacker, rangeType, item); 
     for (const token of game.user.targets) {
       if (!token.actor) continue;
-      const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
-      const targetPositionResult = attacker ? _targetPositionCheck(token, attacker, rangeType, item) : [];
-      const targetRangeResult = attacker ? _targetRangeCheck(token, attacker, rangeType, item) : [];
+      const targetAttackResult = await _getDRMValueForPath(attackTargetPath, token.actor, validationData, true);
+      const targetPositionResult = attacker ? await _targetPositionCheck(token, attacker, rangeType, item) : [];
+      const targetRangeResult = attacker ? _targetRangeCheck(token, attacker, rangeType, item, tokensInAttackRange) : [];
       results = [...results, ...targetAttackResult, ...targetPositionResult, ...targetRangeResult];      
     }
   }
@@ -44,23 +57,23 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
     
     // DRM on you
     const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
-    const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor}, afterRoll);
-    const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll) : [];
+    const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
+    const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}) : [];
     results = [...results, ...checkResult, ...specificSkillResult];
 
     // Target Checks
     for (const token of game.user.targets) {
       if (!token.actor) continue;
       const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
-      const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
-      const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll, true) : [];
-      const targetSizeResult = check.respectSizeRules ? _sizeCheck(token, attacker) : [];
+      const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
+      const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, true) : [];
+      const targetSizeResult = rollConfig.respectSizeRules ? _sizeCheck(token, attacker) : [];
       results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];  
     }
   }
 
   // Modifications from Enhancements
-  const enhModResult = _enhancementModifications(actor, item);
+  const enhModResult = _enhancementModifications(actor, item.enhancements.active);
   // Modifications from spending AP and Grit
   const apGritResult = _apGritModifications(actor, rollMenu);
   // Multiple Check Penalty
@@ -71,20 +84,19 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
   await runTemporaryItemMacro(item, "onDRMCheck", actor, {results: results});
 
   // Final result
-  return _finalResult(results, initial, [], afterRoll);
+  return _finalResult(results, initial, []);
 }
 
 export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, modifier: ""}) {
   let results = [];
-  const afterRoll = [];
   const rollMenu = actor.system.rollMenu;
   const attacker = actor.getActiveTokens()[0];
   const checkKey = details.checkKey;
 
   // DRM on you
   const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
-  const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor}, afterRoll);
-  const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll) : [];
+  const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
+  const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}) : [];
   results = [...results, ...checkResult, ...specificSkillResult];
 
   // Against Status Check
@@ -94,26 +106,28 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
   // Target Checks
   for (const token of game.user.targets) {
     const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
-    const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, afterRoll, true);
-    const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, afterRoll, true) : [];
+    const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
+    const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, true) : [];
     const targetSizeResult = details.respectSizeRules ? _sizeCheck(token, attacker) : [];
     results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];   
   }
 
+  // Modifications from Enhancements
+  const enhModResult = _enhancementModifications(actor, details.enhancements);
   // Modifications from spending AP and Grit
   const apGritResult = _apGritModifications(actor, rollMenu);
   // Multiple Check Penalty
   const mcpResult = rollMenu.ignoreMCP ? [] : _multipleCheckPenalty(actor, checkKey);
-  results = [...results, ...apGritResult, ...mcpResult];
+  results = [...results, ...apGritResult, ...enhModResult, ...mcpResult];
 
   // Final result
-  return _finalResult(results, initial, details.statuses, afterRoll);
+  return _finalResult(results, initial, details.statuses);
 }
 
 //========================================
 //               DRM CHECK               =
 //========================================
-async function _getDRMValueForPath(path, actor, validationData, afterRoll, target=false) {
+async function _getDRMValueForPath(path, actor, validationData, target=false) {
   const value = getValueFromPath(actor, path);
   if (!value) return [];
 
@@ -128,9 +142,8 @@ async function _getDRMValueForPath(path, actor, validationData, afterRoll, targe
         parsed.push(modification);
 
         if (modification.afterRoll) {
-          afterRoll.push({
-            actorId: actor._id, 
-            tokenId: actor.token?.id,
+          game.dc20rpg.postRollEffectAction.set(`${actor.targetHash}#${modification.effectId}`, {
+            targetHash: actor.targetHash,
             effectId: modification.effectId, 
             afterRoll: modification.afterRoll
           });
@@ -146,7 +159,16 @@ async function _getDRMValueForPath(path, actor, validationData, afterRoll, targe
 async function _shouldApply(modification, target, validationData) {
   if (_runValidationDataCheck(modification, validationData)) {
     if (modification.confirmation) {
-      return await SimplePopup.confirm(`Should "${modification.label}" be applied for an Actor named "${target.name}"?`);
+      const defaultMessage = `Should "${modification.label}" be applied to "${target.name}"?`;
+      const customMessage = modification.customMessage ? modification.customMessage.replaceAll("#TARGET#", target.name) : "";
+      const message = customMessage || defaultMessage;
+      return await SimplePopup.confirm(message);
+    }
+    if (modification.runMacro) {
+      const effect = target.effects.get(modification.effectId);
+      if (!effect) return false;
+      const result = await effect.runMacro({drm: true, target: target, actorAskingForCheck: validationData.actorAskingForCheck, modification: modification, validationData: validationData});
+      return !!result;
     }
     else return true;
   }
@@ -156,7 +178,8 @@ async function _shouldApply(modification, target, validationData) {
 function _runValidationDataCheck(modification, validationData) {
   if (!validationData) return true; // Nothing to validate
   return _validateActorAskingForCheck(modification, validationData.actorAskingForCheck) 
-        && _validateSpecificSkillKey(modification, validationData.specificSkill);
+        && _validateSpecificSkillKey(modification, validationData.specificSkill)
+        && _validateAttackTypeAndRange(modification, validationData.attackType, validationData.rangeType);
 }
 
 function _validateActorAskingForCheck(modification, actorAskingForCheck) {
@@ -171,13 +194,25 @@ function _validateSpecificSkillKey(modification, specificSkill) {
   return specificSkill === modification.skill;
 }
 
+function _validateAttackTypeAndRange(modification, attackType, rangeType) {
+  let validated = true;
+  if (modification.attackType) {
+    if (modification.attackType !== attackType) validated = false;
+  }
+  if (modification.rangeType) {
+    if (modification.rangeType !== rangeType) validated = false;
+  }
+  return validated;
+}
+
 //========================================
 //          GENERATE CHECK PATH          =
 //========================================
 function _getCheckPath(details, actor) {
   switch (details.type) {
-    case "attributeCheck": case "attackCheck": case "spellCheck": case "martialCheck": case "primeCheck":
+    case "attributeCheck": case "spellCheck": case "martialCheck": case "primeCheck":
       return `checks.${details.checkKey}`;
+    case "attackCheck": return "attack";
     case "initiative":  return "initiative";
     case "deathSave":   return "deathSave";
     case "save":        return _getSavePath(details.checkKey, actor);
@@ -225,7 +260,7 @@ function _againstStatuses(statuses, actor) {
 
   const result = [];
   const statusLevel = actor.system.statusResistances;
-  for (const statusId of statuses) {
+  for (const statusId of new Set(statuses)) {
     const resistance = statusLevel[statusId]?.resistance || 0;
     const vulnerability = statusLevel[statusId]?.vulnerability || 0;
     const saveLevel = resistance - vulnerability;
@@ -302,9 +337,10 @@ function _multipleCheckPenalty(actor, checkKey) {
 //========================================
 //        ADDITIONAL MODIFICATIONS       =
 //========================================
-function _enhancementModifications(actor, item) {
+function _enhancementModifications(actor, enhancements) {
   const result = [];
-  item.enhancements.active.values().forEach(enh => {
+  enhancements.values().forEach(enh => {
+    if (!enh.active) return;
     const mod = enh.modifications;
     
     // Roll Level
@@ -339,29 +375,50 @@ function _apGritModifications(actor, rollMenu) {
 //========================================
 //            POSITION CHECK             =
 //========================================
-function _closeQuartersCheck(attacker) {
-  if (!game.settings.get("dc20rpg", "enablePositionCheck")) return [];
+async function _closeQuartersCheck(attacker) {
+  if (!game.settings.get("dc20rpg", "enableCloseQuarters")) return [];
   if (!attacker) return [];
 
   let closeQuarters = false;
-  attacker.enemyNeighbours.values().forEach(token => {
-    if (!token.actor.hasAnyStatus(["incapacitated", "dead"])) closeQuarters = true;
-  });
+  const enemyDispositions = DC20RpgTokenDocument.getEnemyTokenDispositionsFor(attacker.document.disposition);
+  const tokens = await attacker.getTokensInRange(canvas.tokens.maxMeleeThreat || 1);
+  for (const token of tokens) {
+    if (!enemyDispositions.includes(token.document.disposition)) continue;       // Enemy
+    if (token.actor.hasAnyStatus(["incapacitated", "dead"])) continue;           // Not incapacitated or dead
+
+    const meleeThreatRange = token.actor.system?.globalModifier?.melee?.threat || 1;
+    const inMeleeRange = await token.isTokenInRange(attacker, meleeThreatRange);
+    if (inMeleeRange) {
+      closeQuarters = true;
+      break; 
+    }
+  }
   if (closeQuarters) return [{type: "dis", value: 1, label: "Close Quarters", targetHash: attacker.actor.targetHash}]
   return [];
 }
 
-function _targetPositionCheck(target, attacker, rangeType, item) {
-  if (!game.settings.get("dc20rpg", "enablePositionCheck")) return [];
+async function _targetPositionCheck(target, attacker, rangeType, item) {
+  const rollMenu = item.system.rollMenu;
   const result = [];
 
-  const rollMenu = item.system.rollMenu;
-  // FLANKING
-  if (rollMenu.flanks || (rangeType === "melee" && target.isFlanked)) {
-    result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+  // Flanking
+  if (game.settings.get("dc20rpg", "enableFlankingCheck")) {
+    if (rollMenu.flanks) {
+      result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+    }
+    else if (rangeType === "melee") {
+      const isFlanked = await target.isTokenFlanked(attacker);
+      if (isFlanked) result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+    }
+  }
+  
+  // Unwieldy Property
+  if (item.system.properties?.unwieldy?.active) {
+    const shouldTrigger = await attacker.isTokenInRange(target, 1);       // DisADV on Attacks against target within 1 Space
+    if (shouldTrigger) result.push({type: "dis", value: 1, label: "Unwieldy Property", target: true, targetHash: target.actor.targetHash});
   }
 
-  // COVER
+  // Cover
   const cover = target.actor.system.globalModifier.provide || {};
   if (rollMenu.tqCover || cover.tqCover) {
     result.push({modifier: "- 5", label: "Three-Quarter Cover", target: true, targetHash: target.actor.targetHash});
@@ -370,57 +427,66 @@ function _targetPositionCheck(target, attacker, rangeType, item) {
     result.push({modifier: "- 2", label: "Half Cover", target: true, targetHash: target.actor.targetHash});
   }
 
-  // UNWIELDY PROPERTY
-  if (item.system.properties?.unwieldy?.active && attacker && attacker.neighbours.has(target.id)) {
-    result.push({type: "dis", value: 1, label: "Unwieldy Property", target: true, targetHash: target.actor.targetHash});
-  }
-
   return result;
 }
 
 //========================================
 //              RANGE CHECK              =
 //========================================
-function _targetRangeCheck(target, attacker, rangeType, item) {
-  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return [];
-  if (rangeType === "area") return [];
-  if (!attacker) return [];
+async function _collectTokensInAttackRange(attacker, rangeType, item) {
+  const ranges = {max: null, normal: null};
+  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return ranges;
+  if (rangeType === "area") return ranges;
+  if (!attacker) return ranges;
 
-  const result = [];
   const range = item.system.range;
   const checkType = _checkType(item);
   if (rangeType === "melee") {
     const melee = (range.melee || 1) + _bonusRange("melee", checkType, item, attacker.actor);
-    if (!attacker.isTokenInRange(target, melee)) {
-      result.push(_outOfRange(target));
-    }
+    ranges.normal = await attacker.getTokensInRange(melee);
   }
+
   if (rangeType === "ranged") {
-    const longRange = !attacker.actor.system.globalModifier[checkType].ignore.longRange;
     let normal = range.normal;
     let max = range.max;
 
-    // Check for Improvised Weapon (when weapon is thrown without "toss" or "throw" property);
+    // Apply Improvised Weapon (when weapon is thrown without "toss" or "throw" property);
     if (normal == null && item.system.inventory) normal = 0;
     if (max == null && item.system.inventory) {
       max = 2 * Math.max(1, attacker.actor.system.attributes.mig.current); 
     }
 
-    if (normal != null && max != null) {
+    if (normal != null) {
       normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
-      max = max + _bonusRange("max", checkType, item, attacker.actor);
-      if (!attacker.isTokenInRange(target, max)) {
-        result.push(_outOfRange(target));  // Out of max range
-      }
-      else if (!attacker.isTokenInRange(target, normal) && longRange) {
-        result.push(_longRange(target));  // In long range
-      }
+      ranges.normal = await attacker.getTokensInRange(normal);
     }
-    else if (normal != null) {
-      normal = normal + _bonusRange("normal", checkType, item, attacker.actor);
-      if (!attacker.isTokenInRange(target, normal)) {
-        result.push(_outOfRange(target));
-      }
+    if (max != null) {
+      max = max + _bonusRange("max", checkType, item, attacker.actor);
+      ranges.max = await attacker.getTokensInRange(max);
+    }
+  }
+
+  return ranges;
+}
+
+function _targetRangeCheck(target, attacker, rangeType, item, tokensInAttackRange={max: null, normal: null}) {
+  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return [];
+  if (rangeType === "area") return [];
+  if (!attacker) return [];
+
+  const checkType = _checkType(item);
+  const longRange = !attacker.actor.system.globalModifier[checkType].ignore.longRange;
+  const result = [];
+  if (tokensInAttackRange.max != null) {
+    const inRange = !!tokensInAttackRange.max.find(token => token.id === target.id);
+    if (!inRange) result.push(_outOfRange(target));
+  }
+
+  if (tokensInAttackRange.normal != null) {
+    const inRange = !!tokensInAttackRange.normal.find(token => token.id === target.id);
+    if (!inRange) {
+      if (tokensInAttackRange.max == null) result.push(_outOfRange(target));
+      else if (longRange) result.push(_longRange(target));
     }
   }
   return result;
@@ -460,7 +526,7 @@ function _longRange(target) {
 
 function _checkType(item) {
   if (item.system.actionType === "attack") {
-    return item.system.attackFormula.checkType === "attack" ? "martial" : item.system.attackFormula.checkType;
+    return item.system.attack.checkType;
   }
   if (item.system.actionType === "check") {
     if (item.system.check.checkKey === "mar") return "martial";
@@ -471,7 +537,7 @@ function _checkType(item) {
 //========================================
 //             FINAL RESULT              =
 //========================================
-function _finalResult(results, initial, statusIds=[], afterRoll) {
+function _finalResult(results, initial, statusIds=[]) {
   const roller = [];
 
   const statuses = new Map();
@@ -548,9 +614,9 @@ function _finalResult(results, initial, statusIds=[], afterRoll) {
 
   // Add initial values if provided 
   if (initial.adv || initial.dis || initial.modifier) {
-    finalResult.adv += initial.adv;
-    finalResult.dis += initial.dis;
-    finalResult.modifier += initial.modifier;
+    finalResult.adv += initial.adv || 0;
+    finalResult.dis += initial.dis || 0;
+    finalResult.modifier += initial.modifier || "";
     finalResult.label += " + Initial Roll Menu State"
     roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}, modifier: ${initial.modifier}]`});
   }
@@ -560,7 +626,7 @@ function _finalResult(results, initial, statusIds=[], afterRoll) {
     statuses: statuses,
     targets: targets
   }
-  return [finalResult, allDRMs, afterRoll];
+  return [finalResult, allDRMs];
 }
 
 function _commonValue(values, labelPartial) {
@@ -628,34 +694,34 @@ function _markManualChanges(values, common) {
 
     if (rollModifier !== common.modifier) {
       manualChanges = true;
-      value.push({manual: `For this target/status, you need to modify that roll with: '${rollModifier}'.`});
+      value.push({manual: `For this Target/Status, you need to modify that roll with: '${rollModifier}'.`});
     }
     if (rollLevel.level !== common.level) {
       manualChanges = true;
       // ADV -> ADV
       if (rollLevel.level > 0 && common.level >= 0) {
-        value.push({manual: `For this target/status, you should roll ${rollLevel.level - common.level} more advantage dice.`});
+        value.push({manual: `For this Target/Status, you should roll ${rollLevel.level - common.level} more advantage dice.`});
       }
       // DIS -> DIS
       if (rollLevel.level < 0 && common.level <= 0) {
-        value.push({manual: `For this target/status, you should roll ${Math.abs(rollLevel.level) - Math.abs(common.level)} more disadvantage dice.`});
+        value.push({manual: `For this Target/Status, you should roll ${Math.abs(rollLevel.level) - Math.abs(common.level)} more disadvantage dice.`});
       }
       // ADV -> DIS
       if (rollLevel.level < 0 && common.level > 0) {
-        value.push({manual: `For this target/status, you need to remove all advantages and roll ${Math.abs(rollLevel.level)} disadvantage dice.`});
+        value.push({manual: `For this Target/Status, you need to remove all advantages and roll ${Math.abs(rollLevel.level)} disadvantage dice.`});
       }
       // DIS -> ADV
       if (rollLevel.level > 0 && common.level < 0) {
-        value.push({manual: `For this target/status, you need to remove all disadvantages and roll ${rollLevel.level} advantage dice.`});
+        value.push({manual: `For this Target/Status, you need to remove all disadvantages and roll ${rollLevel.level} advantage dice.`});
       }
     }
     if (crit !== common.autoCrit) {
       manualChanges = true;
-      value.push({manual: "For this target/status this role should be a guaranteed critical success."});
+      value.push({manual: "For this Target/Status this roll should be a guaranteed critical success."});
     }
     if (fail !== common.autoFail) {
       manualChanges = true;
-      value.push({manual: "For this target/status this role should be a guaranteed fail."});
+      value.push({manual: "For this Target/Status this roll should be a guaranteed fail."});
     }
   }
   return manualChanges;

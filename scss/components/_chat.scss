@@ -51,7 +51,6 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
   }
 
   .default-roll-message {
-    padding: 5px;
 
     .dice-result {
       cursor: pointer;
@@ -146,7 +145,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           }
         }
 
-        .damage, .healing, .temporary, .effectRemoval {
+        .damage, .healing, .effectRemoval {
           color: $fail;
 
           img {
@@ -178,26 +177,18 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
         }
 
         .healing {
-          color: $crit;
+          color: #067515;
 
           .revert-button {
-            color: $crit;
-          }
-        }
-
-        .temporary {
-          color: $secondary-dark;
-          
-          .revert-button {
-            color: $secondary-dark;
+            color: #067515;
           }
         }
 
         .effectRemoval {
-          color: $primary-dark;
+          color: #71127b;
 
           .revert-button {
-            color: $primary-dark;
+            color: #71127b;
           }
         }
 
@@ -339,22 +330,26 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
         }
 
         .dice-roll:not(.expanded) {
-
           .dice-tooltip {
             transform: scaleY(0);    
             transform-origin: top;
             transition: all 0.35s ease;
-            opacity: 0;
             height: 0px;
+            visibility: hidden;
+          }
+        }
+
+        .dice-roll.expanded {
+          .dice-tooltip {
+            transform: scaleY(1);    
+            transform-origin: top;
+            transition: all 0.35s ease;
+            height: auto;
+            visibility: visible;
           }
         }
 
         .dice-roll { 
-          transform-origin: top;
-          transform: scaleY(1);
-          transition: all 0.35s ease;
-          opacity: 1;
-          height: auto;
 
           .add-roll, .remove-roll, .not-supported, .modify-core-roll {
             z-index: 5;
@@ -389,6 +384,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             cursor: pointer;
 
             .dice-formula {
+              margin-top: 3px;
               color: var(--main-light);
               font-family: $font-default;
               border-radius: 3px;
@@ -442,55 +438,6 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
         }
       }
 
-      .measurement-templates {
-        border-top: 1px solid var(--main-color);
-        padding: 5px;
-        margin-top: 6px;
-        display: flex;
-        flex-direction: column;
-
-        .template {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          .template-button, .template-side-button {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 3px;
-      
-            color: var(--main-darker);
-            font-weight: bold;
-            background-color: var(--main-light);
-            border: 1px solid var(--main-color);
-            border-radius: 3px;
-            
-            box-shadow:  0 0 8px var(--main-darker) inset;
-            padding: 4px;
-            width: 100%;
-      
-            &.disabled {
-              cursor: default;
-              filter: saturate(0.5);
-      
-              &:hover {
-                text-shadow: none;
-              }
-            }
-      
-            &.selected {
-              box-shadow:  0 0 8px var(--main-light) inset;
-              color: var(--main-light);
-              background-color: var(--main-darker);
-            }
-          }
-
-          .template-side-button {
-            width: 25px;
-          }
-        }
-      }
-
       .applier {
 
         .chat-button {
@@ -502,17 +449,23 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             text-shadow: none;
             box-shadow:  0 0 6px 2px var(--main-light) inset;
           }
+
+          &.small {
+            color: $dark-red;
+            width: 30px;
+            min-width: 30px;
+          }
         }
 
-        .token-selection {
+        .target-selection {
           margin-top: 6px;
           border-top: 1px solid var(--main-color);
           display: flex;
           align-items: center;
 
-          .selection {
+          .tab-selection {
             font-size: 16px;
-            cursor: pointer;
+            
             width: 50%;
             display: flex;
             align-items: center;
@@ -525,6 +478,11 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
               color: var(--main-light);
               background-color: var(--main-darker);
               border-bottom: 1px solid var(--main-color);
+              cursor: pointer;
+              
+              &:hover {
+                box-shadow: 0 0 6px 2px var(--main-light) inset;
+              }
             }
 
             &.disabled {
@@ -533,7 +491,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             }
           }
 
-          .run-check-for-selected {
+          .refresh-targets {
             position: relative;
             width: 30px;
             height: 30px;
@@ -552,35 +510,49 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           }
         }
 
-        .token-container {
+        .gm-menu {
+          padding: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 3px;
+
+          .target-confirm {
+
+            &.confirmed {
+              filter: opacity(0.8);
+            }
+
+            &:not(.confirmed) {
+              background-color: #b31010;
+            }
+          }
+
+          a {
+            border-right: 1px solid var(--main-color);
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            font-size: 13px;
+            width: 100%;
+      
+            font-weight: bold;
+            padding: 4px;
+          }
+
+          a:first-child {
+            border-radius: 3px 0 0 3px;
+          }
+
+          a:last-child {
+            border-radius: 0 3px 3px 0;
+          }
+        }
+
+        .target-container {
           border-bottom: 1px solid var(--main-color);
           border-top: 0;
           padding: 5px;
-
-          .gm-button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 7px;
-            border-radius: 3px;
-            border: 1px solid var(--main-color);
-
-            a {
-              border-right: 1px solid var(--main-color);
-              display: flex;
-              justify-content: center;
-              text-align: center;
-              font-size: 13px;
-              width: 100%;
-        
-              font-weight: bold;
-              padding: 4px;
-            }
-
-            a:last-child {
-              border-right: 0;
-            }
-          }
           
           .target {
             padding: 3px;
@@ -659,7 +631,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
               text-align: center;
               min-width: 33%;
 
-              &.miss {
+              &.fail {
                 color: $secondary-lighter;
                 border-color: $fail;
                 background-color: $fail-background;
@@ -708,7 +680,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                       flex-direction: column;
                       margin-right: 3px;
 
-                      .modify-roll {
+                      .modify-formula {
                         text-align: center;
                         font-family: $font-default;
                         font-size: 14px;
@@ -724,7 +696,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                       }
                     }
                     
-                    .apply-damage, .apply-healing {
+                    .apply-formula {
                       display: flex;
                       justify-content: center;
                       align-items: center;
@@ -741,7 +713,7 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
                     box-shadow:  0 0 10px $crit-background inset;
                   }
 
-                  .modify-roll {
+                  .modify-formula {
                     background-color: $crit-background !important;
                   }
                 }
@@ -808,17 +780,6 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
             justify-content: space-between;
             padding: 0 5px;
             height: 24px;
-
-            a {
-              display: flex;
-              justify-content: center;
-              text-align: center;
-        
-              color: $dark-red;
-              font-weight: bold;
-              border-radius: 3px;
-              padding: 4px;
-            }
           }
 
           .button-section {
@@ -867,6 +828,13 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
           margin-bottom: 0px;
           height: fit-content;
         }
+      }
+
+      .place-areas {
+        margin: 5px;
+        padding: 5px;
+        width: stretch;
+        color: var(--main-light);
       }
     }
   }

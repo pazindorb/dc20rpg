@@ -46,7 +46,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "area",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -203,8 +203,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "BV5XIznIknDZQseo",
+        "sourceItemId": "7fbd48yyXnyYf4ki",
+        "sourceItemName": "Volley",
+        "sourceItemImg": "icons/skills/ranged/arrows-flying-salvo-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "lLb1eZX4RpXu3QyL": {
         "name": "Area",
@@ -288,8 +307,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "lLb1eZX4RpXu3QyL",
+        "sourceItemId": "7fbd48yyXnyYf4ki",
+        "sourceItemName": "Volley",
+        "sourceItemImg": "icons/skills/ranged/arrows-flying-salvo-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "PE7mFxNFF2z595Dy": {
         "name": "Rain of Fire",
@@ -373,8 +411,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "PE7mFxNFF2z595Dy",
+        "sourceItemId": "7fbd48yyXnyYf4ki",
+        "sourceItemName": "Volley",
+        "sourceItemImg": "icons/skills/ranged/arrows-flying-salvo-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "C42uo1qqYVud86Ow": {
         "name": "Suppressive Fire",
@@ -459,8 +516,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "C42uo1qqYVud86Ow",
+        "sourceItemId": "7fbd48yyXnyYf4ki",
+        "sourceItemName": "Volley",
+        "sourceItemImg": "icons/skills/ranged/arrows-flying-salvo-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -591,6 +667,30 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "areas": {
+      "default": {
+        "type": "sphere",
+        "distance": 3,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "area",
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -600,11 +700,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766050609993,
-    "modifiedTime": 1776955359337,
+    "modifiedTime": 1781985655611,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

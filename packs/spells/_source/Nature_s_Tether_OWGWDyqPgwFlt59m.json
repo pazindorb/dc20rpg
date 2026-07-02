@@ -52,7 +52,7 @@
     },
     "actionType": "check",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "spell",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -231,8 +231,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "6kPQXpG0G9JVlPC7",
+        "sourceItemId": "OWGWDyqPgwFlt59m",
+        "sourceItemName": "Nature’s Tether",
+        "sourceItemImg": "icons/magic/nature/root-vine-beanstolk-green.webp",
+        "active": false,
+        "drmCheck": true,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0
       },
       "B8Y86PbkeE0E4d4L": {
         "name": "Distance",
@@ -318,8 +337,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "B8Y86PbkeE0E4d4L",
+        "sourceItemId": "OWGWDyqPgwFlt59m",
+        "sourceItemName": "Nature’s Tether",
+        "sourceItemImg": "icons/magic/nature/root-vine-beanstolk-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "F0pdP7UktaBhtNCV": {
         "name": "Bleeding",
@@ -405,8 +443,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "F0pdP7UktaBhtNCV",
+        "sourceItemId": "OWGWDyqPgwFlt59m",
+        "sourceItemName": "Nature’s Tether",
+        "sourceItemImg": "icons/magic/nature/root-vine-beanstolk-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "KxiWppt7rr5U5P4H": {
         "name": "Tether",
@@ -485,7 +542,9 @@
               "combat": null,
               "seconds": null,
               "startRound": 38,
-              "startTurn": 1
+              "startTurn": 1,
+              "value": 1,
+              "units": "rounds"
             },
             "disabled": false,
             "flags": {
@@ -501,7 +560,7 @@
                 "actorUuid": "",
                 "itemId": ""
               },
-              "statusId": "tethered",
+              "statusId": "",
               "condition": false,
               "fromStatus": false,
               "duration": {
@@ -511,7 +570,7 @@
               },
               "effectKey": "naturesTether",
               "macro": "",
-              "addToChat": false,
+              "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -522,9 +581,9 @@
               "enableStatusOnCreation": [],
               "disableStatusOnRemoval": [],
               "requireEnhancement": "",
-              "chatMessageId": ""
+              "chatMessageId": "",
+              "changes": []
             },
-            "changes": [],
             "description": "<p>You are Tethered by Nature's Tether spell.</p>",
             "tint": "#ffffff",
             "transfer": true,
@@ -560,8 +619,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "KxiWppt7rr5U5P4H",
+        "sourceItemId": "OWGWDyqPgwFlt59m",
+        "sourceItemName": "Nature’s Tether",
+        "sourceItemImg": "icons/magic/nature/root-vine-beanstolk-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "Y30KPGqQjBr1ICWx": {
         "name": "Restrain",
@@ -632,7 +710,7 @@
           },
           "addsEffect": null,
           "macros": {
-            "preItemRoll": "const naturesTether = item.enhancements.active.get(\"KxiWppt7rr5U5P4H\");\nif (!naturesTether) return;\n\nconst effect = naturesTether.modifications.addsEffect;\nconst restrained = CONFIG.statusEffects.find(s => s.id === \"restrained\")\nif (!restrained) return;\n\neffect.statuses.push(\"restrained\");\nfor (const change of restrained.changes) effect.changes.push(change);",
+            "preItemRoll": "const naturesTether = item.enhancements.active.get(\"KxiWppt7rr5U5P4H\");\nif (!naturesTether) return;\n\nif (naturesTether.number > 0) {\n  const effect = naturesTether.modifications.addsEffect;\n  DC20.tools.applyStatusToEffect(effect, \"restrained\")\n}",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -647,8 +725,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "Y30KPGqQjBr1ICWx",
+        "sourceItemId": "OWGWDyqPgwFlt59m",
+        "sourceItemName": "Nature’s Tether",
+        "sourceItemImg": "icons/magic/nature/root-vine-beanstolk-green.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -820,6 +917,9 @@
       "plants": "Plants",
       "restrained": "Restrained",
       "tethered": "Tethered"
+    },
+    "rollConfig": {
+      "canCrit": false
     }
   },
   "effects": [],
@@ -829,11 +929,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777297687442,
-    "modifiedTime": 1777987968332,
+    "modifiedTime": 1782581668081,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

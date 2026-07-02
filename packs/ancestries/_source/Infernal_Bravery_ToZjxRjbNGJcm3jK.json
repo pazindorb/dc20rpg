@@ -18,7 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -146,13 +146,10 @@
     {
       "origin": "Item.ToZjxRjbNGJcm3jK",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "name": "Infernal Bravery",
@@ -163,16 +160,16 @@
         "statusId": "",
         "disableWhen": {
           "mode": "=="
-        }
+        },
+        "changes": [
+          {
+            "key": "system.statusResistances.intimidated.resistance",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.statusResistances.intimidated.resistance",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "<p><span>You have ADV on Saves against being <strong>Intimidated</strong>.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -196,7 +193,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.6.0",
         "createdTime": null,
@@ -204,6 +201,9 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!ToZjxRjbNGJcm3jK.lSrEUlJLU0uaM4oH"
     }
   ],
@@ -216,11 +216,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.8pAUrNKSpCGAsDsm",
-    "coreVersion": "13.344",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1745570065785,
+    "modifiedTime": 1781983705382,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

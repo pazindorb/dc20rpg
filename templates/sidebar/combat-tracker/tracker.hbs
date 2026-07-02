@@ -75,7 +75,7 @@
 
         {{else}}
           {{#if canRollInitiative}}
-            <button type="button" class="combatant-control roll" data-action="rollInitiative" data-tooltip aria-label="{{ localize " COMBAT.InitiativeRoll" }}"
+            <button type="button" class="combatant-control roll" data-action="rollInitiative" data-tooltip="{{localize "dc20rpg.combatTracker.rollInitiative"}}"
               style="--initiative-icon: url('{{ @root.initiativeIcon.icon }}'); --initiative-icon-hover: url('{{ @root.initiativeIcon.hover }}');"></button>
           {{else}}
             <button disabled class="combatant-control roll" data-tooltip aria-label="{{ localize "dc20rpg.combatTracker.startCombat" }}"><i class="fa-solid fa-square-x fa-2x"></i></button>

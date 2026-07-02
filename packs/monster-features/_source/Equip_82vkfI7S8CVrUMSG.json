@@ -52,7 +52,7 @@
     },
     "actionType": "other",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -294,12 +294,10 @@
       "img": "icons/equipment/chest/breastplate-layered-steel-black.webp",
       "origin": "Item.bdGmgLKB2K4FhGG9",
       "duration": {
-        "rounds": 1,
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -334,28 +332,28 @@
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
         "requireEnhancement": "",
-        "chatMessageId": ""
+        "chatMessageId": "",
+        "changes": [
+          {
+            "key": "system.moveCost",
+            "value": 1,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.precision.bonuses.always",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          },
+          {
+            "key": "system.defences.area.bonuses.always",
+            "value": 2,
+            "priority": null,
+            "type": "add"
+          }
+        ]
       },
-      "changes": [
-        {
-          "key": "system.moveCost",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.defences.precision.bonuses.always",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        },
-        {
-          "key": "system.defences.area.bonuses.always",
-          "mode": 2,
-          "value": "2",
-          "priority": null
-        }
-      ],
       "description": "<p>While equipped:</p><ul><li><p>You and the target are Slowed. You occupy the same Space and move together.</p></li><li><p>The target has +2 PD and +2 AD.</p></li><li><p>This effect ends when you or the target dies, you use Equip on another creature, or you spend 1 AP unequip from the target and move into an unoccupied Space adjacent to it.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": false,
@@ -367,11 +365,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.351",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
         "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null
+        "lastModifiedBy": null,
+        "createdTime": null,
+        "modifiedTime": null
       },
+      "showIcon": 2,
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "folder": null,
       "_key": "!items.effects!82vkfI7S8CVrUMSG.KEmwwoa47QBmWVZI"
     }
   ],
@@ -381,11 +391,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1778095346944,
-    "modifiedTime": 1778157846382,
+    "modifiedTime": 1781983712396,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

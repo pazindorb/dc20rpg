@@ -23,7 +23,8 @@
       "combatMastery": true,
       "critThreshold": 20,
       "formulaMod": "",
-      "halfDmgOnMiss": false
+      "halfDmgOnMiss": false,
+      "rangeType": ""
     },
     "duration": {
       "value": null,
@@ -60,102 +61,10 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {
-      "tfyG8nXdvzWjtHBx": {
-        "name": "Long-Limbed",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "custom": {},
-          "restPoints": null,
-          "ap": null
-        },
-        "charges": {
-          "consume": false,
-          "fromOriginal": false,
-          "subtract": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "ignoreDR": false,
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": true,
-          "bonusRange": {
-            "melee": 1,
-            "normal": null,
-            "max": null
-          },
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": null
-        },
-        "description": "<p>When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>, your reach is <strong>1 Space</strong> greater than normal.</p>",
-        "hide": false,
-        "key": "tfyG8nXdvzWjtHBx",
-        "sourceItemId": "crfYLAhDfW2GRY5b",
-        "sourceItemName": "Long-Limbed",
-        "sourceItemImg": "icons/creatures/unholy/demon-fanged-horned-yellow.webp",
-        "active": false
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
-      "copy": true,
-      "copyFor": "system.attackFormula.rangeType=[\"melee\"]&&system.attackFormula.checkType=[\"attack\"]"
+      "copy": false,
+      "copyFor": ""
     },
     "save": {
       "type": "phy",
@@ -238,11 +147,10 @@
       "img": "icons/creatures/unholy/demon-fanged-horned-yellow.webp",
       "origin": "Compendium.dc20rpg.ancestries.Item.crfYLAhDfW2GRY5b",
       "duration": {
-        "startTime": 0,
-        "combat": null,
-        "seconds": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "flags": {
@@ -275,16 +183,27 @@
         },
         "enableStatusOnCreation": [],
         "disableStatusOnRemoval": [],
-        "requireEnhancement": ""
+        "requireEnhancement": "",
+        "changes": [
+          {
+            "useCustom": false,
+            "key": "system.globalModifier.martial.range.melee",
+            "type": "add",
+            "value": 1,
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "useCustom": false,
+            "key": "system.globalModifier.melee.threat",
+            "type": "add",
+            "value": 1,
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "applyToTemplate": false
       },
-      "changes": [
-        {
-          "key": "system.globalModifier.martial.range.melee",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        }
-      ],
       "description": "<p>When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>, your reach is <strong>1 Space</strong> greater than normal.</p>",
       "tint": "#ffffff",
       "transfer": true,
@@ -294,13 +213,23 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "13.350",
+        "coreVersion": "14.364",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.0",
         "createdTime": 1766930808258,
-        "modifiedTime": 1766930837505,
+        "modifiedTime": 1782161672792,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
+      "start": {
+        "combat": null,
+        "round": null,
+        "time": 0,
+        "turn": null,
+        "combatant": null,
+        "initiative": null
+      },
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!crfYLAhDfW2GRY5b.MjTa9eE6x7GDi92d"
     }
   ],
@@ -313,11 +242,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.0",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1766930814655,
+    "modifiedTime": 1782161688770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

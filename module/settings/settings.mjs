@@ -58,16 +58,6 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  // Removed with changes related to v13. Do we want to bring it back one day?
-  // settings.register("dc20rpg", "snapMovement", {
-  //   name: "Snap Movement",
-  //   hint: "If selected, Token will move to the closest space when there is not enough Move Points to its final destination.",
-  //   scope: "world",
-  //   config: true,
-  //   default: false,
-  //   type: Boolean
-  // });
-
   settings.register("dc20rpg", "spendMoreApOnMovePoints", {
     name: "Spend AP on Move Points automatically",
     hint: "If selected, Not enough Move Points will cause AP to be spent automatically on Move Points.",
@@ -83,7 +73,7 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "disableDifficultTerrain", {
     name: "Disable Difficult Terrain",
-    hint: "If selected, Difficult Terrain won't influence token movement costs.",
+    hint: "If selected, Difficult Terrain and Token Collision will not affect the tokens movement cost.",
     scope: "world",
     config: true,
     default: false,
@@ -116,8 +106,17 @@ export function registerGameSettings(settings) {
 	});
 
   // ======================================
-  // ==           TARGETTING             ==
+  // ==           TARGETING             ==
   // ======================================
+  settings.register("dc20rpg", "forceTargets", {
+    name: "Force Targeting",
+    hint: "If selected, Player will be forced to select target before making a check (only if item requires targets).",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "autoDRMCheck", {
     name: "Run DRM Check Automatically",
     hint: "If selected, Dynamic Roll Modifier Check will run automatically when performing a roll.",
@@ -128,20 +127,29 @@ export function registerGameSettings(settings) {
 	});
 
   settings.register("dc20rpg", "enableRangeCheck", {
-    name: "Enable Range Check",
+    name: "Respect Range Rules",
     hint: "If selected, Normal/Long/Out of Range rulles will be respected (e.g. Weapon Ranges).",
     scope: "world",
     config: true,
-    default: false,
+    default: true,
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "enablePositionCheck", {
-    name: "Enable Position Check",
-    hint: "If selected, Token positioning rules will be respected (e.g. Close Quarters, Flanking).",
+  settings.register("dc20rpg", "enableFlankingCheck", {
+    name: "Enable Flanking Rules",
+    hint: "Respect Flanking and Cover Rules",
     scope: "world",
     config: true,
-    default: false,
+    default: true,
+    type: Boolean
+	});
+
+  settings.register("dc20rpg", "enableCloseQuarters", {
+    name: "Enable Close Quarters",
+    hint: "Respect Close Quarters/Unwieldy Property Rules",
+    scope: "world",
+    config: true,
+    default: true,
     type: Boolean
 	});
 
@@ -155,6 +163,21 @@ export function registerGameSettings(settings) {
       separated: "Separated Group",
       hostile: "Part of the Hostile Group",
       friendly: "Part of the Friendly Group"
+    }}),
+	});
+
+  // ======================================
+  // ==           CANVAS DROP            ==
+  // ======================================
+  settings.register("dc20rpg", "dropCanvasItemSize", {
+    name: "Default size of dropped item",
+    scope: "world",
+    config: true,
+    default: "tiny",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "tiny", choices: {
+      tiny: "Tiny",
+      small: "Small",
+      medium: "Medium",
     }}),
 	});
 
@@ -174,12 +197,12 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  settings.register("dc20rpg", "showDamageForPlayers", {
-    name: "Show Damage/Healing calculations",
-    hint: "If false, only GM will be able to see damage and healing calculations per target.",
+  settings.register("dc20rpg", "hideCalculationsFromPlayers", {
+    name: "Hide Damage/Healing calculations",
+    hint: "If selected, only GM will be able to see damage and healing calculations per target.",
     scope: "world",
     config: true,
-    default: true,
+    default: false,
     type: Boolean
 	});
 
@@ -198,7 +221,7 @@ export function registerGameSettings(settings) {
   settings.register("dc20rpg", "tokenHotbar", {
     scope: "client",
     config: false,
-    default: false,
+    default: true,
     type: Boolean
   });
 

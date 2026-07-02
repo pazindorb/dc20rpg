@@ -11,6 +11,7 @@ export class DC20RpgTokenConfig extends foundry.applications.sheets.TokenConfig 
 
   async render(target, options={}) {
     const rendered = await super.render(target, options);
+    if (!this.element) return rendered;
 
     const dimentions = this.element.querySelector('[data-application-part="appearance"]').querySelector('.slim');
     if (dimentions) {
@@ -43,6 +44,7 @@ export class DC20PrototypeTokenConfig extends foundry.applications.sheets.Protot
 
   async render(target, options={}) {
     const rendered = await super.render(target, options);
+    if (!this.element) return rendered;
 
     const dimentions = this.element.querySelector('[data-application-part="appearance"]').querySelector('.slim');
     if (dimentions) {

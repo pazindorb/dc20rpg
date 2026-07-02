@@ -1,0 +1,33 @@
+{{#each array as |formula index|}}
+<div class="row">
+  <a class="use-modified margin-top-3 margin-right-5 fa-lg {{#if formula.useModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
+      data-target-hash="{{../targetHash}}" data-category="{{../category}}" data-index="{{index}}" data-tooltip="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
+  {{#if formula.overridenDefence}}
+  <i class="fa-solid fa-arrows-rotate" data-tooltip="{{varLocalize "dc20rpg.chat.overridenDefence." formula.overridenDefence ""}}"></i>
+  {{/if}}
+
+  <div class="{{../category}}">
+    {{#if formula.useModified}}
+    <div class="value" data-tooltip="{{formula.modified.source}}">
+      <span>{{formula.modified.value}} {{formula.modified.label}}</span>
+    </div>
+    {{else}}
+    <div class="value" data-tooltip="{{formula.clear.source}}">
+      <span>{{formula.clear.value}} {{formula.clear.label}}</span>
+    </div>
+    {{/if}}
+
+    {{#if @root.userIsGM}}
+    <div class="button-container">
+      <div class="small-button-wrapper">
+        <a class="modify-formula chat-button margin-bottom-1" data-up="true" data-target-hash="{{../targetHash}}" data-index="{{index}}" data-category="{{../category}}" data-tooltip="{{localize "dc20rpg.chat.addOne"}}"> + </a>
+        <a class="modify-formula chat-button margin-top-1" data-down="true" data-target-hash="{{../targetHash}}" data-index="{{index}}" data-category="{{../category}}" data-tooltip="{{localize "dc20rpg.chat.subtractOne"}}"> - </a>
+      </div>
+      <a class="apply-formula chat-button" data-target-hash="{{../targetHash}}" data-index="{{index}}" data-category="{{../category}}" data-tooltip="{{localize "dc20rpg.chat.applyFormula"}}">
+        <i class="fa-lg fa-solid fa-gavel"></i>
+      </a>
+    </div>
+    {{/if}}
+  </div>
+</div>
+{{/each}}

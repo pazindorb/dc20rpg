@@ -55,7 +55,7 @@
     },
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "melee",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "area",
       "rollBonus": 0,
@@ -150,12 +150,12 @@
         "description": "<p>You deal 2 additional damage. The Grapple ends.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "",
+          "stamina": "1",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -227,8 +227,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "YE0Tb7ufnYHzEa5h",
+        "sourceItemId": "frLPKORVmq3kIfAf",
+        "sourceItemName": "Slam",
+        "sourceItemImg": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "emfp665Zpbo8afgz": {
         "name": "Stunned",
@@ -237,12 +258,12 @@
         "description": "<p>(Repeatable) The target makes a Physical Save. </p><p><strong>Save Failure:</strong> They are Stunned 1 for 1 Round. </p><p>You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": 2,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "",
+          "stamina": "2",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -295,7 +316,8 @@
             "forOneMinute": false,
             "forXRounds": 1,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -314,8 +336,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "emfp665Zpbo8afgz",
+        "sourceItemId": "frLPKORVmq3kIfAf",
+        "sourceItemName": "Slam",
+        "sourceItemImg": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "aqnazcDO6JeBJv1G": {
         "name": "Wall Rake",
@@ -324,12 +367,12 @@
         "description": "<p>You slam 1 Grappled creature into a wall within 1 Space and move up to X Spaces along the wall, ending your movement within 1 Space of the wall. </p><p>The target makes a Repeated Might Save against your Save DC. <strong>Save Failure:</strong> They gain Bleeding X.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "",
+          "stamina": "1",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -382,7 +425,8 @@
             "forOneMinute": false,
             "forXRounds": null,
             "repeatedSave": true,
-            "repeatedSaveKey": "mig"
+            "repeatedSaveKey": "mig",
+            "stacks": null
           },
           "addsEffect": null,
           "macros": {
@@ -401,8 +445,29 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": ""
+        },
+        "key": "aqnazcDO6JeBJv1G",
+        "sourceItemId": "frLPKORVmq3kIfAf",
+        "sourceItemName": "Slam",
+        "sourceItemImg": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -533,6 +598,9 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "attack": {
+      "targetDefence": "area"
     }
   },
   "effects": [],
@@ -542,11 +610,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1766074468748,
-    "modifiedTime": 1776954680968,
+    "modifiedTime": 1782035935315,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

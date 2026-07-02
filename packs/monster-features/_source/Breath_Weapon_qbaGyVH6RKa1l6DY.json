@@ -43,7 +43,7 @@
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
-      "rangeType": "ranged",
+      "rangeType": "",
       "checkType": "attack",
       "targetDefence": "precision",
       "rollBonus": 0,
@@ -200,8 +200,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "FfGFruomJ1ndpVbw",
+        "sourceItemId": "qbaGyVH6RKa1l6DY",
+        "sourceItemName": "Breath Weapon",
+        "sourceItemImg": "icons/creatures/abilities/dragon-ice-breath-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       },
       "JqPWutkXCOnq9cBn": {
         "name": "Swap to Area Attack",
@@ -287,8 +306,27 @@
             "max": null
           },
           "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0
-        }
+          "changeStaminaSpendLimit": 0,
+          "changeDuration": false,
+          "duration": {
+            "value": null,
+            "type": "",
+            "timeUnit": ""
+          },
+          "actionChange": false,
+          "actionType": ""
+        },
+        "key": "JqPWutkXCOnq9cBn",
+        "sourceItemId": "qbaGyVH6RKa1l6DY",
+        "sourceItemName": "Breath Weapon",
+        "sourceItemImg": "icons/creatures/abilities/dragon-ice-breath-blue.webp",
+        "active": false,
+        "repeatable": true,
+        "defaultState": 0,
+        "copyToSheetRoll": {},
+        "altCostMax": 0,
+        "altCost": 0,
+        "drmCheck": false
       }
     },
     "copyEnhancements": {
@@ -481,7 +519,49 @@
     },
     "tip": "",
     "staminaFeature": false,
-    "flavorFeature": false
+    "flavorFeature": false,
+    "areas": {
+      "default": {
+        "type": "line",
+        "distance": 4,
+        "width": 1,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      },
+      "GhNqAXiiuLqPnaEo": {
+        "type": "cone",
+        "distance": 2,
+        "width": null,
+        "height": 1,
+        "unit": "",
+        "alwaysActive": false,
+        "selfOnly": false,
+        "linkWithToggle": false,
+        "attachToToken": false,
+        "blockByWalls": true,
+        "effect": null,
+        "difficultTerrain": "",
+        "applyEffectsFor": "",
+        "preventEffectRemoval": false,
+        "preCreation": "",
+        "postCreation": ""
+      }
+    },
+    "attack": {
+      "rangeType": "ranged",
+      "closeQuarters": true
+    }
   },
   "effects": [],
   "flags": {},
@@ -489,11 +569,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.351",
+    "coreVersion": "14.364",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.0.2",
+    "systemVersion": "0.10.6.0",
     "createdTime": 1777392780733,
-    "modifiedTime": 1777453795804,
+    "modifiedTime": 1781985658241,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
