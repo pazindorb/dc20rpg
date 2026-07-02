@@ -44,37 +44,32 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
     // Darkvision
     if (senses.darkvision.value > 0) {
-      const defaults = CONFIG.Canvas.visionModes.darkvision.vision.defaults;
+      detection.basicSight.range = senses.darkvision.value;
       if (sight.visionMode === "basic") sight.visionMode = "darkvision";
-      if (senses.darkvision.value > sight.range) sight.range = senses.darkvision.value;
-      if (sight.saturation === 0) sight.saturation = defaults.saturation;
     }
 
     // Tremorsense
     if (senses.tremorsense.value > 0) {
-      detection.push({
-        id: "feelTremor",
+      detection.feelTremor = {
         enabled: true,
         range: senses.tremorsense.value
-      })
+      }
     }
 
     // Blindsight
     if (senses.blindsight.value > 0) {
-      detection.push({
-        id: "seeInvisibility",
+      detection.seeInvisibility = {
         enabled: true,
         range: senses.blindsight.value
-      })
+      }
     }
 
     // Truesight
     if (senses.truesight.value > 0) {
-      detection.push({
-        id: "seeAll",
+      detection.seeAll = {
         enabled: true,
         range: senses.truesight.value
-      })
+      }
     }
   }
 
