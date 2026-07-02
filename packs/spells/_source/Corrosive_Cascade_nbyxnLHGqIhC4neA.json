@@ -564,7 +564,7 @@
               "effectKey": "",
               "macro": "",
               "addToChat": true,
-              "applyToTemplate": true,
+              "applyToTemplate": false,
               "nonessential": false,
               "disableWhen": {
                 "path": "",
@@ -888,7 +888,7 @@
               },
               "effectKey": "",
               "macro": "const damage = effect.flags?.dc20rpg?.acidRain;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Acid Rain\",\n  type: \"corrosion\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
-              "addToChat": true,
+              "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
               "disableWhen": {
@@ -942,7 +942,7 @@
             "folder": null
           },
           "macros": {
-            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {acidRain: enh.number};\nitem.system.duration.type = \"sustain\"",
+            "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg = {acidRain: enh.number};\nitem.system.areas.default.applyEffectsFor = \"all\";\nitem.system.duration.type = \"sustain\";",
             "postItemRoll": ""
           },
           "rollLevelChange": false,
@@ -1186,7 +1186,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.10.6.0",
     "createdTime": 1767712754397,
-    "modifiedTime": 1782598553223,
+    "modifiedTime": 1782931314560,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
