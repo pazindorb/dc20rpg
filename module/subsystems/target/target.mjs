@@ -61,10 +61,12 @@ export class DC20Target {
             bludgeoning: {}
           }
         },
-        healingReduction: {},
         defences: {},
         resources: {health: {max: 1, current: 1, temp: 0, value: 1}},
-        globalModifier: {prevent: {hpRegeneration: false, criticalHit: false}}
+        globalModifier: {
+          modify: {healingTaken: {}, damageTaken: {}},
+          prevent: {hpRegeneration: false, criticalHit: false}
+        }
       },
       getRollData: () => {},
       ...dummyActorData
@@ -213,6 +215,7 @@ export class DC20Target {
     const opt = foundry.utils.deepClone(options);
     opt.isDamage = true;
     opt.reduction = this.actor ? foundry.utils.deepClone(this.actor.system.damageReduction) : {};
+    opt.modifyTaken = this.actor ? foundry.utils.deepClone(this.actor.system.globalModifier.modify.damageTaken) : {};
     opt.label = "Damage";
 
     const calcualted = [];
@@ -245,7 +248,7 @@ export class DC20Target {
     // Prepare calculation options
     const opt = foundry.utils.deepClone(options);
     opt.isHealing = true;
-    opt.reduction = this.actor ? foundry.utils.deepClone(this.actor.system.healingReduction) : {};
+    opt.modifyTaken = this.actor ? foundry.utils.deepClone(this.actor.system.globalModifier.modify.healingTaken) : {};
     opt.label = "Healing";
 
     const calcualted = [];
@@ -305,6 +308,7 @@ export class DC20Target {
 
   async #calculateCommonFormula(damage, calcData, options) {
     const final = foundry.utils.deepClone(damage);
+    const modifyTaken = options.modifyTaken;
     const reduction = options.reduction;
 
     if (calcData.divideBy) {
@@ -329,7 +333,7 @@ export class DC20Target {
     }
     
     final.modified = this.#critSuccess(final.modified, calcData);
-    final.modified = this.#flatReduction(final.modified, reduction.flat, options.label);
+    final.modified = this.#applyFlatModification(final.modified, modifyTaken.flat, options.label);
     final.modified = await this.#targetModifierBonus(final.modified, calcData);
 
     if (options.isDamage) {
@@ -338,8 +342,14 @@ export class DC20Target {
       final.clear = this.#damageModifications(final.clear, reduction);
     }
 
-    if (reduction.flatHalf) final.modified = this.#flatReductionHalf(final.modified, options.label);
-    if (reduction.flatHalf) final.clear = this.#flatReductionHalf(final.clear, options.label);
+    if (modifyTaken.reduce && !modifyTaken.amplify) {
+      final.modified = this.#applyReductionHalf(final.modified, options.label);
+      final.clear = this.#applyReductionHalf(final.clear, options.label);
+    }
+    if (!modifyTaken.reduce && modifyTaken.amplify) {
+      final.modified = this.#applyAmplifyDouble(final.modified, options.label);
+      final.clear = this.#applyAmplifyDouble(final.clear, options.label);
+    }
 
     if (options.isAttack) {
       if (attackHit < 0 && !calcData.isCritSuccess) {
@@ -443,20 +453,26 @@ export class DC20Target {
     }
   }
 
-  #flatReduction(formula, flatValue, label) {
+  #applyFlatModification(formula, flatValue, label) {
     if (!flatValue) return formula;
-    if (flatValue > 0) formula.source += ` - ${label} Reduction(${flatValue})`;
-    if (flatValue < 0) formula.source += ` + Extra ${label}(${Math.abs(flatValue)})`;
-    formula.value -= flatValue;
+    if (flatValue > 0) formula.source += ` + Extra ${label}(${Math.abs(flatValue)})`;
+    if (flatValue < 0) formula.source += ` - ${label} Reduction(${flatValue})`;
+    formula.value += flatValue;
     return formula;
   }
 
-  #flatReductionHalf(formula, label) {
+  #applyReductionHalf(formula, label) {
     // Should Reduce at least 1
     formula.source += ` - ${label} Reduction(Half)`;
     const newValue = Math.ceil(formula.value/2);
     if (newValue === formula.value) formula.value = formula.value - 1;
     else formula.value = newValue;
+    return formula;
+  }
+
+  #applyAmplifyDouble(formula, label) {
+    formula.source += ` + ${label} Amplification(Double)`;
+    formula.value = (formula.value * 2);
     return formula;
   }
 

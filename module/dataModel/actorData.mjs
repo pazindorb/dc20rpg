@@ -44,9 +44,9 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       }),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(), 
-      healingReduction: new f.SchemaField({
-        flat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        flatHalf: new f.BooleanField({required: true, initial: false}),
+      healingReduction: new f.SchemaField({ // TODO: Przenieść do "globalModifier" - dodać opcję flatValue, reduce i amplify
+        flat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),   // TODO backward compatibilty remove as part of 0.11.0 update
+        flatHalf: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.11.0 update
       }),
       statusResistances: new ConditionsFields(),
       customCondition: new f.StringField({initial: ""}),
@@ -137,6 +137,18 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         allow: new f.SchemaField({ 
           overheal: new f.BooleanField({required: true, initial: false}),
           freeSustain: new f.BooleanField({required: true, initial: false}),
+        }),
+        modify: new f.SchemaField({ 
+          healingTaken: new f.SchemaField({ 
+            flat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            reduce: new f.BooleanField({required: true, initial: false}),
+            amplify: new f.BooleanField({required: true, initial: false}),
+          }),
+          damageTaken: new f.SchemaField({ 
+            flat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+            reduce: new f.BooleanField({required: true, initial: false}),
+            amplify: new f.BooleanField({required: true, initial: false}),
+          }),
         }),
         prevent: new f.SchemaField({ 
           goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

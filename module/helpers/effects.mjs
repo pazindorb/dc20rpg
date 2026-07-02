@@ -272,9 +272,9 @@ export async function addFlatDamageReductionEffect(actor) {
       },
       changes: [
         {
-          key: "system.damageReduction.flat",
+          key: "system.globalModifier.modify.damageTaken.flat",
           type: "add",
-          value:"1"
+          value: -1
         },
         {
           key: "system.events",
@@ -448,6 +448,13 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.spell.range.melee": "Spell Melee Range (bonus)",
     "system.globalModifier.spell.range.normal": "Spell Normal Range (bonus)",
     "system.globalModifier.spell.range.max": "Spell Max Range (bonus)",
+
+    "system.globalModifier.modify.healingTaken.flat": "Healing Taken (Flat)",
+    "system.globalModifier.modify.healingTaken.reduce": "Healing Taken (Reduce Half)",
+    "system.globalModifier.modify.healingTaken.amplify": "Healing Taken (Amplify Double)",
+    "system.globalModifier.modify.damageTaken.flat": "Damage Taken (Flat)",
+    "system.globalModifier.modify.damageTaken.reduce": "Damage Taken (Reduce Half)",
+    "system.globalModifier.modify.damageTaken.amplify": "Damage Taken (Amplify Double)",
 
     "system.globalFormulaModifiers.damage.martial.melee": "GFM: Melee Martial Damage",
     "system.globalFormulaModifiers.damage.martial.ranged": "GFM: Ranged Martial Damage",

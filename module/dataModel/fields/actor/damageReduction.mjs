@@ -13,8 +13,8 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
     });
 
     fields = {
-      flat: new f.NumberField(init0),
-      flatHalf: new f.BooleanField({required: true, initial: false}),
+      flat: new f.NumberField(init0),   // TODO backward compatibilty remove as part of 0.11.0 update
+      flatHalf: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.11.0 update
       pdr: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         label: new f.StringField({initial: "dc20rpg.damageReduction.pdr"}),

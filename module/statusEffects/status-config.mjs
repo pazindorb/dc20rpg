@@ -510,10 +510,10 @@ function _doomed() {
           value: -1
         },
         {
-          key: "system.healingReduction.flat",
+          key: "system.globalModifier.modify.healingTaken.flat",
           type: "add",
           priority: undefined,
-          value: 1
+          value: -1
         },
       ]
     },
