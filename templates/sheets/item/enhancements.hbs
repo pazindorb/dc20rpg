@@ -317,6 +317,11 @@
         path=(concat "system.enhancements." key ".modifications.againstStatus")
         status=enhancement.modifications.againstStatus
       }}
+      <div class="form-group">
+        <label>{{localize "dc20rpg.item.sheet.enh.preventEnhStatusStacking"}}</label>
+        <input type="checkbox" name="system.enhancements.{{key}}.preventEnhStatusStacking" {{checked enhancement.preventEnhStatusStacking}}/>
+        <p class="hint">{{localize "dc20rpg.item.sheet.enh.preventEnhStatusStackingHint"}}</p>
+      </div>
     {{/if}}   
     <hr/>
 

@@ -105,7 +105,6 @@ export function modifyActiveEffects(actor) {
       _checkToggleableEffects(effect, item);
       _checkEquippedAndAttunedEffects(effect, item);
     }
-    _checkEffectCondition(effect, actor);
   }
 }
 
@@ -131,28 +130,31 @@ function _checkEquippedAndAttunedEffects(effect, item) {
   else effect.disable({ignoreStateChangeLock: true});
 }
 
-function _checkEffectCondition(effect, actor) {
-  if (effect.disabled === true) return; // If effect is already turned off manually we can skip it
-  const disableWhen = effect.system?.disableWhen;
-  if (disableWhen) {
-    const value = getValueFromPath(actor, disableWhen.path);
-    if (!value) return;
-    const expectedValue = parseFromString(disableWhen.value);
-    const has = (value, expected) => {
-      if (value.has) return value.has(expected);
-      if (value.includes) return value.includes(expected);
-      return undefined;
-    };
+export function checkDisableWhenCondition(actor) {
+  for (const effect of actor.allEffects) {
+    if (effect.disabled === true) continue; // If effect is already turned off manually we can skip it
+    
+    const disableWhen = effect.system?.disableWhen;
+    if (disableWhen) {
+      const value = getValueFromPath(actor, disableWhen.path);
+      if (!value) continue;
+      const expectedValue = parseFromString(disableWhen.value);
+      const has = (value, expected) => {
+        if (value.has) return value.has(expected);
+        if (value.includes) return value.includes(expected);
+        return undefined;
+      };
 
-    switch (disableWhen.mode) {
-      case "==": effect.disabled = value === expectedValue; break;
-      case "!=": effect.disabled = value !== expectedValue; break;
-      case ">=": effect.disabled = value >= expectedValue; break;
-      case ">": effect.disabled = value > expectedValue; break;
-      case "<=": effect.disabled = value <= expectedValue; break;
-      case "<": effect.disabled = value < expectedValue; break;
-      case "has": effect.disabled = has(value, expectedValue) === true; break;
-      case "hasNot": effect.disabled = has(value, expectedValue) === false; break;
+      switch (disableWhen.mode) {
+        case "==": effect.disabled = value === expectedValue; break;
+        case "!=": effect.disabled = value !== expectedValue; break;
+        case ">=": effect.disabled = value >= expectedValue; break;
+        case ">": effect.disabled = value > expectedValue; break;
+        case "<=": effect.disabled = value <= expectedValue; break;
+        case "<": effect.disabled = value < expectedValue; break;
+        case "has": effect.disabled = has(value, expectedValue) === true; break;
+        case "hasNot": effect.disabled = has(value, expectedValue) === false; break;
+      }
     }
   }
 }

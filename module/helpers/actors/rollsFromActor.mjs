@@ -1,5 +1,4 @@
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
-import { runTemporaryItemMacro } from "../macros.mjs";
 import { DC20ChatMessage } from "../../sidebar/chat/chat-message.mjs";
 import { runPostRollEffectActions } from "../effects.mjs";
 import DC20RpgActiveEffect from "../../documents/activeEffect.mjs";
@@ -33,6 +32,7 @@ export function finishRoll(actor, item, rollMenu, coreRoll) {
   _toggleItem(item);
   runPostRollEffectActions();
   reenablePreTriggerEvents();
+  _clearUsedWeapon(item);
   delete item.damageOverride;
 }
 
@@ -102,5 +102,11 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
 function _toggleItem(item) {
   if (item.system.toggle?.toggleable && item.system.toggle.toggleOnRoll) {
     item.toggle({forceOn: true});
+  }
+}
+
+function _clearUsedWeapon(item) {
+  if (item.system?.usesWeapon?.weaponId) {
+    item.update({["system.usesWeapon.weaponId"]: ""});
   }
 }

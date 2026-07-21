@@ -15,7 +15,7 @@ import { enhanceStatusEffectWithExtras, healthThresholdsCheck } from "../statusE
 import DC20RpgActiveEffect from "./activeEffect.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
-import { enhanceEffects, modifyActiveEffects, prepareStatuses, runSpecialStatusChecks } from "./actor/actor-effects.mjs";
+import { checkDisableWhenCondition, enhanceEffects, modifyActiveEffects, prepareStatuses, runSpecialStatusChecks } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { enrichWithHelpers } from "./actor/actor-helpers.mjs";
 import {prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-roll.mjs";
@@ -208,6 +208,7 @@ export class DC20RpgActor extends Actor {
     modifyActiveEffects(this);
     prepareStatuses(this);
     runSpecialStatusChecks(this);
+    checkDisableWhenCondition(this);
     
     prepareUniqueItemData(this);
     prepareEquippedItemsFlags(this);

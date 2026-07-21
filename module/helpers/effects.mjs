@@ -467,6 +467,7 @@ export function getEffectModifiableKeys() {
 
     // Dynamic Roll Modifier
     "system.dynamicRollModifier.onYou.attack": "DRM: Attack Check",
+    "system.dynamicRollModifier.onYou.checks.atr": "DRM: All Attribute Checks",
     "system.dynamicRollModifier.onYou.checks.mig": "DRM: Might Check",
     "system.dynamicRollModifier.onYou.checks.agi": "DRM: Agility Check",
     "system.dynamicRollModifier.onYou.checks.cha": "DRM: Charisma Check",
@@ -477,6 +478,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
     "system.dynamicRollModifier.onYou.skills": "DRM: Skill Check",
 
+    "system.dynamicRollModifier.onYou.saves.all": "DRM: All Saves",
     "system.dynamicRollModifier.onYou.saves.mig": "DRM: Might Save",
     "system.dynamicRollModifier.onYou.saves.agi": "DRM: Agility Save",
     "system.dynamicRollModifier.onYou.saves.cha": "DRM: Charisma Save",
@@ -484,6 +486,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.deathSave": "DRM: Death Save",
 
     "system.dynamicRollModifier.againstYou.attack": "DRM (Against): Attack Check",
+    "system.dynamicRollModifier.againstYou.checks.atr": "DRM (Against): All Attribute Checks",
     "system.dynamicRollModifier.againstYou.checks.mig": "DRM (Against): Might Check",
     "system.dynamicRollModifier.againstYou.checks.agi": "DRM (Against): Agility Check",
     "system.dynamicRollModifier.againstYou.checks.cha": "DRM (Against): Charisma Check",
@@ -493,6 +496,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.againstYou.checks.spe": "DRM (Against): Spell Check",
     "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",
 
+    "system.dynamicRollModifier.againstYou.saves.all": "DRM (Against): All Saves",
     "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Save",
     "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Save",
     "system.dynamicRollModifier.againstYou.saves.cha": "DRM (Against): Charisma Save",

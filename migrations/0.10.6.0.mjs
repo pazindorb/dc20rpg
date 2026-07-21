@@ -375,14 +375,14 @@ async function _updateEffects(object) {
 
   if (object.documentName === "Item") {
     // Collect effect from conditonals and enhancements
-    for (const effect of object.collectRootedEffects()) {
+    for (const effect of (object?.collectRootedEffects() || [])) {
       await effect.update({
         ["system.changes"]: effect.changes,
         ["system.addToChat"]: true
       });
     }
 
-    for (const effect of object.collectRootedEffects()) {
+    for (const effect of (object?.collectRootedEffects() || [])) {
       await _migrateEffectStatusesAndDrm(effect);
       await _migrateEffectDuration(effect);
     }

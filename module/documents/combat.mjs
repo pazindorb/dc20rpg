@@ -419,8 +419,7 @@ export class DC20RpgCombat extends Combat {
 
   _getInitiativeCritEffectData(actor) {
     const checkKeys = [
-      "attack", "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.mar", "checks.spe",
-      "saves.mig", "saves.agi", "saves.cha", "saves.int"
+      "attack", "checks.atr", "checks.mar", "checks.spe", "saves.all"
     ]
     const change = (checkPath) => {
       return {

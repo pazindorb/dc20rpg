@@ -64,7 +64,7 @@ async function _updateEffects(object) {
   }
 
   if (object.documentName === "Item") {
-    for (const effect of object.collectRootedEffects()) {
+    for (const effect of (object?.collectRootedEffects() || [])) {
       await _migrateReductionsToGlobalModifiers(effect);
     }
   }

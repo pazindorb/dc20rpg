@@ -268,7 +268,7 @@ export class DC20ChatMessage extends ChatMessage {
     }
 
     winner.ignored = false;
-    this.winningRoll = winner;
+    this.winningRoll = winner; // Could be renamed to mainRoll (require some effect macro changes (ex. bless spell))
   }
 
   #prepareOtherRoll() {

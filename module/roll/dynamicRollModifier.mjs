@@ -58,17 +58,17 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
     // DRM on you
     const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
     const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
-    const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}) : [];
-    results = [...results, ...checkResult, ...specificSkillResult];
+    const specificDRMResult = await _getSpecificDRMResult(details, actor);
+    results = [...results, ...checkResult, ...specificDRMResult];
 
     // Target Checks
     for (const token of game.user.targets) {
       if (!token.actor) continue;
       const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
       const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
-      const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, true) : [];
       const targetSizeResult = rollConfig.respectSizeRules ? _sizeCheck(token, attacker) : [];
-      results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];  
+      const specificDRMResult = await _getSpecificDRMResult(details, actor, true);
+      results = [...results, ...targetCheckResult, ...specificDRMResult, ...targetSizeResult];  
     }
   }
 
@@ -96,8 +96,8 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
   // DRM on you
   const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
   const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
-  const specificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.onYou.skills", actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}) : [];
-  results = [...results, ...checkResult, ...specificSkillResult];
+  const specificDRMResult = await _getSpecificDRMResult(details, actor);
+  results = [...results, ...checkResult, ...specificDRMResult];
 
   // Against Status Check
   const statusesResult = _againstStatuses(details.statuses, actor);
@@ -107,9 +107,9 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
   for (const token of game.user.targets) {
     const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
     const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
-    const targetSpecificSkillResult = details.type === "skillCheck" ? await _getDRMValueForPath("system.dynamicRollModifier.againstYou.skills", token.actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, true) : [];
     const targetSizeResult = details.respectSizeRules ? _sizeCheck(token, attacker) : [];
-    results = [...results, ...targetCheckResult, ...targetSpecificSkillResult, ...targetSizeResult];   
+    const specificDRMResult = await _getSpecificDRMResult(details, actor, true);
+    results = [...results, ...targetCheckResult, ...specificDRMResult, ...targetSizeResult];   
   }
 
   // Modifications from Enhancements
@@ -127,6 +127,34 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
 //========================================
 //               DRM CHECK               =
 //========================================
+async function _getSpecificDRMResult(details, actor, target=false) {
+  const anyAttribute = await _getAnyAttributeDRM(details, actor, target);
+  const specificSkill = await _getSpecificSkillDRM(details, actor, target);
+  const anySave = await _getAnySaveDRM(details, actor, target);
+  return [...anyAttribute, ...specificSkill, ...anySave]
+}
+
+async function _getAnyAttributeDRM(details, actor, target=false) {
+  if (details.type !== "attributeCheck" && details.type !== "skillCheck") return [];
+  const partial = target ? "againstYou" : "onYou";
+  const path = `system.dynamicRollModifier.${partial}.checks.atr`;
+  return await _getDRMValueForPath(path, actor, {actorAskingForCheck: actor}, target)
+}
+
+async function _getSpecificSkillDRM(details, actor, target=false) {
+  if (details.type !== "skillCheck") return [];
+  const partial = target ? "againstYou" : "onYou";
+  const path = `system.dynamicRollModifier.${partial}.skills`;
+  return await _getDRMValueForPath(path, actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, target);
+}
+
+async function _getAnySaveDRM(details, actor, target=false) {
+  if (details.type !== "save") return [];
+  const partial = target ? "againstYou" : "onYou";
+  const path = `system.dynamicRollModifier.${partial}.saves.all`;
+  return await _getDRMValueForPath(path, actor, {actorAskingForCheck: actor}, target)
+}
+
 async function _getDRMValueForPath(path, actor, validationData, target=false) {
   const value = getValueFromPath(actor, path);
   if (!value) return [];

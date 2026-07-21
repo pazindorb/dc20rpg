@@ -15,6 +15,7 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
           area: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         checks: new f.SchemaField({
+          atr: new f.ArrayField(new f.StringField(), {required: true}),
           mig: new f.ArrayField(new f.StringField(), {required: true}),
           agi: new f.ArrayField(new f.StringField(), {required: true}),
           int: new f.ArrayField(new f.StringField(), {required: true}),
@@ -25,6 +26,7 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
           prime: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         saves: new f.SchemaField({
+          all: new f.ArrayField(new f.StringField(), {required: true}),
           mig: new f.ArrayField(new f.StringField(), {required: true}),
           agi: new f.ArrayField(new f.StringField(), {required: true}),
           int: new f.ArrayField(new f.StringField(), {required: true}),
@@ -47,6 +49,7 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
           area: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         checks: new f.SchemaField({
+          atr: new f.ArrayField(new f.StringField(), {required: true}),
           mig: new f.ArrayField(new f.StringField(), {required: true}),
           agi: new f.ArrayField(new f.StringField(), {required: true}),
           int: new f.ArrayField(new f.StringField(), {required: true}),
@@ -57,6 +60,7 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
           prime: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         saves: new f.SchemaField({
+          all: new f.ArrayField(new f.StringField(), {required: true}),
           mig: new f.ArrayField(new f.StringField(), {required: true}),
           agi: new f.ArrayField(new f.StringField(), {required: true}),
           int: new f.ArrayField(new f.StringField(), {required: true}),

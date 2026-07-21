@@ -831,6 +831,9 @@ function _enrichUseWeaponObject(item) {
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
   item.system.macros = {...item.system.macros, ...weapon.system.macros};
+  item.system.rollRequests = {...item.system.rollRequests, ...weapon.system.rollRequests};
+  item.system.againstStatuses = {...item.system.againstStatuses, ...weapon.system.againstStatuses};
+  item.system.targetModifiers = {...item.system.targetModifiers, ...weapon.system.targetModifiers};
 
   item.ammo = weapon.ammo || undefined;
   item.reloadable = weapon.reloadable || undefined;
@@ -1554,10 +1557,22 @@ function _collectFromItemAndEnhancements(item) {
   const areas = foundry.utils.deepClone(item.system.areas);
   const areaKeys = Object.keys(areas);
 
+  // COLLECT FROM USED WEAPON
+  const weapon = item.actor ? item.actor.items.get(item.system?.usesWeapon?.weaponId) : null;
+  if (weapon) {
+    weapon.effects.filter(effect => effect.system.addToChat || effect.system.applyToTemplate)
+                  .forEach(effect =>  effects.push(effect.toObject(false)));
+  }
+
   // COLLECT FROM ENHANCEMENTS
   item.enhancements.active.values().forEach(enh => {
     if (enh.modifications.addsAgainstStatus && enh.modifications.againstStatus?.id) {
-      statuses.push(enh.modifications.againstStatus)
+      const status = foundry.utils.deepClone(enh.modifications.againstStatus);
+      const stackable = CONFIG.statusEffects[status.id].stackable;
+      if (stackable && !enh.preventEnhStatusStacking) {
+        status.stacks = (status.stacks || 1) * enh.number;
+      }
+      statuses.push(status)
     }
 
     const addsEffect = enh.modifications.addsEffect;

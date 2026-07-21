@@ -331,7 +331,7 @@ export function parseEvent(event) {
 async function _deleteEffect(effectId, actor) {
   const effect = actor.getEffectById(effectId);
   if (!effect) return;
-  DC20ChatMessage.effectRemovalMessage(actor, effect);
+  DC20ChatMessage.effectRemovalMessage(actor, effect); // Can we stagger it as well?
   await effect.gmDelete();
 }
 
