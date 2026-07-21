@@ -129,11 +129,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
             longRange: new f.BooleanField({required: true, initial: false}),
           })
         }),
-        range: new f.SchemaField({   // TODO backward compatibilty remove as part of 0.10.5 update
-          melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        }),
         allow: new f.SchemaField({ 
           overheal: new f.BooleanField({required: true, initial: false}),
           freeSustain: new f.BooleanField({required: true, initial: false}),
@@ -158,8 +153,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),
-          closeQuarters: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.10.5 update
-          longRange: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.10.5 update
           flanking: new f.BooleanField({required: true, initial: false})
         }),
         provide: new f.SchemaField({
@@ -169,7 +162,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       }),
       events: new f.ArrayField(new f.StringField(), {required: true}),
       keywords: new f.ObjectField({required: true}),
-      rollLevel: new RollLevelFields(),  // TODO backward compatibilty remove as part of 0.10.5 update
       dynamicRollModifier: new DynamicRollModifierFields(),
       targetModifiers: new f.ArrayField(new f.ObjectField(), {required: true}),
       enhancements: new f.ObjectField({required: true}),

@@ -319,20 +319,6 @@ export class DC20BasicActionData extends DC20UsableItemData {
   }
 }
 
-export class DC20TechniqueData extends DC20UsableItemData { // TODO: backward compatibilty Remove as part of 0.10.5
-  static defineSchema() {
-    const f = foundry.data.fields;
-  
-    return this.mergeSchema(super.defineSchema(), {
-      techniqueType: new f.StringField({required: true, initial: ""}),
-      techniqueOrigin: new f.StringField({required: true, initial: ""}),
-      knownLimit: new f.BooleanField({required: true, initial: true}),
-      usesWeapon: new UsesWeaponFields(),
-      effectsConfig: new EffectsConfigFields()
-    })
-  }
-}
-
 export class DC20ManeuverData extends DC20UsableItemData {
   static defineSchema() {
     const f = foundry.data.fields;
