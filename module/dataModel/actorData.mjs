@@ -9,7 +9,6 @@ import MovementFields from "./fields/actor/movement.mjs";
 import PointFields from "./fields/actor/points.mjs";
 import ResourceFields from "./fields/actor/resources.mjs";
 import RestFields from "./fields/actor/rest.mjs";
-import RollLevelFields from "./fields/actor/rollLevel.mjs";
 import SenseFields from "./fields/actor/senses.mjs";
 import SizeFields from "./fields/actor/size.mjs";
 import SkillFields from "./fields/actor/skills.mjs";

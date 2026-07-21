@@ -93,7 +93,6 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
   CONFIG.Item.dataModels.container = itemDM.DC20ContainerData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
-  CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
   CONFIG.Item.dataModels.maneuver = itemDM.DC20ManeuverData;
   CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
   CONFIG.Item.dataModels.infusion = itemDM.DC20InfusionData;
@@ -179,8 +178,6 @@ Hooks.on("renderDialogV2", (app, element, context, option) => {
   if (selector) {
     const basicActionOption = selector.querySelector('[value="basicAction"]');
     if (basicActionOption) selector.removeChild(basicActionOption);
-    const techniqueOption = selector.querySelector('[value="technique"]');
-    if (techniqueOption) selector.removeChild(techniqueOption);
   }
 });
 Hooks.on("createScene", async (scene, options, userId) => {

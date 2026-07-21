@@ -16,7 +16,7 @@ export function classifyDaItems(actor) {
   );
   const reactionIds = new Set(reactions.map(i => i.id));
 
-  const techniques = items.filter(it => it.type === 'technique' && !reactionIds.has(it.id));
+  const techniques = items.filter(it => it.type === 'maneuver' && !reactionIds.has(it.id));
 
   const actions = items.filter(it => {
     if (reactionIds.has(it.id)) return false;
