@@ -256,6 +256,33 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     let dragData;
 
     const dataset = event.currentTarget.dataset;
+    if (dataset.enhancementKey) {
+      // Clear enhancement data
+      const enhancement = foundry.utils.deepClone(this.item.system.enhancements[dataset.enhancementKey]);
+      if (!enhancement) return;
+      delete enhancement.key;
+      delete enhancement.sourceActorId;
+      delete enhancement.sourceItemId;
+      delete enhancement.sourceName;
+      delete enhancement.sourceImg;
+      delete enhancement.active;
+      delete enhancement.drmCheck;
+      delete enhancement.toggleUp;
+      delete enhancement.toggleDown;
+      delete enhancement.clear;
+      delete enhancement.delete;
+      dragData = {type: "Enhancement", enhancement: enhancement};
+    }
+    if (dataset.targetModifierKey) {
+      const targetModifier = foundry.utils.deepClone(this.item.system.targetModifiers[dataset.targetModifierKey]);
+      if (!targetModifier) return;
+      dragData = {type: "TargetModifier", targetModifier: targetModifier};
+    }
+    if (dataset.areaKey) {
+      const area = foundry.utils.deepClone(this.item.system.areas[dataset.areaKey]);
+      if (!area) return;
+      dragData = {type: "Area", area: area};
+    }
     if (dataset.effectId) {
       const effect = this.item.effects.get(dataset.effectId);
       dragData = effect.toDragData();
@@ -301,7 +328,37 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "Resource": 
         await this._onDropResource(droppedObject);
         break;
+
+      case "Enhancement":
+        await this._onDropEnhancement(droppedObject);
+        break;
+
+      case "TargetModifier":
+        await this._onDropTargetModifier(droppedObject);
+        break;
+
+      case "Area":
+        await this._onDropArea(droppedObject);
+        break;
     }
+  }
+
+  async _onDropEnhancement(droppedObject) {
+    if (!this.item.system.enhancements) return;
+    if (!droppedObject.enhancement) return;
+    await this.item.createNewEnhancement(droppedObject.enhancement);
+  }
+
+  async _onDropTargetModifier(droppedObject) {
+    if (!this.item.system.targetModifiers) return;
+    if (!droppedObject.targetModifier) return;
+    await this.item.createNewTargetModifier(droppedObject.targetModifier);
+  }
+
+  async _onDropArea(droppedObject) {
+    if (!this.item.system.areas) return;
+    if (!droppedObject.area) return;
+    await this.item.createArea(droppedObject.area);
   }
 
   async _onDropItem(droppedObject) {

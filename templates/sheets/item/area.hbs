@@ -58,7 +58,7 @@
   <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="area"><i class="fa-solid fa-bullseye fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.area.addArea"}}</button>
 
   {{#each system.areas as |area key|}}
-  <div class="sub-header margin-top-10">
+  <div class="sub-header margin-top-10 draggable" data-area-key="{{key}}">
     {{#if area.type}}
     <label>{{localize (concat "dc20rpg.area." area.type)}}</label>
     {{else}}

@@ -4,7 +4,7 @@
   <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="targetModifier"><i class="fa-regular fa-crosshairs-simple fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.targetModifiers.addTargetModifier"}}</button>
 
   {{#each system.targetModifiers as |modifier key|}}
-  <div class="sub-header margin-top-10">
+  <div class="sub-header margin-top-10 draggable" data-target-modifier-key="{{key}}">
     <label>{{modifier.name}}</label>
     <div class="button-wrapper">
       <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.targetModifiers.removeTargetModifier"}}" data-action="removeSubdoc" data-type="targetModifier" data-key="{{key}}"></a>

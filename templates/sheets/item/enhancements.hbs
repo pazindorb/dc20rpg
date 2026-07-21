@@ -35,7 +35,7 @@
   <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="enhancement"><i class="fa-solid fa-layer-plus fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}</button>
 
   {{#each enhancements as |enhancement key|}}
-  <div class="sub-header margin-top-10">
+  <div class="sub-header margin-top-10 draggable" data-enhancement-key="{{key}}">
     <label>{{enhancement.name}}</label>
     <div class="button-wrapper">
       <a class="margin-right-5 fa-solid {{#if enhancement.hide}}fa-eye-slash{{else}}fa-eye{{/if}}" data-cType="activable" data-path="system.enhancements.{{key}}.hide" data-tooltip="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
