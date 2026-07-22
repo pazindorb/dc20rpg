@@ -111,8 +111,8 @@ export function modifyActiveEffects(actor) {
 function _checkToggleableEffects(effect, item) {
   if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) {
     const toggledOn = item.system.toggle.toggledOn;
-    if (toggledOn) effect.enable({ignoreStateChangeLock: true});
-    else effect.disable({ignoreStateChangeLock: true});
+    if (toggledOn) effect.enable({force: true});
+    else effect.disable({force: true});
   }
 }
 
@@ -126,8 +126,8 @@ function _checkEquippedAndAttunedEffects(effect, item) {
 
   let shouldEnable = statuses.equipped;
   if (requireAttunement) shouldEnable = statuses.equipped && statuses.attuned;
-  if (shouldEnable) effect.enable({ignoreStateChangeLock: true});
-  else effect.disable({ignoreStateChangeLock: true});
+  if (shouldEnable) effect.enable({force: true});
+  else effect.disable({force: true});
 }
 
 export function checkDisableWhenCondition(actor) {

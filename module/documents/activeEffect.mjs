@@ -9,28 +9,23 @@ import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
  */
 export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect {
 
-  get isLinkedToItem() {
+  get isLinkedToItemToggle() {
     if (!this.transfer) return false;
     const item = this.getSourceItem();
     if (!item) return false;
     const effectConfig = item.system.effectsConfig;
     if (!effectConfig) return false;
+    return item.toggleable && effectConfig.linkWithToggle;
+  }
 
-    if (item.system.toggle?.toggleable) return effectConfig.linkWithToggle;
-    else return this.system.requireEquip;
+  get canModifyItemToggle() {
+    if (!this.isLinkedToItemToggle) return false;
+    const item = this.getSourceItem();
+    return item.system.effectsConfig.toggleItem;
   }
 
   get stateChangeLocked() {
-    if (!this.transfer) return false;
-    const item = this.getSourceItem();
-    if (!item) return false;
-    const effectConfig = item.system.effectsConfig;
-    if (!effectConfig) return false;
-
-    const toggleable = item.system.toggle?.toggleable;
-    if (toggleable && effectConfig.linkWithToggle && !effectConfig.toggleItem) return true;
-    if (toggleable && effectConfig.linkWithToggle && effectConfig.toggleItem) return false;
-    return this.system.requireEquip;
+    return !this.canModifyItemToggle || this.system.requireEquip;
   }
 
   get isCondition() {
@@ -119,14 +114,26 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   //======================================
   //=              METHODS               =
   //======================================
-  async disable({ignoreStateChangeLock}={}) {
+  async disable({force=false}={}) {
     if (this.disabled) return;
-    if (this.isLinkedToItem) {
-      if (this.stateChangeLocked && !ignoreStateChangeLock) {
+
+    if (this.isLinkedToItemToggle && !force) {
+      if (this.canModifyItemToggle) {
+        // We just toggle the item, it will handle enabling/disabling the effect
+        return await this.item.toggle({forceOff: true}); 
+      }
+      else {
         ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
       }
     }
+
+    // Cannot modify effects that requre attunement/equippment
+    if (this.system.requireEquip && !force) {
+      ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
+      return;
+    }
+
     await this.gmUpdate({disabled: true});
     const actor = this.getOwningActor();
     if (actor) {
@@ -135,13 +142,23 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
     }
   }
 
-  async enable({dontUpdateTimer, ignoreStateChangeLock}={}) {
+  async enable({dontUpdateTimer, force=false}={}) {
     if (!this.disabled) return;
-    if (this.isLinkedToItem) {
-      if (this.stateChangeLocked && !ignoreStateChangeLock) {
+    if (this.isLinkedToItemToggle && !force) {
+      if (this.canModifyItemToggle) {
+        // We just toggle the item, it will handle enabling/disabling the effect
+        return await this.item.toggle({forceOn: true}); 
+      }
+      else {
         ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
       }
+    }
+
+    // Cannot modify effects that requre attunement/equippment
+    if (this.system.requireEquip && !force) {
+      ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
+      return;
     }
 
     const updateData = {disabled: false};

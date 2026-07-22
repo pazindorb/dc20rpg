@@ -14,6 +14,7 @@ export async function refreshActiveEffectRegistry(event, context) {
 
   for ( const effect of this ) {
     if ( context?.actors && !context.actors.has(effect.actor) ) continue;
+    if ( effect.item && !effect.transfer ) continue;
 
     // These events never entail a change in remaining duration
     // Combat start and end also don't but can lead to a duration getting reframed as time-based or combat-based
