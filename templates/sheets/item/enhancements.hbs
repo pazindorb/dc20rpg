@@ -34,9 +34,15 @@
 
   <button style="margin-top: 10px; width: 100%;" data-action="createSubdoc" data-type="enhancement"><i class="fa-solid fa-layer-plus fa-lg margin-right-5"></i>{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}</button>
 
-  {{#each enhancements as |enhancement key|}}
+  {{#eachOrder enhancements as |enhancement key|}}
   <div class="sub-header margin-top-10 draggable" data-enhancement-key="{{key}}">
-    <label>{{enhancement.name}}</label>
+    <div class="enhancement-heading">
+      <div class="enhancement-order-buttons">
+        {{#unless @first}}<a class="fa-solid fa-angle-up fa-sm" data-action="reorder" data-key="{{key}}" data-direction="-1" data-group-by="sourceItemId" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" style="padding:5px 0"></a>{{/unless}}
+        {{#unless @last}}<a class="fa-solid fa-angle-down fa-sm" data-action="reorder" data-key="{{key}}" data-direction="1" data-group-by="sourceItemId" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" style="padding:5px 0"></a>{{/unless}}
+      </div>
+      <label>{{enhancement.name}}</label>
+    </div>
     <div class="button-wrapper">
       <a class="margin-right-5 fa-solid {{#if enhancement.hide}}fa-eye-slash{{else}}fa-eye{{/if}}" data-cType="activable" data-path="system.enhancements.{{key}}.hide" data-tooltip="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
       <a class="margin-right-5 fa-solid fa-pen-to-square" data-tooltip="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-action="enhancementDescrption" data-path="system.enhancements.{{key}}.description"></a>
@@ -359,7 +365,7 @@
 
   </div>
   {{/unless}}
-  {{/each}}
+  {{/eachOrder}}
 
 </div>
 </section>

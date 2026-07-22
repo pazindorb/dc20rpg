@@ -11,6 +11,44 @@ export function registerHandlebarsHelpers() {
     return obj1 + obj2;
   });
 
+  Handlebars.registerHelper('eachOrder', function (context, options) {
+    if (!context) return options.inverse(this);
+
+    const groupBy = options.hash.groupBy;
+    const groups = new Map();
+    for (const entry of Object.entries(context)) {
+      const group = groupBy ? entry[1]?.[groupBy] : undefined;
+      if (!groups.has(group)) groups.set(group, []);
+      groups.get(group).push(entry);
+    }
+    if (!groups.size) return options.inverse(this);
+
+    const entries = [];
+    for (const group of groups.values()) {
+      group.sort(([, a], [, b]) => (a?.order ?? 99) - (b?.order ?? 99));
+      for (let index = 0; index < group.length; index++) {
+        entries.push({
+          key: group[index][0],
+          value: group[index][1],
+          first: index === 0,
+          last: index === group.length - 1
+        });
+      }
+    }
+
+    let output = '';
+    const data = Handlebars.createFrame(options.data);
+    for (let index = 0; index < entries.length; index++) {
+      const { key, value, first, last } = entries[index];
+      data.key = key;
+      data.index = index;
+      data.first = first;
+      data.last = last;
+      output += options.fn(value, { data, blockParams: [value, key] });
+    }
+    return output;
+  });
+
   Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     switch (operator) {
       case '==':

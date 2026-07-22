@@ -112,7 +112,7 @@
     {{/if}}
 
     {{!-- Enhancements --}}
-    {{#each enhancements as |enhancement key|}}
+    {{#eachOrder enhancements groupBy="sourceItemId" as |enhancement key|}}
       {{#unless enhancement.hide}}
       <div class="enh-row">
         <div class="column name" data-hover="tooltip" data-tooltip-type="enhancement" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.source"}} {{enhancement.sourceName}}">
@@ -155,7 +155,7 @@
         </div>
       </div>
       {{/unless}}
-    {{/each}}
+    {{/eachOrder}}
   </fieldset>
 
   {{!-- Roll Menu --}}

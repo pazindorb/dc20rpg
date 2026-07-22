@@ -95,6 +95,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     initialized.actions.multiSelectRemove = this._onMultiSelectRemove;
     initialized.actions.createSubdoc = this._onCreateSubdoc;
     initialized.actions.removeSubdoc = this._onRemoveSubdoc;
+    initialized.actions.reorder = this._onReorder;
     initialized.actions.addRootedEffect = this._onAddRootedEffect;
     initialized.actions.editRootedEffect = this._onEditRootedEffect;
     initialized.actions.removeRootedEffect = this._onRemoveRootedEffect;
@@ -546,6 +547,29 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   async _onMultiSelectRemove(event, target) {
     await this.item.update({[`${target.dataset.path}.-=${target.dataset.key}`]: null});
     this.render();
+  }
+
+  async _onReorder(event, target) {
+    event.preventDefault();
+    const enhancements = this.item.system.enhancements;
+    const current = enhancements[target.dataset.key];
+    if (!current) return;
+
+    const groupBy = target.dataset.groupBy;
+    const currentGroup = groupBy ? current[groupBy] : undefined;
+    const entries = Object.entries(enhancements)
+      .filter(([, enhancement]) => !groupBy || enhancement?.[groupBy] === currentGroup)
+      .sort(([, a], [, b]) => (a?.order ?? 99) - (b?.order ?? 99));
+    const currentIndex = entries.findIndex(([key]) => key === target.dataset.key);
+    const swapIndex = currentIndex + Number(target.dataset.direction);
+    if (currentIndex < 0 || swapIndex < 0 || swapIndex >= entries.length) return;
+
+    [entries[currentIndex], entries[swapIndex]] = [entries[swapIndex], entries[currentIndex]];
+    const updateData = {};
+    for (let index = 0; index < entries.length; index++) {
+      updateData[`system.enhancements.${entries[index][0]}.order`] = index;
+    }
+    await this.item.update(updateData);
   }
 
   _onCreateSubdoc(event, target) {
