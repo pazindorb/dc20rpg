@@ -136,10 +136,6 @@ export function hasKeys(object) {
   return Object.keys(object).length !== 0;
 }
 
-export function markedToRemove(key) {
-  return key.startsWith("-=");
-}
-
 export function parseFromString(string) {
   if (string === undefined) return undefined;
   if (string === null) return null;

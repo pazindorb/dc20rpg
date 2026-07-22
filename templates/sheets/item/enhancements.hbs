@@ -96,10 +96,10 @@
       </div>
       
       {{!-- Custom Resources --}}
-      {{#each system.costs.resources.custom as |cost key|}}
+      {{#each enhancement.resources.custom as |cost key|}}
       <div class="form-group" data-tooltip="{{cost.label}}">
         <img class="resource-img" src="{{cost.img}}"/>
-        <input type="text" name="system.enhancements.{{key}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-">
+        <input type="text" name="system.enhancements.{{../key}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-">
       </div>
       {{/each}}
     </div>

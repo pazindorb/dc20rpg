@@ -32,7 +32,7 @@ export function createNewAdvancement(additionalAdvancement=false) {
 }
 
 export function deleteAdvancement(item, key) {
-	item.update({[`system.advancements.-=${key}`]: null})
+	item.update({[`system.advancements.${key}`]: new foundry.data.operators.ForcedDeletion()})
 }
 
 export function applyAdvancements(actor, level, clazz, subclass, ancestry, background, oldSystem) {
@@ -135,7 +135,7 @@ export async function clearSpellList(item, advancement) {
 		await item.update({[`system.filters.spellSchool.${key}`]: false});
 	}
 	for (const key of spellList.spellTags) {
-		await item.update({[`system.filters.spellTags.-=${key}`]: null});
+		await item.update({[`system.filters.spellTags.${key}`]: new foundry.data.operators.ForcedDeletion()});
 	}
 	delete advancement.providesSpellList;
   item.update({["system.hasSpellList"]: false})
@@ -202,7 +202,7 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 
 		// If advancement does not come from base item we want to remove it instad of marking it as not applied
 		if (advancement.additionalAdvancement) {
-			await item.update({[`system.advancements.-=${key}`]: null});
+			await item.update({[`system.advancements.${key}`]: new foundry.data.operators.ForcedDeletion()});
 		}
 		else {
 			advancement.applied = false;
@@ -217,7 +217,7 @@ export async function removeMulticlassInfoFromActor(actor, key) {
 	if (!clazz) return;
 
 	const multiclassTalents = clazz.system.multiclass;
-	if (multiclassTalents[key]) await clazz.update({[`system.multiclass.-=${key}`]: null})
+	if (multiclassTalents[key]) await clazz.update({[`system.multiclass.${key}`]: new foundry.data.operators.ForcedDeletion()})
 }
 
 

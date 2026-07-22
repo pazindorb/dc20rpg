@@ -55,9 +55,10 @@ export class SpellStore extends DC20Dialog {
     }
   }
 
-  _onRemoveSpell(event, target) {
+  async _onRemoveSpell(event, target) {
     const spellKey = target.dataset.spellKey;
-    this.item.spellstore.removeSpell(spellKey);
+    await this.item.spellstore.removeSpell(spellKey);
+    this.render();
   }
 
   // TODO: Add it in the future

@@ -520,7 +520,7 @@ async function _addCustomProperty(item, data, key) {
 }
 
 async function _removeCustomProperty(item, key) {
-  await item.update({[`system.customProperties.-=${key}`]: null});
+  await item.update({[`system.customProperties.${key}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 //==================================
@@ -703,7 +703,7 @@ function _enrichEnhancementObject(item) {
         [`system.enhancements.${key}.altCost`]: 0
       })
     };
-    enhancement.delete = async () => await item.update({[`system.enhancements.-=${key}`]: null});
+    enhancement.delete = async () => await item.update({[`system.enhancements.${key}`]: new foundry.data.operators.ForcedDeletion()});
 
     enhancements.maintained.set(key, enhancement);
   }
@@ -1115,7 +1115,7 @@ async function _runInfusionMacroAndCollectRemoveInfusionMacros(infusionItem, inf
 //==================================
 async function _removeInfusion(infusion, item) {
   const updateData = {system: {infusions: {}}};
-  updateData.system.infusions[`-=${infusion.key}`] = null;
+  updateData.system.infusions[infusion.key] = new foundry.data.operators.ForcedDeletion();
 
   const infuser = await fromUuid(infusion.infuserUuid);
   await _runRemoveInfusionMacro(infusion, item, infuser);
@@ -1126,22 +1126,22 @@ async function _removeInfusion(infusion, item) {
     if (effect) effect.delete();
   }
   for (const key of infusion.modifications.enhancements) {
-    await item.update({[`system.enhancements.-=${key}`]: null});
+    await item.update({[`system.enhancements.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   for (const key of infusion.modifications.macros) {
-    await item.update({[`system.macros.-=${key}`]: null});
+    await item.update({[`system.macros.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   for (const key of (infusion.modifications.targetModifiers || [])) { // Workaround after conditional migration
-    await item.update({[`system.targetModifiers.-=${key}`]: null});
+    await item.update({[`system.targetModifiers.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   for (const key of infusion.modifications.formulas) {
-    await item.update({[`system.formulas.-=${key}`]: null});
+    await item.update({[`system.formulas.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   for (const key of infusion.modifications.rollRequests) {
-    await item.update({[`system.rollRequests.-=${key}`]: null});
+    await item.update({[`system.rollRequests.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   for (const key of infusion.modifications.againstStatuses) {
-    await item.update({[`system.againstStatuses.-=${key}`]: null});
+    await item.update({[`system.againstStatuses.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
 
   // Remove description changes
@@ -1372,10 +1372,10 @@ function _enrichSpellstoreObject(item) {
   spellstore.getSpellData = (key) => item.system.spellstore[key];
   spellstore.storeSpell = async (spell, options) => await _storeSpell(spell, item, options);
   spellstore.castSpell = async (key, options) => await _castSpell(key, item, options);
-  spellstore.removeSpell = async (key) => await item.gmUpdate({[`system.spellstore.-=${key}`]: null});
+  spellstore.removeSpell = async (key) => await item.gmUpdate({[`system.spellstore.${key}`]: new foundry.data.operators.ForcedDeletion()});
   spellstore.clearAll = async () => {
     const updateData = {};
-    Object.keys(item.system.spellstore).forEach(key => updateData[`system.spellstore.-=${key}`] = null);
+    Object.keys(item.system.spellstore).forEach(key => updateData[`system.spellstore.${key}`] = new foundry.data.operators.ForcedDeletion());
     await item.gmUpdate(updateData);
   };
 

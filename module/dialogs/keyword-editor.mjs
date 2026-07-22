@@ -1,5 +1,3 @@
-import { activateDefaultListeners, datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
-import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 // TODO - fix and move to appv2
@@ -97,7 +95,7 @@ class KeywordEditor extends DC20Dialog {
     const toAdd = newKeywords.difference(currentKeywords);
     const toUpdate = currentKeywords.intersection(newKeywords);
 
-    toRemove.forEach(key => this.actor.update({[`system.keywords.-=${key}`]: null}))
+    toRemove.forEach(key => this.actor.update({[`system.keywords.${key}`]: new foundry.data.operators.ForcedDeletion()}))
     toAdd.forEach(key => this.actor.update({[`system.keywords.${key}`]: this.keywords[key]}))
     toUpdate.forEach(key => {
       const currentItems = new Set(Object.keys(current[key].updateItems));
@@ -115,7 +113,7 @@ class KeywordEditor extends DC20Dialog {
         if (item) item.update({[`system.keyword.key`]: key});
       });
       toRemove.forEach(itemId => {
-        updateData[`system.keywords.${key}.updateItems.-=${itemId}`] = null
+        updateData[`system.keywords.${key}.updateItems.${itemId}`] = new foundry.data.operators.ForcedDeletion()
         const item = this.actor.items.get(itemId);
         if (item) item.update({[`system.keyword.key`]: ""});
       });

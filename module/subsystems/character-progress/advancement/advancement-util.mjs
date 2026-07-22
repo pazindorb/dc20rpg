@@ -267,7 +267,7 @@ async function _addRepeatableAdvancement(oldAdv, actor) {
 
   const parentItem = oldAdv.parentItem;
   // We want to clear item list before we add new ones
-  if(oldAdv.cloneKey) await parentItem.update({[`system.advancements.${advKey}.-=items`]: null});
+  if(oldAdv.cloneKey) await parentItem.update({[`system.advancements.${advKey}.items`]: new foundry.data.operators.ForcedDeletion()});
   await updateAdvancement(parentItem, oldAdv);
   await updateAdvancement(parentItem, newAdv);
 }
@@ -549,7 +549,7 @@ export async function revertAdvancement(actor, advancement, collection) {
   delete advancement.providesSpellList;
   await advancement.parentItem.update({
     [`system.advancements.${advancement.key}.applied`]: false,
-    [`system.advancements.${advancement.key}.-=providesSpellList`]: null
+    [`system.advancements.${advancement.key}.providesSpellList`]: new foundry.data.operators.ForcedDeletion()
   });
 
   const advancementsToDelete = collection.filter(adv => adv.createdBy === advancement.key);
@@ -564,7 +564,7 @@ export async function removeAdvancement(actor, advancement, collection) {
   if (index === -1) return;
   collection.splice(index, 1);
 
-  await advancement.parentItem.update({[`system.advancements.-=${advancement.key}`]: null});
+  await advancement.parentItem.update({[`system.advancements.${advancement.key}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 export async function updateAdvancement(item, advancement) {

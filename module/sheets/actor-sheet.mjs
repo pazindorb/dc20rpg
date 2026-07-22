@@ -6,6 +6,7 @@ import { createTrait, handleStackableItem } from "../helpers/actors/itemsOnActor
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { itemTransfer } from "../helpers/actors/storage.mjs";
+import { DC20RpgItem } from "../documents/item.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -183,8 +184,9 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     if (droppedObject?.fromContainer) {
       const container = await fromUuid(droppedObject.containerUuid);
-      await Item.create(droppedObject, {parent: this.actor});
-      if (container) await container.update({[`system.contents.-=${droppedObject.itemKey}`]: null});
+      const itemKey = droppedObject.itemKey;
+      await DC20RpgItem.create(droppedObject, {parent: this.actor});
+      if (container) await container.update({[`system.contents.${itemKey}`]: new foundry.data.operators.ForcedDeletion()});
     }
     else await super._onDrop(event);
   }

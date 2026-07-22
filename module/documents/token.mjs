@@ -298,7 +298,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     transformationHistory.x = this.x;
     transformationHistory.y = this.y;
     transformationHistory.elevation = this.elevation;
-    transformationHistory.flags = {dc20rpg: {["-=transformationHistory"]: null}};
+    transformationHistory.flags = {dc20rpg: {transformationHistory: new foundry.data.operators.ForcedDeletion()}};
     await this.clearDelta();
 
     // Recreate Removed Regions

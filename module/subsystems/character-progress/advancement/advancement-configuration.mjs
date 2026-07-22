@@ -137,7 +137,7 @@ export class AdvancementConfiguration extends Dialog {
 
   _onItemDelete(itemKey) {
     delete this.advancement.items[itemKey];
-    this.item.update({[`system.advancements.${this.key}.items.-=${itemKey}`] : null});
+    this.item.update({[`system.advancements.${this.key}.items.${itemKey}`] : new foundry.data.operators.ForcedDeletion()});
     this.render();
   }
 

@@ -546,7 +546,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   }
 
   async _onMultiSelectRemove(event, target) {
-    await this.item.update({[`${target.dataset.path}.-=${target.dataset.key}`]: null});
+    await this.item.update({[`${target.dataset.path}.${target.dataset.key}`]: new foundry.data.operators.ForcedDeletion()});
     this.render();
   }
 
@@ -640,9 +640,11 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       case "itemContent": removeItemFromContainer(this.item, key); break;
       case "resource": removeResourceFromItem(this.item, key); break;
       case "property": this._onRemoveCustomProperty(key); break;
-      case "advancement": this.item.update({[`system.advancements.-=${key}`]: null}); break;
+      case "advancement": 
+        this.item.update({[`system.advancements.${key}`]: new foundry.data.operators.ForcedDeletion()}); 
+        break;
       case "startingEquipment": 
-        this.item.update({[`system.startingEquipment.-=${target.dataset.key}`]: null})
+        this.item.update({[`system.startingEquipment.${target.dataset.key}`]: new foundry.data.operators.ForcedDeletion()})
         break;
       case "effect": 
         const effect = this.item.effects.get(target.dataset.effectId);

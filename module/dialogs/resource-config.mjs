@@ -31,21 +31,22 @@ class ResourceConfigDialog extends DC20Dialog {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.resourceKey = this.key;
-    context.resource = this.resource;
+    context.resource = this._prepareResource();
     context.resetTypes = CONFIG.DC20RPG.DROPDOWN_DATA.resetTypes;
     return context;
   }
 
-  async _onRemoveOption(path, value, dataset) {
-    super._onRemoveOption(path, value, dataset);
-    this.resource.refresh[`-=${dataset.key}`] = null; 
+  _prepareResource() {
+    const resource = foundry.utils.deepClone(this.resource);
+    for (const [key, refresh] of Object.entries(resource.refresh)) {
+      if (typeof refresh !== "string") delete resource.refresh[key];
+    }
+    return resource;
   }
 
-  async _onMultiSelectChange(path, value, duplicates, dataset, target) {
-    super._onMultiSelectChange(path, value, duplicates, dataset, target);
-    if (this.resource.refresh.hasOwnProperty(`-=${value}`)) {
-      delete this.resource.refresh[`-=${value}`];
-    }
+  async _onRemoveOption(path, value, dataset) {
+    super._onRemoveOption(path, value, dataset);
+    this.resource.refresh[dataset.key] = new foundry.data.operators.ForcedDeletion(); 
   }
 
   _onSave(event, target) {

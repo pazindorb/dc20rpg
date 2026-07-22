@@ -745,7 +745,7 @@ export class DC20RpgActor extends Actor {
       if (item) item.toggle({forceOff: true});
     }
 
-    await this.update({[`system.sustain.-=${key}`]: null});
+    await this.update({[`system.sustain.${key}`]: new foundry.data.operators.ForcedDeletion()});
 
     if (message) {
       DC20ChatMessage.descriptionMessage({

@@ -767,7 +767,7 @@ export class ActorAdvancement extends Dialog {
   _onItemDelete(itemKey) {
     const advancement = this.currentAdvancement;
     delete advancement.items[itemKey];
-    this.currentItem.update({[`system.advancements.${advancement.key}.items.-=${itemKey}`] : null});
+    this.currentItem.update({[`system.advancements.${advancement.key}.items.${itemKey}`] : new foundry.data.operators.ForcedDeletion()});
     this.render();
   }
 

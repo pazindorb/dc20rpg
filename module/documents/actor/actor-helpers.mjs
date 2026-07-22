@@ -173,7 +173,7 @@ async function _createCustomResource(data={}, key, actor) {
 }
 
 async function _removeCustomResource(key, actor) {
-  await actor.update({[`system.resources.custom.-=${key}`]: null });
+  await actor.update({[`system.resources.custom.${key}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 function _iterateOverResources(actor) {
@@ -245,9 +245,9 @@ async function _refreshAll(actor) {
   }
 
   // Remove
-  Object.keys(skills).filter(key => !skillStore.skills[key] && !skills[key].custom).forEach(key => updateData.skills[`-=${key}`] = null);
-  Object.keys(languages).filter(key => !skillStore.languages[key] && !languages[key].custom).forEach(key => updateData.languages[`-=${key}`] = null);
-  if (trades) Object.keys(trades).filter(key => !skillStore.trades[key] && !trades[key].custom).forEach(key => updateData.trades[`-=${key}`] = null);
+  Object.keys(skills).filter(key => !skillStore.skills[key] && !skills[key].custom).forEach(key => updateData.skills[key] = new foundry.data.operators.ForcedDeletion());
+  Object.keys(languages).filter(key => !skillStore.languages[key] && !languages[key].custom).forEach(key => updateData.languages[key] = new foundry.data.operators.ForcedDeletion());
+  if (trades) Object.keys(trades).filter(key => !skillStore.trades[key] && !trades[key].custom).forEach(key => updateData.trades[key] = new foundry.data.operators.ForcedDeletion());
 
   // Add or Modify
   Object.keys(skillStore.skills).forEach(key => {
@@ -297,7 +297,7 @@ async function _addCustom(type, actor) {
 }
 
 async function _removeCustom(key, type, actor) {
-  actor.update({[`system.${type}.-=${key}`]: null});
+  actor.update({[`system.${type}.${key}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 async function _convertPoints(from, to, opertaion, rate, actor) {
@@ -548,9 +548,9 @@ async function _unequipSlot(slot, actor) {
 
   const path = `system.equipmentSlots.${slot.category}.${slot.key}`;
   await actor.update({
-    [`${path}.-=itemId`]: null,
-    [`${path}.-=itemName`]: null,
-    [`${path}.-=itemImg`]: null,
+    [`${path}.itemId`]: new foundry.data.operators.ForcedDeletion(),
+    [`${path}.itemName`]: new foundry.data.operators.ForcedDeletion(),
+    [`${path}.itemImg`]: new foundry.data.operators.ForcedDeletion(),
   });
   await runTemporaryItemMacro(item, "onItemToggle", actor, {on: false, off: true, equipping: true});
   await item.update({
@@ -562,7 +562,7 @@ async function _unequipSlot(slot, actor) {
 
 async function _deleteSlot(slot, actor) {
   if (slot.isEquipped) await _unequipSlot(slot, actor);
-  await actor.update({[`system.equipmentSlots.${slot.category}.-=${slot.key}`]: null});
+  await actor.update({[`system.equipmentSlots.${slot.category}.${slot.key}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 //==================================//==================================
@@ -623,7 +623,7 @@ function _enrichKeywordObject(actor) {
   for (const original of Object.values(actor.system.keywords)) {
     const keyword = foundry.utils.deepClone(original);
     const key = keyword.key;
-    keyword.delete = async () => await actor.update({[`system.keywords.-=${key}`]: null});
+    keyword.delete = async () => await actor.update({[`system.keywords.${key}`]: new foundry.data.operators.ForcedDeletion()});
     keyword.update = async (value=null, forceUpdate=false) => await _updateKeyword(keyword, value, forceUpdate, actor)
     keyword.addItem = async (item) => await actor.update({[`system.keywords.${key}.updateItems.${item.id}`]: item.name});
     keyword.removeItem = async (itemId) => await _removeItemFromKeyword(itemId, keyword, actor);
@@ -677,7 +677,7 @@ async function _removeItemFromKeyword(itemId, keyword, actor) {
   } 
   // In other case only remove the item
   else {
-    await actor.update({[`system.keywords.${keyword.key}.updateItems.-=${itemId}`]: null});
+    await actor.update({[`system.keywords.${keyword.key}.updateItems.${itemId}`]: new foundry.data.operators.ForcedDeletion()});
   }
 }
 
@@ -717,11 +717,11 @@ async function _prepareHelp(actor, options={}) {
 
 async function _clearHelp(actor, key, duration="round") {
   if (key) {
-    await actor.update({[`system.help.active.-=${key}`]: null});
+    await actor.update({[`system.help.active.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   else {
     for (const [key, help] of Object.entries(actor.system.help.active)) {
-      if (help.duration === duration) await actor.update({[`system.help.active.-=${key}`]: null})
+      if (help.duration === duration) await actor.update({[`system.help.active.${key}`]: new foundry.data.operators.ForcedDeletion()})
     }
   }
 }
@@ -833,7 +833,7 @@ async function _refreshItem(refreshType, item) {
 function _enrichEnhancementsObject(actor) {
   actor.enhancements = {
     add: async (data, options) => await _addActorEnhancement(data, options, actor),
-    delete: async (key) => await actor.update({[`system.enhancements.-=${key}`]: null})
+    delete: async (key) => await actor.update({[`system.enhancements.${key}`]: new foundry.data.operators.ForcedDeletion()})
   };
 }
 

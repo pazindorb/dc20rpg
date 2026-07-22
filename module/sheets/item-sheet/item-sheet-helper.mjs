@@ -1,4 +1,5 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
+import { DC20RpgItem } from "../../documents/item.mjs";
 
 export function getForItemType(type, value) {
   switch (value) {
@@ -58,12 +59,12 @@ export async function removeResourceFromItem(item, key) {
   const enhUpdateData = {};
   if (item.system.enhancements) {
     Object.keys(item.system.enhancements)
-            .forEach(enhKey=> enhUpdateData[`enhancements.${enhKey}.resources.custom.-=${key}`] = null); 
+            .forEach(enhKey=> enhUpdateData[`enhancements.${enhKey}.resources.custom.${key}`] = new foundry.data.operators.ForcedDeletion()); 
   }
 
   const updateData = {
     system: {
-      [`costs.resources.custom.-=${key}`]: null,
+      [`costs.resources.custom.${key}`]: new foundry.data.operators.ForcedDeletion(),
       ...enhUpdateData
     }
   }
@@ -97,7 +98,7 @@ export function rollTemplateSelect(selected, item) {
   // Set save request
   if (["dynamic", "save"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: saveRequest};
   if (["contest"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: contestRequest};
-  if (["check", "attack"].includes(selected)) system.rollRequests = {['-=rollRequestFromTemplate']: null};
+  if (["check", "attack"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: new foundry.data.operators.ForcedDeletion()};
 
   // Set check against DC or not
   if (selected === "contest") system.check = {againstDC: false};
@@ -115,7 +116,7 @@ export async function removeItemFromContainer(container, itemKey) {
       item.delete();
     }
   }
-  await container.update({[`system.contents.-=${itemKey}`]: null});
+  await container.update({[`system.contents.${itemKey}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 export async function createCustomProperty(item) {

@@ -201,7 +201,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     // Object
     else {
       if (this.updateObject) {
-        await this.updateObject.update({[`${path}.-=${dataset.key}`]: null});
+        await this.updateObject.update({[`${path}.${dataset.key}`]: new foundry.data.operators.ForcedDeletion()});
       }
       else {
         delete source[dataset.key];

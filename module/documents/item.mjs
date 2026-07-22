@@ -196,7 +196,7 @@ export class DC20RpgItem extends Item {
     return await Area.create(area, {parent: this, key: areaKey});
   }
   async removeArea(key) {
-    await this.update({[`system.areas.-=${key}`]: null});
+    await this.update({[`system.areas.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getAreaObjectExample() {
     return new Area();
@@ -209,7 +209,7 @@ export class DC20RpgItem extends Item {
     return await Formula.create(formula, {parent: this, key: formulaKey});
   }
   async removeFormula(key) {
-    await this.update({[`system.formulas.-=${key}`]: null});
+    await this.update({[`system.formulas.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getFormulaObjectExample() {
     return new Formula();
@@ -222,7 +222,7 @@ export class DC20RpgItem extends Item {
     return await RollRequest.create(rollRequest, {parent: this, key: rollRequestKey});
   }
   async removeRollRequest(key) {
-    await this.update({[`system.rollRequests.-=${key}`]: null});
+    await this.update({[`system.rollRequests.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getRollRequestObjectExample() {
     return new RollRequest();
@@ -235,7 +235,7 @@ export class DC20RpgItem extends Item {
     return await AgainstStatus.create(againstStatus, {parent: this, key: againstStatusKey});
   }
   async removeAgainstStatus(key) {
-    await this.update({[`system.againstStatuses.-=${key}`]: null});
+    await this.update({[`system.againstStatuses.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getAgainstStatusObjectExample() {
     return new AgainstStatus();
@@ -248,7 +248,7 @@ export class DC20RpgItem extends Item {
     return await Enhancement.create(enhancement, {parent: this, key: enhancementKey});
   }
   async removeEnhancement(key) {
-    await this.update({[`system.enhancements.-=${key}`]: null});
+    await this.update({[`system.enhancements.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getEnhancementObjectExample() {
     return new Enhancement(this);
@@ -261,7 +261,7 @@ export class DC20RpgItem extends Item {
     return await TargetModifier.create(targetModifier, {parent: this, key: targetModifierKey});
   }
   async removeTargetModifier(key) {
-    await this.update({[`system.targetModifiers.-=${key}`]: null});
+    await this.update({[`system.targetModifiers.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getTargetModifierObjectExample() {
     return new TargetModifier();
@@ -274,7 +274,7 @@ export class DC20RpgItem extends Item {
     return await ItemMacro.create(macroObject, {parent: this, key: macroKey});
   }
   async removeItemMacro(key) {
-    await this.update({[`system.macros.-=${key}`]: null});
+    await this.update({[`system.macros.${key}`]: new foundry.data.operators.ForcedDeletion()});
   }
   getMacroObjectExample() {
     return new ItemMacro();

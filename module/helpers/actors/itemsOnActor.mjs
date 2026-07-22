@@ -398,7 +398,7 @@ export function createNewTable(tab, actor) {
 }
 
 export function removeCustomTable(tab, table, actor) {
-  actor.update({[`system.sheetData.header.order.${tab}.-=${table}`]: null});
+  actor.update({[`system.sheetData.header.order.${tab}.${table}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 //======================================
@@ -434,7 +434,7 @@ export async function deleteTrait(traitKey, actor) {
     const item = actor.items.get(itemId);
     if (item) await item.delete();
   }
-  await actor.update({[`system.traits.-=${traitKey}`]: null});
+  await actor.update({[`system.traits.${traitKey}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
 export async function activateTrait(traitKey, actor) {
