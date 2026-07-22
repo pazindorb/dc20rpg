@@ -272,6 +272,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       delete enhancement.toggleDown;
       delete enhancement.clear;
       delete enhancement.delete;
+      delete enhancement.order;
       dragData = {type: "Enhancement", enhancement: enhancement};
     }
     if (dataset.targetModifierKey) {
