@@ -596,15 +596,18 @@
               "startRound": 1,
               "startTurn": 1,
               "value": 1,
-              "units": "rounds"
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "PASjWOdKiqgVHSzO"
+                "enhKey": "PASjWOdKiqgVHSzO",
+                "itemSavePath": "system.enhancements.PASjWOdKiqgVHSzO.modifications.addsEffect"
               }
             },
-            "_id": "btyzSpjG35lIwTgC",
+            "_id": "LbChZm2BXK6JWGsa",
             "type": "base",
             "system": {
               "sustained": {
@@ -618,10 +621,11 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const dmgValue = effect.flags.dc20rpg?.stormDmg || 1;\nconst dmgType = effect.flags.dc20rpg?.stormType || \"slashing\";\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Abrasive Storm\",\n    type: dmgType\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n}",
+              "macro": "const dmgValue = effect.flags.dc20rpg?.stormDmg || 1;\nconst dmgType = effect.flags.dc20rpg?.stormType || \"slashing\";\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"mig\", {against: event.against, rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Abrasive Storm\",\n    type: dmgType\n  }\n  DC20.DC20Target.quickApplyDamageFor(actor, dmg, {}, {fromEvent: true})\n}",
               "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
@@ -638,18 +642,23 @@
                 {
                   "key": "system.events",
                   "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Abrasive Storm\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                  "mode": 2,
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 },
                 {
                   "key": "system.events",
                   "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Abrasive Storm\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
-                  "mode": 2,
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 }
-              ]
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
             "description": "<p>When a creature enters the area for the first time on its turn, or starts its turn within there, it must make an Might Save.</p><p><strong>Save Failure:</strong> The target takes X Slashing or Cold Damage (chosen when you use this Enhancement).</p>",
             "tint": "#ffffff",
@@ -660,13 +669,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768593883146,
-              "modifiedTime": 1768593888394,
+              "systemVersion": "0.10.6.1",
+              "createdTime": 1784802841896,
+              "modifiedTime": 1784802910310,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 1,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "const dmgType = await DC20.dialog.SimplePopup.select(\"Abrasive Storm damage type\", {cold: \"Cold\", slashing: \"Slashing\"});\n\nenh.modifications.addsEffect.flags.dc20rpg.stormType = dmgType;\nenh.modifications.addsEffect.flags.dc20rpg.stormDmg = enh.number;",
@@ -1075,9 +1094,9 @@
     "exportSource": null,
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1767705321010,
-    "modifiedTime": 1782568569708,
+    "modifiedTime": 1784802911507,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

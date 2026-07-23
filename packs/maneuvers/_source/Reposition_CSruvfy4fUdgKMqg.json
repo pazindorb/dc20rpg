@@ -31,16 +31,7 @@
     },
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
-    "macros": {
-      "huAoonkXToxKZXSu": {
-        "command": "let movePoints = 0\n\nlet moveKey = \"ground\";\nif (actor.hasOtherMoveOptions) {\n  const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) moveKey = key;\n}\nmovePoints = actor.system.movement[moveKey].current;\n\nif (rolls.core._total >= 15) movePoints *= 2;\nif (item.enhancements.active.has(\"v83GWhyiQVhIJoxC\")) movePoints = Math.ceil(movePoints/2);\n\nactor.moveAction({movePoints: movePoints})",
-        "trigger": "postItemRoll",
-        "disabled": false,
-        "name": "Make Move Action",
-        "title": "",
-        "global": false
-      }
-    },
+    "macros": {},
     "usable": true,
     "isReaction": false,
     "help": {
@@ -53,7 +44,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "check",
+    "actionType": "move",
     "attackFormula": {
       "rangeType": "",
       "checkType": "attack",
@@ -74,14 +65,14 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "mar",
+      "checkKey": "",
       "multiCheck": {
         "active": false,
         "options": {}
       },
       "contestedKey": "phy",
-      "againstDC": true,
-      "checkDC": 15,
+      "againstDC": false,
+      "checkDC": 10,
       "respectSizeRules": false,
       "failEffect": ""
     },
@@ -137,12 +128,12 @@
         "description": "<p>You ignore Difficult Terrain during this movement.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "",
+          "stamina": "1",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -222,7 +213,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "1DDEd4FrACNd73o6",
         "sourceItemId": "CSruvfy4fUdgKMqg",
@@ -243,12 +237,12 @@
         "description": "<p>You gain the benefits of the Disengage Action for the Movement.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -328,7 +322,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "4342ZUfnFlM6t8oF",
         "sourceItemId": "CSruvfy4fUdgKMqg",
@@ -349,12 +346,12 @@
         "description": "<p>You gain the benefits of the Full Disengage Action for the Movement.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "1",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -434,7 +431,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "hZL37LbQWkBe4PUQ",
         "sourceItemId": "CSruvfy4fUdgKMqg",
@@ -455,12 +455,12 @@
         "description": "<p>A willing creature of your choice within 1 Space of your original position can move without spending its own movement, provided they’re able to move and they end their movement within 1 Space of your destination.</p>",
         "hide": false,
         "resources": {
-          "ap": null,
-          "health": null,
-          "mana": null,
-          "stamina": 2,
-          "grit": null,
-          "restPoints": null,
+          "ap": "",
+          "health": "",
+          "mana": "",
+          "stamina": "2",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -540,7 +540,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "dlf59r0ULIdz2KIh",
         "sourceItemId": "CSruvfy4fUdgKMqg",
@@ -695,11 +698,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1766095409711,
-    "modifiedTime": 1781985655645,
+    "modifiedTime": 1784727182846,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

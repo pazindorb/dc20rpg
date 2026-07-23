@@ -287,7 +287,7 @@
         "title": ""
       },
       "z7VGoccFkeuNRUIj": {
-        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.boundWeaponId);\nif (weapon) {\n  item.update({\n    [\"system.copyEnhancements.copyFor\"]: `_id=[\"${weaponId}\"]`,\n    [\"flags.dc20rpg.boundWeaponId\"]: weaponId\n  });\n  weapon.update({\n    [\"flags.dc20rpg.boundWeapon\"]: true\n  })\n  if (oldWeapon) {\n    oldWeapon.update({\n      [\"flags.dc20rpg.-=boundWeapon\"]: null\n    })\n  }\n}",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = game.dc20rpg.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst weaponId = await DC20.dialog.SimplePopup.select(\"Select your Bounded Weapon\", selectOptions);\nconst weapon = actor.items.get(weaponId);\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.boundWeaponId);\nif (weapon) {\n  item.update({\n    [\"system.copyEnhancements.copyFor\"]: `_id=[\"${weaponId}\"]`,\n    [\"flags.dc20rpg.boundWeaponId\"]: weaponId\n  });\n  weapon.update({\n    [\"flags.dc20rpg.boundWeapon\"]: true\n  })\n  if (oldWeapon) {\n    oldWeapon.update({\n      [\"flags.dc20rpg.boundWeapon\"]: new foundry.data.operators.ForcedDeletion()\n    })\n  }\n}",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Change Bound Weapon",
@@ -332,11 +332,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350034896,
-    "modifiedTime": 1782333022199,
+    "modifiedTime": 1784717776047,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

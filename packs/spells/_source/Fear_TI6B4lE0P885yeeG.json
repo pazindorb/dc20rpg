@@ -890,7 +890,7 @@
           "expiryAction": "delete"
         },
         "effectKey": "fear",
-        "macro": "const flee = effect.flags.dc20rpg?.flee;\nconst innerDemons = effect.flags.dc20rpg?.innerDemons;\n\nif (flee) {\n  if (actor.resources.ap.checkAndSpend(1)) {\n    DC20.dialog.SimplePopup.info(\"Flee - Save Fail\", [\"You spend 1 AP to run away from the caster.\"])\n  }\n}\n\nif (innerDemons) {\n  let dmg = {\n    value: innerDemons,\n    source: \"Inner Demons\",\n    type: \"psychic\"\n  }\n  const calculationTarget = {\n    system: {damageReduction: actor.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified, {fromEvent: true});\n}",
+        "macro": "const flee = effect.flags.dc20rpg?.flee;\nconst innerDemons = effect.flags.dc20rpg?.innerDemons;\n\nif (flee) {\n  if (actor.resources.ap.checkAndSpend(1)) {\n    DC20.dialog.SimplePopup.info(\"Flee - Save Fail\", [\"You spend 1 AP to run away from the caster.\"])\n  }\n}\n\nif (innerDemons) {\n  let dmg = {\n    value: innerDemons,\n    source: \"Inner Demons\",\n    type: \"psychic\"\n  }\n  DC20.DC20Target.quickApplyDamageFor(actor, dmg, {}, {fromEvent: true})\n}",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -1015,12 +1015,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "createdTime": 1781983684912,
-        "modifiedTime": 1782396851664
+        "modifiedTime": 1784802949683
       },
       "showIcon": 2,
       "start": {

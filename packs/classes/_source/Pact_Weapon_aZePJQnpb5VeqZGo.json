@@ -180,7 +180,7 @@
       "uOYP4gvcJpumln1h": {
         "name": "Change Pact Weapon",
         "trigger": "onDemand",
-        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = DC20.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Weapon\", selectOptions);\nif (!selected) return;\n\nconst weapon = actor.items.get(selected);\nif (!weapon) return;\n\n// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({\n    [\"system.combatTraining\"]: false,\n    [\"flags.dc20rpg.-=pactItem\"]: null\n  });\n}\n\n// Add training to new weapon\nweapon.update({\n  [\"system.combatTraining\"]: true,\n  [\"flags.dc20rpg.pactItem\"]: true\n});\nitem.update({[\"flags.dc20rpg.pactWeapon\"]: weapon.id});",
+        "command": "const weapons = actor.getAllItemsWithType([\"weapon\"]);\nconst selectOptions = DC20.tools.toSelectOptions(weapons, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Weapon\", selectOptions);\nif (!selected) return;\n\nconst weapon = actor.items.get(selected);\nif (!weapon) return;\n\n// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({\n    [\"system.combatTraining\"]: false,\n    [\"flags.dc20rpg.pactItem\"]: new foundry.data.operators.ForcedDeletion()\n  });\n}\n\n// Add training to new weapon\nweapon.update({\n  [\"system.combatTraining\"]: true,\n  [\"flags.dc20rpg.pactItem\"]: true\n});\nitem.update({[\"flags.dc20rpg.pactWeapon\"]: weapon.id});",
         "disabled": false,
         "title": "Change Pact Weapon"
       },
@@ -194,7 +194,7 @@
       "tTqHv7alZgJ1NLkV": {
         "name": "Remove Pact Weapon",
         "trigger": "preDelete",
-        "command": "// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({\n    [\"system.combatTraining\"]: false,\n    [\"flags.dc20rpg.-=pactItem\"]: null\n  });\n}",
+        "command": "// Remove training from current weapon\nconst oldWeapon = actor.items.get(item.flags?.dc20rpg?.pactWeapon);\nif (oldWeapon) {\n  oldWeapon.update({\n    [\"system.combatTraining\"]: false,\n    [\"flags.dc20rpg.pactItem\"]: new foundry.data.operators.ForcedDeletion()\n  });\n}",
         "disabled": false,
         "title": ""
       }
@@ -230,11 +230,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350035666,
-    "modifiedTime": 1781983665657,
+    "modifiedTime": 1784717960720,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

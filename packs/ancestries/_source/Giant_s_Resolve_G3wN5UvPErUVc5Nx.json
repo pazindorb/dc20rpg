@@ -162,7 +162,7 @@
       "QUW52hmPLYJEU4KR": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const fortitude = game.dc20rpg.tools.getItemFromActorByKey(\"giantsFortitude\", actor);\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"wellBloodied\"});\n}",
+        "command": "const fortitude = actor.getItemByKey(\"giantsFortitude\");\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"wellBloodied\"});\n}",
         "disabled": false,
         "title": ""
       }
@@ -251,10 +251,12 @@
         "effectKey": "giantsResolve",
         "changes": [
           {
-            "key": "system.damageReduction.flat",
-            "value": 1,
-            "priority": null,
-            "type": "add"
+            "useCustom": false,
+            "key": "system.globalModifier.modify.damageTaken.flat",
+            "type": "add",
+            "value": -1,
+            "phase": "initial",
+            "priority": null
           }
         ]
       },
@@ -281,11 +283,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "createdTime": 1781983704115,
-        "modifiedTime": 1781983704115,
+        "modifiedTime": 1784808268633,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -299,11 +301,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1738067028080,
-    "modifiedTime": 1781983704099,
+    "modifiedTime": 1784803998097,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

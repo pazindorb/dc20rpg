@@ -186,7 +186,7 @@
         "global": false
       },
       "IuKXyZmrMpqezXTF": {
-        "command": "const effect = item.effects.get(\"NFYhdKZzuhfkpqjR\");\nif (effect) game.dc20rpg.effects.createEffectOn(effect, actor)",
+        "command": "const effect = item.effects.get(\"NFYhdKZzuhfkpqjR\");\nif (effect) DC20.DC20RpgActiveEffect.gmCreate(effect.toObject(), {parent: actor});",
         "trigger": "postItemRoll",
         "disabled": false,
         "name": "Apply Reckless Whirlwind",
@@ -465,11 +465,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1778148717950,
-    "modifiedTime": 1781983713406,
+    "modifiedTime": 1784803662726,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

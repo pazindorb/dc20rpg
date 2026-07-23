@@ -225,6 +225,88 @@ $chat-background-light: url(../images/sheet/parchment.jpg) repeat;
               text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
             }
         
+            .info-box-wrapper {
+              display: flex;
+              align-items: center;
+              justify-content: start;
+              flex-wrap: wrap;
+              font-family: $font-default;
+              gap: 3px;
+              margin-top: 3px;
+            }
+
+            .info-box {
+              // Fixed
+              width: fit-content;
+              color: white;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+              border: 1px solid black;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              // Modified by color
+              background-color: #917996;
+              box-shadow: 0 0 3px 1px #645068 inset;
+              // Modified by tier
+              border-radius: 3px;
+              padding: 4px 5px;
+              font-size: 16px;
+              font-weight: normal;
+
+              &.journal-tooltip {
+                &:hover {
+                  cursor: pointer;
+                  box-shadow: 0 0 5px 2px #d9d8da inset;
+                }
+              }
+              
+              &.tier1 {
+                padding: 4px 5px;
+                font-size: 14px;
+              }
+
+              &.tier2 {
+                padding: 3px 4px;
+                font-size: 13px;
+              }
+
+              &.tier3 {
+                padding: 3px 4px;
+                font-size: 12px;
+              }
+
+              &.green {
+                box-shadow: 0 0 3px 1px #1f551f inset;
+                background-color: #398639;
+              }
+
+              &.blue {
+                box-shadow: 0 0 3px 1px #1a2e63 inset;
+                background-color: #2a458d;
+              }
+
+              &.gold {
+                box-shadow: 0 0 3px 1px #5a4415 inset;
+                background-color: #9e722f;
+              }
+
+              &.red {
+                box-shadow: 0 0 3px 1px #530e0e inset;
+                background-color: #7a1d1d;
+              }
+
+              &.gray {
+                box-shadow: 0 0 3px 1px #3d3d3d inset;
+                background-color: #686868;
+              }
+
+              &.purple {
+                box-shadow: 0 0 3px 1px #45164b inset;
+                background-color: #692372;
+              }
+            }
+
             .box {
               border: 1px solid $secondary-darker;
               background-color: $primary-color;

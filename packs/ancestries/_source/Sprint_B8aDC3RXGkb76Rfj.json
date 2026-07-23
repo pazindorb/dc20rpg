@@ -15,7 +15,7 @@
       "name": ""
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "move",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "precision",
@@ -136,13 +136,6 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "vEkcQG7gpqcMoFv0": {
-        "name": "Make Move Action",
-        "trigger": "preItemRoll",
-        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
-        "disabled": false,
-        "title": ""
-      },
       "w75zyVj4Sf8dAi0I": {
         "command": "item.update({[\"system.costs.charges.current\"]: 1})",
         "trigger": "onDemand",
@@ -169,11 +162,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.WWCGEMvgnLdPB8BJ",
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1720110035246,
-    "modifiedTime": 1781983703507,
+    "modifiedTime": 1784726957447,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

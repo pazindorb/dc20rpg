@@ -965,7 +965,7 @@
           "expiryAction": "delete"
         },
         "effectKey": "haste",
-        "macro": "// Select haste bonus speed value\nif (event.trigger === \"instant\") {\n  let rollValue = await DC20.dialog.SimplePopup.input(\"What was your Spell Check value?\");\n  rollValue = parseInt(rollValue) || 0;\n  let bonusSpeed = 0;\n  let outcome = \"fail\";\n\n  let successRate = Math.floor((rollValue - 15)/5);\n  if (successRate >= 0) {\n    outcome = \"success\";\n    bonusSpeed = successRate;\n  }\n  effect.update({[\"flags.dc20rpg.haste\"]: {outcome: outcome, bonusSpeed: bonusSpeed}})\n}\n\n\n// Apply bonus speed value\nif (event.trigger === \"turnStart\") {\n  const haste = effect.flags.dc20rpg.haste;\n  if (!haste) return;\n\n  let moveKey = \"ground\";\n  if (actor.hasOtherMoveOptions) {\n    moveKey = await SimplePopup.open(\"input\", {\n      header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n      inputs: [{\n        type: \"select\",\n        options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n        preselected: \"ground\"\n      }]\n    });\n  }\n  const movePoints = actor.system.movement[moveKey].current;\n\n  const enhancedSpeed = effect.flags?.dc20rpg?.enhancedSpeed || 0;\n  let movement = haste.outcome === \"success\" ? movePoints : Math.ceil(movePoints/2);\n  movement += haste.bonusSpeed + enhancedSpeed;\n  actor.moveAction({movePoints: movement});\n  ui.notifications.notify(`Granted ${movement} Move Points from Haste.`);\n}",
+        "macro": "// Select haste bonus speed value\nif (event.trigger === \"instant\") {\n  const message = game.messages.get(effect.system.chatMessageId);\n  if (!message) return;\n\n  const rollValue = message.winningRoll?.total;\n  \n  let bonusSpeed = 0;\n  let outcome = \"fail\";\n  let successRate = Math.floor((rollValue - 15)/5);\n  if (successRate >= 0) {\n    outcome = \"success\";\n    bonusSpeed = successRate;\n  }\n  effect.update({[\"flags.dc20rpg.haste\"]: {outcome: outcome, bonusSpeed: bonusSpeed}})\n}\n\n\n// Apply bonus speed value\nif (event.trigger === \"turnStart\") {\n  const haste = effect.flags.dc20rpg.haste;\n  if (!haste) return;\n\n  const movePoints = actor.system.movement.ground.current;\n\n  const enhancedSpeed = effect.flags?.dc20rpg?.enhancedSpeed || 0;\n  let movement = haste.outcome === \"success\" ? movePoints : Math.ceil(movePoints/2);\n  movement += haste.bonusSpeed + enhancedSpeed;\n  actor.moveAction({movePoints: movement});\n  ui.notifications.notify(`Granted ${movement} Move Points from Haste.`);\n}",
         "addToChat": true,
         "nonessential": false,
         "disableWhen": {
@@ -1000,12 +1000,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "createdTime": 1781983683790,
-        "modifiedTime": 1781983683790
+        "modifiedTime": 1784722063235
       },
       "start": {
         "combat": null,

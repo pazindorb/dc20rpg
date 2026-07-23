@@ -481,7 +481,7 @@
       "OJvuGASLWrzQuz9O": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});\n\nconst weaponStyle = actor.getItemByKey(\"naturalWeaponPassive\");\nif (weaponStyle) weaponStyle.callMacro(\"onCreate\");",
+        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Natural Weapon damage type\", damageTypes);\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = actor.getItemByKey(\"extendNaturalWeapon\");\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = actor.getItemByKey(\"retractableNaturalWeapon\");\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = actor.getItemByKey(\"naturalProjectile\");\nif (projectile) item.update({[\"system.range.normal\"]: 10});\n\nconst weaponStyle = actor.getItemByKey(\"naturalWeaponPassive\");\nif (weaponStyle) weaponStyle.callMacro(\"onCreate\");",
         "disabled": false,
         "title": ""
       }
@@ -608,11 +608,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1760367104859,
-    "modifiedTime": 1781987567319,
+    "modifiedTime": 1784804115861,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "aRIuPJVPARYLUJSf",

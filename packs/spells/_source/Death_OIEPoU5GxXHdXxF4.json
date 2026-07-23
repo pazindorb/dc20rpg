@@ -692,22 +692,28 @@
         "chatMessageId": "",
         "changes": [
           {
+            "useCustom": false,
             "key": "system.resources.health.bonus",
+            "type": "add",
             "value": -2,
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
-            "key": "system.healingReduction.flat",
-            "value": 2,
-            "priority": null,
-            "type": "add"
+            "useCustom": false,
+            "key": "system.globalModifier.modify.healingTaken.flat",
+            "type": "add",
+            "value": -2,
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.events",
+            "type": "add",
             "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Death - Repeated Save\", \"checkKey\": \"mig\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"doomed\"], \"onSuccess\": \"delete\", \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           }
         ]
       },
@@ -722,12 +728,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "createdTime": 1781983681899,
-        "modifiedTime": 1781983681899
+        "modifiedTime": 1784808084633
       },
       "showIcon": 2,
       "start": {

@@ -160,7 +160,7 @@
       "e4fK27t6bHGpXFx3": {
         "name": "Select Pact Armor",
         "trigger": "onCreate",
-        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}\n// Add training to new armor\narmor.update({[\"system.combatTraining\"]: true});",
+        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await DC20.DC20RpgActiveEffect.gmCreate(effectData, {parent: armor})\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}\n// Add training to new armor\narmor.update({[\"system.combatTraining\"]: true});",
         "disabled": false,
         "title": ""
       },
@@ -172,7 +172,7 @@
         "title": ""
       },
       "lfcJOR8JHb84qbs4": {
-        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Remove buff and training from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n  oldArmor.update({[\"system.combatTraining\"]: false});\n}\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await game.dc20rpg.effects.createEffectOn(effectData, armor);\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}\n// Add training to new armor\narmor.update({[\"system.combatTraining\"]: true});",
+        "command": "const armors = actor.getAllItemsWithType(\"equipment\", [(item) => [\"light\", \"heavy\"].includes(item.system.equipmentType)]);\nconst selectOptions = DC20.tools.toSelectOptions(armors, \"id\", \"name\");\nconst selected = await DC20.dialog.SimplePopup.select(\"Select Pact Armor\", selectOptions);\nif (!selected) return;\n\nconst armor = actor.items.get(selected);\nif (!armor) return;\n\n// Remove buff and training from current armor\nconst oldArmor = actor.items.get(item.flags?.dc20rpg?.pactArmor);\nif (oldArmor) {\n  const oldEffect = oldArmor.getEffectByKey(\"pactArmor\");\n  await oldEffect.delete();\n  oldArmor.update({[\"system.combatTraining\"]: false});\n}\n\n// Add buff to new armor\nconst pactArmor = item.getEffectByKey(\"pactArmor\");\nif (pactArmor) {\n  const effectData = pactArmor.toObject();\n  effectData.transfer = true;\n  await DC20.DC20RpgActiveEffect.gmCreate(effectData, {parent: armor})\n  await item.update({[\"flags.dc20rpg.pactArmor\"]: armor.id});\n}\n// Add training to new armor\narmor.update({[\"system.combatTraining\"]: true});",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Change Pact Armor",
@@ -258,7 +258,9 @@
             "priority": null,
             "type": "add"
           }
-        ]
+        ],
+        "requireEquip": true,
+        "applyToTemplate": false
       },
       "description": "<p>You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor </strong><span class=\"cf0\"><strong>Training:</strong> You’re considered to have Training with your Pact Armor.</span></p></li><li><p><span class=\"cf0\"><strong>Maneuvers:</strong> You learn 2 Defensive Maneuvers of your choice.</span></p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain +1 AD and MDR.</p></li></ul>",
       "tint": "#ffffff",
@@ -286,11 +288,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.8.0",
-        "createdTime": null,
-        "modifiedTime": 1767180976461,
+        "systemVersion": "0.10.6.1",
+        "createdTime": 1784749571852,
+        "modifiedTime": 1784749573370,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -305,11 +307,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350033944,
-    "modifiedTime": 1781983666346,
+    "modifiedTime": 1784749493846,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

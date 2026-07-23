@@ -770,7 +770,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "elementalShield",
-        "macro": "const dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst trigger = await DC20.dialog.SimplePopup.confirm(\"Is enemy in range to trigger Elemental Shield's Retaliation?\", {actor: actor});\nif (!trigger) return;\n\n// Apply damage\nconst input = await DC20.dialog.SimplePopup.input(\"How much damage should he take?\", {actor: actor});\nconst dmgValue = parseInt(input);\nif (dmgValue) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Elemental Shield - Retaliation\",\n    type: dmgType\n  }\n  const calculationTarget = {\n    system: {damageReduction: target.system.damageReduction}\n  }\n  dmg = game.dc20rpg.tools.calculateForTarget(calculationTarget, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true})\n  game.dc20rpg.tools.applyDamage(target, dmg.modified, {fromEvent: true});\n}\n\n// Should remove?\nconst doNotRemove = await DC20.dialog.SimplePopup.confirm(\"Any Temporary HP left?\", {actor: actor});\nif (!doNotRemove) effect.delete();",
+        "macro": "const dmgType = effect.flags.dc20rpg?.dmgType || \"fire\";\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst trigger = await DC20.dialog.SimplePopup.confirm(\"Is enemy in range to trigger Elemental Shield's Retaliation?\", {actor: actor});\nif (!trigger) return;\n\n// Apply damage\nconst input = await DC20.dialog.SimplePopup.input(\"How much damage should he take?\", {actor: actor});\nconst dmgValue = parseInt(input);\nif (dmgValue) {\n  let dmg = {\n    value: dmgValue,\n    source: \"Elemental Shield - Retaliation\",\n    type: dmgType\n  }\n  DC20.DC20Target.quickApplyDamageFor(actor, dmg, {}, {fromEvent: true})\n}\n\n// Should remove?\nconst doNotRemove = await DC20.dialog.SimplePopup.confirm(\"Any Temporary HP left?\", {actor: actor});\nif (!doNotRemove) effect.delete();",
         "addToChat": true,
         "applyToTemplate": false,
         "nonessential": false,
@@ -801,12 +801,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "createdTime": 1782371531323,
-        "modifiedTime": 1782371531323
+        "modifiedTime": 1784802977513
       },
       "start": {
         "combat": null,

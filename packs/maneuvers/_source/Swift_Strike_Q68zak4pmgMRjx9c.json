@@ -33,7 +33,7 @@
     "quickRoll": false,
     "macros": {
       "kvK9Bwax7PMpS9Ex": {
-        "command": "let moveKey = \"ground\";\nif (actor.hasOtherMoveOptions) {\n    moveKey = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n}\n\nconst subsequentStrike = item.system.enhancements[\"pvwxgO25NMpiBfws\"].number;\nconst movePoints = actor.system.movement[moveKey].current;\nconst finalDistance = movePoints + (subsequentStrike * Math.ceil(movePoints/2));\nactor.moveAction({movePoints: finalDistance})",
+        "command": "let moveKey = \"ground\";\nconst subsequentStrike = item.system.enhancements[\"pvwxgO25NMpiBfws\"].number;\nconst movePoints = actor.system.movement[moveKey].current;\nconst finalDistance = movePoints + (subsequentStrike * Math.ceil(movePoints/2));\nactor.moveAction({movePoints: finalDistance})",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Make Move Action",
@@ -476,11 +476,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1766046946525,
-    "modifiedTime": 1781985655830,
+    "modifiedTime": 1784727267526,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

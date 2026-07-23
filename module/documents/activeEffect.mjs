@@ -19,7 +19,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   get canModifyItemToggle() {
-    if (!this.isLinkedToItemToggle) return false;
+    if (!this.isLinkedToItemToggle) return true;
     const item = this.getSourceItem();
     return item.system.effectsConfig.toggleItem;
   }

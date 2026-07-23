@@ -531,15 +531,18 @@
               "startRound": 1,
               "startTurn": 1,
               "value": 1,
-              "units": "rounds"
+              "units": "rounds",
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "HCJt8Fdxz0ByWLA3"
+                "enhKey": "HCJt8Fdxz0ByWLA3",
+                "itemSavePath": "system.enhancements.HCJt8Fdxz0ByWLA3.modifications.addsEffect"
               }
             },
-            "_id": "uMw6VbJuQOw7OMXe",
+            "_id": "ILpBp7jcTj64m8LX",
             "type": "base",
             "system": {
               "sustained": {
@@ -553,10 +556,11 @@
               "duration": {
                 "useCounter": false,
                 "resetWhenEnabled": false,
-                "onTimeEnd": ""
+                "onTimeEnd": "",
+                "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const dmgValue = effect.flags.dc20rpg?.staticDmg || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst roll = new Roll(\"d20\");\nawait roll.evaluate();\nif (roll.total <= 10) {\n  ui.notifications.notify(`Fate Roll failed with ${roll.total}. You take damage from 'Lightning Blast - Static'.`);\n  let dmg = {\n    value: dmgValue,\n    source: \"Lightning Blast - Static\",\n    type: \"lightning\"\n  };\n  dmg = game.dc20rpg.tools.calculateForTarget(actor, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});\n  game.dc20rpg.tools.applyDamage(actor, dmg.modified);\n}",
+              "macro": "const dmgValue = effect.flags.dc20rpg?.staticDmg || 1;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\n// When a creature enters the area for the first time on its TURN\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\nconst roll = new Roll(\"d20\");\nawait roll.evaluate();\nif (roll.total <= 10) {\n  ui.notifications.notify(`Fate Roll failed with ${roll.total}. You take damage from 'Lightning Blast - Static'.`);\n  let dmg = {\n    value: dmgValue,\n    source: \"Lightning Blast - Static\",\n    type: \"lightning\"\n  };\n  DC20.DC20Target.quickApplyDamageFor(actor, dmg, {}, {fromEvent: true})\n}",
               "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
@@ -572,19 +576,24 @@
               "changes": [
                 {
                   "key": "system.events",
-                  "mode": 2,
                   "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Lightning Blast - Static\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 },
                 {
                   "key": "system.events",
-                  "mode": 2,
                   "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Lightning Blast - Static\", \"actorId\": \"#SPEAKER_ID#\", \"against\": <#@saveDC.value.spell#>",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 }
-              ]
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
             "description": "<p>You are inside a Static area, you might take Lightning damage.</p>",
             "tint": "#ffffff",
@@ -595,13 +604,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.363",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1768593674223,
-              "modifiedTime": 1768593680094,
+              "systemVersion": "0.10.6.1",
+              "createdTime": 1784802995859,
+              "modifiedTime": 1784803010556,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 1,
+              "time": 0,
+              "turn": 1,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "enh.modifications.addsEffect.flags.dc20rpg.staticDmg = enh.number;",
@@ -839,11 +858,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1767789874360,
-    "modifiedTime": 1782420988168,
+    "modifiedTime": 1784803012176,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

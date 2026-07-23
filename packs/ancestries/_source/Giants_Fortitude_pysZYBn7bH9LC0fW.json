@@ -143,14 +143,14 @@
       "GnSCl8X5GvGxWFLv": {
         "name": "onCreate",
         "trigger": "onCreate",
-        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"wellBloodied\"});\n}",
+        "command": "const resolve = actor.getItemByKey(\"giantsResolve\");\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"wellBloodied\"});\n}",
         "disabled": false,
         "title": ""
       },
       "K8P9AqG0GQO7YNQJ": {
         "name": "preDelete",
         "trigger": "preDelete",
-        "command": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"deathsDoor\"});\n}",
+        "command": "const resolve = actor.getItemByKey(\"giantsResolve\");\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"system.disableWhen.value\"]: \"deathsDoor\"});\n}",
         "disabled": false,
         "title": ""
       }
@@ -170,11 +170,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1720100552718,
-    "modifiedTime": 1781983707382,
+    "modifiedTime": 1784804066567,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

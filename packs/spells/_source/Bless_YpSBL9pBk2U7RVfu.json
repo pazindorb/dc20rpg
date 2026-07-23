@@ -4,7 +4,7 @@
   "img": "icons/magic/holy/prayer-hands-glowing-yellow-white.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>A creature of your choice within range gains 1 of the blessings from the list below for the duration.</p><p>Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> The Blessing is a d4.</p><p><strong>Success:</strong> The Blessing is a d6.</p><p><strong>Success (10):</strong> The Blessing is a d8.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Blessings</span></strong></span></p><ul><li><p><strong>Attacks:</strong> The target adds the die to its Attack Checks for the duration.</p></li><li><p><strong>Saves:</strong> The target adds the die to its Saves for the duration.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration is increased by 1 step (1 min → 10 min → 1 hour → 8 hours → Long Rest).</p><p><strong>Targets: (1 AP + X MP)</strong> You increase the number of targets by X.</p><p><strong>Full Bless: (1 MP)</strong> The target benefits from both Blessings. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p><strong>Greater Bless: (1 MP</strong>,<strong> </strong><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>Repeatable</strong></span><strong>)</strong> The size of the die granted increases by 1 step (d4→d6→d8→d10→d12).</p>",
+    "description": "<p>A creature of your choice within range gains 1 of the blessings from the list below for the duration.</p><p>Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> The Blessing is a d4.</p><p><strong>Success:</strong> The Blessing is a d6.</p><p><strong>Success (10):</strong> The Blessing is a d8.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Blessings</span></strong></span></p><ul><li><p><strong>Attacks:</strong> The target adds the die to its Attack Checks for the duration.</p></li><li><p><strong>Saves:</strong> The target adds the die to its Saves for the duration.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Targets: (1 AP + X MP)</strong> You increase the number of targets by X. The AP cost of this Enhancement can’t be paid for with MP.</p><p><strong>Full Bless: (1 MP)</strong> The target benefits from both Blessings. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p><strong>Greater Bless: (1 MP</strong>,<strong> Repeatable)</strong> The size of the die granted increases by 1 step (d4→d6→d8→d10→d12).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "zwTZo2oLB2v347tu": {
-        "command": "const effect = item.getEffectByKey(\"bless\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\n\n// Greater Bless Active\nconst greaterBless = enhancements.get(\"zDwy7sCYKiKS5O3O\");\nif (greaterBless) {\n  effect.flags.dc20rpg = {greaterBless: greaterBless.number};\n}\n\n// Full Bless Active - nothing more to do here\nif (enhancements.get(\"hmc5tmMPtjnFpXhT\")) return;\n\n// Select Blessing\nlet blessing = await DC20.dialog.SimplePopup.select(\"Select Blessing\", {attacks: \"Attacks\", saves: \"Saves\"});\n\nconst newChanges = [];\nfor (const change of effect.system.changes) {\n  if (change.key.includes(\"events\")) newChanges.push(change);\n  if (change.key.includes(\".saves.\") && blessing === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".deathSave\") && blessing === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".martial.\") && blessing === \"attacks\") newChanges.push(change);\n  if (change.key.includes(\".spell.\") && blessing === \"attacks\") newChanges.push(change);\n}\neffect.system.changes = newChanges;",
+        "command": "const effect = item.getEffectByKey(\"bless\");\nif (!effect) return;\n\nconst enhancements = item.enhancements.active;\n\n// Greater Bless Active\nconst greaterBless = enhancements.get(\"zDwy7sCYKiKS5O3O\");\nif (greaterBless) {\n  effect.flags.dc20rpg = {greaterBless: greaterBless.number};\n}\n\n// Full Bless Active - nothing more to do here\nif (enhancements.get(\"hmc5tmMPtjnFpXhT\")) return;\n\n// Select Blessing\nlet blessing = await DC20.dialog.SimplePopup.select(\"Select Blessing\", {attacks: \"Attacks\", saves: \"Saves\"});\n\nconst newChanges = [];\nfor (const change of effect.system.changes) {\n  if (change.key.includes(\"events\")) newChanges.push(change);\n  if (change.key.includes(\".saves.\") && blessing === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".deathSave\") && blessing === \"saves\") newChanges.push(change);\n  if (change.key.includes(\".attack\") && blessing === \"attacks\") newChanges.push(change);\n}\neffect.system.changes = newChanges;",
         "trigger": "preItemRoll",
         "disabled": false,
         "name": "Handle Bless Selection",
@@ -140,12 +140,12 @@
         "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -210,9 +210,9 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
+            "melee": "",
+            "normal": "5",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0,
@@ -223,7 +223,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "gPfc6EvkfIGlGbRM",
         "sourceItemId": "YpSBL9pBk2U7RVfu",
@@ -329,7 +332,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "8ELXmL2T1lSzNIxi",
         "sourceItemId": "YpSBL9pBk2U7RVfu",
@@ -347,7 +351,7 @@
         "name": "Full Bless",
         "number": 0,
         "preventModification": false,
-        "description": "<p>The target benefits from both Blessings. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
+        "description": "<p>The target benefits from both Blessings. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p>",
         "hide": false,
         "resources": {
           "ap": "",
@@ -435,7 +439,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "hmc5tmMPtjnFpXhT",
         "sourceItemId": "YpSBL9pBk2U7RVfu",
@@ -458,7 +463,7 @@
         "resources": {
           "ap": "",
           "health": "",
-          "mana": "1/2",
+          "mana": "1",
           "stamina": "",
           "grit": "",
           "restPoints": "",
@@ -541,7 +546,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "zDwy7sCYKiKS5O3O",
         "sourceItemId": "YpSBL9pBk2U7RVfu",
@@ -551,115 +557,7 @@
         "repeatable": true,
         "defaultState": 0,
         "copyToSheetRoll": {},
-        "altCostMax": 1,
-        "altCost": 0,
-        "drmCheck": false
-      },
-      "CZ9SkmJo98nCr4Kt": {
-        "name": "Duration",
-        "number": 0,
-        "preventModification": false,
-        "description": "<p>The duration is increased by 1 step (1 min → 10 min → 1 hour → 8 hours → Long Rest).</p>",
-        "hide": false,
-        "resources": {
-          "ap": "",
-          "health": "",
-          "mana": "1/2",
-          "stamina": "",
-          "grit": "",
-          "restPoints": "",
-          "custom": {}
-        },
-        "charges": {
-          "subtract": null,
-          "fromOriginal": false
-        },
-        "modifications": {
-          "modifiesCoreFormula": false,
-          "coreFormulaModification": "",
-          "overrideTargetDefence": false,
-          "targetDefenceType": "area",
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "specificFormulaKey": "",
-          "overrideDamageType": false,
-          "damageType": "",
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "label": "",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "dontModifyFailFormula": false,
-            "each5": false,
-            "each5Formula": "",
-            "dontMerge": false,
-            "overrideDefence": "",
-            "perTarget": false
-          },
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true
-          },
-          "addsAgainstStatus": false,
-          "againstStatus": {
-            "id": "",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false,
-            "forOneMinute": false,
-            "forXRounds": null,
-            "repeatedSave": false,
-            "repeatedSaveKey": "phy"
-          },
-          "addsEffect": null,
-          "macros": {
-            "preItemRoll": "",
-            "postItemRoll": ""
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          },
-          "changeManaSpendLimit": 0,
-          "changeStaminaSpendLimit": 0,
-          "changeDuration": false,
-          "duration": {
-            "value": null,
-            "type": "",
-            "timeUnit": ""
-          },
-          "actionChange": false,
-          "actionType": "",
-          "areaDistance": "",
-          "areaWidth": ""
-        },
-        "key": "CZ9SkmJo98nCr4Kt",
-        "sourceItemId": "YpSBL9pBk2U7RVfu",
-        "sourceItemName": "Bless",
-        "sourceItemImg": "icons/magic/holy/prayer-hands-glowing-yellow-white.webp",
-        "active": false,
-        "repeatable": true,
-        "defaultState": 0,
-        "copyToSheetRoll": {},
-        "altCostMax": 1,
+        "altCostMax": 0,
         "altCost": 0,
         "drmCheck": false
       }
@@ -866,7 +764,7 @@
           "expiryAction": "delete"
         },
         "effectKey": "bless",
-        "macro": "const greaterBless = effect.flags.dc20rpg?.greaterBless || 0;\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst rollTotal = message.system.coreRollTotal;\n\nlet dice = 6 + (2 * greaterBless);\nif (rollTotal < 15) dice -= 2;\nelse if (rollTotal >= 25) dice += 2;\nif (dice > 12) dice = 12;\n\nconst changes = effect.system.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({[\"system.changes\"]: changes});",
+        "macro": "const greaterBless = effect.flags.dc20rpg?.greaterBless || 0;\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst rollTotal = message.winningRoll?.total;\n\nlet dice = 6 + (2 * greaterBless);\nif (rollTotal < 15) dice -= 2;\nelse if (rollTotal >= 25) dice += 2;\nif (dice > 12) dice = 12;\n\nconst changes = effect.system.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({[\"system.changes\"]: changes});",
         "addToChat": true,
         "nonessential": false,
         "disableWhen": {
@@ -882,71 +780,13 @@
           {
             "key": "system.dynamicRollModifier.onYou.attack",
             "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
-            "phase": "initial",
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.attack",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
-            "phase": "initial",
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.attack",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
-            "phase": "initial",
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.attack",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\", \"attackType\": \"spell\", \"rangeType\": \"melee\"",
-            "phase": "initial",
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.attack",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\", \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
-            "phase": "initial",
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.attack",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\", \"attackType\": \"spell\", \"rangeType\": \"area\"",
-            "phase": "initial",
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.saves.mig",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
+            "value": "\"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
             "phase": "initial",
             "priority": 0,
             "useCustom": false
           },
           {
-            "key": "system.dynamicRollModifier.onYou.saves.agi",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-            "phase": "initial",
-            "priority": 0,
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.saves.cha",
-            "type": "add",
-            "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
-            "phase": "initial",
-            "priority": 0,
-            "useCustom": false
-          },
-          {
-            "key": "system.dynamicRollModifier.onYou.saves.int",
+            "key": "system.dynamicRollModifier.onYou.saves.all",
             "type": "add",
             "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
             "phase": "initial",
@@ -957,6 +797,14 @@
             "key": "system.dynamicRollModifier.onYou.deathSave",
             "type": "add",
             "value": "\"value\": 0, \"label\": \"Bless\", \"modifier\": \"+ 1#DICE#\"",
+            "phase": "initial",
+            "priority": 0,
+            "useCustom": false
+          },
+          {
+            "key": "system.events",
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Bless\", \"actorId\": \"#SPEAKER_ID#\"",
             "phase": "initial",
             "priority": 0,
             "useCustom": false
@@ -974,9 +822,9 @@
         "exportSource": null,
         "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1782631196140,
+        "modifiedTime": 1784666932867,
         "createdTime": 1781983688220
       },
       "start": {
@@ -1000,9 +848,9 @@
     "exportSource": null,
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1767473721521,
-    "modifiedTime": 1782631163456,
+    "modifiedTime": 1784666428088,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

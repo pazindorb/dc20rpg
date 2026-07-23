@@ -143,7 +143,7 @@
     },
     "macros": {
       "XsKmrWzsNrZZkMGP": {
-        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Skill Expertise\", {...CONFIG.DC20RPG.skills, ...CONFIG.DC20RPG.tradeSkills})\n  if (selected) {\n    const itemEffect = game.dc20rpg.effects.getEffectByKey(\"skillExpertise\", item);\n    if (itemEffect) {\n      itemEffect.system.changes[0].value = selected;\n      itemEffect.system.changes[2].value = selected;\n      itemEffect.update({[\"system.changes\"]: itemEffect.system.changes});\n    }\n  }",
+        "command": "const selected = await DC20.dialog.SimplePopup.select(\"Select Skill Expertise\", {...CONFIG.DC20RPG.skills, ...CONFIG.DC20RPG.tradeSkills})\n  if (selected) {\n    const itemEffect = item.getEffectByKey(\"skillExpertise\");\n    if (itemEffect) {\n      itemEffect.system.changes[0].value = selected;\n      itemEffect.system.changes[2].value = selected;\n      itemEffect.update({[\"system.changes\"]: itemEffect.system.changes});\n    }\n  }",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Choose Skill Expertise",
@@ -243,9 +243,9 @@
     "duplicateSource": "Item.ceXMWgmBOfB6qkwn",
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1720101168854,
-    "modifiedTime": 1782632930223,
+    "modifiedTime": 1784803604222,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

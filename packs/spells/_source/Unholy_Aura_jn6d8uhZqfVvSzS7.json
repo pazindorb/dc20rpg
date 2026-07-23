@@ -793,7 +793,7 @@
           "onTimeEnd": ""
         },
         "effectKey": "",
-        "macro": "// We want to skip this if actor is the caster. Not the best solution but I have no time to make it better now.\nif (actor.getItemByKey(\"unholyAura\")) return;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\n// If fail apply Doomed\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) {\n  ui.notifications.notify(\"'Unholy Aura' chat message not found. Cannot apply the effect.\");\n  return;\n}\nconst doomed = message.system.applicableEffects.find(effect => effect.system.effectKey === \"doomedUnholyAura\");\nif (!doomed) {\n  ui.notifications.notify(\"'Doomed - Unholy Aura' effect not found on chat message.\");\n  return;\n}\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"cha\", {against: event.against, statuses: [\"doomed\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  game.dc20rpg.effects.createEffectOn(doomed, actor);\n}",
+        "macro": "// We want to skip this if actor is the caster. Not the best solution but I have no time to make it better now.\nif (actor.getItemByKey(\"unholyAura\")) return;\n\n// We dont want to call it too fast as some tokens might be inside that template at the time we place it.\nconst skipTime = 5000 // 5 sec\nconst templateCallTime = effect.flags.dc20rpg?.templateCallTime || 0;\nconst effectCreationTime = effect._stats.createdTime\nif (event.trigger === \"instant\" && effectCreationTime - templateCallTime < skipTime) return;\n\nif (event.trigger === \"instant\" && !actor.myTurnActive) return;\n\n// If fail apply Doomed\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) {\n  ui.notifications.notify(\"'Unholy Aura' chat message not found. Cannot apply the effect.\");\n  return;\n}\nconst doomed = message.system.applicableEffects.find(effect => effect.system.effectKey === \"doomedUnholyAura\");\nif (!doomed) {\n  ui.notifications.notify(\"'Doomed - Unholy Aura' effect not found on chat message.\");\n  return;\n}\n\nconst details = DC20.DC20Roll.prepareSaveDetails(\"cha\", {against: event.against, statuses: [\"doomed\"], rollTitle: event.label});\nconst roll = await DC20.dialog.RollDialog.open(actor, details, {sendToActorOwners: true});\nif (roll && (roll._total < event.against)) {\n  DC20.DC20RpgActiveEffect.gmCreate(doomed, {parent: actor})\n}",
         "addToChat": true,
         "applyToTemplate": true,
         "nonessential": false,
@@ -830,12 +830,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null,
-        "createdTime": null,
-        "modifiedTime": null
+        "systemVersion": "0.10.6.1",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1784803077347,
+        "modifiedTime": 1784803077347
       },
       "start": {
         "combat": null,
@@ -895,22 +895,28 @@
         "chatMessageId": "",
         "changes": [
           {
+            "useCustom": false,
             "key": "system.resources.health.bonus",
+            "type": "add",
             "value": -1,
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
-            "key": "system.healingReduction.flat",
-            "value": 1,
-            "priority": null,
-            "type": "add"
+            "useCustom": false,
+            "key": "system.globalModifier.modify.healingTaken.flat",
+            "type": "add",
+            "value": -1,
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.events",
+            "type": "add",
             "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Doomed - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"doomed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           }
         ]
       },
@@ -925,12 +931,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "lastModifiedBy": null,
-        "createdTime": null,
-        "modifiedTime": null
+        "systemVersion": "0.10.6.1",
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "createdTime": 1784808199346,
+        "modifiedTime": 1784808229438
       },
       "showIcon": 2,
       "start": {

@@ -38,7 +38,7 @@
     "quickRoll": false,
     "macros": {
       "pKngLLkmJ4a44ryV": {
-        "command": "const effect = item.effects.get(\"giOhYQnjsOsLGLY6\");\nif (effect) await effect.update({[\"system.addToChat\"]: false});\n\nconst shockDamage = new DC20.Formula()\nshockDamage.formula = \"1\";\nshockDamage.type = \"lightning\"\nconst rollRequest = foundry.utils.deepClone(item.system.rollRequests[\"cQAxs4jbupDS2lY3\"]);\nawait item.update({\n  [\"system.rollRequests.-=cQAxs4jbupDS2lY3\"]: null,\n  [\"system.actionType\"]: \"other\",\n  [\"system.formulas.shockDamage\"]: shockDamage,\n  [\"system.enhancements.jH2ou3NVrsRPBBnF.hide\"]: true,\n  [\"system.enhancements.w63r2LkMw7NZ1sGy.hide\"]: true,\n  [\"system.enhancements.dR17vjSNbQhIdKxV.hide\"]: true,\n  [\"system.enhancements.DRFtBru6AFOBvcaz.hide\"]: false,\n  [\"system.enhancements.0ByNZNQeK71FGrlp.hide\"]: false,\n})\nawait item.roll()\n\nitem.update({\n  [\"system.rollRequests.cQAxs4jbupDS2lY3\"]: rollRequest,\n  [\"system.actionType\"]: \"check\",\n  [\"system.formulas.-=shockDamage\"]: null,\n  [\"system.enhancements.jH2ou3NVrsRPBBnF.hide\"]: false,\n  [\"system.enhancements.w63r2LkMw7NZ1sGy.hide\"]: false,\n  [\"system.enhancements.dR17vjSNbQhIdKxV.hide\"]: false,\n  [\"system.enhancements.DRFtBru6AFOBvcaz.hide\"]: true,\n  [\"system.enhancements.0ByNZNQeK71FGrlp.hide\"]: true,\n})\nif (effect) effect.update({[\"system.addToChat\"]: true});",
+        "command": "const effect = item.effects.get(\"giOhYQnjsOsLGLY6\");\nif (effect) await effect.update({[\"system.addToChat\"]: false});\n\nconst shockDamage = new DC20.Formula()\nshockDamage.formula = \"1\";\nshockDamage.type = \"lightning\"\nconst rollRequest = foundry.utils.deepClone(item.system.rollRequests[\"cQAxs4jbupDS2lY3\"]);\nawait item.update({\n  [\"system.rollRequests.cQAxs4jbupDS2lY3\"]: new foundry.data.operators.ForcedDeletion(),\n  [\"system.actionType\"]: \"other\",\n  [\"system.formulas.shockDamage\"]: shockDamage,\n  [\"system.enhancements.jH2ou3NVrsRPBBnF.hide\"]: true,\n  [\"system.enhancements.w63r2LkMw7NZ1sGy.hide\"]: true,\n  [\"system.enhancements.dR17vjSNbQhIdKxV.hide\"]: true,\n  [\"system.enhancements.DRFtBru6AFOBvcaz.hide\"]: false,\n  [\"system.enhancements.0ByNZNQeK71FGrlp.hide\"]: false,\n})\nawait item.roll()\n\nitem.update({\n  [\"system.rollRequests.cQAxs4jbupDS2lY3\"]: rollRequest,\n  [\"system.actionType\"]: \"check\",\n  [\"system.formulas.shockDamage\"]: new foundry.data.operators.ForcedDeletion(),\n  [\"system.enhancements.jH2ou3NVrsRPBBnF.hide\"]: false,\n  [\"system.enhancements.w63r2LkMw7NZ1sGy.hide\"]: false,\n  [\"system.enhancements.dR17vjSNbQhIdKxV.hide\"]: false,\n  [\"system.enhancements.DRFtBru6AFOBvcaz.hide\"]: true,\n  [\"system.enhancements.0ByNZNQeK71FGrlp.hide\"]: true,\n})\nif (effect) effect.update({[\"system.addToChat\"]: true});",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Trigger Shock",
@@ -939,11 +939,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1777706366411,
-    "modifiedTime": 1781985650191,
+    "modifiedTime": 1784718479757,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

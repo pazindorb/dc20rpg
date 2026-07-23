@@ -46,7 +46,7 @@
         "global": false
       },
       "11uZFzy7bdTKDGKn": {
-        "command": "if (!off) return;\n\nconst updateData = {\n  [\"system.macros.5TVzag9Frtch8xlG.disabled\"]: false, // Enable roll macro\n  [\"system.enhancements.GZqLp7ULqqMMGGNf.hide\"]: false, // Range\n  [\"system.enhancements.Xxj2h1rTzpBkO5cs.hide\"]: false, // Damage\n  [\"system.enhancements.O1IhdNpTnSS9ypwj.hide\"]: false, // Effortless\n  [\"system.enhancements.t7HgqablCZfROnUu.hide\"]: false, // Physical Effect\n  [\"system.enhancements.DQt8zesdtd3ExSiL.hide\"]: false, // Cleave\n  [\"system.enhancements.iCIlfHENQ52icA28.hide\"]: true, // Free Attack\n  [\"system.enhancements.njoGIlojUFAa1sq1.hide\"]: true, // Cleave - weapon\n  [\"system.enhancements.a3tu4XYsLB3hTZei.hide\"]: true, // Physical Effect - weapon\n  [\"system.formulas.-=arcaneWeapon\"]: null,\n  [\"system.costs.resources.mana\"]: 1,\n  [\"system.actionType\"]: \"\",\n  [\"system.duration.type\"]: \"sustain\",\n}\nitem.update(updateData)",
+        "command": "if (!off) return;\n\nconst updateData = {\n  [\"system.macros.5TVzag9Frtch8xlG.disabled\"]: false, // Enable roll macro\n  [\"system.enhancements.GZqLp7ULqqMMGGNf.hide\"]: false, // Range\n  [\"system.enhancements.Xxj2h1rTzpBkO5cs.hide\"]: false, // Damage\n  [\"system.enhancements.O1IhdNpTnSS9ypwj.hide\"]: false, // Effortless\n  [\"system.enhancements.t7HgqablCZfROnUu.hide\"]: false, // Physical Effect\n  [\"system.enhancements.DQt8zesdtd3ExSiL.hide\"]: false, // Cleave\n  [\"system.enhancements.iCIlfHENQ52icA28.hide\"]: true, // Free Attack\n  [\"system.enhancements.njoGIlojUFAa1sq1.hide\"]: true, // Cleave - weapon\n  [\"system.enhancements.a3tu4XYsLB3hTZei.hide\"]: true, // Physical Effect - weapon\n  [\"system.formulas.arcaneWeapon\"]: new foundry.data.operators.ForcedDeletion(),\n  [\"system.costs.resources.mana\"]: 1,\n  [\"system.actionType\"]: \"\",\n  [\"system.duration.type\"]: \"sustain\",\n}\nitem.update(updateData)",
         "trigger": "onItemToggle",
         "disabled": false,
         "name": "Revert Weapon Attack Changes",
@@ -1265,9 +1265,9 @@
     "exportSource": null,
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1777283746332,
-    "modifiedTime": 1782632149976,
+    "modifiedTime": 1784718387533,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

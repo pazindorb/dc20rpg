@@ -320,12 +320,6 @@ export function getEffectModifiableKeys() {
     "system.damageReduction.mdr.skipEqCheck": "MDR - Ignore Equipment Bonus",
     ..._damageReduction(),
 
-    // Flat Damage/healing Modification
-    "system.damageReduction.flat": "All Damage Reduction (Value)",
-    "system.damageReduction.flatHalf": "All Damage Reduction (Half)",
-    "system.healingReduction.flat": "All Healing Reduction (Value)",
-    "system.healingReduction.flatHalf": "All Healing Reduction (Half)",
-
     // Status resistances
     ..._statusResistances(),
     "system.customCondition": "Custom Condition",
@@ -457,14 +451,14 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.modify.damageTaken.reduce": "Damage Taken (Reduce Half)",
     "system.globalModifier.modify.damageTaken.amplify": "Damage Taken (Amplify Double)",
 
+    "system.globalFormulaModifiers.healing": "GFM: Any Healing",
+    "system.globalFormulaModifiers.damage.any": "GFM: Any Damage",
     "system.globalFormulaModifiers.damage.martial.melee": "GFM: Melee Martial Damage",
     "system.globalFormulaModifiers.damage.martial.ranged": "GFM: Ranged Martial Damage",
     "system.globalFormulaModifiers.damage.martial.area": "GFM: Area Martial Damage",
     "system.globalFormulaModifiers.damage.spell.melee": "GFM: Melee Spell Damage",
     "system.globalFormulaModifiers.damage.spell.ranged": "GFM: Ranged Spell Damage",
     "system.globalFormulaModifiers.damage.spell.area": "GFM: Area Spell Damage",
-    "system.globalFormulaModifiers.damage.any": "GFM: Any Damage",
-    "system.globalFormulaModifiers.healing": "GFM: Any Healing",
 
     // Dynamic Roll Modifier
     "system.dynamicRollModifier.onYou.attack": "DRM: Attack Check",

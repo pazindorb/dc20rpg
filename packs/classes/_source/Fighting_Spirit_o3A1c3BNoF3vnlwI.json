@@ -164,7 +164,7 @@
       "MWR4SWwQdnR1rWjz": {
         "name": "Combat Readiness",
         "trigger": "preItemRoll",
-        "command": "const selectOptions = {\n  fortify: \"Fortify\",\n  advance: \"Advance\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//    FORTIFY    //\n//===============//\nif (selected === \"fortify\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await DC20RpgActiveEffect.gmCreate(dodgeEffect.toObject(), {parent: owner});\n  \n\n  // ADV on next Save\n  const fortify = game.dc20rpg.effects.getEffectByKey(\"fortify\", item);\n  if (fortify) await DC20RpgActiveEffect.gmCreate(fortify.toObject(), {parent: owner});\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  actor.moveAction();\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await DC20RpgActiveEffect.gmCreate(advance.toObject(), {parent: owner});\n}",
+        "command": "const selectOptions = {\n  fortify: \"Fortify\",\n  advance: \"Advance\"\n}\nconst selected = await DC20.dialog.SimplePopup.select(\"Choose Combat Readiness Benefit\", selectOptions);\n\n//===============//\n//    FORTIFY    //\n//===============//\nif (selected === \"fortify\") {\n  // Dodge\n  const dodgeEffect = item.getEffectByKey(\"dodge\");\n  if (dodgeEffect) await DC20.DC20RpgActiveEffect.gmCreate(dodgeEffect.toObject(), {parent: actor});\n  \n\n  // ADV on next Save\n  const fortify = item.getEffectByKey(\"fortify\");\n  if (fortify) await DC20.DC20RpgActiveEffect.gmCreate(fortify.toObject(), {parent: actor});\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  actor.moveAction();\n\n  // ADV on next Physical Check\n  const advance = item.getEffectByKey(\"advance\");\n  if (advance) await DC20.DC20RpgActiveEffect.gmCreate(advance.toObject(), {parent: actor});\n}",
         "disabled": false,
         "title": ""
       }
@@ -260,7 +260,8 @@
             "priority": null,
             "type": "add"
           }
-        ]
+        ],
+        "applyToTemplate": false
       },
       "description": "<p>Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 2 SP.</p>",
       "tint": "#ffffff",
@@ -286,11 +287,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "createdTime": null,
-        "modifiedTime": 1776287188550,
+        "systemVersion": "0.10.6.1",
+        "createdTime": 1784749924103,
+        "modifiedTime": 1784749924103,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -389,7 +390,8 @@
             "phase": "initial",
             "useCustom": false
           }
-        ]
+        ],
+        "applyToTemplate": false
       },
       "tint": "#ffffff",
       "transfer": false,
@@ -398,11 +400,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.sIxJsqtrjssed4Y1",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "createdTime": 1781983667278,
-        "modifiedTime": 1781983667278,
+        "modifiedTime": 1784749926797,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -479,7 +481,8 @@
             "priority": null,
             "type": "add"
           }
-        ]
+        ],
+        "applyToTemplate": false
       },
       "tint": "#ffffff",
       "transfer": false,
@@ -488,11 +491,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.5aMwjGU6cgMn9LWQ",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.2",
-        "createdTime": null,
-        "modifiedTime": 1776443969486,
+        "systemVersion": "0.10.6.1",
+        "createdTime": 1784749926133,
+        "modifiedTime": 1784749926133,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -578,7 +581,8 @@
             "phase": "initial",
             "useCustom": false
           }
-        ]
+        ],
+        "applyToTemplate": false
       },
       "description": "<p>You <span>impose DisADV on the next Attack or Grapple made against you before the start of your next turn.</span></p>",
       "tint": "#ffffff",
@@ -604,11 +608,11 @@
       "_stats": {
         "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.Item.KzYJlGDFQVxuw2UF.ActiveEffect.q11dyOEQpnZF878I",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "createdTime": 1781983667284,
-        "modifiedTime": 1781983667284,
+        "modifiedTime": 1784749925399,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -659,7 +663,8 @@
             "phase": "initial",
             "priority": 0
           }
-        ]
+        ],
+        "applyToTemplate": false
       },
       "description": "<p>Event that triggers Fighting Spirit - Combat Readiness at the combat start.</p>",
       "tint": "#ffffff",
@@ -670,11 +675,11 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "createdTime": 1750883414702,
-        "modifiedTime": 1782113673085,
+        "modifiedTime": 1784749924569,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "start": {
@@ -699,9 +704,9 @@
     "duplicateSource": null,
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350034491,
-    "modifiedTime": 1782683491501,
+    "modifiedTime": 1784750024535,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

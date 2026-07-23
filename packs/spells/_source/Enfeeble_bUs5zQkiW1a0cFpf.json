@@ -803,76 +803,100 @@
         "chatMessageId": "",
         "changes": [
           {
+            "useCustom": false,
             "key": "system.events",
-            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Bane\", \"actorId\": \"#SPEAKER_ID#\"",
-            "priority": null,
-            "type": "add"
+            "type": "add",
+            "value": "\"eventType\": \"macro\", \"trigger\": \"instant\", \"label\": \"Enfeeble\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.events",
-            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Bane - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-            "priority": null,
-            "type": "add"
+            "type": "add",
+            "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Enfeeble - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"cursed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.checks.mig",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.saves.mig",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.checks.agi",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.checks.mar",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.checks.cha",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.saves.cha",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.checks.int",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.saves.int",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.dynamicRollModifier.onYou.checks.spe",
+            "type": "add",
             "value": "\"value\": 0, \"label\": \"Enfeeble\", \"modifier\": \"- 1#DICE#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           }
         ]
       },
@@ -887,9 +911,9 @@
         "exportSource": null,
         "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
-        "modifiedTime": 1782631274445,
+        "modifiedTime": 1784665463696,
         "createdTime": 1781983689126
       },
       "start": {

@@ -178,7 +178,7 @@
         "global": false
       },
       "NLsw4JOssO2ObCWd": {
-        "command": "const unarmedStrikes = actor.getAllItemsWithType([\"weapon\"], [i => i.system.unarmedStrike])\nfor (const strike of unarmedStrikes) {\n  const updateData = {};\n  updateData[\"system.weaponStyle\"] = \"\";\n  if (strike.system?.formulas?.weaponDamage) updateData[\"system.formulas.weaponDamage.formula\"] = \"0\";\n  if (strike.flags?.dc20rpg?.addedNaturalWeapon) {\n    updateData[\"system.naturalWeapon\"] = false;\n    updateData[\"flags.dc20rpg.-=addedNaturalWeapon\"] = null;\n  }\n  strike.update(updateData);\n}",
+        "command": "const unarmedStrikes = actor.getAllItemsWithType([\"weapon\"], [i => i.system.unarmedStrike])\nfor (const strike of unarmedStrikes) {\n  const updateData = {};\n  updateData[\"system.weaponStyle\"] = \"\";\n  if (strike.system?.formulas?.weaponDamage) updateData[\"system.formulas.weaponDamage.formula\"] = \"0\";\n  if (strike.flags?.dc20rpg?.addedNaturalWeapon) {\n    updateData[\"system.naturalWeapon\"] = false;\n    updateData[\"flags.dc20rpg.addedNaturalWeapon\"] = new foundry.data.operators.ForcedDeletion();\n  }\n  strike.update(updateData);\n}",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Iron Palm from Unarmed Strike",
@@ -302,11 +302,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350034306,
-    "modifiedTime": 1782126827324,
+    "modifiedTime": 1784717930912,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

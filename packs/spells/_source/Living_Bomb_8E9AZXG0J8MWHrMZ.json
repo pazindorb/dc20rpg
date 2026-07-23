@@ -37,7 +37,7 @@
     "quickRoll": false,
     "macros": {
       "tuYXwnH3E8CttiU5": {
-        "command": "const livingBomb = new DC20.Formula();\nlivingBomb.type = \"fire\";\nlivingBomb.name = \"Living Bomb\";\nlivingBomb.formula = \"1\";\n\nconst updateData = {\n  [\"system.actionType\"]: \"other\",\n  [\"system.rollRequests.LF8BynxxRvIDEXhn.saveKey\"]: \"mig\",\n  [\"system.rollMenu.free\"]: \"true\",\n  [\"system.formulas.livingBomb\"]: livingBomb\n}\nawait item.update(updateData);\nawait item.roll();\nitem.update({\n  [\"system.actionType\"]: \"check\",\n  [\"system.formulas.-=livingBomb\"]: null,\n  [\"system.rollRequests.LF8BynxxRvIDEXhn.saveKey\"]: \"phy\",\n})",
+        "command": "const livingBomb = new DC20.Formula();\nlivingBomb.type = \"fire\";\nlivingBomb.name = \"Living Bomb\";\nlivingBomb.formula = \"1\";\n\nconst updateData = {\n  [\"system.actionType\"]: \"other\",\n  [\"system.rollRequests.LF8BynxxRvIDEXhn.saveKey\"]: \"mig\",\n  [\"system.rollMenu.free\"]: \"true\",\n  [\"system.formulas.livingBomb\"]: livingBomb\n}\nawait item.update(updateData);\nawait item.roll();\nitem.update({\n  [\"system.actionType\"]: \"check\",\n  [\"system.formulas.livingBomb\"]: new foundry.data.operators.ForcedDeletion(),\n  [\"system.rollRequests.LF8BynxxRvIDEXhn.saveKey\"]: \"phy\",\n})",
         "trigger": "onDemand",
         "disabled": false,
         "name": "Trigger Living Bomb explosion",
@@ -847,9 +847,9 @@
     "exportSource": null,
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1767798309205,
-    "modifiedTime": 1782579925589,
+    "modifiedTime": 1784718102937,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

@@ -236,7 +236,7 @@
         "linkWithToggle": false,
         "attachToToken": true,
         "hideHighlight": true,
-        "blockByWalls": true,
+        "blockByWalls": false,
         "effect": null,
         "difficultTerrain": "",
         "applyEffectsFor": "ally",
@@ -270,10 +270,12 @@
         "addToChat": true,
         "changes": [
           {
-            "key": "system.damageReduction.flat",
-            "value": 1,
-            "priority": null,
-            "type": "add"
+            "useCustom": false,
+            "key": "system.globalModifier.modify.damageTaken.flat",
+            "type": "add",
+            "value": -1,
+            "phase": "initial",
+            "priority": null
           }
         ]
       },
@@ -303,11 +305,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "createdTime": 1781983666615,
-        "modifiedTime": 1781983666615,
+        "modifiedTime": 1784807858476,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -322,11 +324,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350035037,
-    "modifiedTime": 1781983666600,
+    "modifiedTime": 1784667857422,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

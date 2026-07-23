@@ -170,7 +170,7 @@
         "global": false
       },
       "AQomMYWaTGZzu0Wx": {
-        "command": "const clazz = actor.class;\nif (!clazz) return;\n\nconst spellTag = item.flags.dc20rpg?.spellTag;\nif (spellTag) clazz.update({[`system.filters.spellTags.-=${spellTag}`]: null});",
+        "command": "const clazz = actor.class;\nif (!clazz) return;\n\nconst spellTag = item.flags.dc20rpg?.spellTag;\nif (spellTag) clazz.update({[`system.filters.spellTags.${spellTag}`]: new foundry.data.operators.ForcedDeletion()});",
         "trigger": "preDelete",
         "disabled": false,
         "name": "Remove Spell Tag",
@@ -326,11 +326,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1739350034758,
-    "modifiedTime": 1781983667002,
+    "modifiedTime": 1784717979553,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

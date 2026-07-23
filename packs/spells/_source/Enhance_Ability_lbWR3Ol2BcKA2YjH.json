@@ -4,7 +4,7 @@
   "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
   "system": {
     "itemKey": "",
-    "description": "<p>You bolster the Physical or Mental (your choice) Checks and Saves of a creature within range for the duration.</p><p>Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> The target adds a d4 to Checks and Saves of the chosen Attribute category.</p><p><strong>Success:</strong> The target adds a d6 to Checks and Saves of the chosen Attribute category.</p><p><strong>Success (10):</strong> The target adds a d8 instead.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration is increased by 1 step (1 min → 10 min → 1 hour → 8 hours → Long Rest).</p><p><strong>Targets: (1 AP + X MP)</strong> You increase the number of targets by X.</p><p><strong>Full Enhance: (1 MP)</strong> You bolster all the target’s Attributes. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p><strong>Greater Enhance: (1 MP</strong>,<strong> </strong><span style=\"color:rgba(44, 44, 43, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>Repeatable</strong></span><strong>)</strong> The size of the die granted increases by 1 step (d4→d6→d8→d10→d12).</p>",
+    "description": "<p>You bolster the Physical or Mental (your choice) Checks and Saves of a creature within range for the duration.</p><p>Make a DC 15 Spell Check.</p><p><strong>Failure:</strong> The target adds a d4 to Checks and Saves of the chosen Attribute category.</p><p><strong>Success:</strong> The target adds a d6 to Checks and Saves of the chosen Attribute category.</p><p><strong>Success (10):</strong> The target adds a d8 instead.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Spell Enhancements</span></strong></span></p><p><strong>Range: (1 AP, Repeatable) </strong>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p><p><strong>Duration: (1 MP, Repeatable)</strong> The duration is increased by 1 step (1 min → 10 min → 1 hour → 8 hours → Long Rest).</p><p><strong>Targets: (1 AP + X MP)</strong> You can target X additional creatures within range. When you choose this Enhancement, the cost of all other Enhancements (except Range) is doubled. The AP cost of this Enhancement can’t be paid for with MP.</p><p><strong>Full Enhance: (1 MP)</strong> You bolster all the target’s Attributes. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p><strong>Greater Enhance: (1 MP</strong>,<strong> Repeatable)</strong> The size of the die granted increases by 1 step (d4→d6→d8→d10→d12).</p>",
     "shortInfo": "",
     "tableName": "",
     "source": "",
@@ -142,12 +142,12 @@
         "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -212,9 +212,9 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
+            "melee": "",
+            "normal": "5",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0,
@@ -225,7 +225,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "gPfc6EvkfIGlGbRM",
         "sourceItemId": "lbWR3Ol2BcKA2YjH",
@@ -237,7 +240,8 @@
         "defaultState": 0,
         "copyToSheetRoll": {},
         "altCostMax": 0,
-        "altCost": 0
+        "altCost": 0,
+        "order": 0
       },
       "8ELXmL2T1lSzNIxi": {
         "name": "Targets",
@@ -331,7 +335,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "8ELXmL2T1lSzNIxi",
         "sourceItemId": "lbWR3Ol2BcKA2YjH",
@@ -343,13 +348,14 @@
         "copyToSheetRoll": {},
         "altCostMax": 0,
         "altCost": 0,
-        "drmCheck": false
+        "drmCheck": false,
+        "order": 2
       },
       "hmc5tmMPtjnFpXhT": {
         "name": "Full Enhance",
         "number": 0,
         "preventModification": false,
-        "description": "<p>You bolster all the target’s Attributes. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p><p></p><p><em><strong>System Tip:</strong> Use it twice if you use <strong>Targets</strong> Enhancement.</em></p>",
+        "description": "<p>You bolster all the target’s Attributes. The cost of this Enhancement increases to 2 MP if you use the Targets Enhancement.</p>",
         "hide": false,
         "resources": {
           "ap": "",
@@ -437,7 +443,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "hmc5tmMPtjnFpXhT",
         "sourceItemId": "lbWR3Ol2BcKA2YjH",
@@ -449,7 +456,8 @@
         "copyToSheetRoll": {},
         "altCostMax": 1,
         "altCost": 0,
-        "drmCheck": false
+        "drmCheck": false,
+        "order": 3
       },
       "zDwy7sCYKiKS5O3O": {
         "name": "Greater Enhance",
@@ -543,7 +551,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "zDwy7sCYKiKS5O3O",
         "sourceItemId": "lbWR3Ol2BcKA2YjH",
@@ -555,7 +564,8 @@
         "copyToSheetRoll": {},
         "altCostMax": 1,
         "altCost": 0,
-        "drmCheck": false
+        "drmCheck": false,
+        "order": 4
       },
       "CZ9SkmJo98nCr4Kt": {
         "name": "Duration",
@@ -651,7 +661,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "CZ9SkmJo98nCr4Kt",
         "sourceItemId": "lbWR3Ol2BcKA2YjH",
@@ -663,7 +674,8 @@
         "copyToSheetRoll": {},
         "altCostMax": 1,
         "altCost": 0,
-        "drmCheck": false
+        "drmCheck": false,
+        "order": 1
       }
     },
     "copyEnhancements": {
@@ -869,7 +881,7 @@
           "expiryAction": "delete"
         },
         "effectKey": "enhanceAbility",
-        "macro": "const greaterEnhance = effect.flags.dc20rpg?.greaterEnhance || 0;\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst rollTotal = message.system.coreRollTotal;\n\nlet dice = 6 + (2 * greaterEnhance);\nif (rollTotal < 15) dice -= 2;\nelse if (rollTotal >= 25) dice += 2;\nif (dice > 12) dice = 12;\n\nconst changes = effect.system.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({[\"system.changes\"]: changes});",
+        "macro": "const greaterEnhance = effect.flags.dc20rpg?.greaterEnhance || 0;\nconst message = game.messages.get(effect.system.chatMessageId);\nif (!message) return;\n\nconst rollTotal = message.winningRoll?.total;\n\nlet dice = 6 + (2 * greaterEnhance);\nif (rollTotal < 15) dice -= 2;\nelse if (rollTotal >= 25) dice += 2;\nif (dice > 12) dice = 12;\n\nconst changes = effect.system.changes;\nfor (const change of changes) {\n  change.value = change.value.replace(\"#DICE#\", `d${dice}`);\n}\neffect.update({[\"system.changes\"]: changes});",
         "addToChat": true,
         "nonessential": false,
         "disableWhen": {
@@ -962,10 +974,10 @@
         "exportSource": null,
         "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.6.1",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "createdTime": 1781983693258,
-        "modifiedTime": 1782631838400
+        "modifiedTime": 1784667259925
       },
       "start": {
         "combat": null,
@@ -988,9 +1000,9 @@
     "exportSource": null,
     "coreVersion": "14.363",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.6.1",
     "createdTime": 1777637088307,
-    "modifiedTime": 1782631864883,
+    "modifiedTime": 1784706703567,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

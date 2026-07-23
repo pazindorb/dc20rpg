@@ -162,16 +162,20 @@
         "addToChat": true,
         "changes": [
           {
-            "key": "system.damageReduction.flat",
-            "value": "<:max(@mig,@agi):>",
-            "priority": null,
-            "type": "add"
+            "useCustom": false,
+            "key": "system.globalModifier.modify.damageTaken.flat",
+            "type": "add",
+            "value": "-<:max(@mig,@agi):>",
+            "phase": "initial",
+            "priority": null
           },
           {
+            "useCustom": false,
             "key": "system.events",
+            "type": "add",
             "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Strong Body\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-            "priority": null,
-            "type": "add"
+            "phase": "initial",
+            "priority": null
           }
         ]
       },
@@ -198,11 +202,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.363",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.0.0",
+        "systemVersion": "0.10.6.1",
         "createdTime": 1738068917947,
-        "modifiedTime": 1768466302894,
+        "modifiedTime": 1784808299913,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
