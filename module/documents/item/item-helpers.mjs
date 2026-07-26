@@ -462,7 +462,7 @@ function _collectEnhancementCost(item, enhKey) {
       if (!enhancement.sourceActorId) _collectCharges(cost, enhancement.sourceItemId, enhancement.charges.subtract);
     }
     else {
-      _collectChharges(cost, item.id, enhancement.charges.subtract);
+      _collectCharges(cost, item.id, enhancement.charges.subtract);
     }
   }
   return cost;

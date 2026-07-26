@@ -27,6 +27,7 @@ import { DC20Target } from "../subsystems/target/target.mjs";
 import { DC20ChatMessage, sendDescriptionToChat } from "../sidebar/chat/chat-message.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { Area } from "../subsystems/area/area.mjs";
+import { ActionSelect } from "../dialogs/action-select.mjs";
 
 export function prepareDC20Tools() {
   window.DC20 = {
@@ -44,6 +45,7 @@ export function prepareDC20Tools() {
       RollDialog,
       RollSelect,
       RestDialog,
+      ActionSelect
     },
     Area,
     TargetModifier,
