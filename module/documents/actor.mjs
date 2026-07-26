@@ -48,6 +48,10 @@ export class DC20RpgActor extends Actor {
     return this.statuses.has("dead");
   }
 
+  get sustains() {
+    return Object.keys(this.system.sustain).length > 0;
+  }
+
   get allEffects() {
     const effects = [];
     for ( const effect of this.allApplicableEffects()) {

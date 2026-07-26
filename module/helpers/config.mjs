@@ -28,6 +28,9 @@ import { DC20ChatMessage, sendDescriptionToChat } from "../sidebar/chat/chat-mes
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { Area } from "../subsystems/area/area.mjs";
 import { ActionSelect } from "../dialogs/action-select.mjs";
+import { SustainManager } from "../dialogs/sustain-manager.mjs";
+import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
+import { costPrinter } from "./handlebars/creators.mjs";
 
 export function prepareDC20Tools() {
   window.DC20 = {
@@ -37,7 +40,9 @@ export function prepareDC20Tools() {
     },
     tooltip: {
       tooltipElement,
-      tooltipListeners
+      tooltipListeners,
+      itemDetailsToHtml,
+      costPrinter
     },
     dialog: {
       SimplePopup,
@@ -45,7 +50,8 @@ export function prepareDC20Tools() {
       RollDialog,
       RollSelect,
       RestDialog,
-      ActionSelect
+      ActionSelect,
+      SustainManager
     },
     Area,
     TargetModifier,

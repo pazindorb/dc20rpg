@@ -1,0 +1,15 @@
+<form id="sustain-manager-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.sustainManager.header"}}</h4>
+
+  <div class="select-wrapper">
+    <fieldset class="scrollable">
+      {{#each sustain as |spell key|}}
+      <div class="button-wrapper" data-action="drop" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.dialog.sustainManager.click"}}">
+        <button class="img-option">
+          <img src="{{spell.img}}"/><span>{{spell.name}}</span>
+        </button>
+      </div>
+      {{/each}}
+    </fieldset>
+  </div>
+</form>
