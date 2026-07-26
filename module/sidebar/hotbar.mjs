@@ -2,7 +2,6 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { addFlatDamageReductionEffect } from "../helpers/effects.mjs";
 import { tooltipListeners } from "../helpers/tooltip.mjs";
@@ -244,7 +243,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     context.resources = this._prepareResources();
     context.effects = await this._prepareEffects(tokenHotbarSettings.effects);
     context.help = this._prepareHelp(tokenHotbarSettings.help);
-    context.heldAction = this._prepareHeldAction();
+    context.heldAction = this.actor?.system?.heldAction?.img;
     context.sustain = this.actor.system.sustain;
     context.original = this.original;
   }
@@ -511,12 +510,6 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
     helpData.dice = helpDice;
     return helpData;
   }
-
-  _prepareHeldAction() {
-    const actionHeld = this.actor.flags.dc20rpg.actionHeld;
-    if (!actionHeld?.isHeld) return;
-    return actionHeld;
-  }
   // ==================== CONTEXT =====================
 
   async _onRender(context, options) {
@@ -636,7 +629,7 @@ export default class DC20Hotbar extends foundry.applications.ui.Hotbar {
 
   _onHeldAction(event, target) {
     const owner = getActorFromIds(this.actorId, this.tokenId);
-    if (owner) triggerHeldAction(owner);
+    if (owner) owner.heldAction.trigger();
   }
 
   async _onCheckRoll(event, target) {

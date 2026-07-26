@@ -352,10 +352,6 @@ function _multipleCheckPenalty(actor, checkKey) {
   // Companion might share MCP with owner
   if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
 
-  // If action was held we want to use MCP from last round
-  const actionHeld = actor.flags.dc20rpg.actionHeld;
-  if (actionHeld?.rollsHeldAction && actionHeld.mcp !== null) mcp = actionHeld.mcp;
-
   let dis = 0;
   mcp.forEach(check => {if (check === checkKey) dis++;});
   if (dis === 0) return [];

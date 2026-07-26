@@ -1,7 +1,5 @@
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
-import { RollDialog } from "../../roll/rollDialog.mjs";
 import { roundFloat } from "../utils.mjs";
-import { resetEnhancements } from "./rollsFromActor.mjs";
        
 //===================================
 //            MOVE ACTION           =
@@ -97,55 +95,4 @@ export async function spendMoreApOnMovement(actor, missingMovePoints, selectedMo
     return true;
   }
   return missingMovePoints;
-}
-
-//===================================
-//            HELD ACTION           =
-//===================================
-export function holdAction(item, actor) {
-  const cost = item.use.collectUseCost();
-  if (!actor.resources.ap.checkAndSpend(cost.resources.ap)) return;
-
-  const rollMenu = item.system.rollMenu;
-  const enhancements = {};
-  item.allEnhancements.entries().forEach(([key, enh]) => enhancements[key] = enh.number);
-  const actionHeld = {
-    isHeld: true,
-    itemId: item.id,
-    itemImg: item.img,
-    enhancements: enhancements,
-    mcp: null,
-    apForAdv: rollMenu.apCost,
-    rollsHeldAction: false
-  }
-  actor.update({["flags.dc20rpg.actionHeld"]: actionHeld});
-  resetEnhancements(item, actor);
-  rollMenu.clear();
-}
-
-export async function triggerHeldAction(actor) {
-  const actionHeld = actor.flags.dc20rpg.actionHeld;
-  if (!actionHeld.isHeld) return;
-
-  const item = actor.items.get(actionHeld.itemId);
-  if (!item) return;
-  
-  await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: true});
-  const result = await RollDialog.open(actor, item); 
-  await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: false});
-  if (!result) return;
-  clearHeldAction(actor);
-}
-
-export function clearHeldAction(actor) {
-  const clearActionHeld = {
-    isHeld: false,
-    itemId: null,
-    itemImg: null,
-    enhancements: null,
-    mcp: null,
-    apForAdv: 0,
-    rollsHeldAction: false
-  }
-  actor.update({["flags.dc20rpg.actionHeld"]: clearActionHeld});
 }

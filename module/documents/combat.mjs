@@ -1,7 +1,7 @@
 import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHeldAction, clearMovePoints } from "../helpers/actors/actions.mjs";
+import { clearMovePoints } from "../helpers/actors/actions.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { getActiveActorOwners } from "../helpers/users.mjs";
@@ -192,9 +192,9 @@ export class DC20RpgCombat extends Combat {
     if (combatant) combatant.actor.mcp.clear();
     this.combatants.forEach(combatant => {
       const actor = combatant.actor;
-      clearHeldAction(combatant.actor);
-      combatant.actor.help.clear();
-      combatant.actor.help.clear(null, "combat");
+      actor.heldAction.clear();
+      actor.help.clear();
+      actor.help.clear(null, "combat");
       actor.refresh.on("combatEnd");
       runEventsFor("combatEnd", actor);
       reenableEventsOn("combatEnd", actor);
@@ -330,7 +330,7 @@ export class DC20RpgCombat extends Combat {
       reenableEventsOn("turnStart", actor);
       this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id, transformedActorId));
       actor.help.clear();
-      clearHeldAction(actor);
+      actor.heldAction.clear();
       await super._onStartTurn(combatant, context);
 
       // Run onStartTurn for all linked companions
@@ -357,6 +357,7 @@ export class DC20RpgCombat extends Combat {
     reenableEventsOn("turnEnd", actor);
     this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id, transformedActorId));
     this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id, transformedActorId), currentRound);
+    await actor.heldAction.saveMcpState();
     await actor.mcp.clear();
     clearMovePoints(actor);
     await super._onEndTurn(combatant, context);

@@ -41,6 +41,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         active: new f.ObjectField({required: true}),
         maxDice: new f.NumberField({required: true, initial: 8})
       }),
+      heldAction: new f.ObjectField({required: true}),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(), 
       healingReduction: new f.SchemaField({ // TODO: Przenieść do "globalModifier" - dodać opcję flatValue, reduce i amplify
