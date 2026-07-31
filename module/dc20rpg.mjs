@@ -30,8 +30,7 @@ import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasDrop } from "./helpers/actors/tokens.mjs";
-import DC20Hotbar from "./sidebar/hotbar.mjs";
-import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
+import { registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
 import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
 import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
@@ -76,7 +75,6 @@ Hooks.once('init', async function() {
   CONFIG.Token.movement.TerrainData = DC20TerrainData;
   CONFIG.Token.movement.defaultAction = "ground";
   CONFIG.Token.movement.defaultSpeed = 5;
-  CONFIG.ui.hotbar = DC20Hotbar;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;
@@ -149,7 +147,6 @@ Hooks.once("ready", async function() {
   registerSystemSockets();
   registerAreaDeleteControls();
   registerUniqueSystemItems();
-  overrideCoreKeybindActions();
 
   ui.notifications.error = (message, options) => {
     if (ui.notifications.skipErrors) return;

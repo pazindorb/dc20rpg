@@ -339,7 +339,6 @@ export class DC20RpgCombat extends Combat {
         if(companion) this._onStartTurn(companion, context, true)
       });
     }
-    ui.hotbar.render();
   }
 
   async _onEndTurn(combatant, context, sharedInitiative) {

@@ -212,11 +212,6 @@ export class DC20RpgActor extends Actor {
     prepareRollDataForItems(this);
     for (const document of this.getEmbeddedCollection("items")) document._safePrepareData();
     prepareDataFromItems(this);
-
-    // Refresh hotbar 
-    if (ui.hotbar) {
-      if (ui.hotbar.actorId === this.id) ui.hotbar.render();
-    }
   }
 
   /** @override */
