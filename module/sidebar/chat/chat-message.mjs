@@ -27,7 +27,7 @@ export class DC20ChatMessage extends ChatMessage {
     const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
     if (showEventChatMessage === "none") return;
 
-    const eventType = amount > 0 ? "healing" : "damage";
+    const eventType = amount >= 0 ? "healing" : "damage";
     const systemData = {
       amount: Math.abs(amount),
       source: source,

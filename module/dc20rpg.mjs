@@ -27,7 +27,6 @@ import { DC20PrototypeTokenConfig, DC20RpgTokenConfig } from "./sheets/token-con
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 import { SimplePopup } from "./dialogs/simple-popup.mjs";
-import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { canvasDrop } from "./helpers/actors/tokens.mjs";
@@ -151,8 +150,6 @@ Hooks.once("ready", async function() {
   registerAreaDeleteControls();
   registerUniqueSystemItems();
   overrideCoreKeybindActions();
-
-  if(game.user.isGM) await createGmToolsMenu();
 
   ui.notifications.error = (message, options) => {
     if (ui.notifications.skipErrors) return;
