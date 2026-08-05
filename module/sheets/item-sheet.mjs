@@ -2,7 +2,6 @@ import { prepareActiveEffectsForItem } from "../helpers/effects.mjs";
 import { duplicateItemData, prepareContainer, prepareItemData, preprareSheetData } from "./item-sheet/item-sheet-data.mjs";
 import { generateKey, getValueFromPath } from "../helpers/utils.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
-import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
 import { createCustomProperty, getForItemType, removeItemFromContainer, removeResourceFromItem, rollTemplateSelect } from "./item-sheet/item-sheet-helper.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { createEditorDialog } from "../dialogs/editor.mjs";
@@ -118,7 +117,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
   /** @override */
   async _renderFrame(options) {
     const frame = await  super._renderFrame(options);
-    frame.appendChild(tooltipElement());
+    frame.appendChild(PDE.TooltipCreator.getTooltipHtml());
     frame.appendChild(this.#navTabElement());
     return frame;
   }
@@ -499,35 +498,9 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const target = this.#getTarget(event.target, "hover");
     const dataset = target.dataset || {};
     const hover = dataset.hover;
-    const isEntering = event.type === "mouseover";
-
-    const data = {dataset: dataset};
-    if (dataset.itemId) {
-      if (this.item?.id === dataset.itemId) {
-        data.item = this.item;
-      }
-      else {
-        data.item = this.actor.items.get(dataset.itemId);
-      }
-    }
-
-    if (dataset.itemUuid && !data.item) {
-      data.item = await fromUuid(dataset.itemUuid);
-      if (!data.item) return;
-    }
-
-    if (dataset.effectId) {
-      data.effect = this.item.effects.get(dataset.effectId);
-    }
-
-    // Handle tooltips for items stored in container
-    if (this.item.type === "container" && dataset.tooltipType === "item") {
-      const itemKey = dataset.itemKey;
-      data.item = this.item.system.contents[itemKey];
-    }
 
     switch (hover) {
-      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element)); break;
+      case "tooltip": this._onTooltip(event, target, dataset); break;
     }
   }
 
@@ -849,4 +822,49 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     }
     super.close(options);
   }
+
+  
+  // ================== TOOLTIP ===================
+  async _onTooltip(event, target, dataset) {
+    const html = $(this.element);
+
+    if (event.type !== "mouseover") {
+      PDE.TooltipCreator.hideTooltip(event, html);
+      return;
+    }
+
+    const object = await this._getTooltipObject(dataset, event);
+    if (!object) return;
+
+    const position = this._getTooltipPosition(event);
+    const options = {position: position};
+
+    if (dataset.header) options.header = dataset.header;
+    if (dataset.img) options.img = dataset.img;
+    PDE.TooltipCreator.showTooltipFor(object, event, html, options);
+  }
+
+  async _getTooltipObject(dataset, event) {
+    if (dataset.itemId) {
+      if (this.item?.id === dataset.itemId) return this.item;
+      else return this.actor.items.get(dataset.itemId);
+    }
+    if (dataset.uuid) return await fromUuid(dataset.uuid);
+    if (dataset.itemUuid) return await fromUuid(dataset.itemUuid);
+    if (dataset.effectId) return this.item.effects.get(dataset.effectId);
+
+    // Handle tooltips for items stored in container
+    if (this.item.type === "container") {
+      const itemData = this.item.system.contents[dataset.itemKey];
+      return new Item(itemData);
+    }
+  }
+  
+  /** 
+   * If not provided it will be calcuated automatically.
+   */
+  _getTooltipPosition(event) {
+    return null;
+  }
+   // ================== TOOLTIP ===================
 }

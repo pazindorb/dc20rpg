@@ -21,7 +21,6 @@ import { getActiveActorOwners, getIdsOfActiveActorOwners } from "./users.mjs";
 import { applyStatusToEffect, toSelectOptions } from "./utils.mjs";
 import { AgainstStatus, Enhancement, Formula, ItemMacro, RollRequest, TargetModifier } from "../documents/item/item-creators.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
-import { tooltipElement, tooltipListeners } from "./tooltip.mjs";
 import { DC20RpgToken } from "../placeable-objects/token.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
 import { DC20ChatMessage, sendDescriptionToChat } from "../sidebar/chat/chat-message.mjs";
@@ -39,8 +38,6 @@ export function prepareDC20Tools() {
       applyStatusToEffect
     },
     tooltip: {
-      tooltipElement,
-      tooltipListeners,
       itemDetailsToHtml,
       costPrinter
     },

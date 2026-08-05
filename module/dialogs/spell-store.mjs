@@ -1,4 +1,3 @@
-import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 export class SpellStore extends DC20Dialog {
@@ -69,19 +68,8 @@ export class SpellStore extends DC20Dialog {
   //   dropped
   // }
 
-  _onHover(event) {
-    const target = super._getHoverTarget(event.target);
-    const dataset = target.dataset;
-    if (!dataset.spellKey) super._onHover(event);
-
-    const spell = this.item.system.spellstore[dataset.spellKey];
-    if (!spell) return;
-
-    const hover = dataset.hover;
-    const isEntering = event.type === "mouseover";
-    const data = {dataset: dataset};
-    data.item = spell;
-
-    if (hover === "tooltip") tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element));
+  async _getTooltipObject(dataset, event) {
+    const itemData = this.item.system.spellstore[dataset.spellKey];
+    return new Item(itemData);
   }
 }

@@ -152,17 +152,6 @@ Hooks.once("ready", async function() {
     if (ui.notifications.skipErrors) return;
     return ui.notifications.notify(message, "error", options);
   }
-
-  // Hide tooltip when releasing button
-  window.addEventListener('keyup', (event) => {
-    if (event.key === 'Alt') {
-      const tooltip = document.getElementById("tooltip-container")
-      if (tooltip && tooltip.style.visibility === "visible") {
-        tooltip.style.opacity = 0;
-        tooltip.style.visibility = "hidden";
-      }
-    }
-  });
 });
 Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
 Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));

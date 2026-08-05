@@ -4,49 +4,6 @@ import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles, getLabelFromKey } from "./utils.mjs";
 import { costPrinter } from "./handlebars/creators.mjs";
 
-export function tooltipElement() {
-  const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
-  const tooltip = document.createElement("div");
-  tooltip.id = "tooltip-container";
-  tooltip.classList.add(`theme-${colorTheme}`);
-  tooltip.innerHTML = `
-    <div class="tooltip-info">
-      <div>${game.i18n.localize("dc20rpg.tooltip.holdAlt")}</div>
-      <div class="margin-top-1">${game.i18n.localize("dc20rpg.tooltip.goBack")}</div>
-    </div>
-    <div id="info-underline" class="underline"></div>
-    <div class="tooltip-header"></div>
-
-    <div id="header-underline" class="underline"></div>
-    <div class="tooltip-action"></div>
-
-    <div id="action-underline" class="underline"></div>
-    <div class="tooltip-details"></div>
-
-    <div id="details-underline" class="underline"></div>
-    <div class="tooltip-description"></div>
-  `;
-  return tooltip;
-}
-
-export function tooltipListeners(event, type, isEntering, data, html, options) {
-    if (!isEntering) {
-      hideTooltip(event, html);
-      return;
-    }
-    const dataset = data.dataset;
-    const item = data.item;
-    const effect = data.effect;
-
-    switch (type) {
-      case "journal": journalTooltip(dataset.uuid, dataset.header, dataset.img, event, html, options); break;
-      case "item": itemTooltip(item, event, html, options); break;
-      case "effect": effectTooltip(effect, event, html, options); break;
-      case "enhancement": enhTooltip(item, dataset.enhKey, event, html, options); break;
-      case "custom": textTooltip(dataset.description, dataset.header, dataset.img, event, html, options); break;
-    }
-}
-
 export function effectTooltip(effect, event, html, options={}) {
   if (!effect) return _showTooltip(html, event, "-", "Effect not found", "");
   
