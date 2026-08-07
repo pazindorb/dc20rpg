@@ -39,6 +39,7 @@ export function itemDetailsToHtml(item) {
     firstChild = "";
   }
   if (tier3.length > 0) {
+    if (tier1.length > 0 || tier2.length > 0) content += '<div class="underline"></div>';
     content += `<div class="info-box-wrapper"${firstChild}>${tier3.join("\n")}</div>`;
   }
   return content;

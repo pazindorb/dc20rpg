@@ -572,7 +572,7 @@ export class DC20RpgActor extends Actor {
           options.hpChange = hpChange;
           if (hpChange === 0) preventChangeFor.push({custom: false, key: "health"});
           if (options.hpChangeSource) {
-            DC20ChatMessage.hpChangeMessage(hpChange, options.hpChangeSource, this);
+            DC20ChatMessage.hpChangeMessage(hpChange, options.hpChangeSource, this, {overheal: options.overheal});
           }
         }
         if (key === "custom") {

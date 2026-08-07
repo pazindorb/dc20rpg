@@ -26,6 +26,7 @@ export class DC20ChatMessage extends ChatMessage {
   static async hpChangeMessage(amount, source, actor, options={}) {
     const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
     if (showEventChatMessage === "none") return;
+    if (amount === 0 && !options.overheal) return;
 
     const eventType = amount >= 0 ? "healing" : "damage";
     const systemData = {

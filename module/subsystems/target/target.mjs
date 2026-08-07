@@ -826,10 +826,11 @@ export class DC20Target {
     let newCurrent = oldCurrent + heal.value;
     let temp = health.temp || 0;
     let source = heal.source;
+    let overheal = 0;
 
     // Handle Overheal
     if (health.max < newCurrent) {
-      const overheal = newCurrent - health.max;
+      overheal = newCurrent - health.max;
       // Allow Overheal to transfer to temporary hp
       if (heal.allowOverheal) {
         if (overheal > temp) {
@@ -853,7 +854,8 @@ export class DC20Target {
     await this.actor.gmUpdate(updateData, {
       skipEventCall: options.skipEventCall,
       messageId: options.messageId, 
-      hpChangeSource: source
+      hpChangeSource: source,
+      overheal: overheal 
     });
   }
   
