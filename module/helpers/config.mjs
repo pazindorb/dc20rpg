@@ -1,7 +1,6 @@
 import { RestDialog } from "../dialogs/rest.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { TokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
@@ -43,7 +42,7 @@ export function prepareDC20Tools() {
     },
     dialog: {
       SimplePopup,
-      TokenSelector,
+      TokenSelector: PDE.TokenSelector,
       RollDialog,
       RollSelect,
       RestDialog,

@@ -404,8 +404,8 @@ export function getEffectModifiableKeys() {
     ..._skillBonuses(),
 
     // Skill expertise
-    "system.expertise.automated": "Expertise (Skill Mastery Limit Increase)",
-    "system.expertise.levelIncrease": "Expertise (Skill Mastery Level Increase)",
+    "system.expertise.automated": "Expertise (Mastery Cap)",
+    "system.expertise.levelIncrease": "Expertise (Mastery Level)",
 
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",

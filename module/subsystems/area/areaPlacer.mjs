@@ -1,5 +1,4 @@
 import { DC20Dialog } from "../../dialogs/dc20Dialog.mjs";
-import { TokenSelector } from "../../dialogs/token-selector.mjs";
 import { getTokensInsideRegion } from "../../helpers/utils.mjs";
 import { Area } from "./area.mjs";
 
@@ -112,7 +111,7 @@ export class AreaPlacer extends DC20Dialog {
     const tokens = getTokensInsideRegion(region);
     if (tokens.length > 0) {
       const placeables = tokens.map(token => token.object);
-      const selected = await TokenSelector.open(placeables);
+      const selected = await PDE.TokenSelector.open(placeables);
       const tokenIds = selected.map(token => token.id)
       canvas.tokens.setTargets(tokenIds, {mode: "replace"});
     }
