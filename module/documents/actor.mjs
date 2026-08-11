@@ -312,7 +312,6 @@ export class DC20RpgActor extends Actor {
     options.save = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
 
     const skills = {};
-    if (this.system.skills.acr && this.system.skills.ath) skills.mar = "Martial Check";
     Object.entries(this.system.skills).forEach(([key, skill]) => skills[key] = `${skill.label} Check`);
     options.skill = skills; 
 

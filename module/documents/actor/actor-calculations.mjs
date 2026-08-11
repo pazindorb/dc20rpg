@@ -70,6 +70,11 @@ function _skillModifier(skill, key, actor) {
 	skill.masteryLimit = _masteryLimit(actor, skill.expertise);
 	skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
 
+	if (!skill.baseAttribute) {
+		console.warn(`[DC20] Missing property baseAttribute for skill with key '${key}'. Fallback to default attribute.`);
+		skill.baseAttribute = skill.attributes?.[0] || "mig";
+	}
+
 	if (skill.baseAttribute === "max") {
 		skill.baseAttribute = _highestAttribute(skill.attributes, actor);
 		skill.highestSelected = true;

@@ -1,4 +1,4 @@
-import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
+import { SystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { applyStatusToEffect } from "../helpers/utils.mjs";
@@ -81,7 +81,7 @@ export class DC20RpgActiveEffectConfig extends foundry.applications.sheets.Activ
     const change = changes[index];
     if (!change) return;
 
-    const result = await createSystemsBuilder(type, change.value, {isSkill: isSkill, isAttack: isAttack});
+    const result = await SystemsBuilder.open(type, change.value, {isSkill: isSkill, isAttack: isAttack});
     if (result) {
       changes[index].value = result;
       this.document.update({["system.changes"]: changes});

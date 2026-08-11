@@ -211,6 +211,16 @@ async function _respectRollOutcome(roll, event, actor) {
         await effect.runMacro({event: event, extras: {success: true}});
         break;
 
+      case "applyDamage":
+        const dmg = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyDamageFor(actor, dmg, {}, {});
+        break;
+
+      case "applyHealing": 
+        const heal = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyHealingFor(actor, heal, {}, {});
+        break;
+
       default:
         console.warn(`Unknown on success type: ${event.onSuccess}`);
     }
@@ -229,6 +239,16 @@ async function _respectRollOutcome(roll, event, actor) {
         const effect = actor.getEffectById(event.effectId);
         if (!effect) break;
         await effect.runMacro({event: event, extras: {success: false}});
+        break;
+
+      case "applyDamage":
+        const dmg = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyDamageFor(actor, dmg, {}, {});
+        break;
+
+      case "applyHealing": 
+        const heal = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyHealingFor(actor, heal, {}, {});
         break;
   
       default:

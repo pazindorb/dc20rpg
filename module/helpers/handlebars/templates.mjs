@@ -50,5 +50,6 @@ export function sharedPartials() {
   return {
     "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
     "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs",
+    "Extra Fields": "systems/dc20rpg/templates/dialogs/shared/extra-field.hbs"
   }
 }

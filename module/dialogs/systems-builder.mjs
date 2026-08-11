@@ -1,457 +1,484 @@
-import { activateDefaultListeners } from "../helpers/listenerEvents.mjs";
 import { parseFromString } from "../helpers/utils.mjs";
+import { DC20Dialog } from "./dc20Dialog.mjs";
 
-export class SystemsBuilder extends Dialog {
+const SYSTEM_BUILDER_FIELDS = [
+  {
+    key: "label",
+    format: "string",
+    type: ["dynamicRollModifier", "events"],
+  },
+  {
+    key: "source",
+    format: "string",
+    type: ["globalFormulaModifiers"],
+  },
+  // =============== EVENT TRIGGER FIELDS ===============
+  {
+    key: "trigger",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return CONFIG.DC20RPG.allEventTriggers}
+  },
+  // Instant trigger 
+  {
+    key: "activeCombatantOnly",
+    format: "boolean",
+    type: ["events"],
+    filter: (fields, type) => fields.trigger?.value === "instant"
+  },
+  {
+    key: "skipIfCaster",
+    format: "boolean",
+    type: ["events"],
+    filter: (fields, type) => fields.trigger?.value === "instant"
+  },
+  // Target Confirm Trigger
+  {
+    key: "triggerOnlyForId",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return {"": "Works for any Actor", ["#SPEAKER_ID#"]: "Works only for Caster"}},
+    filter: (fields, type) => fields.trigger?.value === "targetConfirm"
+  },
+  // Apply Damage/Healing Trigger
+  {
+    key: "minimum",
+    format: "numeric",
+    type: ["events"],
+    filter: (fields, type) => ["damageTaken", "healingTaken"].includes(fields.trigger?.value),
+  },
+  {
+    key: "skipTempHpChangeOnly",
+    format: "boolean",
+    type: ["events"],
+    filter: (fields, type) => fields.trigger?.value === "healingTaken"
+  },
+  // Resource Changed Trigger
+  {
+    key: "changedResource",
+    format: "string",
+    type: ["events"],
+    filter: (fields, type) => fields.trigger?.value === "resourceChange"
+  },
+  {
+    key: "operation",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return {"": "All", subtraction: "Subtraction", addition: "Addition"}},
+    filter: (fields, type) => fields.trigger?.value === "resourceChange"
+  },
+  // Effect Changes Trigger
+  {
+    key: "withEffectName",
+    format: "string",
+    type: ["events"],
+    filter: (fields, type) => isEffectChangeRelated(fields)
+  },
+  {
+    key: "withEffectKey",
+    format: "string",
+    type: ["events"],
+    filter: (fields, type) => isEffectChangeRelated(fields)
+  },
+  {
+    key: "withStatus",
+    format: "string",
+    type: ["events"],
+    filter: (fields, type) => isEffectChangeRelated(fields)
+  },
+  // Rest Trigger
+  {
+    key: "restType",
+    defaultValue: "long",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => CONFIG.DC20RPG.DROPDOWN_DATA.restTypes,
+    filter: (fields, type) => fields.trigger?.value === "rest"
+  },
+  // ================ EVENT TYPE FIELDS =================
+  {
+    key: "eventType",
+    defaultValue: "basic",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return CONFIG.DC20RPG.eventTypes}
+  },
+  // Manipulate Resource Event Type
+  {
+    key: "resourceKey",
+    format: "string",
+    type: ["events"],
+    filter: (fields, type, options) => fields.eventType?.value === "resource"
+  },
+  // Save/Check Request Event Type
+  {
+    key: "checkKey",
+    defaultValue: "mig",
+    format: "string",
+    type: ["events"],
+    customLabel: (fields, type) => {
+      if (fields.eventType?.value === "checkRequest") return "dc20rpg.dialog.systemsBuilder.checkRequestKey";
+      if (fields.eventType?.value === "saveRequest") return "dc20rpg.dialog.systemsBuilder.saveRequestKey";
+    },
+    selectOptions: (fields, type) => {
+      if (fields.eventType?.value === "checkRequest") return CONFIG.DC20RPG.ROLL_KEYS.allChecks;
+      if (fields.eventType?.value === "saveRequest") return CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
+    },
+    filter: (fields, type) => ["checkRequest", "saveRequest"].includes(fields.eventType?.value)
+  },
+  {
+    key: "against",
+    format: "string",
+    type: ["events"],
+    filter: (fields, type) => ["checkRequest", "saveRequest"].includes(fields.eventType?.value)
+  },
+  {
+    key: "statuses",
+    format: "array",
+    type: ["events"],
+    filter: (fields, type) => ["checkRequest", "saveRequest"].includes(fields.eventType?.value)
+  },
+  {
+    key: "onSuccess",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {
+      return {
+        "": "",
+        disable: "Disable Effect",
+        delete: "Delete Effect",
+        runMacro: "Run Macro",
+        applyDamage: "Apply Damage",
+        applyHealing: "Apply Healing"
+      }
+    },
+    filter: (fields, type) => ["checkRequest", "saveRequest"].includes(fields.eventType?.value)
+  },
+  {
+    key: "onFail",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {
+      return {
+        "": "",
+        disable: "Disable Effect",
+        delete: "Delete Effect",
+        runMacro: "Run Macro",
+        applyDamage: "Apply Damage",
+        applyHealing: "Apply Healing"
+      }
+    },
+    filter: (fields, type) => ["checkRequest", "saveRequest"].includes(fields.eventType?.value)
+  },
+  // =================== SHARED FIELDS ===================
+  // Damage/Healing Event Type, Manipulate Resource Event Type, GFM Value, DRM Value 
+  {
+    key: "value",
+    format: "numeric",
+    type: ["globalFormulaModifiers", "dynamicRollModifier", "events"],
+    customLabel: (fields, type) => {
+      if (type === "dynamicRollModifier") return "dc20rpg.dialog.systemsBuilder.drmValue";
+      if (type === "globalFormulaModifiers") return "dc20rpg.dialog.systemsBuilder.gfmValue";
+      if (type === "events") {
+        const isDamage = fields.onSuccess?.value === "applyDamage" || fields.onFail?.value === "applyDamage";
+        const isHealing = fields.onSuccess?.value === "applyHealing" || fields.onFail?.value === "applyHealing";
+        const rollRequest =  ["checkRequest", "saveRequest"].includes(fields.eventType?.value);
+        if (fields.eventType?.value === "resource") return "dc20rpg.dialog.systemsBuilder.resValue";
+        if (fields.eventType?.value === "damage") return "dc20rpg.dialog.systemsBuilder.dmgValue";
+        if (fields.eventType?.value === "healing") return "dc20rpg.dialog.systemsBuilder.healValue";
+        if (isDamage && rollRequest) return "dc20rpg.dialog.systemsBuilder.dmgValue";
+        if (isHealing && rollRequest) return "dc20rpg.dialog.systemsBuilder.healValue";
+      }
+    },
+    filter: (fields, type) => {
+      if (type === "events") {
+        const rollRequest =  ["checkRequest", "saveRequest"].includes(fields.eventType?.value);
+        if (["damage", "healing", "resource"].includes(fields.eventType?.value)) return true;
+        if (["applyDamage", "applyHealing"].includes(fields.onSuccess?.value) && rollRequest) return true;
+        if (["applyDamage", "applyHealing"].includes(fields.onFail?.value) && rollRequest) return true;         
+      }
+      else return true;
+    }
+  },
+  {
+    key: "type",
+    format: "string",
+    type: ["dynamicRollModifier", "events"],
+    customLabel: (fields, type) => {
+      if (type === "dynamicRollModifier") return "dc20rpg.dialog.systemsBuilder.drmType";
+      if (type === "events") {
+        const isDamage = fields.onSuccess?.value === "applyDamage" || fields.onFail?.value === "applyDamage";
+        const isHealing = fields.onSuccess?.value === "applyHealing" || fields.onFail?.value === "applyHealing";
+        const rollRequest =  ["checkRequest", "saveRequest"].includes(fields.eventType?.value);
 
-  constructor(type, currentValue, options={}, dialogData = {}) {
-    super(dialogData);
-    this.type = type;
-    this.isSkill = options.isSkill;
-    this.isAttack = options.isAttack;
-    this._prepareData(type, currentValue);
-  }
+        if (fields.eventType?.value === "damage") return "dc20rpg.dialog.systemsBuilder.dmgType";
+        if (fields.eventType?.value === "healing") return "dc20rpg.dialog.systemsBuilder.healType";
+        if (isDamage && rollRequest) return "dc20rpg.dialog.systemsBuilder.dmgType";
+        if (isHealing && rollRequest) return "dc20rpg.dialog.systemsBuilder.healType";
+      }
+    },
+    selectOptions: (fields, type) => {
+      if (type === "dynamicRollModifier") return {"": "", adv: "Advantage", dis: "Disadvantage"};
+      if (type === "events") {
+        const isDamage = fields.onSuccess?.value === "applyDamage" || fields.onFail?.value === "applyDamage";
+        const isHealing = fields.onSuccess?.value === "applyHealing" || fields.onFail?.value === "applyHealing";
+        const rollRequest =  ["checkRequest", "saveRequest"].includes(fields.eventType?.value);
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/systems-builder.hbs",
-      classes: ["dc20rpg", "dialog", "flex-dialog"]
+        if (fields.eventType?.value === "damage") return CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes;
+        if (fields.eventType?.value === "healing") return CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes;
+        if (isDamage && rollRequest) return CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes;
+        if (isHealing && rollRequest) return CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes;
+      }
+    },
+    filter: (fields, type) => {
+      if (type === "events") {
+        const rollRequest =  ["checkRequest", "saveRequest"].includes(fields.eventType?.value);
+        if (["damage", "healing"].includes(fields.eventType?.value)) return true;
+        if (["applyDamage", "applyHealing"].includes(fields.onSuccess?.value) && rollRequest) return true;
+        if (["applyDamage", "applyHealing"].includes(fields.onFail?.value) && rollRequest) return true;         
+      }
+      else return true;
+    }
+  },
+  // ================ DRM SPECIFIC FIELDS ================
+  {
+    key: "modifier",
+    format: "string",
+    type: ["dynamicRollModifier"],
+  },
+  {
+    key: "autoCrit",
+    format: "boolean",
+    type: ["dynamicRollModifier"],
+  },
+  {
+    key: "autoFail",
+    format: "boolean",
+    type: ["dynamicRollModifier"],
+  },
+  {
+    key: "rangeType",
+    format: "string",
+    type: ["dynamicRollModifier"],
+    selectOptions: (fields, type) => {return {"": "Any", melee: "Melee", ranged: "Ranged", area: "Area"}},
+    filter: (fields, type, options) => options.isAttack
+  },
+  {
+    key: "attackType",
+    format: "string",
+    type: ["dynamicRollModifier"],
+    selectOptions: (fields, type) => {return {"": "Any", martial: "Martial", spell: "Spell"}},
+    filter: (fields, type, options) => options.isAttack
+  },
+  {
+    key: "skill",
+    format: "string",
+    type: ["dynamicRollModifier"],
+    filter: (fields, type, options) => options.isSkill
+  },
+  {
+    key: "runMacro",
+    format: "boolean",
+    type: ["dynamicRollModifier"],
+  },
+  {
+    key: "applyOnlyForId",
+    format: "string",
+    type: ["dynamicRollModifier"],
+    selectOptions: (fields, type) => {return {"": "Works for any Actor", ["#SPEAKER_ID#"]: "Works only for Caster"}}
+  },
+  // ================ CONFIRMATION FIELD =================
+  {
+    key: "preTrigger",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return {"": "", skip: "Skip Event for that Roll", spendAP: "Spend 1 AP to Activate"}}
+  },
+  {
+    key: "confirmation",
+    format: "boolean",
+    type: ["globalFormulaModifiers", "dynamicRollModifier"],
+  },
+  {
+    key: "customMessage",
+    format: "string",
+    type: ["globalFormulaModifiers", "dynamicRollModifier", "events"],
+    filter: (fields, type) => fields.confirmation?.value || fields.preTrigger?.value
+  },
+  // ============== STANDARD EVENT FIELDS ================
+  {
+    key: "postTrigger",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return {"": "", disable: "Disable Effect", delete: "Delete Effect"}}
+  },
+  {
+    key: "reenable",
+    format: "string",
+    type: ["events"],
+    selectOptions: (fields, type) => {return CONFIG.DC20RPG.reenableTriggers}
+  },
+  {
+    key: "alwaysActive",
+    format: "boolean",
+    type: ["events"],
+  },
+  {
+    key: "actorId",
+    defaultValue: "#SPEAKER_ID#",
+    format: "string",
+    type: ["events"],
+    hide: true
+  },
+  // ============== SHARED DRM GFM FIELDS ================
+  {
+    key: "afterRoll",
+    format: "string",
+    type: ["globalFormulaModifiers", "dynamicRollModifier"],
+    hint: "dc20rpg.dialog.systemsBuilder.afterRollHint",
+    selectOptions: (fields, type) => {return {"": "", disable: "Disable Effect", delete: "Delete Effect"}}
+  },
+]
+
+function isEffectChangeRelated(fields) {
+  let display = fields.trigger?.value === "effectApplied";
+  if (!display) display = fields.trigger?.value === "effectRemoved";
+  if (!display) display = fields.reenable?.value === "effectApplied";
+  if (!display) display = fields.reenable?.value === "effectRemoved";
+  if (!display) display = fields.trigger?.value === "effectEnabled";
+  if (!display) display = fields.trigger?.value === "effectDisabled";
+  if (!display) display = fields.reenable?.value === "effectEnabled";
+  if (!display) display = fields.reenable?.value === "effectDisabled";
+  return display;
+}
+
+export class SystemsBuilder extends DC20Dialog {
+
+  static async open(type, value, options={}) {
+    const prompt = new SystemsBuilder(type, value, options);
+    return new Promise((resolve) => {
+      prompt.promiseResolve = resolve;
+      prompt.render(true);
     });
   }
 
-  _prepareData(type, stringFormatValue) {
-    // Arrays also have ',' we need to cut those nad put those back later
+  constructor(type, stringFormatValue, options = {}) {
+    super(options);
+    this.type = type;
+    this.options = this.options;
+    this.#prepareFields(stringFormatValue);
+  }
+
+  static PARTS = {
+    root: {
+      classes: ["dc20rpg"],
+      template: "systems/dc20rpg/templates/dialogs/systems-builder.hbs",
+      scrollable: [".scrollable"]
+    }
+  };
+
+  #prepareFields(stringFormatValue) {
     const arrayRegex = /\[[^\]]*\]/g; 
     const arrayHolder = {};
     let counter = 0;
 
+    stringFormatValue = stringFormatValue.trim().replaceAll("\n", "");
     stringFormatValue = stringFormatValue.replace(arrayRegex, (match) => {
       const placeholder = `ARRAY_${counter++}`;
       arrayHolder[placeholder] = match;
       return placeholder;
     });
 
-    let keyValuePairs = stringFormatValue.split(",")
-    const fields = this._getFieldsForType(type);
-    keyValuePairs.forEach(pairString => {
-      if (pairString && pairString.includes(":")) {
-        const pair = pairString.split(":");
-        const key = parseFromString(pair[0].trim());
-        const value = parseFromString(pair[1].trim());
-        if (fields[key] !== undefined) {
-          // If it is an array placeholder we want to swap it with the array itself
-          if (arrayHolder[value] !== undefined) fields[key].value = arrayHolder[value]; 
-          else fields[key].value = value;
-        }
-      }
+    const keyValuePairs = new Map();
+    stringFormatValue.split(",").forEach(property => {
+      const pair = property.split(":");
+      if (!pair[1]) return;
+      const key = parseFromString(pair[0].trim());
+      let value = parseFromString(pair[1].trim());
+      if (arrayHolder[value] !== undefined) value = arrayHolder[value]; 
+      keyValuePairs.set(key, value);
+    }) 
+
+    this.fields = {};
+    SYSTEM_BUILDER_FIELDS.forEach(original => {
+      if (!original.type.includes(this.type)) return;
+
+      const field = foundry.utils.deepClone(original);
+      if (keyValuePairs.has(field.key)) field.value = keyValuePairs.get(field.key);
+      else if (field.defaultValue) field.value = field.defaultValue;
+
+      field.fieldType = this.#getFieldType(field);
+      field.path = `fields.${field.key}.value`;
+      field.label = `dc20rpg.dialog.systemsBuilder.${field.key}`;
+      this.fields[field.key] = field;
     })
-    this.fields = fields
   }
 
-  _getFieldsForType(type) {
-    // Global Formula Modifier
-    if (type === "globalFormulaModifiers") {
-      return {
-        value: {
-          value: "",
-          format: "string"
-        },
-        source: {
-          value: "",
-          format: "string"
-        },
-        confirmation: {
-          value: false,
-          format: "boolean"
-        },
-        customMessage: {
-          value: "",
-          format: "string",
-        },
-        afterRoll: {
-          value: false,
-          format: "string",
-          selectOptions: {
-            "": "",
-            "disable": "Disable Effect",
-            "delete": "Delete Effect"
-          }
-        }
+  #getFieldType(field) {
+    if (field.selectOptions) return "select";
+    if (field.format === "boolean") return "checkbox";
+    return "input";
+  }
+
+  _initializeApplicationOptions(options) {
+    const initialized = super._initializeApplicationOptions(options);
+    initialized.window.title = "System Builder";
+    initialized.window.icon = "fa-solid fa-wrench";
+    initialized.position.width = 500;
+    initialized.window.resizable = true;
+
+    initialized.actions.save = this._onSave;
+    return initialized;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.fields = this.#filteredFields();
+    context.type = this.type;
+    return context;
+  }
+
+  #filteredFields() {
+    return Object.values(foundry.utils.deepClone(this.fields))
+    .filter(field => {
+      if (field.hide) return false;
+      if (!field.filter) return true;
+      return field.filter(this.fields, this.type, this.options);
+    })
+    .map(field => {
+      if (field.selectOptions) {
+        const selectOptions = field.selectOptions(this.fields, this.type, this.options);
+        if (selectOptions) field.options = selectOptions; 
       }
-    }
-    // Dynamic Roll Modifier
-    if (type === "dynamicRollModifier") {
-      return {
-        rangeType: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "Any",
-            melee: "Melee",
-            ranged: "Ranged",
-            area: "Area"
-          }
-        },
-        attackType: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "Any",
-            martial: "Martial",
-            spell: "Spell"
-          }
-        },
-        value: {
-          value: "0",
-          format: "number"
-        },
-        type: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "",
-            adv: "Advantage",
-            dis: "Disadvantage"
-          }
-        },
-        label: {
-          value: "",
-          format: "string"
-        },
-        modifier: {
-          value: "",
-          format: "string"
-        },
-        applyOnlyForId: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "Works for any Actor",
-            ["#SPEAKER_ID#"]: "Works only for Caster"
-          }
-        },
-        confirmation: {
-          value: false,
-          format: "boolean"
-        },
-        runMacro: {
-          value: false,
-          format: "boolean"
-        },
-        customMessage: {
-          value: "",
-          format: "string",
-        },
-        autoCrit: {
-          value: false,
-          format: "boolean"
-        },
-        autoFail: {
-          value: false,
-          format: "boolean"
-        },
-        skill: {
-          value: "",
-          format: "string"
-        },
-        afterRoll: {
-          value: false,
-          format: "string",
-          selectOptions: {
-            "": "",
-            "disable": "Disable Effect",
-            "delete": "Delete Effect"
-          }
-        }
+      if (field.customLabel) {
+        const label = field.customLabel(this.fields, this.type, this.options);
+        if (label) field.label = label;
       }
-    }
-    // Events
-    if (type === "events") {
-      return {
-        eventType: {
-          value: "basic",
-          format: "string",
-          selectOptions: CONFIG.DC20RPG.eventTypes
-        },
-        trigger: {
-          value: "turnStart",
-          format: "string",
-          selectOptions: CONFIG.DC20RPG.allEventTriggers
-        },
-        label: {
-          value: "",
-          format: "string",
-        },
-        preTrigger: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "",
-            "disable": "Disable Effect",
-            "skip": "Skip Event for that Roll",
-            "spendAP": "Spend 1 AP to Activate"
-          }
-        },
-        postTrigger: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "",
-            "disable": "Disable Effect",
-            "delete": "Delete Effect"
-          }
-        },
-        customMessage: {
-          value: "",
-          format: "string",
-        },
-        reenable: {
-          value: "",
-          format: "string",
-          selectOptions: CONFIG.DC20RPG.reenableTriggers
-        },
-        alwaysActive:  {
-          value: false,
-          format: "boolean"
-        },
-        // damage/healing/resource eventType
-        value: {
-          value: "",
-          format: "number",
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["damage", "healing", "resource"]
-          }
-        },
-        // resource eventType
-        resourceKey: {
-          value: "",
-          format: "string",
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["resource"]
-          }
-        },
-        // damage/healing eventType
-        type: {
-          value: "",
-          format: "string",
-          damageTypes: CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes,
-          healingTypes: CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes,
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["damage", "healing"]
-          }
-        },
-        // checkRequest/saveRequest eventType
-        checkKey: {
-          value: "mig",
-          format: "string",
-          checkTypes: CONFIG.DC20RPG.ROLL_KEYS.allChecks,
-          saveTypes: CONFIG.DC20RPG.ROLL_KEYS.saveTypes,
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["checkRequest", "saveRequest"]
-          }
-        },
-        against: {
-          value: "",
-          format: "string",
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["checkRequest", "saveRequest"]
-          }
-        },
-        statuses: {
-          value: "",
-          format: "array",
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["checkRequest", "saveRequest"]
-          }
-        },
-        onSuccess: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "",
-            "disable": "Disable Effect",
-            "delete": "Delete Effect",
-            "runMacro": "Run Macro"
-          },
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["checkRequest", "saveRequest"]
-          }
-        },
-        onFail: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "",
-            "disable": "Disable Effect",
-            "delete": "Delete Effect",
-            "runMacro": "Run Macro"
-          },
-          skip: {
-            key: "eventType",
-            dontSkipFor: ["checkRequest", "saveRequest"]
-          }
-        },
-        // trigger specific - configurable
-        triggerOnlyForId: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "Works for any Actor",
-            ["#SPEAKER_ID#"]: "Works only for Caster"
-          },
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["targetConfirm"]
-          }
-        },
-        minimum: {
-          value: "",
-          format: "number",
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["damageTaken", "healingTaken"]
-          }
-        },
-        changedResource: {
-          value: "",
-          format: "string",
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["resourceChange"]
-          }
-        },
-        skipTempHpChangeOnly: {
-          value: false,
-          format: "boolean",
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["healingTaken"]
-          }
-        },
-        operation: {
-          value: "",
-          format: "string",
-          selectOptions: {
-            "": "All",
-            "subtraction": "Subtraction",
-            "addition": "Addition"
-          },
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["resourceChange"]
-          }
-        },
-        withEffectName: {
-          value: "",
-          format: "string",
-        },
-        withEffectKey: {
-          value: "",
-          format: "string",
-        },
-        withStatus: {
-          value: "",
-          format: "string",
-        },
-        activeCombatantOnly: {
-          value: false,
-          format: "boolean",
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["instant"]
-          }
-        },
-        skipIfCaster: {
-          value: false,
-          format: "boolean",
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["instant"]
-          }
-        },
-        restType: {
-          value: "long",
-          format: "string",
-          selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.restTypes,
-          skip: {
-            key: "trigger",
-            dontSkipFor: ["rest"]
-          }
-        },
-        // trigger specific - auto filled
-        actorId: {
-          value: "#SPEAKER_ID#",
-          format: "string",
-        }
-      }
-    }
-  }
-
-  getData() {
-    return {
-      isSkill: this.isSkill,
-      isAttack: this.isAttack,
-      type: this.type,
-      fields: this.fields,
-      displayEffectAppliedFields: this._displayEffectAppliedFields()
-    }
-  }
-
-  _displayEffectAppliedFields() {
-    let display = this.fields.trigger?.value === "effectApplied";
-    if (!display) display = this.fields.trigger?.value === "effectRemoved";
-    if (!display) display = this.fields.reenable?.value === "effectApplied";
-    if (!display) display = this.fields.reenable?.value === "effectRemoved";
-    if (!display) display = this.fields.trigger?.value === "effectEnabled";
-    if (!display) display = this.fields.trigger?.value === "effectDisabled";
-    if (!display) display = this.fields.reenable?.value === "effectEnabled";
-    if (!display) display = this.fields.reenable?.value === "effectDisabled";
-    return display;
-  }
-
-   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    activateDefaultListeners(this, html);
-    html.find(".save-change").click(ev => this._onSave(ev));
+      if (field.format === "array") field.format = "string";
+      return field;
+    })
   }
 
   async _onSave(event) {
     event.preventDefault();
-    let finalString = "";
+    let finalString = [];
 
-    Object.entries(this.fields).forEach(([key, field]) => {
-      if (this._shouldSkip(field)) return;
+    for (const field of Object.values(this.fields)) {
+      if (this.#shouldSkip(field)) continue;
+
       let value = field.value;
-      if (value) {
-        if (field.format === "string") value = `"${field.value}"`;
-        finalString += `"${key}": ${value}, `;
-      }
-    })
-    finalString = finalString.substring(0, finalString.length - 2);
+      if (field.format === "string") value = `"${field.value}"`;
+      finalString.push(`"${field.key}": ${value}`);
+    }
 
-    this.promiseResolve(finalString);
+    this.promiseResolve(finalString.join(", "));
     this.close();
   }
 
-  _shouldSkip(field) {
-    const fieldToCheck = this.fields[field.skip?.key]?.value;
-    if (!fieldToCheck) return false;
-    return !field.skip.dontSkipFor.includes(fieldToCheck);
-  }
-
-  static async create(type, currentValue, options, dialogData = {}) {
-    const prompt = new SystemsBuilder(type, currentValue, options, dialogData);
-    return new Promise((resolve) => {
-      prompt.promiseResolve = resolve;
-      prompt.render(true);
-    });
+  #shouldSkip(field) {
+    if (!field.value) return true;
+    if (!field.filter) return false;
+    return !field.filter(this.fields, this.type, this.options);
   }
 
   /** @override */
@@ -459,8 +486,4 @@ export class SystemsBuilder extends Dialog {
     if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);
   }
-}
-
-export async function createSystemsBuilder(type, currentValue, options) {
-  return await SystemsBuilder.create(type, currentValue, options, {title: "Builder"});
 }
