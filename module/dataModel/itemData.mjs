@@ -301,6 +301,13 @@ export class DC20FeatureData extends DC20UsableItemData {
             initial: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
           }),
       }),
+      monsterTrait: new f.SchemaField({
+        creatureTypes: new f.ObjectField({required: true}),
+        creatureRoles: new f.ObjectField({required: true}),
+        traitValue: new f.NumberField({required: true, nullable: false, integer: true, initial: 1}),
+        traitType: new f.StringField({required: true, initial: ""}),
+        impact: new f.BooleanField({required: true, initial: true}),
+      }),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()
     })

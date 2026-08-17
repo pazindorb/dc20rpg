@@ -17,6 +17,8 @@ export function makeCalculations(item) {
   if (item.system.targetModifiers) _calculateSaveDCForTargetModifiers(item);
   if (item.system.infusions) _calculateMagicPower(item);
   if (item.type === "feature") _checkFeatureSourceItem(item);
+  if (item.system.formulas) _precalculatedFormulas(item);
+  if (item.system.monsterTrait) _monsterTraitModifications(item);
   _checkIdentified(item);
   _combatTraining(item);
 }
@@ -96,6 +98,13 @@ function _getSaveDCFromActor(request, actor) {
   }
 }
 
+function _precalculatedFormulas(item) {
+  const rollData = item.getRollData();
+  for (const formula of Object.values(item.system.formulas)) {
+    formula.precalculated = evaluateDicelessFormula(formula.formula, rollData, true)?.total;
+  }
+}
+
 function _calculateMaxCharges(item) {
   const charges = item.system.costs.charges;
   const rollData = item.getRollData();
@@ -150,4 +159,11 @@ function _calculateMagicPower(item) {
     magicPower += infusion.power;
   }
   item.system.magicPower = magicPower;
+}
+
+function _monsterTraitModifications(item) {
+  const actor = item.actor;
+  if (!actor) return;
+
+  item.system.monsterTrait.impact = !!actor?.system?.scaling?.config?.impact;
 }

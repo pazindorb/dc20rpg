@@ -277,8 +277,27 @@ export class DC20NpcData extends DC20BaseActorData {
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         creatureType: new f.StringField({required: true}),
-        role: new f.StringField({required: true}),
-        aligment: new f.StringField({required: true}),
+        creatureRole: new f.StringField({required: true}),
+      }),
+      scaling: new f.SchemaField({
+        values: new f.SchemaField({
+          maxTraitValue: new f.NumberField({ required: true, nullable: false, integer: true, initial: 4 }),
+          maxHp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 7 }),
+          pd: new f.NumberField({ required: true, nullable: false, integer: true, initial: 10 }),
+          ad: new f.NumberField({ required: true, nullable: false, integer: true, initial: 10 }),
+          damage: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          reactionPoints: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+        }),
+        config: new f.SchemaField({
+          impact: new f.BooleanField({required: true, initial: false}),
+          tier: new f.StringField({required: true, initial: "medium"}),
+          rank: new f.StringField({required: true, initial: "normal"}),
+          maxHpModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+          damageModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
+          pdModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          adModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          maxTraitModifier: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        })
       }),
       saveDC: new f.SchemaField({
         flat: new f.BooleanField({required: true, initial: false}),

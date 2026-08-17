@@ -18,6 +18,10 @@
             <input disabled value="{{system.details.combatMastery}}" title="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
           </div>
         </div>
+
+          <div class="char-level-wrapper">
+            {{{small-button "level-scaling" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
+          </div>
         
         {{!-- Image --}}
         <div class="border-box">
@@ -55,11 +59,13 @@
         </div>
 
         {{!-- Creature Role --}}
-        <div class="row margin-top-3" title="{{localize 'dc20rpg.sheet.role'}}">
+        <div class="row margin-top-3" title="{{localize 'dc20rpg.sheet.creatureRole'}}">
           <div class="left-part-row margin-left-2">
             <i class="fa-solid fa-robot fa-lg"></i>
           </div>
-          <input class="category" type="text" name="system.details.role" value="{{system.details.role}}" placeholder="{{localize 'dc20rpg.sheet.role'}}"/>
+          <select class="creature-type half-row change-actor-value" data-path="system.details.creatureRole" >
+            {{selectOptions @root.config.DROPDOWN_DATA.creatureRoles selected=system.details.creatureRole blank=""}}
+          </select>
         </div>
 
         {{!-- Vision --}}

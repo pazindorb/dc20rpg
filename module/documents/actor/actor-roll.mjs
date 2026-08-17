@@ -8,6 +8,7 @@ export function prepareRollData(actor, data) {
   _mods(data, actor);
 	_allSkills(data, actor);
 	_defences(data, actor);
+	_monsterData(data, actor);
 	return data;
 }
 
@@ -20,6 +21,7 @@ export function prepareRollData(actor, data) {
 export function prepareRollDataForEffectCall(actor, data) {
 	_calculateAttributes(data, actor);
 	_calculateDetails(data, actor);
+	_monsterData(data, actor);
 	return data;
 }
 
@@ -81,6 +83,8 @@ function _details(data) {
 		data.prime = data.details.primeCheck ?? 0;
 		data.primeValue = data.details.primeValue;
 	}
+
+	data.classHp = data.details?.class?.maxHpBonus || "6";
 }
 
 function _mods(data, actor) {
@@ -124,4 +128,9 @@ function _defences(data, actor) {
 		heavy: defences.area.heavy,
 		brutal: defences.area.brutal,
 	}
+}
+
+function _monsterData(data, actor) {
+	data.sdmg = actor.system?.scaling?.values?.damage || 0;
+	data.reactionPoints = actor.system?.scaling?.values?.reactionPoints || 0;
 }

@@ -150,6 +150,51 @@
       <label>{{localize "dc20rpg.item.sheet.feature.featureOrigin"}}</label>
       <input {{#if @root.featureSourceItems}}disabled{{/if}} type="text" name="system.featureOrigin" value="{{system.featureOrigin}}" placeholder="-">
     </div>
+    {{!-- Monster Trait Config --}}
+    {{#ifCond system.featureType '===' "monster"}}
+    <div class="multi-select-wrapper">
+      <div class="form-group margin-top-5 ">
+        <label>{{localize "dc20rpg.item.sheet.feature.creatureTypes"}}</label>
+        <select class="multi-select" data-cType="multi-select" data-path="system.monsterTrait.creatureTypes">
+          {{selectOptions @root.config.DROPDOWN_DATA.creatureTypes blank=""}}
+        </select>
+      </div>
+      <div class="selected-options">
+        {{#each system.monsterTrait.creatureTypes as |option key|}}
+          <div class="option">
+            <span>{{option}}</span>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.monsterTrait.creatureTypes" data-key="{{key}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="multi-select-wrapper">
+      <div class="form-group margin-top-5 ">
+        <label>{{localize "dc20rpg.item.sheet.feature.creatureRoles"}}</label>
+        <select class="multi-select" data-cType="multi-select" data-path="system.monsterTrait.creatureRoles">
+          {{selectOptions @root.config.DROPDOWN_DATA.creatureRoles blank=""}}
+        </select>
+      </div>
+      <div class="selected-options">
+        {{#each system.monsterTrait.creatureRoles as |option key|}}
+          <div class="option">
+            <span>{{option}}</span>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.monsterTrait.creatureRoles" data-key="{{key}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.feature.traitType"}}</label>
+      <select name="system.monsterTrait.traitType">
+        {{selectOptions @root.config.DROPDOWN_DATA.monsterTraitTypes selected=system.traitType blank=""}}
+      </select>
+    </div>
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.feature.traitValue"}}</label>
+      <input type="text" name="system.monsterTrait.traitValue" value="{{system.monsterTrait.traitValue}}" data-dtype="Number" placeholder="-">
+    </div>
+    {{/ifCond}}
     {{#if featureSourceItems}}
     <div class="form-group margin-top-5" data-tooltip="{{localize "dc20rpg.item.sheet.feature.featureSourceItemTooltip"}}">
       <label>{{localize "dc20rpg.item.sheet.feature.featureSourceItem"}}</label>
@@ -157,7 +202,6 @@
         {{selectOptions featureSourceItems selected=system.featureSourceItem blank=""}}
       </select>
     </div>
-    {{/if}}
     <div class="form-group margin-top-5">
       <label>{{localize "dc20rpg.item.sheet.config.staminaFeature"}}</label>
       <input type="checkbox" name="system.staminaFeature" {{checked system.staminaFeature}}/>
@@ -166,6 +210,7 @@
       <label>{{localize "dc20rpg.item.sheet.config.flavorFeature"}}</label>
       <input type="checkbox" name="system.flavorFeature" {{checked system.flavorFeature}}/>
     </div>
+    {{/if}}
     <div class="form-group margin-top-5">
       <label>{{localize "dc20rpg.item.sheet.config.useWeapon"}}</label>
       <input type="checkbox" name="system.usesWeapon.weaponAttack" {{checked system.usesWeapon.weaponAttack}}/>

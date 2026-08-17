@@ -21,6 +21,7 @@ export function itemDetailsToHtml(item) {
   _merge(tier2, _area(item));
   _merge(tier3, _weaponStyle(item));
   _merge(tier3, _properties(item));
+  _merge(tier3, _impactMonsterTrait(item));
   if (item.type === "spell") {
     _merge(tier3, _spellDetails(item));
   }
@@ -98,14 +99,15 @@ function _formulas(item) {
   if (item.system.formulas) {
     for (const formula of Object.values(item.system.formulas)) {
       if (!formula.formula) continue;
+      const displayedValue = formula.precalculated != null ? formula.precalculated : formula.formula;
       if (formula.category === "damage") {
-        formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`, "red", "tier1"));
+        formulas.push(_infoBox(`${displayedValue} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`, "red", "tier1"));
       }
       if (formula.category === "healing") {
-        formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes)}`, "green", "tier1"));
+        formulas.push(_infoBox(`${displayedValue} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes)}`, "green", "tier1"));
       }
       if (formula.category === "other") {
-        let label = isNaN(formula.formula) ? "(formula)" : formula.formula; 
+        let label = isNaN(displayedValue) ? "(formula)" : (displayedValue); 
         label += " " + formula.label;
         formulas.push(_infoBox(label, "gold", "tier1"));
       }
@@ -252,6 +254,24 @@ function _properties(item) {
     }
   });
   return content;
+}
+
+function _impactMonsterTrait(item) {
+  const actor = item.actor;
+  if (!actor) return [];
+  const impact = !!actor?.system?.scaling?.config?.impact;
+  if (!impact) return [];
+
+  const impactData = CONFIG.DC20RPG.PROPERTIES.impact;
+  const label = game.i18n.localize(impactData.label);
+  return [_infoBox(label, "gray", "tier3", {
+    cssClass: "journal-tooltip", 
+    data: `
+    data-hover="tooltip"
+    data-tooltip-type="journal"
+    data-uuid="${impactData.journalUuid}" 
+    data-header="${label}"`
+  })];
 }
 
 function _spellDetails(item) {

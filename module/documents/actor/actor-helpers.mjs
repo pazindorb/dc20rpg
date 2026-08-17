@@ -23,6 +23,7 @@ export function enrichWithHelpers(actor) {
   _enrichEnhancementsObject(actor);
   _enrichSpecialActions(actor);
   _enrichRefreshResourcesAndItems(actor);
+  _enrichLeveling(actor);
 }
 
 //==================================//==================================
@@ -741,9 +742,134 @@ async function _removeItemFromKeyword(itemId, keyword, actor) {
 }
 
 //==================================//==================================
+//                       LEVELS AND ADVANCEMENT                        =
+//==================================//==================================
+function _enrichLeveling(actor) {
+  if (actor.type === "npc") {
+    actor.monsterConfig = {
+      scaleToLevel: async () => await _monsterLevelScaling(actor),
+      addReactionPoints: async () => await _addReactionPoints(actor),
+      removeReactionPoints: async () => await _removeReactionPoints(actor),
+    };
+  }
+
+}
+
+async function _monsterLevelScaling(actor) {
+  // Tego nie będzie (configuracji) - tylko sam scaling a config jest tworzony przy tworzeniu potwora?
+  const config = CONFIG.DC20RPG.MONSTERS;
+  const changes = {1: "0%", 1.25: "+ 25%", 0.75: "- 25%", 1.5: "+ 50%", 0.5: "- 50%"}
+  const inputs = [
+    {type: "select", label: "Monster Type", preselected: actor.system.details.creatureType || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.creatureTypes},
+    {type: "select", label: "Monster Role", preselected: actor.system.details.creatureRole || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.creatureRoles},
+    {type: "select", label: "Monster Tier", preselected: actor.system.scaling.config.tier || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.monsterTiers},
+    {type: "select", label: "Monster Rank", preselected: actor.system.scaling.config.rank || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.monsterRanks},
+    {type: "select", label: "Health Modifier (%)", preselected: actor.system.scaling.config.maxHpModifier, options: changes},
+    {type: "select", label: "Damage Modifier (%)", preselected: actor.system.scaling.config.damageModifier, options: changes},
+    {type: "input", label: "Precision Defense", preselected: actor.system.scaling.config.pdModifier},
+    {type: "input", label: "Area Defense", preselected: actor.system.scaling.config.adModifier},
+    {type: "input", label: "Trait Value Modifier", preselected: actor.system.scaling.config.maxTraitModifier},
+  ]
+  const answers = await SimplePopup.open("input", {header: "Configure Scaling", inputs: inputs});
+  if (!answers) return;
+  
+  const [creatureType, creatureRole, tier, rank, hpMod, dmgMod, pdMod, adMod, traitMod] = answers;
+  
+  // Rozłożenie statów i policzenie jaki będzie prime attribute
+  
+  const level = actor.system.details.level;
+
+  // Calculate Max HP
+  const avgHP = config.AVERAGE_HP[level+1];
+  let multiplier = hpMod || 1;
+  if      (rank === "legendary") multiplier *= 4;
+  else if (rank === "epic")      multiplier *= 2;
+  else if (rank === "minion")    multiplier *= 0.5;
+  const maxHp = Math.ceil(avgHP * multiplier);
+
+  // Calculate PD and AD
+  const avgDef = config.AVERAGE_DEFENCE[level+1];
+  const pdModifier = parseInt(pdMod) || 0;
+  const adModifier = parseInt(adMod) || 0;
+  const pd = avgDef + pdModifier;
+  const ad = avgDef + adModifier
+
+  // Trait Value Modifier
+  const traitModifier = parseInt(traitMod) || 0;
+  const maxTrait = 4 + (2*level) + traitModifier;
+
+  // Calculate Damage
+  const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
+
+  let dmgChange = 0;
+  if (dmgMod === 1.25)   dmgChange += config.DAMAGE_CHANGE_25[tier][level+1];
+  if (dmgMod === 1.5)    dmgChange += config.DAMAGE_CHANGE_50[tier][level+1];
+  if (dmgMod === 0.75)   dmgChange -= config.DAMAGE_CHANGE_25[tier][level+1];
+  if (dmgMod === 0.5)    dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
+  const dmg = avgDmg + dmgChange;
+  const impact = dmg % 1 === 0.5;
+  if (dmg % 1 === 0.25) {} // TODO: Minion rules
+  const finalDmg = Math.floor(dmg);
+
+  // Calculate Reaction Points
+  let reactionPoints = 0;
+  if (rank === "legendary") reactionPoints = 6;
+  if (rank === "epic") reactionPoints = 3;
+
+  if (reactionPoints > 0) await actor.monsterConfig.addReactionPoints(reactionPoints);
+  else await actor.monsterConfig.removeReactionPoints();
+
+  await actor.update({
+    system: {
+      details: {
+        creatureType: creatureType,
+        creatureRole: creatureRole
+      },
+      scaling: {
+        config: { 
+          maxHpModifier: hpMod, 
+          damageModifier: dmgMod, 
+          pdModifier: pdModifier, 
+          adModifier: adModifier, 
+          maxTraitModifier: traitModifier,
+          tier: tier, 
+          rank: rank,
+          impact: impact
+        },
+        values: { 
+          maxHp: maxHp, 
+          damage: finalDmg, 
+          pd: pd, 
+          ad: ad, 
+          maxTraitModifier: maxTrait,
+          reactionPoints: reactionPoints
+        }
+      }
+    }
+  })
+}
+
+async function _removeReactionPoints(actor) {
+  const reactionPoints = actor.getItemByKey("reactionPoints");
+  if (reactionPoints) await reactionPoints.gmDelete();
+}
+
+async function _addReactionPoints(actor) {
+  if (actor.getItemByKey("reactionPoints")) return; // Skip if has RP already
+
+  const REACTION_POINTS_UUID = CONFIG.DC20RPG.SYSTEM_CONSTANTS.reactionPoints;
+  const reactionPoints = await fromUuid(REACTION_POINTS_UUID);
+  if (!reactionPoints) {
+    ui.notifications.error(`'Reaction Points' item is missing from the system compendium, cannot find it under the UUID: "${REACTION_POINTS_UUID}"`)
+    return;
+  }
+  await DC20RpgItem.gmCreate(reactionPoints.toObject(), {parent: actor});
+}
+
+//==================================//==================================
 //                           SPECIAL ACTIONS                           =
 //==================================//==================================
-export function _enrichSpecialActions(actor) {
+function _enrichSpecialActions(actor) {
   actor.help = {
     active: _activeHelp(actor),
     prepare: async (options) => await _prepareHelp(actor, options),

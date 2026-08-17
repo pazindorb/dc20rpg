@@ -222,6 +222,7 @@ export const DC20RPG = {
   DROPDOWN_DATA: {},
   TRANSLATION_LABELS: {},
   ROLL_KEYS: {},
+  MONSTERS: {},
 };
 
 //=========================================================================
@@ -416,6 +417,30 @@ DC20RPG.DROPDOWN_DATA.creatureTypes = {
   ooze: "Ooze",
   plant: "Plant",
   undead: "Undead"
+}
+
+DC20RPG.DROPDOWN_DATA.creatureRoles = {
+  brute: "Brute",
+  defender: "Defender",
+  leader: "Leader",
+  soldier: "Soldier",
+  striker: "Striker",
+  tactician: "Tactician"
+}
+
+DC20RPG.DROPDOWN_DATA.monsterTiers = {
+  easy: "Easy",
+  medium: "Medium",
+  hard: "Hard",
+  veryHard: "Very Hard",
+  deadly: "Deadly"
+}
+
+DC20RPG.DROPDOWN_DATA.monsterRanks = {
+  minion: "Minion",
+  normal: "Normal",
+  epic: "Epic",
+  legendary: "Legendary"
 }
 
 DC20RPG.DROPDOWN_DATA.storageTypes = {
@@ -947,6 +972,20 @@ DC20RPG.DROPDOWN_DATA.spellTags = {
   ...DC20RPG.DROPDOWN_DATA.creatureTypes,
 }
 
+DC20RPG.DROPDOWN_DATA.monsterTraitTypes = {
+  pdAttack: "PD Attack",
+  adAttack: "AD Attack",
+  offense: "Offense",
+  defense: "Defense",
+  utility: "Utility",
+  statistics: "Statistics",
+  movement: "Movement",
+  senses: "Senses",
+  damageMitigation: "Damage Mitigation",
+  checkSave: "Checks & Saves",
+  roundAction: "Round Action",
+}
+
 
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
@@ -1336,6 +1375,7 @@ DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
   standard: "8 + @combatMastery + @migValue + @chaValue + @ad.bonus",
 }
 DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina = "Compendium.dc20rpg.system-items.Item.y7T8fH64IizcTw0K";
+DC20RPG.SYSTEM_CONSTANTS.reactionPoints = "Compendium.dc20rpg.monster-features.Item.VbK7YOCwB3FNK4bm";
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982"
 
@@ -1532,3 +1572,31 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982"
+
+//===============================================================================================
+//        SCALING MONSTERS - Tables from Monster Collection regarding monster scaling           =
+//===============================================================================================
+// MONSTER LEVEL                    [N,      0,      1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,     14,     15,     16,     17,     18,     19,     20];
+DC20RPG.MONSTERS.AVERAGE_HP =       [7,      11,     13,     15,     18,     20,     24,     25,     28,     30,     34,     36,     40,     42,     44,     46,     50,     51,     55,     56,     60,     62];
+DC20RPG.MONSTERS.AVERAGE_DEFENCE =  [10,     11,     12,     12,     13,     13,     15,     15,     16,     16,     17,     18,     19,     19,     20,     20,     22,     22,     23,     23,     24,     25];
+DC20RPG.MONSTERS.AVERAGE_DAMAGE = {
+  easy:                             [0.25,   0.25,   0.25,   0.5,    0.5,    1,      1,      1.5,    1.5,    1.5,    1.5,    2,      2,      2.5,    2.5,    3,      3,      3.5,    3.5,    4,      4,      4.5 ],
+  medium:                           [0.25,   0.5,    0.5,    1,      1,      1.5,    1.5,    2,      2,      2.5,    2.5,    3,      3.5,    4,      4,      4.5,    4.5,    5,      5,      5.5,    5.5,    6   ],
+  hard:                             [0.5,    1,      1,      1.5,    2,      2.5,    2.5,    3,      3.5,    4,      4,      5,      5,      5.5,    6,      6.5,    6.5,    7,      7.5,    8,      8,      9   ],
+  veryHard:                         [1.5,    2,      2,      3,      3.5,    4,      4.5,    5.5,    5.5,    6,      7,      8,      8.5,    9,      9.5,    10,     10.5,   11.5,   12,     12.5,   13,     13.5],
+  deadly:                           [2,      2.5,    3,      4,      5,      6,      6.5,    7.5,    8,      9,      10,     11,     12,     13,     14,     14.5,   15.5,   16,     17,     18,     18.5,   20  ],
+}
+DC20RPG.MONSTERS.DAMAGE_CHANGE_25 = {
+  easy:                             [0,      0,      0,      0,      0,      0,      0.5,    0.5,    0.5,    0.5,    0.5,    1,      1,      1,      1,      1,      1.5,    1.5,    1.5,    1.5,    1.5,    2   ],
+  medium:                           [0,      0,      0,      0,      0,      0.5,    0.5,    0.5,    0.5,    1,      1,      1,      1,      1.5,    1.5,    1.5,    1.5,    2,      2,      2,      2,      2.5 ],
+  hard:                             [0,      0,      0,      0,      0.5,    0.5,    0.5,    1,      1,      1,      1.5,    1.5,    1.5,    2,      2,      2,      2.5,    2.5,    2.5,    3,      3,      3   ],
+  veryHard:                         [0,      0,      0,      0.5,    0.5,    1,      1,      1.5,    1.5,    2,      2,      2.5,    2.5,    3,      3,      3.5,    3.5,    4,      4,      4.5,    4.5,    5   ],
+  deadly:                           [0,      0,      0,      0.5,    1,      1,      1.5,    2,      2,      2.5,    3,      3,      3.5,    4,      4,      4.5,    5,      5,      5.5,    6,      6,      6.5 ],
+}
+DC20RPG.MONSTERS.DAMAGE_CHANGE_50 = {
+  easy:                             [0,      0,      0,      0,      0,      0,      0.5,    0.5,    0.5,    0.5,    0.5,    1,      1,      1,      1,      1,      1.5,    1.5,    1.5,    1.5,    1.5,    2   ],
+  medium:                           [0,      0,      0,      0,      0,      0.5,    0.5,    0.5,    0.5,    1,      1,      1,      1,      1.5,    1.5,    1.5,    1.5,    2,      2,      2,      2,      2.5 ],
+  hard:                             [0,      0,      0,      0,      0.5,    0.5,    0.5,    1,      1,      1,      1.5,    1.5,    1.5,    2,      2,      2,      2.5,    2.5,    2.5,    3,      3,      3   ],
+  veryHard:                         [0,      0,      0,      0.5,    0.5,    1,      1,      1.5,    1.5,    2,      2,      2.5,    2.5,    3,      3,      3.5,    3.5,    4,      4,      4.5,    4.5,    5   ],
+  deadly:                           [0,      0,      0,      0.5,    1,      1,      1.5,    2,      2,      2.5,    3,      3,      3.5,    4,      4,      4.5,    5,      5,      5.5,    6,      6,      6.5 ],
+}

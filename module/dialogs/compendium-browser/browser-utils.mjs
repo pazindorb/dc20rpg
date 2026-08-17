@@ -219,7 +219,7 @@ export function getDefaultActorFilters(preSelectedFilters) {
       npc: true,
       companion: false
     }, "stringCheck"),
-    role: _filter("system.details.role", "role", "text"),
+    role: _filter("system.details.creatureRole", "creatureRole", "text"),
     creatureType: _filter("system.details.creatureType", "creatureType", "text"),
     compendium: _filter("fromPack", "compendium", "checkbox", {
       system: true,
