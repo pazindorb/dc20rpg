@@ -36,6 +36,10 @@ export class DC20RpgItem extends Item {
     return this.system.actionType === "check";
   }
 
+  get isMonsterTrait() {
+    return this.system?.monsterTrait?.traitValue != null && this.system?.featureType === "monster";
+  }
+
   get checkKey() {
     const actionType = this.system.actionType;
     if (actionType === "attack") return "att";
