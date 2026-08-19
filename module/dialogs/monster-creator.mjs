@@ -1,5 +1,7 @@
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
+import { shuffleArray } from "../helpers/utils.mjs";
+import { collectItemsForType } from "./compendium-browser/browser-utils.mjs";
 import { createItemBrowser } from "./compendium-browser/item-browser.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 import { SimplePopup } from "./simple-popup.mjs";
@@ -14,6 +16,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     super(options);
     if (options.actor) this.actor = options.actor;
     this.#prepareData();
+    this.#collectMonsterTraits();
   }
 
   static PARTS = {
@@ -23,6 +26,11 @@ export class MonsterCreatorDialog extends DC20Dialog {
       scrollable: [".scrollable"]
     }
   };
+
+  async #collectMonsterTraits() {
+    const features = await collectItemsForType("feature");
+    this.monsterTraits = features.filter(item => item.isMonsterTrait);
+  }
 
   #prepareData() {
     if (this.actor) {
@@ -143,7 +151,60 @@ export class MonsterCreatorDialog extends DC20Dialog {
   
   _onRandomTraits(event, target) {
     event.preventDefault();
-    // TODO
+    const traits = this.monsterTraits.filter(item => {
+      const config = item.system.monsterTrait;
+      const hasRole = config.creatureRoles[this.data.creatureRole];
+      const hasType = config.creatureTypes[this.data.creatureType];
+      return hasRole || hasType;
+    })
+    shuffleArray(traits)
+
+    const items = {};
+    const maxTraits = 5 + Math.ceil(this.data.level/5);
+    let noOfTraits = Math.floor(Math.random() * maxTraits + 5); // Minimum of 5
+    let pointsLeft = this.summary.currentTrait;
+
+    // Collect PD and AD attack
+    const pdAttackIndex = this.#getTraitIndex(traits, (item) => item.system.monsterTrait.traitType === "pdAttack");
+    const adAttackIndex = this.#getTraitIndex(traits, (item) => item.system.monsterTrait.traitType === "adAttack");
+    if (pdAttackIndex !== -1) {
+      const pdAttack = this.#popFromIndex(traits, pdAttackIndex);
+      this.#addToItems(items, pdAttack, noOfTraits, pointsLeft);
+    }
+    if (adAttackIndex !== -1) {
+      const adAttack = this.#popFromIndex(traits, adAttackIndex);
+      this.#addToItems(items, adAttack, noOfTraits, pointsLeft);
+    }
+
+    let index = 0;
+    while (pointsLeft > 0 && noOfTraits > 0 && traits.length > 0) {
+      const item = this.#popFromIndex(traits, index);
+      this.#addToItems(items, item, noOfTraits, pointsLeft);
+      index ++;
+    }
+
+    // Mark items with delete action
+    Object.keys(this.data.itemTraits).forEach(itemId => this.data.itemTraits[itemId] = "DELETE_ACTION");
+    // Add new items
+    Object.entries(items).forEach(([itemId, item]) => this.data.itemTraits[itemId] = item.toObject());
+    this.render();
+  }
+
+  #getTraitIndex(traits, filter) {
+    return traits.findIndex(item => filter(item));
+  }
+
+  #popFromIndex(traits, index) {
+    const item = traits[index];
+    traits.splice(index, 1);
+    return item;
+  }
+
+  #addToItems(array, item, noOfTraits, pointsLeft) {
+    if (array[item._id]) return; // We don't want to add it twice
+    array[item._id] = item;
+    noOfTraits--;
+    pointsLeft -= item.system.monsterTrait.traitValue;
   }
 
   async _onRemoveItem(event, target) {
