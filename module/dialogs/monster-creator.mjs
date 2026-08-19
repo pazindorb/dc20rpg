@@ -402,7 +402,6 @@ export class MonsterCreatorDialog extends DC20Dialog {
     if (base.damageModifier === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
     const dmg = avgDmg + dmgChange;
     const impact = dmg % 1 === 0.5;
-    if (dmg % 1 === 0.25) {} // TODO: Minion rules
     const finalDmg = Math.floor(dmg);
 
     // Calculate Speed and movement types
