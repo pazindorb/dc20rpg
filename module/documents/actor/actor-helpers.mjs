@@ -752,31 +752,14 @@ function _enrichLeveling(actor) {
       removeReactionPoints: async () => await _removeReactionPoints(actor),
     };
   }
-
 }
 
 async function _monsterLevelScaling(actor) {
-  // Tego nie będzie (configuracji) - tylko sam scaling a config jest tworzony przy tworzeniu potwora?
   const config = CONFIG.DC20RPG.MONSTERS;
-  const changes = {1: "0%", 1.25: "+ 25%", 0.75: "- 25%", 1.5: "+ 50%", 0.5: "- 50%"}
-  const inputs = [
-    {type: "select", label: "Monster Type", preselected: actor.system.details.creatureType || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.creatureTypes},
-    {type: "select", label: "Monster Role", preselected: actor.system.details.creatureRole || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.creatureRoles},
-    {type: "select", label: "Monster Tier", preselected: actor.system.scaling.config.tier || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.monsterTiers},
-    {type: "select", label: "Monster Rank", preselected: actor.system.scaling.config.rank || "", options: CONFIG.DC20RPG.DROPDOWN_DATA.monsterRanks},
-    {type: "select", label: "Health Modifier (%)", preselected: actor.system.scaling.config.maxHpModifier, options: changes},
-    {type: "select", label: "Damage Modifier (%)", preselected: actor.system.scaling.config.damageModifier, options: changes},
-    {type: "input", label: "Precision Defense", preselected: actor.system.scaling.config.pdModifier},
-    {type: "input", label: "Area Defense", preselected: actor.system.scaling.config.adModifier},
-    {type: "input", label: "Trait Value Modifier", preselected: actor.system.scaling.config.maxTraitModifier},
-  ]
-  const answers = await SimplePopup.open("input", {header: "Configure Scaling", inputs: inputs});
-  if (!answers) return;
-  
-  const [creatureType, creatureRole, tier, rank, hpMod, dmgMod, pdMod, adMod, traitMod] = answers;
-  
-  // Rozłożenie statów i policzenie jaki będzie prime attribute
-  
+  const hpMod = actor.system.scaling.baseTraits.maxHpModifier;
+  const dmgMod = actor.system.scaling.baseTraits.damageModifier;
+  const tier = actor.system.scaling.tier;
+  const rank = actor.system.scaling.rank;
   const level = actor.system.details.level;
 
   // Calculate Max HP
@@ -787,63 +770,29 @@ async function _monsterLevelScaling(actor) {
   else if (rank === "minion")    multiplier *= 0.5;
   const maxHp = Math.ceil(avgHP * multiplier);
 
-  // Calculate PD and AD
-  const avgDef = config.AVERAGE_DEFENCE[level+1];
-  const pdModifier = parseInt(pdMod) || 0;
-  const adModifier = parseInt(adMod) || 0;
-  const pd = avgDef + pdModifier;
-  const ad = avgDef + adModifier
-
-  // Trait Value Modifier
-  const traitModifier = parseInt(traitMod) || 0;
-  const maxTrait = 4 + (2*level) + traitModifier;
-
   // Calculate Damage
   const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
 
   let dmgChange = 0;
-  if (dmgMod === 1.25)   dmgChange += config.DAMAGE_CHANGE_25[tier][level+1];
-  if (dmgMod === 1.5)    dmgChange += config.DAMAGE_CHANGE_50[tier][level+1];
-  if (dmgMod === 0.75)   dmgChange -= config.DAMAGE_CHANGE_25[tier][level+1];
-  if (dmgMod === 0.5)    dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
+  if (dmgMod === "25#+") dmgChange += config.DAMAGE_CHANGE_25[tier][level+1];
+  if (dmgMod === "50#+") dmgChange += config.DAMAGE_CHANGE_50[tier][level+1];
+  if (dmgMod === "25#-") dmgChange -= config.DAMAGE_CHANGE_25[tier][level+1];
+  if (dmgMod === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
   const dmg = avgDmg + dmgChange;
   const impact = dmg % 1 === 0.5;
-  if (dmg % 1 === 0.25) {} // TODO: Minion rules
+  const maxAp = dmg % 1 === 0.25 ? 2 : 4;
   const finalDmg = Math.floor(dmg);
-
-  // Calculate Reaction Points
-  let reactionPoints = 0;
-  if (rank === "legendary") reactionPoints = 6;
-  if (rank === "epic") reactionPoints = 3;
-
-  if (reactionPoints > 0) await actor.monsterConfig.addReactionPoints(reactionPoints);
-  else await actor.monsterConfig.removeReactionPoints();
 
   await actor.update({
     system: {
-      details: {
-        creatureType: creatureType,
-        creatureRole: creatureRole
+      resources: {
+        health: {max: maxHp},
+        ap: {max: maxAp}
       },
       scaling: {
-        config: { 
-          maxHpModifier: hpMod, 
-          damageModifier: dmgMod, 
-          pdModifier: pdModifier, 
-          adModifier: adModifier, 
-          maxTraitModifier: traitModifier,
-          tier: tier, 
-          rank: rank,
-          impact: impact
-        },
-        values: { 
-          maxHp: maxHp, 
-          damage: finalDmg, 
-          pd: pd, 
-          ad: ad, 
-          maxTraitModifier: maxTrait,
-          reactionPoints: reactionPoints
-        }
+        maxHp: maxHp, 
+        damage: finalDmg, 
+        impact: impact
       }
     }
   })

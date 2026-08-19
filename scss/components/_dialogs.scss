@@ -2367,6 +2367,76 @@
   }
 }
 
+#monster-creator-dialog {
+  height: 100%;
+  overflow: hidden;
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-right: 0;
+
+    .symetric {
+      
+      select, input {
+        flex: 1;
+      }
+    }
+  }
+
+  .trait-value {
+    border: 2px solid var(--border-color);
+    background-color: var(--backround-color);
+    border-radius: 5px;
+    text-align: center;
+    font-family: $font-header;
+    font-size: 22px;
+    padding: 5px;
+  }
+
+  .traits {
+
+    .item-trait {
+      background-color: var(--backround-color);
+      border-bottom: 1px solid var(--border-color);
+      border-top: 1px solid var(--border-color);
+      border-left: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-right: 1px solid var(--border-color);
+        margin-right: 6px;
+      }
+
+      input {
+        background-color: transparent;
+        border: 0;
+        font-size: 14px;
+        font-weight: bold;
+        border-right: 1px solid var(--border-color);
+        width: 100%;
+        height: 40px;
+
+        &:disabled {
+          color: var(--text-color);
+        }
+      }
+
+      a {
+        margin: 10px;
+      }
+    }
+  }
+}
+
 #compendium-browser {
   background-color: #37373791;
   padding: 0;

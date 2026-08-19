@@ -121,6 +121,7 @@ export function getDefaultItemFilters(preSelectedFilters) {
         updatePath: "level",
         nestedFilters: ["over", "under"]
       },
+      traitType: _filter("system.monsterTrait.traitType", "feature.traitType", "select", parsedFilters["traitType"], CONFIG.DC20RPG.DROPDOWN_DATA.monsterTraitTypes),
     },
     maneuver: {
       maneuverType: _filter("system.maneuverType", "maneuver.maneuverType", "select", parsedFilters["maneuverType"], CONFIG.DC20RPG.DROPDOWN_DATA.maneuverTypes)

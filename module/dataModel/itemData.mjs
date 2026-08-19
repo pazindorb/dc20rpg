@@ -306,7 +306,7 @@ export class DC20FeatureData extends DC20UsableItemData {
         creatureRoles: new f.ObjectField({required: true}),
         traitValue: new f.NumberField({required: true, nullable: false, integer: true, initial: 1}),
         traitType: new f.StringField({required: true, initial: ""}),
-        impact: new f.BooleanField({required: true, initial: true}),
+        impact: new f.BooleanField({required: true, initial: false}),
       }),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()

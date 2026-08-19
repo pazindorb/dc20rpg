@@ -165,5 +165,7 @@ function _monsterTraitModifications(item) {
   const actor = item.actor;
   if (!actor) return;
 
-  item.system.monsterTrait.impact = !!actor?.system?.scaling?.config?.impact;
+  const hasFormula = item.system.formulas && Object.keys(item.system.formulas).length > 0;
+  const monsterImpact = !!actor?.system?.scaling?.impact;
+  if (monsterImpact && hasFormula) item.system.monsterTrait.impact = true;
 }

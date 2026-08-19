@@ -21,6 +21,7 @@ export function itemDetailsToHtml(item) {
   _merge(tier2, _area(item));
   _merge(tier3, _weaponStyle(item));
   _merge(tier3, _properties(item));
+  _merge(tier3, _monsterTraitData(item));
   _merge(tier3, _impactMonsterTrait(item));
   if (item.type === "spell") {
     _merge(tier3, _spellDetails(item));
@@ -256,10 +257,20 @@ function _properties(item) {
   return content;
 }
 
+function _monsterTraitData(item) {
+  let label = "";
+  const monsterTraitType = item.system.monsterTrait?.traitType;
+  const monsterTraitValue = item.system.monsterTrait?.traitValue;
+  if (monsterTraitType) {
+    const types = CONFIG.DC20RPG.DROPDOWN_DATA.monsterTraitTypes;
+    label += `Monster Trait: ${types[monsterTraitType]} (${monsterTraitValue})`;
+    return [_infoBox(label, "green", "tier3")];
+  }
+  return [];
+}
+
 function _impactMonsterTrait(item) {
-  const actor = item.actor;
-  if (!actor) return [];
-  const impact = !!actor?.system?.scaling?.config?.impact;
+  const impact = item.system?.monsterTrait?.impact;
   if (!impact) return [];
 
   const impactData = CONFIG.DC20RPG.PROPERTIES.impact;

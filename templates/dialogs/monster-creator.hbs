@@ -1,0 +1,330 @@
+<form id="monster-creator-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  <h4 class="divider">{{localize "dc20rpg.dialog.monsterCreator.title"}}</h4>
+
+  <div class="trait-value">{{localize "dc20rpg.dialog.monsterCreator.traitValue"}}: {{summary.currentTrait}}/{{summary.finalTrait}}</div>
+
+  <div class="wrapper scrollable">
+    {{!-- Left Side - Config --}}
+    <div class="left-side">
+      {{!-- Summary --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.monsterCreator.summary"}}</legend>
+
+        <div class="form-group">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.name'}}</label>
+          <input data-path="data.name" type="text" data-cType="string" value="{{data.name}}"/>
+        </div>
+        <div class="form-group">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.finalHp'}}</label>
+          <input disabled type="text" value="{{summary.finalHp}}"/>
+        </div>
+        <div class="form-group">
+          <label style="text-align: center;">{{localize 'dc20rpg.dialog.monsterCreator.finalPd'}}</label>
+          <input disabled type="text" value="{{summary.finalPd}}"/>
+          <label style="text-align: center;">{{localize 'dc20rpg.dialog.monsterCreator.finalAd'}}</label>
+          <input disabled type="text" value="{{summary.finalAd}}"/>
+        </div>
+        <div class="form-group">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.finalDmg'}}{{#if summary.impact}} {{localize "dc20rpg.dialog.monsterCreator.impact"}}{{/if}}</label>
+          <input disabled type="text" value="{{summary.finalDmg}}"/>
+        </div>
+        <div class="form-group">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.finalSpeed'}}
+            {{#if summary.fly}} [Fly]{{/if}}
+            {{#if summary.swim}} [Swim]{{/if}}
+            {{#if summary.climb}} [Climb]{{/if}}
+            {{#if summary.burrow}} [Burrow]{{/if}}
+          </label>
+          <input disabled type="text" value="{{summary.finalSpeed}}"/>
+        </div>
+      </fieldset>
+
+      {{!-- Config --}}
+      <fieldset class="margin-top-5">
+        <legend>{{localize "dc20rpg.dialog.monsterCreator.config"}}</legend>
+      
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.level'}}</label>
+          <input data-path="data.level" type="number" data-cType="numeric" value="{{data.level}}"/>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.creatureType'}}</label>
+          <select data-cType="string" data-path="data.creatureType">
+            {{selectOptions config.DROPDOWN_DATA.creatureTypes selected=data.creatureType blank=""}}
+          </select>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.creatureRole'}}</label>
+          <select data-cType="string" data-path="data.creatureRole">
+            {{selectOptions config.DROPDOWN_DATA.creatureRoles selected=data.creatureRole blank=""}}
+          </select>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.tier'}}</label>
+          <select data-cType="string" data-path="data.tier">
+            {{selectOptions config.DROPDOWN_DATA.monsterTiers selected=data.tier}}
+          </select>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.rank'}}</label>
+          <select data-cType="string" data-path="data.rank">
+            {{selectOptions config.DROPDOWN_DATA.monsterRanks selected=data.rank}}
+          </select>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.size'}}</label>
+          <select data-cType="string" data-path="data.size">
+            {{selectOptions config.DROPDOWN_DATA.sizes selected=data.size}}
+          </select>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.reactionPoints'}}</label>
+          <input data-path="data.reactionPoints" type="number" data-cType="numeric" value="{{data.reactionPoints}}"/>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.traitMod'}}</label>
+          <input data-path="data.baseTraits.maxTraitModifier" type="number" data-cType="numeric" value="{{data.baseTraits.maxTraitModifier}}"/>
+        </div>
+      </fieldset>
+
+      <fieldset class="margin-top-5">
+        <legend>{{localize "dc20rpg.dialog.monsterCreator.itemTraits"}}</legend>
+
+        <div class="form-group">
+          <button data-action="browser"><i class="fa-solid fa-boxes-stacked"></i>{{localize "dc20rpg.dialog.monsterCreator.browser"}}</button>
+          <button data-action="random" data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.randomTraitsTitle"}}"><i class="fa-solid fa-shuffle"></i>{{localize "dc20rpg.dialog.monsterCreator.randomTraits"}}</button>
+        </div>
+
+        <div class="traits">
+        {{#each data.itemTraits as |item itemId|}}
+          {{#ifCond item '!==' "DELETE_ACTION"}}
+          <div class="item-trait" data-hover="tooltip" data-tooltip-type="item" data-item-id="{{itemId}}">
+            <img src="{{item.img}}">
+            <input disabled value="[{{item.system.monsterTrait.traitValue}}] [{{labelFromKey item.system.monsterTrait.traitType @root.config.DROPDOWN_DATA.monsterTraitTypes}}] {{item.name}}"/>
+            <a class="fa-solid fa-trash" data-item-id="{{itemId}}" data-action="remove"></a>
+          </div>
+          {{/ifCond}}
+        {{/each}}
+        </div>
+
+      </fieldset>
+    </div>
+
+
+    {{!-- Right Side - Config --}}
+    <div class="right-side">
+
+      {{!-- Modifications --}}
+      <fieldset>
+        <legend>{{localize "dc20rpg.dialog.monsterCreator.modifications"}}</legend>
+
+        <button data-action="default">{{localize "dc20rpg.dialog.monsterCreator.default"}}</button>
+
+        <div class="form-group symetric">
+          <label>{{localize "dc20rpg.attributes.short.mig"}} ({{localize "dc20rpg.dialog.monsterCreator.max"}} {{maxAttr}})</label>
+          <input data-path="data.attributes.mig" type="number" data-cType="numeric" value="{{data.attributes.mig}}"/>
+          <label>{{localize "dc20rpg.attributes.short.agi"}} ({{localize "dc20rpg.dialog.monsterCreator.max"}} {{maxAttr}})</label>
+          <input data-path="data.attributes.agi" type="number" data-cType="numeric" value="{{data.attributes.agi}}"/>
+        </div>
+        <div class="form-group symetric">
+          <label>{{localize "dc20rpg.attributes.short.cha"}} ({{localize "dc20rpg.dialog.monsterCreator.max"}} {{maxAttr}})</label>
+          <input data-path="data.attributes.cha" type="number" data-cType="numeric" value="{{data.attributes.cha}}"/>
+          <label>{{localize "dc20rpg.attributes.short.int"}} ({{localize "dc20rpg.dialog.monsterCreator.max"}} {{maxAttr}})</label>
+          <input data-path="data.attributes.int" type="number" data-cType="numeric" value="{{data.attributes.int}}"/>
+        </div>
+
+        <hr>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.dmgMod'}}</label>
+          <select data-cType="string" data-path="data.baseTraits.damageModifier">
+            {{selectOptions dmgMods selected=data.baseTraits.damageModifier}}
+          </select>
+        </div>
+
+        <hr>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.hpMod'}}</label>
+          <select data-cType="string" data-path="data.baseTraits.maxHpModifier">
+            {{selectOptions hpMods selected=data.baseTraits.maxHpModifier}}
+          </select>
+        </div>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.pdMod'}}</label>
+          <input data-path="data.baseTraits.pdModifier" type="number" data-cType="numeric" value="{{data.baseTraits.pdModifier}}"/>
+        </div>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.adMod'}}</label>
+          <input data-path="data.baseTraits.adModifier" type="number" data-cType="numeric" value="{{data.baseTraits.adModifier}}"/>
+        </div>
+
+        {{!-- Damage Reduction --}}
+        <div class="form-group">
+          <label style="text-align: center;">{{localize "dc20rpg.properties.pdr"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.pdr" {{checked data.baseTraits.pdr}}/>
+          <label style="text-align: center;">{{localize "dc20rpg.properties.edr"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.edr" {{checked data.baseTraits.edr}}/>
+          <label style="text-align: center;">{{localize "dc20rpg.properties.mdr"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.mdr" {{checked data.baseTraits.mdr}}/>
+        </div>
+        {{!-- Damage Resistance --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.damage"}} {{localize "dc20rpg.dialog.monsterCreator.resistances"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.damageResistance">
+              {{selectOptions config.DROPDOWN_DATA.damageResistances blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.damageResistance as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.damageResistance" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+        {{!-- Damage Immunity --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.damage"}} {{localize "dc20rpg.dialog.monsterCreator.immunity"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.damageImmunity">
+              {{selectOptions config.DROPDOWN_DATA.damageResistances blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.damageImmunity as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.damageImmunity" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+        {{!-- Damage Vulnerability --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.damage"}} {{localize "dc20rpg.dialog.monsterCreator.vulnerability"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.damageVulnerability">
+              {{selectOptions config.DROPDOWN_DATA.damageResistances blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.damageVulnerability as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.damageVulnerability" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+
+        <hr>
+        {{!-- Condition Resistance --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.condition"}} {{localize "dc20rpg.dialog.monsterCreator.resistances"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.conditionResistance">
+              {{selectOptions config.DROPDOWN_DATA.allStatuses blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.conditionResistance as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.conditionResistance" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+        {{!-- Condition Immunity --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.condition"}} {{localize "dc20rpg.dialog.monsterCreator.immunity"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.conditionImmunity">
+              {{selectOptions config.DROPDOWN_DATA.allStatuses blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.conditionImmunity as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.conditionImmunity" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+        {{!-- Condition Vulnerability --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.condition"}} {{localize "dc20rpg.dialog.monsterCreator.vulnerability"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.conditionVulnerability">
+              {{selectOptions config.DROPDOWN_DATA.allStatuses blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.conditionVulnerability as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.conditionVulnerability" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+
+        <hr>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize "dc20rpg.dialog.monsterCreator.speedIncrease"}}</label>
+          <input data-path="data.baseTraits.speedIncrease" type="number" data-cType="numeric" value="{{data.baseTraits.speedIncrease}}"/>
+        </div>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize "dc20rpg.dialog.monsterCreator.speedDecrease"}}</label>
+          <input data-path="data.baseTraits.speedDecrease" type="number" data-cType="numeric" value="{{data.baseTraits.speedDecrease}}"/>
+        </div>
+        <div class="form-group margin-top-5">
+          <label>{{localize "dc20rpg.speed.flying"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.fly" {{checked data.baseTraits.fly}}/>
+          <label>{{localize "dc20rpg.speed.burrowing"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.burrow" {{checked data.baseTraits.burrow}}/>
+        </div>
+        <div class="form-group">
+          <label>{{localize "dc20rpg.speed.climbing"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.climb" {{checked data.baseTraits.climb}}/>
+          <label>{{localize "dc20rpg.speed.swimming"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.swim" {{checked data.baseTraits.swim}}/>
+        </div>
+
+        <hr>
+        <div class="form-group margin-top-5">
+          <label>{{localize "dc20rpg.senses.darkvision"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.darkvision" {{checked data.baseTraits.darkvision}}/>
+          <label>{{localize "dc20rpg.senses.tremorsense"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.tremorsense" {{checked data.baseTraits.tremorsense}}/>
+        </div>
+        <div class="form-group">
+          <label>{{localize "dc20rpg.senses.blindsight"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.blindsight" {{checked data.baseTraits.blindsight}}/>
+          <label>{{localize "dc20rpg.senses.truesight"}}</label>
+          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.truesight" {{checked data.baseTraits.truesight}}/>
+        </div>
+      </fieldset>
+
+    </div>
+
+  </div>
+
+  <footer class="form-footer">
+    <button data-action="save"><i class="fa-solid fa-dragon fa-lg margin-right-5"></i>{{localize "dc20rpg.dialog.monsterCreator.save"}}</button>
+  </footer>
+</form>

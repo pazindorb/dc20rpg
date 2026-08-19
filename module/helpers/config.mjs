@@ -1594,9 +1594,58 @@ DC20RPG.MONSTERS.DAMAGE_CHANGE_25 = {
   deadly:                           [0,      0,      0,      0.5,    1,      1,      1.5,    2,      2,      2.5,    3,      3,      3.5,    4,      4,      4.5,    5,      5,      5.5,    6,      6,      6.5 ],
 }
 DC20RPG.MONSTERS.DAMAGE_CHANGE_50 = {
-  easy:                             [0,      0,      0,      0,      0,      0,      0.5,    0.5,    0.5,    0.5,    0.5,    1,      1,      1,      1,      1,      1.5,    1.5,    1.5,    1.5,    1.5,    2   ],
-  medium:                           [0,      0,      0,      0,      0,      0.5,    0.5,    0.5,    0.5,    1,      1,      1,      1,      1.5,    1.5,    1.5,    1.5,    2,      2,      2,      2,      2.5 ],
-  hard:                             [0,      0,      0,      0,      0.5,    0.5,    0.5,    1,      1,      1,      1.5,    1.5,    1.5,    2,      2,      2,      2.5,    2.5,    2.5,    3,      3,      3   ],
-  veryHard:                         [0,      0,      0,      0.5,    0.5,    1,      1,      1.5,    1.5,    2,      2,      2.5,    2.5,    3,      3,      3.5,    3.5,    4,      4,      4.5,    4.5,    5   ],
-  deadly:                           [0,      0,      0,      0.5,    1,      1,      1.5,    2,      2,      2.5,    3,      3,      3.5,    4,      4,      4.5,    5,      5,      5.5,    6,      6,      6.5 ],
+  easy:                             [0,      0,      0,      0,      0,      0,      1,      1,      1,      1,      1,      2,      2,      2,      2,      2,      3,      3,      3,      3,      3,      4   ],
+  medium:                           [0,      0,      0,      0,      0,      1,      1,      1,      1,      2,      2,      2,      2,      3,      3,      3,      3,      4,      4,      4,      4,      5   ],
+  hard:                             [0,      0,      0,      0,      1,      1,      1,      2,      2,      2,      3,      3,      3,      4,      4,      4,      5,      5,      5,      6,      6,      6   ],
+  veryHard:                         [0,      0,      0,      1,      1,      2,      2,      3,      3,      4,      4,      5,      5,      6,      6,      7,      7,      8,      8,      9,      9,      10  ],
+  deadly:                           [0,      0,      0,      1,      2,      2,      3,      4,      4,      5,      6,      6,      7,      8,      8,      9,      10,     10,     11,     12,     12,     13  ],
+}
+DC20RPG.MONSTERS.BASE_TRAITS_COST = {
+  darkvision: 1,
+  tremorsense: 2,
+  blindsight: 2,
+  truesight: 4,
+  pdr: 1,
+  edr: 1,
+  mdr: 1,
+  maxHpModifier: 4,
+  damageModifier: 4,
+  pdModifier: 1,
+  adModifier: 1,
+  damageVulnerability: -2,
+  damageResistance: 2,
+  damageImmunity: 4,
+  conditionResistance: 1,
+  conditionVulnerability: -1,
+  conditionImmunity: 2,
+  speedIncrease: 1,
+  speedDecrease: -1,
+  fly: 4,
+  burrow: 4,
+  swim: 2,
+  climb: 2
+}
+DC20RPG.MONSTERS.ROLE_CHANGES = {
+  brute: {maxHpModifier: 1.25, damageModifier: "25#+", pdModifier: -4, adModifier: -4, pdr: true, edr: true},
+  defender: {damageModifier: "25#-", pdModifier: +2, adModifier: +2, maxTraitModifier: -4},
+  leader: {damageModifier: "25#-", maxTraitModifier: 4},
+  soldier: {},
+  striker: {maxHpModifier: 0.75, damageModifier: "50#+", pdModifier: -2, adModifier: -2},
+  tactician: {maxHpModifier: 0.75, damageModifier: "25#-", maxTraitModifier: 8},
+}
+DC20RPG.MONSTERS.TYPE_CHANGES = {
+  aberration: {conditionResistance: {frightened: "Frightened"}, damageResistance: {psychic: "Psychic"}},
+  beast: {},
+  celestial: {damageVulnerability: {umbral: "Umbral"}, damageResistance: {radiant: "Radiant"}},
+  construct: {conditionImmunity: {bleeding: "Bleeding", poison: "Poisoned"}},
+  dragon: {darkvision: true, fly: true},
+  elemental: {},
+  fey: {conditionResistance: {charmed: "Charmed"}},
+  fiend: {darkvision:true, damageVulnerability: {radiant: "Radiant"}, damageResistance: {umbral: "Umbral"}},
+  giant: {pdr: true},
+  humanoid: {},
+  monstrosity: {},
+  ooze: {pdr: true},
+  plant: {conditionImmunity: {bleeding: "Bleeding"}, damageVulnerability: {fire: "Fire"}},
+  undead: {conditionImmunity: {poisoned: "Poisoned", bleeding: "Bleeding"}, damageVulnerability: {radiant: "Radiant"}}
 }

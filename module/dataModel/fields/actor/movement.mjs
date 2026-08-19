@@ -4,7 +4,7 @@ export default class MovementFields extends foundry.data.fields.SchemaField {
     const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const movement = () => ({
-      useCustom: new f.BooleanField({required: true, initial: custom}),
+      useCustom: new f.BooleanField({required: true, initial: false}),
       fullSpeed: new f.BooleanField({required: true, initial: false}),
       halfSpeed: new f.BooleanField({required: true, initial: false}),
       current: new f.NumberField(init0),
@@ -14,7 +14,7 @@ export default class MovementFields extends foundry.data.fields.SchemaField {
 
     fields = {
       ground: new f.SchemaField({
-        useCustom: new f.BooleanField({required: true, initial: custom}),
+        useCustom: new f.BooleanField({required: true, initial: true}),
         current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 5 }),
         value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 5 }),
         bonus: new f.NumberField(init0), 
